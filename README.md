@@ -64,6 +64,7 @@ $ cd DeBank
 $ npm install
 
 $ react-native link react-native-randombytes
+$ react-native link react-native-keychain
 
 $ npm run postinstall
 
