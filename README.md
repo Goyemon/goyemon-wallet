@@ -55,10 +55,10 @@ To clone and run this application, you'll need [Git](https://git-scm.com) and [N
 
 ```bash
 # Clone this repository
-$ git clone https://github.com/TaiMino/StableWallet.git
+$ git clone https://github.com/TaiMino/DeBank.git
 
 # Go into the repository
-$ cd StableWallet
+$ cd DeBank
 
 # Install dependencies
 $ npm install
