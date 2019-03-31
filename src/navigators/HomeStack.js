@@ -7,6 +7,8 @@ import ShowMnemonic from '../containers/ShowMnemonic';
 import VerifyMnemonic from '../containers/VerifyMnemonic';
 import Wallet from '../components/Wallet';
 import Ethereum from '../components/Ethereum';
+import Send from '../components/Send';
+import Receive from '../components/Receive';
 import Dai from '../components/Dai';
 
 const HomeStack = createStackNavigator(
@@ -48,6 +50,18 @@ const HomeStack = createStackNavigator(
       screen: Ethereum,
       navigationOptions: () => ({
         title: 'Ethereum'
+      })
+    },
+    Send: {
+      screen: Send,
+      navigationOptions: () => ({
+        title: 'Send'
+      })
+    },
+    Receive: {
+      screen: Receive,
+      navigationOptions: () => ({
+        title: 'Receive'
       })
     },
     Dai: {
