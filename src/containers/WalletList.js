@@ -2,13 +2,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { ScrollView, TouchableOpacity } from 'react-native';
+import { ScrollView, TouchableOpacity, View, Text } from 'react-native';
 import WalletDetail from '../containers/WalletDetail';
 
 const WalletList = ({ wallets, navigation }) => {
   const { textStyle } = styles;
   return (
     <ScrollView style={textStyle}>
+      <View><Text>Balance</Text></View>
       {wallets.map(wallet => (
         <TouchableOpacity
           key={wallet.id}
