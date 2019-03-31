@@ -14,7 +14,7 @@ const WalletList = ({ wallets, navigation }) => {
         <TouchableOpacity
           key={wallet.id}
           onPress={
-            wallet.coin === 'Ethereum'
+            wallet.coin === 'Ether'
               ? () => navigation.navigate('Ethereum')
               : () => navigation.navigate('Dai')
           }
