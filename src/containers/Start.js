@@ -1,6 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
 import { View, Button } from 'react-native';
+import { RkButton } from 'react-native-ui-kitten';
 import { connect } from "react-redux";
 import { generateMnemonic } from "../actions/ActionMnemonic";
 
