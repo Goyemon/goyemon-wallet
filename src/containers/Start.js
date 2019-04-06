@@ -12,7 +12,7 @@ class Start extends Component {
           await this.props.generateMnemonic();
           this.props.navigation.navigate('ShowMnemonic');
         }} />
-        <Button title="Import Wallet" onPress={() => this.props.navigation.navigate('Import')} />
+        <Button title="Already have a wallet?" onPress={() => this.props.navigation.navigate('Import')} />
       </View>
     );
   }
