@@ -9,10 +9,10 @@ class Start extends Component {
   render() {
     return (
       <View style={styles.textStyle}>
-        <Button title="Create Wallet" onPress={async () => {
+        <RkButton onPress={async () => {
           await this.props.generateMnemonic();
           this.props.navigation.navigate('ShowMnemonic');
-        }} />
+        }}>CREATE WALLET</RkButton>
         <Button title="Already have a wallet?" onPress={() => this.props.navigation.navigate('Import')} />
       </View>
     );
