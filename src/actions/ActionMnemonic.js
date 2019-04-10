@@ -1,4 +1,4 @@
-import { GENERATE_MNEMONIC } from '../constants/ActionTypes';
+import { GET_MNEMONIC } from '../constants/ActionTypes';
 import '../../shim';
 import WalletController from '../wallet-core/WalletController.ts';
 
@@ -14,7 +14,7 @@ export function getMnemonic() {
   }
 };
 
-const generateMnemonicSuccess = (mnemonic) => ({
-  type: GENERATE_MNEMONIC,
+const getMnemonicSuccess = (mnemonic) => ({
+  type: GET_MNEMONIC,
   payload: mnemonic
 })

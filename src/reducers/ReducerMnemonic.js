@@ -1,5 +1,5 @@
 'use strict';
-import { GENERATE_MNEMONIC } from "../constants/ActionTypes";
+import { GET_MNEMONIC } from "../constants/ActionTypes";
 
 const INITIAL_STATE = {
   mnemonic: ""
@@ -7,7 +7,7 @@ const INITIAL_STATE = {
 
 const mnemonic = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case GENERATE_MNEMONIC:
+    case GET_MNEMONIC:
       return { ...state, mnemonic: action.payload };
     default:
       return state || INITIAL_STATE;
