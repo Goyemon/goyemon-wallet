@@ -1,12 +1,13 @@
 import { GENERATE_MNEMONIC } from '../constants/ActionTypes';
 import '../../shim';
-import bip39 from 'react-native-bip39';
+import WalletController from '../wallet-core/WalletController.ts';
 
-export function generateMnemonic() {
+export function getMnemonic() {
   return async function (dispatch) {
     try {
-      const mnemonic = await bip39.generateMnemonic();
-      dispatch(generateMnemonicSuccess(mnemonic));
+      await WalletController.init();
+      const mnemonic = await WalletController.getMnemonic();
+      dispatch(getMnemonicSuccess(mnemonic));
     } catch(err) {
       console.error(err);
     }
