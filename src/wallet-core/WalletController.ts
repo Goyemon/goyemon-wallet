@@ -1,0 +1,64 @@
+'use strict';
+import * as Keychain from 'react-native-keychain';
+import bip39 from 'react-native-bip39';
+
+const KEY_WALLET_MNEMONIC = 'KEY_WALLET_MNEMONIC';
+
+class WalletController {
+  public constructor() {
+    this.init = this.init.bind(this);
+  }
+
+  public async init() {
+    let mnemonic = await this.getMnemonic();
+    if (!mnemonic || !mnemonic.length || !this.validateMnemonic(mnemonic)) {
+      mnemonic = await this.generateMnemonic();
+      await this.setMnemonic(mnemonic);
+    }
+
+    return true;
+  }
+
+  private async generateMnemonic() {
+    let mnemonic = await bip39.generateMnemonic();
+    while (true) {
+      const words = mnemonic.split(' ');
+      const uniqueWords = words.filter((word, index) => words.indexOf(word) == index);
+      if (words.length == uniqueWords.length) {
+        break;
+      } else {
+        let mnemonic = await bip39.generateMnemonic();
+      }
+    }
+    return mnemonic;
+  }
+
+  private validateMnemonic(mnemonic) {
+    if (!bip39.validateMnemonic(mnemonic)) {
+      return false;
+    }
+    const words = mnemonic.split(' ');
+    const uniqueWords = words.filter((word, index) => words.indexOf(word) == index);
+    return words.length === uniqueWords.length;
+  }
+
+  public async getMnemonic() {
+    try {
+      const result = await Keychain.getGenericPassword(KEY_WALLET_MNEMONIC);
+      if (typeof result === 'boolean') {
+        return '';
+      } else {
+        return result.password;
+      }
+    } catch (err) {
+      return '';
+    }
+  }
+
+  private async setMnemonic(mnemonic) {
+    const result = await Keychain.setGenericPassword('MNEMONIC', mnemonic, KEY_WALLET_MNEMONIC);
+    return result;
+  }
+}
+
+export default new WalletController();
