@@ -8,6 +8,7 @@ import VerifyMnemonic from '../containers/VerifyMnemonic';
 import Wallet from '../components/Wallet';
 import Ethereum from '../components/Ethereum';
 import Send from '../components/Send';
+import Confirmation from '../components/Confirmation';
 import Receive from '../components/Receive';
 import Dai from '../components/Dai';
 
@@ -56,6 +57,12 @@ const HomeStack = createStackNavigator(
       screen: Send,
       navigationOptions: () => ({
         title: 'Send'
+      })
+    },
+    Confirmation: {
+      screen: Confirmation,
+      navigationOptions: () => ({
+        title: 'Confirmation'
       })
     },
     Receive: {
