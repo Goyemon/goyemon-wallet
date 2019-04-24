@@ -5,7 +5,7 @@ import Start from '../containers/Start';
 import Import from '../components/Import';
 import ShowMnemonic from '../containers/ShowMnemonic';
 import VerifyMnemonic from '../containers/VerifyMnemonic';
-import Wallet from '../components/Wallet';
+import Wallets from '../components/Wallets';
 import Ethereum from '../components/Ethereum';
 import Send from '../components/Send';
 import Confirmation from '../components/Confirmation';
@@ -41,10 +41,10 @@ const HomeStack = createStackNavigator(
     VerifyMnemonic: {
       screen: VerifyMnemonic
     },
-    Wallet: {
-      screen: Wallet,
+    Wallets: {
+      screen: Wallets,
       navigationOptions: () => ({
-        title: 'Wallet'
+        title: 'Wallets'
       })
     },
     Ethereum: {

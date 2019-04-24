@@ -13,7 +13,7 @@ class VerifyMnemonic extends Component {
         <Text>Do you swear for your mom?</Text>
         <Button
           title="I swear! Get out of here!"
-          onPress={() => this.props.navigation.navigate('Wallet')}
+          onPress={() => this.props.navigation.navigate('Wallets')}
         />
       </View>
     );
