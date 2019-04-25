@@ -36,6 +36,7 @@
     "redux-thunk": "^2.3.0",
     "rn-nodeify": "^10.0.1",
     "stream-browserify": "^2.0.1",
+    "styled-components": "^4.2.0",
     "vm-browserify": "1.1.0",
     "web3": "^1.0.0-beta.41"
   },
