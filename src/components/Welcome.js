@@ -1,26 +1,26 @@
 'use strict';
 import React, { Component } from 'react';
-import { View, Text, Button } from 'react-native';
+import { Button } from 'react-native';
+import styled from 'styled-components';
 
 export default class Welcome extends Component {
   render() {
     return (
-      <View style={styles.viewStyle}>
-        <Text style={styles.textStyle}>Holla!</Text>
-        <Text style={styles.textStyle}>ARE YOU READY?</Text>
+      <Container>
+        <Title>Holla!</Title>
+        <Title>ARE YOU READY?</Title>
         <Button title="Hell Yeah!" onPress={() => this.props.navigation.navigate('Start')} />
-      </View>
+      </Container>
     );
   }
 }
 
-const styles = {
-  viewStyle: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  textStyle: {
-    fontSize: 40
-  }
-};
+const Container = styled.View`
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+`;
+
+const Title = styled.Text`
+    font-size: 40px;
+`;
