@@ -8,7 +8,7 @@ export default class Welcome extends Component {
   render() {
     return (
       <Container>
-        <Title animation="fadeInDown" delay={1000}>Holla!</Title>
+        <Title animation="fadeInDown" delay={500}>Holla!</Title>
         <Title animation="fadeIn" delay={2000}>ARE YOU READY?</Title>
         <ButtonWrapper animation="fadeIn" delay={4000}>
           <Button text="Hell Yeah!" textColor="white" backgroundColor="#01d1e5" onPress={() => this.props.navigation.navigate('Start')} />
