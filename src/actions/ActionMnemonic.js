@@ -1,3 +1,4 @@
+'use strict';
 import { GET_MNEMONIC } from '../constants/ActionTypes';
 import '../../shim';
 import WalletController from '../wallet-core/WalletController.ts';

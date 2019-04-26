@@ -1,3 +1,4 @@
+'use strict';
 import { GET_TRANSACTIONS } from '../constants/ActionTypes';
 import axios from 'axios';
 

@@ -1,3 +1,4 @@
+'use strict';
 import { GET_ETH_PRICE } from '../constants/ActionTypes';
 import { GET_DAI_PRICE } from '../constants/ActionTypes';
 import axios from 'axios';
