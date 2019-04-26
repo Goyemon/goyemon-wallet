@@ -10,7 +10,9 @@ export default class Welcome extends Component {
       <Container>
         <Title animation="fadeInDown" delay={1000}>Holla!</Title>
         <Title animation="fadeIn" delay={2000}>ARE YOU READY?</Title>
-        <Button text="Hell Yeah!" textColor="white" backgroundColor="#01d1e5" onPress={() => this.props.navigation.navigate('Start')} />
+        <ButtonWrapper animation="fadeIn" delay={4000}>
+          <Button text="Hell Yeah!" textColor="white" backgroundColor="#01d1e5" onPress={() => this.props.navigation.navigate('Start')} />
+        </ButtonWrapper>
       </Container>
     );
   }
@@ -24,5 +26,9 @@ const Container = Animatable.createAnimatableComponent(styled.View`
 `);
 
 const Title = Animatable.createAnimatableComponent(styled.Text`
+  font-size: 40px;
+`);
+
+const ButtonWrapper = Animatable.createAnimatableComponent(styled.View`
   font-size: 40px;
 `);
