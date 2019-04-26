@@ -18,12 +18,12 @@ export default class Welcome extends Component {
   }
 }
 
-const Container = Animatable.createAnimatableComponent(styled.View`
+const Container = styled.View`
   flex: 1;
   font-size: 40px;
   justify-content: center;
   align-items: center;
-`);
+`;
 
 const Title = Animatable.createAnimatableComponent(styled.Text`
   font-size: 40px;
