@@ -1,6 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
-import { View, Button } from 'react-native';
+import { View } from 'react-native';
+import { Button } from '../components/common/Button';
 import { connect } from "react-redux";
 import { getMnemonic } from "../actions/ActionMnemonic";
 
@@ -8,11 +9,11 @@ class Start extends Component {
   render() {
     return (
       <View style={styles.textStyle}>
-        <Button title='CREATE WALLET' onPress={async () => {
+        <Button text="CREATE WALLET" textColor="white" backgroundColor="#01d1e5" onPress={async () => {
           await this.props.getMnemonic();
           this.props.navigation.navigate('ShowMnemonic');
         }} />
-        <Button title='Already have a wallet?' onPress={() => this.props.navigation.navigate('Import')} />
+        <Button text="Already have a wallet?" textColor="#01d1e5" backgroundColor="white" onPress={() => this.props.navigation.navigate('Import')} />
       </View>
     );
   }

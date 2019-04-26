@@ -2,8 +2,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { ScrollView, View, Text, Button } from 'react-native';
+import { ScrollView, View, Text } from 'react-native';
 import Transactions from '../containers/Transactions';
+import { Button } from '../components/common/Button';
 
 const Ethereum = ({ transactions, navigation }) => {
   const { textStyle, TransactionListStyle, WalletStyleMiddleContainer } = styles;
@@ -14,16 +15,10 @@ const Ethereum = ({ transactions, navigation }) => {
           <Text>0 ETH</Text>
         </View>
         <View>
-          <Button
-            title="Send"
-            onPress={() => navigation.navigate('Send')}
-          />
+          <Button text="Send" textColor="white" backgroundColor="#01d1e5" onPress={() => navigation.navigate('Send')} />
         </View>
         <View>
-          <Button
-            title="Receive"
-            onPress={() => navigation.navigate('Receive')}
-          />
+          <Button text="Receive" textColor="white" backgroundColor="grey" onPress={() => navigation.navigate('Receive')} />
         </View>
         </View>
         <View style={TransactionListStyle}>
