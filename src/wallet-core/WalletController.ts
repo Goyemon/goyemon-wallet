@@ -33,6 +33,12 @@ class WalletController {
     return wallet;
   }
 
+
+  public async createChecksumAddress(wallet) {
+    let checksumAddress = await wallet.getChecksumAddressString();
+    return checksumAddress;
+  }
+
   private async generateMnemonic() {
     let mnemonic = await bip39.generateMnemonic(256);
     while (true) {
