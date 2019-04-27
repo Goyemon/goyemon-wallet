@@ -43,6 +43,19 @@ class WalletController {
     return checksumAddress;
   }
 
+  public async getPrivateKey() {
+    try {
+      const result = await Keychain.getGenericPassword(KEY_WALLET_PRIVATE_KEY);
+      if (typeof result === 'boolean') {
+        return '';
+      } else {
+        return result.password;
+      }
+    } catch (err) {
+      return '';
+    }
+  }
+
   private async setPrivateKey(privateKey) {
     const result = await Keychain.setGenericPassword('PRIVATEKEY', privateKey, KEY_WALLET_PRIVATE_KEY);
     return result;
