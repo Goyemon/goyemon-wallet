@@ -1,16 +1,26 @@
 'use strict';
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { ScrollView, View, Text } from 'react-native';
 import Transactions from '../containers/Transactions';
 import { Button } from '../components/common/Button';
+import { getChecksumAddress } from "../actions/ActionChecksumAddress";
 
-const Ethereum = ({ transactions, navigation }) => {
-  const { textStyle, TransactionListStyle, WalletStyleMiddleContainer } = styles;
+class Ethereum extends Component {
+  componentDidMount() {
+    this.props.getChecksumAddress();
+  }
+
+  render() {
+    const transactions = this.props.transactions;
+    const navigation = this.props.navigation;
+    const checksumAddress = this.props.checksumAddress;
+    const { textStyle, TransactionListStyle, WalletStyleMiddleContainer } = styles;
     return (
       <ScrollView>
         <View>
+        <Text>Address: {checksumAddress}</Text>
         <View style={textStyle}>
           <Text>0 ETH</Text>
         </View>
@@ -32,6 +42,7 @@ const Ethereum = ({ transactions, navigation }) => {
         ))}
       </ScrollView>
     );
+  }
 };
 
 const styles = {
@@ -53,7 +64,12 @@ const styles = {
 };
 
 const mapStateToProps = state => {
-  return { transactions: state.ReducerTransactions.transactions }
+  return { transactions: state.ReducerTransactions.transactions,
+  checksumAddress: state.ReducerChecksumAddress.checksumAddress}
 }
 
-export default withNavigation(connect(mapStateToProps)(Ethereum));
+const mapDispatchToProps = {
+    getChecksumAddress
+}
+
+export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(Ethereum));
