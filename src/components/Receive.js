@@ -2,13 +2,24 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { Header } from './common';
+import { connect } from "react-redux";
 
-export default class Import extends Component {
+class Receive extends Component {
   render() {
+    const checksumAddress = this.props.checksumAddress;
     return (
       <View>
-        <Text>Copy Address</Text>
+      <Text>Address: {checksumAddress}</Text>
+      <Text>Copy Address</Text>
       </View>
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    checksumAddress: state.ReducerChecksumAddress.checksumAddress,
+  };
+}
+
+export default connect(mapStateToProps)(Receive);
