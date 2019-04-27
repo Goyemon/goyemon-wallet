@@ -1,10 +1,15 @@
 'use strict';
 import * as Keychain from 'react-native-keychain';
 import bip39 from 'react-native-bip39';
+import hdkey from 'ethereumjs-wallet/hdkey';
+const Buffer = require('buffer').Buffer;
+
 
 const KEY_WALLET_MNEMONIC = 'KEY_WALLET_MNEMONIC';
 
 class WalletController {
+  private root;
+
   public constructor() {
     this.init = this.init.bind(this);
   }
@@ -15,6 +20,10 @@ class WalletController {
       mnemonic = await this.generateMnemonic();
       await this.setMnemonic(mnemonic);
     }
+
+    let seedhex = await bip39.mnemonicToSeedHex(mnemonic);
+    let seed = await Buffer.from(seedhex, 'hex');
+    this.root = await hdkey.fromMasterSeed(seed);
 
     return true;
   }
