@@ -3,12 +3,14 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { Header } from './common';
 import { Button } from '../components/common/Button';
+import { connect } from "react-redux";
 
-export default class Import extends Component {
+class Send extends Component {
   render() {
+    const checksumAddress = this.props.checksumAddress;
     return (
       <View>
-      <Text>From</Text>
+      <Text>From: {checksumAddress}</Text>
       <Text>To</Text>
       <Text>Amount</Text>
       <Text>Transaction Fee</Text>
@@ -17,3 +19,11 @@ export default class Import extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    checksumAddress: state.ReducerChecksumAddress.checksumAddress,
+  };
+}
+
+export default connect(mapStateToProps)(Send);
