@@ -5,6 +5,7 @@ import hdkey from 'ethereumjs-wallet/hdkey';
 const Buffer = require('buffer').Buffer;
 
 const KEY_WALLET_MNEMONIC = 'KEY_WALLET_MNEMONIC';
+const KEY_WALLET_PRIVATE_KEY = 'KEY_WALLET_PRIVATEKEY';
 
 class WalletController {
   private root;
@@ -40,6 +41,11 @@ class WalletController {
   public async createChecksumAddress(wallet) {
     let checksumAddress = await wallet.getChecksumAddressString();
     return checksumAddress;
+  }
+
+  private async setPrivateKey(privateKey) {
+    const result = await Keychain.setGenericPassword('PRIVATEKEY', privateKey, KEY_WALLET_PRIVATE_KEY);
+    return result;
   }
 
   private async generateMnemonic() {
