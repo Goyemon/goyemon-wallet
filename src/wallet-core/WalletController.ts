@@ -20,14 +20,14 @@ class WalletController {
   }
 
   private async generateMnemonic() {
-    let mnemonic = await bip39.generateMnemonic();
+    let mnemonic = await bip39.generateMnemonic(256);
     while (true) {
       const words = mnemonic.split(' ');
       const uniqueWords = words.filter((word, index) => words.indexOf(word) == index);
       if (words.length == uniqueWords.length) {
         break;
       } else {
-        let mnemonic = await bip39.generateMnemonic();
+        let mnemonic = await bip39.generateMnemonic(256);
       }
     }
     return mnemonic;
