@@ -28,6 +28,11 @@ class WalletController {
     return true;
   }
 
+  public async createWallet() {
+    const wallet = await this.root.deriveChild().getWallet();
+    return wallet;
+  }
+
   private async generateMnemonic() {
     let mnemonic = await bip39.generateMnemonic(256);
     while (true) {
