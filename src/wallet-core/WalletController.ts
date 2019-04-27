@@ -4,8 +4,6 @@ import bip39 from 'react-native-bip39';
 import hdkey from 'ethereumjs-wallet/hdkey';
 const Buffer = require('buffer').Buffer;
 
-import EthUtls from './EthUtls';
-
 const KEY_WALLET_MNEMONIC = 'KEY_WALLET_MNEMONIC';
 
 class WalletController {
