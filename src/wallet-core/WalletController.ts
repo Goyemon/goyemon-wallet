@@ -34,6 +34,10 @@ class WalletController {
     return wallet;
   }
 
+  public async createPrivateKey(wallet) {
+    let privateKey = await wallet.getPrivateKeyString();
+    return privateKey;
+  }
 
   public async createChecksumAddress(wallet) {
     let checksumAddress = await wallet.getChecksumAddressString();
