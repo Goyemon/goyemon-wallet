@@ -9,6 +9,7 @@ const KEY_WALLET_PRIVATE_KEY = 'KEY_WALLET_PRIVATEKEY';
 
 class WalletController {
   private root;
+  private wallet;
 
   public constructor() {
     this.init = this.init.bind(this);
@@ -24,13 +25,9 @@ class WalletController {
     let seedhex = await bip39.mnemonicToSeedHex(mnemonic);
     let seed = await Buffer.from(seedhex, 'hex');
     this.root = await hdkey.fromMasterSeed(seed);
+    this.wallet = await this.root.deriveChild().getWallet();
 
     return true;
-  }
-
-  public async createWallet() {
-    const wallet = await this.root.deriveChild().getWallet();
-    return wallet;
   }
 
   public async createPrivateKey(wallet) {
