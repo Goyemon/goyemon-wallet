@@ -2,8 +2,14 @@
 import React, { Component } from 'react';
 import { View, Text, Button } from 'react-native';
 import { connect } from "react-redux";
+import WalletController from '../wallet-core/WalletController.ts';
 
 class VerifyMnemonic extends Component {
+  async savePrivateKey() {
+    const privateKey = await WalletController.createPrivateKey();
+    await WalletController.setPrivateKey(privateKey);
+  }
+
   render() {
     const mnemonic = this.props.mnemonic;
     return (
@@ -13,7 +19,9 @@ class VerifyMnemonic extends Component {
         <Text>Do you swear for your mom?</Text>
         <Button
           title="I swear! Get out of here!"
-          onPress={() => this.props.navigation.navigate('Wallets')}
+          onPress={async () => { await
+            this.savePrivateKey();
+            this.props.navigation.navigate('Wallets')}}
         />
       </View>
     );
@@ -40,7 +48,7 @@ const styles = {
 
 function mapStateToProps(state) {
   return {
-    mnemonic: state.ReducerMnemonic.mnemonic
+    mnemonic: state.ReducerMnemonic.mnemonic,
   };
 }
 
