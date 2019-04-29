@@ -1,23 +1,27 @@
 'use strict';
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
 import { Header } from './common';
+import styled from 'styled-components/native';
 
 export default class Settings extends Component {
   render() {
     return (
-      <View style={styles.textStyle}>
-        <Text>Notifications</Text>
-        <Text>Help</Text>
-        <Text>About</Text>
-      </View>
+      <Container>
+        <Title>Notifications</Title>
+        <Title>Help</Title>
+        <Title>About</Title>
+      </Container>
     );
   }
 }
 
-const styles = {
-  textStyle: {
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-};
+const Container = styled.View`
+  flex: 1;
+  font-size: 40px;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Title = styled.Text`
+  font-size: 40px;
+`;

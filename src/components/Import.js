@@ -1,22 +1,25 @@
 'use strict';
 import React, { Component } from 'react';
-import { View, Text, Button } from 'react-native';
 import { Header } from './common';
+import styled from 'styled-components/native';
 
 export default class Import extends Component {
   render() {
     return (
-      <View style={styles.textStyle}>
-        <Text>Choose your wallet</Text>
-      </View>
+      <Container>
+        <Title>Choose your wallet</Title>
+      </Container>
     );
   }
 }
 
-const styles = {
-  textStyle: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-};
+const Container = styled.View`
+  flex: 1;
+  font-size: 40px;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Title = styled.Text`
+  font-size: 40px;
+`;
