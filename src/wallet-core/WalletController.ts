@@ -54,7 +54,10 @@ class WalletController {
   }
 
   private async setPrivateKey(privateKey) {
-    const result = await Keychain.setGenericPassword('PRIVATEKEY', privateKey, KEY_WALLET_PRIVATE_KEY);
+    const result = await this.getPrivateKey();
+    if(!result) {
+      const result = await Keychain.setGenericPassword('PRIVATEKEY', privateKey, KEY_WALLET_PRIVATE_KEY);
+    }
     return result;
   }
 
