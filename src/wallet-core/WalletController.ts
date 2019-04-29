@@ -30,8 +30,11 @@ class WalletController {
     return true;
   }
 
-  public async createPrivateKey(wallet) {
-    let privateKey = await wallet.getPrivateKeyString();
+  public async createPrivateKey() {
+    let privateKey = await this.getPrivateKey();
+    if (!privateKey) {
+      privateKey = await this.wallet.getPrivateKeyString();
+    }
     return privateKey;
   }
 
