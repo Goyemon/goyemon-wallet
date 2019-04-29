@@ -38,8 +38,8 @@ class WalletController {
     return privateKey;
   }
 
-  public async createChecksumAddress(wallet) {
-    let checksumAddress = await wallet.getChecksumAddressString();
+  public async createChecksumAddress() {
+    const checksumAddress = await this.wallet.getChecksumAddressString();
     return checksumAddress;
   }
 
