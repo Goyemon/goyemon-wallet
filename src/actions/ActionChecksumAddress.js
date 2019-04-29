@@ -6,8 +6,7 @@ import WalletController from '../wallet-core/WalletController.ts';
 export function getChecksumAddress() {
   return async function (dispatch) {
     try {
-      const wallet = await WalletController.createWallet();
-      const checksumAddress = await WalletController.createChecksumAddress(wallet);
+      const checksumAddress = await WalletController.createChecksumAddress();
       dispatch(getChecksumAddressSuccess(checksumAddress));
     } catch(err) {
       console.error(err);
