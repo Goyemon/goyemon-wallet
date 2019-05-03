@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { Header } from './common';
 import { connect } from "react-redux";
+import QRCode from 'react-native-qrcode';
 
 class Receive extends Component {
   render() {
@@ -11,6 +12,7 @@ class Receive extends Component {
       <View>
       <Text>Address: {checksumAddress}</Text>
       <Text>Copy Address</Text>
+        <QRCode value={checksumAddress} size={200} bgColor="#000" fgColor="#FFF" />
       </View>
     );
   }
