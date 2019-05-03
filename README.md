@@ -1,10 +1,10 @@
-<h1 align="center"> Stable Wallet </h1> <br>
+<h1 align="center"> DeBank </h1> <br>
 <p align="center">
   <a href="#"><img src="./assets/sample_img2.jpg" width="200"></a>
 </p>
 
 <p align="center">
-  Dai wallet in your pocket. Built with React Native.
+  a permissionless bank  in your pocket
 </p>
 
 <p align="center">
