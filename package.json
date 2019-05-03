@@ -4,13 +4,14 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "postinstall": "rn-nodeify --install stream,crypto,process,buffer,events,assert,vm --hack",
+    "postinstall": "rn-nodeify --install stream,crypto,http,https,url,os,process,buffer,events,assert,vm --hack",
     "test": "jeQAZ!@#st",
     "ios": "react-native run-ios",
     "android": "react-native run-android",
     "npmreinstall": "rm -rf node_modules/ package-lock.json && npm install"
   },
   "dependencies": {
+    "@tradle/react-native-http": "^2.0.1",
     "assert": "^1.4.1",
     "axios": "^0.18.0",
     "buffer": "^4.9.1",
@@ -20,6 +21,7 @@
     "ethereumjs-wallet": "^0.6.3",
     "events": "^3.0.0",
     "hdkey": "^1.1.0",
+    "https-browserify": "0.0.1",
     "process": "^0.11.10",
     "prop-types": "^15.7.1",
     "react": "16.7.0",
@@ -29,6 +31,7 @@
     "react-native-bitcoinjs-lib": "^2.3.9",
     "react-native-gesture-handler": "^1.1.0",
     "react-native-keychain": "^3.1.1",
+    "react-native-os": "^1.2.2",
     "react-native-randombytes": "^3.5.1",
     "react-navigation": "^3.5.1",
     "react-redux": "^6.0.0",
@@ -38,6 +41,7 @@
     "rn-nodeify": "^10.0.1",
     "stream-browserify": "^2.0.1",
     "styled-components": "^4.2.0",
+    "url": "^0.10.3",
     "vm-browserify": "1.1.0",
     "web3": "^1.0.0-beta.41"
   },
@@ -58,7 +62,10 @@
     "_stream_passthrough": "readable-stream/passthrough",
     "stream": "stream-browserify",
     "crypto": "react-native-crypto",
-    "vm": "vm-browserify"
+    "vm": "vm-browserify",
+    "http": "@tradle/react-native-http",
+    "https": "https-browserify",
+    "os": "react-native-os"
   },
   "browser": {
     "_stream_transform": "readable-stream/transform",
@@ -68,6 +75,9 @@
     "_stream_passthrough": "readable-stream/passthrough",
     "stream": "stream-browserify",
     "crypto": "react-native-crypto",
-    "vm": "vm-browserify"
+    "vm": "vm-browserify",
+    "http": "@tradle/react-native-http",
+    "https": "https-browserify",
+    "os": "react-native-os"
   }
 }
