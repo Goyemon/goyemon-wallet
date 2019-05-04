@@ -6,6 +6,7 @@ import { ScrollView, View, Text } from 'react-native';
 import Transactions from '../containers/Transactions';
 import { Button } from '../components/common/Button';
 import { getChecksumAddress } from "../actions/ActionChecksumAddress";
+import { getGasPrice } from "../actions/ActionGasPrice";
 
 class Ethereum extends Component {
   componentDidMount() {
@@ -25,7 +26,10 @@ class Ethereum extends Component {
           <Text>0 ETH</Text>
         </View>
         <View>
-          <Button text="Send" textColor="white" backgroundColor="#01d1e5" onPress={() => navigation.navigate('Send')} />
+          <Button text="Send" textColor="white" backgroundColor="#01d1e5" onPress={async () => {
+            await this.props.getGasPrice();
+            navigation.navigate('Send');
+          }} />
         </View>
         <View>
           <Button text="Receive" textColor="white" backgroundColor="grey" onPress={() => navigation.navigate('Receive')} />
@@ -69,7 +73,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-    getChecksumAddress
+    getChecksumAddress,
+    getGasPrice
 }
 
 export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(Ethereum));
