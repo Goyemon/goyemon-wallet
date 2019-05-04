@@ -7,10 +7,8 @@ import { connect } from "react-redux";
 
 class Send extends Component {
   render() {
-    const checksumAddress = this.props.checksumAddress;
     return (
       <View>
-      <Text>From: {checksumAddress}</Text>
       <Text>To</Text>
       <Text>Amount</Text>
       <Text>Transaction Fee</Text>
