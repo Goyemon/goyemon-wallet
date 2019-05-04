@@ -24,6 +24,9 @@ class Send extends Component {
   }
 
   render() {
+    this.state.gasPriceInGwei[0] = this.props.gasPrice.data.fast;
+    this.state.gasPriceInGwei[1] = this.props.gasPrice.data.average;
+    this.state.gasPriceInGwei[2] = this.props.gasPrice.data.safeLow;
     return (
       <View>
       <Text>To</Text>
@@ -38,6 +41,7 @@ class Send extends Component {
 function mapStateToProps(state) {
   return {
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
+    gasPrice: state.ReducerGasPrice.gasPrice
   };
 }
 
