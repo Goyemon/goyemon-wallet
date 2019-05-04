@@ -8,6 +8,14 @@ import Web3 from 'web3';
 
 class Send extends Component {
   constructor(props) {
+    super(props)
+    this.state = {
+      gasPriceInGwei: [0, 0, 0],
+      checked: 0,
+      toAddress: "",
+      amount: 0,
+      transactionNonce: 0
+    }
     this.web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/v3/884958b4538343aaa814e3a32718ce91'));
   }
   render() {
