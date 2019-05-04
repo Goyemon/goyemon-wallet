@@ -29,10 +29,12 @@ class Send extends Component {
     this.state.gasPriceInGwei[2] = this.props.gasPrice.data.safeLow;
     return (
       <View>
-      <Text>To</Text>
-      <Text>Amount</Text>
       <Text>Transaction Fee</Text>
         <Button text="Send" textColor="white" backgroundColor="#01d1e5" onPress={() => this.props.navigation.navigate('Confirmation')} />
+        <Text>To</Text>
+        <TextInput placeholder="address" onChangeText={(toAddress) => this.setState({toAddress})} />
+        <Text>Amount(ETH)</Text>
+        <TextInput placeholder="0" onChangeText={(amount) => this.setState({amount})} />
       </View>
     );
   }
