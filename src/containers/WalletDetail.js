@@ -1,7 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
 import { Text, View, Linking, Image } from 'react-native';
-import { Card, CardSection } from '../components/common';
+import { Card } from '../components/common';
 import { connect } from "react-redux";
 import { getEthPrice, getDaiPrice } from "../actions/ActionWallets";
 
@@ -32,18 +32,16 @@ class WalletDetail extends Component {
     } = styles;
     return (
       <Card>
-        <CardSection>
-          <View style={WalletListStyle}>
-            {this.renderIcon()}
-          </View>
-          <View style={WalletListStyle}>
-            <Text style={[WalletStyleMiddleContainer, coinTextStyle]}>{coin}</Text>
-            <Text style={[WalletStyleMiddleContainer, priceTextStyle]}>${price}</Text>
-          </View>
-          <View style={WalletListStyle}>
-            <Text style={balanceTextStyle}>balance {balance}</Text>
-          </View>
-        </CardSection>
+        <View style={WalletListStyle}>
+          {this.renderIcon()}
+        </View>
+        <View style={WalletListStyle}>
+          <Text style={[WalletStyleMiddleContainer, coinTextStyle]}>{coin}</Text>
+          <Text style={[WalletStyleMiddleContainer, priceTextStyle]}>${price}</Text>
+        </View>
+        <View style={WalletListStyle}>
+          <Text style={balanceTextStyle}>balance {balance}</Text>
+        </View>
       </Card>
     );
   }
