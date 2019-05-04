@@ -17,6 +17,7 @@ class Send extends Component {
       transactionNonce: 0
     }
     this.web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/v3/884958b4538343aaa814e3a32718ce91'));
+    this.getTransactionNonce = this.getTransactionNonce.bind(this);
   }
   async getTransactionNonce() {
     this.state.transactionNonce = await this.web3.eth.getTransactionCount(this.props.checksumAddress);
