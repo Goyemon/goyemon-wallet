@@ -5,6 +5,7 @@ import { Header } from './common';
 import { Button } from '../components/common/Button';
 import { connect } from "react-redux";
 import Web3 from 'web3';
+import styled from 'styled-components/native';
 
 class Send extends Component {
   constructor(props) {
@@ -29,16 +30,40 @@ class Send extends Component {
     this.state.gasPriceInGwei[2] = this.props.gasPrice.data.safeLow;
     return (
       <View>
-      <Text>Transaction Fee</Text>
-        <Button text="Send" textColor="white" backgroundColor="#01d1e5" onPress={() => this.props.navigation.navigate('Confirmation')} />
         <Text>To</Text>
         <TextInput placeholder="address" onChangeText={(toAddress) => this.setState({toAddress})} />
         <Text>Amount(ETH)</Text>
         <TextInput placeholder="0" onChangeText={(amount) => this.setState({amount})} />
+        <Text>Transaction Fee</Text>
+        {
+          this.state.gasPriceInGwei.map((gasPriceInGwei, key) => {
+            return(
+              <View>
+                {this.state.checked === key ?
+                  <TouchableOpacity>
+                    <SelectedButton>{gasPriceInGwei}</SelectedButton>
+                  </TouchableOpacity>
+                  :
+                  <TouchableOpacity onPress={() => {this.setState({checked: key})}}>
+                    <UnselectedButton>{gasPriceInGwei}</UnselectedButton>
+                  </TouchableOpacity>
+                }
+              </View>
+            )
+          })
+        }
       </View>
     );
   }
 }
+
+const SelectedButton = styled.Text`
+  font-weight: 800;
+`;
+
+const UnselectedButton = styled.Text`
+  font-weight: 400;
+`;
 
 function mapStateToProps(state) {
   return {
