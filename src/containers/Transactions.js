@@ -1,7 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
-import { Card, CardSection } from '../components/common';
+import { Card } from '../components/common';
 import { connect } from "react-redux";
 import { getTransactions } from "../actions/ActionTransactions";
 
@@ -19,15 +19,13 @@ class Transactions extends Component {
     } = styles;
     return (
       <Card>
-        <CardSection>
-          <View style={TransactionListStyle}>
-            <Text style={[WalletStyleMiddleContainer, textStyle]}>{id}</Text>
-            <Text style={[WalletStyleMiddleContainer, textStyle]}>{title}</Text>
-            <Text style={[WalletStyleMiddleContainer, textStyle]}>{title}</Text>
-            <Text style={[WalletStyleMiddleContainer, textStyle]}>{title}</Text>
-            <Text style={[WalletStyleMiddleContainer, textStyle]}>{title}</Text>
-          </View>
-        </CardSection>
+        <View style={TransactionListStyle}>
+          <Text style={[WalletStyleMiddleContainer, textStyle]}>{id}</Text>
+          <Text style={[WalletStyleMiddleContainer, textStyle]}>{title}</Text>
+          <Text style={[WalletStyleMiddleContainer, textStyle]}>{title}</Text>
+          <Text style={[WalletStyleMiddleContainer, textStyle]}>{title}</Text>
+          <Text style={[WalletStyleMiddleContainer, textStyle]}>{title}</Text>
+        </View>
       </Card>
     );
   }
