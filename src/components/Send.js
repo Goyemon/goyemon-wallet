@@ -4,8 +4,12 @@ import { View, Text } from 'react-native';
 import { Header } from './common';
 import { Button } from '../components/common/Button';
 import { connect } from "react-redux";
+import Web3 from 'web3';
 
 class Send extends Component {
+  constructor(props) {
+    this.web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/v3/884958b4538343aaa814e3a32718ce91'));
+  }
   render() {
     return (
       <View>
