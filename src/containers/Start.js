@@ -1,31 +1,72 @@
 'use strict';
 import React, { Component } from 'react';
-import { View } from 'react-native';
-import { Button } from '../components/common/Button';
 import { connect } from "react-redux";
 import { getMnemonic } from "../actions/ActionMnemonic";
+import styled from 'styled-components';
+import { ScrollView, Image } from 'react-native';
+import { Header } from '../components/common/';
 
 class Start extends Component {
   render() {
     return (
-      <View style={styles.textStyle}>
-        <Button text="CREATE WALLET" textColor="white" backgroundColor="#01d1e5" onPress={async () => {
+      <ScrollView>
+        <Header />
+        <Image source={require('../../assets/debank_logo.png')} />
+        <Title>a permissionless bank  in your pocket</Title>
+        <CardContainer button onPress={async () => {
           await this.props.getMnemonic();
           this.props.navigation.navigate('ShowMnemonic');
-        }} />
-        <Button text="Already have a wallet?" textColor="#01d1e5" backgroundColor="white" onPress={() => this.props.navigation.navigate('Import')} />
-      </View>
+        }}>
+          <CardText>
+            Create
+          </CardText>
+          <CardText>
+            new wallet
+          </CardText>
+          <CardImage source={require('../../assets/create_wallet_icon.png')}/>
+        </CardContainer>
+        <CardContainer button onPress={() => this.props.navigation.navigate('Import')}>
+          <CardText>
+            Import
+          </CardText>
+          <CardText>
+            existing wallet
+          </CardText>
+          <CardImage source={require('../../assets/create_wallet_icon.png')}/>
+        </CardContainer>
+      </ScrollView>
     );
   }
 }
 
-const styles = {
-  textStyle: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-};
+
+const Title = styled.Text`
+  font-size: 32px;
+  margin: 16px;
+  text-align: center;
+`;
+
+const CardContainer = styled.TouchableOpacity`
+  width: 160px;
+  border-radius: 8px;
+  background: #FFF;
+  width: 320px;
+  height: 200px;
+  margin: 24px 16px;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+`;
+
+const CardText = styled.Text`
+  font-size: 16px;
+  padding: 16px;
+  text-align: left;
+`;
+
+const CardImage = styled.Image`
+  padding: 16px;
+`;
+
 
 const mapDispatchToProps = {
     getMnemonic
