@@ -4,6 +4,7 @@ import { View, Text, Button } from 'react-native';
 import { connect } from "react-redux";
 import WalletController from '../wallet-core/WalletController.ts';
 import { saveWeb3 } from "../actions/ActionWeb3";
+import { getChecksumAddress } from "../actions/ActionChecksumAddress";
 
 class VerifyMnemonic extends Component {
   async savePrivateKey() {
@@ -23,6 +24,7 @@ class VerifyMnemonic extends Component {
           onPress={async () => {
             await this.savePrivateKey();
             await this.props.saveWeb3();
+            await this.props.getChecksumAddress();
             this.props.navigation.navigate('Wallets')}}
         />
       </View>
@@ -55,6 +57,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
+    getChecksumAddress,
     saveWeb3
 }
 
