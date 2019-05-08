@@ -1,3 +1,4 @@
+export const SAVE_WEB3 = "SAVE_WEB3";
 export const GET_MNEMONIC = "GET_MNEMONIC";
 export const GET_CHECKSUM_ADDRESS = "GET_CHECKSUM_ADDRESS";
 export const GET_ETH_PRICE = "GET_ETH_PRICE";

@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { View, Text, Button } from 'react-native';
 import { connect } from "react-redux";
 import WalletController from '../wallet-core/WalletController.ts';
+import { saveWeb3 } from "../actions/ActionWeb3";
 
 class VerifyMnemonic extends Component {
   async savePrivateKey() {
@@ -19,8 +20,9 @@ class VerifyMnemonic extends Component {
         <Text>Do you swear for your mom?</Text>
         <Button
           title="I swear! Get out of here!"
-          onPress={async () => { await
-            this.savePrivateKey();
+          onPress={async () => {
+            await this.savePrivateKey();
+            await this.props.saveWeb3();
             this.props.navigation.navigate('Wallets')}}
         />
       </View>
@@ -52,4 +54,8 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(VerifyMnemonic);
+const mapDispatchToProps = {
+    saveWeb3
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(VerifyMnemonic);
