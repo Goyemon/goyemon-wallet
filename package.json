@@ -22,6 +22,7 @@
     "events": "^3.0.0",
     "hdkey": "^1.1.0",
     "https-browserify": "0.0.1",
+    "native-base": "^2.12.1",
     "process": "^0.11.10",
     "prop-types": "^15.7.1",
     "react": "16.7.0",
