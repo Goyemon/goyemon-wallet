@@ -10,8 +10,26 @@ class Transactions extends Component {
     this.props.getTransactions();
   }
 
+  renderInOrOutTransactionIcon() {
+    if(this.props.transaction.inOrOut === 0){
+      return <Text>↓</Text>
+    } else if(this.props.transaction.inOrOut === 1) {
+      return <Text>↑</Text>
+    }
+  }
+
+  renderStatus() {
+    if(this.props.transaction.status === 0){
+      return <Text>pending...</Text>
+    } else if(this.props.transaction.status === 1) {
+      return <Text>{this.props.transaction.status} confirmation</Text>
+    } else {
+      return <Text>{this.props.transaction.status} confirmations</Text>
+    }
+  }
+
   render() {
-    const { id, title, completed } = this.props.transaction;
+    const { inOrOut, date, status, to, amount } = this.props.transaction;
     const {
       TransactionListStyle,
       WalletStyleMiddleContainer,
@@ -20,11 +38,11 @@ class Transactions extends Component {
     return (
       <Card>
         <View style={TransactionListStyle}>
-          <Text style={[WalletStyleMiddleContainer, textStyle]}>{id}</Text>
-          <Text style={[WalletStyleMiddleContainer, textStyle]}>{title}</Text>
-          <Text style={[WalletStyleMiddleContainer, textStyle]}>{title}</Text>
-          <Text style={[WalletStyleMiddleContainer, textStyle]}>{title}</Text>
-          <Text style={[WalletStyleMiddleContainer, textStyle]}>{title}</Text>
+          <Text style={[WalletStyleMiddleContainer, textStyle]}>{this.renderInOrOutTransactionIcon()}</Text>
+          <Text style={[WalletStyleMiddleContainer, textStyle]}>{date}</Text>
+          <Text style={[WalletStyleMiddleContainer, textStyle]}>{this.renderStatus()}</Text>
+          <Text style={[WalletStyleMiddleContainer, textStyle]}>{to}</Text>
+          <Text style={[WalletStyleMiddleContainer, textStyle]}>{amount} ETH</Text>
         </View>
       </Card>
     );
