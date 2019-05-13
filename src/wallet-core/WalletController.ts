@@ -31,7 +31,7 @@ class WalletController {
   }
 
   public async createPrivateKey() {
-    let privateKey = await this.getPrivateKey();
+    let privateKey = await this.retrievePrivateKey();
     if (!privateKey) {
       privateKey = await this.wallet.getPrivateKeyString();
     }
@@ -43,7 +43,7 @@ class WalletController {
     return checksumAddress;
   }
 
-  public async getPrivateKey() {
+  public async retrievePrivateKey() {
     try {
       const result = await Keychain.getGenericPassword(KEY_WALLET_PRIVATE_KEY);
       if (typeof result === 'boolean') {
@@ -57,7 +57,7 @@ class WalletController {
   }
 
   private async setPrivateKey(privateKey) {
-    const result = await this.getPrivateKey();
+    const result = await this.retrievePrivateKey();
     if(!result) {
       const result = await Keychain.setGenericPassword('PRIVATEKEY', privateKey, KEY_WALLET_PRIVATE_KEY);
     }
