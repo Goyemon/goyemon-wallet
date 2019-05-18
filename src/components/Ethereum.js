@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { ScrollView, View, Text } from 'react-native';
 import Transactions from '../containers/Transactions';
-import { Button } from '../components/common/Button';
+import { Button } from '../components/common/';
 import { getGasPrice } from "../actions/ActionGasPrice";
+import styled from 'styled-components';
 
 class Ethereum extends Component {
   constructor(props) {
@@ -44,9 +45,7 @@ class Ethereum extends Component {
   }
 
   render() {
-    const transactions = this.props.transactions;
-    const navigation = this.props.navigation;
-    const checksumAddress = this.props.checksumAddress;
+    const { transactions, navigation, checksumAddress } = this.props;
     const { textStyle, TransactionListStyle, WalletStyleMiddleContainer } = styles;
 
     if(!this.props.web3.eth){
@@ -70,12 +69,7 @@ class Ethereum extends Component {
           </ButtonContainer>
         </CardContainerWithoutFeedback>
         <View>
-        <View style={TransactionListStyle}>
-          <Text style={[WalletStyleMiddleContainer, textStyle]}>transaction id</Text>
-          <Text style={[WalletStyleMiddleContainer, textStyle]}>status</Text>
-          <Text style={[WalletStyleMiddleContainer, textStyle]}>amount</Text>
-          <Text style={[WalletStyleMiddleContainer, textStyle]}>to</Text>
-          <Text style={[WalletStyleMiddleContainer, textStyle]}>date</Text>
+          <Text>Transaction History</Text>
         </View>
         {transactions.map(transaction => (<Transactions key={transaction.id} transaction={transaction} />
         ))}
@@ -90,17 +84,25 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center'
   },
-  TransactionListStyle: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center'
-  },
   WalletStyleMiddleContainer: {
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center'
   }
 };
+
+const CardContainerWithoutFeedback = styled.View`
+  background: #FFF;
+  height: 200px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+`;
+
+const ButtonContainer = styled.View`
+  flexDirection: row;
+  justifyContent: center;
+  alignItems: center;
+`;
 
 const mapStateToProps = state => {
   return {
