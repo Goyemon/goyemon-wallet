@@ -6,9 +6,28 @@ import { connect } from "react-redux";
 import { getEthPrice, getDaiPrice } from "../actions/ActionWallets";
 
 class WalletDetail extends Component {
-  componentDidMount() {
+  constructor(props) {
+    super();
+    this.state = {
+      balance: "0.0"
+    };
+  }
+
+  async componentDidMount() {
     this.props.getEthPrice();
     this.props.getDaiPrice();
+    const newBalanceInWei = await this.getBalance(this.props.checksumAddress);
+    const newBalanceInEther = await this.props.web3.utils.fromWei(newBalanceInWei, 'ether');
+    await this.setState({balance: newBalanceInEther});
+  }
+
+  async getBalance(address) {
+    try {
+      const balance = await this.props.web3.eth.getBalance(address);
+      return balance;
+    } catch(err) {
+      console.error(err);
+    }
   }
 
   renderIcon() {
@@ -17,6 +36,14 @@ class WalletDetail extends Component {
       return <Image source={require('../../assets/ether_icon.png')} style={coinImageStyle} />;
     } else if (this.props.wallet.id === 1) {
       return <Image source={require('../../assets/dai_icon.png')} style={coinImageStyle} />;
+    }
+  }
+
+  renderBalance() {
+    if (this.props.wallet.id === 0) {
+      return <Text>{this.state.balance} ETH</Text>;
+    } else if (this.props.wallet.id === 1) {
+      return <Text>0 DAI</Text>;
     }
   }
 
@@ -30,6 +57,11 @@ class WalletDetail extends Component {
       priceTextStyle,
       balanceTextStyle
     } = styles;
+
+    if(!this.props.web3.eth){
+      return <Text>loading...</Text>;
+    };
+
     return (
       <Card>
         <View style={WalletListStyle}>
@@ -39,8 +71,10 @@ class WalletDetail extends Component {
           <Text style={[WalletStyleMiddleContainer, coinTextStyle]}>{coin}</Text>
           <Text style={[WalletStyleMiddleContainer, priceTextStyle]}>${price}</Text>
         </View>
-        <View style={WalletListStyle}>
-          <Text style={balanceTextStyle}>balance {balance}</Text>
+        <View>
+          <Text style={balanceTextStyle}>
+            {this.renderBalance()}
+          </Text>
         </View>
       </Card>
     );
@@ -74,7 +108,11 @@ const styles = {
 };
 
 const mapStateToProps = state => {
-  return { wallets: state.ReducerWallets.wallets }
+  return {
+    wallets: state.ReducerWallets.wallets,
+    web3: state.ReducerWeb3.web3,
+    checksumAddress: state.ReducerChecksumAddress.checksumAddress
+ }
 }
 
 const mapDispatchToProps = {
