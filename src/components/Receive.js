@@ -34,10 +34,21 @@ class Receive extends Component {
           </Animatable.View>
         </TouchableWithoutFeedback>
         <QRCode value={checksumAddress} size={200} bgColor="#000" fgColor="#FFF" />
+        <CardContainerWithoutFeedback>
+          <QRCodeContainer>
+            <QRCode value={checksumAddress} size={200} bgColor="#000" fgColor="#FFF" />
+          </QRCodeContainer>
+        </CardContainerWithoutFeedback>
       </View>
     );
   }
 }
+
+const QRCodeContainer = styled.View`
+  flexDirection: row;
+  justifyContent: center;
+  alignItems: center;
+`;
 
 function mapStateToProps(state) {
   return {
