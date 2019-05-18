@@ -6,6 +6,7 @@ import { Button } from '../components/common/Button';
 import { connect } from "react-redux";
 import Web3 from 'web3';
 import styled from 'styled-components/native';
+import { saveTransactionObject } from "../actions/ActionTransactionObject";
 
 class Send extends Component {
   constructor(props) {
@@ -72,4 +73,8 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Send);
+const mapDispatchToProps = {
+    saveTransactionObject
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Send);
