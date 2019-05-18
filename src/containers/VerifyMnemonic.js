@@ -1,10 +1,12 @@
 'use strict';
 import React, { Component } from 'react';
-import { View, Text, Button } from 'react-native';
-import { connect } from "react-redux";
+import { ScrollView, View, Text } from 'react-native';
+import { Button } from '../components/common';
+import { connect } from 'react-redux';
 import WalletController from '../wallet-core/WalletController.ts';
-import { saveWeb3 } from "../actions/ActionWeb3";
-import { getChecksumAddress } from "../actions/ActionChecksumAddress";
+import { saveWeb3 } from '../actions/ActionWeb3';
+import { getChecksumAddress } from '../actions/ActionChecksumAddress';
+import styled from 'styled-components/native';
 
 class VerifyMnemonic extends Component {
   async savePrivateKey() {
@@ -14,18 +16,28 @@ class VerifyMnemonic extends Component {
 
   render() {
     const mnemonic = this.props.mnemonic;
+    const splitMnemonic = mnemonic.split(' ');
+
     return (
       <View style={styles.textStyle}>
-        <Text style={styles.verifyMnemonicStyle}>{mnemonic}</Text>
+        <MnemonicPhrasesContainer>
+          {splitMnemonic.map(splitMnemonic => (
+            <MnemonicWord>{splitMnemonic} </MnemonicWord>
+          ))}
+        </MnemonicPhrasesContainer>
         <Text>Did you really keep it safe already?</Text>
         <Text>Do you swear for your mom?</Text>
         <Button
-          title="I swear! Get out of here!"
+          text="Verify"
+          textColor="white"
+          backgroundColor="#01d1e5"
+          marginTop="24px"
           onPress={async () => {
             await this.savePrivateKey();
             await this.props.saveWeb3();
             await this.props.getChecksumAddress();
-            this.props.navigation.navigate('Wallets')}}
+            this.props.navigation.navigate('Wallets');
+          }}
         />
       </View>
     );
@@ -37,28 +49,32 @@ const styles = {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
-  },
-  verifyMnemonicStyle: {
-    fontSize: 24,
-    fontWeight: '600',
-    lineHeight: 32,
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 8,
-    padding: 8,
-    margin: 8
   }
 };
 
+const MnemonicPhrasesContainer = styled.Text`
+  flexdirection: row;
+  justifycontent: center;
+  alignitems: center;
+`;
+
+const MnemonicWord = styled.Text`
+  border-radius: 8px;
+  background: #4a90e2;
+`;
+
 function mapStateToProps(state) {
   return {
-    mnemonic: state.ReducerMnemonic.mnemonic,
+    mnemonic: state.ReducerMnemonic.mnemonic
   };
 }
 
 const mapDispatchToProps = {
-    getChecksumAddress,
-    saveWeb3
-}
+  getChecksumAddress,
+  saveWeb3
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(VerifyMnemonic);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(VerifyMnemonic);
