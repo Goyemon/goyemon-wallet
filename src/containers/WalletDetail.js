@@ -1,9 +1,9 @@
 'use strict';
 import React, { Component } from 'react';
 import { Text, View, Linking, Image } from 'react-native';
-import { Card } from '../components/common';
 import { connect } from "react-redux";
 import { getEthPrice, getDaiPrice } from "../actions/ActionWallets";
+import styled from 'styled-components';
 
 class WalletDetail extends Component {
   constructor(props) {
@@ -50,7 +50,6 @@ class WalletDetail extends Component {
   render() {
     const { id, coin, price, balance } = this.props.wallet;
     const {
-      WalletListStyle,
       WalletStyleMiddleContainer,
       coinImageStyle,
       coinTextStyle,
@@ -63,11 +62,11 @@ class WalletDetail extends Component {
     };
 
     return (
-      <Card>
-        <View style={WalletListStyle}>
+      <Container>
+        <View>
           {this.renderIcon()}
         </View>
-        <View style={WalletListStyle}>
+        <View>
           <Text style={[WalletStyleMiddleContainer, coinTextStyle]}>{coin}</Text>
           <Text style={[WalletStyleMiddleContainer, priceTextStyle]}>${price}</Text>
         </View>
@@ -76,17 +75,12 @@ class WalletDetail extends Component {
             {this.renderBalance()}
           </Text>
         </View>
-      </Card>
+      </Container>
     );
   }
 }
 
 const styles = {
-  WalletListStyle: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center'
-  },
   WalletStyleMiddleContainer: {
     flex: 1,
     flexDirection: 'column',
@@ -103,9 +97,15 @@ const styles = {
     fontSize: 16
   },
   balanceTextStyle: {
-    fontSize: 24
+    fontSize: 16
   }
 };
+
+const Container = styled.View`
+  flexDirection: row;
+  justifyContent: center;
+  alignItems: center;
+`;
 
 const mapStateToProps = state => {
   return {
