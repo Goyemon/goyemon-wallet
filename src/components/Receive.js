@@ -1,14 +1,15 @@
 'use strict';
 import React, { Component } from 'react';
-import { View, Text, Clipboard, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, Clipboard, TouchableWithoutFeedback, Image } from 'react-native';
 import { Header } from './common';
 import { connect } from 'react-redux';
 import QRCode from 'react-native-qrcode';
 import * as Animatable from 'react-native-animatable';
+import styled from 'styled-components/native';
 
 class Receive extends Component {
   constructor(props) {
-    super(props);
+    super();
     this.state = {
       clipboardContent: null
     };
@@ -24,16 +25,17 @@ class Receive extends Component {
   };
 
   render() {
-    const checksumAddress = this.props.checksumAddress;
+    const { checksumAddress } = this.props;
     return (
       <View>
-        <Text>Address: {checksumAddress}</Text>
-        <TouchableWithoutFeedback onPress={async () => { await this.onPress(); this.writeToClipboard()}}>
-          <Animatable.View ref={ref => (this.AnimationRef = ref)}>
-            <Text>Copy Address</Text>
-          </Animatable.View>
-        </TouchableWithoutFeedback>
-        <QRCode value={checksumAddress} size={200} bgColor="#000" fgColor="#FFF" />
+        <CardContainerWithoutFeedback>
+          <Text>Address: {checksumAddress}</Text>
+          <TouchableWithoutFeedback onPress={async () => { await this.onPress(); this.writeToClipboard()}}>
+            <Animatable.View ref={ref => (this.AnimationRef = ref)}>
+              <Image source={require('../../assets/copy_icon.png')} />
+            </Animatable.View>
+          </TouchableWithoutFeedback>
+        </CardContainerWithoutFeedback>
         <CardContainerWithoutFeedback>
           <QRCodeContainer>
             <QRCode value={checksumAddress} size={200} bgColor="#000" fgColor="#FFF" />
@@ -43,6 +45,17 @@ class Receive extends Component {
     );
   }
 }
+
+const CardContainerWithoutFeedback = styled.View`
+  width: 160px;
+  border-radius: 8px;
+  background: #FFF;
+  width: 360px;
+  height: 200px;
+  margin: 24px 16px;
+  text-align: left;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+`;
 
 const QRCodeContainer = styled.View`
   flexDirection: row;
