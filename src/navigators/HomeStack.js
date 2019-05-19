@@ -6,10 +6,10 @@ import Import from '../components/Import';
 import ShowMnemonic from '../containers/ShowMnemonic';
 import VerifyMnemonic from '../containers/VerifyMnemonic';
 import Wallets from '../components/Wallets';
-import Ethereum from '../components/Ethereum';
+import Ethereum from '../containers/Ethereum';
 import Send from '../components/Send';
 import Confirmation from '../components/Confirmation';
-import Receive from '../components/Receive';
+import Receive from '../containers/Receive';
 import Dai from '../components/Dai';
 
 const HomeStack = createStackNavigator(

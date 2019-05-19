@@ -1,7 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
 import { View, Text, Clipboard, TouchableWithoutFeedback, Image } from 'react-native';
-import { Header } from './common';
+import { Header } from '../components/common';
 import { connect } from 'react-redux';
 import QRCode from 'react-native-qrcode';
 import * as Animatable from 'react-native-animatable';
