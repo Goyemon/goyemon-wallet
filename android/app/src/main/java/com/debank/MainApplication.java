@@ -3,6 +3,7 @@ package com.debank;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.peel.react.rnos.RNOSModule;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.bitgo.randombytes.RandomBytesPackage;
 import com.oblador.keychain.KeychainPackage;
@@ -26,6 +27,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNOSModule(),
             new RNGestureHandlerPackage(),
             new RandomBytesPackage(),
             new KeychainPackage()
