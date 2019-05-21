@@ -15,8 +15,8 @@ class ShowMnemonic extends Component {
         <Text>backup phrases</Text>
         <Text>Please carefully write down these 24 words.</Text>
         <MnemonicPhrasesContainer>
-          {splitMnemonic.map(splitMnemonic => (
-            <MnemonicWord>{splitMnemonic} </MnemonicWord>
+          {splitMnemonic.map((splitMnemonic, id) => (
+            <MnemonicWord key={id}>{splitMnemonic} </MnemonicWord>
           ))}
         </MnemonicPhrasesContainer>
         <Text>we will confirm this phrase on the next screen</Text>

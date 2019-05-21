@@ -4,6 +4,7 @@ import { GET_TRANSACTIONS } from '../constants/ActionTypes';
 const INITIAL_STATE = {
   transactions: [
     {
+      id: 0,
       "inOrOut": 1,
       "date": '2019, April 30th',
       "status": 0,
@@ -11,6 +12,7 @@ const INITIAL_STATE = {
       "amount": 0.2
     },
     {
+      id: 1,
       "inOrOut": 0,
       "date": '2019, April 20th',
       "status": 1,
@@ -18,6 +20,7 @@ const INITIAL_STATE = {
       "amount": 0.5
     },
     {
+      id: 2,
       "inOrOut": 0,
       "date": '2019, April 17th',
       "status": 30,
@@ -25,6 +28,7 @@ const INITIAL_STATE = {
       "amount": 0.3
     },
     {
+      id: 3,
       "inOrOut": 1,
       "date": '2019, April 9th',
       "status": 35,

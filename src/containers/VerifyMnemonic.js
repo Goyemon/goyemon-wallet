@@ -21,8 +21,8 @@ class VerifyMnemonic extends Component {
     return (
       <View style={styles.textStyle}>
         <MnemonicPhrasesContainer>
-          {splitMnemonic.map(splitMnemonic => (
-            <MnemonicWord>{splitMnemonic} </MnemonicWord>
+          {splitMnemonic.map((splitMnemonic, id) => (
+            <MnemonicWord key={id}>{splitMnemonic} </MnemonicWord>
           ))}
         </MnemonicPhrasesContainer>
         <Text>Did you really keep it safe already?</Text>
