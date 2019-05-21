@@ -45,7 +45,7 @@ class Ethereum extends Component {
   }
 
   render() {
-    const { transactions, navigation, checksumAddress } = this.props;
+    const { transactions, navigation } = this.props;
     const { textStyle, TransactionListStyle, WalletStyleMiddleContainer } = styles;
 
     if(!this.props.web3.eth){
@@ -58,7 +58,6 @@ class Ethereum extends Component {
           <Text>TOTAL BALANCE</Text>
           <Text>{this.state.balance} ETH</Text>
           <Text>{this.state.usdBalance} USD</Text>
-          <Text>Address: {checksumAddress}</Text>
           <ButtonContainer>
             <Button text="Receive" textColor="white" backgroundColor="grey"
             onPress={() => navigation.navigate('Receive')} />

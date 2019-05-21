@@ -29,12 +29,14 @@ class Receive extends Component {
     return (
       <View>
         <CardContainerWithoutFeedback>
-          <Text>Address: {checksumAddress}</Text>
-          <TouchableWithoutFeedback onPress={async () => { await this.onPress(); this.writeToClipboard()}}>
-            <Animatable.View ref={ref => (this.AnimationRef = ref)}>
-              <Image source={require('../../assets/copy_icon.png')} />
-            </Animatable.View>
-          </TouchableWithoutFeedback>
+          <AddressContainer>
+            <Text>Address: {checksumAddress}</Text>
+            <TouchableWithoutFeedback onPress={async () => { await this.onPress(); this.writeToClipboard()}}>
+              <Animatable.View ref={ref => (this.AnimationRef = ref)}>
+                <Image source={require('../../assets/copy_icon.png')} />
+              </Animatable.View>
+            </TouchableWithoutFeedback>
+          </AddressContainer>
         </CardContainerWithoutFeedback>
         <CardContainerWithoutFeedback>
           <QRCodeContainer>
@@ -55,6 +57,12 @@ const CardContainerWithoutFeedback = styled.View`
   margin: 24px 16px;
   text-align: left;
   box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+`;
+
+const AddressContainer = styled.View`
+  flexDirection: row;
+  justifyContent: center;
+  alignItems: center;
 `;
 
 const QRCodeContainer = styled.View`

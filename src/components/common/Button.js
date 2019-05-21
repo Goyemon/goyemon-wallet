@@ -9,9 +9,9 @@ const Button = props => (
 );
 
 const ButtonContainer = styled.TouchableOpacity`
-    width: 160px;
-    border-radius: 8px;
-    background-color: ${props => props.backgroundColor};
+  width: 160px;
+  border-radius: 8px;
+  background-color: ${props => props.backgroundColor};
 `;
 
 const ButtonText = styled.Text`

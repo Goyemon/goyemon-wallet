@@ -53,9 +53,9 @@ const styles = {
 };
 
 const MnemonicPhrasesContainer = styled.Text`
-  flexdirection: row;
-  justifycontent: center;
-  alignitems: center;
+  flexDirection: row;
+  justifyContent: center;
+  alignItems: center;
 `;
 
 const MnemonicWord = styled.Text`

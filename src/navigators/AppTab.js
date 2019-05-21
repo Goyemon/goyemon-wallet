@@ -9,7 +9,6 @@ import SettingsStack from './SettingsStack';
 import rootReducers from '../reducers/ReducerIndex';
 
 const store = createStore(rootReducers, applyMiddleware(thunk));
-
 const AppTab = createBottomTabNavigator(
   {
     Home: HomeStack,
@@ -24,6 +23,6 @@ const App = createAppContainer(AppTab);
 
 export default () => (
   <Provider store={store}>
-    <App />
+      <App />
   </Provider>
 );

@@ -17,7 +17,7 @@ const Container = styled.View`
   flex: 1;
   font-size: 40px;
   justify-content: center;
-  align-items: center;
+  text-align: center;
 `;
 
 const Title = styled.Text`

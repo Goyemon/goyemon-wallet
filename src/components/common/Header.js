@@ -1,6 +1,5 @@
 'use strict';
 import React from 'react';
-import PropTypes from "prop-types";
 import { Text, View } from 'react-native';
 
 const Header = (props) => {
@@ -29,10 +28,6 @@ const styles = {
     color: '#000',
     fontSize: 24
   }
-};
-
-Header.propTypes = {
-  headerText: PropTypes.string
 };
 
 export { Header };

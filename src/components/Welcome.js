@@ -9,7 +9,7 @@ export default class Welcome extends Component {
     return (
       <Container>
         <Title animation="fadeInDown" delay={500}>Holla!</Title>
-        <Title animation="fadeIn" delay={2000}>ARE YOU READY?</Title>
+        <Title animation="fadeIn" delay={2000}>READY TO JOIN  THE UNIVERSE?</Title>
         <ButtonWrapper animation="fadeIn" delay={4000}>
           <Button
           text="Hell Yeah!"
@@ -26,13 +26,15 @@ const Container = styled.View`
   flex: 1;
   font-size: 40px;
   justify-content: center;
-  align-items: center;
+  text-align: center;
 `;
 
 const Title = Animatable.createAnimatableComponent(styled.Text`
   font-size: 40px;
+  text-align: center;
 `);
 
 const ButtonWrapper = Animatable.createAnimatableComponent(styled.View`
   font-size: 40px;
+  alignItems: center;
 `);
