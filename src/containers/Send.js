@@ -1,7 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
 import { ScrollView, View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
-import { Button } from './common';
+import { Button } from '../components/common';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { saveTransactionObject } from '../actions/ActionTransactionObject';

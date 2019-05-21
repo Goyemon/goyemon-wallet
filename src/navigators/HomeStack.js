@@ -7,7 +7,7 @@ import ShowMnemonic from '../containers/ShowMnemonic';
 import VerifyMnemonic from '../containers/VerifyMnemonic';
 import Wallets from '../components/Wallets';
 import Ethereum from '../containers/Ethereum';
-import Send from '../components/Send';
+import Send from '../containers/Send';
 import Confirmation from '../components/Confirmation';
 import Receive from '../containers/Receive';
 import Dai from '../components/Dai';
