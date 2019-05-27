@@ -6,7 +6,19 @@
 	<dict>
 		<key>Base.lproj/LaunchScreen.nib</key>
 		<data>
-		wwiTTcJxwk7WayZevixIdWnKUA0=
+		oA/oUT75cpNQWPd7z82/M/2h//4=
+		</data>
+		<key>Frameworks/GoogleUtilities.framework/GoogleUtilities</key>
+		<data>
+		d+EKZRJaZz0zxEutk1/80XR6an0=
+		</data>
+		<key>Frameworks/GoogleUtilities.framework/Info.plist</key>
+		<data>
+		qTajGwZEb+cwbm2NSG3x7yu8Z8Q=
+		</data>
+		<key>Frameworks/GoogleUtilities.framework/_CodeSignature/CodeResources</key>
+		<data>
+		mu2jMQ9oOmi1sYzCCH+5nDtYjIg=
 		</data>
 		<key>Frameworks/XCTest.framework/Info.plist</key>
 		<data>
@@ -37,6 +49,22 @@
 		<data>
 		xKX69bDGMJa2TcU/BC9ypZ06rsI=
 		</data>
+		<key>Frameworks/nanopb.framework/Info.plist</key>
+		<data>
+		zWtFUd2B4m9o4AT2YPK+24dl5BM=
+		</data>
+		<key>Frameworks/nanopb.framework/_CodeSignature/CodeResources</key>
+		<data>
+		YC2ZsN/ThHIRjHCS5p7FXkqSoCQ=
+		</data>
+		<key>Frameworks/nanopb.framework/nanopb</key>
+		<data>
+		9TOMSU4rdlfw9JBErz1CD0L1yjw=
+		</data>
+		<key>GoogleService-Info.plist</key>
+		<data>
+		UaQUGKXdPlUJUlozOLCizTpde2k=
+		</data>
 		<key>Info.plist</key>
 		<data>
 		FEuyEA2ZfO47lztin5oLOjheph8=
@@ -51,11 +79,11 @@
 		</data>
 		<key>PlugIns/DeBankTests.xctest.dSYM/Contents/Resources/DWARF/DeBankTests</key>
 		<data>
-		lIgoG5ck+kayKYjkas2zJ09L8CA=
+		Wj/T6YnJCrdJC1bNzja8WooMQe4=
 		</data>
 		<key>PlugIns/DeBankTests.xctest/DeBankTests</key>
 		<data>
-		JYgoZsfax+DXesh7b1Hh+1qP2NE=
+		nBFPoJxa+1Rb2SXXbHFAaBoU9Ow=
 		</data>
 		<key>PlugIns/DeBankTests.xctest/Info.plist</key>
 		<data>
@@ -72,11 +100,44 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			wwiTTcJxwk7WayZevixIdWnKUA0=
+			oA/oUT75cpNQWPd7z82/M/2h//4=
 			</data>
 			<key>hash2</key>
 			<data>
-			V1ue7E4PFkB8qUpG8CkeeNceqNT0zWKVOYUwo0uxFSY=
+			NUFfFJvoysS8drLmDYiilWEL+RbH5udJ6eJyidESPHA=
+			</data>
+		</dict>
+		<key>Frameworks/GoogleUtilities.framework/GoogleUtilities</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			d+EKZRJaZz0zxEutk1/80XR6an0=
+			</data>
+			<key>hash2</key>
+			<data>
+			6jn3VksBXypRpmTmqug4xoRHThOH6ZqOr7ik1U8VWFI=
+			</data>
+		</dict>
+		<key>Frameworks/GoogleUtilities.framework/Info.plist</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			qTajGwZEb+cwbm2NSG3x7yu8Z8Q=
+			</data>
+			<key>hash2</key>
+			<data>
+			nbUCr7j6Fxy4uomdErGIA5DKnJUrie4Y1DSHxSrjJnU=
+			</data>
+		</dict>
+		<key>Frameworks/GoogleUtilities.framework/_CodeSignature/CodeResources</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			mu2jMQ9oOmi1sYzCCH+5nDtYjIg=
+			</data>
+			<key>hash2</key>
+			<data>
+			OaivPADrSoQXFBTzUm7Fcy6vpuYaeLFNOIVZR4CLzvE=
 			</data>
 		</dict>
 		<key>Frameworks/XCTest.framework/Info.plist</key>
@@ -147,6 +208,50 @@
 			jJ/zKe1SwWk9KkZ4MXV01NPW4QiHpU1aZhpfTDknkp0=
 			</data>
 		</dict>
+		<key>Frameworks/nanopb.framework/Info.plist</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			zWtFUd2B4m9o4AT2YPK+24dl5BM=
+			</data>
+			<key>hash2</key>
+			<data>
+			Pb0j+FwQ7euZscoTT5lIxo/LBCWdyFDMh2o1gOUa0Jg=
+			</data>
+		</dict>
+		<key>Frameworks/nanopb.framework/_CodeSignature/CodeResources</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			YC2ZsN/ThHIRjHCS5p7FXkqSoCQ=
+			</data>
+			<key>hash2</key>
+			<data>
+			hGaCyS3n9F0wtyCHAq5vFhtSJTwQDi1i4pt86K5zx5Y=
+			</data>
+		</dict>
+		<key>Frameworks/nanopb.framework/nanopb</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			9TOMSU4rdlfw9JBErz1CD0L1yjw=
+			</data>
+			<key>hash2</key>
+			<data>
+			qRrdi6JOaxH92dBg3w7+xzreEJ/994UEhv6tgbIBSc4=
+			</data>
+		</dict>
+		<key>GoogleService-Info.plist</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			UaQUGKXdPlUJUlozOLCizTpde2k=
+			</data>
+			<key>hash2</key>
+			<data>
+			94pSmmjR94gVz+/MTDuD3ZiOAfNsvNb2peWdaAJkvXw=
+			</data>
+		</dict>
 		<key>PlugIns/DeBankTests.xctest.dSYM/Contents/Info.plist</key>
 		<dict>
 			<key>hash</key>
@@ -162,22 +267,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			lIgoG5ck+kayKYjkas2zJ09L8CA=
+			Wj/T6YnJCrdJC1bNzja8WooMQe4=
 			</data>
 			<key>hash2</key>
 			<data>
-			e5rqYRTmGar1sbwUkYtWHE7vYtb22TO5aggG3qKGjx8=
+			z5CyMdxBTtW3nZFHXxQ0n+zNpHL1U8Tyhhk87MG143E=
 			</data>
 		</dict>
 		<key>PlugIns/DeBankTests.xctest/DeBankTests</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			JYgoZsfax+DXesh7b1Hh+1qP2NE=
+			nBFPoJxa+1Rb2SXXbHFAaBoU9Ow=
 			</data>
 			<key>hash2</key>
 			<data>
-			C4ynvpViwZZyM43EyeZ6fujpCK4n7Mweo/00LIq94bE=
+			BjNab9olaxRlhZrB9Gs1oXemnY9ve5CoLr36PAFvszo=
 			</data>
 		</dict>
 		<key>PlugIns/DeBankTests.xctest/Info.plist</key>

@@ -1,0 +1,29 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '9.0'
+
+target 'DeBank' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for DeBank
+  pod 'Firebase/Core'
+
+  target 'DeBankTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
+
+target 'DeBank-tvOS' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for DeBank-tvOS
+
+  target 'DeBank-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end

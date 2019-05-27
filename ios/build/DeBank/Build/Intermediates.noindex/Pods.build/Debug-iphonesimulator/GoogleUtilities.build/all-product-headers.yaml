@@ -1,0 +1,416 @@
+{
+  'version': 0,
+  'case-sensitive': 'false',
+  'roots': [
+    {
+      'type': 'directory',
+      'name': "/Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseCore/FirebaseCore.framework/Headers",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "FIRApp.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Public/FIRApp.h"
+        },
+        {
+          'type': 'file',
+          'name': "FIRConfiguration.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Public/FIRConfiguration.h"
+        },
+        {
+          'type': 'file',
+          'name': "FIRLoggerLevel.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Public/FIRLoggerLevel.h"
+        },
+        {
+          'type': 'file',
+          'name': "FIROptions.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Public/FIROptions.h"
+        },
+        {
+          'type': 'file',
+          'name': "FirebaseCore-Swift.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseCore/FirebaseCore.framework/Headers/FirebaseCore-Swift.h"
+        },
+        {
+          'type': 'file',
+          'name': "FirebaseCore-umbrella.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/Target Support Files/FirebaseCore/FirebaseCore-umbrella.h"
+        },
+        {
+          'type': 'file',
+          'name': "FirebaseCore.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Public/FirebaseCore.h"
+        }
+      ]
+    },
+    {
+      'type': 'directory',
+      'name': "/Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseCore/FirebaseCore.framework/Modules",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "module.modulemap",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseCore.build/module.modulemap"
+        }
+      ]
+    },
+    {
+      'type': 'directory',
+      'name': "/Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseCore/FirebaseCore.framework/PrivateHeaders",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "FIRAnalyticsConfiguration.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRAnalyticsConfiguration.h"
+        },
+        {
+          'type': 'file',
+          'name': "FIRAppAssociationRegistration.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRAppAssociationRegistration.h"
+        },
+        {
+          'type': 'file',
+          'name': "FIRAppInternal.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRAppInternal.h"
+        },
+        {
+          'type': 'file',
+          'name': "FIRBundleUtil.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRBundleUtil.h"
+        },
+        {
+          'type': 'file',
+          'name': "FIRComponent.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRComponent.h"
+        },
+        {
+          'type': 'file',
+          'name': "FIRComponentContainer.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRComponentContainer.h"
+        },
+        {
+          'type': 'file',
+          'name': "FIRComponentContainerInternal.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRComponentContainerInternal.h"
+        },
+        {
+          'type': 'file',
+          'name': "FIRComponentType.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRComponentType.h"
+        },
+        {
+          'type': 'file',
+          'name': "FIRConfigurationInternal.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRConfigurationInternal.h"
+        },
+        {
+          'type': 'file',
+          'name': "FIRDependency.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRDependency.h"
+        },
+        {
+          'type': 'file',
+          'name': "FIRErrorCode.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRErrorCode.h"
+        },
+        {
+          'type': 'file',
+          'name': "FIRErrors.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRErrors.h"
+        },
+        {
+          'type': 'file',
+          'name': "FIRLibrary.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRLibrary.h"
+        },
+        {
+          'type': 'file',
+          'name': "FIRLogger.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRLogger.h"
+        },
+        {
+          'type': 'file',
+          'name': "FIROptionsInternal.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIROptionsInternal.h"
+        },
+        {
+          'type': 'file',
+          'name': "FIRVersion.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRVersion.h"
+        }
+      ]
+    },
+    {
+      'type': 'directory',
+      'name': "/Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseInstanceID/FirebaseInstanceID.framework/Headers",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "FIRInstanceID.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/Public/FIRInstanceID.h"
+        },
+        {
+          'type': 'file',
+          'name': "FirebaseInstanceID-Swift.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseInstanceID/FirebaseInstanceID.framework/Headers/FirebaseInstanceID-Swift.h"
+        },
+        {
+          'type': 'file',
+          'name': "FirebaseInstanceID-umbrella.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/Target Support Files/FirebaseInstanceID/FirebaseInstanceID-umbrella.h"
+        },
+        {
+          'type': 'file',
+          'name': "FirebaseInstanceID.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/Public/FirebaseInstanceID.h"
+        }
+      ]
+    },
+    {
+      'type': 'directory',
+      'name': "/Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseInstanceID/FirebaseInstanceID.framework/Modules",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "module.modulemap",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseInstanceID.build/module.modulemap"
+        }
+      ]
+    },
+    {
+      'type': 'directory',
+      'name': "/Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseInstanceID/FirebaseInstanceID.framework/PrivateHeaders",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "FIRInstanceID_Private.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/Private/FIRInstanceID_Private.h"
+        }
+      ]
+    },
+    {
+      'type': 'directory',
+      'name': "/Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/GoogleUtilities/GoogleUtilities.framework/Headers",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "GULLoggerCodes.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/GoogleUtilities/GoogleUtilities/Common/GULLoggerCodes.h"
+        },
+        {
+          'type': 'file',
+          'name': "GULLoggerLevel.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/GoogleUtilities/GoogleUtilities/Logger/Public/GULLoggerLevel.h"
+        },
+        {
+          'type': 'file',
+          'name': "GULNSData+zlib.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/GoogleUtilities/GoogleUtilities/NSData+zlib/GULNSData+zlib.h"
+        },
+        {
+          'type': 'file',
+          'name': "GoogleUtilities-Swift.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/GoogleUtilities/GoogleUtilities.framework/Headers/GoogleUtilities-Swift.h"
+        },
+        {
+          'type': 'file',
+          'name': "GoogleUtilities-umbrella.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/Target Support Files/GoogleUtilities/GoogleUtilities-umbrella.h"
+        }
+      ]
+    },
+    {
+      'type': 'directory',
+      'name': "/Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/GoogleUtilities/GoogleUtilities.framework/Modules",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "module.modulemap",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/GoogleUtilities.build/module.modulemap"
+        }
+      ]
+    },
+    {
+      'type': 'directory',
+      'name': "/Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/GoogleUtilities/GoogleUtilities.framework/PrivateHeaders",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "GULAppDelegateSwizzler.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/GoogleUtilities/GoogleUtilities/AppDelegateSwizzler/Private/GULAppDelegateSwizzler.h"
+        },
+        {
+          'type': 'file',
+          'name': "GULAppEnvironmentUtil.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/GoogleUtilities/GoogleUtilities/Environment/third_party/GULAppEnvironmentUtil.h"
+        },
+        {
+          'type': 'file',
+          'name': "GULApplication.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/GoogleUtilities/GoogleUtilities/AppDelegateSwizzler/Private/GULApplication.h"
+        },
+        {
+          'type': 'file',
+          'name': "GULLogger.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/GoogleUtilities/GoogleUtilities/Logger/Private/GULLogger.h"
+        },
+        {
+          'type': 'file',
+          'name': "GULMutableDictionary.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/GoogleUtilities/GoogleUtilities/Network/Private/GULMutableDictionary.h"
+        },
+        {
+          'type': 'file',
+          'name': "GULNetwork.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/GoogleUtilities/GoogleUtilities/Network/Private/GULNetwork.h"
+        },
+        {
+          'type': 'file',
+          'name': "GULNetworkConstants.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/GoogleUtilities/GoogleUtilities/Network/Private/GULNetworkConstants.h"
+        },
+        {
+          'type': 'file',
+          'name': "GULNetworkLoggerProtocol.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/GoogleUtilities/GoogleUtilities/Network/Private/GULNetworkLoggerProtocol.h"
+        },
+        {
+          'type': 'file',
+          'name': "GULNetworkMessageCode.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/GoogleUtilities/GoogleUtilities/Network/Private/GULNetworkMessageCode.h"
+        },
+        {
+          'type': 'file',
+          'name': "GULNetworkURLSession.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/GoogleUtilities/GoogleUtilities/Network/Private/GULNetworkURLSession.h"
+        },
+        {
+          'type': 'file',
+          'name': "GULOriginalIMPConvenienceMacros.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/GoogleUtilities/GoogleUtilities/MethodSwizzler/Private/GULOriginalIMPConvenienceMacros.h"
+        },
+        {
+          'type': 'file',
+          'name': "GULReachabilityChecker.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/GoogleUtilities/GoogleUtilities/Reachability/Private/GULReachabilityChecker.h"
+        },
+        {
+          'type': 'file',
+          'name': "GULReachabilityMessageCode.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/GoogleUtilities/GoogleUtilities/Reachability/Private/GULReachabilityMessageCode.h"
+        },
+        {
+          'type': 'file',
+          'name': "GULSwizzler.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/GoogleUtilities/GoogleUtilities/MethodSwizzler/Private/GULSwizzler.h"
+        },
+        {
+          'type': 'file',
+          'name': "GULUserDefaults.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/GoogleUtilities/GoogleUtilities/UserDefaults/Private/GULUserDefaults.h"
+        }
+      ]
+    },
+    {
+      'type': 'directory',
+      'name': "/Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/Pods_DeBank.framework/Headers",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "Pods-DeBank-umbrella.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/Target Support Files/Pods-DeBank/Pods-DeBank-umbrella.h"
+        },
+        {
+          'type': 'file',
+          'name': "Pods_DeBank-Swift.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/Pods_DeBank.framework/Headers/Pods_DeBank-Swift.h"
+        }
+      ]
+    },
+    {
+      'type': 'directory',
+      'name': "/Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/Pods_DeBank.framework/Modules",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "module.modulemap",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Pods-DeBank.build/module.modulemap"
+        }
+      ]
+    },
+    {
+      'type': 'directory',
+      'name': "/Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/Pods_DeBankTests.framework/Headers",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "Pods-DeBankTests-umbrella.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/Target Support Files/Pods-DeBankTests/Pods-DeBankTests-umbrella.h"
+        },
+        {
+          'type': 'file',
+          'name': "Pods_DeBankTests-Swift.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/Pods_DeBankTests.framework/Headers/Pods_DeBankTests-Swift.h"
+        }
+      ]
+    },
+    {
+      'type': 'directory',
+      'name': "/Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/Pods_DeBankTests.framework/Modules",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "module.modulemap",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Pods-DeBankTests.build/module.modulemap"
+        }
+      ]
+    },
+    {
+      'type': 'directory',
+      'name': "/Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/nanopb/nanopb.framework/Headers",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "nanopb-Swift.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/nanopb/nanopb.framework/Headers/nanopb-Swift.h"
+        },
+        {
+          'type': 'file',
+          'name': "nanopb-umbrella.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/Target Support Files/nanopb/nanopb-umbrella.h"
+        },
+        {
+          'type': 'file',
+          'name': "pb.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/nanopb/pb.h"
+        },
+        {
+          'type': 'file',
+          'name': "pb_common.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/nanopb/pb_common.h"
+        },
+        {
+          'type': 'file',
+          'name': "pb_decode.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/nanopb/pb_decode.h"
+        },
+        {
+          'type': 'file',
+          'name': "pb_encode.h",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/nanopb/pb_encode.h"
+        }
+      ]
+    },
+    {
+      'type': 'directory',
+      'name': "/Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/nanopb/nanopb.framework/Modules",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "module.modulemap",
+          'external-contents': "/Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/nanopb.build/module.modulemap"
+        }
+      ]
+    }
+  ]
+}

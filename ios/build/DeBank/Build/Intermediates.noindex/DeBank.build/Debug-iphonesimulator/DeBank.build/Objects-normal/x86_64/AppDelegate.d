@@ -1,4 +1,24 @@
 dependencies: /Users/tai/Dropbox/Codes/DeBank/ios/DeBank/AppDelegate.m \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Public/Firebase/Firebase.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseCore/FirebaseCore.framework/Modules/module.modulemap \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Firebase/CoreOnly/Sources/module.modulemap \
+  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseCore/FirebaseCore.framework/Headers/FIROptions.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseCore/FirebaseCore.framework/Headers/FirebaseCore.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseCore/FirebaseCore.framework/Headers/FIRLoggerLevel.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseCore/FirebaseCore.framework/Headers/FIRConfiguration.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseCore/FirebaseCore.framework/Headers/FIRApp.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseCore/FirebaseCore.framework/Headers/FirebaseCore-umbrella.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseAnalytics/Frameworks/FirebaseAnalytics.framework/Modules/module.modulemap \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseAnalytics/Frameworks/FirebaseAnalytics.framework/Headers/FIRUserPropertyNames.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseAnalytics/Frameworks/FirebaseAnalytics.framework/Headers/FIRParameterNames.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseAnalytics/Frameworks/FirebaseAnalytics.framework/Headers/FIREventNames.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseAnalytics/Frameworks/FirebaseAnalytics.framework/Headers/FIRAnalytics.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseAnalytics/Frameworks/FirebaseAnalytics.framework/Headers/FIRAnalytics+AppDelegate.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseAnalytics/Frameworks/FirebaseAnalytics.framework/Headers/FirebaseAnalytics.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseInstanceID/FirebaseInstanceID.framework/Modules/module.modulemap \
+  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseInstanceID/FirebaseInstanceID.framework/Headers/FIRInstanceID.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseInstanceID/FirebaseInstanceID.framework/Headers/FirebaseInstanceID.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseInstanceID/FirebaseInstanceID.framework/Headers/FirebaseInstanceID-umbrella.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/DeBank/AppDelegate.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/include/React/RCTBridgeDelegate.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/include/React/RCTJavaScriptLoader.h \

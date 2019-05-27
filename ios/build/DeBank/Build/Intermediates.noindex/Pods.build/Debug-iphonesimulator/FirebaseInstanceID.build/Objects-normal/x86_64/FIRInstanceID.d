@@ -1,0 +1,37 @@
+dependencies: \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceID.m \
+  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseInstanceID.build/module.modulemap \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/Public/FIRInstanceID.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseCore.build/module.modulemap \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRAppInternal.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Public/FIROptions.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Public/FirebaseCore.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Public/FIRLoggerLevel.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Public/FIRConfiguration.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Public/FIRApp.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Target\ Support\ Files/FirebaseCore/FirebaseCore-umbrella.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRErrors.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRErrorCode.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRComponent.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRComponentContainer.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRComponentType.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRLibrary.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/GoogleUtilities.build/module.modulemap \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/GoogleUtilities/GoogleUtilities/Environment/third_party/GULAppEnvironmentUtil.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceID+Private.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDCheckinService.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDUtilities.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDAuthService.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDCheckinPreferences.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDCombinedHandler.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDConstants.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDDefines.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDKeyPairStore.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDLogger.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRIMessageCode.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDStore.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDTokenInfo.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDAPNSInfo.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDTokenManager.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDVersionUtilities.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/NSError+FIRInstanceID.h
