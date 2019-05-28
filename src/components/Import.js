@@ -1,9 +1,12 @@
 'use strict';
 import React, { Component } from 'react';
 import { Header } from './common';
+import { connect } from 'react-redux';
 import styled from 'styled-components/native';
+import { saveWeb3 } from '../actions/ActionWeb3';
+import { getChecksumAddress } from '../actions/ActionChecksumAddress';
 
-export default class Import extends Component {
+class Import extends Component {
   render() {
     return (
       <Container>
@@ -23,3 +26,13 @@ const Container = styled.View`
 const Title = styled.Text`
   font-size: 40px;
 `;
+
+const mapDispatchToProps = {
+  getChecksumAddress,
+  saveWeb3
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Import);
