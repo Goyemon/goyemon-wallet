@@ -6,6 +6,7 @@ import { ScrollView, View, Text } from 'react-native';
 import Transactions from '../containers/Transactions';
 import { Button } from '../components/common/';
 import { getGasPrice } from "../actions/ActionGasPrice";
+import { getExistingTransactions } from '../actions/ActionTransactions';
 import styled from 'styled-components';
 
 class Ethereum extends Component {
@@ -20,6 +21,7 @@ class Ethereum extends Component {
   async componentDidMount() {
     const balanceInWei = await this.getBalance(this.props.checksumAddress);
     const balanceInEther = await this.props.web3.utils.fromWei(balanceInWei, 'ether');
+    await this.props.getExistingTransactions("1b5e2011e26B3051E4ad1936299c417eEDaCBF50");
     await this.setState({balance: balanceInEther});
     await this.setState({usdBalance: await this.getUsdBalance()});
   }
@@ -70,8 +72,7 @@ class Ethereum extends Component {
         <View>
           <Text>Transaction History</Text>
         </View>
-        {transactions.map(transaction => (<Transactions key={transaction.id} transaction={transaction} />
-        ))}
+        <Transactions />
       </ScrollView>
     );
   }
@@ -113,7 +114,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-    getGasPrice
+    getGasPrice,
+    getExistingTransactions
 }
 
 export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(Ethereum));

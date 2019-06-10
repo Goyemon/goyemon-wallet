@@ -1,19 +1,23 @@
 'use strict';
-import { GET_TRANSACTIONS } from '../constants/ActionTypes';
+import { GET_EXISTING_TRANSACTIONS } from '../constants/ActionTypes';
 import axios from 'axios';
+import TransactionController from '../wallet-core/TransactionController.ts';
 
-export function getTransactions() {
+export function getExistingTransactions(address) {
   return async function (dispatch) {
     try {
-      const transactions = await axios.get('https://jsonplaceholder.typicode.com/todos');
-      dispatch(getTransactionsSuccess(transactions));
+      const existingTransactions = await axios.get(`http://46.105.123.97/eth.php?a=gettx&addr=${address}`);
+      const parsedExistingTransactions = await TransactionController.parseTransactions(existingTransactions.data);
+      dispatch(getExistingTransactionsSuccess(parsedExistingTransactions));
     } catch(err) {
       console.error(err);
     }
   }
 };
 
-const getTransactionsSuccess = (transactions) => ({
-  type: GET_TRANSACTIONS,
-  payload: transactions
+const getExistingTransactionsSuccess = (parsedExistingTransactions) => ({
+  type: GET_EXISTING_TRANSACTIONS,
+  payload: parsedExistingTransactions
+})
+
 })
