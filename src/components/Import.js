@@ -44,7 +44,6 @@ class Import extends Component {
             text="go"
             textColor="white"
             backgroundColor="#01d1e5"
-            marginTop="24px"
             onPress={async () => {
               await this.validateForm()
             }}

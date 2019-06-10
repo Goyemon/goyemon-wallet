@@ -31,7 +31,6 @@ class VerifyMnemonic extends Component {
           text="Verify"
           textColor="white"
           backgroundColor="#01d1e5"
-          marginTop="24px"
           onPress={async () => {
             await this.savePrivateKey();
             await this.props.saveWeb3();
@@ -56,11 +55,14 @@ const MnemonicPhrasesContainer = styled.Text`
   flexDirection: row;
   justifyContent: center;
   alignItems: center;
+  margin: 16px;
 `;
 
 const MnemonicWord = styled.Text`
   border-radius: 8px;
-  background: #4a90e2;
+  border-color: #EEE
+  font-size: 16px;
+  margin: 4px;
 `;
 
 function mapStateToProps(state) {

@@ -59,7 +59,7 @@ const CardContainerWithoutFeedback = styled.View`
   border-radius: 8px;
   background: #FFF;
   width: 360px;
-  height: 200px;
+  height: 120px;
   margin: 24px 16px;
   text-align: left;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);

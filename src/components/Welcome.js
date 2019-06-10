@@ -14,7 +14,6 @@ export default class Welcome extends Component {
           <Button
           text="Hell Yeah!"
           textColor="white" backgroundColor="#01d1e5"
-          marginTop="24px"
           onPress={() => this.props.navigation.navigate('Start')} />
         </ButtonWrapper>
       </Container>
@@ -31,6 +30,7 @@ const Container = styled.View`
 
 const Title = Animatable.createAnimatableComponent(styled.Text`
   font-size: 40px;
+  margin-bottom: 40px;
   text-align: center;
 `);
 

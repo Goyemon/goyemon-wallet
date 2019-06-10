@@ -93,8 +93,8 @@ const styles = {
 
 const CardContainerWithoutFeedback = styled.View`
   background: #FFF;
-  height: 200px;
-  text-align: center;
+  height: 240px;
+  align-items: center;
   box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 `;
 
@@ -104,13 +104,26 @@ const ButtonContainer = styled.View`
   alignItems: center;
 `;
 
+const BalanceTitle = styled.Text`
+  font-size: 24px;
+  margin-bottom: 24px;
+`;
+
+const UsdBalance = styled.Text`
+  font-size: 32px;
+`;
+
+const EthBalance = styled.Text`
+  font-size: 16px;
+`;
+
 const mapStateToProps = state => {
   return {
     transactions: state.ReducerTransactions.transactions,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
     web3: state.ReducerWeb3.web3,
     wallets: state.ReducerWallets.wallets
-}
+  }
 }
 
 const mapDispatchToProps = {

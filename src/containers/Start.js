@@ -48,6 +48,16 @@ class Start extends Component {
 }
 
 
+const Container = styled.ScrollView.attrs(props => ({
+  contentContainerStyle: props => {
+    return {
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center'
+    }
+  }
+}))``
+
 const Title = styled.Text`
   font-size: 32px;
   margin: 16px;

@@ -39,15 +39,23 @@ const styles = {
   }
 };
 
+const Title = styled.Text`
+  font-size: 32px;
+  margin: 16px;
+  text-align: center;
+`;
+
 const MnemonicPhrasesContainer = styled.Text`
   flexDirection: row;
   justifyContent: center;
   alignItems: center;
+  margin: 16px;
 `;
 
 const MnemonicWord = styled.Text`
   border-radius: 8px;
-  background: #4a90e2;
+  border-color: #EEE
+  font-size: 16px;
   margin: 4px;
 `;
 

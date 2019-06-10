@@ -80,17 +80,28 @@ const CardContainer = styled.TouchableOpacity`
   border-radius: 8px;
   background: #FFF;
   width: 320px;
-  height: 160px;
+  height: 120px;
   margin: 24px 16px;
-  align-items: center;
+  flexDirection: column;
+  justifyContent: center;
+  alignItems: center;
   box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 `;
 
 const CardContainerWithoutFeedback = styled.View`
   background: #FFF;
-  height: 160px;
+  height: 120px;
   align-items: center;
   box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+`;
+
+const BalanceTitle = styled.Text`
+  font-size: 24px;
+  margin-bottom: 24px;
+`;
+
+const UsdBalance = styled.Text`
+  font-size: 32px;
 `;
 
 const mapStateToProps = state => {
