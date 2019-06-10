@@ -1,0 +1,41 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-keychain/android/src/main/AndroidManifest.xml:1:1-4:12
+INJECTED from /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-keychain/android/src/main/AndroidManifest.xml:1:1-4:12
+INJECTED from /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-keychain/android/src/main/AndroidManifest.xml:1:1-4:12
+INJECTED from /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-keychain/android/src/main/AndroidManifest.xml:1:1-4:12
+INJECTED from /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-keychain/android/src/main/AndroidManifest.xml:1:1-4:12
+INJECTED from /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-keychain/android/src/main/AndroidManifest.xml:1:1-4:12
+INJECTED from /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-keychain/android/src/main/AndroidManifest.xml:1:1-4:12
+	package
+		ADDED from /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-keychain/android/src/main/AndroidManifest.xml:2:5-35
+		INJECTED from /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-keychain/android/src/main/AndroidManifest.xml
+		INJECTED from /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-keychain/android/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-keychain/android/src/main/AndroidManifest.xml
+		ADDED from /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-keychain/android/src/main/AndroidManifest.xml:1:1-4:12
+		INJECTED from /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-keychain/android/src/main/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-keychain/android/src/main/AndroidManifest.xml
+		ADDED from /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-keychain/android/src/main/AndroidManifest.xml:1:1-4:12
+		INJECTED from /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-keychain/android/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-keychain/android/src/main/AndroidManifest.xml:1:11-69
+uses-permission#android.permission.USE_FINGERPRINT
+ADDED from /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-keychain/android/src/main/AndroidManifest.xml:3:3-73
+	android:name
+		ADDED from /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-keychain/android/src/main/AndroidManifest.xml:3:21-70
+uses-sdk
+INJECTED from /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-keychain/android/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-keychain/android/src/main/AndroidManifest.xml
+INJECTED from /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-keychain/android/src/main/AndroidManifest.xml
+INJECTED from /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-keychain/android/src/main/AndroidManifest.xml
+INJECTED from /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-keychain/android/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-keychain/android/src/main/AndroidManifest.xml
+		ADDED from /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-keychain/android/src/main/AndroidManifest.xml
+		INJECTED from /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-keychain/android/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-keychain/android/src/main/AndroidManifest.xml
+		ADDED from /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-keychain/android/src/main/AndroidManifest.xml
+		INJECTED from /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-keychain/android/src/main/AndroidManifest.xml

@@ -1,0 +1,86 @@
+{
+  "_from": "react-native-randombytes@^3.5.1",
+  "_id": "react-native-randombytes@3.5.3",
+  "_inBundle": false,
+  "_integrity": "sha512-n/7QwMrRJxHr+/3mt2KxqqacGylM+ssW+FfBTgXGzvwq5KzSohooEWf6Z6MTSByuJ/izP9VbSPtwomPwzvupKQ==",
+  "_location": "/react-native-randombytes",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "react-native-randombytes@^3.5.1",
+    "name": "react-native-randombytes",
+    "escapedName": "react-native-randombytes",
+    "rawSpec": "^3.5.1",
+    "saveSpec": null,
+    "fetchSpec": "^3.5.1"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/react-native-randombytes/-/react-native-randombytes-3.5.3.tgz",
+  "_shasum": "b3bdcd11473cce106551a586244b98855e443cd1",
+  "_spec": "react-native-randombytes@^3.5.1",
+  "_where": "/Users/tai/Dropbox/Codes/DeBank",
+  "author": {
+    "name": "Mark Vayngrib",
+    "email": "mark.vayngrib@lablz.com",
+    "url": "http://github.com/mvayngrib"
+  },
+  "bugs": {
+    "url": "https://github.com/mvayngrib/react-native-randombytes/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "buffer": "^4.9.1",
+    "sjcl": "^1.0.3"
+  },
+  "deprecated": false,
+  "description": "randomBytes for react-native",
+  "homepage": "https://github.com/mvayngrib/react-native-randombytes#readme",
+  "keywords": [
+    "react-component",
+    "react-native",
+    "randomBytes",
+    "rng",
+    "ios",
+    "android"
+  ],
+  "license": "ISC",
+  "main": "index.js",
+  "name": "react-native-randombytes",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mvayngrib/react-native-randombytes.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "3.5.3",
+  "react-native": {
+    "crypto": "react-native-crypto",
+    "http": "@tradle/react-native-http",
+    "https": "https-browserify",
+    "os": "react-native-os",
+    "_stream_transform": "readable-stream/transform",
+    "_stream_readable": "readable-stream/readable",
+    "_stream_writable": "readable-stream/writable",
+    "_stream_duplex": "readable-stream/duplex",
+    "_stream_passthrough": "readable-stream/passthrough",
+    "stream": "stream-browserify",
+    "vm": "vm-browserify"
+  },
+  "browser": {
+    "crypto": "react-native-crypto",
+    "http": "@tradle/react-native-http",
+    "https": "https-browserify",
+    "os": "react-native-os",
+    "_stream_transform": "readable-stream/transform",
+    "_stream_readable": "readable-stream/readable",
+    "_stream_writable": "readable-stream/writable",
+    "_stream_duplex": "readable-stream/duplex",
+    "_stream_passthrough": "readable-stream/passthrough",
+    "stream": "stream-browserify",
+    "vm": "vm-browserify"
+  }
+}
