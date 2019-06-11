@@ -1,5 +1,6 @@
 'use strict';
 import { GET_EXISTING_TRANSACTIONS } from '../constants/ActionTypes';
+import { ADD_NEW_TRANSACTION } from '../constants/ActionTypes';
 import axios from 'axios';
 import TransactionController from '../wallet-core/TransactionController.ts';
 
@@ -20,4 +21,18 @@ const getExistingTransactionsSuccess = (parsedExistingTransactions) => ({
   payload: parsedExistingTransactions
 })
 
+export function addNewTransaction(transactionObject) {
+  return function (dispatch) {
+    try {
+      let parsedTransactionObject = TransactionController.parseTransaction(transactionObject);
+      dispatch(addNewTransactionSuccess(parsedTransactionObject));
+    } catch(err) {
+      console.error(err);
+    }
+  }
+};
+
+const addNewTransactionSuccess = (parsedTransactionObject) => ({
+  type: ADD_NEW_TRANSACTION,
+  payload: parsedTransactionObject
 })

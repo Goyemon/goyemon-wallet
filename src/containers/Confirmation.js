@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import ethTx from "ethereumjs-tx";
 import WalletController from '../wallet-core/WalletController.ts';
+import { addNewTransaction } from '../actions/ActionTransactions';
 
 class Confirmation extends Component {
   async sendSignedTx() {
@@ -19,8 +20,19 @@ class Confirmation extends Component {
       (error, result) => {
         if (error) { console.log(`Error: ${error}`); }
         else { console.log(`Result: ${result}`); }
+          this.updateTransactionHistory(transactionHash);
       }
     );
+  }
+
+  async updateTransactionHistory(transactionHash) {
+    const transactionObject = await this.getTransactionObject(transactionHash)
+    await this.props.addNewTransaction(transactionObject);
+  }
+
+  async getTransactionObject(transactionHash) {
+    const transactionObject = await this.props.web3.eth.getTransaction(transactionHash);
+    return transactionObject;
   }
 
   render() {
@@ -79,4 +91,8 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Confirmation);
+const mapDispatchToProps = {
+  addNewTransaction
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Confirmation);

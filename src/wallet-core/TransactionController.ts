@@ -20,11 +20,27 @@ class TransactionController {
       }
     })
     return Promise.all(parsedTransactions);
+
+  parseTransaction(transactionObject) {
+    const parsedTransaction = {
+      id: "",
+      hash: transactionObject.hash,
+      from: transactionObject.from,
+      to: transactionObject.to,
+      gas: transactionObject.gas,
+      gasPrice: transactionObject.gasPrice,
+      value: this.parseTransactionValue((transactionObject.value)),
+      time: "",
+      nonce: transactionObject.nonce,
+      status: ""
+    }
+
+    return parsedTransaction;
   }
 
-  async parseTransactionValue(value) {
-    const bigNumberValue = await this.web3.utils.toBN(value).toString();
-    const parsedEtherValue = await this.web3.utils.fromWei(bigNumberValue);
+  parseTransactionValue(value) {
+    const bigNumberValue = this.web3.utils.toBN(value).toString();
+    const parsedEtherValue = this.web3.utils.fromWei(bigNumberValue);
     return parsedEtherValue;
   }
 
