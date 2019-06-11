@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { Text, View, Linking, Image } from 'react-native';
 import { connect } from "react-redux";
-import { getEthPrice, getDaiPrice } from "../actions/ActionWallets";
 import styled from 'styled-components';
 
 class WalletDetail extends Component {
@@ -14,11 +13,9 @@ class WalletDetail extends Component {
   }
 
   async componentDidMount() {
-    this.props.getEthPrice();
-    this.props.getDaiPrice();
     const newBalanceInWei = await this.getBalance(this.props.checksumAddress);
-    const newBalanceInEther = await this.props.web3.utils.fromWei(newBalanceInWei, 'ether');
-    await this.setState({balance: newBalanceInEther});
+    const newBalanceInEther = this.props.web3.utils.fromWei(newBalanceInWei);
+    this.setState({balance: newBalanceInEther});
   }
 
   async getBalance(address) {
@@ -115,9 +112,4 @@ const mapStateToProps = state => {
  }
 }
 
-const mapDispatchToProps = {
-    getEthPrice,
-    getDaiPrice
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(WalletDetail);
+export default connect(mapStateToProps)(WalletDetail);

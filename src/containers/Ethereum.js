@@ -20,10 +20,10 @@ class Ethereum extends Component {
 
   async componentDidMount() {
     const balanceInWei = await this.getBalance(this.props.checksumAddress);
-    const balanceInEther = await this.props.web3.utils.fromWei(balanceInWei, 'ether');
+    const balanceInEther = this.props.web3.utils.fromWei(balanceInWei);
     await this.props.getExistingTransactions("1b5e2011e26B3051E4ad1936299c417eEDaCBF50");
-    await this.setState({balance: balanceInEther});
-    await this.setState({usdBalance: await this.getUsdBalance()});
+    this.setState({balance: balanceInEther});
+    this.setState({usdBalance: this.getUsdBalance()});
   }
 
   async getBalance(address) {
@@ -35,7 +35,7 @@ class Ethereum extends Component {
     }
   }
 
-  async getUsdBalance() {
+  getUsdBalance() {
     try {
       const usdPrice = this.props.wallets[0].price;
       const ethBalance = parseFloat(this.state.balance);
@@ -57,9 +57,9 @@ class Ethereum extends Component {
     return (
       <ScrollView>
         <CardContainerWithoutFeedback>
-          <Text>TOTAL BALANCE</Text>
-          <Text>{this.state.balance} ETH</Text>
-          <Text>{this.state.usdBalance} USD</Text>
+          <BalanceTitle>TOTAL BALANCE</BalanceTitle>
+          <UsdBalance>{this.state.usdBalance} USD</UsdBalance>
+          <EthBalance>{this.state.balance} ETH</EthBalance>
           <ButtonContainer>
             <Button text="Receive" textColor="white" backgroundColor="grey"
             onPress={() => navigation.navigate('Receive')} />

@@ -5,7 +5,6 @@ import { withNavigation } from 'react-navigation';
 import { ScrollView, TouchableOpacity, View, Text } from 'react-native';
 import WalletDetail from '../containers/WalletDetail';
 import styled from 'styled-components';
-import { getEthPrice, getDaiPrice } from "../actions/ActionWallets";
 
 class WalletList extends Component {
   constructor(props) {
@@ -17,11 +16,10 @@ class WalletList extends Component {
   }
 
   async componentDidMount() {
-    await this.props.getEthPrice();
     const newBalanceInWei = await this.getBalance(this.props.checksumAddress);
-    const newBalanceInEther = await this.props.web3.utils.fromWei(newBalanceInWei, 'ether');
-    await this.setState({balance: newBalanceInEther});
-    await this.setState({usdBalance: await this.getUsdBalance()});
+    const newBalanceInEther = this.props.web3.utils.fromWei(newBalanceInWei);
+    this.setState({balance: newBalanceInEther});
+    this.setState({usdBalance: this.getUsdBalance(newBalanceInEther)});
   }
 
   async getBalance(address) {
@@ -33,11 +31,11 @@ class WalletList extends Component {
     }
   }
 
-  async getUsdBalance() {
+  getUsdBalance(ethBalance) {
     try {
       const usdPrice = this.props.wallets[0].price;
-      const ethBalance = parseFloat(this.state.balance);
-      const usdBalance = usdPrice * ethBalance;
+      const parsedEthBalance = parseFloat(ethBalance);
+      const usdBalance = usdPrice * parsedEthBalance;
       return usdBalance;
     } catch(err) {
       console.error(err);
@@ -54,9 +52,8 @@ class WalletList extends Component {
     return (
       <ScrollView>
         <CardContainerWithoutFeedback>
-          <Text>TOTAL BALANCE</Text>
-          <Text>{this.state.balance} ETH</Text>
-          <Text>{this.state.usdBalance} USD</Text>
+          <BalanceTitle>TOTAL BALANCE</BalanceTitle>
+          <UsdBalance>{this.state.usdBalance} USD</UsdBalance>
         </CardContainerWithoutFeedback>
         {wallets.map(wallet => (
           <CardContainer
@@ -112,9 +109,4 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = {
-    getEthPrice,
-    getDaiPrice
-}
-
-export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(WalletList));
+export default withNavigation(connect(mapStateToProps)(WalletList));

@@ -8,7 +8,7 @@ export function getExistingTransactions(address) {
   return async function (dispatch) {
     try {
       const existingTransactions = await axios.get(`http://46.105.123.97/eth.php?a=gettx&addr=${address}`);
-      const parsedExistingTransactions = await TransactionController.parseTransactions(existingTransactions.data);
+      const parsedExistingTransactions = TransactionController.parseTransactions(existingTransactions.data);
       dispatch(getExistingTransactionsSuccess(parsedExistingTransactions));
     } catch(err) {
       console.error(err);

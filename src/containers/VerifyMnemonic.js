@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import WalletController from '../wallet-core/WalletController.ts';
 import { saveWeb3 } from '../actions/ActionWeb3';
 import { getChecksumAddress } from '../actions/ActionChecksumAddress';
+import { getEthPrice, getDaiPrice } from "../actions/ActionWallets";
 import styled from 'styled-components/native';
 
 class VerifyMnemonic extends Component {
@@ -35,6 +36,8 @@ class VerifyMnemonic extends Component {
             await this.savePrivateKey();
             await this.props.saveWeb3();
             await this.props.getChecksumAddress();
+            await this.props.getEthPrice();
+            await this.props.getDaiPrice();
             this.props.navigation.navigate('Wallets');
           }}
         />
@@ -73,7 +76,9 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   getChecksumAddress,
-  saveWeb3
+  saveWeb3,
+  getEthPrice,
+  getDaiPrice
 };
 
 export default connect(

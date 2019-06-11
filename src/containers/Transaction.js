@@ -9,7 +9,7 @@ class Transaction extends Component {
   renderInOrOutTransactionIcon() {
     if (this.props.transaction.to === "0x1b5e2011e26b3051e4ad1936299c417eedacbf50") {
       return <Text>↓</Text>;
-    } else if (this.props.transaction.from === "0x1b5e2011e26b3051e4ad1936299c417eedacbf50") {
+    } else if (this.props.transaction.to != "0x1b5e2011e26b3051e4ad1936299c417eedacbf50") {
       return <Text>↑</Text>;
     }
   }

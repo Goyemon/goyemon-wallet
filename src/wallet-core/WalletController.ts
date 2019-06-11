@@ -23,10 +23,11 @@ class WalletController {
       await this.setMnemonic(mnemonic);
     }
 
-    let seedhex = await bip39.mnemonicToSeedHex(mnemonic);
-    let seed = await Buffer.from(seedhex, 'hex');
-    this.root = await hdkey.fromMasterSeed(seed);
-    this.wallet = await this.root.deriveChild().getWallet();
+  public async generateWallet(mnemonic) {
+    let seedhex = bip39.mnemonicToSeedHex(mnemonic);
+    let seed = Buffer.from(seedhex, 'hex');
+    this.root = hdkey.fromMasterSeed(seed);
+    this.wallet = this.root.deriveChild().getWallet();
 
     return true;
   }

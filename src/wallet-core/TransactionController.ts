@@ -4,8 +4,8 @@ import ProviderController from './ProviderController.ts';
 class TransactionController {
   private web3 = ProviderController.setProvider();
 
-  async parseTransactions(transactions) {
-    const parsedTransactions = await transactions.map(async (transaction) => {
+  parseTransactions(transactions) {
+    const parsedTransactions = transactions.map((transaction) => {
       return {
         id: "",
         hash: transaction.hash,
@@ -13,13 +13,14 @@ class TransactionController {
         to: transaction.to,
         gas: transaction.gas,
         gasPrice: transaction.gasPrice,
-        value: await this.parseTransactionValue(transaction.value),
+        value: this.parseTransactionValue(transaction.value),
         time: this.parseTransactionTime(transaction.time),
         nonce: "",
         status: ""
       }
     })
-    return Promise.all(parsedTransactions);
+    return parsedTransactions;
+  }
 
   parseTransaction(transactionObject) {
     const parsedTransaction = {

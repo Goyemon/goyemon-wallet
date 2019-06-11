@@ -12,7 +12,7 @@ class ShowMnemonic extends Component {
 
     return (
       <View style={styles.textStyle}>
-        <Text>backup phrases</Text>
+        <Title>backup phrases</Title>
         <Text>Please carefully write down these 24 words.</Text>
         <MnemonicPhrasesContainer>
           {splitMnemonic.map((splitMnemonic, id) => (
@@ -23,8 +23,7 @@ class ShowMnemonic extends Component {
         <Button
           text="I’ve written them down"
           textColor="white" backgroundColor="#01d1e5"
-          marginTop="24px"
-          onPress={() => this.props.navigation.navigate('VerifyMnemonic')}to 
+          onPress={() => this.props.navigation.navigate('VerifyMnemonic')}
         />
       </View>
     );

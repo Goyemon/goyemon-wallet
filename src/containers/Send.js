@@ -41,8 +41,8 @@ class Send extends Component {
 
   async componentDidMount() {
     const balanceInWei = await this.getBalance(this.props.checksumAddress);
-    const balanceInEther = await this.props.web3.utils.fromWei(balanceInWei, 'ether');
-    await this.setState({ balanceInEther: balanceInEther });
+    const balanceInEther = this.props.web3.utils.fromWei(balanceInWei, 'ether');
+    this.setState({ balanceInEther: balanceInEther });
   }
 
   async getBalance(address) {
@@ -58,11 +58,11 @@ class Send extends Component {
     this.state.transactionNonce = await this.props.web3.eth.getTransactionCount(
       this.props.checksumAddress
     );
-    const gasPriceInWei = await parseFloat(
+    const gasPriceInWei = parseFloat(
       this.props.web3.utils.toWei(this.state.gasPriceInGwei[this.state.checked], 'Gwei')
     );
-    const amountInWei = await parseFloat(this.props.web3.utils.toWei(this.state.amount, 'Ether'));
-    const transactionObject = await {
+    const amountInWei = parseFloat(this.props.web3.utils.toWei(this.state.amount, 'Ether'));
+    const transactionObject = {
       nonce: `0x${this.state.transactionNonce.toString(16)}`,
       to: this.state.toAddress.toString(16),
       value: `0x${amountInWei.toString(16)}`,
@@ -97,7 +97,7 @@ class Send extends Component {
   async validateForm() {
     if (this.validateToAddress() && this.validateAmount()) {
       await this.props.saveTransactionObject(this.transactionObject);
-      await this.props.navigation.navigate('Confirmation');
+      this.props.navigation.navigate('Confirmation');
     } else {
       console.log('form validation failed!');
     }

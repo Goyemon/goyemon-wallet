@@ -10,17 +10,19 @@ import { addNewTransaction } from '../actions/ActionTransactions';
 
 class Confirmation extends Component {
   async sendSignedTx() {
-    const transactionObject = await new ethTx(this.props.transactionObject);
+    const transactionObject = new ethTx(this.props.transactionObject);
     let privateKey = await WalletController.retrievePrivateKey();
-    privateKey = await Buffer.from(privateKey, 'hex');
-    await transactionObject.sign(privateKey);
-    const serializedTransactionObject = await transactionObject.serialize();
+    privateKey = Buffer.from(privateKey, 'hex');
+    transactionObject.sign(privateKey);
+    const serializedTransactionObject = transactionObject.serialize();
 
-    await this.props.web3.eth.sendSignedTransaction(`0x${serializedTransactionObject.toString('hex')}`,
-      (error, result) => {
+    this.props.web3.eth.sendSignedTransaction(`0x${serializedTransactionObject.toString('hex')}`,
+      (error, transactionHash) => {
         if (error) { console.log(`Error: ${error}`); }
-        else { console.log(`Result: ${result}`); }
+        else {
+          console.log(`Result: ${transactionHash}`);
           this.updateTransactionHistory(transactionHash);
+        }
       }
     );
   }
@@ -57,7 +59,7 @@ class Confirmation extends Component {
         <ButtonContainer>
           <Button text="Back" textColor="white" backgroundColor="grey" onPress={() => this.props.navigation.navigate('Send')} />
           <Button text="Confirm" textColor="white" backgroundColor="#01d1e5" onPress={async () => {
-            await this.props.navigation.navigate('Ethereum')
+            this.props.navigation.navigate('Ethereum')
             await this.sendSignedTx()
           }} />
         </ButtonContainer>
