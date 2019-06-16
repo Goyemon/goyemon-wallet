@@ -7,7 +7,7 @@ const SettingsStack = createStackNavigator(
     Settings: {
       screen: Settings,
       navigationOptions: () => ({
-        title: 'Settings'
+        header:null
       })
     }
   },

@@ -29,52 +29,60 @@ const HomeStack = createStackNavigator(
     Import: {
       screen: Import,
       navigationOptions: () => ({
-        title: 'Import'
+        headerTransparent: true,
+        headerBackTitle: 'Import'
       })
     },
     ShowMnemonic: {
       screen: ShowMnemonic,
       navigationOptions: () => ({
-        title: 'ShowMnemonic'
+        headerTransparent: true,
       })
     },
     VerifyMnemonic: {
-      screen: VerifyMnemonic
+      screen: VerifyMnemonic,
+      navigationOptions: () => ({
+        headerTransparent: true
+      })
     },
     Wallets: {
       screen: Wallets,
       navigationOptions: () => ({
-        title: 'Wallets'
+        headerTransparent: true,
+        headerBackTitle: 'Home'
       })
     },
     Ethereum: {
       screen: Ethereum,
       navigationOptions: () => ({
-        title: 'Ethereum'
+        headerTransparent: true,
+        headerBackTitle: 'Ethereum'
       })
     },
     Send: {
       screen: Send,
       navigationOptions: () => ({
-        title: 'Send'
+        headerTransparent: true,
+        headerBackTitle: 'Send'
       })
     },
     Confirmation: {
       screen: Confirmation,
       navigationOptions: () => ({
-        title: 'Confirmation'
+        headerTransparent: true
       })
     },
     Receive: {
       screen: Receive,
       navigationOptions: () => ({
-        title: 'Receive'
+        headerTransparent: true
       })
     },
     Dai: {
       screen: Dai,
       navigationOptions: () => ({
-        title: 'Dai'
+        headerTransparent: true,
+        headerBackTitle: 'Dai'
       })
     }
   },
