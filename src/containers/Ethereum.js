@@ -2,9 +2,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { ScrollView, View, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import Transactions from '../containers/Transactions';
-import { Button } from '../components/common/';
+import { RootContainer, Button, HeaderOne, HeaderTwo } from '../components/common/';
 import { getGasPrice } from "../actions/ActionGasPrice";
 import { getExistingTransactions } from '../actions/ActionTransactions';
 import styled from 'styled-components';
@@ -50,65 +50,57 @@ class Ethereum extends Component {
 
   render() {
     const { transactions, navigation } = this.props;
-    const { textStyle, TransactionListStyle, WalletStyleMiddleContainer } = styles;
 
     if(!this.props.web3.eth){
       return <Text>loading...</Text>;
     };
 
     return (
-      <ScrollView>
+      <RootContainer>
+        <HeaderOne>Ethereum</HeaderOne>
         <CardContainerWithoutFeedback>
-          <BalanceTitle>TOTAL BALANCE</BalanceTitle>
-          <UsdBalance>{this.state.usdBalance} USD</UsdBalance>
+          <HeaderTwo
+            fontSize="24px"
+           >
+            Total Balance
+          </HeaderTwo>
+          <UsdBalance>${this.state.usdBalance}</UsdBalance>
           <EthBalance>{this.state.balance} ETH</EthBalance>
           <ButtonContainer>
-            <Button text="Receive" textColor="white" backgroundColor="grey"
+            <Button text="Receive" textColor="white" backgroundColor="#39C89E" margin="8px"
             onPress={() => navigation.navigate('Receive')} />
-            <Button text="Send" textColor="white" backgroundColor="#01d1e5" onPress={async () => {
+            <Button text="Send" textColor="white" backgroundColor="#39C89E" margin="8px"
+            onPress={async () => {
               await this.props.getGasPrice();
               navigation.navigate('Send');
             }} />
           </ButtonContainer>
         </CardContainerWithoutFeedback>
         <View>
-          <Text>Transaction History</Text>
+          <HeaderTwo
+            fontSize="16px"
+           >
+            Transaction History
+          </HeaderTwo>
         </View>
         <Transactions />
-      </ScrollView>
+      </RootContainer>
     );
   }
 };
 
-const styles = {
-  textStyle: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  WalletStyleMiddleContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center'
-  }
-};
-
 const CardContainerWithoutFeedback = styled.View`
+  align-items: center;
   background: #FFF;
   height: 240px;
-  align-items: center;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  margin-top: 24px;
+  padding: 24px;
 `;
 
 const ButtonContainer = styled.View`
   flexDirection: row;
   justifyContent: center;
   alignItems: center;
-`;
-
-const BalanceTitle = styled.Text`
-  font-size: 24px;
-  margin-bottom: 24px;
 `;
 
 const UsdBalance = styled.Text`
