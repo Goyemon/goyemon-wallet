@@ -1,7 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
-import { ScrollView, Text } from 'react-native';
-import { Button } from '../components/common/';
+import { Text } from 'react-native';
+import { RootContainer, Button, UntouchableCardContainer, HeaderOne, HeaderTwo } from '../components/common/';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import ethTx from "ethereumjs-tx";
@@ -44,40 +44,43 @@ class Confirmation extends Component {
     const total = gasPriceInEtherNumber + valueInEther;
 
     return (
-      <ScrollView>
-        <CardContainerWithoutFeedback>
-          <Text>From</Text>
+      <RootContainer>
+        <HeaderOne>Confirmation</HeaderOne>
+        <UntouchableCardContainer
+          alignItems="center"
+          flexDirection="column"
+          height="160px"
+          justifyContent="flex-start"
+          textAlign="left"
+          width="95%"
+         >
+          <HeaderTwo
+          fontSize="16px"
+          >
+            from
+          </HeaderTwo>
           <Text>{this.props.checksumAddress}</Text>
-        </CardContainerWithoutFeedback>
         <Text>↓</Text>
-        <CardContainerWithoutFeedback>
-          <Text>To</Text>
+          <HeaderTwo
+          fontSize="16px"
+          >
+           to
+          </HeaderTwo>
           <Text>{this.props.transactionObject.to}</Text>
-        </CardContainerWithoutFeedback>
+        </UntouchableCardContainer>
         <Text>Total {total} ETH</Text>
         <Text>Gas Fee {gasPriceInEther} ETH</Text>
         <ButtonContainer>
-          <Button text="Back" textColor="white" backgroundColor="grey" onPress={() => this.props.navigation.navigate('Send')} />
-          <Button text="Confirm" textColor="white" backgroundColor="#01d1e5" onPress={async () => {
+          <Button text="Back" textColor="white" backgroundColor="#EEE"  margin="8px" onPress={() => this.props.navigation.navigate('Send')} />
+          <Button text="Confirm" textColor="white" backgroundColor="#4083FF"  margin="8px" onPress={async () => {
             this.props.navigation.navigate('Ethereum')
             await this.sendSignedTx()
           }} />
         </ButtonContainer>
-      </ScrollView>
+      </RootContainer>
     );
   }
 }
-
-const CardContainerWithoutFeedback = styled.View`
-  width: 160px;
-  border-radius: 8px;
-  background: #FFF;
-  width: 360px;
-  height: 120px;
-  margin: 24px 16px;
-  text-align: left;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-`;
 
 const ButtonContainer = styled.View`
   flexDirection: row;
