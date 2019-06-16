@@ -21,8 +21,9 @@ class Ethereum extends Component {
   async componentDidMount() {
     const balanceInWei = await this.getBalance(this.props.checksumAddress);
     const balanceInEther = this.props.web3.utils.fromWei(balanceInWei);
+    const roundedBalanceInEther = parseFloat(balanceInEther).toFixed(4);
     await this.props.getExistingTransactions("1b5e2011e26B3051E4ad1936299c417eEDaCBF50");
-    this.setState({balance: balanceInEther});
+    this.setState({balance: roundedBalanceInEther});
     this.setState({usdBalance: this.getUsdBalance()});
   }
 
@@ -40,7 +41,8 @@ class Ethereum extends Component {
       const usdPrice = this.props.wallets[0].price;
       const ethBalance = parseFloat(this.state.balance);
       const usdBalance = usdPrice * ethBalance;
-      return usdBalance;
+      const roundedUsdBalance = parseFloat(usdBalance).toFixed(2);
+      return roundedUsdBalance;
     } catch(err) {
       console.error(err);
     }

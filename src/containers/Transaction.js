@@ -14,6 +14,12 @@ class Transaction extends Component {
     }
   }
 
+
+  renderRoundedValue() {
+    const roundedEthValue = parseFloat(this.props.transaction.value).toFixed(4);
+    return <Text>{roundedEthValue} ETH</Text>
+  }
+
   renderStatus() {
     if (this.props.transaction.status === 'pending') {
       return <Text>pending...</Text>;

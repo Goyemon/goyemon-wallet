@@ -36,7 +36,8 @@ class WalletList extends Component {
       const usdPrice = this.props.wallets[0].price;
       const parsedEthBalance = parseFloat(ethBalance);
       const usdBalance = usdPrice * parsedEthBalance;
-      return usdBalance;
+      const roundedUsdBalance = parseFloat(usdBalance).toFixed(2);
+      return roundedUsdBalance;
     } catch(err) {
       console.error(err);
     }

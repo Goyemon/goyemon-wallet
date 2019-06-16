@@ -15,7 +15,8 @@ class WalletDetail extends Component {
   async componentDidMount() {
     const newBalanceInWei = await this.getBalance(this.props.checksumAddress);
     const newBalanceInEther = this.props.web3.utils.fromWei(newBalanceInWei);
-    this.setState({balance: newBalanceInEther});
+    const roundedNewBalanceInEther = parseFloat(newBalanceInEther).toFixed(4);
+    this.setState({balance: roundedNewBalanceInEther});
   }
 
   async getBalance(address) {

@@ -7,7 +7,7 @@ export function getEthPrice() {
   return async function (dispatch) {
     try {
       const res = await axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD');
-      const ethprice = res.data.USD;
+      const ethprice = parseFloat(res.data.USD).toFixed(2);
       dispatch(getEthPriceSuccess(ethprice));
     } catch(err) {
       console.error(err);
@@ -24,7 +24,7 @@ export function getDaiPrice() {
   return async function (dispatch) {
     try {
       const res = await axios.get('https://min-api.cryptocompare.com/data/price?fsym=DAI&tsyms=USD');
-      const daiprice = res.data.USD;
+      const daiprice = parseFloat(res.data.USD).toFixed(2);
       dispatch(getDaiPriceSuccess(daiprice));
     } catch(err) {
       console.error(err);
