@@ -1,7 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
-import { ScrollView, View, Text } from 'react-native';
-import { Button } from '../components/common';
+import { View, Text } from 'react-native';
+import { RootContainer, Button, HeaderOne } from '../components/common';
 import { connect } from 'react-redux';
 import WalletController from '../wallet-core/WalletController.ts';
 import { saveWeb3 } from '../actions/ActionWeb3';
@@ -20,52 +20,73 @@ class VerifyMnemonic extends Component {
     const splitMnemonic = mnemonic.split(' ');
 
     return (
-      <View style={styles.textStyle}>
-        <MnemonicPhrasesContainer>
-          {splitMnemonic.map((splitMnemonic, id) => (
-            <MnemonicWord key={id}>{splitMnemonic} </MnemonicWord>
-          ))}
-        </MnemonicPhrasesContainer>
-        <Text>Did you really keep it safe already?</Text>
-        <Text>Do you swear for your mom?</Text>
-        <Button
-          text="Verify"
-          textColor="white"
-          backgroundColor="#01d1e5"
-          onPress={async () => {
-            await this.savePrivateKey();
-            await this.props.saveWeb3();
-            await this.props.getChecksumAddress();
-            await this.props.getEthPrice();
-            await this.props.getDaiPrice();
-            this.props.navigation.navigate('Wallets');
-          }}
-        />
-      </View>
+      <RootContainer>
+        <View>
+          <HeaderOne>
+            Create Wallet
+          </HeaderOne>
+        </View>
+        <Container>
+          <MnemonicPhrasesContainer style={styles.table}>
+            {splitMnemonic.map((splitMnemonic, id) => (
+              <MnemonicWordWrapper style={styles.cell} key={id}><Text style={styles.text}>{splitMnemonic}</Text></MnemonicWordWrapper>
+            ))}
+          </MnemonicPhrasesContainer>
+          <Text>Did you really keep it safe already?</Text>
+          <Button
+            text="Verify"
+            textColor="white"
+            backgroundColor="#4083FF"
+            margin="24px auto"
+            onPress={async () => {
+              await this.savePrivateKey();
+              await this.props.saveWeb3();
+              await this.props.getChecksumAddress();
+              await this.props.getEthPrice();
+              await this.props.getDaiPrice();
+              this.props.navigation.navigate('Wallets');
+            }}
+          />
+        </Container>
+      </RootContainer>
     );
   }
 }
 
 const styles = {
-  textStyle: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
+  table: {
+    flexWrap: 'wrap',
+    flexDirection: 'row'
+  },
+  cell: {
+    flexBasis: '25%',
+    flex: 1
+  },
+  text: {
+    fontSize: 16,
+    padding: 4,
+    textAlign: 'center',
   }
 };
 
-const MnemonicPhrasesContainer = styled.Text`
-  flexDirection: row;
-  justifyContent: center;
+const Container = styled.View`
+  flexDirection: column;
   alignItems: center;
-  margin: 16px;
+  justifyContent: center;
 `;
 
-const MnemonicWord = styled.Text`
-  border-radius: 8px;
-  border-color: #EEE
-  font-size: 16px;
-  margin: 4px;
+const MnemonicPhrasesContainer = styled.View`
+  margin-top: 24px;
+  margin-bottom: 24px;
+  width: 95%;
+`;
+
+const MnemonicWordWrapper = styled.View`
+  background: #FFF;
+  border-radius: 16px;
+  border-color: #F8F8F8;
+  border-width: 4px;
+  text-align: center;
 `;
 
 function mapStateToProps(state) {
