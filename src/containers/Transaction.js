@@ -1,19 +1,35 @@
 'use strict';
 import React, { Component } from 'react';
 import { Text, View, Linking, Image } from 'react-native';
-import { Card } from '../components/common';
+import { TouchableCardContainer } from '../components/common';
 import { connect } from "react-redux";
 import styled from 'styled-components';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 class Transaction extends Component {
   renderInOrOutTransactionIcon() {
     if (this.props.transaction.to === "0x1b5e2011e26b3051e4ad1936299c417eedacbf50") {
-      return <Text>↓</Text>;
+      return <Text><Icon name="call-received" size={16} color="#7ED321" /></Text>;
     } else if (this.props.transaction.to != "0x1b5e2011e26b3051e4ad1936299c417eedacbf50") {
-      return <Text>↑</Text>;
+      return <Text><Icon name="call-made" size={16} color="#D0021B" /></Text>;
     }
   }
 
+  renderAddress() {
+    if (this.props.transaction.to === "0x1b5e2011e26b3051e4ad1936299c417eedacbf50") {
+      return <Text></Text>;
+    } else if (this.props.transaction.to != "0x1b5e2011e26b3051e4ad1936299c417eedacbf50") {
+      return <Text>{this.props.transaction.to}</Text>;
+    }
+  }
+
+  renderPlusOrMinusTransactionIcon() {
+    if (this.props.transaction.to === "0x1b5e2011e26b3051e4ad1936299c417eedacbf50") {
+      return <Icon name="plus" size={16} color="#7ED321" />;
+    } else if (this.props.transaction.to != "0x1b5e2011e26b3051e4ad1936299c417eedacbf50") {
+      return <Icon name="minus" size={16} color="#D0021B" />;
+    }
+  }
 
   renderRoundedValue() {
     const roundedEthValue = parseFloat(this.props.transaction.value).toFixed(4);
@@ -33,21 +49,31 @@ class Transaction extends Component {
   }
 
   render() {
-    const { time, status, to, value } = this.props.transaction;
+    const { time } = this.props.transaction;
     const { TransactionListStyle, WalletStyleMiddleContainer, textStyle } = styles;
 
     return (
-      <Card>
+      <TouchableCardContainer
+        alignItems="center"
+        flexDirection="row"
+        height="96px"
+        justifyContent="center"
+        textAlign="left"
+        width="95%"
+       >
         <View style={TransactionListStyle}>
           <Text style={[WalletStyleMiddleContainer, textStyle]}>
             {this.renderInOrOutTransactionIcon()}
           </Text>
+          <Text style={[WalletStyleMiddleContainer, textStyle]}>{this.renderAddress()}</Text>
           <Text style={[WalletStyleMiddleContainer, textStyle]}>{time}</Text>
           <Text style={[WalletStyleMiddleContainer, textStyle]}>{this.renderStatus()}</Text>
-          <Text style={[WalletStyleMiddleContainer, textStyle]}>{to}</Text>
-          <Text style={[WalletStyleMiddleContainer, textStyle]}>{value} ETH</Text>
+          <Text style={[WalletStyleMiddleContainer, textStyle]}>
+            {this.renderPlusOrMinusTransactionIcon()}
+          </Text>
+          <Text>{this.renderRoundedValue()}</Text>
         </View>
-      </Card>
+      </TouchableCardContainer>
     );
   }
 }
