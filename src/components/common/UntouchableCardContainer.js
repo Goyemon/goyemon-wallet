@@ -1,0 +1,31 @@
+'use strict';
+import React from 'react';
+import styled from 'styled-components/native';
+
+const UntouchableCardContainer = props => (
+    <CardContainer
+       alignItems={props.alignItems}
+       flexDirection={props.flexDirection}
+       height={props.height}
+       justifyContent={props.justifyContent}
+       textAlign={props.textAlign}
+       width={props.width}
+     >
+      {props.children}
+    </CardContainer>
+);
+
+const CardContainer = styled.View`
+  alignItems: ${props => props.alignItems};
+  background: #FFF;
+  border-radius: 8px;
+  flexDirection: ${props => props.flexDirection};
+  height: ${props => props.height};
+  justifyContent: ${props => props.justifyContent};
+  margin: 16px auto;
+  padding: 16px;
+  text-align: ${props => props.textAlign};
+  width: ${props => props.width};
+`;
+
+export { UntouchableCardContainer };
