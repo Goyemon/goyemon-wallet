@@ -2,7 +2,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { ScrollView, TouchableOpacity, View, Text } from 'react-native';
+import { TouchableOpacity, View, Text } from 'react-native';
+import { RootContainer, TouchableCardContainer, HeaderOne, HeaderTwo } from '../components/common';
 import WalletDetail from '../containers/WalletDetail';
 import styled from 'styled-components';
 
@@ -51,13 +52,29 @@ class WalletList extends Component {
     };
 
     return (
-      <ScrollView>
+      <RootContainer>
+        <HeaderOne>Home</HeaderOne>
         <CardContainerWithoutFeedback>
-          <BalanceTitle>TOTAL BALANCE</BalanceTitle>
-          <UsdBalance>{this.state.usdBalance} USD</UsdBalance>
+          <HeaderTwo
+            fontSize="24px"
+           >
+            Total Balance
+          </HeaderTwo>
+          <UsdBalance>${this.state.usdBalance}</UsdBalance>
         </CardContainerWithoutFeedback>
+        <HeaderTwo
+          fontSize="16px"
+         >
+          Currency
+        </HeaderTwo>
         {wallets.map(wallet => (
-          <CardContainer
+          <TouchableCardContainer
+            alignItems="center"
+            flexDirection="column"
+            height="120px"
+            justifyContent="center"
+            textAlign="left"
+            width="95%"
             key={wallet.id}
             onPress={
               wallet.coin === 'Ether'
@@ -66,36 +83,20 @@ class WalletList extends Component {
             }
           >
             <WalletDetail key={wallet.id} wallet={wallet} />
-          </CardContainer>
+          </TouchableCardContainer>
         ))}
-      </ScrollView>
+        <View></View>
+      </RootContainer>
     );
   }
 }
 
-const CardContainer = styled.TouchableOpacity`
-  width: 160px;
-  border-radius: 8px;
-  background: #FFF;
-  width: 320px;
-  height: 120px;
-  margin: 24px 16px;
-  flexDirection: column;
-  justifyContent: center;
-  alignItems: center;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-`;
-
 const CardContainerWithoutFeedback = styled.View`
+  align-items: center;
   background: #FFF;
   height: 120px;
-  align-items: center;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-`;
-
-const BalanceTitle = styled.Text`
-  font-size: 24px;
-  margin-bottom: 24px;
+  margin-top: 24px;
+  padding: 24px;
 `;
 
 const UsdBalance = styled.Text`
