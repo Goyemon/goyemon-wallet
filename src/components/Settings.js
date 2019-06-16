@@ -1,17 +1,21 @@
 'use strict';
 import React, { Component } from 'react';
-import { View, Text, Image } from 'react-native';
+import { Text, Image } from 'react-native';
+import { RootContainer, HeaderOne } from '../components/common';
 import SettingsList from 'react-native-settings-list';
 
 export default class Settings extends Component {
   render() {
     return (
-      <View>
+      <RootContainer>
+        <HeaderOne>
+          Settings
+        </HeaderOne>
         <SettingsList borderColor='#c8c7cc' defaultItemSize={50}>
           <SettingsList.Header headerStyle={{marginTop:16}}/>
           <SettingsList.Header headerStyle={{marginTop:16}}/>
         </SettingsList>
-      </View>
+      </RootContainer>
     );
   }
 }
