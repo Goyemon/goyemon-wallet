@@ -138,6 +138,8 @@ android {
 }
 
 dependencies {
+    implementation project(':lottie-react-native')
+    implementation project(':react-native-vector-icons')
     implementation project(':react-native-firebase')
     implementation project(':react-native-os')
     implementation project(':react-native-gesture-handler')
