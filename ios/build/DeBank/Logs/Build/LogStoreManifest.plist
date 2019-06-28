@@ -5,6 +5,36 @@
 	<key>logFormatVersion</key>
 	<integer>9</integer>
 	<key>logs</key>
-	<dict/>
+	<dict>
+		<key>5C006A71-881A-4ADE-859B-DEE8E56B7DE1</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>5C006A71-881A-4ADE-859B-DEE8E56B7DE1.xcactivitylog</string>
+			<key>highLevelStatus</key>
+			<string>W</string>
+			<key>schemeIdentifier-containerName</key>
+			<string>DeBank project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>DeBank</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building workspace DeBank with scheme DeBank and configuration Debug</string>
+			<key>timeStartedRecording</key>
+			<real>583401354.58201003</real>
+			<key>timeStoppedRecording</key>
+			<real>583401362.60823298</real>
+			<key>title</key>
+			<string>Building workspace DeBank with scheme DeBank and configuration Debug</string>
+			<key>uniqueIdentifier</key>
+			<string>5C006A71-881A-4ADE-859B-DEE8E56B7DE1</string>
+		</dict>
+	</dict>
 </dict>
 </plist>
