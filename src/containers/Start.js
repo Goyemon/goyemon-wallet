@@ -3,46 +3,67 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { getMnemonic } from "../actions/ActionMnemonic";
 import styled from 'styled-components';
-import { ScrollView, View, Image } from 'react-native';
-import { Header } from '../components/common/';
+import { View, Image } from 'react-native';
+import { RootContainer, TouchableCardContainer, HeaderOne, HeaderTwo } from '../components/common/';
 
 class Start extends Component {
   render() {
     return (
-      <ScrollView>
-        <Header />
-        <Image source={require('../../assets/debank_logo.png')} />
-        <Title>a permissionless bank  in your pocket</Title>
-        <CardContainer button onPress={async () => {
-          await this.props.getMnemonic();
-          this.props.navigation.navigate('ShowMnemonic');
-        }}>
-          <View>
-            <CardText>
-              Create
-            </CardText>
-            <CardText>
-              new wallet
-            </CardText>
-          </View>
-          <View>
-            <CardImage source={require('../../assets/create_wallet_icon.png')}/>
-          </View>
-        </CardContainer>
-        <CardContainer button onPress={() => this.props.navigation.navigate('Import')}>
-          <View>
-            <CardText>
-              Import
-            </CardText>
-            <CardText>
-              existing wallet
-            </CardText>
-          </View>
-          <View>
-            <CardImage source={require('../../assets/create_wallet_icon.png')}/>
-          </View>
-        </CardContainer>
-      </ScrollView>
+      <RootContainer>
+        <Container>
+          <Logo>DeBank</Logo>
+          <OneLiner>a permissionless bank  in your pocket</OneLiner>
+          <TouchableCardContainer
+            alignItems="center"
+            flexDirection="row"
+            height="200px"
+            justifyContent="center"
+            textAlign="left"
+            width="90%"
+            onPress={async () => {
+              await this.props.getMnemonic();
+              this.props.navigation.navigate('ShowMnemonic');
+            }}
+           >
+            <View>
+              <HeaderTwo
+                fontSize="16px"
+               >
+                Create
+              </HeaderTwo>
+              <CardText>
+                new wallet
+              </CardText>
+            </View>
+            <View>
+              <CardImage source={require('../../assets/create_wallet_icon.png')}/>
+            </View>
+          </TouchableCardContainer>
+          <TouchableCardContainer
+            alignItems="center"
+            flexDirection="row"
+            height="200px"
+            justifyContent="center"
+            textAlign="left"
+            width="90%"
+            onPress={() => this.props.navigation.navigate('Import')}
+           >
+            <View>
+              <HeaderTwo
+                fontSize="16px"
+               >
+                Import
+              </HeaderTwo>
+              <CardText>
+                existing wallet
+              </CardText>
+            </View>
+            <View>
+              <CardImage source={require('../../assets/import_wallet_icon.png')}/>
+            </View>
+          </TouchableCardContainer>
+        </Container>
+      </RootContainer>
     );
   }
 }
