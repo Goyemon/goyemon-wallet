@@ -1,4 +1,4 @@
-package com.debank;
+package com.debank.app;
 
 import android.app.Application;
 
