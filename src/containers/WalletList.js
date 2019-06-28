@@ -6,6 +6,7 @@ import { TouchableOpacity, View, Text } from 'react-native';
 import { RootContainer, TouchableCardContainer, HeaderOne, HeaderTwo } from '../components/common';
 import WalletDetail from '../containers/WalletDetail';
 import styled from 'styled-components';
+import firebase from 'react-native-firebase';
 
 class WalletList extends Component {
   constructor(props) {
