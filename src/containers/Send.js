@@ -175,7 +175,8 @@ class Send extends Component {
           <Button
             text="Send"
             textColor="white"
-            backgroundColor="#01d1e5"
+            backgroundColor="#4083FF"
+            margin="24px auto"
             onPress={async () => {
               await this.validateForm();
             }}
@@ -186,33 +187,38 @@ class Send extends Component {
   }
 }
 
+const styles = {
+  noError: {
+    borderBottomWidth: 2,
+    borderBottomColor: '#EEE'
+  },
+  error: {
+    borderBottomWidth: 2,
+    borderBottomColor: 'red'
+  }
+};
+
+
+const TransactionFeeContainer = styled.View`
+  alignItems: center;
+  flexDirection: row;
+  justifyContent: center;
+`;
+
 const SelectedButton = styled.Text`
-  font-weight: 800;
+  color: #39C89E
 `;
 
 const UnselectedButton = styled.Text`
-  font-weight: 400;
-`;
-
-const CardContainerWithoutFeedback = styled.View`
-  width: 160px;
-  border-radius: 8px;
-  background: #fff;
-  width: 360px;
-  height: 160px;
-  margin: 24px 16px;
-  text-align: left;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-`;
-
-const TransactionFeeContainer = styled.View`
-  flexDirection: row;
-  justifyContent: center;
-  alignItems: center;
+  color: #000
 `;
 
 const ButtonWrapper = styled.View`
   alignItems: center;
+`;
+
+const ErrorMessage = styled.Text`
+  color: red;
 `;
 
 function mapStateToProps(state) {

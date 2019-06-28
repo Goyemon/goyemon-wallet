@@ -95,9 +95,9 @@ const styles = {
 };
 
 const Container = styled.View`
+  alignItems: center;
   flexDirection: row;
   justifyContent: center;
-  alignItems: center;
 `;
 
 const mapStateToProps = state => {

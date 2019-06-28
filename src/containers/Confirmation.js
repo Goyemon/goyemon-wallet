@@ -83,9 +83,9 @@ class Confirmation extends Component {
 }
 
 const ButtonContainer = styled.View`
+  alignItems: center;
   flexDirection: row;
   justifyContent: center;
-  alignItems: center;
 `;
 
 function mapStateToProps(state) {

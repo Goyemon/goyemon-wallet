@@ -54,24 +54,42 @@ class Import extends Component {
   }
 }
 
-const Container = styled.ScrollView`
-  font-size: 40px;
-`;
+const styles = {
+  table: {
+    flexWrap: 'wrap',
+    flexDirection: 'row'
+  },
+  cell: {
+    flexBasis: '25%',
+    flex: 1,
+    marginBottom: 8
+  }
+};
 
-const Title = styled.Text`
-  font-size: 32px;
-`;
-
-const TextInputContainer = styled.View`
+const Container = styled.View`
+  alignItems: center;
   flexDirection: column;
   justifyContent: center;
-  alignItems: center;
+`;
+
+const MnemonicPhrasesContainer = styled.View`
+  margin-bottom: 24px;
+  margin-top: 24px;
+  width: 95%;
+`;
+
+const MnemonicWordWrapper = styled.View`
+  background: #FFF;
+  border-color: #F8F8F8;
+  border-radius: 16px;
+  border-width: 4px;
+  text-align: center;
 `;
 
 const ButtonContainer = styled.View`
+  alignItems: center;
   flexDirection: row;
   justifyContent: center;
-  alignItems: center;
 `;
 
 const mapDispatchToProps = {

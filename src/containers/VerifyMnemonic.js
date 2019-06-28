@@ -70,8 +70,8 @@ const styles = {
 };
 
 const Container = styled.View`
-  flexDirection: column;
   alignItems: center;
+  flexDirection: column;
   justifyContent: center;
 `;
 

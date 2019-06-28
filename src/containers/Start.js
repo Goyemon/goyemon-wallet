@@ -47,35 +47,27 @@ class Start extends Component {
   }
 }
 
-
 const Container = styled.ScrollView.attrs(props => ({
   contentContainerStyle: props => {
     return {
+      alignItems: 'center',
       flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center'
+      justifyContent: 'center'
     }
   }
 }))``
 
-const Title = styled.Text`
-  font-size: 32px;
-  margin: 16px;
+const Logo = styled.Text`
+  font-size: 48px;
+  font-family: 'Arimo';
+  margin-top: 96px;
   text-align: center;
 `;
 
-const CardContainer = styled.TouchableOpacity`
-  width: 160px;
-  border-radius: 8px;
-  background: #FFF;
-  width: 320px;
-  height: 200px;
-  margin: 24px 16px;
+const OneLiner = styled.Text`
+  font-size: 32px;
+  margin: 16px;
   text-align: center;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-  flexDirection: row;
-  justifyContent: center;
-  alignItems: center;
 `;
 
 const CardText = styled.Text`

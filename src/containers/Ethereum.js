@@ -98,9 +98,9 @@ const CardContainerWithoutFeedback = styled.View`
 `;
 
 const ButtonContainer = styled.View`
+  alignItems: center;
   flexDirection: row;
   justifyContent: center;
-  alignItems: center;
 `;
 
 const UsdBalance = styled.Text`
