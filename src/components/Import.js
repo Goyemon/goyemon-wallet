@@ -1,10 +1,9 @@
 'use strict';
 import React, { Component } from 'react';
 import { View, TextInput, Text } from 'react-native';
-import { Header } from './common';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-import { Button } from '../components/common';
+import { RootContainer, Button, HeaderOne } from '../components/common';
 import { saveWeb3 } from '../actions/ActionWeb3';
 import { getChecksumAddress } from '../actions/ActionChecksumAddress';
 
@@ -26,30 +25,40 @@ class Import extends Component {
 
   render() {
     return (
-      <Container>
-        <Title>Enter the backup phrases for the wallet you want to import</Title>
-        {this.state.mnemonicPhrases.map((word, id) => (
-          <TextInputContainer key={id}>
-              <TextInput
-                placeholder = "word"
-                autoCapitalize = 'none'
-                maxLength = {15}
-                onChangeText = {(text) => {this.handleTextChange(text, id)} }
-              />
-              <Text>{id + 1}</Text>
-          </TextInputContainer>
-        ))}
-        <ButtonContainer>
-          <Button
-            text="go"
-            textColor="white"
-            backgroundColor="#01d1e5"
-            onPress={async () => {
-              await this.validateForm()
-            }}
-          />
-        </ButtonContainer>
-      </Container>
+      <RootContainer>
+        <Container>
+          <HeaderOne>
+            Import Wallet
+          </HeaderOne>
+          <Text>Enter the backup phrases for the wallet you want to import</Text>
+          <MnemonicPhrasesContainer style={styles.table}>
+          {this.state.mnemonicPhrases.map((word, id) => (
+            <View style={styles.cell} key={id}>
+              <MnemonicWordWrapper>
+                <TextInput
+                  style={{textAlign: 'center', padding: 4}}
+                  placeholder={id + 1}
+                  autoCapitalize='none'
+                  maxLength={15}
+                  onChangeText={(text) => {this.handleTextChange(text, id)} }
+                />
+              </MnemonicWordWrapper>
+            </View>
+          ))}
+          </MnemonicPhrasesContainer>
+          <ButtonContainer>
+            <Button
+              text="go"
+              textColor="white"
+              backgroundColor="#4083FF"
+              margin="24px auto"
+              onPress={async () => {
+                await this.validateForm()
+              }}
+            />
+          </ButtonContainer>
+        </Container>
+      </RootContainer>
     );
   }
 }
