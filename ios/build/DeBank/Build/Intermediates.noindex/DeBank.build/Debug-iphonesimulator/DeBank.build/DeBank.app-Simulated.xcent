@@ -3,10 +3,8 @@
 <plist version="1.0">
 <dict>
 	<key>application-identifier</key>
-	<string>UB87ZVZL7R.org.reactjs.native.example.DeBank</string>
-	<key>keychain-access-groups</key>
-	<array>
-		<string>UB87ZVZL7R.org.reactjs.native.example.DeBank</string>
-	</array>
+	<string>UB87ZVZL7R.com.debank.app</string>
+	<key>aps-environment</key>
+	<string>development</string>
 </dict>
 </plist>

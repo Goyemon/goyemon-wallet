@@ -15,7 +15,6 @@
 		00E356F31AD99517003FC87E /* DeBankTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* DeBankTests.m */; };
 		03EF4E1267C1483F8A93B8C1 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 00690E8E88184FBF98F70AE9 /* Zocial.ttf */; };
 		11D1A2F320CAFA9E000508D9 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
-		12EC22D400DFE21200010F51 /* libPods-DeBank.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 069CA03A4DED72252B9EAB5F /* libPods-DeBank.a */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
@@ -27,45 +26,40 @@
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		1B2704ADC139464AA8FBA9A1 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E85A743437C5455CAC37321B /* FontAwesome.ttf */; };
 		1F1C0AC7717940E9B0A667D3 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA6E5484C6714C5F8CD08B88 /* EvilIcons.ttf */; };
-		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		2D02E4C21E0B4AEC006451C7 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157351DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
-		2D02E4C31E0B4AEC006451C7 /* libRCTImage-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E841DF850E9000B6D8A /* libRCTImage-tvOS.a */; };
-		2D02E4C41E0B4AEC006451C7 /* libRCTLinking-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E881DF850E9000B6D8A /* libRCTLinking-tvOS.a */; };
-		2D02E4C51E0B4AEC006451C7 /* libRCTNetwork-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E8C1DF850E9000B6D8A /* libRCTNetwork-tvOS.a */; };
-		2D02E4C61E0B4AEC006451C7 /* libRCTSettings-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E901DF850E9000B6D8A /* libRCTSettings-tvOS.a */; };
-		2D02E4C71E0B4AEC006451C7 /* libRCTText-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E941DF850E9000B6D8A /* libRCTText-tvOS.a */; };
-		2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E991DF850E9000B6D8A /* libRCTWebSocket-tvOS.a */; };
-		2D16E6881FA4F8E400B85C8A /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D16E6891FA4F8E400B85C8A /* libReact.a */; };
-		2DCD954D1E0B4F2C00145EB5 /* DeBankTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* DeBankTests.m */; };
-		2DF0FFEE2056DD460020B375 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
 		317E2BF4B7614040A1F64C40 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ADF84974C28349248756C641 /* SimpleLineIcons.ttf */; };
 		3305BCA322B2696B0010C8BD /* Arimo-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3305BC7422B2696B0010C8BD /* Arimo-Regular.ttf */; };
 		3305BCA422B2696B0010C8BD /* Arimo-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3305BCA222B2696B0010C8BD /* Arimo-Bold.ttf */; };
-		332536EF229AA10D00097C1C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 332536C2229AA10D00097C1C /* GoogleService-Info.plist */; };
-		337FE3FE22A2065D00E4E306 /* react-native-gesture-handler in Resources */ = {isa = PBXBuildFile; fileRef = 337FE3FD22A2065D00E4E306 /* react-native-gesture-handler */; };
-		337FE3FF22A2068000E4E306 /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33C13AB4228A4FB500381580 /* libRNGestureHandler.a */; };
-		337FE40122A206B400E4E306 /* react-native-keychain in Resources */ = {isa = PBXBuildFile; fileRef = 337FE40022A206B400E4E306 /* react-native-keychain */; };
-		337FE40222A206BE00E4E306 /* libRNKeychain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33C13ABA228A4FB500381580 /* libRNKeychain.a */; };
-		337FE40422A206FA00E4E306 /* react-native-randombytes in Resources */ = {isa = PBXBuildFile; fileRef = 337FE40322A206FA00E4E306 /* react-native-randombytes */; };
-		337FE40522A2070000E4E306 /* libRNRandomBytes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33C13AC3228A4FB500381580 /* libRNRandomBytes.a */; };
-		3A509CEB564F07DDDC2E8BFC /* libPods-DeBankTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AD7BEEE1FEDE164FBE64980 /* libPods-DeBankTests.a */; };
-		3FCC13FAEBBE0E12745FE551 /* libPods-DeBank-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 562276DF8E6A917966E9A6BD /* libPods-DeBank-tvOSTests.a */; };
+		33112DFD22C0EF3B004CD15B /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33892D6F22BB2CC200D9F8F4 /* JavaScriptCore.framework */; };
+		33489E8022BB25110011677D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 33489E7F22BB25110011677D /* Default-568h@2x.png */; };
+		33589AAA22BB672900C1C6C3 /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33589A9622BB60CD00C1C6C3 /* libRNFirebase.a */; };
+		33892D7222BB2D0C00D9F8F4 /* FirebaseMessaging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33892D7022BB2D0C00D9F8F4 /* FirebaseMessaging.framework */; };
+		33892D7E22BB2D1A00D9F8F4 /* nanopb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33892D7622BB2D1A00D9F8F4 /* nanopb.framework */; };
+		33892D8022BB2D1A00D9F8F4 /* FirebaseInstanceID.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33892D7822BB2D1A00D9F8F4 /* FirebaseInstanceID.framework */; };
+		339DF84F22C04DF300098626 /* FirebaseCoreDiagnostics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 339DF84C22C04DF300098626 /* FirebaseCoreDiagnostics.framework */; };
+		339DF85022C04DF300098626 /* FirebaseAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 339DF84D22C04DF300098626 /* FirebaseAnalytics.framework */; };
+		339DF85122C04DF300098626 /* FIRAnalyticsConnector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 339DF84E22C04DF300098626 /* FIRAnalyticsConnector.framework */; };
+		339DF85322C04E0B00098626 /* GoogleAppMeasurement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 339DF85222C04E0A00098626 /* GoogleAppMeasurement.framework */; };
+		33A27D6422BF5DF200BECF88 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 33A27D6322BF5DF100BECF88 /* GoogleService-Info.plist */; };
+		33F896E022C1C87D00679DD3 /* Pods_DeBank.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33F896DF22C1C87D00679DD3 /* Pods_DeBank.framework */; };
+		33F896E222C1C8E800679DD3 /* Protobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33F896E122C1C8E800679DD3 /* Protobuf.framework */; };
+		33F896E422C1C8ED00679DD3 /* GoogleUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33F896E322C1C8ED00679DD3 /* GoogleUtilities.framework */; };
+		33F896E522C1DCB900679DD3 /* libRNKeychain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33FB2D0722BA31550028E1F0 /* libRNKeychain.a */; };
+		33F896E622C1DCE400679DD3 /* libRNRandomBytes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33FB2CFE22BA31350028E1F0 /* libRNRandomBytes.a */; };
+		33F896E722C1DD2D00679DD3 /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33FB2D1022BA316C0028E1F0 /* libRNGestureHandler.a */; };
+		33FAE28122C19F4700CBE614 /* FirebaseCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33FAE28022C19F4600CBE614 /* FirebaseCore.framework */; };
 		4340046CC20941D6BBB8E30B /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1878C5A942254020A5A4C251 /* Foundation.ttf */; };
 		4391E0FD62AF4EACAB0EE2FA /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 08A4CCF072624933BCEC7820 /* Feather.ttf */; };
 		5F0BD869CF944791A067BDF7 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 48066EBE20A543EDBFFBB4D4 /* FontAwesome5_Solid.ttf */; };
-		6396ACE5E3B0E81FB43A0AFF /* libPods-DeBank-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 573F8F4A56244B6FC3A850A1 /* libPods-DeBank-tvOS.a */; };
 		766F6E5FFBBE4A1A9F3AF967 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5065E9C717284CBCBE41BFD4 /* Ionicons.ttf */; };
 		7BB0C92AAB374EA1BA5669C3 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC91071D060549EF95D41B7D /* MaterialIcons.ttf */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		8DAE05B1A7054A50A5C1670D /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA02A617D8EE47589FA84B2D /* Entypo.ttf */; };
 		A15F6F7FDB384C3594676555 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 999978FB67E04CA9B071564B /* FontAwesome5_Regular.ttf */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
+		B5831B0577527BC51678E358 /* Pods_DeBankTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B76905730B6775A8CB8DDFD /* Pods_DeBankTests.framework */; };
 		BC07205977684E5F94D2C423 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D31D719D880E4E78A24A31D4 /* AntDesign.ttf */; };
 		C83211D6613944FE857587DE /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D1956C8D0FD64ADA8FBE507E /* MaterialCommunityIcons.ttf */; };
 		DBD2693DA4764411BDFCBA9F /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3AF916AC322542DCAE3CC350 /* Octicons.ttf */; };
-		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 		FC5B84EE25454900B7B1F97A /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9BE7391C6D33474AA1552A69 /* FontAwesome5_Brands.ttf */; };
 /* End PBXBuildFile section */
 
@@ -133,13 +127,6 @@
 			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
 			remoteInfo = React;
 		};
-		2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
-			remoteInfo = "DeBank-tvOS";
-		};
 		2D16E6711FA4F8DC00B85C8A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */;
@@ -203,6 +190,13 @@
 			remoteGlobalIDString = 3D383D621EBD27B9005632C8;
 			remoteInfo = "double-conversion-tvOS";
 		};
+		33589A9522BB60CD00C1C6C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 33589A9122BB60CC00C1C6C3 /* RNFirebase.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNFirebase;
+		};
 		33C13AA1228A4FB300381580 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
@@ -231,34 +225,6 @@
 			remoteGlobalIDString = ED296FEE214C9CF800B7C4FE;
 			remoteInfo = "jsiexecutor-tvOS";
 		};
-		33C13AB3228A4FB500381580 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A450408C90DF4C94AC99B020 /* RNGestureHandler.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RNGestureHandler;
-		};
-		33C13AB5228A4FB500381580 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A450408C90DF4C94AC99B020 /* RNGestureHandler.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = B5C32A36220C603B000FFB8D;
-			remoteInfo = "RNGestureHandler-tvOS";
-		};
-		33C13AB9228A4FB500381580 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 38373AD81665449CA2C926C3 /* RNKeychain.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 5D82366F1B0CE05B005A9EF3;
-			remoteInfo = RNKeychain;
-		};
-		33C13ABB228A4FB500381580 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 38373AD81665449CA2C926C3 /* RNKeychain.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6478985F1F38BF9100DA1C12;
-			remoteInfo = "RNKeychain-tvOS";
-		};
 		33C13ABE228A4FB500381580 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C7B40B6F4310458889EDD189 /* RNOS.xcodeproj */;
@@ -266,26 +232,47 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNOS;
 		};
-		33C13AC2228A4FB500381580 /* PBXContainerItemProxy */ = {
+		33FB2CFD22BA31350028E1F0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 7690F1E4F28B4BF0971D0D38 /* RNRandomBytes.xcodeproj */;
+			containerPortal = 33FB2CF822BA31350028E1F0 /* RNRandomBytes.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 73EEC9391BFE4B1D00D468EB;
 			remoteInfo = RNRandomBytes;
 		};
-		33C13AC4228A4FB500381580 /* PBXContainerItemProxy */ = {
+		33FB2CFF22BA31350028E1F0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 7690F1E4F28B4BF0971D0D38 /* RNRandomBytes.xcodeproj */;
+			containerPortal = 33FB2CF822BA31350028E1F0 /* RNRandomBytes.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 163CDE4E2087CAD3001065FB;
 			remoteInfo = "RNRandomBytes-tvOS";
 		};
-		33F17C04229CD48200B6263A /* PBXContainerItemProxy */ = {
+		33FB2D0622BA31550028E1F0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 75A6D6F294B8447FB803ED99 /* RNFirebase.xcodeproj */;
+			containerPortal = 33FB2D0122BA31550028E1F0 /* RNKeychain.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5D82366F1B0CE05B005A9EF3;
+			remoteInfo = RNKeychain;
+		};
+		33FB2D0822BA31550028E1F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 33FB2D0122BA31550028E1F0 /* RNKeychain.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6478985F1F38BF9100DA1C12;
+			remoteInfo = "RNKeychain-tvOS";
+		};
+		33FB2D0F22BA316C0028E1F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 33FB2D0A22BA316C0028E1F0 /* RNGestureHandler.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RNFirebase;
+			remoteInfo = RNGestureHandler;
+		};
+		33FB2D1122BA316C0028E1F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 33FB2D0A22BA316C0028E1F0 /* RNGestureHandler.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B5C32A36220C603B000FFB8D;
+			remoteInfo = "RNGestureHandler-tvOS";
 		};
 		3DAD3E831DF850E9000B6D8A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -411,10 +398,7 @@
 		00E356EE1AD99517003FC87E /* DeBankTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DeBankTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* DeBankTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeBankTests.m; sourceTree = "<group>"; };
-		069CA03A4DED72252B9EAB5F /* libPods-DeBank.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-DeBank.a"; path = "../../../../../../../../../Users/tai/Library/Developer/Xcode/DerivedData/DeBank-cxqcimxemymxqocodvnctpwaxlhj/Build/Products/Debug-iphoneos/libPods-DeBank.a"; sourceTree = SDKROOT; };
 		08A4CCF072624933BCEC7820 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
-		0D5394F1088F1835FDDCAE2D /* Pods-DeBank-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DeBank-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-DeBank-tvOSTests/Pods-DeBank-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		120D6741AAA0B42CDCBBDB34 /* Pods-DeBank-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DeBank-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-DeBank-tvOSTests/Pods-DeBank-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* DeBank.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeBank.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -426,46 +410,53 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = DeBank/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		1878C5A942254020A5A4C251 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
-		1AD7BEEE1FEDE164FBE64980 /* libPods-DeBankTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-DeBankTests.a"; path = "../../../../../../../../../Users/tai/Library/Developer/Xcode/DerivedData/DeBank-cxqcimxemymxqocodvnctpwaxlhj/Build/Products/Debug-iphoneos/libPods-DeBankTests.a"; sourceTree = SDKROOT; };
-		2D02E47B1E0B4A5D006451C7 /* DeBank-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DeBank-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D02E4901E0B4A5D006451C7 /* DeBank-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "DeBank-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; name = libReact.a; path = "../../../../../../../../../Users/tai/Library/Developer/Xcode/DerivedData/DeBank-cxqcimxemymxqocodvnctpwaxlhj/Build/Products/Debug-iphoneos/libReact.a"; sourceTree = SDKROOT; };
 		3305BC7422B2696B0010C8BD /* Arimo-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Arimo-Regular.ttf"; path = "Fonts/Arimo-Regular.ttf"; sourceTree = "<group>"; };
 		3305BCA222B2696B0010C8BD /* Arimo-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Arimo-Bold.ttf"; path = "Fonts/Arimo-Bold.ttf"; sourceTree = "<group>"; };
-		332536C2229AA10D00097C1C /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "DeBank/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		337FE3FD22A2065D00E4E306 /* react-native-gesture-handler */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "react-native-gesture-handler"; path = "../node_modules/react-native-gesture-handler"; sourceTree = "<group>"; };
-		337FE40022A206B400E4E306 /* react-native-keychain */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "react-native-keychain"; path = "../node_modules/react-native-keychain"; sourceTree = "<group>"; };
-		337FE40322A206FA00E4E306 /* react-native-randombytes */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "react-native-randombytes"; path = "../node_modules/react-native-randombytes"; sourceTree = "<group>"; };
-		38373AD81665449CA2C926C3 /* RNKeychain.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNKeychain.xcodeproj; path = "../node_modules/react-native-keychain/RNKeychain.xcodeproj"; sourceTree = "<group>"; };
+		33489E7F22BB25110011677D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		33589A9122BB60CC00C1C6C3 /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFirebase.xcodeproj; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; };
+		33892D6F22BB2CC200D9F8F4 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		33892D7022BB2D0C00D9F8F4 /* FirebaseMessaging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseMessaging.framework; path = Firebase/Messaging/FirebaseMessaging.framework; sourceTree = SOURCE_ROOT; };
+		33892D7122BB2D0C00D9F8F4 /* Protobuf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Protobuf.framework; path = Firebase/Messaging/Protobuf.framework; sourceTree = SOURCE_ROOT; };
+		33892D7522BB2D1A00D9F8F4 /* GoogleUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleUtilities.framework; path = Firebase/Analytics/GoogleUtilities.framework; sourceTree = SOURCE_ROOT; };
+		33892D7622BB2D1A00D9F8F4 /* nanopb.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = nanopb.framework; path = Firebase/Analytics/nanopb.framework; sourceTree = SOURCE_ROOT; };
+		33892D7822BB2D1A00D9F8F4 /* FirebaseInstanceID.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseInstanceID.framework; path = Firebase/Analytics/FirebaseInstanceID.framework; sourceTree = SOURCE_ROOT; };
+		33892D7A22BB2D1A00D9F8F4 /* FirebaseCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseCore.framework; path = Firebase/Analytics/FirebaseCore.framework; sourceTree = SOURCE_ROOT; };
+		339DF84C22C04DF300098626 /* FirebaseCoreDiagnostics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseCoreDiagnostics.framework; path = Pods/FirebaseAnalytics/Frameworks/FirebaseCoreDiagnostics.framework; sourceTree = SOURCE_ROOT; };
+		339DF84D22C04DF300098626 /* FirebaseAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseAnalytics.framework; path = Pods/FirebaseAnalytics/Frameworks/FirebaseAnalytics.framework; sourceTree = SOURCE_ROOT; };
+		339DF84E22C04DF300098626 /* FIRAnalyticsConnector.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FIRAnalyticsConnector.framework; path = Pods/FirebaseAnalytics/Frameworks/FIRAnalyticsConnector.framework; sourceTree = SOURCE_ROOT; };
+		339DF85222C04E0A00098626 /* GoogleAppMeasurement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleAppMeasurement.framework; path = Pods/GoogleAppMeasurement/Frameworks/GoogleAppMeasurement.framework; sourceTree = SOURCE_ROOT; };
+		33A27D2422BF589500BECF88 /* DeBank.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = DeBank.entitlements; path = DeBank/DeBank.entitlements; sourceTree = "<group>"; };
+		33A27D6322BF5DF100BECF88 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		33F896DF22C1C87D00679DD3 /* Pods_DeBank.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_DeBank.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		33F896E122C1C8E800679DD3 /* Protobuf.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Protobuf.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		33F896E322C1C8ED00679DD3 /* GoogleUtilities.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = GoogleUtilities.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		33FAE28022C19F4600CBE614 /* FirebaseCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseCore.framework; path = "build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseCore/FirebaseCore.framework"; sourceTree = SOURCE_ROOT; };
+		33FB2CF822BA31350028E1F0 /* RNRandomBytes.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNRandomBytes.xcodeproj; path = "../node_modules/react-native-randombytes/RNRandomBytes.xcodeproj"; sourceTree = "<group>"; };
+		33FB2D0122BA31550028E1F0 /* RNKeychain.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNKeychain.xcodeproj; path = "../node_modules/react-native-keychain/RNKeychain.xcodeproj"; sourceTree = "<group>"; };
+		33FB2D0A22BA316C0028E1F0 /* RNGestureHandler.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNGestureHandler.xcodeproj; path = "../node_modules/react-native-gesture-handler/ios/RNGestureHandler.xcodeproj"; sourceTree = "<group>"; };
 		3AF916AC322542DCAE3CC350 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		48066EBE20A543EDBFFBB4D4 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
-		4A76C022315BC5BBFF3039F3 /* Pods-DeBank-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DeBank-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-DeBank-tvOS/Pods-DeBank-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		4B76905730B6775A8CB8DDFD /* Pods_DeBankTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DeBankTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C3AB05022E8D964FFCC7307 /* Pods-DeBankTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DeBankTests.release.xcconfig"; path = "Target Support Files/Pods-DeBankTests/Pods-DeBankTests.release.xcconfig"; sourceTree = "<group>"; };
 		5065E9C717284CBCBE41BFD4 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
-		562276DF8E6A917966E9A6BD /* libPods-DeBank-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-DeBank-tvOSTests.a"; path = "../../../../../../../../../Users/tai/Library/Developer/Xcode/DerivedData/DeBank-cxqcimxemymxqocodvnctpwaxlhj/Build/Products/Debug-iphoneos/libPods-DeBank-tvOSTests.a"; sourceTree = SDKROOT; };
-		573F8F4A56244B6FC3A850A1 /* libPods-DeBank-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-DeBank-tvOS.a"; path = "../../../../../../../../../Users/tai/Library/Developer/Xcode/DerivedData/DeBank-cxqcimxemymxqocodvnctpwaxlhj/Build/Products/Debug-iphoneos/libPods-DeBank-tvOS.a"; sourceTree = SDKROOT; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
-		6ED3529809E0744007811ED9 /* Pods-DeBank.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DeBank.debug.xcconfig"; path = "Target Support Files/Pods-DeBank/Pods-DeBank.debug.xcconfig"; sourceTree = "<group>"; };
-		75A6D6F294B8447FB803ED99 /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFirebase.xcodeproj; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; };
-		7690F1E4F28B4BF0971D0D38 /* RNRandomBytes.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNRandomBytes.xcodeproj; path = "../node_modules/react-native-randombytes/RNRandomBytes.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
-		808AEA1B050846372EF35878 /* Pods-DeBankTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DeBankTests.debug.xcconfig"; path = "Target Support Files/Pods-DeBankTests/Pods-DeBankTests.debug.xcconfig"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
-		9720BD4CDAF099B16C2DC7E5 /* Pods-DeBankTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DeBankTests.release.xcconfig"; path = "Target Support Files/Pods-DeBankTests/Pods-DeBankTests.release.xcconfig"; sourceTree = "<group>"; };
 		999978FB67E04CA9B071564B /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		9BE7391C6D33474AA1552A69 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
-		9D1CFA2D03890A5B759B4D0E /* Pods-DeBank-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DeBank-tvOS.release.xcconfig"; path = "Target Support Files/Pods-DeBank-tvOS/Pods-DeBank-tvOS.release.xcconfig"; sourceTree = "<group>"; };
-		A450408C90DF4C94AC99B020 /* RNGestureHandler.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNGestureHandler.xcodeproj; path = "../node_modules/react-native-gesture-handler/ios/RNGestureHandler.xcodeproj"; sourceTree = "<group>"; };
+		A7440C275568D04DB730C3AF /* Pods-DeBank.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DeBank.debug.xcconfig"; path = "Target Support Files/Pods-DeBank/Pods-DeBank.debug.xcconfig"; sourceTree = "<group>"; };
 		AA6E5484C6714C5F8CD08B88 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		AC91071D060549EF95D41B7D /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		ADF84974C28349248756C641 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
+		B179D22ACD5F62536EEE73C8 /* Pods-DeBankTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DeBankTests.debug.xcconfig"; path = "Target Support Files/Pods-DeBankTests/Pods-DeBankTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C7B40B6F4310458889EDD189 /* RNOS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNOS.xcodeproj; path = "../node_modules/react-native-os/ios/RNOS.xcodeproj"; sourceTree = "<group>"; };
 		CA02A617D8EE47589FA84B2D /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		D1956C8D0FD64ADA8FBE507E /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		D31D719D880E4E78A24A31D4 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
+		D84D82A5676FD81D65788CFE /* Pods-DeBank.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DeBank.release.xcconfig"; path = "Target Support Files/Pods-DeBank/Pods-DeBank.release.xcconfig"; sourceTree = "<group>"; };
 		E85A743437C5455CAC37321B /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
-		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		F3B75B1284AE0911F824E9FB /* Pods-DeBank.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DeBank.release.xcconfig"; path = "Target Support Files/Pods-DeBank/Pods-DeBank.release.xcconfig"; sourceTree = "<group>"; };
+		F0A76C4C4BD93F9E50275272 /* Pods_DeBank.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DeBank.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -474,7 +465,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */,
-				3A509CEB564F07DDDC2E8BFC /* libPods-DeBankTests.a in Frameworks */,
+				B5831B0577527BC51678E358 /* Pods_DeBankTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -482,48 +473,34 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				337FE40522A2070000E4E306 /* libRNRandomBytes.a in Frameworks */,
-				337FE40222A206BE00E4E306 /* libRNKeychain.a in Frameworks */,
-				337FE3FF22A2068000E4E306 /* libRNGestureHandler.a in Frameworks */,
-				ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */,
+				33F896E722C1DD2D00679DD3 /* libRNGestureHandler.a in Frameworks */,
+				33F896E622C1DCE400679DD3 /* libRNRandomBytes.a in Frameworks */,
+				33F896E522C1DCB900679DD3 /* libRNKeychain.a in Frameworks */,
+				33F896E422C1C8ED00679DD3 /* GoogleUtilities.framework in Frameworks */,
+				33F896E222C1C8E800679DD3 /* Protobuf.framework in Frameworks */,
+				33F896E022C1C87D00679DD3 /* Pods_DeBank.framework in Frameworks */,
+				33FAE28122C19F4700CBE614 /* FirebaseCore.framework in Frameworks */,
+				33112DFD22C0EF3B004CD15B /* JavaScriptCore.framework in Frameworks */,
+				339DF85322C04E0B00098626 /* GoogleAppMeasurement.framework in Frameworks */,
+				339DF84F22C04DF300098626 /* FirebaseCoreDiagnostics.framework in Frameworks */,
+				339DF85022C04DF300098626 /* FirebaseAnalytics.framework in Frameworks */,
+				339DF85122C04DF300098626 /* FIRAnalyticsConnector.framework in Frameworks */,
+				33589AAA22BB672900C1C6C3 /* libRNFirebase.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				11D1A2F320CAFA9E000508D9 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
+				33892D7E22BB2D1A00D9F8F4 /* nanopb.framework in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
+				33892D8022BB2D1A00D9F8F4 /* FirebaseInstanceID.framework in Frameworks */,
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
+				33892D7222BB2D0C00D9F8F4 /* FirebaseMessaging.framework in Frameworks */,
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
 				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
-				12EC22D400DFE21200010F51 /* libPods-DeBank.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2D02E4781E0B4A5D006451C7 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2D16E6881FA4F8E400B85C8A /* libReact.a in Frameworks */,
-				2D02E4C21E0B4AEC006451C7 /* libRCTAnimation.a in Frameworks */,
-				2D02E4C31E0B4AEC006451C7 /* libRCTImage-tvOS.a in Frameworks */,
-				2D02E4C41E0B4AEC006451C7 /* libRCTLinking-tvOS.a in Frameworks */,
-				2D02E4C51E0B4AEC006451C7 /* libRCTNetwork-tvOS.a in Frameworks */,
-				2D02E4C61E0B4AEC006451C7 /* libRCTSettings-tvOS.a in Frameworks */,
-				2D02E4C71E0B4AEC006451C7 /* libRCTText-tvOS.a in Frameworks */,
-				2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */,
-				6396ACE5E3B0E81FB43A0AFF /* libPods-DeBank-tvOS.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2D02E48D1E0B4A5D006451C7 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2DF0FFEE2056DD460020B375 /* libReact.a in Frameworks */,
-				3FCC13FAEBBE0E12745FE551 /* libPods-DeBank-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -612,6 +589,7 @@
 		13B07FAE1A68108700A75B9A /* DeBank */ = {
 			isa = PBXGroup;
 			children = (
+				33A27D2422BF589500BECF88 /* DeBank.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -645,51 +623,54 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
+		152DB9540EA6A54A51C1526F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				2D16E6891FA4F8E400B85C8A /* libReact.a */,
-				069CA03A4DED72252B9EAB5F /* libPods-DeBank.a */,
-				573F8F4A56244B6FC3A850A1 /* libPods-DeBank-tvOS.a */,
-				562276DF8E6A917966E9A6BD /* libPods-DeBank-tvOSTests.a */,
-				1AD7BEEE1FEDE164FBE64980 /* libPods-DeBankTests.a */,
+				A7440C275568D04DB730C3AF /* Pods-DeBank.debug.xcconfig */,
+				D84D82A5676FD81D65788CFE /* Pods-DeBank.release.xcconfig */,
+				B179D22ACD5F62536EEE73C8 /* Pods-DeBankTests.debug.xcconfig */,
+				4C3AB05022E8D964FFCC7307 /* Pods-DeBankTests.release.xcconfig */,
 			);
-			name = Frameworks;
+			path = Pods;
 			sourceTree = "<group>";
+		};
+		33589A9222BB60CC00C1C6C3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				33589A9622BB60CD00C1C6C3 /* libRNFirebase.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		33892D6E22BB2CBA00D9F8F4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				33F896E322C1C8ED00679DD3 /* GoogleUtilities.framework */,
+				33F896E122C1C8E800679DD3 /* Protobuf.framework */,
+				33F896DF22C1C87D00679DD3 /* Pods_DeBank.framework */,
+				33FAE28022C19F4600CBE614 /* FirebaseCore.framework */,
+				339DF85222C04E0A00098626 /* GoogleAppMeasurement.framework */,
+				339DF84E22C04DF300098626 /* FIRAnalyticsConnector.framework */,
+				339DF84D22C04DF300098626 /* FirebaseAnalytics.framework */,
+				339DF84C22C04DF300098626 /* FirebaseCoreDiagnostics.framework */,
+				33892D7A22BB2D1A00D9F8F4 /* FirebaseCore.framework */,
+				33892D7822BB2D1A00D9F8F4 /* FirebaseInstanceID.framework */,
+				33892D7522BB2D1A00D9F8F4 /* GoogleUtilities.framework */,
+				33892D7622BB2D1A00D9F8F4 /* nanopb.framework */,
+				33892D7022BB2D0C00D9F8F4 /* FirebaseMessaging.framework */,
+				33892D7122BB2D0C00D9F8F4 /* Protobuf.framework */,
+				33892D6F22BB2CC200D9F8F4 /* JavaScriptCore.framework */,
+				F0A76C4C4BD93F9E50275272 /* Pods_DeBank.framework */,
+				4B76905730B6775A8CB8DDFD /* Pods_DeBankTests.framework */,
+			);
+			path = Frameworks;
+			sourceTree = SOURCE_ROOT;
 		};
 		33C13A7B228A4FB300381580 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			name = "Recovered References";
-			sourceTree = "<group>";
-		};
-		33C13AA9228A4FB500381580 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				33C13AC3228A4FB500381580 /* libRNRandomBytes.a */,
-				33C13AC5228A4FB500381580 /* libRNRandomBytes-tvOS.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		33C13AAB228A4FB500381580 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				33C13ABA228A4FB500381580 /* libRNKeychain.a */,
-				33C13ABC228A4FB500381580 /* libRNKeychain.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		33C13AAD228A4FB500381580 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				33C13AB4228A4FB500381580 /* libRNGestureHandler.a */,
-				33C13AB6228A4FB500381580 /* libRNGestureHandler-tvOS.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		33C13AAF228A4FB500381580 /* Products */ = {
@@ -700,10 +681,29 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		33F17C01229CD48200B6263A /* Products */ = {
+		33FB2CF922BA31350028E1F0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				33F17C05229CD48200B6263A /* libRNFirebase.a */,
+				33FB2CFE22BA31350028E1F0 /* libRNRandomBytes.a */,
+				33FB2D0022BA31350028E1F0 /* libRNRandomBytes-tvOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		33FB2D0222BA31550028E1F0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				33FB2D0722BA31550028E1F0 /* libRNKeychain.a */,
+				33FB2D0922BA31550028E1F0 /* libRNKeychain.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		33FB2D0B22BA316C0028E1F0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				33FB2D1022BA316C0028E1F0 /* libRNGestureHandler.a */,
+				33FB2D1222BA316C0028E1F0 /* libRNGestureHandler-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -729,9 +729,10 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				337FE40322A206FA00E4E306 /* react-native-randombytes */,
-				337FE40022A206B400E4E306 /* react-native-keychain */,
-				337FE3FD22A2065D00E4E306 /* react-native-gesture-handler */,
+				33589A9122BB60CC00C1C6C3 /* RNFirebase.xcodeproj */,
+				33FB2D0A22BA316C0028E1F0 /* RNGestureHandler.xcodeproj */,
+				33FB2D0122BA31550028E1F0 /* RNKeychain.xcodeproj */,
+				33FB2CF822BA31350028E1F0 /* RNRandomBytes.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -744,11 +745,7 @@
 				832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */,
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
-				38373AD81665449CA2C926C3 /* RNKeychain.xcodeproj */,
-				7690F1E4F28B4BF0971D0D38 /* RNRandomBytes.xcodeproj */,
-				A450408C90DF4C94AC99B020 /* RNGestureHandler.xcodeproj */,
 				C7B40B6F4310458889EDD189 /* RNOS.xcodeproj */,
-				75A6D6F294B8447FB803ED99 /* RNFirebase.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -765,17 +762,16 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				3305BCA222B2696B0010C8BD /* Arimo-Bold.ttf */,
-				3305BC7422B2696B0010C8BD /* Arimo-Regular.ttf */,
-				332536C2229AA10D00097C1C /* GoogleService-Info.plist */,
+				33A27D6322BF5DF100BECF88 /* GoogleService-Info.plist */,
+				33489E7F22BB25110011677D /* Default-568h@2x.png */,
 				13B07FAE1A68108700A75B9A /* DeBank */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* DeBankTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
-				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				DDAA7911C21B4452B1A95637 /* Resources */,
+				33892D6E22BB2CBA00D9F8F4 /* Frameworks */,
 				33C13A7B228A4FB300381580 /* Recovered References */,
-				A35C6AA61DA24CF0AE18D134 /* Pods */,
+				152DB9540EA6A54A51C1526F /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -787,25 +783,8 @@
 			children = (
 				13B07F961A680F5B00A75B9A /* DeBank.app */,
 				00E356EE1AD99517003FC87E /* DeBankTests.xctest */,
-				2D02E47B1E0B4A5D006451C7 /* DeBank-tvOS.app */,
-				2D02E4901E0B4A5D006451C7 /* DeBank-tvOSTests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		A35C6AA61DA24CF0AE18D134 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				6ED3529809E0744007811ED9 /* Pods-DeBank.debug.xcconfig */,
-				F3B75B1284AE0911F824E9FB /* Pods-DeBank.release.xcconfig */,
-				4A76C022315BC5BBFF3039F3 /* Pods-DeBank-tvOS.debug.xcconfig */,
-				9D1CFA2D03890A5B759B4D0E /* Pods-DeBank-tvOS.release.xcconfig */,
-				0D5394F1088F1835FDDCAE2D /* Pods-DeBank-tvOSTests.debug.xcconfig */,
-				120D6741AAA0B42CDCBBDB34 /* Pods-DeBank-tvOSTests.release.xcconfig */,
-				808AEA1B050846372EF35878 /* Pods-DeBankTests.debug.xcconfig */,
-				9720BD4CDAF099B16C2DC7E5 /* Pods-DeBankTests.release.xcconfig */,
-			);
-			path = Pods;
 			sourceTree = "<group>";
 		};
 		ADBDB9201DFEBF0600ED6528 /* Products */ = {
@@ -820,6 +799,8 @@
 		DDAA7911C21B4452B1A95637 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3305BC7422B2696B0010C8BD /* Arimo-Regular.ttf */,
+				3305BCA222B2696B0010C8BD /* Arimo-Bold.ttf */,
 				D31D719D880E4E78A24A31D4 /* AntDesign.ttf */,
 				CA02A617D8EE47589FA84B2D /* Entypo.ttf */,
 				AA6E5484C6714C5F8CD08B88 /* EvilIcons.ttf */,
@@ -846,7 +827,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "DeBankTests" */;
 			buildPhases = (
-				531D8C0E5F9CB6CBD972B3EE /* [CP] Check Pods Manifest.lock */,
+				7860C19B8417A313616E4EDF /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
@@ -865,11 +846,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "DeBank" */;
 			buildPhases = (
-				FA8670BE39C6C2C5E58AC2C5 /* [CP] Check Pods Manifest.lock */,
+				731C64EF098925DA0202A978 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				8195C5DE131996780EBECA13 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -879,44 +861,6 @@
 			productName = "Hello World";
 			productReference = 13B07F961A680F5B00A75B9A /* DeBank.app */;
 			productType = "com.apple.product-type.application";
-		};
-		2D02E47A1E0B4A5D006451C7 /* DeBank-tvOS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "DeBank-tvOS" */;
-			buildPhases = (
-				61AB32FB7A7D5E83CC7C215C /* [CP] Check Pods Manifest.lock */,
-				2D02E4771E0B4A5D006451C7 /* Sources */,
-				2D02E4781E0B4A5D006451C7 /* Frameworks */,
-				2D02E4791E0B4A5D006451C7 /* Resources */,
-				2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "DeBank-tvOS";
-			productName = "DeBank-tvOS";
-			productReference = 2D02E47B1E0B4A5D006451C7 /* DeBank-tvOS.app */;
-			productType = "com.apple.product-type.application";
-		};
-		2D02E48F1E0B4A5D006451C7 /* DeBank-tvOSTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "DeBank-tvOSTests" */;
-			buildPhases = (
-				09AFAB1E2BBD27C6FD901819 /* [CP] Check Pods Manifest.lock */,
-				2D02E48C1E0B4A5D006451C7 /* Sources */,
-				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
-				2D02E48E1E0B4A5D006451C7 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */,
-			);
-			name = "DeBank-tvOSTests";
-			productName = "DeBank-tvOSTests";
-			productReference = 2D02E4901E0B4A5D006451C7 /* DeBank-tvOSTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -934,15 +878,14 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = UB87ZVZL7R;
-					};
-					2D02E47A1E0B4A5D006451C7 = {
-						CreatedOnToolsVersion = 8.2.1;
-						ProvisioningStyle = Automatic;
-					};
-					2D02E48F1E0B4A5D006451C7 = {
-						CreatedOnToolsVersion = 8.2.1;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 2D02E47A1E0B4A5D006451C7;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -1007,32 +950,30 @@
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
 				{
-					ProductGroup = 33F17C01229CD48200B6263A /* Products */;
-					ProjectRef = 75A6D6F294B8447FB803ED99 /* RNFirebase.xcodeproj */;
+					ProductGroup = 33589A9222BB60CC00C1C6C3 /* Products */;
+					ProjectRef = 33589A9122BB60CC00C1C6C3 /* RNFirebase.xcodeproj */;
 				},
 				{
-					ProductGroup = 33C13AAD228A4FB500381580 /* Products */;
-					ProjectRef = A450408C90DF4C94AC99B020 /* RNGestureHandler.xcodeproj */;
+					ProductGroup = 33FB2D0B22BA316C0028E1F0 /* Products */;
+					ProjectRef = 33FB2D0A22BA316C0028E1F0 /* RNGestureHandler.xcodeproj */;
 				},
 				{
-					ProductGroup = 33C13AAB228A4FB500381580 /* Products */;
-					ProjectRef = 38373AD81665449CA2C926C3 /* RNKeychain.xcodeproj */;
+					ProductGroup = 33FB2D0222BA31550028E1F0 /* Products */;
+					ProjectRef = 33FB2D0122BA31550028E1F0 /* RNKeychain.xcodeproj */;
 				},
 				{
 					ProductGroup = 33C13AAF228A4FB500381580 /* Products */;
 					ProjectRef = C7B40B6F4310458889EDD189 /* RNOS.xcodeproj */;
 				},
 				{
-					ProductGroup = 33C13AA9228A4FB500381580 /* Products */;
-					ProjectRef = 7690F1E4F28B4BF0971D0D38 /* RNRandomBytes.xcodeproj */;
+					ProductGroup = 33FB2CF922BA31350028E1F0 /* Products */;
+					ProjectRef = 33FB2CF822BA31350028E1F0 /* RNRandomBytes.xcodeproj */;
 				},
 			);
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* DeBank */,
 				00E356ED1AD99517003FC87E /* DeBankTests */,
-				2D02E47A1E0B4A5D006451C7 /* DeBank-tvOS */,
-				2D02E48F1E0B4A5D006451C7 /* DeBank-tvOSTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1157,6 +1098,13 @@
 			remoteRef = 2DF0FFE82056DD460020B375 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		33589A9622BB60CD00C1C6C3 /* libRNFirebase.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNFirebase.a;
+			remoteRef = 33589A9522BB60CD00C1C6C3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		33C13AA2228A4FB300381580 /* libjsi.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1185,34 +1133,6 @@
 			remoteRef = 33C13AA7228A4FB300381580 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		33C13AB4228A4FB500381580 /* libRNGestureHandler.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNGestureHandler.a;
-			remoteRef = 33C13AB3228A4FB500381580 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		33C13AB6228A4FB500381580 /* libRNGestureHandler-tvOS.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libRNGestureHandler-tvOS.a";
-			remoteRef = 33C13AB5228A4FB500381580 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		33C13ABA228A4FB500381580 /* libRNKeychain.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNKeychain.a;
-			remoteRef = 33C13AB9228A4FB500381580 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		33C13ABC228A4FB500381580 /* libRNKeychain.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNKeychain.a;
-			remoteRef = 33C13ABB228A4FB500381580 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		33C13ABF228A4FB500381580 /* libRNOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1220,25 +1140,46 @@
 			remoteRef = 33C13ABE228A4FB500381580 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		33C13AC3228A4FB500381580 /* libRNRandomBytes.a */ = {
+		33FB2CFE22BA31350028E1F0 /* libRNRandomBytes.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libRNRandomBytes.a;
-			remoteRef = 33C13AC2228A4FB500381580 /* PBXContainerItemProxy */;
+			remoteRef = 33FB2CFD22BA31350028E1F0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		33C13AC5228A4FB500381580 /* libRNRandomBytes-tvOS.a */ = {
+		33FB2D0022BA31350028E1F0 /* libRNRandomBytes-tvOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = "libRNRandomBytes-tvOS.a";
-			remoteRef = 33C13AC4228A4FB500381580 /* PBXContainerItemProxy */;
+			remoteRef = 33FB2CFF22BA31350028E1F0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		33F17C05229CD48200B6263A /* libRNFirebase.a */ = {
+		33FB2D0722BA31550028E1F0 /* libRNKeychain.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libRNFirebase.a;
-			remoteRef = 33F17C04229CD48200B6263A /* PBXContainerItemProxy */;
+			path = libRNKeychain.a;
+			remoteRef = 33FB2D0622BA31550028E1F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		33FB2D0922BA31550028E1F0 /* libRNKeychain.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNKeychain.a;
+			remoteRef = 33FB2D0822BA31550028E1F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		33FB2D1022BA316C0028E1F0 /* libRNGestureHandler.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNGestureHandler.a;
+			remoteRef = 33FB2D0F22BA316C0028E1F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		33FB2D1222BA316C0028E1F0 /* libRNGestureHandler-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRNGestureHandler-tvOS.a";
+			remoteRef = 33FB2D1122BA316C0028E1F0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		3DAD3E841DF850E9000B6D8A /* libRCTImage-tvOS.a */ = {
@@ -1367,15 +1308,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				332536EF229AA10D00097C1C /* GoogleService-Info.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				337FE40122A206B400E4E306 /* react-native-keychain in Resources */,
-				337FE3FE22A2065D00E4E306 /* react-native-gesture-handler in Resources */,
-				337FE40422A206FA00E4E306 /* react-native-randombytes in Resources */,
 				3305BCA422B2696B0010C8BD /* Arimo-Bold.ttf in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				BC07205977684E5F94D2C423 /* AntDesign.ttf in Resources */,
 				8DAE05B1A7054A50A5C1670D /* Entypo.ttf in Resources */,
+				33489E8022BB25110011677D /* Default-568h@2x.png in Resources */,
 				1F1C0AC7717940E9B0A667D3 /* EvilIcons.ttf in Resources */,
 				4391E0FD62AF4EACAB0EE2FA /* Feather.ttf in Resources */,
 				1B2704ADC139464AA8FBA9A1 /* FontAwesome.ttf in Resources */,
@@ -1390,21 +1328,7 @@
 				DBD2693DA4764411BDFCBA9F /* Octicons.ttf in Resources */,
 				317E2BF4B7614040A1F64C40 /* SimpleLineIcons.ttf in Resources */,
 				03EF4E1267C1483F8A93B8C1 /* Zocial.ttf in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2D02E4791E0B4A5D006451C7 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2D02E48E1E0B4A5D006451C7 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				33A27D6422BF5DF200BECF88 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1423,9 +1347,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		09AFAB1E2BBD27C6FD901819 /* [CP] Check Pods Manifest.lock */ = {
+		731C64EF098925DA0202A978 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1440,28 +1364,14 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-DeBank-tvOSTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-DeBank-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Bundle React Native Code And Images";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
-		};
-		531D8C0E5F9CB6CBD972B3EE /* [CP] Check Pods Manifest.lock */ = {
+		7860C19B8417A313616E4EDF /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1483,48 +1393,26 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		61AB32FB7A7D5E83CC7C215C /* [CP] Check Pods Manifest.lock */ = {
+		8195C5DE131996780EBECA13 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
+				"${PODS_ROOT}/Target Support Files/Pods-DeBank/Pods-DeBank-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-DeBank-tvOS-checkManifestLockResult.txt",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		FA8670BE39C6C2C5E58AC2C5 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-DeBank-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DeBank/Pods-DeBank-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1547,23 +1435,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2D02E4771E0B4A5D006451C7 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */,
-				2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2D02E48C1E0B4A5D006451C7 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2DCD954D1E0B4F2C00145EB5 /* DeBankTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1571,11 +1442,6 @@
 			isa = PBXTargetDependency;
 			target = 13B07F861A680F5B00A75B9A /* DeBank */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
-		};
-		2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 2D02E47A1E0B4A5D006451C7 /* DeBank-tvOS */;
-			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1594,7 +1460,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 808AEA1B050846372EF35878 /* Pods-DeBankTests.debug.xcconfig */;
+			baseConfigurationReference = B179D22ACD5F62536EEE73C8 /* Pods-DeBankTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = UB87ZVZL7R;
@@ -1623,19 +1489,17 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lc++",
-				);
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DeBank.app/DeBank";
+				VALID_ARCHS = "$(ARCHS_STANDARD) armv7 armv7s";
 			};
 			name = Debug;
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9720BD4CDAF099B16C2DC7E5 /* Pods-DeBankTests.release.xcconfig */;
+			baseConfigurationReference = 4C3AB05022E8D964FFCC7307 /* Pods-DeBankTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -1661,256 +1525,72 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lc++",
-				);
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DeBank.app/DeBank";
+				VALID_ARCHS = "$(ARCHS_STANDARD) armv7 armv7s";
 			};
 			name = Release;
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6ED3529809E0744007811ED9 /* Pods-DeBank.debug.xcconfig */;
+			baseConfigurationReference = A7440C275568D04DB730C3AF /* Pods-DeBank.debug.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = DeBank/DeBank.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = UB87ZVZL7R;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Pods/GoogleAppMeasurement/Frameworks",
+					"$(PROJECT_DIR)/Pods/FirebaseAnalytics/Frameworks",
+					"$(PROJECT_DIR)/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseCore",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-keychain/RNKeychainManager",
-					"$(SRCROOT)/../node_modules/react-native-randombytes",
-					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
-					"$(SRCROOT)/../node_modules/react-native-os/ios",
-					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
-				);
+				GCC_VERSION = "";
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = DeBank/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
-					"-lc++",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = DeBank;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "$(inherited)";
+				"OTHER_LDFLAGS[arch=*]" = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.debank.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "$(ARCHS_STANDARD) armv7 armv7s";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F3B75B1284AE0911F824E9FB /* Pods-DeBank.release.xcconfig */;
+			baseConfigurationReference = D84D82A5676FD81D65788CFE /* Pods-DeBank.release.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = DeBank/DeBank.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = UB87ZVZL7R;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Pods/GoogleAppMeasurement/Frameworks",
+					"$(PROJECT_DIR)/Pods/FirebaseAnalytics/Frameworks",
+					"$(PROJECT_DIR)/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseCore",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-keychain/RNKeychainManager",
-					"$(SRCROOT)/../node_modules/react-native-randombytes",
-					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
-					"$(SRCROOT)/../node_modules/react-native-os/ios",
-					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
-				);
+				GCC_VERSION = "";
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = DeBank/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
-					"-lc++",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = DeBank;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "$(inherited)";
+				"OTHER_LDFLAGS[arch=*]" = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.debank.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "$(ARCHS_STANDARD) armv7 armv7s";
 				VERSIONING_SYSTEM = "apple-generic";
-			};
-			name = Release;
-		};
-		2D02E4971E0B4A5E006451C7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4A76C022315BC5BBFF3039F3 /* Pods-DeBank-tvOS.debug.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_TESTABILITY = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-keychain/RNKeychainManager",
-					"$(SRCROOT)/../node_modules/react-native-randombytes",
-					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
-					"$(SRCROOT)/../node_modules/react-native-os/ios",
-					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
-				);
-				INFOPLIST_FILE = "DeBank-tvOS/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lc++",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.DeBank-tvOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = appletvos;
-				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.2;
-			};
-			name = Debug;
-		};
-		2D02E4981E0B4A5E006451C7 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9D1CFA2D03890A5B759B4D0E /* Pods-DeBank-tvOS.release.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_NO_COMMON_BLOCKS = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-keychain/RNKeychainManager",
-					"$(SRCROOT)/../node_modules/react-native-randombytes",
-					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
-					"$(SRCROOT)/../node_modules/react-native-os/ios",
-					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
-				);
-				INFOPLIST_FILE = "DeBank-tvOS/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lc++",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.DeBank-tvOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = appletvos;
-				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.2;
-			};
-			name = Release;
-		};
-		2D02E4991E0B4A5E006451C7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0D5394F1088F1835FDDCAE2D /* Pods-DeBank-tvOSTests.debug.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_TESTABILITY = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-keychain/RNKeychainManager",
-					"$(SRCROOT)/../node_modules/react-native-randombytes",
-					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
-					"$(SRCROOT)/../node_modules/react-native-os/ios",
-					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
-				);
-				INFOPLIST_FILE = "DeBank-tvOSTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lc++",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.DeBank-tvOSTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = appletvos;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DeBank-tvOS.app/DeBank-tvOS";
-				TVOS_DEPLOYMENT_TARGET = 10.1;
-			};
-			name = Debug;
-		};
-		2D02E49A1E0B4A5E006451C7 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 120D6741AAA0B42CDCBBDB34 /* Pods-DeBank-tvOSTests.release.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_NO_COMMON_BLOCKS = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-keychain/RNKeychainManager",
-					"$(SRCROOT)/../node_modules/react-native-randombytes",
-					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
-					"$(SRCROOT)/../node_modules/react-native-os/ios",
-					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
-				);
-				INFOPLIST_FILE = "DeBank-tvOSTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lc++",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.DeBank-tvOSTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = appletvos;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DeBank-tvOS.app/DeBank-tvOS";
-				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Release;
 		};
@@ -2023,7 +1703,7 @@
 				00E356F71AD99517003FC87E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "DeBank" */ = {
 			isa = XCConfigurationList;
@@ -2032,25 +1712,7 @@
 				13B07F951A680F5B00A75B9A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "DeBank-tvOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				2D02E4971E0B4A5E006451C7 /* Debug */,
-				2D02E4981E0B4A5E006451C7 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "DeBank-tvOSTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				2D02E4991E0B4A5E006451C7 /* Debug */,
-				2D02E49A1E0B4A5E006451C7 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "DeBank" */ = {
 			isa = XCConfigurationList;
@@ -2059,7 +1721,7 @@
 				83CBBA211A601CBA00E9B192 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

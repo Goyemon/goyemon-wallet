@@ -29,4 +29,9 @@ dependencies: \
   /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseInstanceID/FirebaseInstanceID.framework/Modules/module.modulemap \
   /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseInstanceID/FirebaseInstanceID.framework/Headers/FIRInstanceID.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseInstanceID/FirebaseInstanceID.framework/Headers/FirebaseInstanceID.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseInstanceID/FirebaseInstanceID.framework/Headers/FirebaseInstanceID-umbrella.h
+  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseInstanceID/FirebaseInstanceID.framework/Headers/FirebaseInstanceID-umbrella.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseMessaging/FirebaseMessaging.framework/Modules/module.modulemap \
+  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseMessaging/FirebaseMessaging.framework/Headers/FIRMessagingExtensionHelper.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseMessaging/FirebaseMessaging.framework/Headers/FIRMessaging.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseMessaging/FirebaseMessaging.framework/Headers/FirebaseMessaging.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseMessaging/FirebaseMessaging.framework/Headers/FirebaseMessaging-umbrella.h

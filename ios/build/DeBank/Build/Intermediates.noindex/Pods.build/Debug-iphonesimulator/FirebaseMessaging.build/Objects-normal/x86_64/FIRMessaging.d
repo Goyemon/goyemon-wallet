@@ -1,0 +1,46 @@
+dependencies: \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseMessaging/Firebase/Messaging/FIRMessaging.m \
+  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseMessaging.build/module.modulemap \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseMessaging/Firebase/Messaging/Public/FIRMessaging.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseMessaging/Firebase/Messaging/FIRMessaging_Private.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseMessaging/Firebase/Messaging/FIRMessagingAnalytics.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Public/FirebaseAnalyticsInterop/FIRAnalyticsInterop.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseMessaging/Firebase/Messaging/FIRMessagingClient.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseMessaging/Firebase/Messaging/FIRMessagingConstants.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseMessaging/Firebase/Messaging/FIRMessagingContextManagerService.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseMessaging/Firebase/Messaging/FIRMessagingDataMessageManager.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseMessaging/Firebase/Messaging/FIRMessagingDefines.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseMessaging/Firebase/Messaging/Public/FIRMessagingExtensionHelper.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseMessaging/Firebase/Messaging/FIRMessagingLogger.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseMessaging/Firebase/Messaging/FIRMMessageCode.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseMessaging/Firebase/Messaging/FIRMessagingPubSub.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseMessaging/Firebase/Messaging/FIRMessagingReceiver.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseMessaging/Firebase/Messaging/FIRMessagingRemoteNotificationsProxy.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseMessaging/Firebase/Messaging/FIRMessagingRmqManager.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseMessaging/Firebase/Messaging/FIRMessagingSyncMessageManager.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseMessaging/Firebase/Messaging/FIRMessagingUtilities.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseMessaging/Firebase/Messaging/FIRMessagingVersionUtilities.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseCore.build/module.modulemap \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRAppInternal.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Public/FIROptions.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Public/FirebaseCore.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Public/FIRLoggerLevel.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Public/FIRConfiguration.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Public/FIRApp.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Target\ Support\ Files/FirebaseCore/FirebaseCore-umbrella.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRErrors.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRErrorCode.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRComponent.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRComponentContainer.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRComponentType.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRLibrary.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRDependency.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseInstanceID.build/module.modulemap \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/Public/FIRInstanceID.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/Public/FirebaseInstanceID.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Target\ Support\ Files/FirebaseInstanceID/FirebaseInstanceID-umbrella.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/Private/FIRInstanceID_Private.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/GoogleUtilities.build/module.modulemap \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/GoogleUtilities/GoogleUtilities/Reachability/Private/GULReachabilityChecker.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/GoogleUtilities/GoogleUtilities/UserDefaults/Private/GULUserDefaults.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseMessaging/Firebase/Messaging/NSError+FIRMessaging.h

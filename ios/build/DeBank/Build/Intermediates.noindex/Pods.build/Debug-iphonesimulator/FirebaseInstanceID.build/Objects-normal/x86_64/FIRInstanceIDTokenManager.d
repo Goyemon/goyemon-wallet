@@ -1,5 +1,6 @@
 dependencies: \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDTokenManager.m \
+  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseInstanceID.build/module.modulemap \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDTokenManager.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/Public/FIRInstanceID.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDAuthKeyChain.h \
