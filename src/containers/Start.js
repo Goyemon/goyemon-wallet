@@ -1,7 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
-import { connect } from "react-redux";
-import { getMnemonic } from "../actions/ActionMnemonic";
+import { connect } from 'react-redux';
+import { getMnemonic } from '../actions/ActionMnemonic';
 import styled from 'styled-components';
 import { View, Image } from 'react-native';
 import { RootContainer, TouchableCardContainer, HeaderOne, HeaderTwo } from '../components/common/';
@@ -24,19 +24,13 @@ class Start extends Component {
               await this.props.getMnemonic();
               this.props.navigation.navigate('ShowMnemonic');
             }}
-           >
+          >
             <View>
-              <HeaderTwo
-                fontSize="16px"
-               >
-                Create
-              </HeaderTwo>
-              <CardText>
-                new wallet
-              </CardText>
+              <HeaderTwo fontSize="16px">Create</HeaderTwo>
+              <CardText>new wallet</CardText>
             </View>
             <View>
-              <CardImage source={require('../../assets/create_wallet_icon.png')}/>
+              <CardImage source={require('../../assets/create_wallet_icon.png')} />
             </View>
           </TouchableCardContainer>
           <TouchableCardContainer
@@ -47,19 +41,13 @@ class Start extends Component {
             textAlign="left"
             width="90%"
             onPress={() => this.props.navigation.navigate('Import')}
-           >
+          >
             <View>
-              <HeaderTwo
-                fontSize="16px"
-               >
-                Import
-              </HeaderTwo>
-              <CardText>
-                existing wallet
-              </CardText>
+              <HeaderTwo fontSize="16px">Import</HeaderTwo>
+              <CardText>existing wallet</CardText>
             </View>
             <View>
-              <CardImage source={require('../../assets/import_wallet_icon.png')}/>
+              <CardImage source={require('../../assets/import_wallet_icon.png')} />
             </View>
           </TouchableCardContainer>
         </Container>
@@ -69,14 +57,12 @@ class Start extends Component {
 }
 
 const Container = styled.ScrollView.attrs(props => ({
-  contentContainerStyle: props => {
-    return {
+  contentContainerStyle: props => ({
       alignItems: 'center',
       flexDirection: 'column',
       justifyContent: 'center'
-    }
-  }
-}))``
+    })
+}))``;
 
 const Logo = styled.Text`
   font-size: 48px;
@@ -101,9 +87,11 @@ const CardImage = styled.Image`
   padding: 16px;
 `;
 
-
 const mapDispatchToProps = {
-    getMnemonic
-}
+  getMnemonic
+};
 
-export default connect(null, mapDispatchToProps)(Start);
+export default connect(
+  null,
+  mapDispatchToProps
+)(Start);

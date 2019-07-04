@@ -1,10 +1,16 @@
 'use strict';
 import React, { Component } from 'react';
 import { Text } from 'react-native';
-import { RootContainer, Button, UntouchableCardContainer, HeaderOne, HeaderTwo } from '../components/common/';
+import {
+  RootContainer,
+  Button,
+  UntouchableCardContainer,
+  HeaderOne,
+  HeaderTwo
+} from '../components/common/';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-import ethTx from "ethereumjs-tx";
+import ethTx from 'ethereumjs-tx';
 import WalletController from '../wallet-core/WalletController.ts';
 import { addNewTransaction } from '../actions/ActionTransactions';
 import firebase from 'react-native-firebase';
@@ -17,23 +23,22 @@ class Confirmation extends Component {
     privateKey = Buffer.from(privateKey, 'hex');
     transactionObject.sign(privateKey);
     let signedTransaction = transactionObject.serialize();
-    signedTransaction = '0x' + signedTransaction.toString('hex')
+    signedTransaction = `0x${signedTransaction.toString('hex')}`;
     return signedTransaction;
   }
 
   async sendSignedTx() {
     const signedTransaction = await this.constructSignedTransactionObject();
 
-    this.props.web3.eth.sendSignedTransaction(signedTransaction,
-      (error, transactionHash) => {
-        if (error) { console.log(`Error: ${error}`); }
-        else {
-          console.log(`Result: ${transactionHash}`);
-          this.updateTransactionHistory(transactionHash);
-          this.sendOutgoingTransactionToServer();
-        }
+    this.props.web3.eth.sendSignedTransaction(signedTransaction, (error, transactionHash) => {
+      if (error) {
+        console.log(`Error: ${error}`);
+      } else {
+        console.log(`Result: ${transactionHash}`);
+        this.updateTransactionHistory(transactionHash);
+        this.sendOutgoingTransactionToServer();
       }
-    );
+    });
   }
 
   async sendOutgoingTransactionToServer() {
@@ -45,13 +50,13 @@ class Confirmation extends Component {
       .setMessageId(messageId)
       .setTo(serverAddress)
       .setData({
-        signedTransaction: signedTransaction
+        signedTransaction
       });
     firebase.messaging().sendMessage(upstreamMessage);
   }
 
   async updateTransactionHistory(transactionHash) {
-    const transactionObject = await this.getTransactionObject(transactionHash)
+    const transactionObject = await this.getTransactionObject(transactionHash);
     await this.props.addNewTransaction(transactionObject);
   }
 
@@ -61,8 +66,13 @@ class Confirmation extends Component {
   }
 
   render() {
-    const gasPriceInEther = this.props.web3.utils.fromWei(this.props.transactionObject.gasPrice, 'Ether');
-    const valueInEther = parseFloat(this.props.web3.utils.fromWei(this.props.transactionObject.value, 'Ether'));
+    const gasPriceInEther = this.props.web3.utils.fromWei(
+      this.props.transactionObject.gasPrice,
+      'Ether'
+    );
+    const valueInEther = parseFloat(
+      this.props.web3.utils.fromWei(this.props.transactionObject.value, 'Ether')
+    );
     const gasPriceInEtherNumber = parseFloat(gasPriceInEther);
     const total = gasPriceInEtherNumber + valueInEther;
 
@@ -76,29 +86,33 @@ class Confirmation extends Component {
           justifyContent="flex-start"
           textAlign="left"
           width="95%"
-         >
-          <HeaderTwo
-          fontSize="16px"
-          >
-            from
-          </HeaderTwo>
+        >
+          <HeaderTwo fontSize="16px">from</HeaderTwo>
           <Text>{this.props.checksumAddress}</Text>
-        <Text>↓</Text>
-          <HeaderTwo
-          fontSize="16px"
-          >
-           to
-          </HeaderTwo>
+          <Text>↓</Text>
+          <HeaderTwo fontSize="16px">to</HeaderTwo>
           <Text>{this.props.transactionObject.to}</Text>
         </UntouchableCardContainer>
         <Text>Total {total} ETH</Text>
         <Text>Gas Fee {gasPriceInEther} ETH</Text>
         <ButtonContainer>
-          <Button text="Back" textColor="white" backgroundColor="#EEE"  margin="8px" onPress={() => this.props.navigation.navigate('Send')} />
-          <Button text="Confirm" textColor="white" backgroundColor="#4083FF"  margin="8px" onPress={async () => {
-            this.props.navigation.navigate('Ethereum')
-            await this.sendSignedTx()
-          }} />
+          <Button
+            text="Back"
+            textColor="white"
+            backgroundColor="#EEE"
+            margin="8px"
+            onPress={() => this.props.navigation.navigate('Send')}
+          />
+          <Button
+            text="Confirm"
+            textColor="white"
+            backgroundColor="#4083FF"
+            margin="8px"
+            onPress={async () => {
+              this.props.navigation.navigate('Ethereum');
+              await this.sendSignedTx();
+            }}
+          />
         </ButtonContainer>
       </RootContainer>
     );
@@ -123,4 +137,7 @@ const mapDispatchToProps = {
   addNewTransaction
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Confirmation);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Confirmation);

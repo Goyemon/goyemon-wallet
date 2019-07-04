@@ -7,9 +7,7 @@ export default class Dai extends Component {
   render() {
     return (
       <RootContainer>
-        <HeaderOne>
-          Dai
-        </HeaderOne>
+        <HeaderOne>Dai</HeaderOne>
       </RootContainer>
     );
   }

@@ -3,21 +3,21 @@ import React from 'react';
 import styled from 'styled-components/native';
 
 const UntouchableCardContainer = props => (
-    <CardContainer
-       alignItems={props.alignItems}
-       flexDirection={props.flexDirection}
-       height={props.height}
-       justifyContent={props.justifyContent}
-       textAlign={props.textAlign}
-       width={props.width}
-     >
-      {props.children}
-    </CardContainer>
+  <CardContainer
+    alignItems={props.alignItems}
+    flexDirection={props.flexDirection}
+    height={props.height}
+    justifyContent={props.justifyContent}
+    textAlign={props.textAlign}
+    width={props.width}
+  >
+    {props.children}
+  </CardContainer>
 );
 
 const CardContainer = styled.View`
   alignItems: ${props => props.alignItems};
-  background: #FFF;
+  background: #fff;
   border-radius: 8px;
   flexDirection: ${props => props.flexDirection};
   height: ${props => props.height};

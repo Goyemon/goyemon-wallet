@@ -16,17 +16,14 @@ const AppTab = createBottomTabNavigator(
       screen: HomeStack,
       navigationOptions: {
         tabBarLabel: 'Home',
-        tabBarIcon: ({ tintColor }) => (
-          <Icon name="ios-home" size={32}  color={tintColor} />
-        )      },
+        tabBarIcon: ({ tintColor }) => <Icon name="ios-home" size={32} color={tintColor} />
+      }
     },
     Settings: {
       screen: SettingsStack,
       navigationOptions: {
         tabBarLabel: 'Settings',
-        tabBarIcon: ({ tintColor }) => (
-          <Icon name="ios-settings" size={32}  color={tintColor} />
-        )
+        tabBarIcon: ({ tintColor }) => <Icon name="ios-settings" size={32} color={tintColor} />
       }
     }
   },
@@ -48,6 +45,6 @@ const App = createAppContainer(AppTab);
 
 export default () => (
   <Provider store={store}>
-      <App />
+    <App />
   </Provider>
 );

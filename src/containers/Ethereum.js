@@ -5,7 +5,7 @@ import { withNavigation } from 'react-navigation';
 import { View, Text } from 'react-native';
 import Transactions from '../containers/Transactions';
 import { RootContainer, Button, HeaderOne, HeaderTwo } from '../components/common/';
-import { getGasPrice } from "../actions/ActionGasPrice";
+import { getGasPrice } from '../actions/ActionGasPrice';
 import { getExistingTransactions } from '../actions/ActionTransactions';
 import styled from 'styled-components';
 
@@ -13,8 +13,8 @@ class Ethereum extends Component {
   constructor(props) {
     super();
     this.state = {
-      balance: "0.0",
-      usdBalance: "0.0"
+      balance: '0.0',
+      usdBalance: '0.0'
     };
   }
 
@@ -22,16 +22,16 @@ class Ethereum extends Component {
     const balanceInWei = await this.getBalance(this.props.checksumAddress);
     const balanceInEther = this.props.web3.utils.fromWei(balanceInWei);
     const roundedBalanceInEther = parseFloat(balanceInEther).toFixed(4);
-    await this.props.getExistingTransactions("1b5e2011e26B3051E4ad1936299c417eEDaCBF50");
-    this.setState({balance: roundedBalanceInEther});
-    this.setState({usdBalance: this.getUsdBalance()});
+    await this.props.getExistingTransactions('1b5e2011e26B3051E4ad1936299c417eEDaCBF50');
+    this.setState({ balance: roundedBalanceInEther });
+    this.setState({ usdBalance: this.getUsdBalance() });
   }
 
   async getBalance(address) {
     try {
       const balance = await this.props.web3.eth.getBalance(address);
       return balance;
-    } catch(err) {
+    } catch (err) {
       console.error(err);
     }
   }
@@ -43,7 +43,7 @@ class Ethereum extends Component {
       const usdBalance = usdPrice * ethBalance;
       const roundedUsdBalance = parseFloat(usdBalance).toFixed(2);
       return roundedUsdBalance;
-    } catch(err) {
+    } catch (err) {
       console.error(err);
     }
   }
@@ -51,47 +51,49 @@ class Ethereum extends Component {
   render() {
     const { transactions, navigation } = this.props;
 
-    if(!this.props.web3.eth){
+    if (!this.props.web3.eth) {
       return <Text>loading...</Text>;
-    };
+    }
 
     return (
       <RootContainer>
         <HeaderOne>Ethereum</HeaderOne>
         <CardContainerWithoutFeedback>
-          <HeaderTwo
-            fontSize="24px"
-           >
-            Total Balance
-          </HeaderTwo>
+          <HeaderTwo fontSize="24px">Total Balance</HeaderTwo>
           <UsdBalance>${this.state.usdBalance}</UsdBalance>
           <EthBalance>{this.state.balance} ETH</EthBalance>
           <ButtonContainer>
-            <Button text="Receive" textColor="white" backgroundColor="#39C89E" margin="8px"
-            onPress={() => navigation.navigate('Receive')} />
-            <Button text="Send" textColor="white" backgroundColor="#39C89E" margin="8px"
-            onPress={async () => {
-              await this.props.getGasPrice();
-              navigation.navigate('Send');
-            }} />
+            <Button
+              text="Receive"
+              textColor="white"
+              backgroundColor="#39C89E"
+              margin="8px"
+              onPress={() => navigation.navigate('Receive')}
+            />
+            <Button
+              text="Send"
+              textColor="white"
+              backgroundColor="#39C89E"
+              margin="8px"
+              onPress={async () => {
+                await this.props.getGasPrice();
+                navigation.navigate('Send');
+              }}
+            />
           </ButtonContainer>
         </CardContainerWithoutFeedback>
         <View>
-          <HeaderTwo
-            fontSize="16px"
-           >
-            Transaction History
-          </HeaderTwo>
+          <HeaderTwo fontSize="16px">Transaction History</HeaderTwo>
         </View>
         <Transactions />
       </RootContainer>
     );
   }
-};
+}
 
 const CardContainerWithoutFeedback = styled.View`
   align-items: center;
-  background: #FFF;
+  background: #fff;
   height: 240px;
   margin-top: 24px;
   padding: 24px;
@@ -111,18 +113,21 @@ const EthBalance = styled.Text`
   font-size: 16px;
 `;
 
-const mapStateToProps = state => {
-  return {
+const mapStateToProps = state => ({
     transactions: state.ReducerTransactions.transactions,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
     web3: state.ReducerWeb3.web3,
     wallets: state.ReducerWallets.wallets
-  }
-}
+  });
 
 const mapDispatchToProps = {
-    getGasPrice,
-    getExistingTransactions
-}
+  getGasPrice,
+  getExistingTransactions
+};
 
-export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(Ethereum));
+export default withNavigation(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Ethereum)
+);

@@ -36,7 +36,7 @@ const HomeStack = createStackNavigator(
     ShowMnemonic: {
       screen: ShowMnemonic,
       navigationOptions: () => ({
-        headerTransparent: true,
+        headerTransparent: true
       })
     },
     VerifyMnemonic: {

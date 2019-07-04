@@ -2,11 +2,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 
-const HeaderOne = props => (
-    <HeaderOneText>
-      {props.children}
-    </HeaderOneText>
-);
+const HeaderOne = props => <HeaderOneText>{props.children}</HeaderOneText>;
 
 const HeaderOneText = styled.Text`
   font-size: 32px;

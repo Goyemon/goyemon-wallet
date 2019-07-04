@@ -13,16 +13,16 @@ class ShowMnemonic extends Component {
     return (
       <RootContainer>
         <View>
-          <HeaderOne>
-            Create Wallet
-          </HeaderOne>
+          <HeaderOne>Create Wallet</HeaderOne>
         </View>
         <Container>
           <Text>backup phrases</Text>
           <Text>Please carefully write down these 24 words.</Text>
           <MnemonicPhrasesContainer style={styles.table}>
             {splitMnemonic.map((splitMnemonic, id) => (
-              <MnemonicWordWrapper style={styles.cell} key={id}><Text style={styles.text}>{splitMnemonic}</Text></MnemonicWordWrapper>
+              <MnemonicWordWrapper style={styles.cell} key={id}>
+                <Text style={styles.text}>{splitMnemonic}</Text>
+              </MnemonicWordWrapper>
             ))}
           </MnemonicPhrasesContainer>
           <Text>we will confirm this phrase on the next screen</Text>
@@ -51,7 +51,7 @@ const styles = {
   text: {
     fontSize: 16,
     padding: 4,
-    textAlign: 'center',
+    textAlign: 'center'
   }
 };
 
@@ -68,9 +68,9 @@ const MnemonicPhrasesContainer = styled.View`
 `;
 
 const MnemonicWordWrapper = styled.View`
-  background: #FFF;
+  background: #fff;
   border-radius: 16px;
-  border-color: #F8F8F8;
+  border-color: #f8f8f8;
   border-width: 4px;
   text-align: center;
 `;

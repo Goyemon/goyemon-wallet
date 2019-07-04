@@ -22,7 +22,7 @@ class Receive extends Component {
 
   async writeToClipboard() {
     await Clipboard.setString(this.props.checksumAddress);
-  };
+  }
 
   render() {
     const { checksumAddress } = this.props;
@@ -36,9 +36,14 @@ class Receive extends Component {
           justifyContent="flex-start"
           textAlign="left"
           width="95%"
-         >
+        >
           <Text>Address: {checksumAddress}</Text>
-          <TouchableWithoutFeedback onPress={async () => { await this.onPress(); this.writeToClipboard()}}>
+          <TouchableWithoutFeedback
+            onPress={async () => {
+              await this.onPress();
+              this.writeToClipboard();
+            }}
+          >
             <Animatable.View ref={ref => (this.AnimationRef = ref)}>
               <Image source={require('../../assets/copy_icon.png')} />
             </Animatable.View>

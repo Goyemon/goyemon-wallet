@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import WalletController from '../wallet-core/WalletController.ts';
 import { saveWeb3 } from '../actions/ActionWeb3';
 import { getChecksumAddress } from '../actions/ActionChecksumAddress';
-import { getEthPrice, getDaiPrice } from "../actions/ActionWallets";
+import { getEthPrice, getDaiPrice } from '../actions/ActionWallets';
 import styled from 'styled-components/native';
 import firebase from 'react-native-firebase';
 import uuidv4 from 'uuid/v4';
@@ -20,13 +20,15 @@ class VerifyMnemonic extends Component {
   async registerEthereumAddress() {
     const messageId = uuidv4();
     const serverAddress = '400937673843@gcm.googleapis.com';
-    const checksumAddressWithoutPrefix = this.props.web3.utils.stripHexPrefix(this.props.checksumAddress);
+    const checksumAddressWithoutPrefix = this.props.web3.utils.stripHexPrefix(
+      this.props.checksumAddress
+    );
 
     const upstreamMessage = new firebase.messaging.RemoteMessage()
       .setMessageId(messageId)
       .setTo(serverAddress)
       .setData({
-        register: "true",
+        register: 'true',
         address: checksumAddressWithoutPrefix
       });
     firebase.messaging().sendMessage(upstreamMessage);
@@ -39,14 +41,14 @@ class VerifyMnemonic extends Component {
     return (
       <RootContainer>
         <View>
-          <HeaderOne>
-            Create Wallet
-          </HeaderOne>
+          <HeaderOne>Create Wallet</HeaderOne>
         </View>
         <Container>
           <MnemonicPhrasesContainer style={styles.table}>
             {splitMnemonic.map((splitMnemonic, id) => (
-              <MnemonicWordWrapper style={styles.cell} key={id}><Text style={styles.text}>{splitMnemonic}</Text></MnemonicWordWrapper>
+              <MnemonicWordWrapper style={styles.cell} key={id}>
+                <Text style={styles.text}>{splitMnemonic}</Text>
+              </MnemonicWordWrapper>
             ))}
           </MnemonicPhrasesContainer>
           <Text>Did you really keep it safe already?</Text>
@@ -83,7 +85,7 @@ const styles = {
   text: {
     fontSize: 16,
     padding: 4,
-    textAlign: 'center',
+    textAlign: 'center'
   }
 };
 
@@ -100,9 +102,9 @@ const MnemonicPhrasesContainer = styled.View`
 `;
 
 const MnemonicWordWrapper = styled.View`
-  background: #FFF;
+  background: #fff;
   border-radius: 16px;
-  border-color: #F8F8F8;
+  border-color: #f8f8f8;
   border-width: 4px;
   text-align: center;
 `;

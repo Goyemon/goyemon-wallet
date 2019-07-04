@@ -18,16 +18,16 @@ export default class Welcome extends Component {
 
   async checkFcmPermissions() {
     const enabled = await firebase.messaging().hasPermission();
-      if (enabled) {
-        console.log("user has permissions");
-      } else {
-        console.log("user doesn't have permission");
-        try {
-          await firebase.messaging().requestPermission();
-          console.log("User has authorised");
-        } catch (error) {
-          console.log("User has rejected permissions");
-        }
+    if (enabled) {
+      console.log('user has permissions');
+    } else {
+      console.log("user doesn't have permission");
+      try {
+        await firebase.messaging().requestPermission();
+        console.log('User has authorised');
+      } catch (error) {
+        console.log('User has rejected permissions');
+      }
     }
   }
 
@@ -35,14 +35,20 @@ export default class Welcome extends Component {
     return (
       <RootContainer>
         <Container>
-          <Title animation="fadeInDown" delay={500}>Holla!</Title>
-          <Title animation="fadeIn" delay={2000}>Ready to join ?</Title>
+          <Title animation="fadeInDown" delay={500}>
+            Holla!
+          </Title>
+          <Title animation="fadeIn" delay={2000}>
+            Ready to join ?
+          </Title>
           <ButtonWrapper animation="fadeIn" delay={4000}>
             <Button
-            text="Hell Yeah!"
-            textColor="white" backgroundColor="#4083FF"
-            margin="16px auto"
-            onPress={() => this.props.navigation.navigate('Start')} />
+              text="Hell Yeah!"
+              textColor="white"
+              backgroundColor="#4083FF"
+              margin="16px auto"
+              onPress={() => this.props.navigation.navigate('Start')}
+            />
           </ButtonWrapper>
         </Container>
       </RootContainer>

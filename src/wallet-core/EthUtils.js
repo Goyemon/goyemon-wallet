@@ -7,11 +7,10 @@ class EthUtils {
       const dec = arr[i];
       const hexStr = Number(dec).toString(16);
       const str = hexStr.length == 1 ? `0${hexStr}` : hexStr;
-      result = result + str;
+      result += str;
     }
     return result;
   }
-  
 }
 
 export default new EthUtils();

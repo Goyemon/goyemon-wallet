@@ -10,17 +10,11 @@ const transactions = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case GET_EXISTING_TRANSACTIONS:
       return {
-        transactions: [
-          ...state.transactions,
-          ...action.payload
-        ]
+        transactions: [...state.transactions, ...action.payload]
       };
     case ADD_NEW_TRANSACTION:
       return {
-        transactions: [
-          action.payload,
-          ...state.transactions
-        ]
+        transactions: [action.payload, ...state.transactions]
       };
     default:
       return state;

@@ -1,14 +1,14 @@
 'use strict';
 import React, { Component } from 'react';
 import { Text, View, Linking, Image } from 'react-native';
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 class WalletDetail extends Component {
   constructor(props) {
     super();
     this.state = {
-      balance: "0.0"
+      balance: '0.0'
     };
   }
 
@@ -16,14 +16,14 @@ class WalletDetail extends Component {
     const newBalanceInWei = await this.getBalance(this.props.checksumAddress);
     const newBalanceInEther = this.props.web3.utils.fromWei(newBalanceInWei);
     const roundedNewBalanceInEther = parseFloat(newBalanceInEther).toFixed(4);
-    this.setState({balance: roundedNewBalanceInEther});
+    this.setState({ balance: roundedNewBalanceInEther });
   }
 
   async getBalance(address) {
     try {
       const balance = await this.props.web3.eth.getBalance(address);
       return balance;
-    } catch(err) {
+    } catch (err) {
       console.error(err);
     }
   }
@@ -55,23 +55,19 @@ class WalletDetail extends Component {
       balanceTextStyle
     } = styles;
 
-    if(!this.props.web3.eth){
+    if (!this.props.web3.eth) {
       return <Text>loading...</Text>;
-    };
+    }
 
     return (
       <Container>
-        <View>
-          {this.renderIcon()}
-        </View>
+        <View>{this.renderIcon()}</View>
         <View>
           <Text style={[WalletStyleMiddleContainer, coinTextStyle]}>{coin}</Text>
           <Text style={[WalletStyleMiddleContainer, priceTextStyle]}>${price}</Text>
         </View>
         <View>
-          <Text style={balanceTextStyle}>
-            {this.renderBalance()}
-          </Text>
+          <Text style={balanceTextStyle}>{this.renderBalance()}</Text>
         </View>
       </Container>
     );
@@ -105,12 +101,10 @@ const Container = styled.View`
   alignItems: center;
 `;
 
-const mapStateToProps = state => {
-  return {
+const mapStateToProps = state => ({
     wallets: state.ReducerWallets.wallets,
     web3: state.ReducerWeb3.web3,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress
- }
-}
+  });
 
 export default connect(mapStateToProps)(WalletDetail);

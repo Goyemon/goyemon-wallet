@@ -1,8 +1,8 @@
 'use strict';
-import { GET_MNEMONIC } from "../constants/ActionTypes";
+import { GET_MNEMONIC } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
-  mnemonic: ""
+  mnemonic: ''
 };
 
 const mnemonic = (state = INITIAL_STATE, action) => {
@@ -11,7 +11,7 @@ const mnemonic = (state = INITIAL_STATE, action) => {
       return { ...state, mnemonic: action.payload };
     default:
       return state || INITIAL_STATE;
-  };
+  }
 };
 
 export default mnemonic;

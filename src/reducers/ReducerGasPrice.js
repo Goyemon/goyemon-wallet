@@ -11,7 +11,7 @@ const gasPrice = (state = INITIAL_STATE, action) => {
       return { ...state, gasPrice: action.payload };
     default:
       return state || INITIAL_STATE;
-  };
+  }
 };
 
 export default gasPrice;
