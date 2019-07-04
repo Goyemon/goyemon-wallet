@@ -4,6 +4,7 @@ import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { RootContainer, Button, HeaderOne } from '../components/common';
+import Mnemonic from '../components/Mnemonic';
 
 class ShowMnemonic extends Component {
   render() {
@@ -20,9 +21,10 @@ class ShowMnemonic extends Component {
           <Text>Please carefully write down these 24 words.</Text>
           <MnemonicPhrasesContainer style={styles.table}>
             {splitMnemonic.map((splitMnemonic, id) => (
-              <MnemonicWordWrapper style={styles.cell} key={id}>
-                <Text style={styles.text}>{splitMnemonic}</Text>
-              </MnemonicWordWrapper>
+              <Mnemonic
+                key={id}
+                splitMnemonic={splitMnemonic}
+              />
             ))}
           </MnemonicPhrasesContainer>
           <Text>we will confirm this phrase on the next screen</Text>
@@ -43,15 +45,6 @@ const styles = {
   table: {
     flexWrap: 'wrap',
     flexDirection: 'row'
-  },
-  cell: {
-    flexBasis: '25%',
-    flex: 1
-  },
-  text: {
-    fontSize: 16,
-    padding: 4,
-    textAlign: 'center'
   }
 };
 
@@ -65,14 +58,6 @@ const MnemonicPhrasesContainer = styled.View`
   margin-top: 24px;
   margin-bottom: 24px;
   width: 95%;
-`;
-
-const MnemonicWordWrapper = styled.View`
-  background: #fff;
-  border-radius: 16px;
-  border-color: #f8f8f8;
-  border-width: 4px;
-  text-align: center;
 `;
 
 function mapStateToProps(state) {

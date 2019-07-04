@@ -4,6 +4,7 @@ import { View, Text } from 'react-native';
 import { RootContainer, Button, HeaderOne } from '../components/common';
 import { connect } from 'react-redux';
 import WalletController from '../wallet-core/WalletController.ts';
+import Mnemonic from '../components/Mnemonic';
 import { saveWeb3 } from '../actions/ActionWeb3';
 import { getChecksumAddress } from '../actions/ActionChecksumAddress';
 import { getEthPrice, getDaiPrice } from '../actions/ActionWallets';
@@ -46,9 +47,10 @@ class VerifyMnemonic extends Component {
         <Container>
           <MnemonicPhrasesContainer style={styles.table}>
             {splitMnemonic.map((splitMnemonic, id) => (
-              <MnemonicWordWrapper style={styles.cell} key={id}>
-                <Text style={styles.text}>{splitMnemonic}</Text>
-              </MnemonicWordWrapper>
+              <Mnemonic
+                key={id}
+                splitMnemonic={splitMnemonic}
+              />
             ))}
           </MnemonicPhrasesContainer>
           <Text>Did you really keep it safe already?</Text>
