@@ -13,7 +13,7 @@ export default class Mnemonic extends Component {
     )
   }
 }
-/
+
 const styles = {
   cell: {
     flexBasis: '25%',

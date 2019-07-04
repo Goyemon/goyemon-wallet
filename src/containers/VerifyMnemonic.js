@@ -4,7 +4,7 @@ import { View, Text } from 'react-native';
 import { RootContainer, Button, HeaderOne } from '../components/common';
 import { connect } from 'react-redux';
 import WalletController from '../wallet-core/WalletController.ts';
-import Mnemonic from '../components/Mnemonic';
+import MnemonicPhrases from './MnemonicPhrases';
 import { saveWeb3 } from '../actions/ActionWeb3';
 import { getChecksumAddress } from '../actions/ActionChecksumAddress';
 import { getEthPrice, getDaiPrice } from '../actions/ActionWallets';
@@ -36,23 +36,13 @@ class VerifyMnemonic extends Component {
   }
 
   render() {
-    const mnemonic = this.props.mnemonic;
-    const splitMnemonic = mnemonic.split(' ');
-
     return (
       <RootContainer>
         <View>
           <HeaderOne>Create Wallet</HeaderOne>
         </View>
         <Container>
-          <MnemonicPhrasesContainer style={styles.table}>
-            {splitMnemonic.map((splitMnemonic, id) => (
-              <Mnemonic
-                key={id}
-                splitMnemonic={splitMnemonic}
-              />
-            ))}
-          </MnemonicPhrasesContainer>
+          <MnemonicPhrases />
           <Text>Did you really keep it safe already?</Text>
           <Button
             text="Verify"
@@ -75,45 +65,14 @@ class VerifyMnemonic extends Component {
   }
 }
 
-const styles = {
-  table: {
-    flexWrap: 'wrap',
-    flexDirection: 'row'
-  },
-  cell: {
-    flexBasis: '25%',
-    flex: 1
-  },
-  text: {
-    fontSize: 16,
-    padding: 4,
-    textAlign: 'center'
-  }
-};
-
 const Container = styled.View`
   alignItems: center;
   flexDirection: column;
   justifyContent: center;
 `;
 
-const MnemonicPhrasesContainer = styled.View`
-  margin-top: 24px;
-  margin-bottom: 24px;
-  width: 95%;
-`;
-
-const MnemonicWordWrapper = styled.View`
-  background: #fff;
-  border-radius: 16px;
-  border-color: #f8f8f8;
-  border-width: 4px;
-  text-align: center;
-`;
-
 function mapStateToProps(state) {
   return {
-    mnemonic: state.ReducerMnemonic.mnemonic,
     web3: state.ReducerWeb3.web3,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress
   };
