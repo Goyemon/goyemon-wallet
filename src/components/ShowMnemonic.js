@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import styled from 'styled-components/native';
 import { RootContainer, Button, HeaderOne } from '../components/common';
-import MnemonicPhrases from './MnemonicPhrases';
+import MnemonicPhrases from '../containers/MnemonicPhrases';
 
 export default class ShowMnemonic extends Component {
   render() {

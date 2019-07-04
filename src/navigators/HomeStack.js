@@ -3,7 +3,7 @@ import { createStackNavigator } from 'react-navigation';
 import Welcome from '../components/Welcome';
 import Start from '../containers/Start';
 import Import from '../components/Import';
-import ShowMnemonic from '../containers/ShowMnemonic';
+import ShowMnemonic from '../components/ShowMnemonic';
 import VerifyMnemonic from '../containers/VerifyMnemonic';
 import Wallets from '../components/Wallets';
 import Ethereum from '../containers/Ethereum';
