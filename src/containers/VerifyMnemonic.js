@@ -26,7 +26,7 @@ class VerifyMnemonic extends Component {
       .setMessageId(messageId)
       .setTo(serverAddress)
       .setData({
-        register: true,
+        register: "true",
         address: checksumAddressWithoutPrefix
       });
     firebase.messaging().sendMessage(upstreamMessage);
