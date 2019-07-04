@@ -7,24 +7,47 @@ import styled from 'styled-components/native';
 import ethTx from "ethereumjs-tx";
 import WalletController from '../wallet-core/WalletController.ts';
 import { addNewTransaction } from '../actions/ActionTransactions';
+import firebase from 'react-native-firebase';
+import uuidv4 from 'uuid/v4';
 
 class Confirmation extends Component {
-  async sendSignedTx() {
+  async constructSignedTransactionObject() {
     const transactionObject = new ethTx(this.props.transactionObject);
     let privateKey = await WalletController.retrievePrivateKey();
     privateKey = Buffer.from(privateKey, 'hex');
     transactionObject.sign(privateKey);
-    const serializedTransactionObject = transactionObject.serialize();
+    let signedTransaction = transactionObject.serialize();
+    signedTransaction = '0x' + signedTransaction.toString('hex')
+    return signedTransaction;
+  }
 
-    this.props.web3.eth.sendSignedTransaction(`0x${serializedTransactionObject.toString('hex')}`,
+  async sendSignedTx() {
+    const signedTransaction = await this.constructSignedTransactionObject();
+
+    this.props.web3.eth.sendSignedTransaction(signedTransaction,
       (error, transactionHash) => {
         if (error) { console.log(`Error: ${error}`); }
         else {
           console.log(`Result: ${transactionHash}`);
           this.updateTransactionHistory(transactionHash);
+          this.sendOutgoingTransactionToServer();
         }
       }
     );
+  }
+
+  async sendOutgoingTransactionToServer() {
+    const messageId = uuidv4();
+    const serverAddress = '400937673843@gcm.googleapis.com';
+    const signedTransaction = await this.constructSignedTransactionObject();
+
+    const upstreamMessage = new firebase.messaging.RemoteMessage()
+      .setMessageId(messageId)
+      .setTo(serverAddress)
+      .setData({
+        signedTransaction: signedTransaction
+      });
+    firebase.messaging().sendMessage(upstreamMessage);
   }
 
   async updateTransactionHistory(transactionHash) {
