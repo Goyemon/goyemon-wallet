@@ -114,7 +114,7 @@ const EthBalance = styled.Text`
 `;
 
 const mapStateToProps = state => ({
-    transactions: state.ReducerTransactions.transactions,
+    transactions: state.ReducerTransactionHistory.transactions,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
     web3: state.ReducerWeb3.web3,
     wallets: state.ReducerWallets.wallets

@@ -19,5 +19,6 @@ class Transactions extends Component {
 const mapStateToProps = state => ({
     transactions: state.ReducerTransactions.transactions
   });
+  transactions: state.ReducerTransactionHistory.transactions
 
 export default connect(mapStateToProps)(Transactions);
