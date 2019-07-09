@@ -1,6 +1,7 @@
 'use strict';
 import { GET_EXISTING_TRANSACTIONS } from '../constants/ActionTypes';
 import { ADD_NEW_TRANSACTION } from '../constants/ActionTypes';
+import { ADD_SENT_TRANSACTION } from '../constants/ActionTypes';
 import axios from 'axios';
 import TransactionController from '../wallet-core/TransactionController.ts';
 
@@ -35,4 +36,20 @@ export function addNewTransaction(transactionObject) {
 const addNewTransactionSuccess = (parsedTransactionObject) => ({
   type: ADD_NEW_TRANSACTION,
   payload: parsedTransactionObject
+})
+
+export function addSentTransaction(transactionObject) {
+  return function (dispatch) {
+    try {
+      let parsedSentTransactionObject = TransactionController.parseSentTransaction(transactionObject);
+      dispatch(addSentTransactionSuccess(parsedSentTransactionObject));
+    } catch(err) {
+      console.error(err);
+    }
+  }
+};
+
+const addSentTransactionSuccess = (parsedSentTransactionObject) => ({
+  type: ADD_SENT_TRANSACTION,
+  payload: parsedSentTransactionObject
 })

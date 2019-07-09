@@ -29,11 +29,17 @@ class TransactionController {
       from: transactionObject.from,
       to: transactionObject.to,
       gas: transactionObject.gas,
+
+  parseSentTransaction(transactionObject) {
+    const parsedTransaction = {
+      id: "",
+      to: transactionObject.to,
+      gasLimit: transactionObject.gasLimit,
       gasPrice: transactionObject.gasPrice,
       value: this.parseTransactionValue((transactionObject.value)),
       time: "",
       nonce: transactionObject.nonce,
-      status: ""
+      state: "sent"
     }
 
     return parsedTransaction;

@@ -8,13 +8,13 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 class Transaction extends Component {
   renderInOrOutTransactionIcon() {
-    if (this.props.transaction.to === '0x1b5e2011e26b3051e4ad1936299c417eedacbf50') {
+    if (this.props.transaction.to === this.props.checksumAddress) {
       return (
         <Text>
           <Icon name="call-received" size={16} color="#7ED321" />
         </Text>
       );
-    } else if (this.props.transaction.to != '0x1b5e2011e26b3051e4ad1936299c417eedacbf50') {
+    } else if (this.props.transaction.to != this.props.checksumAddress) {
       return (
         <Text>
           <Icon name="call-made" size={16} color="#D0021B" />
@@ -24,17 +24,17 @@ class Transaction extends Component {
   }
 
   renderAddress() {
-    if (this.props.transaction.to === '0x1b5e2011e26b3051e4ad1936299c417eedacbf50') {
+    if (this.props.transaction.to === this.props.checksumAddress) {
       return <Text />;
-    } else if (this.props.transaction.to != '0x1b5e2011e26b3051e4ad1936299c417eedacbf50') {
+    } else if (this.props.transaction.to != this.props.checksumAddress) {
       return <Text>{this.props.transaction.to}</Text>;
     }
   }
 
   renderPlusOrMinusTransactionIcon() {
-    if (this.props.transaction.to === '0x1b5e2011e26b3051e4ad1936299c417eedacbf50') {
+    if (this.props.transaction.to === this.props.checksumAddress) {
       return <Icon name="plus" size={16} color="#7ED321" />;
-    } else if (this.props.transaction.to != '0x1b5e2011e26b3051e4ad1936299c417eedacbf50') {
+    } else if (this.props.transaction.to != this.props.checksumAddress) {
       return <Icon name="minus" size={16} color="#D0021B" />;
     }
   }
@@ -45,7 +45,8 @@ class Transaction extends Component {
   }
 
   renderStatus() {
-    if (this.props.transaction.status === 'pending') {
+    if (this.props.transaction.state === 'sent') {
+      return <Text>sent</Text>;
       return <Text>pending...</Text>;
     } else if (this.props.transaction.status >= 1 <= 11) {
       return <Text>included</Text>;
@@ -110,5 +111,6 @@ const Container = styled.View`
 const mapStateToProps = state => ({
     web3: state.ReducerWeb3.web3
   });
+  checksumAddress: state.ReducerChecksumAddress.checksumAddress,
 
 export default connect(mapStateToProps)(Transaction);

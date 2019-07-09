@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import ethTx from 'ethereumjs-tx';
 import WalletController from '../wallet-core/WalletController.ts';
-import { addNewTransaction } from '../actions/ActionTransactionHistory';
+import { addSentTransaction } from '../actions/ActionTransactionHistory';
 import firebase from 'react-native-firebase';
 import uuidv4 from 'uuid/v4';
 
@@ -29,7 +29,7 @@ class Confirmation extends Component {
 
   async sendSignedTx() {
     await this.sendOutgoingTransactionToServer();
-    await this.props.addNewTransaction(this.props.outgoingTransactionObject);
+    await this.props.addSentTransaction(this.props.outgoingTransactionObject);
   }
 
   async sendOutgoingTransactionToServer() {
@@ -115,7 +115,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  addNewTransaction
+  addSentTransaction
 };
 
 export default connect(
