@@ -17,12 +17,12 @@ import firebase from 'react-native-firebase';
 import uuidv4 from 'uuid/v4';
 
 class Confirmation extends Component {
-  async constructSignedTransactionObject() {
-    const transactionObject = new ethTx(this.props.outgoingTransactionObject);
+  async constructSignedOutgoingTransactionObject() {
+    const outgoingTransactionObject = new ethTx(this.props.outgoingTransactionObject);
     let privateKey = await WalletController.retrievePrivateKey();
     privateKey = Buffer.from(privateKey, 'hex');
-    transactionObject.sign(privateKey);
-    let signedTransaction = transactionObject.serialize();
+    outgoingTransactionObject.sign(privateKey);
+    let signedTransaction = outgoingTransactionObject.serialize();
     signedTransaction = `0x${signedTransaction.toString('hex')}`;
     return signedTransaction;
   }
