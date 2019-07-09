@@ -18,7 +18,7 @@ import uuidv4 from 'uuid/v4';
 
 class Confirmation extends Component {
   async constructSignedTransactionObject() {
-    const transactionObject = new ethTx(this.props.transactionObject);
+    const transactionObject = new ethTx(this.props.outgoingTransactionObject);
     let privateKey = await WalletController.retrievePrivateKey();
     privateKey = Buffer.from(privateKey, 'hex');
     transactionObject.sign(privateKey);
@@ -39,6 +39,7 @@ class Confirmation extends Component {
         this.sendOutgoingTransactionToServer();
       }
     });
+    await this.props.addNewTransaction(this.props.outgoingTransactionObject);
   }
 
   async sendOutgoingTransactionToServer() {
@@ -67,11 +68,11 @@ class Confirmation extends Component {
 
   render() {
     const gasPriceInEther = this.props.web3.utils.fromWei(
-      this.props.transactionObject.gasPrice,
+      this.props.outgoingTransactionObject.gasPrice,
       'Ether'
     );
     const valueInEther = parseFloat(
-      this.props.web3.utils.fromWei(this.props.transactionObject.value, 'Ether')
+      this.props.web3.utils.fromWei(this.props.outgoingTransactionObject.value, 'Ether')
     );
     const gasPriceInEtherNumber = parseFloat(gasPriceInEther);
     const total = gasPriceInEtherNumber + valueInEther;
@@ -91,7 +92,7 @@ class Confirmation extends Component {
           <Text>{this.props.checksumAddress}</Text>
           <Text>↓</Text>
           <HeaderTwo fontSize="16px">to</HeaderTwo>
-          <Text>{this.props.transactionObject.to}</Text>
+          <Text>{this.props.outgoingTransactionObject.to}</Text>
         </UntouchableCardContainer>
         <Text>Total {total} ETH</Text>
         <Text>Gas Fee {gasPriceInEther} ETH</Text>
@@ -128,7 +129,7 @@ const ButtonContainer = styled.View`
 function mapStateToProps(state) {
   return {
     web3: state.ReducerWeb3.web3,
-    transactionObject: state.ReducerTransactionObject.transactionObject,
+    outgoingTransactionObject: state.ReducerOutgoingTransactionObject.outgoingTransactionObject,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress
   };
 }

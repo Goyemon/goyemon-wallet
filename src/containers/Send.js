@@ -5,6 +5,7 @@ import { Button } from '../components/common';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { saveTransactionObject } from '../actions/ActionTransactionObject';
+import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObject';
 
 class Send extends Component {
   constructor(props) {
@@ -97,6 +98,7 @@ class Send extends Component {
   async validateForm() {
     if (this.validateToAddress() && this.validateAmount()) {
       await this.props.saveTransactionObject(this.transactionObject);
+      await this.props.saveOutgoingTransactionObject(this.transactionObject);
       this.props.navigation.navigate('Confirmation');
     } else {
       console.log('form validation failed!');
@@ -230,7 +232,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  saveTransactionObject
+  saveOutgoingTransactionObject
 };
 
 export default connect(
