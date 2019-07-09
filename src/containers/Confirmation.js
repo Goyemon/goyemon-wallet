@@ -28,17 +28,7 @@ class Confirmation extends Component {
   }
 
   async sendSignedTx() {
-    const signedTransaction = await this.constructSignedTransactionObject();
-
-    this.props.web3.eth.sendSignedTransaction(signedTransaction, (error, transactionHash) => {
-      if (error) {
-        console.log(`Error: ${error}`);
-      } else {
-        console.log(`Result: ${transactionHash}`);
-        this.updateTransactionHistory(transactionHash);
-        this.sendOutgoingTransactionToServer();
-      }
-    });
+    await this.sendOutgoingTransactionToServer();
     await this.props.addNewTransaction(this.props.outgoingTransactionObject);
   }
 
@@ -54,16 +44,6 @@ class Confirmation extends Component {
         signedTransaction
       });
     firebase.messaging().sendMessage(upstreamMessage);
-  }
-
-  async updateTransactionHistory(transactionHash) {
-    const transactionObject = await this.getTransactionObject(transactionHash);
-    await this.props.addNewTransaction(transactionObject);
-  }
-
-  async getTransactionObject(transactionHash) {
-    const transactionObject = await this.props.web3.eth.getTransaction(transactionHash);
-    return transactionObject;
   }
 
   render() {
