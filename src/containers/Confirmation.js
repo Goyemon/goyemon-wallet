@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import ethTx from 'ethereumjs-tx';
 import WalletController from '../wallet-core/WalletController.ts';
-import { addNewTransaction } from '../actions/ActionTransactions';
+import { addNewTransaction } from '../actions/ActionTransactionHistory';
 import firebase from 'react-native-firebase';
 import uuidv4 from 'uuid/v4';
 
