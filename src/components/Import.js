@@ -11,16 +11,16 @@ class Import extends Component {
   constructor() {
     super();
     this.state = {
-      mnemonicPhrases: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" ]
+      mnemonicWords: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" ]
     };
     this.handleTextChange = this.handleTextChange.bind(this);
   }
 
   handleTextChange = (text, id) => {
-    let mnemonicPhrases = this.state.mnemonicPhrases;
-    mnemonicPhrases[id] = text;
+    let mnemonicWords = this.state.mnemonicWords;
+    mnemonicWords[id] = text;
 
-    this.setState({mnemonicPhrases: mnemonicPhrases});
+    this.setState({mnemonicWords: mnemonicWords});
   }
 
   render() {
@@ -30,9 +30,9 @@ class Import extends Component {
           <HeaderOne>
             Import Wallet
           </HeaderOne>
-          <Text>Enter the backup phrases for the wallet you want to import</Text>
-          <MnemonicPhrasesContainer style={styles.table}>
-          {this.state.mnemonicPhrases.map((word, id) => (
+          <Text>Enter the backup words for the wallet you want to import</Text>
+          <MnemonicWordsContainer style={styles.table}>
+          {this.state.mnemonicWords.map((word, id) => (
             <View style={styles.cell} key={id}>
               <MnemonicWordWrapper>
                 <TextInput
@@ -45,7 +45,7 @@ class Import extends Component {
               </MnemonicWordWrapper>
             </View>
           ))}
-          </MnemonicPhrasesContainer>
+          </MnemonicWordsContainer>
           <ButtonContainer>
             <Button
               text="go"
@@ -81,7 +81,7 @@ const Container = styled.View`
   justifyContent: center;
 `;
 
-const MnemonicPhrasesContainer = styled.View`
+const MnemonicWordsContainer = styled.View`
   margin-bottom: 24px;
   margin-top: 24px;
   width: 95%;

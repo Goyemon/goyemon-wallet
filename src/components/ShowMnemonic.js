@@ -13,7 +13,7 @@ export default class ShowMnemonic extends Component {
           <HeaderOne>Create Wallet</HeaderOne>
         </View>
         <Container>
-          <Text>backup phrases</Text>
+          <Text>backup words</Text>
           <Text>Please carefully write down these 24 words.</Text>
           <MnemonicPhrases />
           <Text>we will confirm this phrase on the next screen</Text>

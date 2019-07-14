@@ -5,11 +5,11 @@ import styled from 'styled-components/native';
 
 export default class Mnemonic extends Component {
   render() {
-    const { splitMnemonic } = this.props;
+    const { mnemonicWord } = this.props;
     return (
-      <MnemonicWordWrapper style={styles.cell}>
-        <Text style={styles.text}>{splitMnemonic}</Text>
-      </MnemonicWordWrapper>
+      <MnemonicWordsWrapper style={styles.cell}>
+        <Text style={styles.text}>{mnemonicWord}</Text>
+      </MnemonicWordsWrapper>
     )
   }
 }
@@ -26,7 +26,7 @@ const styles = {
   }
 };
 
-const MnemonicWordWrapper = styled.View`
+const MnemonicWordsWrapper = styled.View`
   background: #fff;
   border-radius: 16px;
   border-color: #f8f8f8;

@@ -7,15 +7,14 @@ import Mnemonic from '../components/Mnemonic';
 
 class MnemonicPhrases extends Component {
   render() {
-    const { mnemonic } = this.props;
-    const splitMnemonic = mnemonic.split(' ');
+    const mnemonicWords = this.props.mnemonic.split(' ');
 
     return (
-      <MnemonicPhrasesContainer style={styles.table}>
-        {splitMnemonic.map((splitMnemonic, id) => (
-          <Mnemonic key={id} splitMnemonic={splitMnemonic} />
+      <MnemonicWordsContainer style={styles.table}>
+        {mnemonicWords.map((mnemonicWord, id) => (
+          <Mnemonic key={id} mnemonicWord={mnemonicWord} />
         ))}
-      </MnemonicPhrasesContainer>
+      </MnemonicWordsContainer>
     );
   }
 }
@@ -27,7 +26,7 @@ const styles = {
   }
 };
 
-const MnemonicPhrasesContainer = styled.View`
+const MnemonicWordsContainer = styled.View`
   margin-top: 24px;
   margin-bottom: 24px;
   width: 95%;
