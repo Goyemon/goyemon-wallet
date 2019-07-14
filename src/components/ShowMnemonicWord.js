@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Text } from 'react-native';
 import styled from 'styled-components/native';
 
-export default class Mnemonic extends Component {
+export default class ShowMnemonicWord extends Component {
   render() {
     const { mnemonicWord } = this.props;
     return (

@@ -3,16 +3,16 @@ import React, { Component } from 'react';
 import { Text } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-import Mnemonic from '../components/Mnemonic';
+import ShowMnemonicWord from '../components/ShowMnemonicWord';
 
-class MnemonicWords extends Component {
+class ShowMnemonicWords extends Component {
   render() {
     const mnemonicWords = this.props.mnemonic.split(' ');
 
     return (
       <MnemonicWordsContainer style={styles.table}>
         {mnemonicWords.map((mnemonicWord, id) => (
-          <Mnemonic key={id} mnemonicWord={mnemonicWord} />
+          <ShowMnemonicWord key={id} mnemonicWord={mnemonicWord} />
         ))}
       </MnemonicWordsContainer>
     );
@@ -38,4 +38,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(MnemonicWords);
+export default connect(mapStateToProps)(ShowMnemonicWords);

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import styled from 'styled-components/native';
 import { RootContainer, Button, HeaderOne } from '../components/common';
-import MnemonicWords from '../containers/MnemonicWords';
+import ShowMnemonicWords from '../containers/ShowMnemonicWords';
 
 export default class ShowMnemonic extends Component {
   render() {
@@ -15,7 +15,7 @@ export default class ShowMnemonic extends Component {
         <Container>
           <Text>backup words</Text>
           <Text>Please carefully write down these 24 words.</Text>
-          <MnemonicWords />
+          <ShowMnemonicWords />
           <Text>we will confirm this phrase on the next screen</Text>
           <Button
             text="I’ve written them down"
