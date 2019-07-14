@@ -4,7 +4,7 @@ import { View, Text } from 'react-native';
 import { RootContainer, Button, HeaderOne } from '../components/common';
 import { connect } from 'react-redux';
 import WalletController from '../wallet-core/WalletController.ts';
-import MnemonicPhrases from './MnemonicPhrases';
+import MnemonicWords from './MnemonicWords';
 import { saveWeb3 } from '../actions/ActionWeb3';
 import { getChecksumAddress } from '../actions/ActionChecksumAddress';
 import { getEthPrice, getDaiPrice } from '../actions/ActionWallets';
@@ -42,7 +42,7 @@ class VerifyMnemonic extends Component {
           <HeaderOne>Create Wallet</HeaderOne>
         </View>
         <Container>
-          <MnemonicPhrases />
+          <MnemonicWords />
           <Text>Did you really keep it safe already?</Text>
           <Button
             text="Verify"

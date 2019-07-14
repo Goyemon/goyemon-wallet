@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import Mnemonic from '../components/Mnemonic';
 
-class MnemonicPhrases extends Component {
+class MnemonicWords extends Component {
   render() {
     const mnemonicWords = this.props.mnemonic.split(' ');
 
@@ -38,4 +38,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(MnemonicPhrases);
+export default connect(mapStateToProps)(MnemonicWords);
