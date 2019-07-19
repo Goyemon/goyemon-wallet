@@ -7,39 +7,31 @@ import Transactions from '../containers/Transactions';
 import { RootContainer, Button, HeaderOne, HeaderTwo } from '../components/common/';
 import { getGasPrice } from '../actions/ActionGasPrice';
 import { getExistingTransactions } from '../actions/ActionTransactions';
+import { saveBalance } from '../actions/ActionBalance';
 import styled from 'styled-components';
+import firebase from 'react-native-firebase';
 
 class Ethereum extends Component {
-  constructor(props) {
-    super();
-    this.state = {
-      balance: '0.0',
-      usdBalance: '0.0'
-    };
-  }
-
   async componentDidMount() {
-    const balanceInWei = await this.getBalance(this.props.checksumAddress);
-    const balanceInEther = this.props.web3.utils.fromWei(balanceInWei);
-    const roundedBalanceInEther = parseFloat(balanceInEther).toFixed(4);
     await this.props.getExistingTransactions('1b5e2011e26B3051E4ad1936299c417eEDaCBF50');
-    this.setState({ balance: roundedBalanceInEther });
-    this.setState({ usdBalance: this.getUsdBalance() });
+    this.messageListener = firebase.messaging().onMessage(async (downstreamMessage) => {
+      if (downstreamMessage.data.type === "balance") {
+        const balanceInWei = downstreamMessage.data.balance;
+        const balanceInEther = this.props.web3.utils.fromWei(balanceInWei);
+        const roundedBalanceInEther = parseFloat(balanceInEther).toFixed(4);
+        this.props.saveBalance(roundedBalanceInEther);
+      }
+    });
   }
 
-  async getBalance(address) {
-    try {
-      const balance = await this.props.web3.eth.getBalance(address);
-      return balance;
-    } catch (err) {
-      console.error(err);
-    }
+  componentWillUnmount() {
+    this.messageListener();
   }
 
-  getUsdBalance() {
+  getUsdBalance(roundedBalanceInEther) {
     try {
       const usdPrice = this.props.wallets[0].price;
-      const ethBalance = parseFloat(this.state.balance);
+      const ethBalance = parseFloat(roundedBalanceInEther);
       const usdBalance = usdPrice * ethBalance;
       const roundedUsdBalance = parseFloat(usdBalance).toFixed(2);
       return roundedUsdBalance;
@@ -49,7 +41,7 @@ class Ethereum extends Component {
   }
 
   render() {
-    const { transactions, navigation } = this.props;
+    const { transactions, balance, navigation } = this.props;
 
     if (!this.props.web3.eth) {
       return <Text>loading...</Text>;
@@ -60,8 +52,8 @@ class Ethereum extends Component {
         <HeaderOne>Ethereum</HeaderOne>
         <CardContainerWithoutFeedback>
           <HeaderTwo fontSize="24px">Total Balance</HeaderTwo>
-          <UsdBalance>${this.state.usdBalance}</UsdBalance>
-          <EthBalance>{this.state.balance} ETH</EthBalance>
+          <UsdBalance>${this.getUsdBalance(balance)}</UsdBalance>
+          <EthBalance>{balance} ETH</EthBalance>
           <ButtonContainer>
             <Button
               text="Receive"
@@ -115,14 +107,15 @@ const EthBalance = styled.Text`
 
 const mapStateToProps = state => ({
     transactions: state.ReducerTransactionHistory.transactions,
-    checksumAddress: state.ReducerChecksumAddress.checksumAddress,
     web3: state.ReducerWeb3.web3,
     wallets: state.ReducerWallets.wallets
+    balance: state.ReducerBalance.balance
   });
 
 const mapDispatchToProps = {
   getGasPrice,
   getExistingTransactions
+  saveBalance
 };
 
 export default withNavigation(

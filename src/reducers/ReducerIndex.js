@@ -8,6 +8,7 @@ import ReducerTransactionHistory from './ReducerTransactionHistory';
 import ReducerChecksumAddress from './ReducerChecksumAddress';
 import ReducerGasPrice from './ReducerGasPrice';
 import ReducerOutgoingTransactionObject from './ReducerOutgoingTransactionObject';
+import ReducerBalance from './ReducerBalance';
 
 const rootReducers = combineReducers({
   ReducerWeb3,
@@ -16,7 +17,8 @@ const rootReducers = combineReducers({
   ReducerTransactionHistory,
   ReducerChecksumAddress,
   ReducerGasPrice,
-  ReducerOutgoingTransactionObject
+  ReducerOutgoingTransactionObject,
+  ReducerBalance
 });
 
 export default rootReducers;

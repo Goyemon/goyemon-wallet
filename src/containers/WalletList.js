@@ -6,32 +6,11 @@ import { TouchableOpacity, View, Text } from 'react-native';
 import { RootContainer, TouchableCardContainer, HeaderOne, HeaderTwo } from '../components/common';
 import WalletDetail from '../containers/WalletDetail';
 import styled from 'styled-components';
-import firebase from 'react-native-firebase';
 
 class WalletList extends Component {
-  constructor(props) {
-    super();
-    this.state = {
-      balance: "0.0",
-      usdBalance: "0.0"
-    };
-  }
-
   async componentDidMount() {
-    const newBalanceInWei = await this.getBalance(this.props.checksumAddress);
-    const newBalanceInEther = this.props.web3.utils.fromWei(newBalanceInWei);
-    this.setState({balance: newBalanceInEther});
-    this.setState({usdBalance: this.getUsdBalance(newBalanceInEther)});
   }
 
-  async getBalance(address) {
-    try {
-      const balance = await this.props.web3.eth.getBalance(address);
-      return balance;
-    } catch(err) {
-      console.error(err);
-    }
-  }
 
   getUsdBalance(ethBalance) {
     try {
@@ -46,7 +25,7 @@ class WalletList extends Component {
   }
 
   render() {
-    const { wallets, navigation } = this.props;
+    const { wallets, balance, navigation } = this.props;
 
     if(!this.props.web3.eth){
       return <Text>loading...</Text>;
@@ -61,7 +40,7 @@ class WalletList extends Component {
            >
             Total Balance
           </HeaderTwo>
-          <UsdBalance>${this.state.usdBalance}</UsdBalance>
+          <UsdBalance>${this.getUsdBalance(balance)}</UsdBalance>
         </CardContainerWithoutFeedback>
         <HeaderTwo
           fontSize="16px"
@@ -108,7 +87,7 @@ const mapStateToProps = state => {
   return {
     wallets: state.ReducerWallets.wallets,
     web3: state.ReducerWeb3.web3,
-    checksumAddress: state.ReducerChecksumAddress.checksumAddress
+    balance: state.ReducerBalance.balance
   }
 }
 
