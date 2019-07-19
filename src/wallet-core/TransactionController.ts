@@ -22,24 +22,17 @@ class TransactionController {
     return parsedTransactions;
   }
 
-  parseTransaction(transactionObject) {
+  parsePendingTransaction(transactionObject) {
     const parsedTransaction = {
-      id: "",
-      hash: transactionObject.hash,
-      from: transactionObject.from,
-      to: transactionObject.to,
-      gas: transactionObject.gas,
-
-  parseSentTransaction(transactionObject) {
-    const parsedTransaction = {
-      id: "",
-      to: transactionObject.to,
-      gasLimit: transactionObject.gasLimit,
+      hash: transactionObject.txhash,
+      from: transactionObject.txfrom,
+      to: transactionObject.txto,
+      gasLimit: transactionObject.gas,
       gasPrice: transactionObject.gasPrice,
       value: this.parseTransactionValue((transactionObject.value)),
-      time: "",
+      time: transactionObject.timestamp,
       nonce: transactionObject.nonce,
-      state: "sent"
+      state: transactionObject.state
     }
 
     return parsedTransaction;

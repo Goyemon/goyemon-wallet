@@ -23,6 +23,16 @@ class Transaction extends Component {
     }
   }
 
+  renderStatus() {
+    if (this.props.transaction.state === 'pending') {
+      return <Text>pending...</Text>;
+    } else if (this.props.transaction.state === 'included') {
+      return <Text>included</Text>;
+    } else if (this.props.transaction.state === 'confirmed') {
+      return <Text>confirmed!</Text>;
+    }
+  }
+
   renderAddress() {
     if (this.props.transaction.to === this.props.checksumAddress) {
       return <Text />;
@@ -42,18 +52,6 @@ class Transaction extends Component {
   renderRoundedValue() {
     const roundedEthValue = parseFloat(this.props.transaction.value).toFixed(4);
     return <Text>{roundedEthValue} ETH</Text>;
-  }
-
-  renderStatus() {
-    if (this.props.transaction.state === 'sent') {
-      return <Text>sent</Text>;
-      return <Text>pending...</Text>;
-    } else if (this.props.transaction.status >= 1 <= 11) {
-      return <Text>included</Text>;
-    } else if (this.props.transaction.status > 12) {
-      return <Text>success!</Text>;
-    }
-      return <Text>failed</Text>;
   }
 
   render() {

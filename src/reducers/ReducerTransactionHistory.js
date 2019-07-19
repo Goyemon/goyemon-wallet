@@ -1,7 +1,7 @@
 'use strict';
 import { GET_EXISTING_TRANSACTIONS } from '../constants/ActionTypes';
-import { ADD_NEW_TRANSACTION } from '../constants/ActionTypes';
-import { ADD_SENT_TRANSACTION } from '../constants/ActionTypes';
+import { ADD_PENDING_TRANSACTION } from '../constants/ActionTypes';
+import { UPDATE_TRANSACTION_STATE } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
   transactions: []
@@ -13,14 +13,19 @@ const transactions = (state = INITIAL_STATE, action) => {
       return {
         transactions: [...state.transactions, ...action.payload]
       };
-    case ADD_NEW_TRANSACTION:
+    case ADD_PENDING_TRANSACTION:
       return {
         transactions: [action.payload, ...state.transactions]
       };
-    case ADD_SENT_TRANSACTION:
+    case UPDATE_TRANSACTION_STATE:
       return {
-        transactions: [action.payload, ...state.transactions]
-      };
+        transactions: state.transactions.map((transaction, index) => {
+          if (action.payload.txhash === transaction.hash) {
+            return {...transaction, state: action.payload.state}
+          }
+          return transaction
+        })
+      }
     default:
       return state;
   }

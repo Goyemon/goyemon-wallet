@@ -1,7 +1,7 @@
 'use strict';
 import { GET_EXISTING_TRANSACTIONS } from '../constants/ActionTypes';
-import { ADD_NEW_TRANSACTION } from '../constants/ActionTypes';
-import { ADD_SENT_TRANSACTION } from '../constants/ActionTypes';
+import { ADD_PENDING_TRANSACTION } from '../constants/ActionTypes';
+import { UPDATE_TRANSACTION_STATE } from '../constants/ActionTypes';
 import axios from 'axios';
 import TransactionController from '../wallet-core/TransactionController.ts';
 
@@ -22,34 +22,33 @@ const getExistingTransactionsSuccess = (parsedExistingTransactions) => ({
   payload: parsedExistingTransactions
 })
 
-export function addNewTransaction(transactionObject) {
+export function addPendingTransaction(transactionObject) {
   return function (dispatch) {
     try {
-      let parsedTransactionObject = TransactionController.parseTransaction(transactionObject);
-      dispatch(addNewTransactionSuccess(parsedTransactionObject));
+      let parsedPendingTransaction = TransactionController.parsePendingTransaction(transactionObject);
+      dispatch(addPendingTransactionSuccess(parsedPendingTransaction));
     } catch(err) {
       console.error(err);
     }
   }
 };
 
-const addNewTransactionSuccess = (parsedTransactionObject) => ({
-  type: ADD_NEW_TRANSACTION,
-  payload: parsedTransactionObject
+const addPendingTransactionSuccess = (parsedPendingTransaction) => ({
+  type: ADD_PENDING_TRANSACTION,
+  payload: parsedPendingTransaction
 })
 
-export function addSentTransaction(transactionObject) {
+export function updateTransactionState(updatedTransaction) {
   return function (dispatch) {
     try {
-      let parsedSentTransactionObject = TransactionController.parseSentTransaction(transactionObject);
-      dispatch(addSentTransactionSuccess(parsedSentTransactionObject));
+      dispatch(updateTransactionStateSuccess(updatedTransaction));
     } catch(err) {
       console.error(err);
     }
   }
 };
 
-const addSentTransactionSuccess = (parsedSentTransactionObject) => ({
-  type: ADD_SENT_TRANSACTION,
-  payload: parsedSentTransactionObject
+const updateTransactionStateSuccess = (updatedTransaction) => ({
+  type: UPDATE_TRANSACTION_STATE,
+  payload: updatedTransaction
 })
