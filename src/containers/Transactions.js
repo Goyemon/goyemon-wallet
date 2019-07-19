@@ -7,10 +7,23 @@ import { addNewTransaction } from '../actions/ActionTransactionHistory';
 
 class Transactions extends Component {
   render() {
+  renderTransactions(){
     const { transactions } = this.props;
+    if(transactions) {
+      return (
+        <View>
+          {transactions.map(transaction => (
+            <Transaction key={transaction.id} transaction={transaction} />
+          ))}
+        </View>
+      )
+    }
+  }
+
+  render() {
     return (
       <View>
-        {transactions.map(transaction => <Transaction key={transaction.id} transaction={transaction} />)}
+        {this.renderTransactions()}
       </View>
     );
   }
