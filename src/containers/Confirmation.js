@@ -17,7 +17,8 @@ import uuidv4 from 'uuid/v4';
 
 class Confirmation extends Component {
   async constructSignedOutgoingTransactionObject() {
-    const outgoingTransactionObject = new ethTx(this.props.outgoingTransactionObject);
+    let outgoingTransactionObject = this.props.outgoingTransactionObjects[this.props.outgoingTransactionObjects.length - 1];
+    outgoingTransactionObject = new ethTx(outgoingTransactionObject);
     let privateKey = await WalletController.retrievePrivateKey();
     privateKey = Buffer.from(privateKey, 'hex');
     outgoingTransactionObject.sign(privateKey);
@@ -45,12 +46,12 @@ class Confirmation extends Component {
   }
 
   render() {
-    const gasPriceInEther = this.props.web3.utils.fromWei(
-      this.props.outgoingTransactionObject.gasPrice,
+    const gasPriceInEther = web3.utils.fromWei(
+      outgoingTransactionObjects[outgoingTransactionObjects.length - 1].gasPrice,
       'Ether'
     );
     const valueInEther = parseFloat(
-      this.props.web3.utils.fromWei(this.props.outgoingTransactionObject.value, 'Ether')
+      web3.utils.fromWei(outgoingTransactionObjects[outgoingTransactionObjects.length - 1].value, 'Ether')
     );
     const gasPriceInEtherNumber = parseFloat(gasPriceInEther);
     const total = gasPriceInEtherNumber + valueInEther;
@@ -70,7 +71,7 @@ class Confirmation extends Component {
           <Text>{this.props.checksumAddress}</Text>
           <Text>↓</Text>
           <HeaderTwo fontSize="16px">to</HeaderTwo>
-          <Text>{this.props.outgoingTransactionObject.to}</Text>
+          <Text>{outgoingTransactionObjects[outgoingTransactionObjects.length - 1].to}</Text>
         </UntouchableCardContainer>
         <Text>Total {total} ETH</Text>
         <Text>Gas Fee {gasPriceInEther} ETH</Text>
@@ -107,7 +108,7 @@ const ButtonContainer = styled.View`
 function mapStateToProps(state) {
   return {
     web3: state.ReducerWeb3.web3,
-    outgoingTransactionObject: state.ReducerOutgoingTransactionObject.outgoingTransactionObject,
+    outgoingTransactionObjects: state.ReducerOutgoingTransactionObject.outgoingTransactionObjects,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress
   };
 }

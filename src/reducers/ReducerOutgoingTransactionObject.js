@@ -2,16 +2,18 @@
 import { SAVE_OUTGOING_TRANSACTION_OBJECT } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
-  outgoingTransactionObject: {}
+  outgoingTransactionObjects: []
 };
 
-const outgoingTransactionObject = (state = INITIAL_STATE, action) => {
+const outgoingTransactionObjects = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SAVE_OUTGOING_TRANSACTION_OBJECT:
-      return { ...state, outgoingTransactionObject: action.payload };
+      return {
+        outgoingTransactionObjects: [...state.outgoingTransactionObjects, action.payload]
+      };
     default:
       return state || INITIAL_STATE;
   }
 };
 
-export default outgoingTransactionObject;
+export default outgoingTransactionObjects;
