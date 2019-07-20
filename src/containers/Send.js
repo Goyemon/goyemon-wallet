@@ -55,6 +55,18 @@ class Send extends Component {
     }
   }
 
+  getUsdGasPrice(gasPriceInEther) {
+    try {
+      const usdPrice = this.props.wallets[0].price;
+      const ethBalance = parseFloat(gasPriceInEther);
+      const usdBalance = usdPrice * ethBalance;
+      const roundedUsdBalance = parseFloat(usdBalance).toFixed(6);
+      return roundedUsdBalance;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   async constructTransactionObject() {
     this.state.transactionNonce = await this.props.web3.eth.getTransactionCount(
       this.props.checksumAddress
@@ -156,7 +168,7 @@ class Send extends Component {
                   <TouchableOpacity>
                     <Text>{gasPrice.speed}</Text>
                     <Image source={gasPrice.imagePath} />
-                    <SelectedButton>{gasPrice.gasPriceInEther} ETH</SelectedButton>
+                    <SelectedButton>${this.getUsdGasPrice(gasPrice.gasPriceInEther)}</SelectedButton>
                   </TouchableOpacity>
                 ) : (
                   <TouchableOpacity
@@ -166,7 +178,7 @@ class Send extends Component {
                   >
                     <Text>{gasPrice.speed}</Text>
                     <Image source={gasPrice.imagePath} />
-                    <UnselectedButton>{gasPrice.gasPriceInEther} ETH</UnselectedButton>
+                    <UnselectedButton>${this.getUsdGasPrice(gasPrice.gasPriceInEther)}</UnselectedButton>
                   </TouchableOpacity>
                 )}
               </View>
@@ -228,6 +240,7 @@ function mapStateToProps(state) {
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
     gasPrice: state.ReducerGasPrice.gasPrice,
     web3: state.ReducerWeb3.web3
+    wallets: state.ReducerWallets.wallets
   };
 }
 
