@@ -37,7 +37,7 @@ class Import extends Component {
               <MnemonicWordWrapper>
                 <TextInput
                   style={{textAlign: 'center', padding: 4}}
-                  placeholder={id + 1}
+                  placeholder={(id + 1).toString()}
                   autoCapitalize='none'
                   maxLength={15}
                   onChangeText={(text) => {this.handleTextChange(text, id)} }
