@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "400937673843",
+    "firebase_url": "https://debank20190525.firebaseio.com",
+    "project_id": "debank20190525",
+    "storage_bucket": "debank20190525.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:400937673843:android:f1a2ec8ab043e412",
+        "android_client_info": {
+          "package_name": "com.debank.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "400937673843-3n8e9nrd9unrb9ijpipcrub1jmb48lpv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCR-b1vcczIw00Imsg45SDeTCsMnY0POBQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "400937673843-3n8e9nrd9unrb9ijpipcrub1jmb48lpv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
