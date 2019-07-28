@@ -4,8 +4,8 @@ import { GET_DAI_PRICE } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
   wallets: [
-    { id: 0, coin: 'Ether', price: 0, balance: 0 },
-    { id: 1, coin: 'Dai', price: 0, balance: 0 }
+    { id: 0, coin: 'Ether', notation: 'ETH', price: 0, balance: 0 },
+    { id: 1, coin: 'Dai', notation: 'DAI', price: 0, balance: 0 }
   ]
 };
 
