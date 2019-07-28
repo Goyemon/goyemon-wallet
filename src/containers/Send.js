@@ -1,58 +1,46 @@
 'use strict';
 import React, { Component } from 'react';
-import { ScrollView, View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
-import { Button } from '../components/common';
+import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
+import { RootContainer, Button, UntouchableCardContainer, HeaderOne, HeaderTwo } from '../components/common';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-import { saveTransactionObject } from '../actions/ActionTransactionObject';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObject';
+import { getGasPriceFast, getGasPriceAverage, getGasPriceSlow } from '../actions/ActionGasPrice';
 
 class Send extends Component {
   constructor(props) {
     super();
     this.state = {
-      balanceInEther: '0.0',
-      gasPriceInGwei: ['0', '0', '0'],
-      gasPriceInWei: ['0', '0', '0'],
       gasPrice: [
         {
           speed: "Fast",
-          imagePath: require("../../assets/cheetah.png"),
-          gasPriceInEther: "0",
+          imageName: "run-fast",
+          gasPriceInEther: "0"
         },
         {
           speed: "Average",
-          imagePath: require("../../assets/dog.png"),
-          gasPriceInEther: "0",
+          imageName: "run",
+          gasPriceInEther: "0"
         },
         {
           speed: "Slow",
-          imagePath: require("../../assets/snail.png"),
-          gasPriceInEther: "0",
+          imageName: "walk",
+          gasPriceInEther: "0"
         }
       ],
-      checked: 0,
-      toAddress: '',
-      amount: '0',
-      transactionNonce: '0'
+      toAddress: "",
+      amount: "",
+      checked: 1,
+      toAddressValidation: true,
+      amountValidation: true
     };
-    this.validateForm = this.validateForm.bind(this);
-    this.transactionObject = {};
   }
 
-  async componentDidMount() {
-    const balanceInWei = await this.getBalance(this.props.checksumAddress);
-    const balanceInEther = this.props.web3.utils.fromWei(balanceInWei, 'ether');
-    this.setState({ balanceInEther: balanceInEther });
-  }
-
-  async getBalance(address) {
-    try {
-      const balanceInWei = await this.props.web3.eth.getBalance(address);
-      return balanceInWei;
-    } catch (err) {
-      console.error(err);
-    }
+  componentDidMount() {
+    this.props.getGasPriceFast();
+    this.props.getGasPriceAverage()
+    this.props.getGasPriceSlow();
   }
 
   getUsdGasPrice(gasPriceInEther) {
@@ -68,16 +56,12 @@ class Send extends Component {
   }
 
   async constructTransactionObject() {
-    this.state.transactionNonce = await this.props.web3.eth.getTransactionCount(
-      this.props.checksumAddress
-    );
-    const gasPriceInWei = parseFloat(
-      this.props.web3.utils.toWei(this.state.gasPriceInGwei[this.state.checked], 'Gwei')
-    );
-    const amountInWei = parseFloat(this.props.web3.utils.toWei(this.state.amount, 'Ether'));
+    this.state.transactionNonce = await this.props.web3.eth.getTransactionCount(this.props.checksumAddress);
+    const gasPriceInWei = parseFloat(this.props.web3.utils.toWei(this.state.gasPrice[this.state.checked].gasPriceInEther, 'Ether'));
+    const amountInWei =  parseFloat(this.props.web3.utils.toWei(this.state.amount, 'Ether'));
     const transactionObject = {
       nonce: `0x${this.state.transactionNonce.toString(16)}`,
-      to: this.state.toAddress.toString(16),
+      to: this.state.toAddress,
       value: `0x${amountInWei.toString(16)}`,
       gasPrice: `0x${gasPriceInWei.toString(16)}`,
       gasLimit: `0x${parseFloat(21000).toString(16)}`,
@@ -86,31 +70,54 @@ class Send extends Component {
     return transactionObject;
   }
 
-  validateToAddress() {
-    if (this.props.web3.utils.isAddress(this.state.toAddress)) {
+  validateToAddress(toAddress) {
+    if (this.props.web3.utils.isAddress(toAddress)) {
       console.log('address validated!');
+      this.setState({toAddressValidation: true});
       return true;
-    }
+    } else {
       console.log('invalid address');
+      this.setState({toAddressValidation: false});
       return false;
-  }
-
-  validateAmount() {
-    if (
-      parseFloat(this.state.amount) + parseFloat(this.state.gasPrice[this.state.checked].gasPriceInEther) <
-      parseFloat(this.state.balanceInEther)
-    ) {
-      console.log('amount validated!');
-      return true;
     }
-      console.log('insufficient balance!');
-      return false;
   }
 
-  async validateForm() {
-    if (this.validateToAddress() && this.validateAmount()) {
-      await this.props.saveTransactionObject(this.transactionObject);
-      await this.props.saveOutgoingTransactionObject(this.transactionObject);
+  renderInvalidToAddressMessage() {
+    if(this.state.toAddressValidation){
+      return ;
+    } else {
+      return <ErrorMessage>invalid address!</ErrorMessage>
+    }
+  }
+
+  validateAmount(amount) {
+    if (
+      parseFloat(amount) + parseFloat(this.state.gasPrice[this.state.checked].gasPriceInEther) <
+      parseFloat(this.props.balance) && 0 <= parseFloat(amount) && amount.length != 0
+    ) {
+      console.log('the amount validated!');
+      this.setState({amountValidation: true})
+      return true;
+    } else {
+      console.log('wrong balance!');
+      this.setState({amountValidation: false})
+      return false;
+    }
+  }
+
+  renderInsufficientBalanceMessage() {
+    if(this.state.amountValidation){
+    } else {
+      return <ErrorMessage>wrong balance!</ErrorMessage>
+    }
+  }
+
+  validateForm = async (toAddress, amount) => {
+    const toAddressValidation = this.validateToAddress(toAddress);
+    const amountValidation = this.validateAmount(amount);
+    if (toAddressValidation && amountValidation) {
+      const transactionObject = await this.constructTransactionObject();
+      await this.props.saveOutgoingTransactionObject(transactionObject);
       this.props.navigation.navigate('Confirmation');
     } else {
       console.log('form validation failed!');
@@ -118,56 +125,73 @@ class Send extends Component {
   }
 
   render() {
-    this.state.gasPriceInGwei[0] = this.props.gasPrice.data.fast.toString();
-    this.state.gasPriceInGwei[1] = this.props.gasPrice.data.average.toString();
-    this.state.gasPriceInGwei[2] = this.props.gasPrice.data.safeLow.toString();
-
-    this.state.gasPriceInWei[0] = this.props.web3.utils.toWei(this.state.gasPriceInGwei[0], 'Gwei');
-    this.state.gasPriceInWei[1] = this.props.web3.utils.toWei(this.state.gasPriceInGwei[1], 'Gwei');
-    this.state.gasPriceInWei[2] = this.props.web3.utils.toWei(this.state.gasPriceInGwei[2], 'Gwei');
-
-    this.state.gasPrice[0].gasPriceInEther = this.props.web3.utils.fromWei(
-      this.state.gasPriceInWei[0],
-      'Ether'
-    );
-    this.state.gasPrice[1].gasPriceInEther = this.props.web3.utils.fromWei(
-      this.state.gasPriceInWei[1],
-      'Ether'
-    );
-    this.state.gasPrice[2].gasPriceInEther = this.props.web3.utils.fromWei(
-      this.state.gasPriceInWei[2],
-      'Ether'
-    );
-
-    (async () => {
-      this.transactionObject = await this.constructTransactionObject();
-    })();
+    this.state.gasPrice[0].gasPriceInEther = this.props.gasPrice.fast;
+    this.state.gasPrice[1].gasPriceInEther = this.props.gasPrice.average;
+    this.state.gasPrice[2].gasPriceInEther = this.props.gasPrice.slow;
 
     return (
-      <ScrollView>
-        <CardContainerWithoutFeedback>
-          <Text>To</Text>
+      <RootContainer>
+        <HeaderOne>Send</HeaderOne>
+        <UntouchableCardContainer
+          alignItems="flex-start"
+          flexDirection="column"
+          height="240px"
+          justifyContent="flex-start"
+          textAlign="left"
+          width="95%"
+         >
+          <HeaderTwo
+            fontSize="16px"
+            marginBottom="4"
+            marginTop="0"
+          >
+            To
+          </HeaderTwo>
           <TextInput
-            placeholder="type an address you send your ether to"
-            onChangeText={toAddress => this.setState({ toAddress })}
+            style={this.state.toAddressValidation ? styles.noError : styles.error}
+            placeholder="address"
+            clearButtonMode="while-editing"
+            onChangeText={(toAddress) => {
+              this.validateToAddress(toAddress);
+              this.setState({toAddress});
+            }}
           />
-        </CardContainerWithoutFeedback>
-        <CardContainerWithoutFeedback>
-          <Text>Amount(ETH)</Text>
+          <View>
+            {this.renderInvalidToAddressMessage()}
+          </View>
+          <HeaderTwo
+            fontSize="16px"
+            marginBottom="4"
+            marginTop="8"
+          >
+            Amount(ETH)
+          </HeaderTwo>
           <TextInput
+            style={this.state.amountValidation ? styles.noError : styles.error}
             placeholder="type the amount of ether you would like to send"
-            onChangeText={amount => this.setState({ amount })}
+            clearButtonMode="while-editing"
+            onChangeText={(amount) => {
+              this.validateAmount(amount);
+              this.setState({amount});
+            }}
           />
-        </CardContainerWithoutFeedback>
-        <CardContainerWithoutFeedback>
-          <Text>Transaction Fee</Text>
+          <View>
+            {this.renderInsufficientBalanceMessage()}
+          </View>
+          <HeaderTwo
+          fontSize="16px"
+          marginBottom="4"
+          marginTop="8"
+          >
+            Transaction Fee
+          </HeaderTwo>
           <TransactionFeeContainer>
             {this.state.gasPrice.map((gasPrice, key) => (
               <View key={key}>
                 {this.state.checked === key ? (
                   <TouchableOpacity>
-                    <Text>{gasPrice.speed}</Text>
-                    <Image source={gasPrice.imagePath} />
+                    <SelectedButton>{gasPrice.speed}</SelectedButton>
+                    <Icon name={gasPrice.imageName} size={24} color="#39C89E" />
                     <SelectedButton>${this.getUsdGasPrice(gasPrice.gasPriceInEther)}</SelectedButton>
                   </TouchableOpacity>
                 ) : (
@@ -176,27 +200,27 @@ class Send extends Component {
                       this.setState({ checked: key });
                     }}
                   >
-                    <Text>{gasPrice.speed}</Text>
-                    <Image source={gasPrice.imagePath} />
+                    <UnselectedButton>{gasPrice.speed}</UnselectedButton>
+                    <Icon name={gasPrice.imageName} size={24} color="#000" />
                     <UnselectedButton>${this.getUsdGasPrice(gasPrice.gasPriceInEther)}</UnselectedButton>
                   </TouchableOpacity>
                 )}
               </View>
             ))}
           </TransactionFeeContainer>
-        </CardContainerWithoutFeedback>
+        </UntouchableCardContainer>
         <ButtonWrapper>
           <Button
-            text="Send"
+            text="Next"
             textColor="white"
             backgroundColor="#4083FF"
             margin="24px auto"
             onPress={async () => {
-              await this.validateForm();
+              await this.validateForm(this.state.toAddress, this.state.amount);
             }}
           />
         </ButtonWrapper>
-      </ScrollView>
+      </RootContainer>
     );
   }
 }
@@ -239,13 +263,17 @@ function mapStateToProps(state) {
   return {
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
     gasPrice: state.ReducerGasPrice.gasPrice,
-    web3: state.ReducerWeb3.web3
+    web3: state.ReducerWeb3.web3,
+    balance: state.ReducerBalance.balance,
     wallets: state.ReducerWallets.wallets
   };
 }
 
 const mapDispatchToProps = {
-  saveOutgoingTransactionObject
+  saveOutgoingTransactionObject,
+  getGasPriceFast,
+  getGasPriceAverage,
+  getGasPriceSlow
 };
 
 export default connect(
