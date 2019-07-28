@@ -5,7 +5,6 @@ import { withNavigation } from 'react-navigation';
 import { View, Text } from 'react-native';
 import Transactions from '../containers/Transactions';
 import { RootContainer, Button, HeaderOne, HeaderTwo } from '../components/common/';
-import { getGasPrice } from '../actions/ActionGasPrice';
 import { getExistingTransactions } from '../actions/ActionTransactions';
 import { saveBalance } from '../actions/ActionBalance';
 import styled from 'styled-components';
@@ -68,7 +67,6 @@ class Ethereum extends Component {
               backgroundColor="#39C89E"
               margin="8px"
               onPress={async () => {
-                await this.props.getGasPrice();
                 navigation.navigate('Send');
               }}
             />
@@ -113,7 +111,6 @@ const mapStateToProps = state => ({
   });
 
 const mapDispatchToProps = {
-  getGasPrice,
   getExistingTransactions
   saveBalance
 };
