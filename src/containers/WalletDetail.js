@@ -23,7 +23,7 @@ class WalletDetail extends Component {
   }
 
   render() {
-    const { id, coin, price } = this.props.wallet;
+    const { id, coin, notation, price } = this.props.wallet;
     const { balance } = this.props
     const {
       WalletStyleMiddleContainer,
@@ -39,13 +39,13 @@ class WalletDetail extends Component {
 
     return (
       <Container>
-        <View>{this.renderIcon()}</View>
         <View>
-          <Text style={[WalletStyleMiddleContainer, coinTextStyle]}>{coin}</Text>
-          <Text style={[WalletStyleMiddleContainer, priceTextStyle]}>market price ${price}</Text>
+          {this.renderIcon()}
+          <Text style={coinTextStyle}>{coin}</Text>
         </View>
         <View>
           <Text style={balanceTextStyle}>{this.renderBalance()}</Text>
+          <Text style={priceTextStyle}>1 {notation} = ${price}</Text>
         </View>
       </Container>
     );
@@ -53,11 +53,6 @@ class WalletDetail extends Component {
 }
 
 const styles = {
-  WalletStyleMiddleContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center'
-  },
   coinImageStyle: {
     height: 40,
     width: 40
@@ -66,7 +61,7 @@ const styles = {
     fontSize: 16
   },
   priceTextStyle: {
-    fontSize: 16
+    fontSize: 12
   },
   balanceTextStyle: {
     fontSize: 16
