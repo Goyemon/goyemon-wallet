@@ -8,13 +8,13 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 class Transaction extends Component {
   renderInOrOutTransactionIcon() {
-    if (this.props.transaction.to === this.props.checksumAddress) {
+    if (this.props.web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
       return (
         <Text>
           <Icon name="call-received" size={16} color="#7ED321" />
         </Text>
       );
-    } else if (this.props.transaction.to != this.props.checksumAddress) {
+    } else if (this.props.web3.utils.toChecksumAddress(this.props.transaction.to) != this.props.checksumAddress) {
       return (
         <Text>
           <Icon name="call-made" size={16} color="#D0021B" />
@@ -34,17 +34,17 @@ class Transaction extends Component {
   }
 
   renderAddress() {
-    if (this.props.transaction.to === this.props.checksumAddress) {
+    if (this.props.web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
       return <Text />;
-    } else if (this.props.transaction.to != this.props.checksumAddress) {
-      return <Text>{this.props.transaction.to}</Text>;
+    } else if (this.props.web3.utils.toChecksumAddress(this.props.transaction.to) != this.props.checksumAddress) {
+      return <Text>{this.props.web3.utils.toChecksumAddress(this.props.transaction.to)}</Text>;
     }
   }
 
   renderPlusOrMinusTransactionIcon() {
-    if (this.props.transaction.to === this.props.checksumAddress) {
+    if (this.props.web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
       return <Icon name="plus" size={16} color="#7ED321" />;
-    } else if (this.props.transaction.to != this.props.checksumAddress) {
+    } else if (this.props.web3.utils.toChecksumAddress(this.props.transaction.to) != this.props.checksumAddress) {
       return <Icon name="minus" size={16} color="#D0021B" />;
     }
   }
@@ -107,8 +107,8 @@ const Container = styled.View`
 `;
 
 const mapStateToProps = state => ({
-    web3: state.ReducerWeb3.web3
-  });
   checksumAddress: state.ReducerChecksumAddress.checksumAddress,
+  web3: state.ReducerWeb3.web3
+});
 
 export default connect(mapStateToProps)(Transaction);
