@@ -7,7 +7,7 @@ import ReducerWallets from './ReducerWallets';
 import ReducerTransactionHistory from './ReducerTransactionHistory';
 import ReducerChecksumAddress from './ReducerChecksumAddress';
 import ReducerGasPrice from './ReducerGasPrice';
-import ReducerOutgoingTransactionObject from './ReducerOutgoingTransactionObject';
+import ReducerOutgoingTransactionObjects from './ReducerOutgoingTransactionObjects';
 import ReducerBalance from './ReducerBalance';
 
 const rootReducers = combineReducers({
@@ -17,7 +17,7 @@ const rootReducers = combineReducers({
   ReducerTransactionHistory,
   ReducerChecksumAddress,
   ReducerGasPrice,
-  ReducerOutgoingTransactionObject,
+  ReducerOutgoingTransactionObjects,
   ReducerBalance
 });
 
