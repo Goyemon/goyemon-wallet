@@ -15,7 +15,7 @@ import rootReducers from '../reducers/ReducerIndex';
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['ReducerOutgoingTransactionObject', 'ReducerTransactionHistory', 'ReducerBalance']
+    whitelist: ['ReducerOutgoingTransactionObjects', 'ReducerTransactionHistory', 'ReducerBalance']
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducers);
