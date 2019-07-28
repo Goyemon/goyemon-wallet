@@ -37,6 +37,8 @@ class WalletList extends Component {
         <CardContainerWithoutFeedback>
           <HeaderTwo
             fontSize="24px"
+            marginBottom="8"
+            marginTop="0"
            >
             Total Balance
           </HeaderTwo>
@@ -44,6 +46,8 @@ class WalletList extends Component {
         </CardContainerWithoutFeedback>
         <HeaderTwo
           fontSize="16px"
+          marginBottom="8"
+          marginTop="8"
          >
           Currency
         </HeaderTwo>
@@ -65,7 +69,6 @@ class WalletList extends Component {
             <WalletDetail key={wallet.id} wallet={wallet} />
           </TouchableCardContainer>
         ))}
-        <View></View>
       </RootContainer>
     );
   }

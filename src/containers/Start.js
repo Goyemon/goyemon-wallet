@@ -26,7 +26,9 @@ class Start extends Component {
             }}
           >
             <View>
-              <HeaderTwo fontSize="16px">Create</HeaderTwo>
+              <HeaderTwo fontSize="16px" marginBottom="0" marginTop="0">
+                Create
+              </HeaderTwo>
               <CardText>new wallet</CardText>
             </View>
             <View>
@@ -43,7 +45,9 @@ class Start extends Component {
             onPress={() => this.props.navigation.navigate('Import')}
           >
             <View>
-              <HeaderTwo fontSize="16px">Import</HeaderTwo>
+              <HeaderTwo fontSize="16px" marginBottom="0" marginTop="0">
+                Import
+              </HeaderTwo>
               <CardText>existing wallet</CardText>
             </View>
             <View>
@@ -58,10 +62,10 @@ class Start extends Component {
 
 const Container = styled.ScrollView.attrs(props => ({
   contentContainerStyle: props => ({
-      alignItems: 'center',
-      flexDirection: 'column',
-      justifyContent: 'center'
-    })
+    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'center'
+  })
 }))``;
 
 const Logo = styled.Text`

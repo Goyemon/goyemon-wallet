@@ -67,10 +67,10 @@ class Confirmation extends Component {
           textAlign="left"
           width="95%"
         >
-          <HeaderTwo fontSize="16px">from</HeaderTwo>
-          <Text>{this.props.checksumAddress}</Text>
+          <HeaderTwo fontSize="16px" marginBottom="8" marginTop="4">from</HeaderTwo>
+          <Text>{checksumAddress}</Text>
           <Text>↓</Text>
-          <HeaderTwo fontSize="16px">to</HeaderTwo>
+          <HeaderTwo fontSize="16px" marginBottom="8" marginTop="4">to</HeaderTwo>
           <Text>{outgoingTransactionObjects[outgoingTransactionObjects.length - 1].to}</Text>
         </UntouchableCardContainer>
         <Text>Total {total} ETH</Text>
