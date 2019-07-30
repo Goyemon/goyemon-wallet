@@ -11,17 +11,20 @@ const KEY_WALLET_PRIVATE_KEY = 'KEY_WALLET_PRIVATEKEY';
 class WalletController {
   private root;
   private wallet;
+  private mnemonic;
 
   public constructor() {
     this.init = this.init.bind(this);
   }
 
   public async init() {
-    let mnemonic = await this.getMnemonic();
-    if (!mnemonic || !mnemonic.length || !this.validateMnemonic(mnemonic)) {
-      mnemonic = await this.generateMnemonic();
-      await this.setMnemonic(mnemonic);
+    this.mnemonic = await this.getMnemonic();
+    if (!this.mnemonic || !this.mnemonic.length || !this.validateMnemonic(this.mnemonic)) {
+      this.mnemonic = await this.generateMnemonic();
+      await this.setMnemonic(this.mnemonic);
     }
+    return this.mnemonic;
+  }
 
   public async generateWallet(mnemonic) {
     let seedhex = bip39.mnemonicToSeedHex(mnemonic);
