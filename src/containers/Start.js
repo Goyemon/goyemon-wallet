@@ -11,7 +11,7 @@ class Start extends Component {
     return (
       <RootContainer>
         <Container>
-          <Logo>DeBank</Logo>
+          <Logo>Swarm</Logo>
           <OneLiner>a permissionless bank  in your pocket</OneLiner>
           <TouchableCardContainer
             alignItems="center"
