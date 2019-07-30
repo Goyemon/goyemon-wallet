@@ -108,7 +108,7 @@ const ButtonContainer = styled.View`
 function mapStateToProps(state) {
   return {
     web3: state.ReducerWeb3.web3,
-    outgoingTransactionObjects: state.ReducerOutgoingTransactionObject.outgoingTransactionObjects,
+    outgoingTransactionObjects: state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress
   };
 }
