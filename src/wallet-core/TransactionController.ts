@@ -7,16 +7,14 @@ class TransactionController {
   parseTransactions(transactions) {
     const parsedTransactions = transactions.map((transaction) => {
       return {
-        id: "",
         hash: transaction.hash,
-        from: transaction.from,
         to: transaction.to,
         gas: transaction.gas,
         gasPrice: transaction.gasPrice,
         value: this.parseTransactionValue(transaction.value),
         time: this.parseTransactionTime(transaction.time),
         nonce: "",
-        status: ""
+        state: ""
       }
     })
     return parsedTransactions;
