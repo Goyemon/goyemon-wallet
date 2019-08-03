@@ -5,7 +5,6 @@ import { RootContainer, Button, HeaderOne } from '../components/common';
 import { connect } from 'react-redux';
 import WalletController from '../wallet-core/WalletController.ts';
 import MnemonicWords from './MnemonicWords';
-import { saveWeb3 } from '../actions/ActionWeb3';
 import EthUtils from '../wallet-core/EthUtils.js';
 import { getChecksumAddress } from '../actions/ActionChecksumAddress';
 import { getEthPrice, getDaiPrice } from '../actions/ActionWallets';
@@ -50,7 +49,6 @@ class VerifyMnemonic extends Component {
             margin="24px auto"
             onPress={async () => {
               await this.savePrivateKey();
-              await this.props.saveWeb3();
               await this.props.getChecksumAddress();
               await this.registerEthereumAddress();
               await this.props.getEthPrice();
@@ -79,7 +77,6 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   getChecksumAddress,
-  saveWeb3,
   getEthPrice,
   getDaiPrice
 };
