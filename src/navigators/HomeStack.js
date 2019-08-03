@@ -1,5 +1,6 @@
 'use strict';
 import { createStackNavigator } from 'react-navigation';
+import Initial from '../components/Initial';
 import Welcome from '../components/Welcome';
 import Start from '../containers/Start';
 import Import from '../components/Import';
@@ -14,6 +15,12 @@ import Dai from '../components/Dai';
 
 const HomeStack = createStackNavigator(
   {
+    Initial: {
+      screen: Initial,
+      navigationOptions: () => ({
+        header: null
+      })
+    },
     Welcome: {
       screen: Welcome,
       navigationOptions: () => ({
@@ -87,7 +94,7 @@ const HomeStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: 'Welcome'
+    initialRouteName: 'Initial'
   }
 );
 

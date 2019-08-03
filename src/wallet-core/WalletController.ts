@@ -70,6 +70,15 @@ class WalletController {
     return result;
   }
 
+  async privateKeySaved() {
+    const privateKey = await this.retrievePrivateKey();
+    if (privateKey === '') {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   private async generateMnemonic() {
     let mnemonic = await bip39.generateMnemonic(256);
     while (true) {
