@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import WalletController from '../wallet-core/WalletController.ts';
 import MnemonicWords from './MnemonicWords';
 import { saveWeb3 } from '../actions/ActionWeb3';
+import EthUtils from '../wallet-core/EthUtils.js';
 import { getChecksumAddress } from '../actions/ActionChecksumAddress';
 import { getEthPrice, getDaiPrice } from '../actions/ActionWallets';
 import styled from 'styled-components/native';
@@ -21,9 +22,7 @@ class VerifyMnemonic extends Component {
   async registerEthereumAddress() {
     const messageId = uuidv4();
     const serverAddress = '400937673843@gcm.googleapis.com';
-    const checksumAddressWithoutPrefix = this.props.web3.utils.stripHexPrefix(
-      this.props.checksumAddress
-    );
+    const checksumAddressWithoutPrefix = EthUtils.stripHexPrefix(this.props.checksumAddress);
 
     const upstreamMessage = new firebase.messaging.RemoteMessage()
       .setMessageId(messageId)

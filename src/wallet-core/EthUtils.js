@@ -11,6 +11,10 @@ class EthUtils {
     }
     return result;
   }
+
+  stripHexPrefix(str) {
+    return str.startsWith('0x') ? str.slice(2) : str;
+  }
 }
 
 export default new EthUtils();

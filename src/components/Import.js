@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { RootContainer, Button, HeaderOne } from '../components/common';
 import WalletController from '../wallet-core/WalletController.ts';
+import EthUtils from '../wallet-core/EthUtils';
 import { saveWeb3 } from '../actions/ActionWeb3';
 import { getChecksumAddress } from '../actions/ActionChecksumAddress';
 import { getEthPrice, getDaiPrice } from '../actions/ActionWallets';
@@ -53,9 +54,7 @@ class Import extends Component {
   async registerEthereumAddress() {
     const messageId = uuidv4();
     const serverAddress = '400937673843@gcm.googleapis.com';
-    const checksumAddressWithoutPrefix = this.props.web3.utils.stripHexPrefix(
-      this.props.checksumAddress
-    );
+    const checksumAddressWithoutPrefix = EthUtils.stripHexPrefix(this.props.checksumAddress);
 
     const upstreamMessage = new firebase.messaging.RemoteMessage()
       .setMessageId(messageId)
