@@ -84,7 +84,8 @@
 		<string>Arimo-Bold.ttf</string>
 		<string>MaterialIcons.ttf</string>
 		<string>MaterialCommunityIcons.ttf</string>
-		<string></string>
+		<string/>
+		<string>Fontisto.ttf</string>
 	</array>
 </dict>
 </plist>

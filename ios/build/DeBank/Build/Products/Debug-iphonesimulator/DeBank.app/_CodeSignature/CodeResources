@@ -88,6 +88,10 @@
 		<data>
 		P3YEFmOPZFmt5yUbgP17wn1q0cY=
 		</data>
+		<key>Fontisto.ttf</key>
+		<data>
+		wJCj7Jaj8bubYVwvPyBM4Nzc28M=
+		</data>
 		<key>Foundation.ttf</key>
 		<data>
 		SyvObHkkk6SlcWtv7C2+/olJLD8=
@@ -163,7 +167,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		4yn9Wae3DJ3iLTQEz0VQQ9NBCMQ=
+		Q445JXmbwo4DnUA+K2RmlPLueRU=
 		</data>
 		<key>Ionicons.ttf</key>
 		<data>
@@ -171,7 +175,7 @@
 		</data>
 		<key>MaterialCommunityIcons.ttf</key>
 		<data>
-		9D/flsrQF2UP7CZCB5cUfrzUymc=
+		9G+WBPkJGz6eeDUmlnNpZ2Lh6Hw=
 		</data>
 		<key>MaterialIcons.ttf</key>
 		<data>
@@ -195,7 +199,7 @@
 		</data>
 		<key>PlugIns/DeBankTests.xctest/DeBankTests</key>
 		<data>
-		NKoYsw9pZLqw0SfKBnEhD1XC2E4=
+		1Ok9Wu80vdY00E7tdhVRtRT9e6g=
 		</data>
 		<key>PlugIns/DeBankTests.xctest/Info.plist</key>
 		<data>
@@ -447,6 +451,17 @@
 			lHqsFqptKzsKT6IOILje+kYC6bQvj9n6KxlTi0xajqk=
 			</data>
 		</dict>
+		<key>Fontisto.ttf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			wJCj7Jaj8bubYVwvPyBM4Nzc28M=
+			</data>
+			<key>hash2</key>
+			<data>
+			lNq58dWxPqB2nRJKLaDQJDPzuZ1t6loHwERqdxWBAMA=
+			</data>
+		</dict>
 		<key>Foundation.ttf</key>
 		<dict>
 			<key>hash</key>
@@ -651,11 +666,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			9D/flsrQF2UP7CZCB5cUfrzUymc=
+			9G+WBPkJGz6eeDUmlnNpZ2Lh6Hw=
 			</data>
 			<key>hash2</key>
 			<data>
-			/GGwZ61AgQqFV6io6vd84MHKWUGfSABPLQGyGPxaRVE=
+			vEyn5uskUqB2CZMyWblwAKWfMw2Qo010U5Uqyo4GkhA=
 			</data>
 		</dict>
 		<key>MaterialIcons.ttf</key>
@@ -706,11 +721,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			NKoYsw9pZLqw0SfKBnEhD1XC2E4=
+			1Ok9Wu80vdY00E7tdhVRtRT9e6g=
 			</data>
 			<key>hash2</key>
 			<data>
-			zLAABAt0CxOsny1CACzHNrFEN3MskRjiekJCxryhE+0=
+			jFBJmSarr3pNyQ2Ot3IdDiGJcJneTKPbNFdSq7Q8G5A=
 			</data>
 		</dict>
 		<key>PlugIns/DeBankTests.xctest/Info.plist</key>
