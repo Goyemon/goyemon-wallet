@@ -2,6 +2,8 @@
 import { createStackNavigator } from 'react-navigation';
 import Initial from '../components/Initial';
 import Welcome from '../components/Welcome';
+import NotificationPermissionTutorial from '../components/NotificationPermissionTutorial';
+import NotificationPermission from '../containers/NotificationPermission';
 import Start from '../containers/Start';
 import Import from '../components/Import';
 import ShowMnemonic from '../components/ShowMnemonic';
@@ -23,6 +25,18 @@ const HomeStack = createStackNavigator(
     },
     Welcome: {
       screen: Welcome,
+      navigationOptions: () => ({
+        header: null
+      })
+    },
+    NotificationPermissionTutorial: {
+      screen: NotificationPermissionTutorial,
+      navigationOptions: () => ({
+        header: null
+      })
+    },
+    NotificationPermission: {
+      screen: NotificationPermission,
       navigationOptions: () => ({
         header: null
       })

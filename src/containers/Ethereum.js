@@ -59,6 +59,7 @@ class Ethereum extends Component {
               textColor="white"
               backgroundColor="#39C89E"
               margin="8px"
+              opacity="1"
               onPress={() => navigation.navigate('Receive')}
             />
             <Button
@@ -66,6 +67,7 @@ class Ethereum extends Component {
               textColor="white"
               backgroundColor="#39C89E"
               margin="8px"
+              opacity="1"
               onPress={async () => {
                 navigation.navigate('Send');
               }}

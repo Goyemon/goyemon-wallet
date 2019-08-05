@@ -82,12 +82,14 @@ class Confirmation extends Component {
             backgroundColor="#EEE"
             margin="8px"
             onPress={() => this.props.navigation.navigate('Send')}
+            opacity="1"
           />
           <Button
             text="Confirm"
             textColor="white"
             backgroundColor="#4083FF"
             margin="8px"
+            opacity="1"
             onPress={async () => {
               this.props.navigation.navigate('Ethereum');
               await this.sendSignedTx();

@@ -129,6 +129,7 @@ class Import extends Component {
               textColor="white"
               backgroundColor="#4083FF"
               margin="24px auto"
+              opacity="1"
               onPress={async () => {
                 await this.validateForm();
               }}

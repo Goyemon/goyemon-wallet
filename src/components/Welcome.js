@@ -3,34 +3,8 @@ import React, { Component } from 'react';
 import { RootContainer, Button } from '../components/common';
 import styled from 'styled-components/native';
 import * as Animatable from 'react-native-animatable';
-import firebase from 'react-native-firebase';
 
 export default class Welcome extends Component {
-  async componentDidMount() {
-    this.onTokenRefreshListener = await firebase.messaging().onTokenRefresh(async fcmToken => {
-      await this.checkFcmPermissions();
-    });
-  }
-
-  componentWillUnmount() {
-    this.onTokenRefreshListener();
-  }
-
-  async checkFcmPermissions() {
-    const enabled = await firebase.messaging().hasPermission();
-    if (enabled) {
-      console.log('user has permissions');
-    } else {
-      console.log("user doesn't have permission");
-      try {
-        await firebase.messaging().requestPermission();
-        console.log('User has authorised');
-      } catch (error) {
-        console.log('User has rejected permissions');
-      }
-    }
-  }
-
   render() {
     return (
       <RootContainer>
@@ -47,7 +21,8 @@ export default class Welcome extends Component {
               textColor="white"
               backgroundColor="#4083FF"
               margin="16px auto"
-              onPress={() => this.props.navigation.navigate('Start')}
+              opacity="1"
+              onPress={() => this.props.navigation.navigate('NotificationPermissionTutorial')}
             />
           </ButtonWrapper>
         </Container>
