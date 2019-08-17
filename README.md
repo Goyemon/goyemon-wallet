@@ -68,6 +68,10 @@ $ react-native link react-native-keychain
 
 $ npm run postinstall
 
+# pod install
+$ cd ios
+$ pod install
+
 # Run the app
 $ react-native run-android or react-native run-ios
 ```
