@@ -31,7 +31,7 @@
     "react-native-firebase": "~5.5.0",
     "react-native-gesture-handler": "^1.1.0",
     "react-native-keychain": "^3.1.1",
-    "react-native-os": "^1.2.2",
+    "react-native-os": "^1.2.5",
     "react-native-qrcode": "^0.2.7",
     "react-native-randombytes": "^3.5.1",
     "react-native-settings-list": "^1.8.0",
