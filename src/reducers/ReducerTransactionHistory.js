@@ -10,8 +10,10 @@ const INITIAL_STATE = {
 const transactions = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case GET_EXISTING_TRANSACTIONS:
+      const transactions = [...state.transactions, ...action.payload];
+      const sortedTransactions = transactions.sort((a, b) => b.time - a.time);
       return {
-        transactions: [...state.transactions, ...action.payload]
+        transactions: sortedTransactions
       };
     case ADD_PENDING_TRANSACTION:
       return {
@@ -21,11 +23,11 @@ const transactions = (state = INITIAL_STATE, action) => {
       return {
         transactions: state.transactions.map((transaction, index) => {
           if (action.payload.txhash === transaction.hash) {
-            return {...transaction, state: action.payload.state}
+            return { ...transaction, state: action.payload.state };
           }
-          return transaction
+          return transaction;
         })
-      }
+      };
     default:
       return state;
   }

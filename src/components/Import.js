@@ -9,6 +9,7 @@ import EthUtils from '../wallet-core/EthUtils';
 import { saveWeb3 } from '../actions/ActionWeb3';
 import { getChecksumAddress } from '../actions/ActionChecksumAddress';
 import { getEthPrice, getDaiPrice } from '../actions/ActionWallets';
+import { getExistingTransactions } from '../actions/ActionTransactionHistory';
 import firebase from 'react-native-firebase';
 import uuidv4 from 'uuid/v4';
 
@@ -44,6 +45,21 @@ class Import extends Component {
       ],
       mnemonicWordsValidation: true
     };
+  }
+  async componentDidMount() {
+    this.messageListener = firebase.messaging().onMessage((downstreamMessage) => {
+      if (downstreamMessage.data.type === "balance") {
+        this.props.saveBalance(parseInt(downstreamMessage.data.balance));
+      }
+      if (downstreamMessage.data.type === "txhistory" && downstreamMessage.data.count != "0") {
+        let transactions = JSON.parse(downstreamMessage.data.items);
+        this.props.getExistingTransactions(transactions);
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    this.messageListener();
   }
 
   async savePrivateKey() {
@@ -192,11 +208,13 @@ function mapStateToProps(state) {
     checksumAddress: state.ReducerChecksumAddress.checksumAddress
   };
 }
+
 const mapDispatchToProps = {
   getChecksumAddress,
   saveWeb3,
   getEthPrice,
   getDaiPrice
+  getExistingTransactions
 };
 
 export default connect(

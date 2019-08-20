@@ -5,14 +5,12 @@ import { withNavigation } from 'react-navigation';
 import { View, Text } from 'react-native';
 import Transactions from '../containers/Transactions';
 import { RootContainer, Button, HeaderOne, HeaderTwo } from '../components/common/';
-import { getExistingTransactions } from '../actions/ActionTransactions';
 import { saveBalance } from '../actions/ActionBalance';
 import styled from 'styled-components';
 import firebase from 'react-native-firebase';
 
 class Ethereum extends Component {
   async componentDidMount() {
-    await this.props.getExistingTransactions('1b5e2011e26B3051E4ad1936299c417eEDaCBF50');
     this.messageListener = firebase.messaging().onMessage(async (downstreamMessage) => {
       if (downstreamMessage.data.type === "balance") {
         const balanceInWei = downstreamMessage.data.balance;
@@ -108,12 +106,11 @@ const EthBalance = styled.Text`
 const mapStateToProps = state => ({
     transactions: state.ReducerTransactionHistory.transactions,
     web3: state.ReducerWeb3.web3,
-    wallets: state.ReducerWallets.wallets
+    wallets: state.ReducerWallets.wallets,
     balance: state.ReducerBalance.balance
   });
 
 const mapDispatchToProps = {
-  getExistingTransactions
   saveBalance
 };
 

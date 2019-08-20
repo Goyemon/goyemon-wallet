@@ -4,16 +4,17 @@ import ProviderController from './ProviderController.ts';
 class TransactionController {
   private web3 = ProviderController.setProvider();
 
-  parseTransactions(transactions) {
+  parseExistingTransactions(transactions) {
     const parsedTransactions = transactions.map((transaction) => {
       return {
         hash: transaction.hash,
+        from: transaction.from,
         to: transaction.to,
         gas: transaction.gas,
         gasPrice: transaction.gasPrice,
         value: this.parseTransactionValue(transaction.value),
-        time: this.parseTransactionTime(transaction.time),
-        nonce: "",
+        time: transaction.time,
+        nonce: parseInt(transaction.nonce),
         state: ""
       }
     })

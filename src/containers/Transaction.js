@@ -5,6 +5,7 @@ import { TouchableCardContainer } from '../components/common';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import TransactionController from '../wallet-core/TransactionController.ts';
 
 class Transaction extends Component {
   renderInOrOutTransactionIcon() {
@@ -55,7 +56,8 @@ class Transaction extends Component {
   }
 
   render() {
-    const { time } = this.props.transaction;
+    let { time } = this.props.transaction;
+    time = TransactionController.parseTransactionTime(time);
     const { TransactionListStyle, WalletStyleMiddleContainer, textStyle } = styles;
 
     return (
@@ -74,9 +76,7 @@ class Transaction extends Component {
           <Text style={[WalletStyleMiddleContainer, textStyle]}>{this.renderAddress()}</Text>
           <Text style={[WalletStyleMiddleContainer, textStyle]}>{time}</Text>
           <Text style={[WalletStyleMiddleContainer, textStyle]}>{this.renderStatus()}</Text>
-          <Text style={[WalletStyleMiddleContainer, textStyle]}>
-            {this.renderPlusOrMinusTransactionIcon()}
-          </Text>
+          {this.renderPlusOrMinusTransactionIcon()}
           <Text>{this.renderRoundedValue()}</Text>
         </View>
       </TouchableCardContainer>

@@ -8,10 +8,6 @@ import WalletDetail from '../containers/WalletDetail';
 import styled from 'styled-components';
 
 class WalletList extends Component {
-  async componentDidMount() {
-  }
-
-
   getUsdBalance(ethBalance) {
     try {
       const usdPrice = this.props.wallets[0].price;
