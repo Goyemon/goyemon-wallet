@@ -6,7 +6,7 @@
 	<integer>9</integer>
 	<key>logs</key>
 	<dict>
-		<key>4ABB5307-120B-4DC8-9457-6672C0C473A2</key>
+		<key>57DE7201-C63E-45D6-BD37-312FE07DD711</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -15,7 +15,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>4ABB5307-120B-4DC8-9457-6672C0C473A2.xcactivitylog</string>
+			<string>57DE7201-C63E-45D6-BD37-312FE07DD711.xcactivitylog</string>
 			<key>highLevelStatus</key>
 			<string>W</string>
 			<key>schemeIdentifier-containerName</key>
@@ -27,13 +27,42 @@
 			<key>signature</key>
 			<string>Building workspace DeBank with scheme DeBank and configuration Debug</string>
 			<key>timeStartedRecording</key>
-			<real>586595849.10829198</real>
+			<real>587923083.25433898</real>
 			<key>timeStoppedRecording</key>
-			<real>586595850.90752995</real>
+			<real>587923091.30676901</real>
 			<key>title</key>
 			<string>Building workspace DeBank with scheme DeBank and configuration Debug</string>
 			<key>uniqueIdentifier</key>
-			<string>4ABB5307-120B-4DC8-9457-6672C0C473A2</string>
+			<string>57DE7201-C63E-45D6-BD37-312FE07DD711</string>
+		</dict>
+		<key>7C140AC0-E9BE-435B-8570-C55F812EFC35</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>7C140AC0-E9BE-435B-8570-C55F812EFC35.xcactivitylog</string>
+			<key>highLevelStatus</key>
+			<string>W</string>
+			<key>schemeIdentifier-containerName</key>
+			<string>DeBank project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>DeBank</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building workspace DeBank with scheme DeBank and configuration Debug</string>
+			<key>timeStartedRecording</key>
+			<real>587895800.767259</real>
+			<key>timeStoppedRecording</key>
+			<real>587895803.66926503</real>
+			<key>title</key>
+			<string>Building workspace DeBank with scheme DeBank and configuration Debug</string>
+			<key>uniqueIdentifier</key>
+			<string>7C140AC0-E9BE-435B-8570-C55F812EFC35</string>
 		</dict>
 	</dict>
 </dict>
