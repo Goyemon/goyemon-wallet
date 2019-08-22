@@ -8,11 +8,24 @@ import * as Animatable from 'react-native-animatable';
 import { getMnemonic } from '../actions/ActionMnemonic';
 import { saveWeb3 } from '../actions/ActionWeb3';
 import WalletController from '../wallet-core/WalletController.ts';
+import HomeStack from '../navigators/HomeStack';
 
 class Initial extends Component {
   async componentWillMount() {
     const privateKeySaved = await WalletController.privateKeySaved();
     const mainPage = privateKeySaved ? 'Wallets' : 'Welcome';
+
+    HomeStack.navigationOptions = ({ navigation }) => {
+      let tabBarVisible = true;
+      if (navigation.state.index >= 0 && mainPage === 'Welcome') {
+        tabBarVisible = false;
+      }
+
+      return {
+        tabBarVisible,
+      };
+    };
+
     const resetAction = StackActions.reset({
       index: 0,
       actions: [NavigationActions.navigate({ routeName: mainPage })]
