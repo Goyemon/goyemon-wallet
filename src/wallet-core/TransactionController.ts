@@ -5,7 +5,7 @@ class TransactionController {
   private web3 = ProviderController.setProvider();
 
   parseExistingTransactions(transactions) {
-    const parsedTransactions = transactions.map((transaction) => {
+    const parsedTransactions = transactions.map(transaction => {
       return {
         hash: transaction.hash,
         from: transaction.from,
@@ -15,9 +15,9 @@ class TransactionController {
         value: this.parseTransactionValue(transaction.value),
         time: transaction.time,
         nonce: parseInt(transaction.nonce),
-        state: ""
-      }
-    })
+        state: ''
+      };
+    });
     return parsedTransactions;
   }
 
@@ -28,11 +28,11 @@ class TransactionController {
       to: transactionObject.txto,
       gasLimit: transactionObject.gas,
       gasPrice: transactionObject.gasPrice,
-      value: this.parseTransactionValue((transactionObject.value)),
+      value: this.parseTransactionValue(transactionObject.value),
       time: transactionObject.timestamp,
       nonce: transactionObject.nonce,
       state: transactionObject.state
-    }
+    };
 
     return parsedTransaction;
   }
