@@ -13,7 +13,7 @@ import Ethereum from '../containers/Ethereum';
 import Send from '../containers/Send';
 import Confirmation from '../containers/Confirmation';
 import Receive from '../containers/Receive';
-import Dai from '../components/Dai';
+import Dai from '../containers/Dai';
 
 const HomeStack = createStackNavigator(
   {
