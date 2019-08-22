@@ -12,6 +12,7 @@ import HomeStack from '../navigators/HomeStack';
 
 class Initial extends Component {
   async componentWillMount() {
+    await this.props.saveWeb3();
     const privateKeySaved = await WalletController.privateKeySaved();
     const mainPage = privateKeySaved ? 'Wallets' : 'Welcome';
 
@@ -31,7 +32,6 @@ class Initial extends Component {
       actions: [NavigationActions.navigate({ routeName: mainPage })]
     });
     this.props.navigation.dispatch(resetAction);
-    this.props.saveWeb3();
   }
 
   render() {
