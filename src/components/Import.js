@@ -6,7 +6,6 @@ import styled from 'styled-components/native';
 import { RootContainer, Button, HeaderOne } from '../components/common';
 import WalletController from '../wallet-core/WalletController.ts';
 import EthUtils from '../wallet-core/EthUtils';
-import { saveWeb3 } from '../actions/ActionWeb3';
 import { getChecksumAddress } from '../actions/ActionChecksumAddress';
 import { getEthPrice, getDaiPrice } from '../actions/ActionWallets';
 import { getExistingTransactions } from '../actions/ActionTransactionHistory';
@@ -89,7 +88,6 @@ class Import extends Component {
       await WalletController.setMnemonic(mnemonicWords);
       await WalletController.generateWallet(mnemonicWords);
       await this.savePrivateKey();
-      await this.props.saveWeb3();
       await this.props.getChecksumAddress();
       await this.registerEthereumAddress();
       await this.props.getEthPrice();
@@ -211,7 +209,6 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   getChecksumAddress,
-  saveWeb3,
   getEthPrice,
   getDaiPrice
   getExistingTransactions
