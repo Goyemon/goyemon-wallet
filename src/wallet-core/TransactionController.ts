@@ -65,7 +65,7 @@ class TransactionController {
     } else if (seconds < 60) {
       return seconds + ' seconds ago';
     } else if (seconds < 3600) {
-      minutes = Math.floor(seconds / 60);
+      const minutes = Math.floor(seconds / 60);
       if (minutes > 1) return minutes + ' minutes ago';
       else return '1 minute ago';
     } else if (seconds < 86400) {
@@ -75,7 +75,7 @@ class TransactionController {
     }
     //2 days and no more
     else if (seconds < 172800) {
-      days = Math.floor(seconds / 86400);
+      const days = Math.floor(seconds / 86400);
       if (days > 1) return days + ' days ago';
       else return '1 day ago';
     } else {
