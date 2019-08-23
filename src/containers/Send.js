@@ -56,11 +56,11 @@ class Send extends Component {
   }
 
   async constructTransactionObject() {
-    this.state.transactionNonce = await this.props.web3.eth.getTransactionCount(this.props.checksumAddress);
+    const transactionNonce = this.getBiggestNonce() + 1;
     const gasPriceInWei = parseFloat(this.props.web3.utils.toWei(this.state.gasPrice[this.state.checked].gasPriceInEther, 'Ether'));
     const amountInWei =  parseFloat(this.props.web3.utils.toWei(this.state.amount, 'Ether'));
     const transactionObject = {
-      nonce: `0x${this.state.transactionNonce.toString(16)}`,
+      nonce: `0x${transactionNonce.toString(16)}`,
       to: this.state.toAddress,
       value: `0x${amountInWei.toString(16)}`,
       gasPrice: `0x${gasPriceInWei.toString(16)}`,
@@ -68,6 +68,23 @@ class Send extends Component {
       chainId: 3
     };
     return transactionObject;
+  }
+
+  getBiggestNonce(){
+    const array = [];
+    this.props.transactions.map((transaction) => {
+      if(this.props.web3.utils.toChecksumAddress(transaction.from) === this.props.checksumAddress) {
+        array.push(transaction.nonce);
+      }
+    })
+    let biggestNonce = 0;
+    for (let i = 0; i <= biggestNonce; i++){
+        if (array[i] > biggestNonce) {
+            biggestNonce = array[i];
+        }
+    }
+
+    return biggestNonce;
   }
 
   validateToAddress(toAddress) {
@@ -267,6 +284,7 @@ function mapStateToProps(state) {
     web3: state.ReducerWeb3.web3,
     balance: state.ReducerBalance.balance,
     wallets: state.ReducerWallets.wallets
+    transactions: state.ReducerTransactionHistory.transactions
   };
 }
 
