@@ -1,10 +1,10 @@
-<h1 align="center"> DeBank </h1> <br>
+<h1 align="center"> Swarm </h1> <br>
 <p align="center">
   <a href="#"><img src="./assets/sample_img2.jpg" width="200"></a>
 </p>
 
 <p align="center">
-  a permissionless bank  in your pocket
+  Swarm is a mobile browser that allows people to pay, save, borrow, exchange and invest with Ether and Dai stable coin without permission.
 </p>
 
 <p align="center">
@@ -20,9 +20,8 @@
 ## Table of Contents
 
 - [Features](#features)
-- [For Users](#users)
+- [Security](#users)
 - [For Developers](#developers)
-- [How To Build](#how-to-build)
 - [Help](#help)
 - [License](#license)
 
@@ -36,22 +35,29 @@
 
 ## Features
 
-- Control Your Keys
-  - keys are stored locally, on your device
-- Make a Loan
-  - Lock your ether and get dai.
-- Pay Back a Loan
-  - Pay back your dai and get your ether back.
+- Pay
+  - Spend your Dai and Ether to purchase something.
+
+- Save
+  - Lock your Dai to gain interests. Think of it as the permisionless version of a saving account in a bank.
+
+- Borrow
+  - Lock your Eth to borrow Dai.
+
+- Invest
+  - Do the leverage trading by locking Eth, issuing Dai, exchanging Dai with Eth and then locking Eth again.
+
+- Exchange
+  - Exchange any Eth and Erc20 tokens.
 
 ![screenshot](./assets/sample_img.png 'Screenshot')
 
-## For Users
+## Security
+- Control Your Keys
+  - keys are stored locally, on your device
 
 ## For Developers
-
-## How To Build
-
-To clone and run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
+To run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
 
 ```bash
 # Clone this repository
@@ -63,6 +69,7 @@ $ cd DeBank
 # Install dependencies
 $ npm install
 
+# link npm packages
 $ react-native link react-native-randombytes
 $ react-native link react-native-keychain
 
@@ -76,8 +83,8 @@ $ pod install
 $ react-native run-android or react-native run-ios
 ```
 
-_you should see the shim.js in a home directory
-The thing is, there are nodeJS core modules that cannot be used in React Native, and thus you have to use some hacks: you use rn-nodeify module to use nodeJS core modules._
+_you should see the shim.js in a home directory.
+nodeJS core modules cannot be used in React Native, and thus you have to use some hacks: you use rn-nodeify module to use nodeJS core modules._
 
 Note: If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
 
