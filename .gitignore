@@ -23,10 +23,10 @@ project.xcworkspace
 
 # Gradle
 /build/
-/RNTester/android/app/build/
-/RNTester/android/app/gradle/
-/RNTester/android/app/gradlew
-/RNTester/android/app/gradlew.bat
+/DeBank/android/app/build/
+/DeBank/android/app/gradle/
+/DeBank/android/app/gradlew
+/DeBank/android/app/gradlew.bat
 /ReactAndroid/build/
 
 # Buck
@@ -67,7 +67,7 @@ package-lock.json
 
 # ReactCommon subdir shouldn't have Xcode project
 /ReactCommon/**/*.xcodeproj
-RNTester/build
+DeBank/build
 
 # CocoaPods
 /template/ios/Pods/
