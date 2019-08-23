@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import Transaction from './Transaction';
 import {
@@ -36,7 +36,7 @@ class Transactions extends Component {
 
   renderTransactions(){
     const { transactions } = this.props;
-    if(transactions) {
+    if(transactions.length > 0) {
       return (
         <View>
           {transactions.map(transaction => (
@@ -44,6 +44,8 @@ class Transactions extends Component {
           ))}
         </View>
       )
+    } else {
+      return <Text>┐(￣ヘ￣）┌ ﾌｩｩ～</Text>
     }
   }
 
