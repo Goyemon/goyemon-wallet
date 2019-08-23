@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Tue Aug 20 09:26:26 CEST 2019
+#Thu Aug 22 17:06:17 CEST 2019
 56.path=lib/arm64-v8a/libglog.so
 5.base=/Users/tai/Dropbox/Codes/DeBank/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
 42.base=/Users/tai/Dropbox/Codes/DeBank/android/app/build/intermediates/merged_assets/debug/out
