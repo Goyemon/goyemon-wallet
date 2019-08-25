@@ -9,13 +9,7 @@ import { saveNotificationPermission } from '../actions/ActionNotificationPermiss
 
 class NotificationPermission extends Component {
   async componentDidMount() {
-    this.onTokenRefreshListener = await firebase.messaging().onTokenRefresh(async fcmToken => {
-      await this.checkFcmPermissions();
-    });
-  }
-
-  componentWillUnmount() {
-    this.onTokenRefreshListener();
+    await this.checkFcmPermissions();
   }
 
   async checkFcmPermissions() {
