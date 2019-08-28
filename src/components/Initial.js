@@ -9,12 +9,22 @@ import { getMnemonic } from '../actions/ActionMnemonic';
 import { saveWeb3 } from '../actions/ActionWeb3';
 import WalletController from '../wallet-core/WalletController.ts';
 import HomeStack from '../navigators/HomeStack';
+import firebase from 'react-native-firebase';
 
 class Initial extends Component {
   async componentWillMount() {
     await this.props.saveWeb3();
     const privateKeySaved = await WalletController.privateKeySaved();
-    const mainPage = privateKeySaved ? 'Wallets' : 'Welcome';
+    const notificationEnabled = await firebase.messaging().hasPermission();
+    let mainPage;
+    
+    if (privateKeySaved && notificationEnabled){
+      mainPage = 'Wallets';
+    } else if (privateKeySaved && !notificationEnabled){
+      mainPage = 'NotificationPermission';
+    } else if(!privateKeySaved && !notificationEnabled){
+      mainPage = 'Welcome';
+    }
 
     HomeStack.navigationOptions = ({ navigation }) => {
       let tabBarVisible = true;
