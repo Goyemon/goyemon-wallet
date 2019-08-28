@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { RootContainer, Button } from '../components/common';
-import { Text, View } from 'react-native';
+import { Text, View, Linking } from 'react-native';
 import styled from 'styled-components/native';
 import firebase from 'react-native-firebase';
 import { saveNotificationPermission } from '../actions/ActionNotificationPermission';
@@ -47,16 +47,15 @@ class NotificationPermission extends Component {
     } else if (this.props.permission === false) {
       return (
         <View>
-          <Button
-            text="Next"
-            textColor="white"
-            backgroundColor="#4083FF"
-            margin="16px auto"
-            opacity="0.3"
-            onPress={() => this.props.navigation.navigate('Wallets')}
-            disabled={true}
-          />
           <Text>please go to the setting and change your permission. relaunch your app.</Text>
+          <Button
+            text="Go To Settings"
+            textColor="#4E4E4E"
+            backgroundColor="#EEEEEE"
+            margin="16px auto"
+            opacity="1"
+            onPress={() => Linking.openURL('app-settings://notification/DeBank')}
+          />
         </View>
       );
     }
