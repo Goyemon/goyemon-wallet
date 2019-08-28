@@ -8,7 +8,7 @@ export default class Settings extends Component {
   render() {
     return (
       <RootContainer>
-        <HeaderOne>Settings</HeaderOne>
+        <HeaderOne  marginTop="96">Settings</HeaderOne>
         <SettingsList borderColor="#c8c7cc" defaultItemSize={50}>
           <SettingsList.Header headerStyle={{ marginTop: 16 }} />
           <SettingsList.Header headerStyle={{ marginTop: 16 }} />

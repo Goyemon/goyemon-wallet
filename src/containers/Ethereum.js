@@ -46,7 +46,7 @@ class Ethereum extends Component {
 
     return (
       <RootContainer>
-        <HeaderOne>Ether</HeaderOne>
+        <HeaderOne marginTop="96">Ether</HeaderOne>
         <CardContainerWithoutFeedback>
           <HeaderTwo fontSize="24px" marginBottom="8" marginTop="0">Balance</HeaderTwo>
           <UsdBalance>${this.getUsdBalance(balance)}</UsdBalance>

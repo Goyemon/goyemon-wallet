@@ -28,7 +28,7 @@ class Receive extends Component {
     const { checksumAddress } = this.props;
     return (
       <RootContainer>
-        <HeaderOne>Receive</HeaderOne>
+        <HeaderOne marginTop="96">Receive</HeaderOne>
         <CardContainer>
           <HeaderTwo fontSize="16px" marginBottom="4" marginTop="8">
             Address

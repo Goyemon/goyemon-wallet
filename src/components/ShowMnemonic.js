@@ -10,7 +10,7 @@ export default class ShowMnemonic extends Component {
     return (
       <RootContainer>
         <View>
-          <HeaderOne>Create Wallet</HeaderOne>
+          <HeaderOne marginTop="48">Create Wallet</HeaderOne>
         </View>
         <Container>
           <Text>Please carefully write down these 24 backup words.</Text>

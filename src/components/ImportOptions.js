@@ -9,6 +9,7 @@ export default class ImportOptions extends Component {
     return (
       <RootContainer>
         <HeaderOne>Import Wallet</HeaderOne>
+        <HeaderOne marginTop="48">Import Wallet</HeaderOne>
         <Text>How many words do you have?</Text>
         <Container>
           <ButtonContainer>

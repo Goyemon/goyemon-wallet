@@ -37,7 +37,7 @@ class WalletList extends Component {
 
     return (
       <RootContainer>
-        <HeaderOne>Home</HeaderOne>
+        <HeaderOne marginTop="96">Home</HeaderOne>
         <CardContainerWithoutFeedback>
           <HeaderTwo
             fontSize="24px"

@@ -148,7 +148,7 @@ class Send extends Component {
 
     return (
       <RootContainer>
-        <HeaderOne>Send</HeaderOne>
+        <HeaderOne marginTop="96">Send</HeaderOne>
         <UntouchableCardContainer
           alignItems="flex-start"
           flexDirection="column"

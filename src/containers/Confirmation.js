@@ -58,7 +58,7 @@ class Confirmation extends Component {
 
     return (
       <RootContainer>
-        <HeaderOne>Confirmation</HeaderOne>
+        <HeaderOne marginTop="96">Confirmation</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
           flexDirection="column"

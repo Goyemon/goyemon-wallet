@@ -118,6 +118,7 @@ class Import extends Component {
     return (
       <RootContainer>
         <HeaderOne>Import Wallet</HeaderOne>
+        <HeaderOne marginTop="48">Import Wallet</HeaderOne>
         <Container>
           <Text>Enter the backup words for the wallet you want to import</Text>
           <MnemonicWordsContainer style={styles.table}>

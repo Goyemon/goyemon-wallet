@@ -37,7 +37,7 @@ class VerifyMnemonic extends Component {
     return (
       <RootContainer>
         <View>
-          <HeaderOne>Create Wallet</HeaderOne>
+          <HeaderOne marginTop="48">Create Wallet</HeaderOne>
         </View>
         <Container>
           <MnemonicWords />
