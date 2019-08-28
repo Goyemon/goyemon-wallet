@@ -5,6 +5,7 @@ import Welcome from '../components/Welcome';
 import NotificationPermissionTutorial from '../components/NotificationPermissionTutorial';
 import NotificationPermission from '../containers/NotificationPermission';
 import Start from '../containers/Start';
+import ImportOptions from '../components/ImportOptions';
 import Import from '../components/Import';
 import ShowMnemonic from '../components/ShowMnemonic';
 import VerifyMnemonic from '../containers/VerifyMnemonic';
@@ -45,6 +46,13 @@ const HomeStack = createStackNavigator(
       screen: Start,
       navigationOptions: () => ({
         header: null
+      })
+    },
+    ImportOptions: {
+      screen: ImportOptions,
+      navigationOptions: () => ({
+        headerTransparent: true,
+        headerBackTitle: 'ImportOptions'
       })
     },
     Import: {

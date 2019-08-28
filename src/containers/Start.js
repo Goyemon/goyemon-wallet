@@ -42,7 +42,7 @@ class Start extends Component {
             justifyContent="center"
             textAlign="left"
             width="90%"
-            onPress={() => this.props.navigation.navigate('Import')}
+            onPress={() => this.props.navigation.navigate('ImportOptions')}
           >
             <View>
               <HeaderTwo fontSize="16px" marginBottom="0" marginTop="0">
