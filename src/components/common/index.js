@@ -1,5 +1,6 @@
 export * from './RootContainer';
 export * from './Button';
+export * from './ProgressBar';
 export * from './Card';
 export * from './Input';
 export * from './Spinner';
