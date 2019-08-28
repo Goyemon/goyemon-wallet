@@ -1,7 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { RootContainer, Button } from '../components/common';
+import { RootContainer, ProgressBar, Button } from '../components/common';
 import { Text, View, Linking } from 'react-native';
 import styled from 'styled-components/native';
 import firebase from 'react-native-firebase';
@@ -64,6 +64,10 @@ class NotificationPermission extends Component {
   render() {
     return (
       <RootContainer>
+        <ProgressBar
+          text="3"
+          width="100%"
+        />
         <Container>
           <View>{this.renderPermission()}</View>
         </Container>

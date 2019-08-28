@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { RootContainer, Button } from '../components/common';
+import { RootContainer, ProgressBar, Button } from '../components/common';
 import { Text } from 'react-native';
 import styled from 'styled-components/native';
 
@@ -8,6 +8,10 @@ export default class NotificationPermissionTutorial extends Component {
   render() {
     return (
       <RootContainer>
+        <ProgressBar
+          text="3"
+          width="100%"
+        />
         <Container>
           <Text>I need to ask you only one more thing…</Text>
           <Text>We use a notification system to process your transactions. But we will never annoy you with a pop-up notification. </Text>
