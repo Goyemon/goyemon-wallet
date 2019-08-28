@@ -9,10 +9,10 @@ export default class NotificationPermissionTutorial extends Component {
     return (
       <RootContainer>
         <Container>
-          <Text>we are going to ask for your permission.</Text>
-          <Text>we will never annoy you with pop-up notifications. We promise. ;)</Text>
+          <Text>I need to ask you only one more thing…</Text>
+          <Text>We use a notification system to process your transactions. But we will never annoy you with a pop-up notification. </Text>
           <Button
-            text="Next"
+            text="Allow Notifications"
             textColor="white"
             backgroundColor="#4083FF"
             margin="16px auto"
