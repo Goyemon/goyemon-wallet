@@ -16,8 +16,8 @@ class Initial extends Component {
     await this.props.saveWeb3();
     const privateKeySaved = await WalletController.privateKeySaved();
     const notificationEnabled = await firebase.messaging().hasPermission();
-    let mainPage;
-    
+    let mainPage = 'Welcome';
+
     if (privateKeySaved && notificationEnabled){
       mainPage = 'Wallets';
     } else if (privateKeySaved && !notificationEnabled){
