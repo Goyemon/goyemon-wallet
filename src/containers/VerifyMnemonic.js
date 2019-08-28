@@ -36,6 +36,10 @@ class VerifyMnemonic extends Component {
   render() {
     return (
       <RootContainer>
+        <ProgressBar
+          text="2"
+          width="67%"
+        />
         <View>
           <HeaderOne marginTop="48">Create Wallet</HeaderOne>
         </View>

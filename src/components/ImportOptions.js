@@ -2,13 +2,16 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Text } from 'react-native';
-import { RootContainer, HeaderOne, Button } from '../components/common/';
+import { RootContainer, ProgressBar, HeaderOne, Button } from '../components/common/';
 
 export default class ImportOptions extends Component {
   render() {
     return (
       <RootContainer>
-        <HeaderOne>Import Wallet</HeaderOne>
+        <ProgressBar
+          text="1"
+          width="33%"
+        />
         <HeaderOne marginTop="48">Import Wallet</HeaderOne>
         <Text>How many words do you have?</Text>
         <Container>

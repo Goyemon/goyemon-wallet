@@ -2,13 +2,17 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import styled from 'styled-components/native';
-import { RootContainer, Button, HeaderOne } from '../components/common';
+import { RootContainer, ProgressBar, Button, HeaderOne } from '../components/common';
 import ShowMnemonicWords from '../containers/ShowMnemonicWords';
 
 export default class ShowMnemonic extends Component {
   render() {
     return (
       <RootContainer>
+        <ProgressBar
+          text="1"
+          width="33%"
+        />
         <View>
           <HeaderOne marginTop="48">Create Wallet</HeaderOne>
         </View>

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { View, TextInput, Text } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-import { RootContainer, Button, HeaderOne } from '../components/common';
+import { RootContainer, ProgressBar, Button, HeaderOne } from '../components/common';
 import WalletController from '../wallet-core/WalletController.ts';
 import EthUtils from '../wallet-core/EthUtils';
 import { getChecksumAddress } from '../actions/ActionChecksumAddress';
@@ -117,7 +117,10 @@ class Import extends Component {
   render() {
     return (
       <RootContainer>
-        <HeaderOne>Import Wallet</HeaderOne>
+        <ProgressBar
+          text="2"
+          width="67%"
+        />
         <HeaderOne marginTop="48">Import Wallet</HeaderOne>
         <Container>
           <Text>Enter the backup words for the wallet you want to import</Text>
