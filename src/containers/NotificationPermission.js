@@ -41,7 +41,7 @@ class NotificationPermission extends Component {
           backgroundColor="#4083FF"
           margin="16px auto"
           opacity="1"
-          onPress={() => this.props.navigation.navigate('Start')}
+          onPress={() => this.props.navigation.navigate('Wallets')}
         />
       );
     } else if (this.props.permission === false) {
@@ -53,7 +53,7 @@ class NotificationPermission extends Component {
             backgroundColor="#4083FF"
             margin="16px auto"
             opacity="0.3"
-            onPress={() => this.props.navigation.navigate('Start')}
+            onPress={() => this.props.navigation.navigate('Wallets')}
             disabled={true}
           />
           <Text>please go to the setting and change your permission. relaunch your app.</Text>

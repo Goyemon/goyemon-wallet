@@ -58,7 +58,7 @@ class VerifyMnemonic extends Component {
               await this.registerEthereumAddress();
               await this.props.getEthPrice();
               await this.props.getDaiPrice();
-              this.props.navigation.navigate('Wallets');
+              this.props.navigation.navigate('NotificationPermissionTutorial');
             }}
           />
         </Container>

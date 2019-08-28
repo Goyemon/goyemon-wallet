@@ -22,7 +22,7 @@ export default class Welcome extends Component {
               backgroundColor="#4083FF"
               margin="16px auto"
               opacity="1"
-              onPress={() => this.props.navigation.navigate('NotificationPermissionTutorial')}
+              onPress={() => this.props.navigation.navigate('Start')}
             />
           </ButtonWrapper>
         </Container>
