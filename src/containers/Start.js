@@ -4,12 +4,35 @@ import { connect } from 'react-redux';
 import { getMnemonic } from '../actions/ActionMnemonic';
 import styled from 'styled-components';
 import { View, Image } from 'react-native';
-import { RootContainer, TouchableCardContainer, HeaderOne, HeaderTwo } from '../components/common/';
+import { RootContainer, TouchableCardContainer, HeaderTwo, Loader } from '../components/common/';
+import WalletController from '../wallet-core/WalletController.ts';
 
 class Start extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: false
+    }
+  }
+
+  async renderLoader() {
+    this.setState({
+      loading: true
+    });
+
+    const mnemonic = await WalletController.getMnemonic();
+
+    if(mnemonic){
+      this.setState({
+        loading: false
+      });
+    }
+  }
+
   render() {
     return (
       <RootContainer>
+        <Loader loading={this.state.loading} />
         <Container>
           <Logo>Swarm</Logo>
           <OneLiner>a permissionless bank  in your pocket</OneLiner>
@@ -21,6 +44,7 @@ class Start extends Component {
             textAlign="left"
             width="90%"
             onPress={async () => {
+              await this.renderLoader();
               await this.props.getMnemonic();
               this.props.navigation.navigate('ShowMnemonic');
             }}

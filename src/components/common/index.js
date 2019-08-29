@@ -3,7 +3,7 @@ export * from './Button';
 export * from './ProgressBar';
 export * from './Card';
 export * from './Input';
-export * from './Spinner';
+export * from './Loader';
 export * from './UntouchableCardContainer';
 export * from './TouchableCardContainer';
 export * from './HeaderOne';
