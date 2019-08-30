@@ -54,8 +54,8 @@ class Ethereum extends Component {
           <ButtonContainer>
             <Button
               text="Receive"
-              textColor="white"
-              backgroundColor="#39C89E"
+              textColor="#4E4E4E"
+              backgroundColor="#EEEEEE"
               margin="8px"
               opacity="1"
               onPress={() => navigation.navigate('Receive')}
