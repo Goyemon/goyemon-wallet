@@ -15,7 +15,7 @@ class TransactionController {
         value: this.parseTransactionValue(transaction.value),
         time: transaction.time,
         nonce: parseInt(transaction.nonce),
-        state: ''
+        state: 'confirmed'
       };
     });
     return parsedTransactions;
