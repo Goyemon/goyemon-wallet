@@ -59,33 +59,29 @@ class Confirmation extends Component {
     return (
       <RootContainer>
         <HeaderOne marginTop="96">Confirmation</HeaderOne>
+        <TotalContainer>
+          <Text>You are sending</Text>
+          <TotalValueText>{total} ETH</TotalValueText>
+          <Text>USD</Text>
+        </TotalContainer>
         <UntouchableCardContainer
-          alignItems="center"
+          alignItems="flex-start"
           flexDirection="column"
-          height="160px"
+          height="280px"
           justifyContent="flex-start"
           textAlign="left"
           width="95%"
         >
-          <HeaderTwo fontSize="16px" marginBottom="8" marginTop="4">from</HeaderTwo>
-          <Text>{checksumAddress}</Text>
-          <Text>↓</Text>
-          <HeaderTwo fontSize="16px" marginBottom="8" marginTop="4">to</HeaderTwo>
-          <Text>{outgoingTransactionObjects[outgoingTransactionObjects.length - 1].to}</Text>
+          <HeaderTwo color="#000" fontSize="16px" marginBottom="8" marginLeft="8" marginTop="16">TO</HeaderTwo>
+          <ToText>{outgoingTransactionObjects[outgoingTransactionObjects.length - 1].to}</ToText>
+          <HeaderTwo color="#000" fontSize="16px" marginBottom="8" marginLeft="8" marginTop="16">AMOUNT</HeaderTwo>
+          <AmountText>{valueInEther} ETH</AmountText>
+          <HeaderTwo color="#000" fontSize="16px" marginBottom="8" marginLeft="8" marginTop="16">NETWORK FEE</HeaderTwo>
+          <NetworkFeeText>{gasPriceInEther} ETH</NetworkFeeText>
         </UntouchableCardContainer>
-        <Text>Total {total} ETH</Text>
-        <Text>Gas Fee {gasPriceInEther} ETH</Text>
         <ButtonContainer>
           <Button
-            text="Back"
-            textColor="white"
-            backgroundColor="#EEE"
-            margin="8px"
-            onPress={() => this.props.navigation.navigate('Send')}
-            opacity="1"
-          />
-          <Button
-            text="Confirm"
+            text="Send"
             textColor="white"
             backgroundColor="#4083FF"
             margin="8px"
@@ -101,6 +97,30 @@ class Confirmation extends Component {
   }
 }
 
+const TotalContainer = styled.View`
+  alignItems: center;
+  flexDirection: column;
+  justifyContent: center;
+  margin-bottom: 56px;
+  margin-top: 56px;
+`;
+
+const ToText = styled.Text`
+  margin-left: 8px;
+`;
+
+const AmountText = styled.Text`
+  margin-left: 8px;
+`;
+
+const NetworkFeeText = styled.Text`
+  margin-left: 8px;
+`;
+
+const TotalValueText = styled.Text`
+  font-size: 24px;
+`;
+
 const ButtonContainer = styled.View`
   alignItems: center;
   flexDirection: row;
@@ -111,7 +131,6 @@ function mapStateToProps(state) {
   return {
     web3: state.ReducerWeb3.web3,
     outgoingTransactionObjects: state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
-    checksumAddress: state.ReducerChecksumAddress.checksumAddress
   };
 }
 
