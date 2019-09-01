@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { Text, View, Linking, Image } from 'react-native';
+import { Text, View, Image } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
@@ -26,11 +26,7 @@ class WalletDetail extends Component {
     const { id, coin, notation, price } = this.props.wallet;
     const { balance } = this.props
     const {
-      WalletStyleMiddleContainer,
-      coinImageStyle,
-      coinTextStyle,
-      priceTextStyle,
-      balanceTextStyle
+      coinImageStyle
     } = styles;
 
     if (!this.props.web3.eth) {
@@ -39,14 +35,12 @@ class WalletDetail extends Component {
 
     return (
       <Container>
+        {this.renderIcon()}
         <View>
-          {this.renderIcon()}
-          <Text style={coinTextStyle}>{coin}</Text>
+          <CoinText>{coin}</CoinText>
+          <PriceText>1 {notation} = ${price}</PriceText>
         </View>
-        <View>
-          <Text style={balanceTextStyle}>{this.renderBalance()}</Text>
-          <Text style={priceTextStyle}>1 {notation} = ${price}</Text>
-        </View>
+        <BalanceText>{this.renderBalance()}</BalanceText>
       </Container>
     );
   }
@@ -56,22 +50,28 @@ const styles = {
   coinImageStyle: {
     height: 40,
     width: 40
-  },
-  coinTextStyle: {
-    fontSize: 16
-  },
-  priceTextStyle: {
-    fontSize: 12
-  },
-  balanceTextStyle: {
-    fontSize: 16
   }
 };
 
 const Container = styled.View`
-  flexDirection: row;
-  justifyContent: center;
   alignItems: center;
+  flexDirection: row;
+  justifyContent: flex-start;
+`;
+
+const CoinText = styled.Text`
+  font-size: 20px;
+  margin-left: 16px;
+`;
+
+const PriceText = styled.Text`
+  color: #4E4E4E;
+  margin-left: 16px;
+`;
+
+const BalanceText = styled.Text`
+  font-size: 22px;
+  margin-left: 16px;
 `;
 
 const mapStateToProps = state => ({
