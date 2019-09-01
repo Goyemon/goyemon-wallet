@@ -1,4 +1,4 @@
-#Thu Aug 22 17:06:16 CEST 2019
+#Sun Aug 25 12:16:32 CEST 2019
 base.0=/Users/tai/Dropbox/Codes/DeBank/android/app/build/intermediates/transforms/dexMerger/debug/0
 path.0=classes.dex
 renamed.0=classes.dex
