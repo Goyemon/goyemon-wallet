@@ -30,15 +30,15 @@ class Transaction extends Component {
     } else if (this.props.transaction.state === 'included') {
       return <Text>included</Text>;
     } else if (this.props.transaction.state === 'confirmed') {
-      return <Text>confirmed!</Text>;
+      return <Text>confirmed</Text>;
     }
   }
 
-  renderAddress() {
+  renderDirection() {
     if (this.props.web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
-      return <Text />;
+      return <Text>Incoming</Text>;
     } else if (this.props.web3.utils.toChecksumAddress(this.props.transaction.to) != this.props.checksumAddress) {
-      return <Text>{this.props.web3.utils.toChecksumAddress(this.props.transaction.to)}</Text>;
+      return <Text>Outgoing</Text>;
     }
   }
 
@@ -52,13 +52,16 @@ class Transaction extends Component {
 
   renderRoundedValue() {
     const roundedEthValue = parseFloat(this.props.transaction.value).toFixed(4);
-    return <Text>{roundedEthValue} ETH</Text>;
+    if (this.props.web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
+      return <Text style={styles.valueStyleGreen}>{roundedEthValue} ETH</Text>;
+    } else if (this.props.web3.utils.toChecksumAddress(this.props.transaction.to) != this.props.checksumAddress) {
+      return <Text style={styles.valueStyleRed}>{roundedEthValue} ETH</Text>;
+    }
   }
 
   render() {
     let { time } = this.props.transaction;
     time = TransactionController.parseTransactionTime(time);
-    const { TransactionListStyle, WalletStyleMiddleContainer, textStyle } = styles;
 
     return (
       <TouchableCardContainer
@@ -69,41 +72,57 @@ class Transaction extends Component {
         textAlign="left"
         width="95%"
       >
-        <View style={TransactionListStyle}>
-          <Text style={[WalletStyleMiddleContainer, textStyle]}>
-            {this.renderInOrOutTransactionIcon()}
-          </Text>
-          <Text style={[WalletStyleMiddleContainer, textStyle]}>{this.renderAddress()}</Text>
-          <Text style={[WalletStyleMiddleContainer, textStyle]}>{time}</Text>
-          <Text style={[WalletStyleMiddleContainer, textStyle]}>{this.renderStatus()}</Text>
-          {this.renderPlusOrMinusTransactionIcon()}
-          <Text>{this.renderRoundedValue()}</Text>
-        </View>
+        <TransactionList>
+          {this.renderInOrOutTransactionIcon()}
+          <View>
+            <DirectionText>{this.renderDirection()}</DirectionText>
+            <TimeText>{time}</TimeText>
+          </View>
+          <StatusText>{this.renderStatus()}</StatusText>
+          <ValueText>
+            {this.renderPlusOrMinusTransactionIcon()}
+            <Text>{this.renderRoundedValue()}</Text>
+          </ValueText>
+        </TransactionList>
       </TouchableCardContainer>
     );
   }
 }
 
 const styles = {
-  TransactionListStyle: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center'
+  valueStyleRed: {
+    color: '#D0021B'
   },
-  WalletStyleMiddleContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center'
-  },
-  textStyle: {
-    fontSize: 16
+  valueStyleGreen: {
+    color: '#7ED321'
   }
 };
 
-const Container = styled.View`
-  alignItems: center;
+const TransactionList = styled.View`
+  flex: 1;
   flexDirection: row;
   justifyContent: center;
+`;
+
+const DirectionText = styled.Text`
+  font-size: 16px;
+  margin-bottom: 4px;
+  margin-left: 16px;
+`;
+
+const TimeText = styled.Text`
+  color: #4E4E4E;
+  margin-left: 16px;
+`;
+
+const StatusText = styled.Text`
+  font-size: 16px;
+  margin-left: 16px;
+`;
+
+const ValueText = styled.Text`
+  font-size: 16px;
+  margin-left: 16px;
 `;
 
 const mapStateToProps = state => ({
