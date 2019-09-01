@@ -34,7 +34,6 @@
     "react-native-os": "^1.2.5",
     "react-native-qrcode": "^0.2.7",
     "react-native-randombytes": "^3.5.1",
-    "react-native-settings-list": "^1.8.0",
     "react-native-vector-icons": "^6.5.0",
     "react-navigation": "^3.5.1",
     "react-redux": "^6.0.0",
