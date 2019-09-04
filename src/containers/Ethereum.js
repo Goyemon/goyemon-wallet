@@ -48,7 +48,7 @@ class Ethereum extends Component {
       <RootContainer>
         <HeaderOne marginTop="96">Ether</HeaderOne>
         <CardContainerWithoutFeedback>
-          <HeaderTwo fontSize="24px" marginBottom="8" marginTop="0">Balance</HeaderTwo>
+          <HeaderTwo color="#4E4E4E" fontSize="24px" marginBottom="8" marginLeft="8" marginTop="0">Balance</HeaderTwo>
           <UsdBalance>${this.getUsdBalance(balance)}</UsdBalance>
           <EthBalance>{balance} ETH</EthBalance>
           <ButtonContainer>
@@ -73,7 +73,7 @@ class Ethereum extends Component {
           </ButtonContainer>
         </CardContainerWithoutFeedback>
         <View>
-          <HeaderTwo fontSize="16px" marginBottom="8" marginTop="8">Transaction History</HeaderTwo>
+          <HeaderTwo color="#000" fontSize="16px" marginBottom="16" marginLeft="16" marginTop="16">TRANSACTION HISTORY</HeaderTwo>
         </View>
         <Transactions />
       </RootContainer>
@@ -93,6 +93,7 @@ const ButtonContainer = styled.View`
   alignItems: center;
   flexDirection: row;
   justifyContent: center;
+  margin-top: 16px;
 `;
 
 const UsdBalance = styled.Text`

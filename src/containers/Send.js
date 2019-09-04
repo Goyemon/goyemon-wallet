@@ -152,17 +152,19 @@ class Send extends Component {
         <UntouchableCardContainer
           alignItems="flex-start"
           flexDirection="column"
-          height="240px"
+          height="280px"
           justifyContent="flex-start"
           textAlign="left"
           width="95%"
          >
           <HeaderTwo
+            color="#000"
             fontSize="16px"
             marginBottom="4"
+            marginLeft="0"
             marginTop="0"
           >
-            To
+            TO
           </HeaderTwo>
           <TextInput
             style={this.state.toAddressValidation ? styles.noError : styles.error}
@@ -177,11 +179,13 @@ class Send extends Component {
             {this.renderInvalidToAddressMessage()}
           </View>
           <HeaderTwo
+            color="#000"
             fontSize="16px"
             marginBottom="4"
-            marginTop="8"
+            marginLeft="0"
+            marginTop="24"
           >
-            Amount(ETH)
+            AMOUNT(ETH)
           </HeaderTwo>
           <TextInput
             style={this.state.amountValidation ? styles.noError : styles.error}
@@ -196,42 +200,44 @@ class Send extends Component {
             {this.renderInsufficientBalanceMessage()}
           </View>
           <HeaderTwo
-          fontSize="16px"
-          marginBottom="4"
-          marginTop="8"
+            color="#000"
+            fontSize="16px"
+            marginBottom="4"
+            marginLeft="0"
+            marginTop="24"
           >
-            Transaction Fee
+            NETWORK FEE
           </HeaderTwo>
-          <TransactionFeeContainer>
+          <NetworkFeeContainer>
             {this.state.gasPrice.map((gasPrice, key) => (
-              <View key={key}>
+              <NetworkFee key={key}>
                 {this.state.checked === key ? (
-                  <TouchableOpacity>
+                  <SpeedContainer>
                     <SelectedButton>{gasPrice.speed}</SelectedButton>
-                    <Icon name={gasPrice.imageName} size={24} color="#39C89E" />
+                    <Icon name={gasPrice.imageName} size={40} color="#39C89E" />
                     <SelectedButton>${this.getUsdGasPrice(gasPrice.gasPriceInEther)}</SelectedButton>
-                  </TouchableOpacity>
+                  </SpeedContainer>
                 ) : (
-                  <TouchableOpacity
+                  <SpeedContainer
                     onPress={() => {
                       this.setState({ checked: key });
                     }}
                   >
                     <UnselectedButton>{gasPrice.speed}</UnselectedButton>
-                    <Icon name={gasPrice.imageName} size={24} color="#000" />
+                    <Icon name={gasPrice.imageName} size={40} color="#000" />
                     <UnselectedButton>${this.getUsdGasPrice(gasPrice.gasPriceInEther)}</UnselectedButton>
-                  </TouchableOpacity>
+                  </SpeedContainer>
                 )}
-              </View>
+              </NetworkFee>
             ))}
-          </TransactionFeeContainer>
+          </NetworkFeeContainer>
         </UntouchableCardContainer>
         <ButtonWrapper>
           <Button
             text="Next"
             textColor="white"
             backgroundColor="#4083FF"
-            margin="24px auto"
+            margin="40px auto"
             opacity="1"
             onPress={async () => {
               await this.validateForm(this.state.toAddress, this.state.amount);
@@ -254,10 +260,19 @@ const styles = {
   }
 };
 
-
-const TransactionFeeContainer = styled.View`
+const NetworkFeeContainer = styled.View`
   alignItems: center;
   flexDirection: row;
+  justifyContent: center;
+`;
+
+const NetworkFee = styled.View`
+  margin-right: 24px;
+`;
+
+const SpeedContainer = styled.TouchableOpacity`
+  alignItems: center;
+  flexDirection: column;
   justifyContent: center;
 `;
 

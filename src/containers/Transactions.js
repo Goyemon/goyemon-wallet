@@ -7,6 +7,7 @@ import {
   addPendingTransaction,
   updateTransactionState
 } from '../actions/ActionTransactionHistory';
+import styled from 'styled-components/native';
 import firebase from 'react-native-firebase';
 
 class Transactions extends Component {
@@ -57,6 +58,21 @@ class Transactions extends Component {
     );
   }
 }
+
+const EmptyTransactionContainer = styled.View`
+  alignItems: center;
+  flexDirection: column;
+  justifyContent: center;
+`;
+
+const EmptyTransactionEmoji = styled.Text`
+  font-size: 40px;
+  margin-bottom: 24px;
+`;
+
+const EmptyTransactionText = styled.Text`
+  font-size: 16px;
+`;
 
 const mapStateToProps = state => ({
   transactions: state.ReducerTransactionHistory.transactions

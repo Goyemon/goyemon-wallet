@@ -13,7 +13,7 @@ export default class Settings extends Component {
         <UntouchableCardContainer
           alignItems="flex-start"
           flexDirection="column"
-          height="160px"
+          height="240px"
           justifyContent="center"
           textAlign="left"
           width="95%"

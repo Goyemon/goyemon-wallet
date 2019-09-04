@@ -32,24 +32,27 @@ class NotificationPermission extends Component {
 
   renderPermission() {
     if (this.props.permission === null) {
-      return <Text>don't return anything</Text>;
+      return <Text>Smash that “OK” button so we can process your transactions!</Text>;
     } else if (this.props.permission === true) {
       return (
-        <Button
-          text="Next"
-          textColor="white"
-          backgroundColor="#4083FF"
-          margin="16px auto"
-          opacity="1"
-          onPress={() => this.props.navigation.navigate('Wallets')}
-        />
+        <View>
+          <Text>great!</Text>
+          <Button
+            text="Next"
+            textColor="white"
+            backgroundColor="#4083FF"
+            margin="16px auto"
+            opacity="1"
+            onPress={() => this.props.navigation.navigate('Wallets')}
+          />
+        </View>
       );
     } else if (this.props.permission === false) {
       return (
         <View>
           <Text>please go to the setting and change your permission. relaunch your app.</Text>
           <Button
-            text="Go To Settings"
+            text="Go To Device Settings"
             textColor="#4E4E4E"
             backgroundColor="#EEEEEE"
             margin="16px auto"
@@ -64,10 +67,6 @@ class NotificationPermission extends Component {
   render() {
     return (
       <RootContainer>
-        <ProgressBar
-          text="3"
-          width="100%"
-        />
         <Container>
           <View>{this.renderPermission()}</View>
         </Container>

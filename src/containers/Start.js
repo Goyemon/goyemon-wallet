@@ -50,7 +50,7 @@ class Start extends Component {
             }}
           >
             <View>
-              <HeaderTwo fontSize="16px" marginBottom="0" marginTop="0">
+              <HeaderTwo color="#000" fontSize="16px" marginBottom="0" marginLeft="0" marginTop="0">
                 Create
               </HeaderTwo>
               <CardText>new wallet</CardText>
@@ -69,7 +69,7 @@ class Start extends Component {
             onPress={() => this.props.navigation.navigate('ImportOptions')}
           >
             <View>
-              <HeaderTwo fontSize="16px" marginBottom="0" marginTop="0">
+              <HeaderTwo color="#000" fontSize="16px" marginBottom="0" marginLeft="0" marginTop="0">
                 Import
               </HeaderTwo>
               <CardText>existing wallet</CardText>

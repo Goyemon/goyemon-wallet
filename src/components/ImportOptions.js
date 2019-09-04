@@ -13,14 +13,14 @@ export default class ImportOptions extends Component {
           width="33%"
         />
         <HeaderOne marginTop="48">Import Wallet</HeaderOne>
-        <Text>How many words do you have?</Text>
         <Container>
+          <Text>How many mnemonic words do you have?</Text>
           <ButtonContainer>
             <Button
               text="12 Words"
               textColor="white"
               backgroundColor="#4083FF"
-              margin="24px auto"
+              margin="16px auto"
               opacity="1"
               onPress={async () => {
                 this.props.navigation.navigate('Import');
@@ -32,7 +32,7 @@ export default class ImportOptions extends Component {
               text="24 Words"
               textColor="white"
               backgroundColor="#4083FF"
-              margin="24px auto"
+              margin="16px auto"
               opacity="1"
               onPress={async () => {
                 this.props.navigation.navigate('Import');

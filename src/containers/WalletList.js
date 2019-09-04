@@ -37,11 +37,13 @@ class WalletList extends Component {
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="96">Home</HeaderOne>
+        <HeaderOne marginTop="64">Home</HeaderOne>
         <CardContainerWithoutFeedback>
           <HeaderTwo
+            color="#4E4E4E"
             fontSize="24px"
             marginBottom="8"
+            marginLeft="0"
             marginTop="0"
            >
             Total Balance
@@ -49,18 +51,20 @@ class WalletList extends Component {
           <UsdBalance>${this.getUsdBalance(balance)}</UsdBalance>
         </CardContainerWithoutFeedback>
         <HeaderTwo
+          color="#000"
           fontSize="16px"
-          marginBottom="8"
-          marginTop="8"
+          marginBottom="16"
+          marginLeft="16"
+          marginTop="16"
          >
-          Currency
+          YOUR ACCOUNTS
         </HeaderTwo>
         {wallets.map(wallet => (
           <TouchableCardContainer
             alignItems="center"
-            flexDirection="column"
+            flexDirection="row"
             height="120px"
-            justifyContent="center"
+            justifyContent="flex-start"
             textAlign="left"
             width="95%"
             key={wallet.id}
