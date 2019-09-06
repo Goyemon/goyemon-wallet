@@ -6,14 +6,8 @@ import { Text } from 'react-native';
 import { RootContainer, TouchableCardContainer, HeaderOne, HeaderTwo } from '../components/common';
 import WalletDetail from '../containers/WalletDetail';
 import styled from 'styled-components';
-import HomeStack from '../navigators/HomeStack';
 
 class WalletList extends Component {
-  componentWillMount() {
-    HomeStack.navigationOptions = ({ navigation }) => {
-      let tabBarVisible = true;
-      return tabBarVisible;
-    };
   }
 
   getUsdBalance(ethBalance) {

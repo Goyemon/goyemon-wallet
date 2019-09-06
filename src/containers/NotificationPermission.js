@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { RootContainer, Button } from '../components/common';
 import { Text, View, Linking } from 'react-native';
+import { StackActions, NavigationActions } from 'react-navigation';
+import HomeStack from '../navigators/HomeStack';
 import styled from 'styled-components/native';
 import firebase from 'react-native-firebase';
 import { saveNotificationPermission } from '../actions/ActionNotificationPermission';
@@ -43,7 +45,19 @@ class NotificationPermission extends Component {
             backgroundColor="#4083FF"
             margin="16px auto"
             opacity="1"
-            onPress={() => this.props.navigation.navigate('Wallets')}
+            onPress={
+              () => {
+              HomeStack.navigationOptions = ({ navigation }) => {
+                let tabBarVisible = true;
+                return tabBarVisible;
+              };
+              const resetAction = StackActions.reset({
+                index: 0,
+                actions: [NavigationActions.navigate({ routeName: 'Wallets' })]
+              });
+              this.props.navigation.dispatch(resetAction);
+            }
+          }
           />
         </View>
       );
