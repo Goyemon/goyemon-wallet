@@ -5,7 +5,6 @@ import { RootContainer } from '../components/common';
 import styled from 'styled-components/native';
 import { connect } from 'react-redux';
 import * as Animatable from 'react-native-animatable';
-import { getMnemonic } from '../actions/ActionMnemonic';
 import { saveWeb3 } from '../actions/ActionWeb3';
 import WalletController from '../wallet-core/WalletController.ts';
 import HomeStack from '../navigators/HomeStack';

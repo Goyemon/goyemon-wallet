@@ -1,7 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { RootContainer, ProgressBar, Button } from '../components/common';
+import { RootContainer, Button } from '../components/common';
 import { Text, View, Linking } from 'react-native';
 import styled from 'styled-components/native';
 import firebase from 'react-native-firebase';

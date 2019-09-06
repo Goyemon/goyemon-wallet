@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getMnemonic } from '../actions/ActionMnemonic';
 import styled from 'styled-components';
-import { View, Image } from 'react-native';
+import { View } from 'react-native';
 import { RootContainer, TouchableCardContainer, HeaderTwo, Loader } from '../components/common/';
 import WalletController from '../wallet-core/WalletController.ts';
 

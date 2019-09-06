@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { TouchableOpacity, View, Text } from 'react-native';
+import { Text } from 'react-native';
 import { RootContainer, TouchableCardContainer, HeaderOne, HeaderTwo } from '../components/common';
 import WalletDetail from '../containers/WalletDetail';
 import styled from 'styled-components';

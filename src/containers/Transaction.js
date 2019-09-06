@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { Text, View, Linking, Image } from 'react-native';
+import { Text, View } from 'react-native';
 import { TouchableCardContainer } from '../components/common';
 import { connect } from 'react-redux';
 import styled from 'styled-components';

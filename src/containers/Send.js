@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
+import { View, TextInput } from 'react-native';
 import { RootContainer, Button, UntouchableCardContainer, HeaderOne, HeaderTwo } from '../components/common';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';

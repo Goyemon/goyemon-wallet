@@ -1,6 +1,5 @@
 'use strict';
 import React, { Component } from 'react';
-import { Text } from 'react-native';
 import { RootContainer, HeaderOne, UntouchableCardContainer } from '../components/common';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';

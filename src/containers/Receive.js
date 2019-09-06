@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { Text, Clipboard } from 'react-native';
+import { Clipboard } from 'react-native';
 import { RootContainer, HeaderOne, Button } from '../components/common';
 import { connect } from 'react-redux';
 import QRCode from 'react-native-qrcode';
