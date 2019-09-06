@@ -6,9 +6,9 @@ import styled from 'styled-components/native';
 import { RootContainer, ProgressBar, Button, HeaderOne } from '../components/common';
 import WalletController from '../wallet-core/WalletController.ts';
 import EthUtils from '../wallet-core/EthUtils';
-import { getChecksumAddress } from '../actions/ActionChecksumAddress';
 import { getEthPrice, getDaiPrice } from '../actions/ActionWallets';
 import { getExistingTransactions } from '../actions/ActionTransactionHistory';
+import { createChecksumAddress } from '../actions/ActionChecksumAddress';
 import firebase from 'react-native-firebase';
 import uuidv4 from 'uuid/v4';
 
@@ -88,7 +88,7 @@ class Import extends Component {
       await WalletController.setMnemonic(mnemonicWords);
       await WalletController.generateWallet(mnemonicWords);
       await this.savePrivateKey();
-      await this.props.getChecksumAddress();
+      await this.props.createChecksumAddress();
       await this.registerEthereumAddress();
       await this.props.getEthPrice();
       await this.props.getDaiPrice();
@@ -212,7 +212,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  getChecksumAddress,
+  createChecksumAddress,
   getEthPrice,
   getDaiPrice
   getExistingTransactions

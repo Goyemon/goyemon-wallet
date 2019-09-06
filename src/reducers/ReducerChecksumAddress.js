@@ -1,5 +1,5 @@
 'use strict';
-import { GET_CHECKSUM_ADDRESS } from '../constants/ActionTypes';
+import { CREATE_CHECKSUM_ADDRESS } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
   checksumAddress: ''
@@ -7,7 +7,7 @@ const INITIAL_STATE = {
 
 const checksumAddress = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case GET_CHECKSUM_ADDRESS:
+    case CREATE_CHECKSUM_ADDRESS:
       return { ...state, checksumAddress: action.payload };
     default:
       return state || INITIAL_STATE;

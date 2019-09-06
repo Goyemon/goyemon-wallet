@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 import WalletController from '../wallet-core/WalletController.ts';
 import MnemonicWords from './MnemonicWords';
 import EthUtils from '../wallet-core/EthUtils.js';
-import { getChecksumAddress } from '../actions/ActionChecksumAddress';
 import { getEthPrice, getDaiPrice } from '../actions/ActionWallets';
+import { createChecksumAddress } from '../actions/ActionChecksumAddress';
 import styled from 'styled-components/native';
 import firebase from 'react-native-firebase';
 import uuidv4 from 'uuid/v4';
@@ -54,7 +54,7 @@ class VerifyMnemonic extends Component {
             opacity="1"
             onPress={async () => {
               await this.savePrivateKey();
-              await this.props.getChecksumAddress();
+              await this.props.createChecksumAddress();
               await this.registerEthereumAddress();
               await this.props.getEthPrice();
               await this.props.getDaiPrice();
@@ -81,7 +81,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  getChecksumAddress,
+  createChecksumAddress,
   getEthPrice,
   getDaiPrice
 };
