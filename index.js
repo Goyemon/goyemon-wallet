@@ -1,4 +1,5 @@
 'use strict';
+import './shim';
 import './base64-polyfill';
 import { AppRegistry } from 'react-native';
 import App from './src/navigators/AppTab';

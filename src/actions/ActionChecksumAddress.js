@@ -1,6 +1,5 @@
 'use strict';
 import { GET_CHECKSUM_ADDRESS } from '../constants/ActionTypes';
-import '../../shim';
 import WalletController from '../wallet-core/WalletController.ts';
 
 export function getChecksumAddress() {
