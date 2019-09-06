@@ -30,7 +30,7 @@ class WalletController {
     let seedhex = bip39.mnemonicToSeedHex(mnemonic);
     let seed = Buffer.from(seedhex, 'hex');
     this.root = hdkey.fromMasterSeed(seed);
-    this.wallet = this.root.deriveChild().getWallet();
+    this.wallet = this.root.derivePath("m/44'/60'/0'/0/0").getWallet();
 
     return true;
   }
