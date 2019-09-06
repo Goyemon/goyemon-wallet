@@ -7,8 +7,8 @@ import { RootContainer, ProgressBar, Button, HeaderOne } from '../components/com
 import WalletController from '../wallet-core/WalletController.ts';
 import EthUtils from '../wallet-core/EthUtils';
 import { getEthPrice, getDaiPrice } from '../actions/ActionWallets';
-import { getExistingTransactions } from '../actions/ActionTransactionHistory';
 import { createChecksumAddress } from '../actions/ActionChecksumAddress';
+import { saveExistingTransactions } from '../actions/ActionTransactionHistory';
 import firebase from 'react-native-firebase';
 import uuidv4 from 'uuid/v4';
 
@@ -52,7 +52,7 @@ class Import extends Component {
       }
       if (downstreamMessage.data.type === "txhistory" && downstreamMessage.data.count != "0") {
         let transactions = JSON.parse(downstreamMessage.data.items);
-        this.props.getExistingTransactions(transactions);
+        this.props.saveExistingTransactions(transactions);
       }
     });
   }
@@ -215,7 +215,7 @@ const mapDispatchToProps = {
   createChecksumAddress,
   getEthPrice,
   getDaiPrice
-  getExistingTransactions
+  saveExistingTransactions
 };
 
 export default connect(

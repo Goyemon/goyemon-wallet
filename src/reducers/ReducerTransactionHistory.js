@@ -1,5 +1,5 @@
 'use strict';
-import { GET_EXISTING_TRANSACTIONS } from '../constants/ActionTypes';
+import { SAVE_EXISTING_TRANSACTIONS } from '../constants/ActionTypes';
 import { ADD_PENDING_TRANSACTION } from '../constants/ActionTypes';
 import { UPDATE_TRANSACTION_STATE } from '../constants/ActionTypes';
 
@@ -9,7 +9,7 @@ const INITIAL_STATE = {
 
 const transactions = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case GET_EXISTING_TRANSACTIONS:
+    case SAVE_EXISTING_TRANSACTIONS:
       const transactions = [...state.transactions, ...action.payload];
       const sortedTransactions = transactions.sort((a, b) => b.time - a.time);
       return {

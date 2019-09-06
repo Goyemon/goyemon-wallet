@@ -1,23 +1,21 @@
 'use strict';
-import { GET_EXISTING_TRANSACTIONS } from '../constants/ActionTypes';
-import { ADD_PENDING_TRANSACTION } from '../constants/ActionTypes';
-import { UPDATE_TRANSACTION_STATE } from '../constants/ActionTypes';
 import axios from 'axios';
+import { SAVE_EXISTING_TRANSACTIONS, ADD_PENDING_TRANSACTION, UPDATE_TRANSACTION_STATE } from '../constants/ActionTypes';
 import TransactionController from '../wallet-core/TransactionController.ts';
 
-export function getExistingTransactions(transactions) {
+export function saveExistingTransactions(transactions) {
   return function (dispatch) {
     try {
       const parsedExistingTransactions = TransactionController.parseExistingTransactions(transactions);
-      dispatch(getExistingTransactionsSuccess(parsedExistingTransactions));
+      dispatch(saveExistingTransactionsSuccess(parsedExistingTransactions));
     } catch(err) {
       console.error(err);
     }
   }
 };
 
-const getExistingTransactionsSuccess = (parsedExistingTransactions) => ({
-  type: GET_EXISTING_TRANSACTIONS,
+const saveExistingTransactionsSuccess = (parsedExistingTransactions) => ({
+  type: SAVE_EXISTING_TRANSACTIONS,
   payload: parsedExistingTransactions
 })
 
