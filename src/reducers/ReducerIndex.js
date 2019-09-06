@@ -4,6 +4,7 @@ import { combineReducers } from 'redux';
 import ReducerWeb3 from './ReducerWeb3';
 import ReducerMnemonic from './ReducerMnemonic';
 import ReducerWallets from './ReducerWallets';
+import ReducerPrice from './ReducerPrice';
 import ReducerTransactionHistory from './ReducerTransactionHistory';
 import ReducerChecksumAddress from './ReducerChecksumAddress';
 import ReducerGasPrice from './ReducerGasPrice';
@@ -15,6 +16,7 @@ const rootReducers = combineReducers({
   ReducerWeb3,
   ReducerMnemonic,
   ReducerWallets,
+  ReducerPrice,
   ReducerTransactionHistory,
   ReducerChecksumAddress,
   ReducerGasPrice,

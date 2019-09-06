@@ -12,7 +12,7 @@ class WalletList extends Component {
 
   getUsdBalance(ethBalance) {
     try {
-      const usdPrice = this.props.wallets[0].price;
+      const usdPrice = this.props.price.ethPrice;
       const parsedEthBalance = parseFloat(ethBalance);
       const usdBalance = usdPrice * parsedEthBalance;
       const roundedUsdBalance = parseFloat(usdBalance).toFixed(2);
@@ -91,6 +91,7 @@ const UsdBalance = styled.Text`
 const mapStateToProps = state => {
   return {
     wallets: state.ReducerWallets.wallets,
+    price: state.ReducerPrice.price,
     web3: state.ReducerWeb3.web3,
     balance: state.ReducerBalance.balance
   }

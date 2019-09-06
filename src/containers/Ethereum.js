@@ -27,7 +27,7 @@ class Ethereum extends Component {
 
   getUsdBalance(roundedBalanceInEther) {
     try {
-      const usdPrice = this.props.wallets[0].price;
+      const usdPrice = this.props.price.ethPrice;
       const ethBalance = parseFloat(roundedBalanceInEther);
       const usdBalance = usdPrice * ethBalance;
       const roundedUsdBalance = parseFloat(usdBalance).toFixed(2);
@@ -107,7 +107,7 @@ const EthBalance = styled.Text`
 const mapStateToProps = state => ({
     transactions: state.ReducerTransactionHistory.transactions,
     web3: state.ReducerWeb3.web3,
-    wallets: state.ReducerWallets.wallets,
+    price: state.ReducerPrice.price,
     balance: state.ReducerBalance.balance
   });
 

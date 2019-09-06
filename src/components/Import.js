@@ -6,8 +6,8 @@ import styled from 'styled-components/native';
 import { RootContainer, ProgressBar, Button, HeaderOne } from '../components/common';
 import WalletController from '../wallet-core/WalletController.ts';
 import EthUtils from '../wallet-core/EthUtils';
-import { getEthPrice, getDaiPrice } from '../actions/ActionWallets';
 import { createChecksumAddress } from '../actions/ActionChecksumAddress';
+import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
 import { saveExistingTransactions } from '../actions/ActionTransactionHistory';
 import firebase from 'react-native-firebase';
 import uuidv4 from 'uuid/v4';
@@ -214,7 +214,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   createChecksumAddress,
   getEthPrice,
-  getDaiPrice
+  getDaiPrice,
   saveExistingTransactions
 };
 

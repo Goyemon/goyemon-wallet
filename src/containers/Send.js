@@ -45,7 +45,7 @@ class Send extends Component {
 
   getUsdGasPrice(gasPriceInEther) {
     try {
-      const usdPrice = this.props.wallets[0].price;
+      const usdPrice = this.props.price.ethPrice;
       const ethBalance = parseFloat(gasPriceInEther);
       const usdBalance = usdPrice * ethBalance;
       const roundedUsdBalance = parseFloat(usdBalance).toFixed(6);
@@ -298,7 +298,7 @@ function mapStateToProps(state) {
     gasPrice: state.ReducerGasPrice.gasPrice,
     web3: state.ReducerWeb3.web3,
     balance: state.ReducerBalance.balance,
-    wallets: state.ReducerWallets.wallets
+    price: state.ReducerPrice.price,
     transactions: state.ReducerTransactionHistory.transactions
   };
 }

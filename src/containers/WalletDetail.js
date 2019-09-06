@@ -22,6 +22,14 @@ class WalletDetail extends Component {
     }
   }
 
+  renderPrice() {
+    if (this.props.wallet.id === 0) {
+      return <Text>{this.props.price.ethPrice}</Text>;
+    } else if (this.props.wallet.id === 1) {
+      return <Text>{this.props.price.daiPrice}</Text>;
+    }
+  }
+
   render() {
     const { id, coin, notation, price } = this.props.wallet;
     const { balance } = this.props
@@ -38,7 +46,7 @@ class WalletDetail extends Component {
         {this.renderIcon()}
         <View>
           <CoinText>{coin}</CoinText>
-          <PriceText>1 {notation} = ${price}</PriceText>
+          <PriceText>1 {notation} = ${this.renderPrice()}</PriceText>
         </View>
         <BalanceText>{this.renderBalance()}</BalanceText>
       </Container>
@@ -77,6 +85,7 @@ const BalanceText = styled.Text`
 const mapStateToProps = state => ({
     wallets: state.ReducerWallets.wallets,
     web3: state.ReducerWeb3.web3,
+    price: state.ReducerPrice.price,
     balance: state.ReducerBalance.balance
   });
 
