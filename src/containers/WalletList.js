@@ -6,8 +6,14 @@ import { Text } from 'react-native';
 import { RootContainer, TouchableCardContainer, HeaderOne, HeaderTwo } from '../components/common';
 import WalletDetail from '../containers/WalletDetail';
 import styled from 'styled-components';
+import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
 
 class WalletList extends Component {
+  async componentDidMount() {
+    await this.props.getEthPrice();
+    await this.props.getDaiPrice();
+
+  }
   }
 
   getUsdBalance(ethBalance) {
@@ -97,4 +103,9 @@ const mapStateToProps = state => {
   }
 }
 
-export default withNavigation(connect(mapStateToProps)(WalletList));
+const mapDispatchToProps = {
+  getEthPrice,
+  getDaiPrice
+};
+
+export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(WalletList));
