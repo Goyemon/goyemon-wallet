@@ -1,7 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getMnemonic } from '../actions/ActionMnemonic';
+import { saveMnemonic } from '../actions/ActionMnemonic';
 import styled from 'styled-components';
 import { View } from 'react-native';
 import { RootContainer, TouchableCardContainer, HeaderTwo, Loader } from '../components/common/';
@@ -44,8 +44,8 @@ class Start extends Component {
             textAlign="left"
             width="90%"
             onPress={async () => {
+              await this.props.saveMnemonic();
               await this.renderLoader();
-              await this.props.getMnemonic();
               this.props.navigation.navigate('ShowMnemonic');
             }}
           >
@@ -116,7 +116,7 @@ const CardImage = styled.Image`
 `;
 
 const mapDispatchToProps = {
-  getMnemonic
+  saveMnemonic
 };
 
 export default connect(

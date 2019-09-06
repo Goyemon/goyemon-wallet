@@ -1,5 +1,5 @@
 export const SAVE_WEB3 = 'SAVE_WEB3';
-export const GET_MNEMONIC = 'GET_MNEMONIC';
+export const SAVE_MNEMONIC = 'SAVE_MNEMONIC';
 export const CREATE_CHECKSUM_ADDRESS = 'CREATE_CHECKSUM_ADDRESS';
 export const GET_ETH_PRICE = 'GET_ETH_PRICE';
 export const GET_DAI_PRICE = 'GET_DAI_PRICE';
