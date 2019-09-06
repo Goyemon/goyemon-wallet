@@ -119,6 +119,11 @@ class WalletController {
     const result = await Keychain.setGenericPassword('MNEMONIC', mnemonic, KEY_WALLET_MNEMONIC);
     return result;
   }
+
+  async resetKeychainData(){
+    await Keychain.resetGenericPassword(KEY_WALLET_PRIVATE_KEY);
+    await Keychain.resetGenericPassword(KEY_WALLET_MNEMONIC);
+  }
 }
 
 export default new WalletController();
