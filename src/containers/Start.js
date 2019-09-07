@@ -39,7 +39,7 @@ class Start extends Component {
           <TouchableCardContainer
             alignItems="center"
             flexDirection="row"
-            height="200px"
+            height="160px"
             justifyContent="center"
             textAlign="left"
             width="90%"
@@ -62,7 +62,7 @@ class Start extends Component {
           <TouchableCardContainer
             alignItems="center"
             flexDirection="row"
-            height="200px"
+            height="160px"
             justifyContent="center"
             textAlign="left"
             width="90%"
@@ -96,6 +96,7 @@ const Logo = styled.Text`
   font-size: 48px;
   font-family: 'Arimo';
   margin-top: 96px;
+  margin-bottom: 40px;
   text-align: center;
 `;
 
@@ -107,7 +108,7 @@ const OneLiner = styled.Text`
 
 const CardText = styled.Text`
   font-size: 16px;
-  padding: 16px;
+  padding-top: 8px;
   text-align: left;
 `;
 

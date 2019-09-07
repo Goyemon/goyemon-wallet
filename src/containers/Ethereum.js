@@ -63,7 +63,7 @@ class Ethereum extends Component {
             <Button
               text="Send"
               textColor="white"
-              backgroundColor="#39C89E"
+              backgroundColor="#12BB4F"
               margin="8px"
               opacity="1"
               onPress={async () => {

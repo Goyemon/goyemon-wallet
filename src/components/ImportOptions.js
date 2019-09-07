@@ -19,7 +19,7 @@ export default class ImportOptions extends Component {
             <Button
               text="12 Words"
               textColor="white"
-              backgroundColor="#4083FF"
+              backgroundColor="#009DC4"
               margin="16px auto"
               opacity="1"
               onPress={async () => {
@@ -31,7 +31,7 @@ export default class ImportOptions extends Component {
             <Button
               text="24 Words"
               textColor="white"
-              backgroundColor="#4083FF"
+              backgroundColor="#009DC4"
               margin="16px auto"
               opacity="1"
               onPress={async () => {

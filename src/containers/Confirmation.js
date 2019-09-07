@@ -83,7 +83,7 @@ class Confirmation extends Component {
           <Button
             text="Send"
             textColor="white"
-            backgroundColor="#4083FF"
+            backgroundColor="#009DC4"
             margin="8px"
             opacity="1"
             onPress={async () => {

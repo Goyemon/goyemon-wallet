@@ -26,7 +26,7 @@ const Outer = styled.View`
 `;
 
 const Inner = styled.View`
-  background-color: #4083ff;
+  background-color: #FFBF00;
   border-radius: 16px;
   height: 16px;
   width: ${props => props.width};

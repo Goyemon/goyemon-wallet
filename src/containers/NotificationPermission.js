@@ -42,7 +42,7 @@ class NotificationPermission extends Component {
           <Button
             text="Next"
             textColor="white"
-            backgroundColor="#4083FF"
+            backgroundColor="#009DC4"
             margin="16px auto"
             opacity="1"
             onPress={

@@ -1,16 +1,15 @@
 'use strict';
 import React, { Component } from 'react';
-import { Text, View, Image } from 'react-native';
+import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 class WalletDetail extends Component {
   renderIcon() {
-    const { coinImageStyle } = styles;
     if (this.props.wallet.id === 0) {
-      return <Image source={require('../../assets/ether_icon.png')} style={coinImageStyle} />;
+      return <CoinImage source={require('../../assets/ether_icon.png')} />;
     } else if (this.props.wallet.id === 1) {
-      return <Image source={require('../../assets/dai_icon.png')} style={coinImageStyle} />;
+      return <CoinImage source={require('../../assets/dai_icon.png')} />;
     }
   }
 
@@ -33,9 +32,6 @@ class WalletDetail extends Component {
   render() {
     const { id, coin, notation, price } = this.props.wallet;
     const { balance } = this.props
-    const {
-      coinImageStyle
-    } = styles;
 
     if (!this.props.web3.eth) {
       return <Text>loading...</Text>;
@@ -54,17 +50,15 @@ class WalletDetail extends Component {
   }
 }
 
-const styles = {
-  coinImageStyle: {
-    height: 40,
-    width: 40
-  }
-};
-
 const Container = styled.View`
   alignItems: center;
   flexDirection: row;
   justifyContent: flex-start;
+`;
+
+const CoinImage = styled.Image`
+  height: 40px;
+  width: 40px;
 `;
 
 const CoinText = styled.Text`

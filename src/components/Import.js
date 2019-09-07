@@ -145,7 +145,7 @@ class Import extends Component {
             <Button
               text="go"
               textColor="white"
-              backgroundColor="#4083FF"
+              backgroundColor="#009DC4"
               margin="24px auto"
               opacity="1"
               onPress={async () => {
@@ -201,7 +201,7 @@ const ButtonContainer = styled.View`
 `;
 
 const ErrorMessage = styled.Text`
-  color: red;
+  color: #FF3346;
 `;
 
 function mapStateToProps(state) {

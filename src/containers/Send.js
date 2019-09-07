@@ -236,7 +236,7 @@ class Send extends Component {
           <Button
             text="Next"
             textColor="white"
-            backgroundColor="#4083FF"
+            backgroundColor="#009DC4"
             margin="40px auto"
             opacity="1"
             onPress={async () => {
@@ -256,7 +256,7 @@ const styles = {
   },
   error: {
     borderBottomWidth: 2,
-    borderBottomColor: 'red'
+    borderBottomColor: '#FF3346'
   }
 };
 
@@ -289,7 +289,7 @@ const ButtonWrapper = styled.View`
 `;
 
 const ErrorMessage = styled.Text`
-  color: red;
+  color: '#FF3346';
 `;
 
 function mapStateToProps(state) {
