@@ -7,6 +7,7 @@ import NotificationPermission from '../containers/NotificationPermission';
 import Start from '../containers/Start';
 import ImportOptions from '../components/ImportOptions';
 import Import from '../components/Import';
+import CreateWalletTutorial from '../components/CreateWalletTutorial';
 import ShowMnemonic from '../components/ShowMnemonic';
 import VerifyMnemonic from '../containers/VerifyMnemonic';
 import Wallets from '../components/Wallets';
@@ -60,6 +61,12 @@ const HomeStack = createStackNavigator(
       navigationOptions: () => ({
         headerTransparent: true,
         headerBackTitle: 'Import'
+      })
+    },
+    CreateWalletTutorial: {
+      screen: CreateWalletTutorial,
+      navigationOptions: () => ({
+        headerTransparent: true
       })
     },
     ShowMnemonic: {

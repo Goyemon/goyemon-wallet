@@ -46,7 +46,7 @@ class Start extends Component {
             onPress={async () => {
               await this.props.saveMnemonic();
               await this.renderLoader();
-              this.props.navigation.navigate('ShowMnemonic');
+              this.props.navigation.navigate('CreateWalletTutorial');
             }}
           >
             <View>
