@@ -21,7 +21,7 @@ export default class ShowMnemonic extends Component {
           <Button
             text="I’ve written them down"
             textColor="white"
-            backgroundColor="#4083FF"
+            backgroundColor="#009DC4"
             margin="24px auto"
             opacity="1"
             onPress={() => this.props.navigation.navigate('VerifyMnemonic')}

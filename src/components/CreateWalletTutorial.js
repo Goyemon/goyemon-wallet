@@ -10,7 +10,7 @@ export default class CreateWalletTutorial extends Component {
       <RootContainer>
         <OneLiner fontSize="24px" fontWeight="normal" marginBottom="0" marginLeft="0" marginTop="96">No Backup, No Money</OneLiner>
         <Container>
-          <Text>Your backup words is the only way to restore your wallet if your phone is lost, stoken, broken or upgraded.</Text>
+          <Text>Your backup words are the only way to restore your wallet if your phone is lost, stoken, broken or upgraded.</Text>
           <Text>We will show you a list of words to save in the next screen. We strongly recommend that you write them down on a piece of paper. Please keep it somewhere safe.</Text>
           <Button
             text="Write down backup words"

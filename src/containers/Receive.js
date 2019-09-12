@@ -30,7 +30,7 @@ class Receive extends Component {
           <AddressText>{checksumAddress}</AddressText>
           <Button
             text="Copy Wallet Address"
-            textColor="#4E4E4E"
+            textColor="#5F5F5F"
             backgroundColor="#EEEEEE"
             margin="16px auto"
             opacity="1"
@@ -61,7 +61,7 @@ const QrCodeContainer = styled.View`
 `;
 
 const AddressText = styled.Text`
-  color: #4E4E4E;
+  color: #5F5F5F;
 `;
 
 function mapStateToProps(state) {

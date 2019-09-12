@@ -121,9 +121,8 @@ class Import extends Component {
           text="2"
           width="67%"
         />
-        <HeaderOne marginTop="48">Import Wallet</HeaderOne>
         <Container>
-          <Text>Enter the backup words for the wallet you want to import</Text>
+          <Text>Enter the backup words to import your wallet.</Text>
           <MnemonicWordsContainer style={styles.table}>
             {this.state.mnemonicWords.map((word, id) => (
               <View style={styles.cell} key={id}>

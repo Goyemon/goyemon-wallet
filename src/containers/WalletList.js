@@ -40,7 +40,7 @@ class WalletList extends Component {
         <HeaderOne marginTop="64">Home</HeaderOne>
         <CardContainerWithoutFeedback>
           <HeaderTwo
-            color="#4E4E4E"
+            color="#5F5F5F"
             fontSize="24px"
             marginBottom="8"
             marginLeft="0"

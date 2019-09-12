@@ -100,9 +100,6 @@ class VerifyMnemonic extends Component {
           text="2"
           width="67%"
         />
-        <View>
-          <HeaderOne marginTop="48">Create Wallet</HeaderOne>
-        </View>
         <Container>
           <Text>Please write down a list of words again.</Text>
           <MnemonicWordsContainer style={styles.table}>

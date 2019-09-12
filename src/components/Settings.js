@@ -14,7 +14,7 @@ export default class Settings extends Component {
         <UntouchableCardContainer
           alignItems="flex-start"
           flexDirection="column"
-          height="240px"
+          height="160px"
           justifyContent="center"
           textAlign="left"
           width="95%"
@@ -63,7 +63,7 @@ const SettingsTextContainer = styled.View`
 `;
 
 const SettingsText = styled.Text`
-  color: #4E4E4E
+  color: #5F5F5F
   font-size: 24px;
   margin-left: 8px;
 `;

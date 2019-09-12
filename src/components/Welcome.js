@@ -14,7 +14,7 @@ export default class Welcome extends Component {
             <TitleRedText>h</TitleRedText><TitleGreenText>o</TitleGreenText><TitleOrangeText>ll</TitleOrangeText><TitleGreenText>a</TitleGreenText><TitleRedText>!</TitleRedText>
           </Title>
           <Title animation="fadeIn" delay={2000}>
-            Ready to join ?
+            ready to join ?
           </Title>
           <ButtonWrapper animation="fadeIn" delay={4000}>
             <Button

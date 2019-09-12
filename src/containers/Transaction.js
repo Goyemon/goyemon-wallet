@@ -111,7 +111,7 @@ const DirectionText = styled.Text`
 `;
 
 const TimeText = styled.Text`
-  color: #4E4E4E;
+  color: #5F5F5F;
   margin-left: 16px;
 `;
 

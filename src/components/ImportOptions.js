@@ -12,9 +12,8 @@ export default class ImportOptions extends Component {
           text="1"
           width="33%"
         />
-        <HeaderOne marginTop="48">Import Wallet</HeaderOne>
         <Container>
-          <Text>How many mnemonic words do you have?</Text>
+          <Text>How many backup words do you have?</Text>
           <ButtonContainer>
             <Button
               text="12 Words"

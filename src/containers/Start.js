@@ -100,20 +100,18 @@ const Logo = styled.Text`
   text-align: center;
 `;
 
-const OneLiner = styled.Text`
-  font-size: 32px;
-  margin: 16px;
-  text-align: center;
-`;
-
 const CardText = styled.Text`
   font-size: 16px;
   padding-top: 8px;
+  padding-right: 32px;
   text-align: left;
 `;
 
 const CardImage = styled.Image`
+  height: 64px;
   padding: 16px;
+  resizeMode: contain;
+  width: 64px;
 `;
 
 const mapDispatchToProps = {

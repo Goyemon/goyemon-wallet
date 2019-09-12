@@ -214,7 +214,7 @@ class Send extends Component {
                 {this.state.checked === key ? (
                   <SpeedContainer>
                     <SelectedButton>{gasPrice.speed}</SelectedButton>
-                    <Icon name={gasPrice.imageName} size={40} color="#39C89E" />
+                    <Icon name={gasPrice.imageName} size={40} color="#12BB4F" />
                     <SelectedButton>${this.getUsdGasPrice(gasPrice.gasPriceInEther)}</SelectedButton>
                   </SpeedContainer>
                 ) : (
@@ -277,7 +277,7 @@ const SpeedContainer = styled.TouchableOpacity`
 `;
 
 const SelectedButton = styled.Text`
-  color: #39C89E
+  color: #12BB4F
 `;
 
 const UnselectedButton = styled.Text`

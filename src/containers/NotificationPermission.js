@@ -67,7 +67,7 @@ class NotificationPermission extends Component {
           <Text>please go to the setting and change your permission. relaunch your app.</Text>
           <Button
             text="Go To Device Settings"
-            textColor="#4E4E4E"
+            textColor="#5F5F5F"
             backgroundColor="#EEEEEE"
             margin="16px auto"
             opacity="1"

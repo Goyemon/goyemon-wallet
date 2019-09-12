@@ -48,13 +48,13 @@ class Ethereum extends Component {
       <RootContainer>
         <HeaderOne marginTop="96">Ether</HeaderOne>
         <CardContainerWithoutFeedback>
-          <HeaderTwo color="#4E4E4E" fontSize="24px" marginBottom="8" marginLeft="8" marginTop="0">Balance</HeaderTwo>
+          <HeaderTwo color="#5F5F5F" fontSize="24px" marginBottom="8" marginLeft="8" marginTop="0">Balance</HeaderTwo>
           <UsdBalance>${this.getUsdBalance(balance)}</UsdBalance>
           <EthBalance>{balance} ETH</EthBalance>
           <ButtonContainer>
             <Button
               text="Receive"
-              textColor="#4E4E4E"
+              textColor="#5F5F5F"
               backgroundColor="#EEEEEE"
               margin="8px"
               opacity="1"
