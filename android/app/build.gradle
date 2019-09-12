@@ -152,6 +152,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.9'
     implementation 'com.google.firebase:firebase-messaging:18.0.0'
     implementation 'me.leolin:ShortcutBadger:1.1.21@aar'
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.9@aar') {
+      transitive = true
+    }
 }
 
 // Run this once to be able to run the application with BUCK
@@ -162,3 +165,4 @@ task copyDownloadableDepsToLibs(type: Copy) {
 }
 
 apply plugin: 'com.google.gms.google-services'  // Google Play services Gradle plugin
+apply plugin: "io.fabric"
