@@ -6,6 +6,7 @@ import com.facebook.react.ReactApplication;
 import com.airbnb.android.react.lottie.LottiePackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.fabric.crashlytics.RNFirebaseCrashlyticsPackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import com.peel.react.rnos.RNOSModule;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
@@ -34,6 +35,7 @@ public class MainApplication extends Application implements ReactApplication {
             new LottiePackage(),
             new VectorIconsPackage(),
             new RNFirebasePackage(),
+            new RNFirebaseCrashlyticsPackage(),
             new RNFirebaseMessagingPackage(),
             new RNOSModule(),
             new RNGestureHandlerPackage(),
