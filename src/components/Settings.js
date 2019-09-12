@@ -36,6 +36,14 @@ export default class Settings extends Component {
              opacity="1"
              onPress={async () => {
                await WalletController.resetKeychainData();
+           <SettingsTextContainer>
+             <Icon name="message-text-outline" color="#5F5F5F" size={32} />
+             <TouchableHighlight
+               onPress={() => this.props.navigation.navigate('BackupWords')}
+             >
+               <SettingsText>Backup Words</SettingsText>
+             </TouchableHighlight>
+           </SettingsTextContainer>
              }}
            />
          </SettingsTextContainer>
