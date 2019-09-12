@@ -33,9 +33,9 @@ class NotificationPermission extends Component {
   }
 
   renderPermission() {
-    if (this.props.permission === null) {
+    if (this.props.notificationPermission === null) {
       return <Text>Smash that “OK” button so we can process your transactions!</Text>;
-    } else if (this.props.permission === true) {
+    } else if (this.props.notificationPermission === true) {
       return (
         <View>
           <Text>great!</Text>
@@ -61,7 +61,7 @@ class NotificationPermission extends Component {
           />
         </View>
       );
-    } else if (this.props.permission === false) {
+    } else if (this.props.notificationPermission === false) {
       return (
         <View>
           <Text>please go to the setting and change your permission. relaunch your app.</Text>
@@ -96,12 +96,12 @@ const Container = styled.View`
   text-align: center;
 `;
 
-
 function mapStateToProps(state) {
   return {
-    permission: state.ReducerNotificationPermission.permission
+    notificationPermission: state.ReducerNotificationPermission.notificationPermission
   };
 }
+
 const mapDispatchToProps = {
   saveNotificationPermission
 };
