@@ -6,3 +6,4 @@ export * from './UntouchableCardContainer';
 export * from './TouchableCardContainer';
 export * from './HeaderOne';
 export * from './HeaderTwo';
+export * from './OneLiner';

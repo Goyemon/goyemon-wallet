@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { RootContainer, HeaderOne, UntouchableCardContainer } from '../components/common';
+import { RootContainer, HeaderOne, UntouchableCardContainer, Button, OneLiner } from '../components/common';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import WalletController from '../wallet-core/WalletController.ts';
@@ -10,6 +10,7 @@ export default class Settings extends Component {
     return (
       <RootContainer>
         <HeaderOne  marginTop="96">Settings</HeaderOne>
+            <OneLiner fontSize="24px" fontWeight="normal" marginBottom="0" marginLeft="0" marginTop="96">Delete Accounts?</OneLiner>
         <UntouchableCardContainer
           alignItems="flex-start"
           flexDirection="column"
