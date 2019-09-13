@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import Transaction from './Transaction';
 import {
@@ -39,11 +39,14 @@ class Transactions extends Component {
     const { transactions } = this.props;
     if(transactions.length > 0) {
       return (
-        <View>
-          {transactions.map(transaction => (
-            <Transaction key={transaction.id} transaction={transaction} />
-          ))}
-        </View>
+        <FlatList
+          data={transactions}
+          renderItem={({item}) => (
+            <Transaction transaction={item} />
+          )}
+          keyExtractor={item => item.hash}
+        >
+        </FlatList>
       )
     } else {
       return <Text>┐(￣ヘ￣）┌ ﾌｩｩ～</Text>
