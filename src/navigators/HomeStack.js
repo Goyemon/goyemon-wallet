@@ -7,6 +7,7 @@ import NotificationPermission from '../containers/NotificationPermission';
 import Start from '../containers/Start';
 import ImportOptions from '../components/ImportOptions';
 import Import from '../components/Import';
+import ImportTwelveMnemonicWords from '../components/ImportTwelveMnemonicWords';
 import CreateWalletTutorial from '../components/CreateWalletTutorial';
 import ShowMnemonic from '../components/ShowMnemonic';
 import VerifyMnemonic from '../containers/VerifyMnemonic';
@@ -58,6 +59,13 @@ const HomeStack = createStackNavigator(
     },
     Import: {
       screen: Import,
+      navigationOptions: () => ({
+        headerTransparent: true,
+        headerBackTitle: 'Import'
+      })
+    },
+    ImportTwelveMnemonicWords: {
+      screen: ImportTwelveMnemonicWords,
       navigationOptions: () => ({
         headerTransparent: true,
         headerBackTitle: 'Import'
