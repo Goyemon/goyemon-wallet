@@ -5,6 +5,7 @@ import { RootContainer, HeaderOne, Button } from '../components/common';
 import { connect } from 'react-redux';
 import QRCode from 'react-native-qrcode';
 import styled from 'styled-components/native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 class Receive extends Component {
   constructor(props) {
@@ -16,6 +17,15 @@ class Receive extends Component {
 
   async writeToClipboard() {
     await Clipboard.setString(this.props.checksumAddress);
+    this.setState({clipboardContent: this.props.checksumAddress});
+  }
+
+  renderCheckmark() {
+    if(this.state.clipboardContent === null){
+      return ;
+    } else if (this.state.clipboardContent === this.props.checksumAddress){
+      return <Icon name="check" size={24} color="#12BB4F" />;
+    }
   }
 
   render() {
@@ -28,17 +38,20 @@ class Receive extends Component {
             <QRCode value={checksumAddress} size={120} bgColor="#000" fgColor="#FFF" />
           </QrCodeContainer>
           <AddressText>{checksumAddress}</AddressText>
-          <Button
-            text="Copy Wallet Address"
-            textColor="#5F5F5F"
-            backgroundColor="#EEEEEE"
-            margin="16px auto"
-            opacity="1"
-            onPress={async () => {
-              this.writeToClipboard();
+          <CopyAddressContainer>
+            <Button
+              text="Copy Wallet Address"
+              textColor="#5F5F5F"
+              backgroundColor="#EEEEEE"
+              margin="16px auto"
+              opacity="1"
+              onPress={async () => {
+                await this.writeToClipboard();
+                }
               }
-            }
-          />
+            />
+            {this.renderCheckmark()}
+          </CopyAddressContainer>
         </CardContainer>
       </RootContainer>
     );
@@ -62,6 +75,13 @@ const QrCodeContainer = styled.View`
 
 const AddressText = styled.Text`
   color: #5F5F5F;
+`;
+
+const CopyAddressContainer = styled.View`
+  alignItems: center;
+  flexDirection: row;
+  justifyContent: center;
+  margin-top: 16px;
 `;
 
 function mapStateToProps(state) {
