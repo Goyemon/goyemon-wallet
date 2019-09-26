@@ -12,7 +12,7 @@ export default class NotificationPermissionTutorial extends Component {
           text="3"
           width="100%"
         />
-        <OneLiner fontSize="24px" fontWeight="normal" marginBottom="0" marginLeft="0" marginTop="40">Allow Notifications</OneLiner>
+        <OneLiner fontSize="24px" fontWeight="bold" marginBottom="0" marginLeft="0" marginTop="40">Allow Notifications</OneLiner>
         <Container>
           <Text>I need to ask you only one more thing…</Text>
           <Text>We use a notification system to process your transactions. But we will never annoy you with a pop-up notification. </Text>
@@ -33,6 +33,6 @@ export default class NotificationPermissionTutorial extends Component {
 const Container = styled.View`
   flex: 1;
   justify-content: center;
-  margin-top: 240px;
+  margin-top: 40px;
   text-align: center;
 `;

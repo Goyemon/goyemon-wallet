@@ -186,7 +186,7 @@ const ButtonContainer = styled.View`
 `;
 
 const ErrorMessage = styled.Text`
-  color: '#FF3346';
+  color: #FF3346;
 `;
 
 function mapStateToProps(state) {

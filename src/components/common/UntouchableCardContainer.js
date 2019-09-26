@@ -5,6 +5,7 @@ import styled from 'styled-components/native';
 const UntouchableCardContainer = props => (
   <CardContainer
     alignItems={props.alignItems}
+    borderRadius={props.borderRadius}
     flexDirection={props.flexDirection}
     height={props.height}
     justifyContent={props.justifyContent}
@@ -18,7 +19,7 @@ const UntouchableCardContainer = props => (
 const CardContainer = styled.View`
   alignItems: ${props => props.alignItems};
   background: #fff;
-  border-radius: 8px;
+  border-radius: ${props => props.borderRadius};
   flexDirection: ${props => props.flexDirection};
   height: ${props => props.height};
   justifyContent: ${props => props.justifyContent};

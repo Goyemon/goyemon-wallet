@@ -18,7 +18,7 @@ export default class Settings extends Component {
   render() {
     return (
       <RootContainer>
-        <HeaderOne marginTop="96">Settings</HeaderOne>
+        <HeaderOne marginTop="64">Settings</HeaderOne>
         <Modal
           animationType="slide"
           transparent={false}
@@ -56,11 +56,12 @@ export default class Settings extends Component {
         </Modal>
         <UntouchableCardContainer
           alignItems="flex-start"
+          borderRadius="0"
           flexDirection="column"
           height="160px"
           justifyContent="center"
           textAlign="left"
-          width="95%"
+          width="100%"
          >
            <SettingsTextContainer>
              <Icon name="information-outline" color="#5F5F5F" size={32} />
@@ -78,11 +79,12 @@ export default class Settings extends Component {
          </UntouchableCardContainer>
          <UntouchableCardContainer
            alignItems="center"
+           borderRadius="0"
            flexDirection="column"
            height="80px"
            justifyContent="center"
            textAlign="center"
-           width="95%"
+           width="100%"
           >
              <TouchableHighlight
                underlayColor="#FFF"

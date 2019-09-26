@@ -13,7 +13,7 @@ export default class ShowMnemonic extends Component {
           text="1"
           width="33%"
         />
-        <OneLiner fontSize="24px" fontWeight="normal" marginBottom="0" marginLeft="0" marginTop="96">Backup Words</OneLiner>
+        <OneLiner fontSize="24px" fontWeight="bold" marginBottom="16" marginLeft="0" marginTop="24">Backup Words</OneLiner>
         <Container>
           <Text>Please carefully write down these 24 backup words.</Text>
           <ShowMnemonicWords />

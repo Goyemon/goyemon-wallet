@@ -151,6 +151,7 @@ class Send extends Component {
         <HeaderOne marginTop="96">Send</HeaderOne>
         <UntouchableCardContainer
           alignItems="flex-start"
+          borderRadius="8px"
           flexDirection="column"
           height="280px"
           justifyContent="flex-start"
@@ -252,11 +253,13 @@ class Send extends Component {
 const styles = {
   noError: {
     borderBottomWidth: 2,
-    borderBottomColor: '#EEE'
+    borderBottomColor: '#EEE',
+    fontSize: 18
   },
   error: {
     borderBottomWidth: 2,
-    borderBottomColor: '#FF3346'
+    borderBottomColor: '#FF3346',
+    fontSize: 18
   }
 };
 
@@ -289,7 +292,7 @@ const ButtonWrapper = styled.View`
 `;
 
 const ErrorMessage = styled.Text`
-  color: '#FF3346';
+  color: #FF3346;
 `;
 
 function mapStateToProps(state) {

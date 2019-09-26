@@ -19,7 +19,7 @@ export default class ImportOptions extends Component {
               text="12 Words"
               textColor="white"
               backgroundColor="#009DC4"
-              margin="16px auto"
+              margin="8px auto"
               opacity="1"
               onPress={async () => {
                 this.props.navigation.navigate('ImportTwelveMnemonicWords');
@@ -31,7 +31,7 @@ export default class ImportOptions extends Component {
               text="24 Words"
               textColor="white"
               backgroundColor="#009DC4"
-              margin="16px auto"
+              margin="8px auto"
               opacity="1"
               onPress={async () => {
                 this.props.navigation.navigate('Import');

@@ -66,11 +66,12 @@ class Confirmation extends Component {
         </TotalContainer>
         <UntouchableCardContainer
           alignItems="flex-start"
+          borderRadius="0"
           flexDirection="column"
           height="280px"
           justifyContent="flex-start"
           textAlign="left"
-          width="95%"
+          width="100%"
         >
           <HeaderTwo color="#000" fontSize="16px" marginBottom="8" marginLeft="8" marginTop="16">TO</HeaderTwo>
           <ToText>{outgoingTransactionObjects[outgoingTransactionObjects.length - 1].to}</ToText>

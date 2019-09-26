@@ -34,7 +34,7 @@ class NotificationPermission extends Component {
 
   renderPermission() {
     if (this.props.notificationPermission === null) {
-      return <Text>Smash that “OK” button so we can process your transactions!</Text>;
+      return <Text>Smash that “OK” button  so we can process your transactions!</Text>;
     } else if (this.props.notificationPermission === true) {
       return (
         <View>

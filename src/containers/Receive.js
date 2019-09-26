@@ -1,7 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
 import { Clipboard } from 'react-native';
-import { RootContainer, HeaderOne, Button } from '../components/common';
+import { RootContainer, UntouchableCardContainer, HeaderOne, Button } from '../components/common';
 import { connect } from 'react-redux';
 import QRCode from 'react-native-qrcode';
 import styled from 'styled-components/native';
@@ -33,7 +33,15 @@ class Receive extends Component {
     return (
       <RootContainer>
         <HeaderOne marginTop="96">Receive</HeaderOne>
-        <CardContainer>
+        <UntouchableCardContainer
+          alignItems="center"
+          borderRadius="0"
+          flexDirection="column"
+          height="320px"
+          justifyContent="center"
+          textAlign="left"
+          width="100%"
+         >
           <QrCodeContainer>
             <QRCode value={checksumAddress} size={120} bgColor="#000" fgColor="#FFF" />
           </QrCodeContainer>
@@ -52,19 +60,11 @@ class Receive extends Component {
             />
             {this.renderCheckmark()}
           </CopyAddressContainer>
-        </CardContainer>
+        </UntouchableCardContainer>
       </RootContainer>
     );
   }
 }
-
-const CardContainer = styled.View`
-  background: #fff;
-  border-radius: 8px;
-  margin: 16px auto;
-  padding: 16px;
-  width: 95%;
-`;
 
 const QrCodeContainer = styled.View`
   alignItems: center;
