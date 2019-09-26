@@ -79,7 +79,7 @@ class TransactionController {
       if (days > 1) return days + ' days ago';
       else return '1 day ago';
     } else {
-      return time.getDate().toString() + ' ' + months[time.getMonth()] + ', ' + time.getFullYear();
+      return time.getDate().toString() + ' ' + months[time.getMonth()] + ', ' + '\n' + time.getFullYear();
     }
   }
 }
