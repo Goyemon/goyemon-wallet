@@ -11,7 +11,7 @@ import firebase from 'react-native-firebase';
 
 class Ethereum extends Component {
   async componentDidMount() {
-    this.messageListener = firebase.messaging().onMessage(async (downstreamMessage) => {
+    this.messageListener = firebase.messaging().onMessage((downstreamMessage) => {
       if (downstreamMessage.data.type === "balance") {
         const balanceInWei = downstreamMessage.data.balance;
         const balanceInEther = this.props.web3.utils.fromWei(balanceInWei);

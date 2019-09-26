@@ -35,7 +35,7 @@ export default class Settings extends Component {
                 backgroundColor="#EEEEEE"
                 margin="8px"
                 opacity="1"
-                onPress={() => {
+                onPress={async () => {
                   this.setModalVisible(!this.state.modalVisible);
                 }}
               />
