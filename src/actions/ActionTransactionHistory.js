@@ -1,5 +1,4 @@
 'use strict';
-import axios from 'axios';
 import { SAVE_EXISTING_TRANSACTIONS, ADD_PENDING_TRANSACTION, UPDATE_TRANSACTION_STATE } from '../constants/ActionTypes';
 import TransactionController from '../wallet-core/TransactionController.ts';
 
