@@ -4,7 +4,7 @@
 </p>
 
 <p align="center">
-  Swarm is a mobile browser that allows people to pay, save, borrow, exchange and invest with Ether and Dai stable coin without permission.
+  Swarm is a frictionless bank that allows users to borrow, lend and save money only with a few taps of a button.
 </p>
 
 <p align="center">
@@ -61,7 +61,7 @@ To run this application, you'll need [Git](https://git-scm.com) and [Node.js](ht
 
 ```bash
 # Clone this repository
-$ git clone https://github.com/TaiMino/DeBank.git
+$ git clone https://github.com/taisukemino/DeBank.git
 
 # Go into the repository
 $ cd DeBank
@@ -70,17 +70,22 @@ $ cd DeBank
 $ npm install
 
 # link npm packages
-$ react-native link react-native-randombytes
-$ react-native link react-native-keychain
+$ react-native link
 
+# install node core modules
 $ npm run postinstall
 
 # pod install
 $ cd ios
 $ pod install
 
-# Run the app
-$ react-native run-android or react-native run-ios
+# Run the app in iOS
+$ npm run ios
+
+# Run the app in android
+$ npm run android
+
+Contact me if the build fails. I might be able to help you.
 ```
 
 _you should see the shim.js in a home directory.
