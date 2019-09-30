@@ -22,6 +22,7 @@
     "events": "^3.0.0",
     "hdkey": "^1.1.0",
     "https-browserify": "0.0.1",
+    "lottie-react-native": "2.6.1",
     "process": "^0.11.10",
     "react": "16.7.0",
     "react-native": "~0.59.4",
