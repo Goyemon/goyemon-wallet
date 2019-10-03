@@ -9,16 +9,22 @@ import TransactionController from '../wallet-core/TransactionController.ts';
 
 class Transaction extends Component {
   renderInOrOutTransactionIcon() {
-    if (this.props.web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
-      return (
-        <Text>
-          <Icon name="call-received" size={16} color="#7ED321" />
-        </Text>
-      );
-    } else if (this.props.transaction.to === null || this.props.web3.utils.toChecksumAddress(this.props.transaction.to) != this.props.checksumAddress) {
+    if (this.props.transaction.to === null) {
       return (
         <Text>
           <Icon name="call-made" size={16} color="#D0021B" />
+        </Text>
+      );
+    } else if (this.props.web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress) {
+      return (
+        <Text>
+          <Icon name="call-made" size={16} color="#D0021B" />
+        </Text>
+      );
+    } else if (this.props.web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
+      return (
+        <Text>
+          <Icon name="call-received" size={16} color="#7ED321" />
         </Text>
       );
     }
@@ -35,26 +41,32 @@ class Transaction extends Component {
   }
 
   renderDirection() {
-    if (this.props.web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
+    if (this.props.transaction.to === null) {
+      return <Text>Outgoing</Text>;
+    } else if (this.props.web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
       return <Text>Incoming</Text>;
-    } else if (this.props.transaction.to === null || this.props.web3.utils.toChecksumAddress(this.props.transaction.to) != this.props.checksumAddress) {
+    } else if (this.props.web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress) {
       return <Text>Outgoing</Text>;
     }
   }
 
   renderPlusOrMinusTransactionIcon() {
-    if (this.props.web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
+    if (this.props.transaction.to === null) {
+      return ;
+    } else if (this.props.web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
       return <Icon name="plus" size={16} color="#7ED321" />;
-    } else if (this.props.transaction.to === null || this.props.web3.utils.toChecksumAddress(this.props.transaction.to) != this.props.checksumAddress) {
+    } else if (this.props.web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress) {
       return <Icon name="minus" size={16} color="#D0021B" />;
     }
   }
 
   renderRoundedValue() {
     const roundedEthValue = parseFloat(this.props.transaction.value).toFixed(4);
-    if (this.props.web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
+    if (this.props.transaction.to === null) {
+      return <Text>Contract Creation</Text>;;
+    } else if (this.props.web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
       return <Text style={styles.valueStyleGreen}>{roundedEthValue} ETH</Text>;
-    } else if (this.props.transaction.to === null || this.props.web3.utils.toChecksumAddress(this.props.transaction.to) != this.props.checksumAddress) {
+    } else if (this.props.web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress) {
       return <Text style={styles.valueStyleRed}>{roundedEthValue} ETH</Text>;
     }
   }
