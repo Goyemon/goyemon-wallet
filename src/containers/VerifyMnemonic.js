@@ -81,6 +81,14 @@ class VerifyMnemonic extends Component {
     }
   }
 
+  renderInvalidMnemonicWordsMessage() {
+    if (this.state.mnemonicWordsValidation) {
+      return ;
+    } else {
+      return <ErrorMessage>invalid mnemonic words!</ErrorMessage>
+    }
+  }
+
   handleTextChange = (text, id) => {
     const mnemonicWords = this.state.mnemonicWords;
     mnemonicWords[id] = text;
@@ -116,6 +124,9 @@ class VerifyMnemonic extends Component {
               </View>
             ))}
           </MnemonicWordsContainer>
+          <View>
+            {this.renderInvalidMnemonicWordsMessage()}
+          </View>
           <Button
             text="Verify"
             textColor="white"
@@ -162,6 +173,10 @@ const MnemonicWordWrapper = styled.View`
   border-radius: 16px;
   border-width: 4px;
   text-align: center;
+`;
+
+const ErrorMessage = styled.Text`
+  color: #FF3346;
 `;
 
 function mapStateToProps(state) {
