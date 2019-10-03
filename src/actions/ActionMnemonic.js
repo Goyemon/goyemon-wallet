@@ -5,9 +5,8 @@ import WalletController from '../wallet-core/WalletController.ts';
 export function saveMnemonic() {
   return async function (dispatch) {
     try {
-      const mnemonic = await WalletController.init();
-      await WalletController.generateWallet(mnemonic);
-      dispatch(saveMnemonicSuccess(mnemonic));
+      const mnemonicWords = await WalletController.getMnemonic();
+      dispatch(saveMnemonicSuccess(mnemonicWords));
     } catch(err) {
       console.error(err);
     }

@@ -44,6 +44,7 @@ class Start extends Component {
             textAlign="left"
             width="90%"
             onPress={async () => {
+              await WalletController.init();
               await this.props.saveMnemonic();
               await this.renderLoader();
               this.props.navigation.navigate('CreateWalletTutorial');
