@@ -6,7 +6,7 @@ import ShowMnemonicWord from '../components/ShowMnemonicWord';
 
 class ShowMnemonicWords extends Component {
   render() {
-    const mnemonicWords = this.props.mnemonic.split(' ');
+    const mnemonicWords = this.props.mnemonicWords.split(' ');
 
     return (
       <MnemonicWordsContainer style={styles.table}>
@@ -33,7 +33,7 @@ const MnemonicWordsContainer = styled.View`
 
 function mapStateToProps(state) {
   return {
-    mnemonic: state.ReducerMnemonic.mnemonic
+    mnemonicWords: state.ReducerMnemonic.mnemonicWords
   };
 }
 

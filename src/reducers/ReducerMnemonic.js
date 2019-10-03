@@ -2,16 +2,16 @@
 import { SAVE_MNEMONIC } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
-  mnemonic: ''
+  mnemonicWords: ''
 };
 
-const mnemonic = (state = INITIAL_STATE, action) => {
+const mnemonicWords = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SAVE_MNEMONIC:
-      return { ...state, mnemonic: action.payload };
+      return { ...state, mnemonicWords: action.payload };
     default:
       return state || INITIAL_STATE;
   }
 };
 
-export default mnemonic;
+export default mnemonicWords;

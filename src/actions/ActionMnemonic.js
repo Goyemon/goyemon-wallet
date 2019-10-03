@@ -14,7 +14,7 @@ export function saveMnemonic() {
   }
 };
 
-const saveMnemonicSuccess = (mnemonic) => ({
+const saveMnemonicSuccess = (mnemonicWords) => ({
   type: SAVE_MNEMONIC,
-  payload: mnemonic
+  payload: mnemonicWords
 })

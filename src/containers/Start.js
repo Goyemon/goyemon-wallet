@@ -20,9 +20,9 @@ class Start extends Component {
       loading: true
     });
 
-    const mnemonic = await WalletController.getMnemonic();
+    const mnemonicWords = await WalletController.getMnemonic();
 
-    if(mnemonic){
+    if(mnemonicWords){
       this.setState({
         loading: false
       });
