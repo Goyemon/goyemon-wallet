@@ -46,6 +46,7 @@ class Confirmation extends Component {
   }
 
   render() {
+    const { outgoingTransactionObjects, web3 } = this.props;
     const gasPriceInEther = web3.utils.fromWei(
       outgoingTransactionObjects[outgoingTransactionObjects.length - 1].gasPrice,
       'Ether'
@@ -131,14 +132,8 @@ const ButtonContainer = styled.View`
 function mapStateToProps(state) {
   return {
     web3: state.ReducerWeb3.web3,
-    outgoingTransactionObjects: state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
+    outgoingTransactionObjects: state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects
   };
 }
 
-const mapDispatchToProps = {
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Confirmation);
+export default connect(mapStateToProps)(Confirmation);

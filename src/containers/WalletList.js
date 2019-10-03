@@ -119,7 +119,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   saveBalance,
   getEthPrice,
-  getDaiPrice
+  getDaiPrice,
 };
 
 export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(WalletList));

@@ -46,8 +46,7 @@ class WalletDetail extends Component {
   }
 
   render() {
-    const { id, coin, notation, price } = this.props.wallet;
-    const { balance } = this.props
+    const { coin, notation } = this.props.wallet;
 
     if (!this.props.web3.eth) {
       return <Text>loading...</Text>;
@@ -101,7 +100,6 @@ const UsdBalanceText = styled.Text`
 `;
 
 const mapStateToProps = state => ({
-    wallets: state.ReducerWallets.wallets,
     web3: state.ReducerWeb3.web3,
     price: state.ReducerPrice.price,
     balance: state.ReducerBalance.balance
