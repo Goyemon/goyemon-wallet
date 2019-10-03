@@ -7,7 +7,6 @@ import { RootContainer, ProgressBar, Button, HeaderOne } from '../components/com
 import WalletController from '../wallet-core/WalletController.ts';
 import EthUtils from '../wallet-core/EthUtils';
 import { createChecksumAddress } from '../actions/ActionChecksumAddress';
-import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
 import { saveExistingTransactions } from '../actions/ActionTransactionHistory';
 import firebase from 'react-native-firebase';
 import uuidv4 from 'uuid/v4';
@@ -90,8 +89,6 @@ class Import extends Component {
       await this.savePrivateKey();
       await this.props.createChecksumAddress();
       await this.registerEthereumAddress();
-      await this.props.getEthPrice();
-      await this.props.getDaiPrice();
       this.props.navigation.navigate('NotificationPermissionTutorial');
     } else {
       this.setState({mnemonicWordsValidation: false});
@@ -212,8 +209,6 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   createChecksumAddress,
-  getEthPrice,
-  getDaiPrice,
   saveExistingTransactions
 };
 

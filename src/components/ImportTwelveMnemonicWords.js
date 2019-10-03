@@ -8,7 +8,6 @@ import WalletController from '../wallet-core/WalletController.ts';
 import EthUtils from '../wallet-core/EthUtils';
 import { createChecksumAddress } from '../actions/ActionChecksumAddress';
 import { saveMnemonic } from '../actions/ActionMnemonic';
-import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
 import { saveBalance } from '../actions/ActionBalance';
 import { saveExistingTransactions } from '../actions/ActionTransactionHistory';
 import firebase from 'react-native-firebase';
@@ -82,8 +81,6 @@ class ImportTwelveMnemonicWords extends Component {
       await this.savePrivateKey();
       await this.props.createChecksumAddress();
       await this.registerEthereumAddress();
-      await this.props.getEthPrice();
-      await this.props.getDaiPrice();
       this.props.navigation.navigate('NotificationPermissionTutorial');
     } else {
       this.setState({ mnemonicWordsValidation: false });
@@ -198,8 +195,6 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   saveMnemonic,
   createChecksumAddress,
-  getEthPrice,
-  getDaiPrice,
   saveBalance,
   saveExistingTransactions
 };
