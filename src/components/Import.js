@@ -7,6 +7,8 @@ import { RootContainer, ProgressBar, Button, HeaderOne } from '../components/com
 import WalletController from '../wallet-core/WalletController.ts';
 import EthUtils from '../wallet-core/EthUtils';
 import { createChecksumAddress } from '../actions/ActionChecksumAddress';
+import { saveMnemonic } from '../actions/ActionMnemonic';
+import { saveBalance } from '../actions/ActionBalance';
 import { saveExistingTransactions } from '../actions/ActionTransactionHistory';
 import firebase from 'react-native-firebase';
 import uuidv4 from 'uuid/v4';
@@ -44,10 +46,14 @@ class Import extends Component {
       mnemonicWordsValidation: true
     };
   }
+
   async componentDidMount() {
     this.messageListener = firebase.messaging().onMessage((downstreamMessage) => {
       if (downstreamMessage.data.type === "balance") {
-        this.props.saveBalance(parseInt(downstreamMessage.data.balance));
+        const balanceInWei = downstreamMessage.data.balance;
+        const balanceInEther = this.props.web3.utils.fromWei(balanceInWei);
+        const roundedBalanceInEther = parseFloat(balanceInEther).toFixed(4);
+        this.props.saveBalance(roundedBalanceInEther);
       }
       if (downstreamMessage.data.type === "txhistory" && downstreamMessage.data.count != "0") {
         let transactions = JSON.parse(downstreamMessage.data.items);
@@ -85,6 +91,7 @@ class Import extends Component {
     if (WalletController.validateMnemonic(mnemonicWords)) {
       this.setState({mnemonicWordsValidation: true});
       await WalletController.setMnemonic(mnemonicWords);
+      await this.props.saveMnemonic();
       await WalletController.generateWallet(mnemonicWords);
       await this.savePrivateKey();
       await this.props.createChecksumAddress();
@@ -208,7 +215,9 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
+  saveMnemonic,
   createChecksumAddress,
+  saveBalance,
   saveExistingTransactions
 };
 

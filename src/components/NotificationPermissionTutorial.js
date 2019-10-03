@@ -1,10 +1,28 @@
 'use strict';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { RootContainer, ProgressBar, Button, OneLiner } from '../components/common';
 import { Text } from 'react-native';
+import { saveBalance } from '../actions/ActionBalance';
 import styled from 'styled-components/native';
+import firebase from 'react-native-firebase';
 
-export default class NotificationPermissionTutorial extends Component {
+class NotificationPermissionTutorial extends Component {
+  async componentDidMount() {
+    this.messageListener = firebase.messaging().onMessage((downstreamMessage) => {
+      if (downstreamMessage.data.type === "balance") {
+        const balanceInWei = downstreamMessage.data.balance;
+        const balanceInEther = this.props.web3.utils.fromWei(balanceInWei);
+        const roundedBalanceInEther = parseFloat(balanceInEther).toFixed(4);
+        this.props.saveBalance(roundedBalanceInEther);
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    this.messageListener();
+  }
+
   render() {
     return (
       <RootContainer>
@@ -36,3 +54,15 @@ const Container = styled.View`
   margin-top: 40px;
   text-align: center;
 `;
+
+const mapStateToProps = state => {
+  return {
+    web3: state.ReducerWeb3.web3
+  }
+}
+
+const mapDispatchToProps = {
+  saveBalance
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NotificationPermissionTutorial);

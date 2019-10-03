@@ -5,15 +5,28 @@ import { withNavigation } from 'react-navigation';
 import { Text } from 'react-native';
 import { RootContainer, TouchableCardContainer, HeaderOne, HeaderTwo } from '../components/common';
 import WalletDetail from '../containers/WalletDetail';
+import { saveBalance } from '../actions/ActionBalance';
 import styled from 'styled-components';
+import firebase from 'react-native-firebase';
 import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
 
 class WalletList extends Component {
   async componentDidMount() {
+    this.messageListener = firebase.messaging().onMessage((downstreamMessage) => {
+      if (downstreamMessage.data.type === "balance") {
+        const balanceInWei = downstreamMessage.data.balance;
+        const balanceInEther = this.props.web3.utils.fromWei(balanceInWei);
+        const roundedBalanceInEther = parseFloat(balanceInEther).toFixed(4);
+        this.props.saveBalance(roundedBalanceInEther);
+      }
+    });
+
     await this.props.getEthPrice();
     await this.props.getDaiPrice();
-
   }
+
+  componentWillUnmount() {
+    this.messageListener();
   }
 
   getUsdBalance(ethBalance) {
@@ -104,6 +117,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
+  saveBalance,
   getEthPrice,
   getDaiPrice
 };

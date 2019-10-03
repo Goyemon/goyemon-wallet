@@ -37,8 +37,11 @@ class ImportTwelveMnemonicWords extends Component {
 
   async componentDidMount() {
     this.messageListener = firebase.messaging().onMessage(downstreamMessage => {
-      if (downstreamMessage.data.type === 'balance') {
-        this.props.saveBalance(parseInt(downstreamMessage.data.balance));
+      if (downstreamMessage.data.type === "balance") {
+        const balanceInWei = downstreamMessage.data.balance;
+        const balanceInEther = this.props.web3.utils.fromWei(balanceInWei);
+        const roundedBalanceInEther = parseFloat(balanceInEther).toFixed(4);
+        this.props.saveBalance(roundedBalanceInEther);
       }
       if (downstreamMessage.data.type === 'txhistory' && downstreamMessage.data.count != '0') {
         const transactions = JSON.parse(downstreamMessage.data.items);
@@ -188,6 +191,7 @@ const ErrorMessage = styled.Text`
 
 function mapStateToProps(state) {
   return {
+    web3: state.ReducerWeb3.web3,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress
   };
 }
