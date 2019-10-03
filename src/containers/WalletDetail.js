@@ -13,6 +13,22 @@ class WalletDetail extends Component {
     }
   }
 
+  renderUsdBalance() {
+    if (this.props.wallet.id === 0) {
+    try {
+      const usdPrice = this.props.price.ethPrice;
+      const parsedEthBalance = parseFloat(this.props.balance);
+      const usdBalance = usdPrice * parsedEthBalance;
+      const roundedUsdBalance = parseFloat(usdBalance).toFixed(2);
+      return <Text>$ {roundedUsdBalance}</Text>;
+    } catch(err) {
+      console.error(err);
+    }
+    } else if (this.props.wallet.id === 1) {
+      return <Text>$ 0</Text>;
+    }
+  }
+
   renderBalance() {
     if (this.props.wallet.id === 0) {
       return <Text>{this.props.balance} ETH</Text>;
@@ -44,7 +60,10 @@ class WalletDetail extends Component {
           <CoinText>{coin}</CoinText>
           <PriceText>1 {notation} = ${this.renderPrice()}</PriceText>
         </View>
-        <BalanceText>{this.renderBalance()}</BalanceText>
+        <View>
+          <UsdBalanceText>{this.renderUsdBalance()}</UsdBalanceText>
+          <BalanceText>{this.renderBalance()}</BalanceText>
+        </View>
       </Container>
     );
   }
@@ -72,6 +91,11 @@ const PriceText = styled.Text`
 `;
 
 const BalanceText = styled.Text`
+  font-size: 22px;
+  margin-left: 16px;
+`;
+
+const UsdBalanceText = styled.Text`
   font-size: 22px;
   margin-left: 16px;
 `;
