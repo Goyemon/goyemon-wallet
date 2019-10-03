@@ -9,6 +9,7 @@ import { saveBalance } from '../actions/ActionBalance';
 import styled from 'styled-components';
 import firebase from 'react-native-firebase';
 import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
+import { saveExistingTransactions } from '../actions/ActionTransactionHistory';
 
 class WalletList extends Component {
   async componentDidMount() {
@@ -18,6 +19,13 @@ class WalletList extends Component {
         const balanceInEther = this.props.web3.utils.fromWei(balanceInWei);
         const roundedBalanceInEther = parseFloat(balanceInEther).toFixed(4);
         this.props.saveBalance(roundedBalanceInEther);
+      }
+    });
+
+    this.messageListener = firebase.messaging().onMessage(downstreamMessage => {
+      if (downstreamMessage.data.type === 'txhistory' && downstreamMessage.data.count != '0') {
+        const transactions = JSON.parse(downstreamMessage.data.items);
+        this.props.saveExistingTransactions(transactions);
       }
     });
 
@@ -120,6 +128,7 @@ const mapDispatchToProps = {
   saveBalance,
   getEthPrice,
   getDaiPrice,
+  saveExistingTransactions
 };
 
 export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(WalletList));
