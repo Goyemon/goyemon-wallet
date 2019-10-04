@@ -34,7 +34,7 @@ export default class ImportOptions extends Component {
               margin="8px auto"
               opacity="1"
               onPress={async () => {
-                this.props.navigation.navigate('Import');
+                this.props.navigation.navigate('ImportTwentyFourMnemonicWords');
               }}
             />
           </ButtonContainer>

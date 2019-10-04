@@ -13,7 +13,7 @@ import { saveExistingTransactions } from '../actions/ActionTransactionHistory';
 import firebase from 'react-native-firebase';
 import uuidv4 from 'uuid/v4';
 
-class Import extends Component {
+class ImportTwentyFourMnemonicWords extends Component {
   constructor() {
     super();
     this.state = {
@@ -224,4 +224,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Import);
+)(ImportTwentyFourMnemonicWords);

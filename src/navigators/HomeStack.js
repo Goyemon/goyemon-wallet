@@ -6,7 +6,7 @@ import NotificationPermissionTutorial from '../components/NotificationPermission
 import NotificationPermission from '../containers/NotificationPermission';
 import Start from '../containers/Start';
 import ImportOptions from '../components/ImportOptions';
-import Import from '../components/Import';
+import ImportTwentyFourMnemonicWords from '../components/ImportTwentyFourMnemonicWords';
 import ImportTwelveMnemonicWords from '../components/ImportTwelveMnemonicWords';
 import CreateWalletTutorial from '../components/CreateWalletTutorial';
 import ShowMnemonic from '../components/ShowMnemonic';
@@ -57,8 +57,8 @@ const HomeStack = createStackNavigator(
         headerBackTitle: 'ImportOptions'
       })
     },
-    Import: {
-      screen: Import,
+    ImportTwentyFourMnemonicWords: {
+      screen: ImportTwentyFourMnemonicWords,
       navigationOptions: () => ({
         headerTransparent: true,
         headerBackTitle: 'Import'
