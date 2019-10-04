@@ -42,11 +42,11 @@
 		339DF85122C04DF300098626 /* FIRAnalyticsConnector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 339DF84E22C04DF300098626 /* FIRAnalyticsConnector.framework */; };
 		339DF85322C04E0B00098626 /* GoogleAppMeasurement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 339DF85222C04E0A00098626 /* GoogleAppMeasurement.framework */; };
 		33A27D6422BF5DF200BECF88 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 33A27D6322BF5DF100BECF88 /* GoogleService-Info.plist */; };
+		33E596CE2347434E0070AFBF /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33E596C6234743410070AFBF /* libRNGestureHandler.a */; };
 		33F896E222C1C8E800679DD3 /* Protobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33F896E122C1C8E800679DD3 /* Protobuf.framework */; };
 		33F896E422C1C8ED00679DD3 /* GoogleUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33F896E322C1C8ED00679DD3 /* GoogleUtilities.framework */; };
 		33F896E522C1DCB900679DD3 /* libRNKeychain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33FB2D0722BA31550028E1F0 /* libRNKeychain.a */; };
 		33F896E622C1DCE400679DD3 /* libRNRandomBytes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33FB2CFE22BA31350028E1F0 /* libRNRandomBytes.a */; };
-		33F896E722C1DD2D00679DD3 /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33FB2D1022BA316C0028E1F0 /* libRNGestureHandler.a */; };
 		4340046CC20941D6BBB8E30B /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1878C5A942254020A5A4C251 /* Foundation.ttf */; };
 		4391E0FD62AF4EACAB0EE2FA /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 08A4CCF072624933BCEC7820 /* Feather.ttf */; };
 		5F0BD869CF944791A067BDF7 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 48066EBE20A543EDBFFBB4D4 /* FontAwesome5_Solid.ttf */; };
@@ -428,12 +428,12 @@
 		33A27D2422BF589500BECF88 /* DeBank.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = DeBank.entitlements; path = DeBank/DeBank.entitlements; sourceTree = "<group>"; };
 		33A27D6322BF5DF100BECF88 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		33F896DF22C1C87D00679DD3 /* Pods_DeBank.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_DeBank.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		33E5969A234743410070AFBF /* RNGestureHandler.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNGestureHandler.xcodeproj; path = "../node_modules/react-native-gesture-handler/ios/RNGestureHandler.xcodeproj"; sourceTree = "<group>"; };
 		33F896E122C1C8E800679DD3 /* Protobuf.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Protobuf.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		33F896E322C1C8ED00679DD3 /* GoogleUtilities.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = GoogleUtilities.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		33FAE28022C19F4600CBE614 /* FirebaseCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseCore.framework; path = "build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseCore/FirebaseCore.framework"; sourceTree = SOURCE_ROOT; };
 		33FB2CF822BA31350028E1F0 /* RNRandomBytes.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNRandomBytes.xcodeproj; path = "../node_modules/react-native-randombytes/RNRandomBytes.xcodeproj"; sourceTree = "<group>"; };
 		33FB2D0122BA31550028E1F0 /* RNKeychain.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNKeychain.xcodeproj; path = "../node_modules/react-native-keychain/RNKeychain.xcodeproj"; sourceTree = "<group>"; };
-		33FB2D0A22BA316C0028E1F0 /* RNGestureHandler.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNGestureHandler.xcodeproj; path = "../node_modules/react-native-gesture-handler/ios/RNGestureHandler.xcodeproj"; sourceTree = "<group>"; };
 		3AF916AC322542DCAE3CC350 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		48066EBE20A543EDBFFBB4D4 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		4B76905730B6775A8CB8DDFD /* Pods_DeBankTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DeBankTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -474,7 +474,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				33F896E722C1DD2D00679DD3 /* libRNGestureHandler.a in Frameworks */,
+				33E596CE2347434E0070AFBF /* libRNGestureHandler.a in Frameworks */,
 				33F896E622C1DCE400679DD3 /* libRNRandomBytes.a in Frameworks */,
 				33F896E522C1DCB900679DD3 /* libRNKeychain.a in Frameworks */,
 				33F896E422C1C8ED00679DD3 /* GoogleUtilities.framework in Frameworks */,
@@ -687,6 +687,8 @@
 			children = (
 				33FB2CFE22BA31350028E1F0 /* libRNRandomBytes.a */,
 				33FB2D0022BA31350028E1F0 /* libRNRandomBytes-tvOS.a */,
+				33E596C6234743410070AFBF /* libRNGestureHandler.a */,
+				33E596C8234743410070AFBF /* libRNGestureHandler-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -703,8 +705,6 @@
 		33FB2D0B22BA316C0028E1F0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				33FB2D1022BA316C0028E1F0 /* libRNGestureHandler.a */,
-				33FB2D1222BA316C0028E1F0 /* libRNGestureHandler-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -730,8 +730,8 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				33E5969A234743410070AFBF /* RNGestureHandler.xcodeproj */,
 				33589A9122BB60CC00C1C6C3 /* RNFirebase.xcodeproj */,
-				33FB2D0A22BA316C0028E1F0 /* RNGestureHandler.xcodeproj */,
 				33FB2D0122BA31550028E1F0 /* RNKeychain.xcodeproj */,
 				33FB2CF822BA31350028E1F0 /* RNRandomBytes.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
@@ -956,8 +956,8 @@
 					ProjectRef = 33589A9122BB60CC00C1C6C3 /* RNFirebase.xcodeproj */;
 				},
 				{
-					ProductGroup = 33FB2D0B22BA316C0028E1F0 /* Products */;
-					ProjectRef = 33FB2D0A22BA316C0028E1F0 /* RNGestureHandler.xcodeproj */;
+					ProductGroup = 33E5969B234743410070AFBF /* Products */;
+					ProjectRef = 33E5969A234743410070AFBF /* RNGestureHandler.xcodeproj */;
 				},
 				{
 					ProductGroup = 33FB2D0222BA31550028E1F0 /* Products */;
@@ -1142,6 +1142,20 @@
 			remoteRef = 33C13ABE228A4FB500381580 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		33E596C6234743410070AFBF /* libRNGestureHandler.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNGestureHandler.a;
+			remoteRef = 33E596C5234743410070AFBF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		33E596C8234743410070AFBF /* libRNGestureHandler-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRNGestureHandler-tvOS.a";
+			remoteRef = 33E596C7234743410070AFBF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		33FB2CFE22BA31350028E1F0 /* libRNRandomBytes.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1168,20 +1182,6 @@
 			fileType = archive.ar;
 			path = libRNKeychain.a;
 			remoteRef = 33FB2D0822BA31550028E1F0 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		33FB2D1022BA316C0028E1F0 /* libRNGestureHandler.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNGestureHandler.a;
-			remoteRef = 33FB2D0F22BA316C0028E1F0 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		33FB2D1222BA316C0028E1F0 /* libRNGestureHandler-tvOS.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libRNGestureHandler-tvOS.a";
-			remoteRef = 33FB2D1122BA316C0028E1F0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		3DAD3E841DF850E9000B6D8A /* libRCTImage-tvOS.a */ = {
