@@ -38,9 +38,9 @@ public class MainApplication extends Application implements ReactApplication {
         // packages.add(new MyReactNativePackage());
         packages.add(new LottiePackage());
         packages.add(new RNFirebaseMessagingPackage());
+        packages.add(new RNFirebaseCrashlyticsPackage());
         new VectorIconsPackage();
         new RNFirebasePackage();
-        new RNFirebaseCrashlyticsPackage();
         new RNOSModule();
         new RNGestureHandlerPackage();
         new RandomBytesPackage();
