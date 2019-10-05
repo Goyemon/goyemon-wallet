@@ -19,7 +19,6 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
-project.xcworkspace
 
 # Gradle
 /build/
@@ -32,6 +31,8 @@ project.xcworkspace
 # Buck
 .buckd
 buck-out
+*.keystore
+!debug.keystore
 /ReactAndroid/src/main/jni/prebuilt/lib/armeabi-v7a/
 /ReactAndroid/src/main/jni/prebuilt/lib/x86/
 /ReactAndroid/src/main/gen
