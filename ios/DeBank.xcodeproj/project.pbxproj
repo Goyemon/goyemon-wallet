@@ -8,15 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* DeBankTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* DeBankTests.m */; };
-		03EF4E1267C1483F8A93B8C1 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 00690E8E88184FBF98F70AE9 /* Zocial.ttf */; };
-		04E6B79A7FA542099D00595C /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C1E3C7D5E3BA439E9BC9405E /* Fontisto.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		1B2704ADC139464AA8FBA9A1 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E85A743437C5455CAC37321B /* FontAwesome.ttf */; };
-		1F1C0AC7717940E9B0A667D3 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA6E5484C6714C5F8CD08B88 /* EvilIcons.ttf */; };
-		317E2BF4B7614040A1F64C40 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ADF84974C28349248756C641 /* SimpleLineIcons.ttf */; };
 		3305BCA322B2696B0010C8BD /* Arimo-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3305BC7422B2696B0010C8BD /* Arimo-Regular.ttf */; };
 		3305BCA422B2696B0010C8BD /* Arimo-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3305BCA222B2696B0010C8BD /* Arimo-Bold.ttf */; };
 		33112DFD22C0EF3B004CD15B /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33892D6F22BB2CC200D9F8F4 /* JavaScriptCore.framework */; };
@@ -39,19 +34,8 @@
 		33ABA60123486E6300B36305 /* RCTBridgeModule.h in Sources */ = {isa = PBXBuildFile; fileRef = 33ABA60023486E6300B36305 /* RCTBridgeModule.h */; };
 		33ABA60223486E7100B36305 /* RCTEventDispatcher.h in Sources */ = {isa = PBXBuildFile; fileRef = 33ABA5682347A4F900B36305 /* RCTEventDispatcher.h */; };
 		33ABA6072348714400B36305 /* libRNKeychain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33ABA6062348714400B36305 /* libRNKeychain.a */; };
-		4340046CC20941D6BBB8E30B /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1878C5A942254020A5A4C251 /* Foundation.ttf */; };
-		4391E0FD62AF4EACAB0EE2FA /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 08A4CCF072624933BCEC7820 /* Feather.ttf */; };
-		5F0BD869CF944791A067BDF7 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 48066EBE20A543EDBFFBB4D4 /* FontAwesome5_Solid.ttf */; };
-		766F6E5FFBBE4A1A9F3AF967 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5065E9C717284CBCBE41BFD4 /* Ionicons.ttf */; };
-		7BB0C92AAB374EA1BA5669C3 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC91071D060549EF95D41B7D /* MaterialIcons.ttf */; };
-		8DAE05B1A7054A50A5C1670D /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA02A617D8EE47589FA84B2D /* Entypo.ttf */; };
-		A15F6F7FDB384C3594676555 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 999978FB67E04CA9B071564B /* FontAwesome5_Regular.ttf */; };
 		AA3F523295E8AEA7B86CA34D /* libPods-DeBankTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6A011C51CBEF7487985A646 /* libPods-DeBankTests.a */; };
-		BC07205977684E5F94D2C423 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D31D719D880E4E78A24A31D4 /* AntDesign.ttf */; };
-		C83211D6613944FE857587DE /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D1956C8D0FD64ADA8FBE507E /* MaterialCommunityIcons.ttf */; };
 		D3B03467D9A83301506DF1FD /* libPods-DeBank.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 664771F1723EF86B66191FBB /* libPods-DeBank.a */; };
-		DBD2693DA4764411BDFCBA9F /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3AF916AC322542DCAE3CC350 /* Octicons.ttf */; };
-		FC5B84EE25454900B7B1F97A /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9BE7391C6D33474AA1552A69 /* FontAwesome5_Brands.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,6 +124,7 @@
 		33489E7F22BB25110011677D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		3354232523247A2F009356D6 /* FirebaseCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FirebaseCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		33589A9122BB60CC00C1C6C3 /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFirebase.xcodeproj; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; };
+		335DD93B234A127C0005C300 /* libswiftObjectiveC.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libswiftObjectiveC.tbd; path = usr/lib/swift/libswiftObjectiveC.tbd; sourceTree = SDKROOT; };
 		33892D6F22BB2CC200D9F8F4 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		33892D7022BB2D0C00D9F8F4 /* FirebaseMessaging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseMessaging.framework; path = Firebase/Messaging/FirebaseMessaging.framework; sourceTree = SOURCE_ROOT; };
 		33892D7122BB2D0C00D9F8F4 /* Protobuf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Protobuf.framework; path = Firebase/Messaging/Protobuf.framework; sourceTree = SOURCE_ROOT; };
@@ -279,6 +264,7 @@
 		33892D6E22BB2CBA00D9F8F4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				335DD93B234A127C0005C300 /* libswiftObjectiveC.tbd */,
 				33ABA6062348714400B36305 /* libRNKeychain.a */,
 				33ABA5EA2348632200B36305 /* libreact-native-randombytes.a */,
 				33ABA5E82348628A00B36305 /* libProtobuf.a */,
@@ -603,25 +589,9 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3305BCA422B2696B0010C8BD /* Arimo-Bold.ttf in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				BC07205977684E5F94D2C423 /* AntDesign.ttf in Resources */,
-				8DAE05B1A7054A50A5C1670D /* Entypo.ttf in Resources */,
 				33489E8022BB25110011677D /* Default-568h@2x.png in Resources */,
-				1F1C0AC7717940E9B0A667D3 /* EvilIcons.ttf in Resources */,
-				4391E0FD62AF4EACAB0EE2FA /* Feather.ttf in Resources */,
-				1B2704ADC139464AA8FBA9A1 /* FontAwesome.ttf in Resources */,
-				FC5B84EE25454900B7B1F97A /* FontAwesome5_Brands.ttf in Resources */,
-				A15F6F7FDB384C3594676555 /* FontAwesome5_Regular.ttf in Resources */,
-				5F0BD869CF944791A067BDF7 /* FontAwesome5_Solid.ttf in Resources */,
-				4340046CC20941D6BBB8E30B /* Foundation.ttf in Resources */,
-				766F6E5FFBBE4A1A9F3AF967 /* Ionicons.ttf in Resources */,
 				3305BCA322B2696B0010C8BD /* Arimo-Regular.ttf in Resources */,
-				C83211D6613944FE857587DE /* MaterialCommunityIcons.ttf in Resources */,
-				7BB0C92AAB374EA1BA5669C3 /* MaterialIcons.ttf in Resources */,
-				DBD2693DA4764411BDFCBA9F /* Octicons.ttf in Resources */,
-				317E2BF4B7614040A1F64C40 /* SimpleLineIcons.ttf in Resources */,
-				03EF4E1267C1483F8A93B8C1 /* Zocial.ttf in Resources */,
 				33A27D6422BF5DF200BECF88 /* GoogleService-Info.plist in Resources */,
-				04E6B79A7FA542099D00595C /* Fontisto.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -903,7 +873,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.swarm-browser.app";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				VALID_ARCHS = "$(ARCHS_STANDARD) armv7 armv7s";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -937,7 +906,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "a7320296-ceae-4a29-a730-7775c6fcca23";
 				PROVISIONING_PROFILE_SPECIFIER = "com.swarm-browser.app AppStore";
-				VALID_ARCHS = "$(ARCHS_STANDARD) armv7 armv7s";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -992,6 +960,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				VALID_ARCHS = "$(ARCHS_STANDARD)";
 			};
 			name = Debug;
 		};
@@ -1039,6 +1008,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "$(ARCHS_STANDARD)";
 			};
 			name = Release;
 		};
