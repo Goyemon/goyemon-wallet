@@ -72,3 +72,18 @@ DeBank/build
 # CocoaPods
 /template/ios/Pods/
 ios/Pods
+
+# fastlane specific
+/*.itmsp
+.idea
+.rakeTasks
+spec/fixtures/*.itmsp/*.png
+/integration
+**/report.xml
+**/.bundle
+fastlane/lib/fastlane/plugins/template/.rubocop.yml
+snapshot/example/fastlane/README.md
+snapshot/example/fastlane/screenshots
+fastlane/FastlaneRunner
+fastlane/swift/FastlaneRunner
+vendor
