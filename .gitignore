@@ -87,3 +87,4 @@ snapshot/example/fastlane/screenshots
 fastlane/FastlaneRunner
 fastlane/swift/FastlaneRunner
 vendor
+android/key.json
