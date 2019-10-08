@@ -4,41 +4,7 @@
             "outputFile": "/Users/tai/Dropbox/Codes/DeBank/android/app/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-en-rGB/values-en-rGB.xml",
             "map": [
                 {
-                    "source": "/Users/tai/.gradle/caches/transforms-2/files-2.1/961f09e280a75f1c2ca7499954383cd2/res/values-en-rGB/values-en-rGB.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "100",
-                        "endOffsets": "151"
-                    },
-                    "to": {
-                        "startLines": "49",
-                        "startColumns": "4",
-                        "startOffsets": "5606",
-                        "endColumns": "100",
-                        "endOffsets": "5702"
-                    }
-                },
-                {
-                    "source": "/Users/tai/.gradle/caches/transforms-2/files-2.1/ddf5c75d77b5812764064a9309a4fe93/res/values-en-rGB/values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "209",
-                        "endColumns": "107",
-                        "endOffsets": "316"
-                    },
-                    "to": {
-                        "startLines": "47",
-                        "startColumns": "4",
-                        "startOffsets": "5412",
-                        "endColumns": "111",
-                        "endOffsets": "5519"
-                    }
-                },
-                {
-                    "source": "/Users/tai/.gradle/caches/transforms-2/files-2.1/3889968304b46d40f9cd723d388cb7ea/res/values-en-rGB/values.xml",
+                    "source": "/Users/tai/.gradle/caches/transforms-2/files-2.1/cbb2175f25cd6ab92516e95a291cc0f4/res/values-en-rGB/values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -55,7 +21,24 @@
                     }
                 },
                 {
-                    "source": "/Users/tai/.gradle/caches/transforms-2/files-2.1/a6754973abd74a6b45b9d217aa1bed5c/res/values-en-rGB/values.xml",
+                    "source": "/Users/tai/.gradle/caches/transforms-2/files-2.1/8e6d24b8b835db12a4b34bcfa0c8f4bc/res/values-en-rGB/values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "209",
+                        "endColumns": "107",
+                        "endOffsets": "316"
+                    },
+                    "to": {
+                        "startLines": "47",
+                        "startColumns": "4",
+                        "startOffsets": "5412",
+                        "endColumns": "111",
+                        "endOffsets": "5519"
+                    }
+                },
+                {
+                    "source": "/Users/tai/.gradle/caches/transforms-2/files-2.1/65edde6e43d058eaef86fd28082856a1/res/values-en-rGB/values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -72,7 +55,24 @@
                     }
                 },
                 {
-                    "source": "/Users/tai/.gradle/caches/transforms-2/files-2.1/c8c2b3e10b6a166506edaad9140df1c5/res/values-en-rGB/values-en-rGB.xml",
+                    "source": "/Users/tai/.gradle/caches/transforms-2/files-2.1/1fe3c7c5a47daaea305f91a1757d52b1/res/values-en-rGB/values-en-rGB.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "49",
+                        "startColumns": "4",
+                        "startOffsets": "5606",
+                        "endColumns": "100",
+                        "endOffsets": "5702"
+                    }
+                },
+                {
+                    "source": "/Users/tai/.gradle/caches/transforms-2/files-2.1/2eb030c7e3e36b77b48f0dacbc437936/res/values-en-rGB/values-en-rGB.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

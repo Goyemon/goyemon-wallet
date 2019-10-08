@@ -194,7 +194,6 @@ attr listPreferredItemPaddingRight
 attr logo
 attr logoDescription
 attr lottie_autoPlay
-attr lottie_cacheStrategy
 attr lottie_colorFilter
 attr lottie_enableMergePathsForKitKatAndAbove
 attr lottie_fileName
@@ -202,9 +201,12 @@ attr lottie_imageAssetsFolder
 attr lottie_loop
 attr lottie_progress
 attr lottie_rawRes
+attr lottie_renderMode
 attr lottie_repeatCount
 attr lottie_repeatMode
 attr lottie_scale
+attr lottie_speed
+attr lottie_url
 attr maxButtonHeight
 attr measureWithLargestChild
 attr multiChoiceItemLayout
@@ -641,7 +643,6 @@ drawable abc_textfield_search_activated_mtrl_alpha
 drawable abc_textfield_search_default_mtrl_alpha
 drawable abc_textfield_search_material
 drawable abc_vector_test
-drawable assets_copy_icon
 drawable assets_create_wallet_icon
 drawable assets_dai_icon
 drawable assets_ether_icon
@@ -667,7 +668,6 @@ drawable common_google_signin_btn_text_light_normal
 drawable common_google_signin_btn_text_light_normal_background
 drawable googleg_disabled_color_18
 drawable googleg_standard_color_18
-drawable node_modules_reactnativesettingslist_img_iconarrowsettings
 drawable node_modules_reactnavigationstack_lib_module_views_assets_backicon
 drawable node_modules_reactnavigationstack_lib_module_views_assets_backiconmask
 drawable notification_action_background
@@ -691,8 +691,12 @@ id FUNCTION
 id META
 id SHIFT
 id SYM
+id accessibility_actions
 id accessibility_hint
+id accessibility_label
 id accessibility_role
+id accessibility_state
+id accessibility_states
 id action0
 id action_bar
 id action_bar_activity_content
@@ -721,6 +725,7 @@ id all
 id always
 id async
 id auto
+id automatic
 id beginning
 id blocking
 id bottom
@@ -761,7 +766,10 @@ id fitXY
 id focusCrop
 id forever
 id fps_text
+id ghost_view
+id ghost_view_holder
 id group_divider
+id hardware
 id home
 id homeAsUp
 id icon
@@ -789,6 +797,7 @@ id notification_background
 id notification_main_column
 id notification_main_column_container
 id parentPanel
+id parent_matrix
 id progress_circular
 id progress_horizontal
 id radio
@@ -800,7 +809,6 @@ id right_icon
 id right_side
 id rn_frame_file
 id rn_frame_method
-id rn_redbox_copy_button
 id rn_redbox_dismiss_button
 id rn_redbox_line_separator
 id rn_redbox_loading_indicator
@@ -808,6 +816,8 @@ id rn_redbox_reload_button
 id rn_redbox_report_button
 id rn_redbox_report_label
 id rn_redbox_stack
+id save_non_transition_alpha
+id save_overlay_view
 id screen
 id scrollIndicatorDown
 id scrollIndicatorUp
@@ -827,6 +837,7 @@ id shortcut
 id showCustom
 id showHome
 id showTitle
+id software
 id spacer
 id split_action_bar
 id src_atop
@@ -835,7 +846,6 @@ id src_over
 id standard
 id start
 id status_bar_latest_event_content
-id strong
 id submenuarrow
 id submit_area
 id tabMode
@@ -852,12 +862,16 @@ id titleDividerNoCustom
 id title_template
 id top
 id topPanel
+id transition_current_scene
+id transition_layout_save
+id transition_position
+id transition_scene_layoutid_cache
+id transition_transform
 id uniform
 id up
 id useLogo
 id view_tag_instance_handle
 id view_tag_native_id
-id weak
 id wide
 id withText
 id wrap_content
@@ -866,6 +880,8 @@ integer abc_config_activityShortDur
 integer cancel_button_image_alpha
 integer config_tooltipAnimTime
 integer google_play_services_version
+integer react_native_dev_server_port
+integer react_native_inspector_proxy_port
 integer status_bar_notification_info_maxnum
 layout abc_action_bar_title_item
 layout abc_action_bar_up_container
@@ -921,6 +937,21 @@ layout select_dialog_singlechoice_material
 layout support_simple_spinner_dropdown_item
 mipmap ic_launcher
 mipmap ic_launcher_round
+raw app
+raw node_modules_browserifyaes_modes_list
+raw node_modules_browserifysign_browser_algorithms
+raw node_modules_browserifysign_browser_curves
+raw node_modules_csscolorkeywords_colors
+raw node_modules_diffiehellman_lib_primes
+raw node_modules_elliptic_package
+raw node_modules_ethereumcommon_params
+raw node_modules_parseasn1_aesid
+raw node_modules_reactnativebip39_wordlists_en
+raw node_modules_reactnativevectoricons_glyphmaps_antdesign
+raw node_modules_reactnativevectoricons_glyphmaps_materialcommunityicons
+raw node_modules_secp256k1_lib_messages
+raw node_modules_web3_package
+raw node_modules_websocket_package
 string abc_action_bar_home_description
 string abc_action_bar_up_description
 string abc_action_menu_overflow_description
@@ -960,32 +991,38 @@ string abc_searchview_description_voice
 string abc_shareactionprovider_share_with
 string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
-string adjustable_description
+string alert_description
 string app_name
+string catalyst_change_bundle_location
 string catalyst_copy_button
-string catalyst_debugjs
-string catalyst_debugjs_nuclide
-string catalyst_debugjs_nuclide_failure
-string catalyst_debugjs_off
+string catalyst_debug
+string catalyst_debug_chrome
+string catalyst_debug_chrome_stop
+string catalyst_debug_connecting
+string catalyst_debug_error
+string catalyst_debug_nuclide
+string catalyst_debug_nuclide_error
+string catalyst_debug_stop
 string catalyst_dismiss_button
-string catalyst_element_inspector
 string catalyst_heap_capture
-string catalyst_hot_module_replacement
-string catalyst_hot_module_replacement_off
-string catalyst_jsload_error
-string catalyst_live_reload
-string catalyst_live_reload_off
+string catalyst_hot_reloading
+string catalyst_hot_reloading_auto_disable
+string catalyst_hot_reloading_auto_enable
+string catalyst_hot_reloading_stop
+string catalyst_inspector
 string catalyst_loading_from_url
 string catalyst_perf_monitor
-string catalyst_perf_monitor_off
-string catalyst_poke_sampling_profiler
+string catalyst_perf_monitor_stop
+string catalyst_reload
 string catalyst_reload_button
-string catalyst_reloadjs
-string catalyst_remotedbg_error
-string catalyst_remotedbg_message
+string catalyst_reload_error
 string catalyst_report_button
+string catalyst_sample_profiler_disable
+string catalyst_sample_profiler_enable
 string catalyst_settings
 string catalyst_settings_title
+string com_crashlytics_android_build_id
+string combobox_description
 string common_google_play_services_enable_button
 string common_google_play_services_enable_text
 string common_google_play_services_enable_title
@@ -1013,13 +1050,31 @@ string google_app_id
 string google_crash_reporting_api_key
 string google_storage_bucket
 string header_description
-string image_button_description
 string image_description
+string imagebutton_description
 string link_description
+string menu_description
+string menubar_description
+string menuitem_description
+string progressbar_description
 string project_id
+string radiogroup_description
+string rn_tab_description
+string scrollbar_description
 string search_description
 string search_menu_title
+string spinbutton_description
+string state_busy_description
+string state_collapsed_description
+string state_expanded_description
+string state_mixed_description
+string state_off_description
+string state_on_description
 string status_bar_notification_info_overflow
+string summary_description
+string tablist_description
+string timer_description
+string toolbar_description
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
 style Animation_AppCompat_Dialog
@@ -1422,7 +1477,7 @@ styleable LinearLayoutCompat android_gravity android_orientation android_baselin
 styleable LinearLayoutCompat_Layout android_layout_gravity android_layout_width android_layout_height android_layout_weight
 styleable ListPopupWindow android_dropDownHorizontalOffset android_dropDownVerticalOffset
 styleable LoadingImageView circleCrop imageAspectRatio imageAspectRatioAdjust
-styleable LottieAnimationView lottie_autoPlay lottie_cacheStrategy lottie_colorFilter lottie_enableMergePathsForKitKatAndAbove lottie_fileName lottie_imageAssetsFolder lottie_loop lottie_progress lottie_rawRes lottie_repeatCount lottie_repeatMode lottie_scale
+styleable LottieAnimationView lottie_autoPlay lottie_colorFilter lottie_enableMergePathsForKitKatAndAbove lottie_fileName lottie_imageAssetsFolder lottie_loop lottie_progress lottie_rawRes lottie_renderMode lottie_repeatCount lottie_repeatMode lottie_scale lottie_speed lottie_url
 styleable MenuGroup android_enabled android_id android_visible android_menuCategory android_orderInCategory android_checkableBehavior
 styleable MenuItem android_icon android_enabled android_id android_checked android_visible android_menuCategory android_orderInCategory android_title android_titleCondensed android_alphabeticShortcut android_numericShortcut android_checkable android_onClick actionLayout actionProviderClass actionViewClass alphabeticModifiers contentDescription iconTint iconTintMode numericModifiers showAsAction tooltipText
 styleable MenuView android_windowAnimationStyle android_itemTextAppearance android_horizontalDivider android_verticalDivider android_headerBackground android_itemBackground android_itemIconDisabledAlpha preserveIconSpacing subMenuArrow
@@ -1441,4 +1496,5 @@ styleable Toolbar android_gravity android_minHeight buttonGravity collapseConten
 styleable View android_theme android_focusable paddingEnd paddingStart theme
 styleable ViewBackgroundHelper android_background backgroundTint backgroundTintMode
 styleable ViewStubCompat android_id android_layout android_inflatedId
+xml file_provider_paths
 xml rn_dev_preferences
