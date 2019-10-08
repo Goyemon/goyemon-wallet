@@ -27,6 +27,7 @@ DerivedData
 /DeBank/android/app/gradlew
 /DeBank/android/app/gradlew.bat
 /ReactAndroid/build/
+/DeBank/android/gradle.properties
 
 # Buck
 .buckd
