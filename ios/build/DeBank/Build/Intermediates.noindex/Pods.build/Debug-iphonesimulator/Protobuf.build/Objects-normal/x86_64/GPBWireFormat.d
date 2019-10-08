@@ -1,6 +1,5 @@
 dependencies: \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/GPBWireFormat.m \
-  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Protobuf.build/module.modulemap \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Target\ Support\ Files/Protobuf/Protobuf-prefix.pch \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/GPBWireFormat.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/GPBRuntimeTypes.h \

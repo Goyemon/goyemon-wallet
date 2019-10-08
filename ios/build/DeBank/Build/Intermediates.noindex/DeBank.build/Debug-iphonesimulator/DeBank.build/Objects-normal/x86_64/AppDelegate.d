@@ -1,33 +1,43 @@
-dependencies: /Users/tai/Dropbox/Codes/DeBank/ios/DeBank/AppDelegate.m \
+dependencies: \
+  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/lottie-ios/Lottie.modulemap \
+  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/lottie-react-native/lottie_react_native.modulemap \
+  /Users/tai/Dropbox/Codes/DeBank/ios/DeBank/AppDelegate.m \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Public/Firebase/Firebase.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseCore/FirebaseCore.framework/Modules/module.modulemap \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Public/FirebaseCore/FirebaseCore.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Public/FirebaseCore/FIRApp.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Firebase/CoreOnly/Sources/module.modulemap \
-  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseCore/FirebaseCore.framework/Headers/FIROptions.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseCore/FirebaseCore.framework/Headers/FirebaseCore.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseCore/FirebaseCore.framework/Headers/FIRLoggerLevel.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseCore/FirebaseCore.framework/Headers/FIRConfiguration.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseCore/FirebaseCore.framework/Headers/FIRApp.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseCore/FirebaseCore.framework/Headers/FirebaseCore-umbrella.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Public/FirebaseCore/FIRConfiguration.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Public/FirebaseCore/FIRLoggerLevel.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Public/FirebaseCore/FIROptions.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseAnalytics/Frameworks/FirebaseAnalytics.framework/Headers/FirebaseAnalytics.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseAnalytics/Frameworks/FirebaseAnalytics.framework/Modules/module.modulemap \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseAnalytics/Frameworks/FirebaseAnalytics.framework/Headers/FIRUserPropertyNames.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseAnalytics/Frameworks/FirebaseAnalytics.framework/Headers/FIRParameterNames.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseAnalytics/Frameworks/FirebaseAnalytics.framework/Headers/FIREventNames.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseAnalytics/Frameworks/FirebaseAnalytics.framework/Headers/FIRAnalytics.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseAnalytics/Frameworks/FirebaseAnalytics.framework/Headers/FIRAnalytics+AppDelegate.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseAnalytics/Frameworks/FirebaseAnalytics.framework/Headers/FirebaseAnalytics.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseInstanceID/FirebaseInstanceID.framework/Modules/module.modulemap \
-  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseInstanceID/FirebaseInstanceID.framework/Headers/FIRInstanceID.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseInstanceID/FirebaseInstanceID.framework/Headers/FirebaseInstanceID.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseInstanceID/FirebaseInstanceID.framework/Headers/FirebaseInstanceID-umbrella.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseMessaging/FirebaseMessaging.framework/Modules/module.modulemap \
-  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseMessaging/FirebaseMessaging.framework/Headers/FIRMessagingExtensionHelper.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseMessaging/FirebaseMessaging.framework/Headers/FIRMessaging.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseMessaging/FirebaseMessaging.framework/Headers/FirebaseMessaging.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseMessaging/FirebaseMessaging.framework/Headers/FirebaseMessaging-umbrella.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Public/FirebaseInstanceID/FirebaseInstanceID.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Public/FirebaseInstanceID/FIRInstanceID.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Public/FirebaseMessaging/FirebaseMessaging.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Public/FirebaseMessaging/FIRMessaging.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Public/FirebaseMessaging/FIRMessagingExtensionHelper.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Fabric/iOS/Fabric.framework/Headers/Fabric.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Fabric/iOS/Fabric.framework/Modules/module.modulemap \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Fabric/iOS/Fabric.framework/Headers/FABAttributes.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Crashlytics/iOS/Crashlytics.framework/Headers/Crashlytics.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Crashlytics/iOS/Crashlytics.framework/Modules/module.modulemap \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Crashlytics/iOS/Crashlytics.framework/Headers/ANSCompatibility.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Crashlytics/iOS/Crashlytics.framework/Headers/Answers.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Crashlytics/iOS/Crashlytics.framework/Headers/CLSStackFrame.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Crashlytics/iOS/Crashlytics.framework/Headers/CLSReport.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Crashlytics/iOS/Crashlytics.framework/Headers/CLSLogging.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Crashlytics/iOS/Crashlytics.framework/Headers/CLSAttributes.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/DeBank/AppDelegate.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/include/React/RCTBridgeDelegate.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/include/React/RCTJavaScriptLoader.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/include/React/RCTDefines.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Public/React-Core/React/RCTInspectorDevServerHelper.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Public/React-Core/React/RCTPackagerConnection.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/include/React/RCTBridge.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/include/React/RCTBridgeModule.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/include/React/RCTFrameUpdate.h \

@@ -1,0 +1,44 @@
+dependencies: \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/RenderSystem/RenderNodes/LOTRenderGroup.m \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Target\ Support\ Files/lottie-ios/lottie-ios-prefix.pch \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/RenderSystem/RenderNodes/LOTRenderGroup.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/RenderSystem/LOTRenderNode.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/RenderSystem/LOTAnimatorNode.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/MacCompatibility/LOTPlatformCompat.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/Extensions/LOTBezierPath.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/PublicHeaders/LOTKeypath.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/PublicHeaders/LOTValueDelegate.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/Models/LOTModels.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/AnimatableProperties/LOTKeyframe.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/AnimatableProperties/LOTBezierData.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/PublicHeaders/LOTComposition.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/Models/LOTLayer.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/Models/LOTMask.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/Models/LOTShapeCircle.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/Models/LOTShapeFill.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/Models/LOTShapeGroup.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/Models/LOTShapePath.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/Models/LOTShapeRectangle.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/Models/LOTShapeStroke.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/Models/LOTShapeTransform.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/Models/LOTShapeTrimPath.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/Models/LOTLayerGroup.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/Models/LOTAsset.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/Models/LOTShapeGradientFill.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/RenderSystem/AnimatorNodes/LOTPathAnimator.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/RenderSystem/RenderNodes/LOTFillRenderer.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/RenderSystem/RenderNodes/LOTStrokeRenderer.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/RenderSystem/InterpolatorNodes/LOTNumberInterpolator.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/RenderSystem/InterpolatorNodes/LOTValueInterpolator.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/RenderSystem/InterpolatorNodes/LOTTransformInterpolator.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/RenderSystem/InterpolatorNodes/LOTPointInterpolator.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/RenderSystem/InterpolatorNodes/LOTSizeInterpolator.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/RenderSystem/AnimatorNodes/LOTCircleAnimator.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/RenderSystem/AnimatorNodes/LOTRoundedRectAnimator.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/RenderSystem/ManipulatorNodes/LOTTrimPathNode.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/Models/LOTShapeStar.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/RenderSystem/AnimatorNodes/LOTPolygonAnimator.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/RenderSystem/AnimatorNodes/LOTPolystarAnimator.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/RenderSystem/RenderNodes/LOTGradientFillRender.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/RenderSystem/RenderNodes/LOTRepeaterRenderer.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-ios/Classes/Models/LOTShapeRepeater.h

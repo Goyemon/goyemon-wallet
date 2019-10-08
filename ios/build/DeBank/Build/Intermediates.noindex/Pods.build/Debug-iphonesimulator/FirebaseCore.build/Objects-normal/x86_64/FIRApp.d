@@ -1,6 +1,5 @@
 dependencies: \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/FIRApp.m \
-  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseCore.build/module.modulemap \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Public/FIRApp.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRAnalyticsConfiguration.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseCore/Firebase/Core/Private/FIRAppInternal.h \

@@ -1,48 +1,36 @@
 dependencies: \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseMessaging/Firebase/Messaging/FIRMessagingDataMessageManager.m \
-  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/FirebaseMessaging.build/module.modulemap \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseMessaging/Firebase/Messaging/FIRMessagingDataMessageManager.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseMessaging/Firebase/Messaging/Protos/GtalkCore.pbobjc.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Protobuf.build/module.modulemap \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/GPBUnknownField_PackagePrivate.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/GPBUnknownFieldSet_PackagePrivate.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/GPBUtilities_PackagePrivate.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/GPBRootObject_PackagePrivate.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/GPBProtocolBuffers_RuntimeSupport.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/google/protobuf/Wrappers.pbobjc.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/google/protobuf/Type.pbobjc.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/google/protobuf/Struct.pbobjc.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/google/protobuf/SourceContext.pbobjc.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/google/protobuf/FieldMask.pbobjc.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/google/protobuf/Empty.pbobjc.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/google/protobuf/Api.pbobjc.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/google/protobuf/Timestamp.pbobjc.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/google/protobuf/Duration.pbobjc.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/google/protobuf/Any.pbobjc.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/GPBWellKnownTypes.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/GPBUtilities.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/GPBUnknownFieldSet.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/GPBUnknownField.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/GPBRootObject.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/GPBProtocolBuffers.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/GPBMessage_PackagePrivate.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/GPBMessage.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/GPBExtensionRegistry.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/GPBExtensionInternals.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/GPBDictionary_PackagePrivate.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/GPBDictionary.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/GPBDescriptor_PackagePrivate.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/GPBDescriptor.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/GPBCodedOutputStream_PackagePrivate.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/GPBWireFormat.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/GPBCodedOutputStream.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/GPBCodedInputStream_PackagePrivate.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/GPBCodedInputStream.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/GPBArray_PackagePrivate.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/GPBBootstrap.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/GPBRuntimeTypes.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Protobuf/objectivec/GPBArray.h \
-  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Target\ Support\ Files/Protobuf/Protobuf-umbrella.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/Protobuf/GPBProtocolBuffers.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/Protobuf/GPBBootstrap.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/Protobuf/GPBArray.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/Protobuf/GPBRuntimeTypes.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/Protobuf/GPBCodedInputStream.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/Protobuf/GPBCodedOutputStream.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/Protobuf/GPBWireFormat.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/Protobuf/GPBDescriptor.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/Protobuf/GPBDictionary.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/Protobuf/GPBExtensionRegistry.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/Protobuf/GPBMessage.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/Protobuf/GPBRootObject.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/Protobuf/GPBUnknownField.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/Protobuf/GPBUnknownFieldSet.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/Protobuf/GPBUtilities.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/Protobuf/GPBWellKnownTypes.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/protobuf/Any.pbobjc.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/protobuf/GPBDescriptor.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/protobuf/GPBMessage.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/protobuf/GPBRootObject.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/protobuf/Duration.pbobjc.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/protobuf/Timestamp.pbobjc.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/protobuf/Api.pbobjc.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/protobuf/Empty.pbobjc.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/protobuf/FieldMask.pbobjc.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/protobuf/SourceContext.pbobjc.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/protobuf/Struct.pbobjc.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/protobuf/Type.pbobjc.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/protobuf/Wrappers.pbobjc.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseMessaging/Firebase/Messaging/FIRMessagingClient.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseMessaging/Firebase/Messaging/Public/FIRMessaging.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseMessaging/Firebase/Messaging/FIRMessagingConnection.h \

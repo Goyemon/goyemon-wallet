@@ -6,6 +6,8 @@ dependencies: \
   /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/include/React/RCTLog.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/include/React/RCTAssert.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/include/React/RCTDefines.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Public/React-Core/React/RCTInspectorDevServerHelper.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Public/React-Core/React/RCTPackagerConnection.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/include/React/RCTUtils.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/include/React/RCTRootView.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/build/DeBank/Build/Products/Debug-iphonesimulator/include/React/RCTBridge.h \

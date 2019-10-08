@@ -3,10 +3,10 @@
 <plist version="1.0">
 <dict>
 	<key>logFormatVersion</key>
-	<integer>9</integer>
+	<integer>10</integer>
 	<key>logs</key>
 	<dict>
-		<key>42CF21EA-FB22-440F-80EA-724D95ED6F75</key>
+		<key>9298C7F0-DEAA-4B2A-B6AB-22F54C797611</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -15,9 +15,14 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>42CF21EA-FB22-440F-80EA-724D95ED6F75.xcactivitylog</string>
-			<key>highLevelStatus</key>
-			<string>W</string>
+			<string>9298C7F0-DEAA-4B2A-B6AB-22F54C797611.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>W</string>
+			</dict>
 			<key>schemeIdentifier-containerName</key>
 			<string>DeBank project</string>
 			<key>schemeIdentifier-schemeName</key>
@@ -27,15 +32,15 @@
 			<key>signature</key>
 			<string>Building workspace DeBank with scheme DeBank and configuration Debug</string>
 			<key>timeStartedRecording</key>
-			<real>588977534.22594905</real>
+			<real>592099968.83987701</real>
 			<key>timeStoppedRecording</key>
-			<real>588977535.81787801</real>
+			<real>592100007.57834804</real>
 			<key>title</key>
 			<string>Building workspace DeBank with scheme DeBank and configuration Debug</string>
 			<key>uniqueIdentifier</key>
-			<string>42CF21EA-FB22-440F-80EA-724D95ED6F75</string>
+			<string>9298C7F0-DEAA-4B2A-B6AB-22F54C797611</string>
 		</dict>
-		<key>84787864-98D8-4ABB-AD28-F582244B22D0</key>
+		<key>D2D0CF1F-F971-49C9-BCE0-2F26E0743121</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -44,9 +49,14 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>84787864-98D8-4ABB-AD28-F582244B22D0.xcactivitylog</string>
-			<key>highLevelStatus</key>
-			<string>W</string>
+			<string>D2D0CF1F-F971-49C9-BCE0-2F26E0743121.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>W</string>
+			</dict>
 			<key>schemeIdentifier-containerName</key>
 			<string>DeBank project</string>
 			<key>schemeIdentifier-schemeName</key>
@@ -56,13 +66,13 @@
 			<key>signature</key>
 			<string>Building workspace DeBank with scheme DeBank and configuration Debug</string>
 			<key>timeStartedRecording</key>
-			<real>588975533.48434699</real>
+			<real>592205824.72949302</real>
 			<key>timeStoppedRecording</key>
-			<real>588975541.33541799</real>
+			<real>592205858.56179798</real>
 			<key>title</key>
 			<string>Building workspace DeBank with scheme DeBank and configuration Debug</string>
 			<key>uniqueIdentifier</key>
-			<string>84787864-98D8-4ABB-AD28-F582244B22D0</string>
+			<string>D2D0CF1F-F971-49C9-BCE0-2F26E0743121</string>
 		</dict>
 	</dict>
 </dict>

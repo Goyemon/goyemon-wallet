@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>logFormatVersion</key>
+	<integer>9</integer>
+	<key>logs</key>
+	<dict>
+		<key>78031CAF-7C97-41F8-971A-134DFBBE03FC</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>78031CAF-7C97-41F8-971A-134DFBBE03FC.xcactivitylog</string>
+			<key>highLevelStatus</key>
+			<string>E</string>
+			<key>schemeIdentifier-containerName</key>
+			<string>DeBank project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>DeBank</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building workspace DeBank with scheme DeBank and configuration Debug</string>
+			<key>timeStartedRecording</key>
+			<real>589949487.10299397</real>
+			<key>timeStoppedRecording</key>
+			<real>589949488.76087105</real>
+			<key>title</key>
+			<string>Building workspace DeBank with scheme DeBank and configuration Debug</string>
+			<key>uniqueIdentifier</key>
+			<string>78031CAF-7C97-41F8-971A-134DFBBE03FC</string>
+		</dict>
+		<key>94AA0305-C35A-4323-9BC8-1DD118F7D9F9</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>94AA0305-C35A-4323-9BC8-1DD118F7D9F9.xcactivitylog</string>
+			<key>highLevelStatus</key>
+			<string>E</string>
+			<key>schemeIdentifier-containerName</key>
+			<string>DeBank project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>DeBank</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building workspace DeBank with scheme DeBank and configuration Debug</string>
+			<key>timeStartedRecording</key>
+			<real>589949450.14135396</real>
+			<key>timeStoppedRecording</key>
+			<real>589949454.66315901</real>
+			<key>title</key>
+			<string>Building workspace DeBank with scheme DeBank and configuration Debug</string>
+			<key>uniqueIdentifier</key>
+			<string>94AA0305-C35A-4323-9BC8-1DD118F7D9F9</string>
+		</dict>
+	</dict>
+</dict>
+</plist>
