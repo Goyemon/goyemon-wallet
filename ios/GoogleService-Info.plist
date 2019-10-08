@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.debank.app</string>
+	<string>com.swarm-browser.app</string>
 	<key>PROJECT_ID</key>
 	<string>debank20190525</string>
 	<key>STORAGE_BUCKET</key>
