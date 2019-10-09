@@ -110,7 +110,7 @@ class Send extends Component {
   validateAmount(amount) {
     if (
       parseFloat(amount) + parseFloat(this.state.gasPrice[this.state.checked].gasPriceInEther) <
-      parseFloat(this.props.balance) && 0 <= parseFloat(amount) && amount.length != 0
+      parseFloat(this.props.balance.ethBalance) && 0 <= parseFloat(amount) && amount.length != 0
     ) {
       console.log('the amount validated!');
       this.setState({amountValidation: true})

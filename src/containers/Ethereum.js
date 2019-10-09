@@ -5,7 +5,7 @@ import { withNavigation } from 'react-navigation';
 import { View, Text } from 'react-native';
 import Transactions from '../containers/Transactions';
 import { RootContainer, Button, HeaderOne, HeaderTwo } from '../components/common/';
-import { saveBalance } from '../actions/ActionBalance';
+import { saveEthBalance } from '../actions/ActionBalance';
 import styled from 'styled-components';
 import firebase from 'react-native-firebase';
 
@@ -16,7 +16,7 @@ class Ethereum extends Component {
         const balanceInWei = downstreamMessage.data.balance;
         const balanceInEther = this.props.web3.utils.fromWei(balanceInWei);
         const roundedBalanceInEther = parseFloat(balanceInEther).toFixed(4);
-        this.props.saveBalance(roundedBalanceInEther);
+        this.props.saveEthBalance(roundedBalanceInEther);
       }
     });
   }
@@ -49,8 +49,8 @@ class Ethereum extends Component {
         <HeaderOne marginTop="96">Ether</HeaderOne>
         <CardContainerWithoutFeedback>
           <HeaderTwo color="#5F5F5F" fontSize="24px" marginBottom="8" marginLeft="8" marginTop="0">Balance</HeaderTwo>
-          <UsdBalance>${this.getUsdBalance(balance)}</UsdBalance>
-          <EthBalance>{balance} ETH</EthBalance>
+          <UsdBalance>${this.getUsdBalance(balance.ethBalance)}</UsdBalance>
+          <EthBalance>{balance.ethBalance} ETH</EthBalance>
           <ButtonContainer>
             <Button
               text="Receive"
@@ -112,7 +112,7 @@ const mapStateToProps = state => ({
   });
 
 const mapDispatchToProps = {
-  saveBalance
+  saveEthBalance
 };
 
 export default withNavigation(

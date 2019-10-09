@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { RootContainer, ProgressBar, Button, OneLiner } from '../components/common';
 import { Text } from 'react-native';
-import { saveBalance } from '../actions/ActionBalance';
+import { saveEthBalance } from '../actions/ActionBalance';
 import styled from 'styled-components/native';
 import firebase from 'react-native-firebase';
 
@@ -14,7 +14,7 @@ class NotificationPermissionTutorial extends Component {
         const balanceInWei = downstreamMessage.data.balance;
         const balanceInEther = this.props.web3.utils.fromWei(balanceInWei);
         const roundedBalanceInEther = parseFloat(balanceInEther).toFixed(4);
-        this.props.saveBalance(roundedBalanceInEther);
+        this.props.saveEthBalance(roundedBalanceInEther);
       }
     });
   }
@@ -62,7 +62,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-  saveBalance
+  saveEthBalance
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotificationPermissionTutorial);

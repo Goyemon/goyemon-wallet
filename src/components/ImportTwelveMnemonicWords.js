@@ -8,7 +8,7 @@ import WalletController from '../wallet-core/WalletController.ts';
 import EthUtils from '../wallet-core/EthUtils';
 import { createChecksumAddress } from '../actions/ActionChecksumAddress';
 import { saveMnemonic } from '../actions/ActionMnemonic';
-import { saveBalance } from '../actions/ActionBalance';
+import { saveEthBalance } from '../actions/ActionBalance';
 import { saveExistingTransactions } from '../actions/ActionTransactionHistory';
 import firebase from 'react-native-firebase';
 import uuidv4 from 'uuid/v4';
@@ -41,7 +41,7 @@ class ImportTwelveMnemonicWords extends Component {
         const balanceInWei = downstreamMessage.data.balance;
         const balanceInEther = this.props.web3.utils.fromWei(balanceInWei);
         const roundedBalanceInEther = parseFloat(balanceInEther).toFixed(4);
-        this.props.saveBalance(roundedBalanceInEther);
+        this.props.saveEthBalance(roundedBalanceInEther);
       }
       if (downstreamMessage.data.type === 'txhistory' && downstreamMessage.data.count != '0') {
         const transactions = JSON.parse(downstreamMessage.data.items);
@@ -199,7 +199,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   saveMnemonic,
   createChecksumAddress,
-  saveBalance,
+  saveEthBalance,
   saveExistingTransactions
 };
 

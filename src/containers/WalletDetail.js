@@ -17,7 +17,7 @@ class WalletDetail extends Component {
     if (this.props.wallet.id === 0) {
     try {
       const usdPrice = this.props.price.ethPrice;
-      const parsedEthBalance = parseFloat(this.props.balance);
+      const parsedEthBalance = parseFloat(this.props.balance.ethBalance);
       const usdBalance = usdPrice * parsedEthBalance;
       const roundedUsdBalance = parseFloat(usdBalance).toFixed(2);
       return <Text>$ {roundedUsdBalance}</Text>;
@@ -31,9 +31,9 @@ class WalletDetail extends Component {
 
   renderBalance() {
     if (this.props.wallet.id === 0) {
-      return <Text>{this.props.balance} ETH</Text>;
+      return <Text>{this.props.balance.ethBalance} ETH</Text>;
     } else if (this.props.wallet.id === 1) {
-      return <Text>0 DAI</Text>;
+      return <Text>{this.props.balance.daiBalance} DAI</Text>;
     }
   }
 

@@ -5,7 +5,7 @@ import { withNavigation } from 'react-navigation';
 import { Text } from 'react-native';
 import { RootContainer, TouchableCardContainer, HeaderOne, HeaderTwo } from '../components/common';
 import WalletDetail from '../containers/WalletDetail';
-import { saveBalance } from '../actions/ActionBalance';
+import { saveEthBalance } from '../actions/ActionBalance';
 import styled from 'styled-components';
 import firebase from 'react-native-firebase';
 import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
@@ -18,7 +18,7 @@ class WalletList extends Component {
         const balanceInWei = downstreamMessage.data.balance;
         const balanceInEther = this.props.web3.utils.fromWei(balanceInWei);
         const roundedBalanceInEther = parseFloat(balanceInEther).toFixed(4);
-        this.props.saveBalance(roundedBalanceInEther);
+        this.props.saveEthBalance(roundedBalanceInEther);
       }
     });
 
@@ -125,7 +125,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-  saveBalance,
+  saveEthBalance,
   getEthPrice,
   getDaiPrice,
   saveExistingTransactions
