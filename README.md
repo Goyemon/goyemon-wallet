@@ -57,7 +57,11 @@
   - keys are stored locally, on your device
 
 ## For Developers
-To run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
+To run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer.
+
+I am using XCode 11 in my macOS Mojave.
+
+From your command line:
 
 ```bash
 # Clone this repository
@@ -68,9 +72,6 @@ $ cd DeBank
 
 # Install dependencies
 $ npm install
-
-# link npm packages
-$ react-native link
 
 # install node core modules
 $ npm run postinstall
