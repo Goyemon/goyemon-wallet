@@ -165,13 +165,6 @@ android {
 }
 
 dependencies {
-    implementation project(':react-native-gesture-handler')
-    implementation project(':lottie-react-native')
-    implementation project(':react-native-vector-icons')
-    implementation project(':react-native-firebase')
-    implementation project(':react-native-os')
-    implementation project(':react-native-randombytes')
-    implementation project(':react-native-keychain')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.facebook.react:react-native:0.59.4'
     // From node_modules
