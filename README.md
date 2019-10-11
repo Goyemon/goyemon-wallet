@@ -59,7 +59,19 @@
 ## For Developers
 To run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer.
 
-I am using XCode 11 in my macOS Mojave.
+I am using:
+```
+$ python --version
+Python 3.7.0
+$ node --version
+v11.6.0
+$ ruby --version
+ruby 2.6.0p0 (2018-12-25 revision 66547) [x86_64-darwin17]
+$ pod --version
+1.7.2
+```
+macOS Mojave 10.14.6
+Xcode 11.0
 
 From your command line:
 
