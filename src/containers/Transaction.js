@@ -5,7 +5,7 @@ import { TouchableCardContainer } from '../components/common';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import TransactionController from '../wallet-core/TransactionController.ts';
+import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 
 class Transaction extends Component {
   renderInOrOutTransactionIcon() {
@@ -73,7 +73,7 @@ class Transaction extends Component {
 
   render() {
     let { time } = this.props.transaction;
-    time = TransactionController.parseTransactionTime(time);
+    time = TransactionUtilities.parseTransactionTime(time);
 
     return (
       <TouchableCardContainer

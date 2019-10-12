@@ -1,11 +1,11 @@
 'use strict';
 import { SAVE_EXISTING_TRANSACTIONS, ADD_PENDING_TRANSACTION, UPDATE_TRANSACTION_STATE } from '../constants/ActionTypes';
-import TransactionController from '../wallet-core/TransactionController.ts';
+import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 
 export function saveExistingTransactions(transactions) {
   return function (dispatch) {
     try {
-      const parsedExistingTransactions = TransactionController.parseExistingTransactions(transactions);
+      const parsedExistingTransactions = TransactionUtilities.parseExistingTransactions(transactions);
       dispatch(saveExistingTransactionsSuccess(parsedExistingTransactions));
     } catch(err) {
       console.error(err);
@@ -21,7 +21,7 @@ const saveExistingTransactionsSuccess = (parsedExistingTransactions) => ({
 export function addPendingTransaction(transactionObject) {
   return function (dispatch) {
     try {
-      let parsedPendingTransaction = TransactionController.parsePendingTransaction(transactionObject);
+      let parsedPendingTransaction = TransactionUtilities.parsePendingTransaction(transactionObject);
       dispatch(addPendingTransactionSuccess(parsedPendingTransaction));
     } catch(err) {
       console.error(err);

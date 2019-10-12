@@ -1,11 +1,11 @@
 'use strict';
 import { SAVE_WEB3 } from '../constants/ActionTypes';
-import ProviderController from '../wallet-core/ProviderController.ts';
+import ProviderUtilities from '../utilities/ProviderUtilities.ts';
 
 export function saveWeb3() {
   return async function (dispatch) {
     try {
-      dispatch(saveWeb3Success(ProviderController.setProvider()));
+      dispatch(saveWeb3Success(ProviderUtilities.setProvider()));
     } catch(err) {
       console.error(err);
     }

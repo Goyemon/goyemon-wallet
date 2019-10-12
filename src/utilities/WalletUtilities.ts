@@ -3,12 +3,12 @@ import * as Keychain from 'react-native-keychain';
 import bip39 from 'react-native-bip39';
 import hdkey from 'ethereumjs-wallet/hdkey';
 const Buffer = require('buffer').Buffer;
-import EthUtils from './EthUtils.js';
+import EtherUtilities from './EtherUtilities.js';
 
 const KEY_WALLET_MNEMONIC = 'KEY_WALLET_MNEMONIC';
 const KEY_WALLET_PRIVATE_KEY = 'KEY_WALLET_PRIVATEKEY';
 
-class WalletController {
+class WalletUtilities {
   private root;
   private wallet;
   private mnemonic;
@@ -39,7 +39,7 @@ class WalletController {
     let privateKey = await this.retrievePrivateKey();
     if (!privateKey) {
       privateKey = await this.wallet.getPrivateKey();
-      privateKey = EthUtils.hexArrayToString(privateKey);
+      privateKey = EtherUtilities.hexArrayToString(privateKey);
     }
     return privateKey;
   }
@@ -126,4 +126,4 @@ class WalletController {
   }
 }
 
-export default new WalletController();
+export default new WalletUtilities();

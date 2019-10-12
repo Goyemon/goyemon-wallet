@@ -1,7 +1,7 @@
 'use strict';
 import Web3 from 'web3';
 
-class ProviderController {
+class ProviderUtilities {
   private infuraId = '884958b4538343aaa814e3a32718ce91';
 
   setProvider() {
@@ -13,4 +13,4 @@ class ProviderController {
   }
 }
 
-export default new ProviderController();
+export default new ProviderUtilities();

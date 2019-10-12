@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Text, TextInput } from 'react-native';
 import { RootContainer, ProgressBar, Button, HeaderOne } from '../components/common';
 import { connect } from 'react-redux';
-import WalletController from '../wallet-core/WalletController.ts';
-import EthUtils from '../wallet-core/EthUtils.js';
+import WalletUtilities from '../utilities/WalletUtilities.ts';
+import EtherUtilities from '../utilities/EtherUtilities.js';
 import { createChecksumAddress } from '../actions/ActionChecksumAddress';
 import styled from 'styled-components/native';
 import firebase from 'react-native-firebase';
@@ -45,14 +45,14 @@ class VerifyMnemonic extends Component {
   }
 
   async savePrivateKey() {
-    const privateKey = await WalletController.createPrivateKey();
-    await WalletController.setPrivateKey(privateKey);
+    const privateKey = await WalletUtilities.createPrivateKey();
+    await WalletUtilities.setPrivateKey(privateKey);
   }
 
   async registerEthereumAddress() {
     const messageId = uuidv4();
     const serverAddress = '400937673843@gcm.googleapis.com';
-    const checksumAddressWithoutPrefix = EthUtils.stripHexPrefix(this.props.checksumAddress);
+    const checksumAddressWithoutPrefix = EtherUtilities.stripHexPrefix(this.props.checksumAddress);
 
     const upstreamMessage = new firebase.messaging.RemoteMessage()
       .setMessageId(messageId)
@@ -67,10 +67,10 @@ class VerifyMnemonic extends Component {
   async validateForm() {
     const mnemonicWords = this.state.mnemonicWords.join(" ");
 
-    if (WalletController.validateMnemonic(mnemonicWords) && (mnemonicWords === this.props.mnemonicWords)) {
+    if (WalletUtilities.validateMnemonic(mnemonicWords) && (mnemonicWords === this.props.mnemonicWords)) {
       this.setState({mnemonicWordsValidation: true});
-      await WalletController.setMnemonic(mnemonicWords);
-      await WalletController.generateWallet(mnemonicWords);
+      await WalletUtilities.setMnemonic(mnemonicWords);
+      await WalletUtilities.generateWallet(mnemonicWords);
       await this.savePrivateKey();
       await this.props.createChecksumAddress();
       await this.registerEthereumAddress();

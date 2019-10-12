@@ -11,7 +11,7 @@ import {
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import ethTx from 'ethereumjs-tx';
-import WalletController from '../wallet-core/WalletController.ts';
+import WalletUtilities from '../utilities/WalletUtilities.ts';
 import firebase from 'react-native-firebase';
 import uuidv4 from 'uuid/v4';
 
@@ -19,7 +19,7 @@ class Confirmation extends Component {
   async constructSignedOutgoingTransactionObject() {
     let outgoingTransactionObject = this.props.outgoingTransactionObjects[this.props.outgoingTransactionObjects.length - 1];
     outgoingTransactionObject = new ethTx(outgoingTransactionObject);
-    let privateKey = await WalletController.retrievePrivateKey();
+    let privateKey = await WalletUtilities.retrievePrivateKey();
     privateKey = Buffer.from(privateKey, 'hex');
     outgoingTransactionObject.sign(privateKey);
     let signedTransaction = outgoingTransactionObject.serialize();

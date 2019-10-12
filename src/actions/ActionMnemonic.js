@@ -1,11 +1,11 @@
 'use strict';
 import { SAVE_MNEMONIC } from '../constants/ActionTypes';
-import WalletController from '../wallet-core/WalletController.ts';
+import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 export function saveMnemonic() {
   return async function (dispatch) {
     try {
-      const mnemonicWords = await WalletController.getMnemonic();
+      const mnemonicWords = await WalletUtilities.getMnemonic();
       dispatch(saveMnemonicSuccess(mnemonicWords));
     } catch(err) {
       console.error(err);

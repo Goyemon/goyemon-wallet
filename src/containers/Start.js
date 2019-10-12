@@ -5,7 +5,7 @@ import { saveMnemonic } from '../actions/ActionMnemonic';
 import styled from 'styled-components';
 import { View } from 'react-native';
 import { RootContainer, TouchableCardContainer, HeaderTwo, OneLiner, Loader } from '../components/common/';
-import WalletController from '../wallet-core/WalletController.ts';
+import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class Start extends Component {
   constructor(props) {
@@ -20,7 +20,7 @@ class Start extends Component {
       loading: true
     });
 
-    const mnemonicWords = await WalletController.getMnemonic();
+    const mnemonicWords = await WalletUtilities.getMnemonic();
 
     if(mnemonicWords){
       this.setState({
@@ -44,7 +44,7 @@ class Start extends Component {
             textAlign="left"
             width="90%"
             onPress={async () => {
-              await WalletController.init();
+              await WalletUtilities.init();
               await this.props.saveMnemonic();
               await this.renderLoader();
               this.props.navigation.navigate('CreateWalletTutorial');

@@ -1,8 +1,8 @@
 'use strict';
-import ProviderController from './ProviderController.ts';
+import ProviderUtilities from './ProviderUtilities.ts';
 
-class TransactionController {
-  private web3 = ProviderController.setProvider();
+class TransactionUtilities {
+  private web3 = ProviderUtilities.setProvider();
 
   parseExistingTransactions(transactions) {
     const parsedTransactions = transactions.map(transaction => {
@@ -84,4 +84,4 @@ class TransactionController {
   }
 }
 
-export default new TransactionController();
+export default new TransactionUtilities();

@@ -4,7 +4,7 @@ import { RootContainer, HeaderOne, UntouchableCardContainer, Button, OneLiner } 
 import { View, Text, Modal, TouchableHighlight, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
-import WalletController from '../wallet-core/WalletController.ts';
+import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 export default class Settings extends Component {
   state = {
@@ -46,8 +46,8 @@ export default class Settings extends Component {
                 margin="8px"
                 opacity="1"
                 onPress={async () => {
-                  await WalletController.resetKeychainData();
                   this.setModalVisible(!this.state.modalVisible);
+                  await WalletUtilities.resetKeychainData();
                   this.props.navigation.navigate('Initial');
                 }}
               />

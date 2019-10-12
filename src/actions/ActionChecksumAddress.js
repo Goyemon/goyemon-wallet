@@ -1,11 +1,11 @@
 'use strict';
 import { CREATE_CHECKSUM_ADDRESS } from '../constants/ActionTypes';
-import WalletController from '../wallet-core/WalletController.ts';
+import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 export function createChecksumAddress() {
   return async function (dispatch) {
     try {
-      const checksumAddress = await WalletController.createChecksumAddress();
+      const checksumAddress = await WalletUtilities.createChecksumAddress();
       dispatch(createChecksumAddressSuccess(checksumAddress));
     } catch(err) {
       console.error(err);

@@ -6,14 +6,14 @@ import styled from 'styled-components/native';
 import { connect } from 'react-redux';
 import * as Animatable from 'react-native-animatable';
 import { saveWeb3 } from '../actions/ActionWeb3';
-import WalletController from '../wallet-core/WalletController.ts';
+import WalletUtilities from '../utilities/WalletUtilities.ts';
 import HomeStack from '../navigators/HomeStack';
 import firebase from 'react-native-firebase';
 
 class Initial extends Component {
   async componentWillMount() {
     await this.props.saveWeb3();
-    const privateKeySaved = await WalletController.privateKeySaved();
+    const privateKeySaved = await WalletUtilities.privateKeySaved();
     const notificationEnabled = await firebase.messaging().hasPermission();
     let mainPage = 'Welcome';
 

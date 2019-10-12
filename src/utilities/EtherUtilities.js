@@ -1,6 +1,6 @@
 'use strict';
 
-class EthUtils {
+class EtherUtilities {
   hexArrayToString(arr) {
     let result = '';
     for (let i = 0; i < arr.length; i++) {
@@ -17,4 +17,4 @@ class EthUtils {
   }
 }
 
-export default new EthUtils();
+export default new EtherUtilities();
