@@ -49,7 +49,13 @@ class Transactions extends Component {
         </FlatList>
       )
     } else {
-      return <Text>┐(￣ヘ￣）┌ ﾌｩｩ～</Text>
+      return (
+        <EmptyTransactionContainer>
+          <EmptyTransactionEmoji>(°△°) b</EmptyTransactionEmoji>
+          <EmptyTransactionText>holy tabula rasa!</EmptyTransactionText>
+          <EmptyTransactionText> you don’t have any transactions yet!</EmptyTransactionText>
+        </EmptyTransactionContainer>
+      )
     }
   }
 
