@@ -17,7 +17,9 @@ import uuidv4 from 'uuid/v4';
 
 class Confirmation extends Component {
   async constructSignedOutgoingTransactionObject() {
-    let outgoingTransactionObject = this.props.outgoingTransactionObjects[this.props.outgoingTransactionObjects.length - 1];
+    let outgoingTransactionObject = this.props.outgoingTransactionObjects[
+      this.props.outgoingTransactionObjects.length - 1
+    ];
     outgoingTransactionObject = new ethTx(outgoingTransactionObject);
     let privateKey = await WalletUtilities.retrievePrivateKey();
     privateKey = Buffer.from(privateKey, 'hex');
@@ -52,7 +54,10 @@ class Confirmation extends Component {
       'Ether'
     );
     const valueInEther = parseFloat(
-      web3.utils.fromWei(outgoingTransactionObjects[outgoingTransactionObjects.length - 1].value, 'Ether')
+      web3.utils.fromWei(
+        outgoingTransactionObjects[outgoingTransactionObjects.length - 1].value,
+        'Ether'
+      )
     );
     const gasPriceInEtherNumber = parseFloat(gasPriceInEther);
     const total = gasPriceInEtherNumber + valueInEther;
@@ -74,11 +79,17 @@ class Confirmation extends Component {
           textAlign="left"
           width="100%"
         >
-          <HeaderTwo color="#000" fontSize="16px" marginBottom="8" marginLeft="8" marginTop="16">TO</HeaderTwo>
+          <HeaderTwo color="#000" fontSize="16px" marginBottom="8" marginLeft="8" marginTop="16">
+            TO
+          </HeaderTwo>
           <ToText>{outgoingTransactionObjects[outgoingTransactionObjects.length - 1].to}</ToText>
-          <HeaderTwo color="#000" fontSize="16px" marginBottom="8" marginLeft="8" marginTop="16">AMOUNT</HeaderTwo>
+          <HeaderTwo color="#000" fontSize="16px" marginBottom="8" marginLeft="8" marginTop="16">
+            AMOUNT
+          </HeaderTwo>
           <AmountText>{valueInEther} ETH</AmountText>
-          <HeaderTwo color="#000" fontSize="16px" marginBottom="8" marginLeft="8" marginTop="16">NETWORK FEE</HeaderTwo>
+          <HeaderTwo color="#000" fontSize="16px" marginBottom="8" marginLeft="8" marginTop="16">
+            NETWORK FEE
+          </HeaderTwo>
           <NetworkFeeText>{gasPriceInEther} ETH</NetworkFeeText>
         </UntouchableCardContainer>
         <ButtonContainer>

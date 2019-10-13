@@ -8,10 +8,7 @@ export default class ImportOptions extends Component {
   render() {
     return (
       <RootContainer>
-        <ProgressBar
-          text="1"
-          width="33%"
-        />
+        <ProgressBar text="1" width="33%" />
         <Container>
           <Text>How many backup words do you have?</Text>
           <ButtonContainer>

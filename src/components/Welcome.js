@@ -11,7 +11,11 @@ export default class Welcome extends Component {
       <RootContainer>
         <Container>
           <Title animation="fadeInDown" delay={500}>
-            <TitleRedText>h</TitleRedText><TitleGreenText>o</TitleGreenText><TitleOrangeText>ll</TitleOrangeText><TitleGreenText>a</TitleGreenText><TitleRedText>!</TitleRedText>
+            <TitleRedText>h</TitleRedText>
+            <TitleGreenText>o</TitleGreenText>
+            <TitleOrangeText>ll</TitleOrangeText>
+            <TitleGreenText>a</TitleGreenText>
+            <TitleRedText>!</TitleRedText>
           </Title>
           <Title animation="fadeIn" delay={2000}>
             ready to join?
@@ -46,15 +50,15 @@ const Title = Animatable.createAnimatableComponent(styled.Text`
 `);
 
 const TitleRedText = styled.Text`
-  color: #FF3346
+  color: #ff3346;
 `;
 
 const TitleGreenText = styled.Text`
-  color: #12BB4F
+  color: #12bb4f;
 `;
 
 const TitleOrangeText = styled.Text`
-  color: #FFBF00
+  color: #ffbf00;
 `;
 
 const ButtonWrapper = Animatable.createAnimatableComponent(styled.View`

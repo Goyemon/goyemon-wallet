@@ -9,8 +9,8 @@ import firebase from 'react-native-firebase';
 
 class NotificationPermissionTutorial extends Component {
   async componentDidMount() {
-    this.messageListener = firebase.messaging().onMessage((downstreamMessage) => {
-      if (downstreamMessage.data.type === "balance") {
+    this.messageListener = firebase.messaging().onMessage(downstreamMessage => {
+      if (downstreamMessage.data.type === 'balance') {
         const balanceInWei = downstreamMessage.data.balance;
         const balanceInEther = this.props.web3.utils.fromWei(balanceInWei);
         const roundedBalanceInEther = parseFloat(balanceInEther).toFixed(4);
@@ -26,14 +26,16 @@ class NotificationPermissionTutorial extends Component {
   render() {
     return (
       <RootContainer>
-        <ProgressBar
-          text="3"
-          width="100%"
-        />
-        <OneLiner fontSize="24px" fontWeight="bold" marginBottom="0" marginLeft="0" marginTop="40">Allow Notifications</OneLiner>
+        <ProgressBar text="3" width="100%" />
+        <OneLiner fontSize="24px" fontWeight="bold" marginBottom="0" marginLeft="0" marginTop="40">
+          Allow Notifications
+        </OneLiner>
         <Container>
           <Text>I need to ask you only one more thing…</Text>
-          <Text>We use a notification system to process your transactions. But we will never annoy you with a pop-up notification. </Text>
+          <Text>
+            We use a notification system to process your transactions. But we will never annoy you
+            with a pop-up notification.{' '}
+          </Text>
           <Button
             text="Allow"
             textColor="white"
@@ -55,14 +57,15 @@ const Container = styled.View`
   text-align: center;
 `;
 
-const mapStateToProps = state => {
-  return {
+const mapStateToProps = state => ({
     web3: state.ReducerWeb3.web3
-  }
-}
+  });
 
 const mapDispatchToProps = {
   saveEthBalance
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NotificationPermissionTutorial);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NotificationPermissionTutorial);

@@ -16,7 +16,7 @@ const SettingsStack = createStackNavigator(
       navigationOptions: () => ({
         headerTransparent: true
       })
-    },
+    }
   },
   {
     initialRouteName: 'Settings'

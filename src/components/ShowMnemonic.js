@@ -9,11 +9,10 @@ export default class ShowMnemonic extends Component {
   render() {
     return (
       <RootContainer>
-        <ProgressBar
-          text="1"
-          width="33%"
-        />
-        <OneLiner fontSize="24px" fontWeight="bold" marginBottom="16" marginLeft="0" marginTop="24">Backup Words</OneLiner>
+        <ProgressBar text="1" width="33%" />
+        <OneLiner fontSize="24px" fontWeight="bold" marginBottom="16" marginLeft="0" marginTop="24">
+          Backup Words
+        </OneLiner>
         <Container>
           <Text>Please carefully write down these 24 backup words.</Text>
           <ShowMnemonicWords />

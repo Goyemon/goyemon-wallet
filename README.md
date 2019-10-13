@@ -36,15 +36,19 @@
 ## Features
 
 - Pay
+
   - Spend your Dai and Ether to purchase something.
 
 - Save
+
   - Lock your Dai to gain interests. Think of it as the permisionless version of a saving account in a bank.
 
 - Borrow
+
   - Lock your Eth to borrow Dai.
 
 - Invest
+
   - Do the leverage trading by locking Eth, issuing Dai, exchanging Dai with Eth and then locking Eth again.
 
 - Exchange
@@ -53,13 +57,16 @@
 ![screenshot](./assets/sample_img.png 'Screenshot')
 
 ## Security
+
 - Control Your Keys
   - keys are stored locally, on your device
 
 ## For Developers
+
 To run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer.
 
 I am using:
+
 ```
 $ python --version
 Python 3.7.0
@@ -70,6 +77,7 @@ ruby 2.6.0p0 (2018-12-25 revision 66547) [x86_64-darwin17]
 $ pod --version
 1.7.2
 ```
+
 macOS Mojave 10.14.6
 Xcode 11.0
 

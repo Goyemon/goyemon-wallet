@@ -17,11 +17,11 @@ class Initial extends Component {
     const notificationEnabled = await firebase.messaging().hasPermission();
     let mainPage = 'Welcome';
 
-    if (privateKeySaved && notificationEnabled){
+    if (privateKeySaved && notificationEnabled) {
       mainPage = 'Wallets';
-    } else if (privateKeySaved && !notificationEnabled){
+    } else if (privateKeySaved && !notificationEnabled) {
       mainPage = 'NotificationPermission';
-    } else if(!privateKeySaved && !notificationEnabled){
+    } else if (!privateKeySaved && !notificationEnabled) {
       mainPage = 'Welcome';
     }
 
@@ -32,7 +32,7 @@ class Initial extends Component {
       }
 
       return {
-        tabBarVisible,
+        tabBarVisible
       };
     };
 

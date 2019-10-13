@@ -34,7 +34,7 @@ class NotificationPermission extends Component {
 
   renderPermission() {
     if (this.props.notificationPermission === null) {
-      return <Text>Smash that “OK” button  so we can process your transactions!</Text>;
+      return (<Text>Smash that “OK” button  so we can process your transactions!</Text>);
     } else if (this.props.notificationPermission === true) {
       return (
         <View>
@@ -45,10 +45,9 @@ class NotificationPermission extends Component {
             backgroundColor="#009DC4"
             margin="16px auto"
             opacity="1"
-            onPress={
-              () => {
+            onPress={() => {
               HomeStack.navigationOptions = ({ navigation }) => {
-                let tabBarVisible = true;
+                const tabBarVisible = true;
                 return tabBarVisible;
               };
               const resetAction = StackActions.reset({
@@ -56,8 +55,7 @@ class NotificationPermission extends Component {
                 actions: [NavigationActions.navigate({ routeName: 'Wallets' })]
               });
               this.props.navigation.dispatch(resetAction);
-            }
-          }
+            }}
           />
         </View>
       );

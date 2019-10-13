@@ -65,10 +65,13 @@ class VerifyMnemonic extends Component {
   }
 
   async validateForm() {
-    const mnemonicWords = this.state.mnemonicWords.join(" ");
+    const mnemonicWords = this.state.mnemonicWords.join(' ');
 
-    if (WalletUtilities.validateMnemonic(mnemonicWords) && (mnemonicWords === this.props.mnemonicWords)) {
-      this.setState({mnemonicWordsValidation: true});
+    if (
+      WalletUtilities.validateMnemonic(mnemonicWords) &&
+      mnemonicWords === this.props.mnemonicWords
+    ) {
+      this.setState({ mnemonicWordsValidation: true });
       await WalletUtilities.setMnemonic(mnemonicWords);
       await WalletUtilities.generateWallet(mnemonicWords);
       await this.savePrivateKey();
@@ -76,17 +79,16 @@ class VerifyMnemonic extends Component {
       await this.registerEthereumAddress();
       this.props.navigation.navigate('NotificationPermissionTutorial');
     } else {
-      this.setState({mnemonicWordsValidation: false});
+      this.setState({ mnemonicWordsValidation: false });
       console.log('form validation failed!');
     }
   }
 
   renderInvalidMnemonicWordsMessage() {
     if (this.state.mnemonicWordsValidation) {
-      return ;
-    } else {
-      return <ErrorMessage>invalid mnemonic words!</ErrorMessage>
+      return;
     }
+      return <ErrorMessage>invalid mnemonic words!</ErrorMessage>;
   }
 
   handleTextChange = (text, id) => {
@@ -101,10 +103,7 @@ class VerifyMnemonic extends Component {
 
     return (
       <RootContainer>
-        <ProgressBar
-          text="2"
-          width="67%"
-        />
+        <ProgressBar text="2" width="67%" />
         <Container>
           <Text>Please write down a list of words again.</Text>
           <MnemonicWordsContainer style={styles.table}>
@@ -124,9 +123,7 @@ class VerifyMnemonic extends Component {
               </View>
             ))}
           </MnemonicWordsContainer>
-          <View>
-            {this.renderInvalidMnemonicWordsMessage()}
-          </View>
+          <View>{this.renderInvalidMnemonicWordsMessage()}</View>
           <Button
             text="Verify"
             textColor="white"
@@ -176,7 +173,7 @@ const MnemonicWordWrapper = styled.View`
 `;
 
 const ErrorMessage = styled.Text`
-  color: #FF3346;
+  color: #ff3346;
 `;
 
 function mapStateToProps(state) {
@@ -187,7 +184,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  createChecksumAddress,
+  createChecksumAddress
 };
 
 export default connect(

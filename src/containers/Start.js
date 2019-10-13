@@ -4,7 +4,13 @@ import { connect } from 'react-redux';
 import { saveMnemonic } from '../actions/ActionMnemonic';
 import styled from 'styled-components';
 import { View } from 'react-native';
-import { RootContainer, TouchableCardContainer, HeaderTwo, OneLiner, Loader } from '../components/common/';
+import {
+  RootContainer,
+  TouchableCardContainer,
+  HeaderTwo,
+  OneLiner,
+  Loader
+} from '../components/common/';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class Start extends Component {
@@ -12,7 +18,7 @@ class Start extends Component {
     super(props);
     this.state = {
       loading: false
-    }
+    };
   }
 
   async renderLoader() {
@@ -22,7 +28,7 @@ class Start extends Component {
 
     const mnemonicWords = await WalletUtilities.getMnemonic();
 
-    if(mnemonicWords){
+    if (mnemonicWords) {
       this.setState({
         loading: false
       });
@@ -35,7 +41,15 @@ class Start extends Component {
         <Loader loading={this.state.loading} />
         <Container>
           <Logo>Swarm</Logo>
-          <OneLiner fontSize="24px" fontWeight="bold" marginBottom="24" marginLeft="0" marginTop="0">a permissionless bank in your pocket</OneLiner>
+          <OneLiner
+            fontSize="24px"
+            fontWeight="bold"
+            marginBottom="24"
+            marginLeft="0"
+            marginTop="0"
+          >
+            a permissionless bank in your pocket
+          </OneLiner>
           <TouchableCardContainer
             alignItems="center"
             flexDirection="row"
@@ -89,7 +103,8 @@ const Container = styled.ScrollView.attrs(props => ({
   contentContainerStyle: props => ({
     alignItems: 'center',
     flexDirection: 'column',
-    justifyContent: 'center'  })
+    justifyContent: 'center'
+  })
 }))``;
 
 const Logo = styled.Text`

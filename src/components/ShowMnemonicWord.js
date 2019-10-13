@@ -10,7 +10,7 @@ export default class ShowMnemonicWord extends Component {
       <MnemonicWordsWrapper style={styles.cell}>
         <Text style={styles.text}>{mnemonicWord}</Text>
       </MnemonicWordsWrapper>
-    )
+    );
   }
 }
 

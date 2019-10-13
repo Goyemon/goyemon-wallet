@@ -64,8 +64,12 @@ class WalletUtilities {
 
   private async setPrivateKey(privateKey) {
     const result = await this.retrievePrivateKey();
-    if(!result) {
-      const result = await Keychain.setGenericPassword('PRIVATEKEY', privateKey, KEY_WALLET_PRIVATE_KEY);
+    if (!result) {
+      const result = await Keychain.setGenericPassword(
+        'PRIVATEKEY',
+        privateKey,
+        KEY_WALLET_PRIVATE_KEY
+      );
     }
     return result;
   }
@@ -120,7 +124,7 @@ class WalletUtilities {
     return result;
   }
 
-  async resetKeychainData(){
+  async resetKeychainData() {
     await Keychain.resetGenericPassword(KEY_WALLET_PRIVATE_KEY);
     await Keychain.resetGenericPassword(KEY_WALLET_MNEMONIC);
   }

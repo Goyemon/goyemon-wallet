@@ -15,7 +15,7 @@ const OneLiner = props => (
 );
 
 const OneLinerText = styled.Text`
-  color: #5F5F5F;
+  color: #5f5f5f;
   font-size: ${props => props.fontSize};
   font-weight: ${props => props.fontWeight};
   margin-bottom: ${props => `${props.marginBottom}px`};

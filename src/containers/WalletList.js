@@ -13,8 +13,8 @@ import { saveExistingTransactions } from '../actions/ActionTransactionHistory';
 
 class WalletList extends Component {
   async componentDidMount() {
-    this.messageListener = firebase.messaging().onMessage((downstreamMessage) => {
-      if (downstreamMessage.data.type === "balance") {
+    this.messageListener = firebase.messaging().onMessage(downstreamMessage => {
+      if (downstreamMessage.data.type === 'balance') {
         const balanceInWei = downstreamMessage.data.balance;
         const balanceInEther = this.props.web3.utils.fromWei(balanceInWei);
         const roundedBalanceInEther = parseFloat(balanceInEther).toFixed(4);
@@ -44,7 +44,7 @@ class WalletList extends Component {
       const usdBalance = usdPrice * parsedEthBalance;
       const roundedUsdBalance = parseFloat(usdBalance).toFixed(2);
       return roundedUsdBalance;
-    } catch(err) {
+    } catch (err) {
       console.error(err);
     }
   }
@@ -52,32 +52,20 @@ class WalletList extends Component {
   render() {
     const { wallets, balance, navigation } = this.props;
 
-    if(!this.props.web3.eth){
+    if (!this.props.web3.eth) {
       return <Text>loading...</Text>;
-    };
+    }
 
     return (
       <RootContainer>
         <HeaderOne marginTop="64">Home</HeaderOne>
         <CardContainerWithoutFeedback>
-          <HeaderTwo
-            color="#5F5F5F"
-            fontSize="24px"
-            marginBottom="8"
-            marginLeft="0"
-            marginTop="0"
-           >
+          <HeaderTwo color="#5F5F5F" fontSize="24px" marginBottom="8" marginLeft="0" marginTop="0">
             Total Balance
           </HeaderTwo>
           <UsdBalance>${this.getUsdBalance(balance)}</UsdBalance>
         </CardContainerWithoutFeedback>
-        <HeaderTwo
-          color="#000"
-          fontSize="16px"
-          marginBottom="16"
-          marginLeft="16"
-          marginTop="16"
-         >
+        <HeaderTwo color="#000" fontSize="16px" marginBottom="16" marginLeft="16" marginTop="16">
           YOUR ACCOUNTS
         </HeaderTwo>
         {wallets.map(wallet => (
@@ -105,7 +93,7 @@ class WalletList extends Component {
 
 const CardContainerWithoutFeedback = styled.View`
   align-items: center;
-  background: #FFF;
+  background: #fff;
   height: 120px;
   margin-top: 24px;
   padding: 24px;
@@ -115,14 +103,12 @@ const UsdBalance = styled.Text`
   font-size: 32px;
 `;
 
-const mapStateToProps = state => {
-  return {
+const mapStateToProps = state => ({
     wallets: state.ReducerWallets.wallets,
     price: state.ReducerPrice.price,
     web3: state.ReducerWeb3.web3,
     balance: state.ReducerBalance.balance
-  }
-}
+  });
 
 const mapDispatchToProps = {
   saveEthBalance,
@@ -131,4 +117,9 @@ const mapDispatchToProps = {
   saveExistingTransactions
 };
 
-export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(WalletList));
+export default withNavigation(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(WalletList)
+);

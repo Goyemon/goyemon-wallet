@@ -11,8 +11,8 @@ import firebase from 'react-native-firebase';
 
 class Ethereum extends Component {
   async componentDidMount() {
-    this.messageListener = firebase.messaging().onMessage((downstreamMessage) => {
-      if (downstreamMessage.data.type === "balance") {
+    this.messageListener = firebase.messaging().onMessage(downstreamMessage => {
+      if (downstreamMessage.data.type === 'balance') {
         const balanceInWei = downstreamMessage.data.balance;
         const balanceInEther = this.props.web3.utils.fromWei(balanceInWei);
         const roundedBalanceInEther = parseFloat(balanceInEther).toFixed(4);
@@ -48,7 +48,9 @@ class Ethereum extends Component {
       <RootContainer>
         <HeaderOne marginTop="96">Ether</HeaderOne>
         <CardContainerWithoutFeedback>
-          <HeaderTwo color="#5F5F5F" fontSize="24px" marginBottom="8" marginLeft="8" marginTop="0">Balance</HeaderTwo>
+          <HeaderTwo color="#5F5F5F" fontSize="24px" marginBottom="8" marginLeft="8" marginTop="0">
+            Balance
+          </HeaderTwo>
           <UsdBalance>${this.getUsdBalance(balance.ethBalance)}</UsdBalance>
           <EthBalance>{balance.ethBalance} ETH</EthBalance>
           <ButtonContainer>
@@ -73,7 +75,9 @@ class Ethereum extends Component {
           </ButtonContainer>
         </CardContainerWithoutFeedback>
         <View>
-          <HeaderTwo color="#000" fontSize="16px" marginBottom="16" marginLeft="16" marginTop="16">TRANSACTION HISTORY</HeaderTwo>
+          <HeaderTwo color="#000" fontSize="16px" marginBottom="16" marginLeft="16" marginTop="16">
+            TRANSACTION HISTORY
+          </HeaderTwo>
         </View>
         <Transactions />
       </RootContainer>
@@ -105,11 +109,11 @@ const EthBalance = styled.Text`
 `;
 
 const mapStateToProps = state => ({
-    transactions: state.ReducerTransactionHistory.transactions,
-    web3: state.ReducerWeb3.web3,
-    price: state.ReducerPrice.price,
-    balance: state.ReducerBalance.balance
-  });
+  transactions: state.ReducerTransactionHistory.transactions,
+  web3: state.ReducerWeb3.web3,
+  price: state.ReducerPrice.price,
+  balance: state.ReducerBalance.balance
+});
 
 const mapDispatchToProps = {
   saveEthBalance

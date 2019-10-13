@@ -1,5 +1,9 @@
 'use strict';
-import { GET_GAS_PRICE_FAST, GET_GAS_PRICE_AVERAGE, GET_GAS_PRICE_SLOW } from '../constants/ActionTypes';
+import {
+  GET_GAS_PRICE_FAST,
+  GET_GAS_PRICE_AVERAGE,
+  GET_GAS_PRICE_SLOW
+} from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
   gasPrice: {

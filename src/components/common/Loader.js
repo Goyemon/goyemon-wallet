@@ -7,18 +7,14 @@ const Loader = props => {
   const { loading, ...attributes } = props;
 
   return (
-    <Modal
-      transparent={true}
-      animationType={'none'}
-      visible={loading}>
+    <Modal transparent animationType={'none'} visible={loading}>
       <ModalBackground>
         <ActivityIndicatorWrapper>
-          <ActivityIndicator
-            animating={loading} />
+          <ActivityIndicator animating={loading} />
         </ActivityIndicatorWrapper>
       </ModalBackground>
     </Modal>
-  )
+  );
 };
 
 const ModalBackground = styled.View`

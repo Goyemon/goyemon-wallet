@@ -15,15 +15,15 @@ class WalletDetail extends Component {
 
   renderUsdBalance() {
     if (this.props.wallet.id === 0) {
-    try {
-      const usdPrice = this.props.price.ethPrice;
-      const parsedEthBalance = parseFloat(this.props.balance.ethBalance);
-      const usdBalance = usdPrice * parsedEthBalance;
-      const roundedUsdBalance = parseFloat(usdBalance).toFixed(2);
-      return <Text>$ {roundedUsdBalance}</Text>;
-    } catch(err) {
-      console.error(err);
-    }
+      try {
+        const usdPrice = this.props.price.ethPrice;
+        const parsedEthBalance = parseFloat(this.props.balance.ethBalance);
+        const usdBalance = usdPrice * parsedEthBalance;
+        const roundedUsdBalance = parseFloat(usdBalance).toFixed(2);
+        return <Text>$ {roundedUsdBalance}</Text>;
+      } catch (err) {
+        console.error(err);
+      }
     } else if (this.props.wallet.id === 1) {
       return <Text>$ 0</Text>;
     }
@@ -57,7 +57,9 @@ class WalletDetail extends Component {
         {this.renderIcon()}
         <View>
           <CoinText>{coin}</CoinText>
-          <PriceText>1 {notation} = ${this.renderPrice()}</PriceText>
+          <PriceText>
+            1 {notation} = ${this.renderPrice()}
+          </PriceText>
         </View>
         <View>
           <UsdBalanceText>{this.renderUsdBalance()}</UsdBalanceText>
@@ -85,7 +87,7 @@ const CoinText = styled.Text`
 `;
 
 const PriceText = styled.Text`
-  color: #5F5F5F;
+  color: #5f5f5f;
   margin-left: 16px;
 `;
 
@@ -100,9 +102,9 @@ const UsdBalanceText = styled.Text`
 `;
 
 const mapStateToProps = state => ({
-    web3: state.ReducerWeb3.web3,
-    price: state.ReducerPrice.price,
-    balance: state.ReducerBalance.balance
-  });
+  web3: state.ReducerWeb3.web3,
+  price: state.ReducerPrice.price,
+  balance: state.ReducerBalance.balance
+});
 
 export default connect(mapStateToProps)(WalletDetail);
