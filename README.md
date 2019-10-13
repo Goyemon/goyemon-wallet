@@ -94,9 +94,11 @@ $ pod install
 
 # Run the app in iOS
 $ npm run ios
+$ npm run start
 
 # Run the app in android
 $ npm run android
+$ npm run start
 
 Contact me if the build fails. I might be able to help you.
 ```
