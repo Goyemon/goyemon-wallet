@@ -48,7 +48,16 @@ class Start extends Component {
             marginLeft="0"
             marginTop="0"
           >
-            a permissionless bank in your pocket
+            Sharing Economy for Crypto Assets
+          </OneLiner>
+          <OneLiner
+            fontSize="24px"
+            fontWeight="bold"
+            marginBottom="24"
+            marginLeft="0"
+            marginTop="0"
+          >
+            earn interests by sharing your unused crypto assets
           </OneLiner>
           <TouchableCardContainer
             alignItems="center"
