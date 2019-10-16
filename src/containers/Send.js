@@ -121,7 +121,7 @@ class Send extends Component {
     );
     const gasLimit = 21000;
     const transactionFeeLimitInWei = gasPriceInWei * gasLimit;
-    const transactionFeeLimitInEther = this.props.web3.utils.fromWei(gasFeeLimitInWei, 'Ether');
+    const transactionFeeLimitInEther = this.props.web3.utils.fromWei(transactionFeeLimitInWei.toString(), 'Ether');
 
     if (
       parseFloat(amount) + transactionFeeLimitInEther < parseFloat(this.props.balance.ethBalance) &&
