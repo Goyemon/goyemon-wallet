@@ -108,8 +108,13 @@ class Send extends Component {
   }
 
   validateAmount(amount) {
+    const gasPriceInWei = parseFloat(this.props.web3.utils.toWei(this.state.gasPrice[this.state.checked].gasPriceInEther, 'Ether'));
+    const gasLimit = 21000;
+    const transactionFeeLimitInWei = gasPriceInWei * gasLimit;
+    const transactionFeeLimitInEther = this.props.web3.utils.fromWei(gasFeeLimitInWei, 'Ether');
+
     if (
-      parseFloat(amount) + parseFloat(this.state.gasPrice[this.state.checked].gasPriceInEther) <
+      parseFloat(amount) + transactionFeeLimitInEther <
       parseFloat(this.props.balance.ethBalance) && 0 <= parseFloat(amount) && amount.length != 0
     ) {
       console.log('the amount validated!');
