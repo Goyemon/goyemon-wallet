@@ -15,15 +15,14 @@ class PriceUtilities {
     }
   }
 
-  convertDaiToUsd(daiBalance) {
+  convertDaiToUsd(dai) {
     const stateTree = store.getState();
     const daiPrice = stateTree.ReducerPrice.price.daiPrice;
 
     try {
-      const parsedDaiBalance = parseFloat(daiBalance);
-      const usdBalance = daiPrice * parsedDaiBalance;
-      const roundedDaiUsdBalance = parseFloat(usdBalance).toFixed(2);
-      return roundedDaiUsdBalance;
+      const usdValue = daiPrice * parseFloat(dai);
+      const roundedDaiUsdValue = parseFloat(usdValue).toFixed(2);
+      return roundedDaiUsdValue;
     } catch (err) {
       console.error(err);
     }
