@@ -11,17 +11,16 @@ export function getGasPriceFast() {
       const gasPrice = await axios.get('https://ethgasstation.info/json/ethgasAPI.json');
       const gasPriceFastInGwei =  gasPrice.data.fast.toString();
       const gasPriceFastInWei = WEB3.utils.toWei(gasPriceFastInGwei, 'Gwei');
-      const gasPriceFastInEther = WEB3.utils.fromWei(gasPriceFastInWei, 'Ether');
-      dispatch(getGasPriceFastSuccess(gasPriceFastInEther));
+      dispatch(getGasPriceFastSuccess(gasPriceFastInWei));
     } catch(err) {
       console.error(err);
     }
   }
 };
 
-const getGasPriceFastSuccess = (gasPriceFastInEther) => ({
+const getGasPriceFastSuccess = (gasPriceFastInWei) => ({
   type: GET_GAS_PRICE_FAST,
-  payload: gasPriceFastInEther
+  payload: gasPriceFastInWei
 })
 
 export function getGasPriceAverage() {
@@ -30,17 +29,16 @@ export function getGasPriceAverage() {
       const gasPrice = await axios.get('https://ethgasstation.info/json/ethgasAPI.json');
       const gasPriceAverageInGwei =  gasPrice.data.average.toString();
       const gasPriceAverageInWei = WEB3.utils.toWei(gasPriceAverageInGwei, 'Gwei');
-      const gasPriceAverageInEther = WEB3.utils.fromWei( gasPriceAverageInWei, 'Ether');
-      dispatch(getGasPriceAverageSuccess(gasPriceAverageInEther));
+      dispatch(getGasPriceAverageSuccess(gasPriceAverageInWei));
     } catch(err) {
       console.error(err);
     }
   }
 };
 
-const getGasPriceAverageSuccess = (gasPriceAverageInEther) => ({
+const getGasPriceAverageSuccess = (gasPriceAverageInWei) => ({
   type: GET_GAS_PRICE_AVERAGE,
-  payload: gasPriceAverageInEther
+  payload: gasPriceAverageInWei
 })
 
 export function getGasPriceSlow() {
@@ -49,15 +47,14 @@ export function getGasPriceSlow() {
       const gasPrice = await axios.get('https://ethgasstation.info/json/ethgasAPI.json');
       const gasPriceSlowInGwei =  gasPrice.data.safeLow.toString();
       const gasPriceSlowInWei = WEB3.utils.toWei(gasPriceSlowInGwei, 'Gwei');
-      const gasPriceSlowInEther = WEB3.utils.fromWei(gasPriceSlowInWei, 'Ether');
-      dispatch(getGasPriceSlowSuccess(gasPriceSlowInEther));
+      dispatch(getGasPriceSlowSuccess(gasPriceSlowInWei));
     } catch(err) {
       console.error(err);
     }
   }
 };
 
-const getGasPriceSlowSuccess = (gasPriceSlowInEther) => ({
+const getGasPriceSlowSuccess = (gasPriceSlowInWei) => ({
   type: GET_GAS_PRICE_SLOW,
-  payload: gasPriceSlowInEther
+  payload: gasPriceSlowInWei
 })
