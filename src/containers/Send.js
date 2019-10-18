@@ -13,6 +13,7 @@ import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
 import { getGasPriceFast, getGasPriceAverage, getGasPriceSlow } from '../actions/ActionGasPrice';
+import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class Send extends Component {
   constructor(props) {
@@ -22,17 +23,17 @@ class Send extends Component {
         {
           speed: 'Fast',
           imageName: 'run-fast',
-          gasPriceInEther: '0'
+          gasPriceInWei: '0'
         },
         {
           speed: 'Average',
           imageName: 'run',
-          gasPriceInEther: '0'
+          gasPriceInWei: '0'
         },
         {
           speed: 'Slow',
           imageName: 'walk',
-          gasPriceInEther: '0'
+          gasPriceInWei: '0'
         }
       ],
       toAddress: '',
@@ -49,29 +50,26 @@ class Send extends Component {
     this.props.getGasPriceSlow();
   }
 
-  getUsdGasPrice(gasPriceInEther) {
-    try {
-      const usdPrice = this.props.price.ethPrice;
-      const ethBalance = parseFloat(gasPriceInEther);
-      const usdBalance = usdPrice * ethBalance;
-      const roundedUsdBalance = parseFloat(usdBalance).toFixed(6);
-      return roundedUsdBalance;
-    } catch (err) {
-      console.error(err);
-    }
+  getTransactionFeeEstimateInEther(gasPriceInWei) {
+    const gasLimit = 21000;
+    const transactionFeeEstimateInWei = gasPriceInWei * gasLimit;
+    const transactionFeeEstimateInEther = this.props.web3.utils.fromWei(transactionFeeEstimateInWei.toString(), 'Ether');
+    return transactionFeeEstimateInEther;
+  }
+
+  getTransactionFeeEstimateInUsd(gasPriceInWei) {
+    const transactionFeeEstimateInUsd = PriceUtilities.convertEthToUsd(this.getTransactionFeeEstimateInEther(gasPriceInWei))
+    return transactionFeeEstimateInUsd;
   }
 
   async constructTransactionObject() {
     const transactionNonce = this.getBiggestNonce() + 1;
-    const gasPriceInWei = parseFloat(
-      this.props.web3.utils.toWei(this.state.gasPrice[this.state.checked].gasPriceInEther, 'Ether')
-    );
     const amountInWei = parseFloat(this.props.web3.utils.toWei(this.state.amount, 'Ether'));
     const transactionObject = {
       nonce: `0x${transactionNonce.toString(16)}`,
       to: this.state.toAddress,
       value: `0x${amountInWei.toString(16)}`,
-      gasPrice: `0x${gasPriceInWei.toString(16)}`,
+      gasPrice: `0x${this.state.gasPrice[this.state.checked].gasPriceInWei.toString(16)}`,
       gasLimit: `0x${parseFloat(21000).toString(16)}`,
       chainId: 3
     };
@@ -116,12 +114,7 @@ class Send extends Component {
   }
 
   validateAmount(amount) {
-    const gasPriceInWei = parseFloat(
-      this.props.web3.utils.toWei(this.state.gasPrice[this.state.checked].gasPriceInEther, 'Ether')
-    );
-    const gasLimit = 21000;
-    const transactionFeeLimitInWei = gasPriceInWei * gasLimit;
-    const transactionFeeLimitInEther = this.props.web3.utils.fromWei(transactionFeeLimitInWei.toString(), 'Ether');
+    const transactionFeeLimitInEther = getTransactionFeeEstimateInEther();
 
     if (
       parseFloat(amount) + parseFloat(transactionFeeLimitInEther) < parseFloat(this.props.balance.ethBalance) &&
@@ -157,9 +150,9 @@ class Send extends Component {
   };
 
   render() {
-    this.state.gasPrice[0].gasPriceInEther = this.props.gasPrice.fast;
-    this.state.gasPrice[1].gasPriceInEther = this.props.gasPrice.average;
-    this.state.gasPrice[2].gasPriceInEther = this.props.gasPrice.slow;
+    this.state.gasPrice[0].gasPriceInWei = this.props.gasPrice.fast;
+    this.state.gasPrice[1].gasPriceInWei = this.props.gasPrice.average;
+    this.state.gasPrice[2].gasPriceInWei = this.props.gasPrice.slow;
 
     return (
       <RootContainer>
@@ -210,7 +203,7 @@ class Send extends Component {
                     <SelectedButton>{gasPrice.speed}</SelectedButton>
                     <Icon name={gasPrice.imageName} size={40} color="#12BB4F" />
                     <SelectedButton>
-                      ${this.getUsdGasPrice(gasPrice.gasPriceInEther)}
+                      ${this.getTransactionFeeEstimateInUsd(gasPrice.gasPriceInWei)}
                     </SelectedButton>
                   </SpeedContainer>
                 ) : (
@@ -222,7 +215,7 @@ class Send extends Component {
                     <UnselectedButton>{gasPrice.speed}</UnselectedButton>
                     <Icon name={gasPrice.imageName} size={40} color="#000" />
                     <UnselectedButton>
-                      ${this.getUsdGasPrice(gasPrice.gasPriceInEther)}
+                      ${this.getTransactionFeeEstimateInUsd(gasPrice.gasPriceInWei)}
                     </UnselectedButton>
                   </SpeedContainer>
                 )}
