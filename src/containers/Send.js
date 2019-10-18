@@ -124,7 +124,7 @@ class Send extends Component {
     const transactionFeeLimitInEther = this.props.web3.utils.fromWei(transactionFeeLimitInWei.toString(), 'Ether');
 
     if (
-      parseFloat(amount) + transactionFeeLimitInEther < parseFloat(this.props.balance.ethBalance) &&
+      parseFloat(amount) + parseFloat(transactionFeeLimitInEther) < parseFloat(this.props.balance.ethBalance) &&
       parseFloat(amount) >= 0 &&
       amount.length != 0
     ) {
