@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import firebase from 'react-native-firebase';
 import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
 import { saveExistingTransactions } from '../actions/ActionTransactionHistory';
+import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class WalletList extends Component {
   async componentDidMount() {
@@ -37,16 +38,10 @@ class WalletList extends Component {
     this.messageListener();
   }
 
-  getUsdBalance(ethBalance) {
-    try {
-      const usdPrice = this.props.price.ethPrice;
-      const parsedEthBalance = parseFloat(ethBalance);
-      const usdBalance = usdPrice * parsedEthBalance;
-      const roundedUsdBalance = parseFloat(usdBalance).toFixed(2);
-      return roundedUsdBalance;
-    } catch (err) {
-      console.error(err);
-    }
+  getTotalBalance(ethBalance, daiBalance) {
+    let totalUsdBalance = PriceUtilities.convertEthToUsd(ethBalance) + PriceUtilities.convertDaiToUsd(daiBalance);
+    totalUsdBalance = parseFloat(totalUsdBalance).toFixed(2);
+    return totalUsdBalance;
   }
 
   render() {
@@ -63,7 +58,7 @@ class WalletList extends Component {
           <HeaderTwo color="#5F5F5F" fontSize="24px" marginBottom="8" marginLeft="0" marginTop="0">
             Total Balance
           </HeaderTwo>
-          <UsdBalance>${this.getUsdBalance(balance)}</UsdBalance>
+          <UsdBalance>${this.getTotalBalance(balance.ethBalance, balance.daiBalance)}</UsdBalance>
         </CardContainerWithoutFeedback>
         <HeaderTwo color="#000" fontSize="16px" marginBottom="16" marginLeft="16" marginTop="16">
           YOUR ACCOUNTS
