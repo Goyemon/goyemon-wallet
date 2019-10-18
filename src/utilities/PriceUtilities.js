@@ -2,15 +2,14 @@
 import { store } from '../navigators/AppTab';
 
 class PriceUtilities {
-  convertEthToUsd(ethBalance) {
+  convertEthToUsd(ether) {
     const stateTree = store.getState();
     const ethPrice = stateTree.ReducerPrice.price.ethPrice;
 
     try {
-      const parsedEthBalance = parseFloat(ethBalance);
-      const usdBalance = ethPrice * parsedEthBalance;
-      const roundedEthUsdBalance = parseFloat(usdBalance).toFixed(2);
-      return roundedEthUsdBalance;
+      const usdValue = ethPrice * parseFloat(ether);
+      const roundedEthUsdValue = parseFloat(usdValue).toFixed(2);
+      return roundedEthUsdValue;
     } catch (err) {
       console.error(err);
     }
