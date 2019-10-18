@@ -65,3 +65,5 @@ export default () => (
     </PersistGate>
   </Provider>
 );
+
+export { store };
