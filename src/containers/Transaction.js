@@ -15,16 +15,16 @@ class Transaction extends Component {
           <Icon name="call-made" size={16} color="#D0021B" />
         </Text>
       );
-    } else if (this.props.web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress) {
-      return (
-        <Text>
-          <Icon name="call-made" size={16} color="#D0021B" />
-        </Text>
-      );
     } else if (this.props.web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
       return (
         <Text>
           <Icon name="call-received" size={16} color="#7ED321" />
+        </Text>
+      );
+    } else if (this.props.web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress) {
+      return (
+        <Text>
+          <Icon name="call-made" size={16} color="#D0021B" />
         </Text>
       );
     }
