@@ -40,7 +40,7 @@ class Start extends Component {
       <RootContainer>
         <Loader loading={this.state.loading} />
         <Container>
-          <Logo>Swarm</Logo>
+          <Logo>Crypterest</Logo>
           <OneLiner
             fontSize="24px"
             fontWeight="bold"
@@ -57,7 +57,7 @@ class Start extends Component {
             marginLeft="0"
             marginTop="0"
           >
-            earn interests by sharing your unused crypto assets
+            earn interests by sharing your crypto assets
           </OneLiner>
           <TouchableCardContainer
             alignItems="center"
