@@ -12,6 +12,7 @@ MERGED from [:react-native-os] /Users/tai/Dropbox/Codes/DeBank/node_modules/reac
 MERGED from [:react-native-randombytes] /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-randombytes/android/build/intermediates/library_manifest/release/AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-reanimated] /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-reanimated/android/build/intermediates/library_manifest/release/AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-screens] /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-screens/android/build/intermediates/library_manifest/release/AndroidManifest.xml:2:1-11:12
+MERGED from [:react-native-svg] /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-svg/android/build/intermediates/library_manifest/release/AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-vector-icons] /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-vector-icons/android/build/intermediates/library_manifest/release/AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-webview] /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-webview/android/build/intermediates/library_manifest/release/AndroidManifest.xml:2:1-23:12
 MERGED from [com.facebook.react:react-native:0.61.2] /Users/tai/.gradle/caches/transforms-2/files-2.1/9502729b6e49d17ff4cb535250a378cc/AndroidManifest.xml:2:1-13:12
@@ -262,6 +263,8 @@ MERGED from [:react-native-reanimated] /Users/tai/Dropbox/Codes/DeBank/node_modu
 MERGED from [:react-native-reanimated] /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-reanimated/android/build/intermediates/library_manifest/release/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-screens] /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-screens/android/build/intermediates/library_manifest/release/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-screens] /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-screens/android/build/intermediates/library_manifest/release/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-svg] /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-svg/android/build/intermediates/library_manifest/release/AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-svg] /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-svg/android/build/intermediates/library_manifest/release/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-vector-icons] /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-vector-icons/android/build/intermediates/library_manifest/release/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-vector-icons] /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-vector-icons/android/build/intermediates/library_manifest/release/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-webview] /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-webview/android/build/intermediates/library_manifest/release/AndroidManifest.xml:7:5-9:41

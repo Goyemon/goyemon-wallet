@@ -29,6 +29,8 @@ import com.bitgo.randombytes.RandomBytesPackage;
 import com.swmansion.reanimated.ReanimatedPackage;
 // react-native-screens
 import com.swmansion.rnscreens.RNScreensPackage;
+// react-native-svg
+import com.horcrux.svg.SvgPackage;
 // react-native-vector-icons
 import com.oblador.vectoricons.VectorIconsPackage;
 // react-native-webview
@@ -74,6 +76,7 @@ public class PackageList {
       new RandomBytesPackage(),
       new ReanimatedPackage(),
       new RNScreensPackage(),
+      new SvgPackage(),
       new VectorIconsPackage(),
       new RNCWebViewPackage()
     ));
