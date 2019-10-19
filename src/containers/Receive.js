@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Clipboard } from 'react-native';
 import { RootContainer, UntouchableCardContainer, HeaderOne, Button } from '../components/common';
 import { connect } from 'react-redux';
-import QRCode from 'react-native-qrcode';
+import QRCode from 'react-native-qrcode-svg';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -43,7 +43,7 @@ class Receive extends Component {
           width="100%"
          >
           <QrCodeContainer>
-            <QRCode value={checksumAddress} size={120} bgColor="#000" fgColor="#FFF" />
+            <QRCode value={checksumAddress} />
           </QrCodeContainer>
           <AddressText>{checksumAddress}</AddressText>
           <CopyAddressContainer>
