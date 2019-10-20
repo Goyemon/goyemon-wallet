@@ -1,5 +1,5 @@
 'use strict';
-import { store } from '../navigators/AppTab';
+import { store } from '../store/store.js';
 
 class PriceUtilities {
   convertEthToUsd(ether) {

@@ -3,26 +3,10 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
-import { persistReducer, persistStore } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
 import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor } from '../store/store.js';
 import HomeStack from './HomeStack';
 import SettingsStack from './SettingsStack';
-import rootReducers from '../reducers/ReducerIndex';
-
-const persistConfig = {
-    key: 'root',
-    storage,
-    whitelist: ['ReducerOutgoingTransactionObjects', 'ReducerTransactionHistory', 'ReducerBalance', 'ReducerChecksumAddress', 'ReducerWallets', 'ReducerPrice', 'ReducerNotificationPermission', 'ReducerMnemonic']
-}
-
-const persistedReducer = persistReducer(persistConfig, rootReducers);
-
-let store = createStore(persistedReducer, applyMiddleware(thunk));
-
-let persistor = persistStore(store);
 
 const AppTab = createBottomTabNavigator(
   {
@@ -65,5 +49,3 @@ export default () => (
     </PersistGate>
   </Provider>
 );
-
-export { store };
