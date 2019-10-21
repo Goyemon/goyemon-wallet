@@ -6,6 +6,7 @@ import com.facebook.react.PackageList;
 
 import com.facebook.react.ReactApplication;
 import com.airbnb.android.react.lottie.LottiePackage;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.fabric.crashlytics.RNFirebaseCrashlyticsPackage;
@@ -39,6 +40,7 @@ public class MainApplication extends Application implements ReactApplication {
         packages.add(new LottiePackage());
         packages.add(new RNFirebaseMessagingPackage());
         packages.add(new RNFirebaseCrashlyticsPackage());
+        packages.add(new AsyncStoragePackage());
         new VectorIconsPackage();
         new RNFirebasePackage();
         new RNOSModule();

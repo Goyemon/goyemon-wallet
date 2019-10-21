@@ -11,6 +11,7 @@ import {
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import QRCodeScanner from 'react-native-qrcode-scanner';
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
 import { getGasPriceFast, getGasPriceAverage, getGasPriceSlow } from '../actions/ActionGasPrice';
 import PriceUtilities from '../utilities/PriceUtilities.js';

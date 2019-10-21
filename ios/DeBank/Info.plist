@@ -56,6 +56,8 @@
 	</dict>
 	<key>NSMainNibFile</key>
 	<string>LaunchScreen</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Your message to user when the camera is accessed for the first time</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Ionicons.ttf</string>
