@@ -7,9 +7,12 @@ import styled from 'styled-components/native';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 export default class Settings extends Component {
-  state = {
-    modalVisible: false,
-  };
+  constructor() {
+    super();
+    this.state = {
+      modalVisible: false
+    }
+  }
 
   setModalVisible(visible) {
     this.setState({modalVisible: visible});
@@ -35,8 +38,8 @@ export default class Settings extends Component {
                 backgroundColor="#EEEEEE"
                 margin="8px"
                 opacity="1"
-                onPress={async () => {
-                  this.setModalVisible(!this.state.modalVisible);
+                onPress={() => {
+                  this.setModalVisible(false);
                 }}
               />
               <Button
@@ -46,8 +49,8 @@ export default class Settings extends Component {
                 margin="8px"
                 opacity="1"
                 onPress={async () => {
-                  this.setModalVisible(!this.state.modalVisible);
                   await WalletUtilities.resetKeychainData();
+                  this.setModalVisible(false);
                   this.props.navigation.navigate('Initial');
                 }}
               />
