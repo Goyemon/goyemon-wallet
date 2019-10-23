@@ -7,7 +7,7 @@
 		<key>ApplicationPath</key>
 		<string>Applications/DeBank.app</string>
 		<key>CFBundleIdentifier</key>
-		<string>com.swarm-browser.app</string>
+		<string>com.debank.app</string>
 		<key>CFBundleShortVersionString</key>
 		<string>1.0.0</string>
 		<key>CFBundleVersion</key>

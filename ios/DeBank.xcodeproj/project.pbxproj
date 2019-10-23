@@ -643,8 +643,8 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a7320296-ceae-4a29-a730-7775c6fcca23";
-				PROVISIONING_PROFILE_SPECIFIER = "com.swarm-browser.app AppStore";
+				PROVISIONING_PROFILE = "e1270625-25f1-4a2d-a96c-eb2aa1b66b16";
+				PROVISIONING_PROFILE_SPECIFIER = "com.debank.app AppStore";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DeBank.app/DeBank";
 				VALID_ARCHS = "$(ARCHS_STANDARD) ";
 			};
@@ -660,7 +660,7 @@
 				CODE_SIGN_ENTITLEMENTS = DeBank/DeBank.entitlements;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 13;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = UB87ZVZL7R;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -686,7 +686,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
 				"OTHER_LDFLAGS[arch=*]" = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.swarm-browser.app";
+				PRODUCT_BUNDLE_IDENTIFIER = com.debank.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "DeBank-Bridging-Header.h";
@@ -706,7 +706,7 @@
 				CODE_SIGN_ENTITLEMENTS = DeBank/DeBank.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = UB87ZVZL7R;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -731,10 +731,10 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "$(inherited)";
 				"OTHER_LDFLAGS[arch=*]" = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.swarm-browser.app";
+				PRODUCT_BUNDLE_IDENTIFIER = com.debank.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a7320296-ceae-4a29-a730-7775c6fcca23";
-				PROVISIONING_PROFILE_SPECIFIER = "com.swarm-browser.app AppStore";
+				PROVISIONING_PROFILE = "e1270625-25f1-4a2d-a96c-eb2aa1b66b16";
+				PROVISIONING_PROFILE_SPECIFIER = "com.debank.app AppStore";
 				SWIFT_OBJC_BRIDGING_HEADER = "DeBank-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
