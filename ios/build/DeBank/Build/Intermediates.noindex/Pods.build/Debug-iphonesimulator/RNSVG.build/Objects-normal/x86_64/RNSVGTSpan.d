@@ -40,4 +40,5 @@ dependencies: \
   /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-svg/ios/Text/RNSVGFontData.h \
   /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-svg/ios/Text/RNSVGTextProperties.h \
   /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-svg/ios/Text/RNSVGPropHelper.h \
-  /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-svg/ios/Text/RNSVGTextPath.h
+  /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-svg/ios/Text/RNSVGTextPath.h \
+  /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-svg/ios/Utils/RNSVGPathMeasure.h

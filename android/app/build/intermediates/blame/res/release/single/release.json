@@ -604,6 +604,10 @@
         "source": "/Users/tai/.gradle/caches/transforms-2/files-2.1/2eb030c7e3e36b77b48f0dacbc437936/res/drawable-hdpi-v4/abc_ic_menu_share_mtrl_alpha.png"
     },
     {
+        "merged": "/Users/tai/Dropbox/Codes/DeBank/android/app/build/intermediates/res/merged/release/layout_surface_view.xml.flat",
+        "source": "/Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-camera/android/build/intermediates/packaged_res/general/release/layout/surface_view.xml"
+    },
+    {
         "merged": "/Users/tai/Dropbox/Codes/DeBank/android/app/build/intermediates/res/merged/release/layout_abc_action_menu_layout.xml.flat",
         "source": "/Users/tai/.gradle/caches/transforms-2/files-2.1/2eb030c7e3e36b77b48f0dacbc437936/res/layout/abc_action_menu_layout.xml"
     },
@@ -1246,6 +1250,10 @@
     {
         "merged": "/Users/tai/Dropbox/Codes/DeBank/android/app/build/intermediates/res/merged/release/color-v23_abc_tint_btn_checkable.xml.flat",
         "source": "/Users/tai/.gradle/caches/transforms-2/files-2.1/2eb030c7e3e36b77b48f0dacbc437936/res/color-v23/abc_tint_btn_checkable.xml"
+    },
+    {
+        "merged": "/Users/tai/Dropbox/Codes/DeBank/android/app/build/intermediates/res/merged/release/layout-v14_texture_view.xml.flat",
+        "source": "/Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-camera/android/build/intermediates/packaged_res/general/release/layout-v14/texture_view.xml"
     },
     {
         "merged": "/Users/tai/Dropbox/Codes/DeBank/android/app/build/intermediates/res/merged/release/drawable-xhdpi-v4_abc_ic_menu_share_mtrl_alpha.png.flat",

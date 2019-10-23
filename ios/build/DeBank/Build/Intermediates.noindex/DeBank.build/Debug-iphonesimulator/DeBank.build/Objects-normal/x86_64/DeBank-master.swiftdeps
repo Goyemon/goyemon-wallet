@@ -1,5 +1,5 @@
 version: "Apple Swift version 5.1 (swiftlang-1100.0.270.13 clang-1100.0.33.7)"
-options: "4cb4ec7f24125a78635d4b0a01d54570"
-build_time: [1571452087, 344131000]
+options: "8cca15ef16920a1d9babbc3b9af6c1b6"
+build_time: [1571808124, 137098000]
 inputs:
   "/Users/tai/Dropbox/Codes/DeBank/ios/FixLibswiftCoreErrorFile.swift": [1570849974, 382015775]

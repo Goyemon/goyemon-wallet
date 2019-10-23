@@ -69,6 +69,9 @@
 		33489E7F22BB25110011677D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		3354232523247A2F009356D6 /* FirebaseCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FirebaseCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		335DD93B234A127C0005C300 /* libswiftObjectiveC.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libswiftObjectiveC.tbd; path = usr/lib/swift/libswiftObjectiveC.tbd; sourceTree = SDKROOT; };
+		33866E2B235D5AEC0020579B /* libReact-Core.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libReact-Core.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		33866E2D235D5B900020579B /* libReact-CoreModules.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libReact-CoreModules.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		33866E2F235D5BAB0020579B /* libReact-cxxreact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libReact-cxxreact.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		33892D6F22BB2CC200D9F8F4 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		33892D7022BB2D0C00D9F8F4 /* FirebaseMessaging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseMessaging.framework; path = Firebase/Messaging/FirebaseMessaging.framework; sourceTree = SOURCE_ROOT; };
 		33892D7122BB2D0C00D9F8F4 /* Protobuf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Protobuf.framework; path = Firebase/Messaging/Protobuf.framework; sourceTree = SOURCE_ROOT; };
@@ -92,6 +95,7 @@
 		33ABA5E82348628A00B36305 /* libProtobuf.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libProtobuf.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		33ABA5EA2348632200B36305 /* libreact-native-randombytes.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libreact-native-randombytes.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		33ABA60023486E6300B36305 /* RCTBridgeModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RCTBridgeModule.h; path = "build/DeBank/Build/Products/Debug-iphonesimulator/include/React/RCTBridgeModule.h"; sourceTree = "<group>"; };
+		33C2AF3A23600EB400325664 /* libReact-Core.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libReact-Core.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		33DCF64D23517B3E00342D08 /* DeBank-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DeBank-Bridging-Header.h"; sourceTree = "<group>"; };
 		33DCF64E23517B3F00342D08 /* FixLibswiftCoreErrorFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixLibswiftCoreErrorFile.swift; sourceTree = "<group>"; };
 		33F896E122C1C8E800679DD3 /* Protobuf.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Protobuf.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -195,6 +199,10 @@
 		33892D6E22BB2CBA00D9F8F4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				33C2AF3A23600EB400325664 /* libReact-Core.a */,
+				33866E2F235D5BAB0020579B /* libReact-cxxreact.a */,
+				33866E2D235D5B900020579B /* libReact-CoreModules.a */,
+				33866E2B235D5AEC0020579B /* libReact-Core.a */,
 				335DD93B234A127C0005C300 /* libswiftObjectiveC.tbd */,
 				33ABA5EA2348632200B36305 /* libreact-native-randombytes.a */,
 				33ABA5E82348628A00B36305 /* libProtobuf.a */,
@@ -608,7 +616,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DeBank.app/DeBank";
-				VALID_ARCHS = "$(ARCHS_STANDARD) armv7 armv7s";
+				VALID_ARCHS = "$(ARCHS_STANDARD) ";
 			};
 			name = Debug;
 		};
@@ -638,7 +646,7 @@
 				PROVISIONING_PROFILE = "a7320296-ceae-4a29-a730-7775c6fcca23";
 				PROVISIONING_PROFILE_SPECIFIER = "com.swarm-browser.app AppStore";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DeBank.app/DeBank";
-				VALID_ARCHS = "$(ARCHS_STANDARD) armv7 armv7s";
+				VALID_ARCHS = "$(ARCHS_STANDARD) ";
 			};
 			name = Release;
 		};
@@ -652,7 +660,7 @@
 				CODE_SIGN_ENTITLEMENTS = DeBank/DeBank.entitlements;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 9;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = UB87ZVZL7R;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -660,9 +668,13 @@
 					"$(PROJECT_DIR)/Pods/GoogleAppMeasurement/Frameworks",
 					"$(PROJECT_DIR)/Pods/FirebaseAnalytics/Frameworks",
 					"$(PROJECT_DIR)/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseCore",
+					"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts/iphoneos",
 				);
 				GCC_VERSION = "";
-				HEADER_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts/iphoneos",
+				);
 				INFOPLIST_FILE = DeBank/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -694,16 +706,20 @@
 				CODE_SIGN_ENTITLEMENTS = DeBank/DeBank.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = UB87ZVZL7R;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/GoogleAppMeasurement/Frameworks",
 					"$(PROJECT_DIR)/Pods/FirebaseAnalytics/Frameworks",
 					"$(PROJECT_DIR)/build/DeBank/Build/Products/Debug-iphonesimulator/FirebaseCore",
+					"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts/iphoneos",
 				);
 				GCC_VERSION = "";
-				HEADER_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts/iphoneos",
+				);
 				INFOPLIST_FILE = DeBank/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -775,7 +791,6 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				VALID_ARCHS = "$(ARCHS_STANDARD)";
 			};
 			name = Debug;
 		};
@@ -823,7 +838,6 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
-				VALID_ARCHS = "$(ARCHS_STANDARD)";
 			};
 			name = Release;
 		};
