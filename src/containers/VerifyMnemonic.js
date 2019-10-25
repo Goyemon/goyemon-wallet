@@ -5,6 +5,7 @@ import { RootContainer, ProgressBar, Button, HeaderOne } from '../components/com
 import { connect } from 'react-redux';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 import EtherUtilities from '../utilities/EtherUtilities.js';
+import ProviderUtilities from '../utilities/ProviderUtilities.ts';
 import { createChecksumAddress } from '../actions/ActionChecksumAddress';
 import styled from 'styled-components/native';
 import firebase from 'react-native-firebase';
@@ -49,21 +50,6 @@ class VerifyMnemonic extends Component {
     await WalletUtilities.setPrivateKey(privateKey);
   }
 
-  async registerEthereumAddress() {
-    const messageId = uuidv4();
-    const serverAddress = '400937673843@gcm.googleapis.com';
-    const checksumAddressWithoutPrefix = EtherUtilities.stripHexPrefix(this.props.checksumAddress);
-
-    const upstreamMessage = new firebase.messaging.RemoteMessage()
-      .setMessageId(messageId)
-      .setTo(serverAddress)
-      .setData({
-        register: 'true',
-        address: checksumAddressWithoutPrefix
-      });
-    firebase.messaging().sendMessage(upstreamMessage);
-  }
-
   async validateForm() {
     const mnemonicWords = this.state.mnemonicWords.join(' ');
 
@@ -76,7 +62,7 @@ class VerifyMnemonic extends Component {
       await WalletUtilities.generateWallet(mnemonicWords);
       await this.savePrivateKey();
       await this.props.createChecksumAddress();
-      await this.registerEthereumAddress();
+      await ProviderUtilities.registerEthereumAddress(this.props.checksumAddress);
       this.props.navigation.navigate('NotificationPermissionTutorial');
     } else {
       this.setState({ mnemonicWordsValidation: false });
