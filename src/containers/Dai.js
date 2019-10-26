@@ -8,6 +8,7 @@ import { RootContainer, Button, HeaderOne, HeaderTwo } from '../components/commo
 import { saveDaiBalance } from '../actions/ActionBalance';
 import styled from 'styled-components';
 import firebase from 'react-native-firebase';
+import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class Dai extends Component {
   async componentDidMount() {
@@ -26,13 +27,10 @@ class Dai extends Component {
     this.messageListener();
   }
 
-  getUsdBalance(roundedBalanceInEther) {
+  getUsdBalance() {
     try {
-      const usdPrice = this.props.price.daiPrice;
-      const ethBalance = parseFloat(roundedBalanceInEther);
-      const usdBalance = usdPrice * ethBalance;
-      const roundedUsdBalance = parseFloat(usdBalance).toFixed(2);
-      return roundedUsdBalance;
+      const roundedDaiUsdValue = PriceUtilities.convertDaiToUsd(this.props.balance.daiBalance);
+      return roundedDaiUsdValue;
     } catch (err) {
       console.error(err);
     }
@@ -50,7 +48,7 @@ class Dai extends Component {
         <HeaderOne marginTop="96">Dai</HeaderOne>
         <CardContainerWithoutFeedback>
           <HeaderTwo color="#5F5F5F" fontSize="24px" marginBottom="8" marginLeft="8" marginTop="0">Balance</HeaderTwo>
-          <UsdBalance>${this.getUsdBalance(balance.daiBalance)}</UsdBalance>
+          <UsdBalance>${this.getUsdBalance()}</UsdBalance>
           <DaiBalance>{balance.daiBalance} DAI</DaiBalance>
           <ButtonContainer>
             <Button
@@ -121,5 +119,3 @@ export default withNavigation(
     mapDispatchToProps
   )(Dai)
 );
-
-// this component is copied and pasted from Ethereum component. make sure this is rewritten for Dai component.
