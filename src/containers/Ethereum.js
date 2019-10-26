@@ -8,6 +8,7 @@ import { RootContainer, Button, HeaderOne, HeaderTwo } from '../components/commo
 import { saveEthBalance } from '../actions/ActionBalance';
 import styled from 'styled-components';
 import firebase from 'react-native-firebase';
+import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class Ethereum extends Component {
   async componentDidMount() {
@@ -25,13 +26,10 @@ class Ethereum extends Component {
     this.messageListener();
   }
 
-  getUsdBalance(roundedBalanceInEther) {
+  getUsdBalance() {
     try {
-      const usdPrice = this.props.price.ethPrice;
-      const ethBalance = parseFloat(roundedBalanceInEther);
-      const usdBalance = usdPrice * ethBalance;
-      const roundedUsdBalance = parseFloat(usdBalance).toFixed(2);
-      return roundedUsdBalance;
+      const roundedEthUsdValue = PriceUtilities.convertEthToUsd(this.props.balance.ethBalance);
+      return roundedEthUsdValue;
     } catch (err) {
       console.error(err);
     }
@@ -51,7 +49,7 @@ class Ethereum extends Component {
           <HeaderTwo color="#5F5F5F" fontSize="24px" marginBottom="8" marginLeft="8" marginTop="0">
             Balance
           </HeaderTwo>
-          <UsdBalance>${this.getUsdBalance(balance.ethBalance)}</UsdBalance>
+          <UsdBalance>${this.getUsdBalance()}</UsdBalance>
           <EthBalance>{balance.ethBalance} ETH</EthBalance>
           <ButtonContainer>
             <Button
