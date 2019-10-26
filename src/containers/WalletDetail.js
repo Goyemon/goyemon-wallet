@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-
 class WalletDetail extends Component {
   renderIcon() {
     if (this.props.wallet.id === 0) {
@@ -25,7 +24,15 @@ class WalletDetail extends Component {
         console.error(err);
       }
     } else if (this.props.wallet.id === 1) {
-      return <Text>$ 0</Text>;
+      try {
+        const usdPrice = this.props.price.daiPrice;
+        const parsedDaiBalance = parseFloat(this.props.balance.daiBalance);
+        const usdBalance = usdPrice * parsedDaiBalance;
+        const roundedUsdBalance = parseFloat(usdBalance).toFixed(2);
+        return <Text>$ {roundedUsdBalance}</Text>;
+      } catch (err) {
+        console.error(err);
+      }
     }
   }
 
