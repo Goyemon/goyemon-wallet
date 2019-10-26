@@ -46,7 +46,9 @@ class Dai extends Component {
       <RootContainer>
         <HeaderOne marginTop="96">Dai</HeaderOne>
         <CardContainerWithoutFeedback>
-          <HeaderTwo color="#5F5F5F" fontSize="24px" marginBottom="8" marginLeft="8" marginTop="0">Balance</HeaderTwo>
+          <HeaderTwo color="#5F5F5F" fontSize="24px" marginBottom="8" marginLeft="8" marginTop="0">
+            Balance
+          </HeaderTwo>
           <UsdBalance>${this.getUsdBalance()}</UsdBalance>
           <DaiBalance>{balance.daiBalance} DAI</DaiBalance>
           <ButtonContainer>
@@ -71,7 +73,9 @@ class Dai extends Component {
           </ButtonContainer>
         </CardContainerWithoutFeedback>
         <View>
-          <HeaderTwo color="#000" fontSize="16px" marginBottom="16" marginLeft="16" marginTop="16">TRANSACTION HISTORY</HeaderTwo>
+          <HeaderTwo color="#000" fontSize="16px" marginBottom="16" marginLeft="16" marginTop="16">
+            TRANSACTION HISTORY
+          </HeaderTwo>
         </View>
         <Transactions />
       </RootContainer>
@@ -102,11 +106,11 @@ const DaiBalance = styled.Text`
 `;
 
 const mapStateToProps = state => ({
-    transactions: state.ReducerTransactionHistory.transactions,
-    web3: state.ReducerWeb3.web3,
-    price: state.ReducerPrice.price,
-    balance: state.ReducerBalance.balance
-  });
+  transactions: state.ReducerTransactionHistory.transactions,
+  web3: state.ReducerWeb3.web3,
+  price: state.ReducerPrice.price,
+  balance: state.ReducerBalance.balance
+});
 
 const mapDispatchToProps = {
   saveDaiBalance

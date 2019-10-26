@@ -1,7 +1,13 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { RootContainer, HeaderOne, UntouchableCardContainer, Button, OneLiner } from '../components/common';
+import {
+  RootContainer,
+  HeaderOne,
+  UntouchableCardContainer,
+  Button,
+  OneLiner
+} from '../components/common';
 import { View, Text, Modal, TouchableHighlight, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
@@ -14,11 +20,11 @@ class Settings extends Component {
     super();
     this.state = {
       modalVisible: false
-    }
+    };
   }
 
   setModalVisible(visible) {
-    this.setState({modalVisible: visible});
+    this.setState({ modalVisible: visible });
   }
 
   render() {
@@ -31,9 +37,18 @@ class Settings extends Component {
           visible={this.state.modalVisible}
           onRequestClose={() => {
             Alert.alert('Modal has been closed.');
-          }}>
-          <View style={{marginTop: 22}}>
-            <OneLiner fontSize="24px" fontWeight="normal" marginBottom="0" marginLeft="0" marginTop="96">Delete Accounts?</OneLiner>
+          }}
+        >
+          <View style={{ marginTop: 22 }}>
+            <OneLiner
+              fontSize="24px"
+              fontWeight="normal"
+              marginBottom="0"
+              marginLeft="0"
+              marginTop="96"
+            >
+              Delete Accounts?
+            </OneLiner>
             <ButtonContainer>
               <Button
                 text="Cancel"
@@ -70,39 +85,39 @@ class Settings extends Component {
           justifyContent="center"
           textAlign="left"
           width="100%"
-         >
-           <SettingsTextContainer>
-             <Icon name="information-outline" color="#5F5F5F" size={32} />
-             <SettingsText>About Us</SettingsText>
-           </SettingsTextContainer>
-           <SettingsTextContainer>
-             <Icon name="message-text-outline" color="#5F5F5F" size={32} />
-             <TouchableHighlight
-               underlayColor="#FFF"
-               onPress={() => this.props.navigation.navigate('BackupWords')}
-             >
-               <SettingsText>Backup Words</SettingsText>
-             </TouchableHighlight>
-           </SettingsTextContainer>
-         </UntouchableCardContainer>
-         <UntouchableCardContainer
-           alignItems="center"
-           borderRadius="0"
-           flexDirection="column"
-           height="80px"
-           justifyContent="center"
-           textAlign="center"
-           width="100%"
+        >
+          <SettingsTextContainer>
+            <Icon name="information-outline" color="#5F5F5F" size={32} />
+            <SettingsText>About Us</SettingsText>
+          </SettingsTextContainer>
+          <SettingsTextContainer>
+            <Icon name="message-text-outline" color="#5F5F5F" size={32} />
+            <TouchableHighlight
+              underlayColor="#FFF"
+              onPress={() => this.props.navigation.navigate('BackupWords')}
+            >
+              <SettingsText>Backup Words</SettingsText>
+            </TouchableHighlight>
+          </SettingsTextContainer>
+        </UntouchableCardContainer>
+        <UntouchableCardContainer
+          alignItems="center"
+          borderRadius="0"
+          flexDirection="column"
+          height="80px"
+          justifyContent="center"
+          textAlign="center"
+          width="100%"
+        >
+          <TouchableHighlight
+            underlayColor="#FFF"
+            onPress={() => {
+              this.setModalVisible(true);
+            }}
           >
-             <TouchableHighlight
-               underlayColor="#FFF"
-               onPress={() => {
-                 this.setModalVisible(true);
-               }}
-             >
-               <DeleteAccountsText>Delete Accounts</DeleteAccountsText>
-             </TouchableHighlight>
-         </UntouchableCardContainer>
+            <DeleteAccountsText>Delete Accounts</DeleteAccountsText>
+          </TouchableHighlight>
+        </UntouchableCardContainer>
       </RootContainer>
     );
   }
@@ -129,7 +144,7 @@ const ButtonContainer = styled.View`
 `;
 
 const DeleteAccountsText = styled.Text`
-  color: #FF3346;
+  color: #ff3346;
   font-size: 24px;
 `;
 
@@ -137,4 +152,7 @@ const mapDispatchToProps = {
   clearState
 };
 
-export default connect(null, mapDispatchToProps)(Settings);
+export default connect(
+  null,
+  mapDispatchToProps
+)(Settings);

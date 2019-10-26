@@ -59,7 +59,10 @@ class SendDai extends Component {
   getTransactionFeeEstimateInEther(gasPriceInWei) {
     const gasLimit = 100000;
     const transactionFeeEstimateInWei = gasPriceInWei * gasLimit;
-    const transactionFeeEstimateInEther = this.props.web3.utils.fromWei(transactionFeeEstimateInWei.toString(), 'Ether');
+    const transactionFeeEstimateInEther = this.props.web3.utils.fromWei(
+      transactionFeeEstimateInWei.toString(),
+      'Ether'
+    );
     return transactionFeeEstimateInEther;
   }
 
@@ -120,9 +123,11 @@ class SendDai extends Component {
   }
 
   validateEthAmount() {
-    const transactionFeeLimitInEther = this.getTransactionFeeEstimateInEther(this.state.gasPrice[this.state.checked].gasPriceInWei);
+    const transactionFeeLimitInEther = this.getTransactionFeeEstimateInEther(
+      this.state.gasPrice[this.state.checked].gasPriceInWei
+    );
 
-    if(parseFloat(this.props.balance.ethBalance) > parseFloat(transactionFeeLimitInEther)) {
+    if (parseFloat(this.props.balance.ethBalance) > parseFloat(transactionFeeLimitInEther)) {
       console.log('the eth amount validated!');
       this.setState({ ethAmountValidation: true });
       return true;
@@ -235,7 +240,10 @@ class SendDai extends Component {
                     <SelectedButton>{gasPrice.speed}</SelectedButton>
                     <Icon name={gasPrice.imageName} size={40} color="#12BB4F" />
                     <SelectedButton>
-                      ${PriceUtilities.convertEthToUsd(this.getTransactionFeeEstimateInEther(gasPrice.gasPriceInWei))}
+                      $
+                      {PriceUtilities.convertEthToUsd(
+                        this.getTransactionFeeEstimateInEther(gasPrice.gasPriceInWei)
+                      )}
                     </SelectedButton>
                   </SpeedContainer>
                 ) : (
@@ -248,7 +256,10 @@ class SendDai extends Component {
                     <UnselectedButton>{gasPrice.speed}</UnselectedButton>
                     <Icon name={gasPrice.imageName} size={40} color="#000" />
                     <UnselectedButton>
-                      ${PriceUtilities.convertEthToUsd(this.getTransactionFeeEstimateInEther(gasPrice.gasPriceInWei))}
+                      $
+                      {PriceUtilities.convertEthToUsd(
+                        this.getTransactionFeeEstimateInEther(gasPrice.gasPriceInWei)
+                      )}
                     </UnselectedButton>
                   </SpeedContainer>
                 )}
