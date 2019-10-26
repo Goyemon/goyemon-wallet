@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import PriceUtilities from '../utilities/PriceUtilities.js';
+
 class WalletDetail extends Component {
   renderIcon() {
     if (this.props.wallet.id === 0) {
@@ -15,21 +17,15 @@ class WalletDetail extends Component {
   renderUsdBalance() {
     if (this.props.wallet.id === 0) {
       try {
-        const usdPrice = this.props.price.ethPrice;
-        const parsedEthBalance = parseFloat(this.props.balance.ethBalance);
-        const usdBalance = usdPrice * parsedEthBalance;
-        const roundedUsdBalance = parseFloat(usdBalance).toFixed(2);
-        return <Text>$ {roundedUsdBalance}</Text>;
+        const roundedEthUsdValue = PriceUtilities.convertEthToUsd(this.props.balance.ethBalance);
+        return <Text>$ {roundedEthUsdValue}</Text>;
       } catch (err) {
         console.error(err);
       }
     } else if (this.props.wallet.id === 1) {
       try {
-        const usdPrice = this.props.price.daiPrice;
-        const parsedDaiBalance = parseFloat(this.props.balance.daiBalance);
-        const usdBalance = usdPrice * parsedDaiBalance;
-        const roundedUsdBalance = parseFloat(usdBalance).toFixed(2);
-        return <Text>$ {roundedUsdBalance}</Text>;
+        const roundedDaiUsdValue = PriceUtilities.convertDaiToUsd(this.props.balance.daiBalance);
+        return <Text>$ {roundedDaiUsdValue}</Text>;
       } catch (err) {
         console.error(err);
       }
