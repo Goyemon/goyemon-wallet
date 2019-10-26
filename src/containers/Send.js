@@ -59,8 +59,7 @@ class Send extends Component {
   }
 
   getTransactionFeeEstimateInUsd(gasPriceInWei) {
-    const transactionFeeEstimateInUsd = PriceUtilities.convertEthToUsd(this.getTransactionFeeEstimateInEther(gasPriceInWei))
-    return transactionFeeEstimateInUsd;
+    return PriceUtilities.convertEthToUsd(this.getTransactionFeeEstimateInEther(gasPriceInWei));
   }
 
   async constructTransactionObject() {

@@ -17,15 +17,13 @@ class WalletDetail extends Component {
   renderUsdBalance() {
     if (this.props.wallet.id === 0) {
       try {
-        const roundedEthUsdValue = PriceUtilities.convertEthToUsd(this.props.balance.ethBalance);
-        return <Text>$ {roundedEthUsdValue}</Text>;
+        return <Text>$ {PriceUtilities.convertEthToUsd(this.props.balance.ethBalance)}</Text>;
       } catch (err) {
         console.error(err);
       }
     } else if (this.props.wallet.id === 1) {
       try {
-        const roundedDaiUsdValue = PriceUtilities.convertDaiToUsd(this.props.balance.daiBalance);
-        return <Text>$ {roundedDaiUsdValue}</Text>;
+        return <Text>$ {PriceUtilities.convertDaiToUsd(this.props.balance.daiBalance)}</Text>;
       } catch (err) {
         console.error(err);
       }

@@ -28,8 +28,7 @@ class Ethereum extends Component {
 
   getUsdBalance() {
     try {
-      const roundedEthUsdValue = PriceUtilities.convertEthToUsd(this.props.balance.ethBalance);
-      return roundedEthUsdValue;
+      return PriceUtilities.convertEthToUsd(this.props.balance.ethBalance);
     } catch (err) {
       console.error(err);
     }

@@ -29,8 +29,7 @@ class Dai extends Component {
 
   getUsdBalance() {
     try {
-      const roundedDaiUsdValue = PriceUtilities.convertDaiToUsd(this.props.balance.daiBalance);
-      return roundedDaiUsdValue;
+      return PriceUtilities.convertDaiToUsd(this.props.balance.daiBalance);
     } catch (err) {
       console.error(err);
     }
