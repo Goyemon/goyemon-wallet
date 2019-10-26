@@ -1,5 +1,6 @@
 'use strict';
 import ProviderUtilities from './ProviderUtilities.ts';
+import { store } from '../store/store.js';
 
 class TransactionUtilities {
   private web3 = ProviderUtilities.setProvider();
@@ -83,6 +84,30 @@ class TransactionUtilities {
         time.getDate().toString() + ' ' + months[time.getMonth()] + ', ' + '\n' + time.getFullYear()
       );
     }
+  }
+
+  getBiggestNonce() {
+    const stateTree = store.getState();
+    const transactions = stateTree.ReducerTransactionHistory.transactions;
+    const web3 = stateTree.ReducerWeb3.web3;
+    const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
+
+    const array = [];
+    transactions.map(transaction => {
+      if (
+        web3.utils.toChecksumAddress(transaction.from) === checksumAddress
+      ) {
+        array.push(transaction.nonce);
+      }
+    });
+    let biggestNonce = 0;
+    for (let i = 0; i <= biggestNonce; i++) {
+      if (array[i] > biggestNonce) {
+        biggestNonce = array[i];
+      }
+    }
+
+    return biggestNonce;
   }
 }
 

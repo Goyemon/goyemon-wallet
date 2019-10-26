@@ -15,6 +15,7 @@ import QRCodeScanner from 'react-native-qrcode-scanner';
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
 import { getGasPriceFast, getGasPriceAverage, getGasPriceSlow } from '../actions/ActionGasPrice';
 import PriceUtilities from '../utilities/PriceUtilities.js';
+import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 
 class Send extends Component {
   constructor(props) {
@@ -63,7 +64,7 @@ class Send extends Component {
   }
 
   async constructTransactionObject() {
-    const transactionNonce = this.getBiggestNonce() + 1;
+    const transactionNonce = TransactionUtilities.getBiggestNonce() + 1;
     const amountInWei = parseFloat(this.props.web3.utils.toWei(this.state.amount, 'Ether'));
     const transactionObject = {
       nonce: `0x${transactionNonce.toString(16)}`,
@@ -74,25 +75,6 @@ class Send extends Component {
       chainId: 3
     };
     return transactionObject;
-  }
-
-  getBiggestNonce() {
-    const array = [];
-    this.props.transactions.map(transaction => {
-      if (
-        this.props.web3.utils.toChecksumAddress(transaction.from) === this.props.checksumAddress
-      ) {
-        array.push(transaction.nonce);
-      }
-    });
-    let biggestNonce = 0;
-    for (let i = 0; i <= biggestNonce; i++) {
-      if (array[i] > biggestNonce) {
-        biggestNonce = array[i];
-      }
-    }
-
-    return biggestNonce;
   }
 
   validateToAddress(toAddress) {
