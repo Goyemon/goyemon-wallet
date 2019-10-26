@@ -1,5 +1,6 @@
 'use strict';
 import { combineReducers } from 'redux';
+import { CLEAR_STATE } from '../constants/ActionTypes';
 
 import ReducerWeb3 from './ReducerWeb3';
 import ReducerMnemonic from './ReducerMnemonic';
@@ -14,7 +15,7 @@ import ReducerDaiToAddress from './ReducerDaiToAddress';
 import ReducerBalance from './ReducerBalance';
 import ReducerNotificationPermission from './ReducerNotificationPermission';
 
-const rootReducers = combineReducers({
+const appReducers = combineReducers({
   ReducerWeb3,
   ReducerMnemonic,
   ReducerWallets,
@@ -28,5 +29,12 @@ const rootReducers = combineReducers({
   ReducerBalance,
   ReducerNotificationPermission
 });
+
+const rootReducers = (state, action) => {
+    if (action.type === CLEAR_STATE) {
+        state = undefined;
+    }
+    return appReducers(state, action);
+};
 
 export default rootReducers;

@@ -1,12 +1,15 @@
 'use strict';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { RootContainer, HeaderOne, UntouchableCardContainer, Button, OneLiner } from '../components/common';
 import { View, Text, Modal, TouchableHighlight, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
+import { persistor } from '../store/store.js';
+import { clearState } from '../actions/ActionClearState';
 
-export default class Settings extends Component {
+class Settings extends Component {
   constructor() {
     super();
     this.state = {
@@ -50,6 +53,8 @@ export default class Settings extends Component {
                 opacity="1"
                 onPress={async () => {
                   await WalletUtilities.resetKeychainData();
+                  await persistor.purge();
+                  this.props.clearState();
                   this.setModalVisible(false);
                   this.props.navigation.navigate('Initial');
                 }}
@@ -127,3 +132,9 @@ const DeleteAccountsText = styled.Text`
   color: #FF3346;
   font-size: 24px;
 `;
+
+const mapDispatchToProps = {
+  clearState
+};
+
+export default connect(null, mapDispatchToProps)(Settings);
