@@ -17,7 +17,9 @@ class WalletList extends Component {
   }
 
   getTotalBalance(ethBalance, daiBalance) {
-    let totalUsdBalance = PriceUtilities.convertEthToUsd(ethBalance) + PriceUtilities.convertDaiToUsd(daiBalance);
+    let totalUsdBalance =
+      parseFloat(PriceUtilities.convertEthToUsd(ethBalance)) +
+      parseFloat(PriceUtilities.convertDaiToUsd(daiBalance));
     totalUsdBalance = parseFloat(totalUsdBalance).toFixed(2);
     return totalUsdBalance;
   }
