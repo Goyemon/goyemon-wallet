@@ -3,16 +3,11 @@ import React, { Component } from 'react';
 import { View, TextInput, Text } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-import { RootContainer, ProgressBar, Button, HeaderOne, HeaderThree } from '../components/common';
+import { RootContainer, ProgressBar, Button, HeaderThree } from '../components/common';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
-import EtherUtilities from '../utilities/EtherUtilities';
 import ProviderUtilities from '../utilities/ProviderUtilities.ts';
 import { createChecksumAddress } from '../actions/ActionChecksumAddress';
 import { saveMnemonic } from '../actions/ActionMnemonic';
-import { saveEthBalance } from '../actions/ActionBalance';
-import { saveExistingTransactions } from '../actions/ActionTransactionHistory';
-import firebase from 'react-native-firebase';
-import uuidv4 from 'uuid/v4';
 
 class ImportTwentyFourMnemonicWords extends Component {
   constructor() {
@@ -46,25 +41,6 @@ class ImportTwentyFourMnemonicWords extends Component {
       ],
       mnemonicWordsValidation: true
     };
-  }
-
-  async componentDidMount() {
-    this.messageListener = firebase.messaging().onMessage((downstreamMessage) => {
-      if (downstreamMessage.data.type === "balance") {
-        const balanceInWei = downstreamMessage.data.balance;
-        const balanceInEther = this.props.web3.utils.fromWei(balanceInWei);
-        const roundedBalanceInEther = parseFloat(balanceInEther).toFixed(4);
-        this.props.saveEthBalance(roundedBalanceInEther);
-      }
-      if (downstreamMessage.data.type === "txhistory" && downstreamMessage.data.count != "0") {
-        let transactions = JSON.parse(downstreamMessage.data.items);
-        this.props.saveExistingTransactions(transactions);
-      }
-    });
-  }
-
-  componentWillUnmount() {
-    this.messageListener();
   }
 
   async savePrivateKey() {
@@ -204,9 +180,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   saveMnemonic,
-  createChecksumAddress,
-  saveEthBalance,
-  saveExistingTransactions
+  createChecksumAddress
 };
 
 export default connect(
