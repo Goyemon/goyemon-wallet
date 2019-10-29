@@ -5,7 +5,7 @@ import { ADD_PENDING_TRANSACTION } from '../constants/ActionTypes';
 import { UPDATE_TRANSACTION_STATE } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
-  transactions: []
+  transactions: null
 };
 
 const transactions = (state = INITIAL_STATE, action) => {
