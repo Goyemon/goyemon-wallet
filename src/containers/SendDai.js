@@ -288,11 +288,13 @@ class SendDai extends Component {
 const styles = {
   noError: {
     borderBottomWidth: 2,
-    borderBottomColor: '#EEE'
+    borderBottomColor: '#EEE',
+    fontSize: 18
   },
   error: {
     borderBottomWidth: 2,
-    borderBottomColor: '#FF3346'
+    borderBottomColor: '#FF3346',
+    fontSize: 18
   }
 };
 

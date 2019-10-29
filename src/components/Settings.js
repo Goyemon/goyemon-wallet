@@ -47,7 +47,7 @@ class Settings extends Component {
               marginLeft="0"
               marginTop="96"
             >
-              Delete Accounts?
+              Reset your Wallet?
             </OneLiner>
             <ButtonContainer>
               <Button
@@ -115,7 +115,7 @@ class Settings extends Component {
               this.setModalVisible(true);
             }}
           >
-            <DeleteAccountsText>Delete Accounts</DeleteAccountsText>
+            <ResetWalletText>Reset Wallet</ResetWalletText>
           </TouchableHighlight>
         </UntouchableCardContainer>
       </RootContainer>
@@ -143,7 +143,7 @@ const ButtonContainer = styled.View`
   margin-top: 16px;
 `;
 
-const DeleteAccountsText = styled.Text`
+const ResetWalletText = styled.Text`
   color: #ff3346;
   font-size: 24px;
 `;

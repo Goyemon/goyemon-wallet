@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import styled from 'styled-components/native';
-import { RootContainer, ProgressBar, Button, HeaderOne, OneLiner } from '../components/common';
+import { RootContainer, ProgressBar, Button, HeaderOne, HeaderThree, OneLiner } from '../components/common';
 import ShowMnemonicWords from '../containers/ShowMnemonicWords';
 
 export default class ShowMnemonic extends Component {
@@ -14,9 +14,13 @@ export default class ShowMnemonic extends Component {
           Backup Words
         </OneLiner>
         <Container>
-          <Text>Please carefully write down these 24 backup words.</Text>
+          <HeaderThree color="#000" fontSize="20px" marginBottom="8" marginLeft="8" marginTop="16">
+            Please carefully write down these 24 backup words.
+          </HeaderThree>
           <ShowMnemonicWords />
-          <Text>we will confirm this phrase on the next screen</Text>
+          <HeaderThree color="#000" fontSize="20px" marginBottom="8" marginLeft="8" marginTop="16">
+            we will confirm this phrase on the next screen
+          </HeaderThree>
           <Button
             text="I’ve written them down"
             textColor="white"

@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Text } from 'react-native';
-import { RootContainer, ProgressBar, HeaderOne, Button } from '../components/common/';
+import { RootContainer, ProgressBar, HeaderOne, HeaderThree, Button } from '../components/common/';
 
 export default class ImportOptions extends Component {
   render() {
@@ -10,7 +10,9 @@ export default class ImportOptions extends Component {
       <RootContainer>
         <ProgressBar text="1" width="33%" />
         <Container>
-          <Text>How many backup words do you have?</Text>
+          <HeaderThree color="#000" fontSize="20px" marginBottom="8" marginLeft="8" marginTop="16">
+            How many backup words do you have?
+          </HeaderThree>
           <ButtonContainer>
             <Button
               text="12 Words"
@@ -22,8 +24,6 @@ export default class ImportOptions extends Component {
                 this.props.navigation.navigate('ImportTwelveMnemonicWords');
               }}
             />
-          </ButtonContainer>
-          <ButtonContainer>
             <Button
               text="24 Words"
               textColor="white"
@@ -50,7 +50,5 @@ const Container = styled.ScrollView.attrs(props => ({
 }))``;
 
 const ButtonContainer = styled.View`
-  alignItems: center;
-  flexDirection: row;
-  justifyContent: center;
+  marginTop: 40;
 `;

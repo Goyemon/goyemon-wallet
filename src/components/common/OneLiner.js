@@ -22,6 +22,7 @@ const OneLinerText = styled.Text`
   margin-left: ${props => `${props.marginLeft}px`};
   margin-top: ${props => `${props.marginTop}px`};
   text-align: center;
+  width: 95%;
 `;
 
 export { OneLiner };

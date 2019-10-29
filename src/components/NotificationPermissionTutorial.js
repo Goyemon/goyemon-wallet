@@ -1,8 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { RootContainer, ProgressBar, Button, OneLiner } from '../components/common';
-import { Text } from 'react-native';
+import { RootContainer, ProgressBar, Button, OneLiner, HeaderThree } from '../components/common';
 import styled from 'styled-components/native';
 
 class NotificationPermissionTutorial extends Component {
@@ -11,16 +10,15 @@ class NotificationPermissionTutorial extends Component {
       <RootContainer>
         <ProgressBar text="3" width="100%" />
         <OneLiner fontSize="24px" fontWeight="bold" marginBottom="0" marginLeft="0" marginTop="40">
-          Allow Notifications
+          Almost done!
         </OneLiner>
         <Container>
-          <Text>I need to ask you only one more thing…</Text>
-          <Text>
+          <HeaderThree color="#000" fontSize="20px" marginBottom="8" marginLeft="8" marginTop="16">
             We use a notification system to process your transactions. But we will never annoy you
             with a pop-up notification.{' '}
-          </Text>
+          </HeaderThree>
           <Button
-            text="Allow"
+            text="Enable Now"
             textColor="white"
             backgroundColor="#009DC4"
             margin="16px auto"

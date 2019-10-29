@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { View, TextInput, Text } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-import { RootContainer, ProgressBar, Button } from '../components/common';
+import { RootContainer, ProgressBar, HeaderThree, Button } from '../components/common';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 import EtherUtilities from '../utilities/EtherUtilities';
 import ProviderUtilities from '../utilities/ProviderUtilities.ts';
@@ -73,7 +73,9 @@ class ImportTwelveMnemonicWords extends Component {
       <RootContainer>
         <ProgressBar text="2" width="67%" />
         <Container>
-          <Text>Enter the backup words to import your wallet.</Text>
+          <HeaderThree color="#000" fontSize="20px" marginBottom="8" marginLeft="8" marginTop="16">
+            Enter the backup words to import your wallet.
+          </HeaderThree>
           <MnemonicWordsContainer style={styles.table}>
             {this.state.mnemonicWords.map((word, id) => (
               <View style={styles.cell} key={id}>
@@ -149,7 +151,7 @@ const ButtonContainer = styled.View`
 `;
 
 const ErrorMessage = styled.Text`
-  color: #FF3346;
+  color: #ff3346;
 `;
 
 function mapStateToProps(state) {

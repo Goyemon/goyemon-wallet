@@ -11,6 +11,7 @@ const Loader = props => {
       <ModalBackground>
         <ActivityIndicatorWrapper>
           <ActivityIndicator animating={loading} />
+          {props.children}
         </ActivityIndicatorWrapper>
       </ModalBackground>
     </Modal>
@@ -27,8 +28,8 @@ const ModalBackground = styled.View`
 
 const ActivityIndicatorWrapper = styled.View`
   backgroundColor: #FFFFFF;
-  height: 120;
-  width: 120;
+  height: 240;
+  width: 240;
   borderRadius: 16;
   display: flex;
   alignItems: center;

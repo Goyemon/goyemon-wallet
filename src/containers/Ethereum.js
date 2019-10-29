@@ -74,7 +74,7 @@ const CardContainerWithoutFeedback = styled.View`
 `;
 
 const ButtonContainer = styled.View`
-  alignItems: center;
+  alignItems: center;
   flexDirection: row;
   justifyContent: center;
   margin-top: 16px;

@@ -46,7 +46,7 @@ class CreateWalletTutorial extends Component {
             text="Do This Later"
             textColor="#009DC4"
             backgroundColor="#F8F8F8"
-            margin="24px auto"
+            margin="0 auto"
             opacity="1"
             onPress={async () => {
               await WalletUtilities.setMnemonic(mnemonicWords);

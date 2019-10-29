@@ -1,7 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, TextInput } from 'react-native';
-import { RootContainer, ProgressBar, Button, HeaderOne } from '../components/common';
+import { RootContainer, ProgressBar, Button, HeaderOne, HeaderThree } from '../components/common';
 import { connect } from 'react-redux';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 import EtherUtilities from '../utilities/EtherUtilities.js';
@@ -91,7 +91,9 @@ class VerifyMnemonic extends Component {
       <RootContainer>
         <ProgressBar text="2" width="67%" />
         <Container>
-          <Text>Please write down a list of words again.</Text>
+          <HeaderThree color="#000" fontSize="20px" marginBottom="8" marginLeft="8" marginTop="16">
+            Please write down a list of words again.
+          </HeaderThree>
           <MnemonicWordsContainer style={styles.table}>
             {this.state.mnemonicWords.map((word, id) => (
               <View style={styles.cell} key={id}>
