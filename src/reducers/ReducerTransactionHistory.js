@@ -11,9 +11,9 @@ const INITIAL_STATE = {
 const transactions = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SAVE_EMPTY_TRANSACTION:
-      return { ...state, transactions: action.payload };
+      return { transactions: action.payload };
     case SAVE_EXISTING_TRANSACTIONS:
-      const transactions = [...state.transactions, ...action.payload];
+      const transactions = [...action.payload];
       const sortedTransactions = transactions.sort((a, b) => b.time - a.time);
       return {
         transactions: sortedTransactions
