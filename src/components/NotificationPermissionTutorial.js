@@ -3,26 +3,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { RootContainer, ProgressBar, Button, OneLiner } from '../components/common';
 import { Text } from 'react-native';
-import { saveEthBalance } from '../actions/ActionBalance';
 import styled from 'styled-components/native';
-import firebase from 'react-native-firebase';
 
 class NotificationPermissionTutorial extends Component {
-  async componentDidMount() {
-    this.messageListener = firebase.messaging().onMessage(downstreamMessage => {
-      if (downstreamMessage.data.type === 'balance') {
-        const balanceInWei = downstreamMessage.data.balance;
-        const balanceInEther = this.props.web3.utils.fromWei(balanceInWei);
-        const roundedBalanceInEther = parseFloat(balanceInEther).toFixed(4);
-        this.props.saveEthBalance(roundedBalanceInEther);
-      }
-    });
-  }
-
-  componentWillUnmount() {
-    this.messageListener();
-  }
-
   render() {
     return (
       <RootContainer>
@@ -61,11 +44,4 @@ const mapStateToProps = state => ({
     web3: state.ReducerWeb3.web3
   });
 
-const mapDispatchToProps = {
-  saveEthBalance
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(NotificationPermissionTutorial);
+export default connect(mapStateToProps)(NotificationPermissionTutorial);

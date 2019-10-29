@@ -7,35 +7,13 @@ import { RootContainer, TouchableCardContainer, HeaderOne, HeaderTwo } from '../
 import WalletDetail from '../containers/WalletDetail';
 import { saveEthBalance } from '../actions/ActionBalance';
 import styled from 'styled-components';
-import firebase from 'react-native-firebase';
 import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
-import { saveExistingTransactions } from '../actions/ActionTransactionHistory';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class WalletList extends Component {
   async componentDidMount() {
-    this.messageListener = firebase.messaging().onMessage(downstreamMessage => {
-      if (downstreamMessage.data.type === 'balance') {
-        const balanceInWei = downstreamMessage.data.balance;
-        const balanceInEther = this.props.web3.utils.fromWei(balanceInWei);
-        const roundedBalanceInEther = parseFloat(balanceInEther).toFixed(4);
-        this.props.saveEthBalance(roundedBalanceInEther);
-      }
-    });
-
-    this.messageListener = firebase.messaging().onMessage(downstreamMessage => {
-      if (downstreamMessage.data.type === 'txhistory' && downstreamMessage.data.count != '0') {
-        const transactions = JSON.parse(downstreamMessage.data.items);
-        this.props.saveExistingTransactions(transactions);
-      }
-    });
-
     await this.props.getEthPrice();
     await this.props.getDaiPrice();
-  }
-
-  componentWillUnmount() {
-    this.messageListener();
   }
 
   getTotalBalance(ethBalance, daiBalance) {
@@ -108,8 +86,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   saveEthBalance,
   getEthPrice,
-  getDaiPrice,
-  saveExistingTransactions
+  getDaiPrice
 };
 
 export default withNavigation(

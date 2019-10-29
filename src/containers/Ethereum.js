@@ -5,27 +5,10 @@ import { withNavigation } from 'react-navigation';
 import { View, Text } from 'react-native';
 import Transactions from '../containers/Transactions';
 import { RootContainer, Button, HeaderOne, HeaderTwo } from '../components/common/';
-import { saveEthBalance } from '../actions/ActionBalance';
 import styled from 'styled-components';
-import firebase from 'react-native-firebase';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class Ethereum extends Component {
-  async componentDidMount() {
-    this.messageListener = firebase.messaging().onMessage(downstreamMessage => {
-      if (downstreamMessage.data.type === 'balance') {
-        const balanceInWei = downstreamMessage.data.balance;
-        const balanceInEther = this.props.web3.utils.fromWei(balanceInWei);
-        const roundedBalanceInEther = parseFloat(balanceInEther).toFixed(4);
-        this.props.saveEthBalance(roundedBalanceInEther);
-      }
-    });
-  }
-
-  componentWillUnmount() {
-    this.messageListener();
-  }
-
   getUsdBalance() {
     try {
       return PriceUtilities.convertEthToUsd(this.props.balance.ethBalance);
@@ -108,17 +91,7 @@ const EthBalance = styled.Text`
 const mapStateToProps = state => ({
   transactions: state.ReducerTransactionHistory.transactions,
   web3: state.ReducerWeb3.web3,
-  price: state.ReducerPrice.price,
   balance: state.ReducerBalance.balance
 });
 
-const mapDispatchToProps = {
-  saveEthBalance
-};
-
-export default withNavigation(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Ethereum)
-);
+export default withNavigation(connect(mapStateToProps)(Ethereum));
