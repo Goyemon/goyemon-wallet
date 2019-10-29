@@ -7,15 +7,9 @@ import { RootContainer, TouchableCardContainer, HeaderOne, HeaderTwo } from '../
 import WalletDetail from '../containers/WalletDetail';
 import { saveEthBalance } from '../actions/ActionBalance';
 import styled from 'styled-components';
-import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class WalletList extends Component {
-  async componentDidMount() {
-    await this.props.getEthPrice();
-    await this.props.getDaiPrice();
-  }
-
   getTotalBalance(ethBalance, daiBalance) {
     let totalUsdBalance =
       parseFloat(PriceUtilities.convertEthToUsd(ethBalance)) +
@@ -85,9 +79,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  saveEthBalance,
-  getEthPrice,
-  getDaiPrice
+  saveEthBalance
 };
 
 export default withNavigation(

@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { RootContainer, ProgressBar, Button, OneLiner, HeaderThree } from '../components/common';
 import styled from 'styled-components/native';
+import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
 
 class NotificationPermissionTutorial extends Component {
   render() {
@@ -23,7 +24,11 @@ class NotificationPermissionTutorial extends Component {
             backgroundColor="#009DC4"
             margin="16px auto"
             opacity="1"
-            onPress={() => this.props.navigation.navigate('NotificationPermission')}
+            onPress={async () => {
+              await this.props.getEthPrice();
+              await this.props.getDaiPrice();
+              this.props.navigation.navigate('NotificationPermission');
+            }}
           />
         </Container>
       </RootContainer>
@@ -39,7 +44,15 @@ const Container = styled.View`
 `;
 
 const mapStateToProps = state => ({
-    web3: state.ReducerWeb3.web3
-  });
+  web3: state.ReducerWeb3.web3
+});
 
-export default connect(mapStateToProps)(NotificationPermissionTutorial);
+const mapDispatchToProps = {
+  getEthPrice,
+  getDaiPrice
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NotificationPermissionTutorial);
