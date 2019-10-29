@@ -5,16 +5,17 @@ import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 export function saveEmptyTransaction(emptyTransaction) {
   return function (dispatch) {
     try {
-      dispatch(saveEmptyTransactionSuccess(emptyTransaction));
+      const parsedEmptyTransaction = JSON.parse(emptyTransaction);
+      dispatch(saveEmptyTransactionSuccess(parsedEmptyTransaction));
     } catch(err) {
       console.error(err);
     }
   }
 };
 
-const saveEmptyTransactionSuccess = (emptyTransaction) => ({
+const saveEmptyTransactionSuccess = (parsedEmptyTransaction) => ({
   type: SAVE_EMPTY_TRANSACTION,
-  payload: emptyTransaction
+  payload: parsedEmptyTransaction
 })
 
 export function saveExistingTransactions(transactions) {
