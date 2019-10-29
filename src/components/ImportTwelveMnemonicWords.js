@@ -14,20 +14,7 @@ class ImportTwelveMnemonicWords extends Component {
   constructor() {
     super();
     this.state = {
-      mnemonicWords: [
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        ''
-      ],
+      mnemonicWords: ['', '', '', '', '', '', '', '', '', '', '', ''],
       mnemonicWordsValidation: true
     };
   }
