@@ -1,7 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { RootContainer, Button } from '../components/common';
+import { RootContainer, Button, Loader, HeaderThree } from '../components/common';
 import { Text, View, Linking } from 'react-native';
 import { StackActions, NavigationActions } from 'react-navigation';
 import HomeStack from '../navigators/HomeStack';
@@ -10,6 +10,13 @@ import firebase from 'react-native-firebase';
 import { saveNotificationPermission } from '../actions/ActionNotificationPermission';
 
 class NotificationPermission extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: false
+    };
+  }
+
   async componentDidMount() {
     await this.checkFcmPermissions();
   }
@@ -32,12 +39,67 @@ class NotificationPermission extends Component {
     }
   }
 
+  hasBalanceAndTransactions() {
+    return (
+      this.props.balance.ethBalance >= 0 &&
+      this.props.balance.ethBalance.length != 0 &&
+      this.props.balance.daiBalance >= 0 &&
+      this.props.balance.daiBalance.length != 0 &&
+      this.props.transactions
+    );
+  }
+
+  toggleLoadingState() {
+    const hasLoaded = this.hasBalanceAndTransactions();
+
+    this.setState({
+      loading: !hasLoaded
+    });
+  }
+
+  navigateToHome() {
+    HomeStack.navigationOptions = ({ navigation }) => {
+      const tabBarVisible = true;
+      return tabBarVisible;
+    };
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: 'Wallets' })]
+    });
+    this.props.navigation.dispatch(resetAction);
+  }
+
   renderPermission() {
+    if (this.hasBalanceAndTransactions()) {
+      this.navigateToHome();
+      return <View />;
+    }
+
     if (this.props.notificationPermission === null) {
       return (<Text>Smash that “OK” button  so we can process your transactions!</Text>);
     } else if (this.props.notificationPermission === true) {
       return (
         <View>
+          <Loader loading={this.state.loading}>
+            <HeaderThree
+              color="#000"
+              fontSize="20px"
+              marginBottom="8"
+              marginLeft="8"
+              marginTop="16"
+            >
+              Creating your wallet...
+            </HeaderThree>
+            <HeaderThree
+              color="#000"
+              fontSize="20px"
+              marginBottom="8"
+              marginLeft="8"
+              marginTop="16"
+            >
+              this shouldn't take long
+            </HeaderThree>
+          </Loader>
           <Text>great!</Text>
           <Button
             text="Next"
@@ -46,15 +108,7 @@ class NotificationPermission extends Component {
             margin="16px auto"
             opacity="1"
             onPress={() => {
-              HomeStack.navigationOptions = ({ navigation }) => {
-                const tabBarVisible = true;
-                return tabBarVisible;
-              };
-              const resetAction = StackActions.reset({
-                index: 0,
-                actions: [NavigationActions.navigate({ routeName: 'Wallets' })]
-              });
-              this.props.navigation.dispatch(resetAction);
+              this.toggleLoadingState();
             }}
           />
         </View>
@@ -96,7 +150,9 @@ const Container = styled.View`
 
 function mapStateToProps(state) {
   return {
-    notificationPermission: state.ReducerNotificationPermission.notificationPermission
+    balance: state.ReducerBalance.balance,
+    notificationPermission: state.ReducerNotificationPermission.notificationPermission,
+    transactions: state.ReducerTransactionHistory.transactions
   };
 }
 
