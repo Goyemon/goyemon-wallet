@@ -79,11 +79,10 @@ const UsdBalance = styled.Text`
 `;
 
 const mapStateToProps = state => ({
-    wallets: state.ReducerWallets.wallets,
-    price: state.ReducerPrice.price,
-    web3: state.ReducerWeb3.web3,
-    balance: state.ReducerBalance.balance
-  });
+  wallets: state.ReducerWallets.wallets,
+  web3: state.ReducerWeb3.web3,
+  balance: state.ReducerBalance.balance
+});
 
 const mapDispatchToProps = {
   saveEthBalance,
