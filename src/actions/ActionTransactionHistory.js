@@ -1,6 +1,21 @@
 'use strict';
-import { SAVE_EXISTING_TRANSACTIONS, ADD_PENDING_TRANSACTION, UPDATE_TRANSACTION_STATE } from '../constants/ActionTypes';
+import { SAVE_EMPTY_TRANSACTION, SAVE_EXISTING_TRANSACTIONS, ADD_PENDING_TRANSACTION, UPDATE_TRANSACTION_STATE } from '../constants/ActionTypes';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
+
+export function saveEmptyTransaction(emptyTransaction) {
+  return function (dispatch) {
+    try {
+      dispatch(saveEmptyTransactionSuccess(emptyTransaction));
+    } catch(err) {
+      console.error(err);
+    }
+  }
+};
+
+const saveEmptyTransactionSuccess = (emptyTransaction) => ({
+  type: SAVE_EMPTY_TRANSACTION,
+  payload: emptyTransaction
+})
 
 export function saveExistingTransactions(transactions) {
   return function (dispatch) {
