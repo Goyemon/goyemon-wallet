@@ -16,6 +16,7 @@ import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransact
 import { getGasPriceFast, getGasPriceAverage, getGasPriceSlow } from '../actions/ActionGasPrice';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
+import GasUtilities from '../utilities/GasUtilities.js';
 
 class Send extends Component {
   constructor(props) {
@@ -52,15 +53,8 @@ class Send extends Component {
     this.props.getGasPriceSlow();
   }
 
-  getTransactionFeeEstimateInEther(gasPriceInWei) {
-    const gasLimit = 21000;
-    const transactionFeeEstimateInWei = gasPriceInWei * gasLimit;
-    const transactionFeeEstimateInEther = this.props.web3.utils.fromWei(transactionFeeEstimateInWei.toString(), 'Ether');
-    return transactionFeeEstimateInEther;
-  }
-
   getTransactionFeeEstimateInUsd(gasPriceInWei) {
-    return PriceUtilities.convertEthToUsd(this.getTransactionFeeEstimateInEther(gasPriceInWei));
+    return PriceUtilities.convertEthToUsd(GasUtilities.getTransactionFeeEstimateInEther(gasPriceInWei, 21000));
   }
 
   async constructTransactionObject() {
@@ -96,7 +90,7 @@ class Send extends Component {
   }
 
   validateAmount(amount) {
-    const transactionFeeLimitInEther = getTransactionFeeEstimateInEther();
+    const transactionFeeLimitInEther = GasUtilities.getTransactionFeeEstimateInEther(this.state.gasPrice[this.state.checked].gasPriceInWei, 21000);
 
     if (
       parseFloat(amount) + parseFloat(transactionFeeLimitInEther) < parseFloat(this.props.balance.ethBalance) &&

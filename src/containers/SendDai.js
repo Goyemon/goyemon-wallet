@@ -17,6 +17,7 @@ import { saveDaiToAddress } from '../actions/ActionDaiToAddress';
 import { getGasPriceFast, getGasPriceAverage, getGasPriceSlow } from '../actions/ActionGasPrice';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
+import GasUtilities from '../utilities/GasUtilities.js';
 import Animation from 'lottie-react-native';
 import daiToken from '../contracts/DaiToken';
 
@@ -54,16 +55,6 @@ class SendDai extends Component {
     this.props.getGasPriceFast();
     this.props.getGasPriceAverage();
     this.props.getGasPriceSlow();
-  }
-
-  getTransactionFeeEstimateInEther(gasPriceInWei) {
-    const gasLimit = 100000;
-    const transactionFeeEstimateInWei = gasPriceInWei * gasLimit;
-    const transactionFeeEstimateInEther = this.props.web3.utils.fromWei(
-      transactionFeeEstimateInWei.toString(),
-      'Ether'
-    );
-    return transactionFeeEstimateInEther;
   }
 
   getTransferEncodedABI(address, amount) {
@@ -123,8 +114,8 @@ class SendDai extends Component {
   }
 
   validateEthAmount() {
-    const transactionFeeLimitInEther = this.getTransactionFeeEstimateInEther(
-      this.state.gasPrice[this.state.checked].gasPriceInWei
+    const transactionFeeLimitInEther = GasUtilities.getTransactionFeeEstimateInEther(
+      this.state.gasPrice[this.state.checked].gasPriceInWei, 100000
     );
 
     if (parseFloat(this.props.balance.ethBalance) > parseFloat(transactionFeeLimitInEther)) {
@@ -242,7 +233,7 @@ class SendDai extends Component {
                     <SelectedButton>
                       $
                       {PriceUtilities.convertEthToUsd(
-                        this.getTransactionFeeEstimateInEther(gasPrice.gasPriceInWei)
+                        GasUtilities.getTransactionFeeEstimateInEther(gasPrice.gasPriceInWei, 100000)
                       )}
                     </SelectedButton>
                   </SpeedContainer>
@@ -258,7 +249,7 @@ class SendDai extends Component {
                     <UnselectedButton>
                       $
                       {PriceUtilities.convertEthToUsd(
-                        this.getTransactionFeeEstimateInEther(gasPrice.gasPriceInWei)
+                        GasUtilities.getTransactionFeeEstimateInEther(gasPrice.gasPriceInWei, 100000)
                       )}
                     </UnselectedButton>
                   </SpeedContainer>
