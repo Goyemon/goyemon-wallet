@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Text } from 'react-native';
 import styled from 'styled-components/native';
-import { RootContainer, HeaderOne } from '../components/common';
+import { RootContainer, HeaderOne, Description } from '../components/common';
 
 class BackupWords extends Component {
   render() {
@@ -13,6 +13,9 @@ class BackupWords extends Component {
       <RootContainer>
         <HeaderOne marginTop="96">Backup Words</HeaderOne>
         <Container>
+          <Description marginBottom="16" marginLeft="8" marginTop="16">
+            carefully write down these backup words in order
+          </Description>
           <MnemonicWordsContainer style={styles.table}>
             {mnemonicWords.map((mnemonicWord, id) => (
               <MnemonicWordsWrapper key={id} style={styles.cell}>
@@ -54,13 +57,14 @@ const MnemonicWordsWrapper = styled.View`
   border-radius: 16px;
   border-color: #f8f8f8;
   border-width: 4px;
+  margin-bottom: 8px;
   text-align: center;
 `;
 
 const MnemonicWordsText = styled.Text`
-  fontSize: 16px;
+  font-size: 16px;
   padding: 4px;
-  textAlign: center;
+  text-align: center;
 `;
 
 function mapStateToProps(state) {
