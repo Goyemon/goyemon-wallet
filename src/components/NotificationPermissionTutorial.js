@@ -1,7 +1,8 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { RootContainer, ProgressBar, Button, OneLiner, HeaderThree } from '../components/common';
+import { Image } from 'react-native';
+import { RootContainer, ProgressBar, Button, HeaderTwo, Description } from '../components/common';
 import styled from 'styled-components/native';
 import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
 
@@ -9,19 +10,20 @@ class NotificationPermissionTutorial extends Component {
   render() {
     return (
       <RootContainer>
-        <ProgressBar text="3" width="100%" />
-        <OneLiner fontSize="24px" fontWeight="bold" marginBottom="0" marginLeft="0" marginTop="40">
+      <ProgressBar oneColor="#5f5f5f" twoColor="#5f5f5f" threeColor="#5f5f5f" marginRight="0%" width="80%" />
+      <Container>
+        <HeaderTwo marginBottom="0" marginLeft="0" marginTop="0">
           Almost done!
-        </OneLiner>
-        <Container>
-          <HeaderThree color="#000" fontSize="20px" marginBottom="8" marginLeft="8" marginTop="16">
-            We use a notification system to process your transactions. But we will never annoy you
-            with a pop-up notification.{' '}
-          </HeaderThree>
+        </HeaderTwo>
+          <NotificationPermissionImage source={require('../../assets/notification_tutorial.png')} />
+          <Description marginBottom="8" marginLeft="0" marginTop="16">
+            We use a notification system to process your transactions.
+          </Description>
           <Button
             text="Enable Now"
-            textColor="white"
-            backgroundColor="#009DC4"
+            textColor="#009DC4"
+            backgroundColor="#FFF"
+            borderColor="#009DC4"
             margin="16px auto"
             opacity="1"
             onPress={async () => {
@@ -37,10 +39,16 @@ class NotificationPermissionTutorial extends Component {
 }
 
 const Container = styled.View`
+  alignItems: center;
   flex: 1;
   justify-content: center;
   margin-top: 40px;
   text-align: center;
+`;
+
+const NotificationPermissionImage = styled.Image`
+  height: 320px;
+  width: 320px;
 `;
 
 const mapStateToProps = state => ({
