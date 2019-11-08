@@ -96,7 +96,7 @@ const HomeStack = createStackNavigator(
       navigationOptions: () => ({
         headerLeft: null,
         headerTransparent: true,
-        headerBackTitle: 'Home',
+        headerBackTitle: 'Wallets'
       })
     },
     Ethereum: {

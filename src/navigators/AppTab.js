@@ -14,8 +14,8 @@ const AppTab = createBottomTabNavigator(
     Home: {
       screen: HomeStack,
       navigationOptions: {
-        tabBarLabel: 'Home',
-        tabBarIcon: ({ tintColor }) => <Icon name="home" size={32} color={tintColor} />
+        tabBarLabel: 'Wallets',
+        tabBarIcon: ({ tintColor }) => <Icon name="wallet" size={32} color={tintColor} />
       }
     },
     Settings: {
