@@ -1,6 +1,7 @@
 export * from './RootContainer';
 export * from './Button';
 export * from './Form';
+export * from './FormHeader';
 export * from './ProgressBar';
 export * from './Loader';
 export * from './UntouchableCardContainer';
