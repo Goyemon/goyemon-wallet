@@ -1,12 +1,14 @@
 'use strict';
 import React, { Component } from 'react';
-import { View, TextInput } from 'react-native';
+import { View, TextInput, TouchableOpacity } from 'react-native';
 import {
   RootContainer,
   Button,
   UntouchableCardContainer,
   HeaderOne,
-  HeaderTwo
+  HeaderTwo,
+  Form,
+  FormHeader
 } from '../components/common';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
@@ -55,6 +57,14 @@ class SendDai extends Component {
     this.props.getGasPriceFast();
     this.props.getGasPriceAverage();
     this.props.getGasPriceSlow();
+  }
+
+  getUsdBalance() {
+    try {
+      return PriceUtilities.convertDaiToUsd(this.props.balance.daiBalance);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   getTransferEncodedABI(address, amount) {
@@ -178,6 +188,8 @@ class SendDai extends Component {
   };
 
   render() {
+    const { balance } = this.props;
+
     this.state.gasPrice[0].gasPriceInWei = this.props.gasPrice.fast;
     this.state.gasPrice[1].gasPriceInWei = this.props.gasPrice.average;
     this.state.gasPrice[2].gasPriceInWei = this.props.gasPrice.slow;
@@ -185,33 +197,51 @@ class SendDai extends Component {
     return (
       <RootContainer>
         <HeaderOne marginTop="96">Send</HeaderOne>
+        <Container>
         <UntouchableCardContainer
-          alignItems="flex-start"
+          alignItems="center"
           borderRadius="8px"
           flexDirection="column"
-          height="280px"
-          justifyContent="flex-start"
-          textAlign="left"
-          width="95%"
+          height="200px"
+          justifyContent="center"
+          marginTop="56"
+          textAlign="center"
+          width="80%"
         >
-          <HeaderTwo color="#000" fontSize="16px" marginBottom="4" marginLeft="0" marginTop="0">
-            TO
-          </HeaderTwo>
-          <TextInput
-            style={this.state.toAddressValidation ? styles.noError : styles.error}
-            placeholder="address"
-            clearButtonMode="while-editing"
-            onChangeText={toAddress => {
-              this.validateToAddress(toAddress);
-              this.setState({ toAddress });
-            }}
-          />
+          <CoinImage source={require('../../assets/dai_icon.png')} />
+          <BalanceText>
+            your dai balance
+          </BalanceText>
+          <UsdBalance>${this.getUsdBalance()}</UsdBalance>
+          <EthBalance>{balance.daiBalance} DAI</EthBalance>
+        </UntouchableCardContainer>
+        <FormHeader marginBottom="4" marginLeft="0" marginTop="0">
+          To
+        </FormHeader>
+        <Form
+          borderColor={this.state.toAddressValidation ? "#000" : "#FF3346"}
+          borderWidth={this.state.toAddressValidation ? 0 : 2}
+          height="56px"
+        >
+            <TextInput
+              placeholder="address"
+              clearButtonMode="while-editing"
+              onChangeText={toAddress => {
+                this.validateToAddress(toAddress);
+                this.setState({ toAddress });
+              }}
+            />
+          </Form>
           <View>{this.renderInvalidToAddressMessage()}</View>
-          <HeaderTwo color="#000" fontSize="16px" marginBottom="4" marginLeft="0" marginTop="24">
-            AMOUNT(DAI)
-          </HeaderTwo>
+          <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
+            Amount(DAI)
+          </FormHeader>
+          <Form
+            borderColor={this.state.daiAmountValidation ? "#000" : "#FF3346"}
+            borderWidth={this.state.daiAmountValidation ? 0 : 2}
+            height="56px"
+          >
           <TextInput
-            style={this.state.daiAmountValidation ? styles.noError : styles.error}
             placeholder="type the amount of ether you would like to send"
             clearButtonMode="while-editing"
             onChangeText={amount => {
@@ -219,10 +249,21 @@ class SendDai extends Component {
               this.setState({ amount });
             }}
           />
+          </Form>
           <View>{this.renderInsufficientDaiBalanceMessage()}</View>
-          <HeaderTwo color="#000" fontSize="16px" marginBottom="4" marginLeft="0" marginTop="24">
-            NETWORK FEE
-          </HeaderTwo>
+          <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
+            Network Fee
+          </FormHeader>
+          <UntouchableCardContainer
+            alignItems="center"
+            borderRadius="0"
+            flexDirection="column"
+            height="120px"
+            justifyContent="flex-start"
+            marginTop="0"
+            textAlign="left"
+            width="80%"
+          >
           <NetworkFeeContainer>
             {this.state.gasPrice.map((gasPrice, key) => (
               <NetworkFee key={key}>
@@ -257,13 +298,14 @@ class SendDai extends Component {
               </NetworkFee>
             ))}
           </NetworkFeeContainer>
+          </UntouchableCardContainer>
           <View>{this.renderInsufficientEthBalanceMessage()}</View>
-        </UntouchableCardContainer>
         <ButtonWrapper>
           <Button
             text="Next"
-            textColor="white"
-            backgroundColor="#009DC4"
+            textColor="#009DC4"
+            backgroundColor="#FFF"
+            borderColor="#009DC4"
             margin="40px auto"
             opacity="1"
             onPress={async () => {
@@ -271,23 +313,39 @@ class SendDai extends Component {
             }}
           />
         </ButtonWrapper>
+        </Container>
       </RootContainer>
     );
   }
 }
 
-const styles = {
-  noError: {
-    borderBottomWidth: 2,
-    borderBottomColor: '#EEE',
-    fontSize: 18
-  },
-  error: {
-    borderBottomWidth: 2,
-    borderBottomColor: '#FF3346',
-    fontSize: 18
-  }
-};
+const Container = styled.View`
+  alignItems: center;
+  flexDirection: column;
+  justifyContent: center;
+`;
+
+const CoinImage = styled.Image`
+  border-radius: 20px;
+  height: 40px;
+  width: 40px;
+`;
+
+const BalanceText = styled.Text`
+  color: #5F5F5F;
+  font-size: 24px;
+  margin-top: 16px;
+  text-transform: uppercase;
+`;
+
+const UsdBalance = styled.Text`
+  font-size: 28px;
+  margin-top: 8px;
+`;
+
+const EthBalance = styled.Text`
+  font-size: 16px;
+`;
 
 const NetworkFeeContainer = styled.View`
   alignItems: center;
@@ -296,13 +354,14 @@ const NetworkFeeContainer = styled.View`
 `;
 
 const NetworkFee = styled.View`
-  margin-right: 24px;
+  margin: 0 8px;
 `;
 
 const SpeedContainer = styled.TouchableOpacity`
   alignItems: center;
   flexDirection: column;
   justifyContent: center;
+  margin: 0 8px;
 `;
 
 const SelectedButton = styled.Text`
