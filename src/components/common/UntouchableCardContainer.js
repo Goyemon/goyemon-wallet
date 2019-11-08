@@ -9,6 +9,7 @@ const UntouchableCardContainer = props => (
     flexDirection={props.flexDirection}
     height={props.height}
     justifyContent={props.justifyContent}
+    marginTop={props.marginTop}
     textAlign={props.textAlign}
     width={props.width}
   >
@@ -24,6 +25,7 @@ const CardContainer = styled.View`
   height: ${props => props.height};
   justifyContent: ${props => props.justifyContent};
   margin: 16px auto;
+  margin-top: ${props => props.marginTop};
   padding: 16px;
   text-align: ${props => props.textAlign};
   width: ${props => props.width};
