@@ -8,3 +8,4 @@ export * from './HeaderOne';
 export * from './HeaderTwo';
 export * from './HeaderThree';
 export * from './OneLiner';
+export * from './Description';
