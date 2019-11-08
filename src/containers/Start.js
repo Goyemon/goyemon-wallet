@@ -3,12 +3,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { saveMnemonic } from '../actions/ActionMnemonic';
 import styled from 'styled-components';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import {
   RootContainer,
   TouchableCardContainer,
-  HeaderTwo,
-  OneLiner,
+  HeaderThree,
+  Description,
   Loader
 } from '../components/common/';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
@@ -40,16 +40,9 @@ class Start extends Component {
       <RootContainer>
         <Loader loading={this.state.loading} />
         <Container>
-          <Logo>Crypterest</Logo>
-          <OneLiner
-            fontSize="24px"
-            fontWeight="bold"
-            marginBottom="24"
-            marginLeft="0"
-            marginTop="0"
-          >
-            earn interests by sharing your crypto assets
-          </OneLiner>
+          <Description marginBottom="120" marginLeft="8" marginTop="240">
+            Let's make your wallet first :)
+          </Description>
           <TouchableCardContainer
             alignItems="center"
             flexDirection="row"
@@ -65,9 +58,9 @@ class Start extends Component {
             }}
           >
             <View>
-              <HeaderTwo color="#000" fontSize="16px" marginBottom="0" marginLeft="0" marginTop="0">
+              <HeaderThree marginBottom="0" marginLeft="0" marginTop="0">
                 Create
-              </HeaderTwo>
+              </HeaderThree>
               <CardText>new wallet</CardText>
             </View>
             <View>
@@ -84,9 +77,9 @@ class Start extends Component {
             onPress={() => this.props.navigation.navigate('ImportOptions')}
           >
             <View>
-              <HeaderTwo color="#000" fontSize="16px" marginBottom="0" marginLeft="0" marginTop="0">
+              <HeaderThree marginBottom="0" marginLeft="0" marginTop="0">
                 Import
-              </HeaderTwo>
+              </HeaderThree>
               <CardText>existing wallet</CardText>
             </View>
             <View>
@@ -106,15 +99,6 @@ const Container = styled.ScrollView.attrs(props => ({
     justifyContent: 'center'
   })
 }))``;
-
-const Logo = styled.Text`
-  color: #FF3346;
-  font-size: 48px;
-  font-family: 'Arimo';
-  margin-top: 96px;
-  margin-bottom: 40px;
-  text-align: center;
-`;
 
 const CardText = styled.Text`
   font-size: 16px;
