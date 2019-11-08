@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { Text } from 'react-native';
-import { RootContainer, TouchableCardContainer, HeaderOne, HeaderTwo } from '../components/common';
+import { RootContainer, QRCodeIcon, TouchableCardContainer, HeaderOne, HeaderThree } from '../components/common';
 import WalletDetail from '../containers/WalletDetail';
 import { saveEthBalance } from '../actions/ActionBalance';
 import styled from 'styled-components';
@@ -27,16 +27,21 @@ class WalletList extends Component {
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="64">Home</HeaderOne>
+        <QRCodeIcon
+          onPress={() => {
+            navigation.navigate('QRCode');
+          }}
+        />
+        <HeaderOne marginTop="0">Wallets</HeaderOne>
         <CardContainerWithoutFeedback>
-          <HeaderTwo color="#5F5F5F" fontSize="24px" marginBottom="8" marginLeft="0" marginTop="0">
+          <BalanceText>
             Total Balance
-          </HeaderTwo>
+          </BalanceText>
           <UsdBalance>${this.getTotalBalance(balance.ethBalance, balance.daiBalance)}</UsdBalance>
         </CardContainerWithoutFeedback>
-        <HeaderTwo color="#000" fontSize="16px" marginBottom="16" marginLeft="16" marginTop="16">
+        <HeaderThree marginBottom="16" marginLeft="16" marginTop="16">
           YOUR ACCOUNTS
-        </HeaderTwo>
+        </HeaderThree>
         {wallets.map(wallet => (
           <TouchableCardContainer
             alignItems="center"
@@ -63,9 +68,17 @@ class WalletList extends Component {
 const CardContainerWithoutFeedback = styled.View`
   align-items: center;
   background: #fff;
-  height: 120px;
+  height: 160px;
   margin-top: 24px;
   padding: 24px;
+`;
+
+const BalanceText = styled.Text`
+  color: #5F5F5F;
+  font-size: 20px;
+  margin-top: 24px;
+  margin-bottom: 24px;
+  text-transform: uppercase;
 `;
 
 const UsdBalance = styled.Text`
