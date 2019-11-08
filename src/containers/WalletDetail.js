@@ -56,16 +56,16 @@ class WalletDetail extends Component {
     return (
       <Container>
         {this.renderIcon()}
-        <View>
+        <PriceContainer>
           <CoinText>{coin}</CoinText>
           <PriceText>
             1 {notation} = ${this.renderPrice()}
           </PriceText>
-        </View>
-        <View>
+        </PriceContainer>
+        <BalanceContainer>
           <UsdBalanceText>{this.renderUsdBalance()}</UsdBalanceText>
           <BalanceText>{this.renderBalance()}</BalanceText>
-        </View>
+        </BalanceContainer>
       </Container>
     );
   }
@@ -73,18 +73,27 @@ class WalletDetail extends Component {
 
 const Container = styled.View`
   alignItems: center;
+  flex: 1;
   flexDirection: row;
-  justifyContent: flex-start;
+  justifyContent: space-between;
+  width: 100%;
 `;
 
 const CoinImage = styled.Image`
+  border-radius: 20px;
   height: 40px;
   width: 40px;
 `;
 
+const PriceContainer = styled.View`
+  width: 50%;
+`;
+
 const CoinText = styled.Text`
+  color: #5f5f5f;
   font-size: 20px;
   margin-left: 16px;
+  margin-bottom: 4px;
 `;
 
 const PriceText = styled.Text`
@@ -92,14 +101,20 @@ const PriceText = styled.Text`
   margin-left: 16px;
 `;
 
+const BalanceContainer = styled.View`
+  width: 40%;
+`;
+
 const BalanceText = styled.Text`
-  font-size: 22px;
+  color: #5f5f5f;
+  font-size: 20px;
   margin-left: 16px;
 `;
 
 const UsdBalanceText = styled.Text`
   font-size: 22px;
   margin-left: 16px;
+  margin-bottom: 4px;
 `;
 
 const mapStateToProps = state => ({
