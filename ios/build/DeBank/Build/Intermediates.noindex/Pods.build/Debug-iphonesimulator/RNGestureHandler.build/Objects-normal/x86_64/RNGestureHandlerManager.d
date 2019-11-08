@@ -30,6 +30,8 @@ dependencies: \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Public/React-Core/React/UIView+React.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Public/React-Core/React/RCTComponent.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Public/React-Core/React/RCTTouchHandler.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Public/React-Core/React/RCTRootContentView.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Public/React-Core/React/RCTView.h \
   /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-gesture-handler/ios/RNGestureHandlerState.h \
   /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-gesture-handler/ios/RNGestureHandler.h \
   /Users/tai/Dropbox/Codes/DeBank/node_modules/react-native-gesture-handler/ios/RNGestureHandlerDirection.h \

@@ -11,6 +11,7 @@ dependencies: \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/FirebaseCore/FIRLibrary.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/FirebaseCore/FIROptions.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/GoogleUtilities/GULAppEnvironmentUtil.h \
+  /Users/tai/Dropbox/Codes/DeBank/ios/Pods/Headers/Private/GoogleUtilities/GULUserDefaults.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/Private/FIRInstanceID+Private.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/Private/FIRInstanceIDCheckinPreferences.h \
   /Users/tai/Dropbox/Codes/DeBank/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDAuthService.h \

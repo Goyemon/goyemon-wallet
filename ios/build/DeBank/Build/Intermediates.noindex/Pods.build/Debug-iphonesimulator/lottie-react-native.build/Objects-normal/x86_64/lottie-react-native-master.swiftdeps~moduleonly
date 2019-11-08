@@ -1,6 +1,6 @@
 version: "Apple Swift version 5.1 (swiftlang-1100.0.270.13 clang-1100.0.33.7)"
 options: "79f89e788c76320a5336bd6f80309de7"
-build_time: [1571833236, 178899000]
+build_time: [1572761544, 308320000]
 inputs:
   "/Users/tai/Dropbox/Codes/DeBank/node_modules/lottie-react-native/src/ios/LottieReactNative/AnimationViewManagerModule.swift": [499162500, 0]
   "/Users/tai/Dropbox/Codes/DeBank/node_modules/lottie-react-native/src/ios/LottieReactNative/ContainerView.swift": [499162500, 0]
