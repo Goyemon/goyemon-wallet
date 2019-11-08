@@ -6,7 +6,7 @@ import {
   Button,
   UntouchableCardContainer,
   HeaderOne,
-  HeaderTwo
+  FormHeader
 } from '../components/common/';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
@@ -52,23 +52,21 @@ class ConfirmationDai extends Component {
 
   render() {
     const { outgoingTransactionObjects, web3, daiAmount, daiToAddress } = this.props;
-    const transactionFeeEstimate = GasUtilities.getTransactionFeeEstimateInEther(
-      web3.utils.hexToNumber(
-        EtherUtilities.stripHexPrefix(
-          outgoingTransactionObjects[outgoingTransactionObjects.length - 1].gasPrice
-        )
-      ),
-      100000
+
+    const gasPriceInEther = web3.utils.fromWei(
+      outgoingTransactionObjects[outgoingTransactionObjects.length - 1].gasPrice,
+      'Ether'
     );
     const total = (
       parseFloat(PriceUtilities.convertDaiToUsd(daiAmount)) +
-      parseFloat(PriceUtilities.convertEthToUsd(transactionFeeEstimate))
+      parseFloat(PriceUtilities.convertEthToUsd(gasPriceInEther))
     ).toFixed(2);
 
     return (
       <RootContainer>
         <HeaderOne marginTop="96">Confirmation</HeaderOne>
         <TotalContainer>
+          <CoinImage source={require('../../assets/dai_icon.png')} />
           <Text>You are sending</Text>
           <TotalValueText>{daiAmount} DAI</TotalValueText>
           <Text>{total} USD</Text>
@@ -79,27 +77,29 @@ class ConfirmationDai extends Component {
           flexDirection="column"
           height="280px"
           justifyContent="flex-start"
+          marginTop="0"
           textAlign="left"
           width="100%"
         >
-          <HeaderTwo color="#000" fontSize="16px" marginBottom="8" marginLeft="8" marginTop="16">
-            TO
-          </HeaderTwo>
+          <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
+            To
+          </FormHeader>
           <ToText>{daiToAddress}</ToText>
-          <HeaderTwo color="#000" fontSize="16px" marginBottom="8" marginLeft="8" marginTop="16">
-            AMOUNT
-          </HeaderTwo>
+          <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
+            Amount
+          </FormHeader>
           <AmountText>{daiAmount} DAI</AmountText>
-          <HeaderTwo color="#000" fontSize="16px" marginBottom="8" marginLeft="8" marginTop="16">
-            NETWORK FEE
-          </HeaderTwo>
-          <NetworkFeeText>{transactionFeeEstimate} ETH</NetworkFeeText>
+          <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
+            Network Fee
+          </FormHeader>
+          <NetworkFeeText>{gasPriceInEther} ETH</NetworkFeeText>
         </UntouchableCardContainer>
         <ButtonContainer>
           <Button
             text="Send"
             textColor="white"
             backgroundColor="#009DC4"
+            borderColor="#009DC4"
             margin="8px"
             opacity="1"
             onPress={async () => {
@@ -119,6 +119,12 @@ const TotalContainer = styled.View`
   justifyContent: center;
   margin-bottom: 56px;
   margin-top: 56px;
+`;
+
+const CoinImage = styled.Image`
+  border-radius: 20px;
+  height: 40px;
+  width: 40px;
 `;
 
 const ToText = styled.Text`
