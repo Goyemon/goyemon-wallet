@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { View, Text } from 'react-native';
 import Transactions from '../containers/Transactions';
-import { RootContainer, Button, HeaderOne, HeaderTwo } from '../components/common/';
+import { RootContainer, QRCodeIcon, Button, HeaderOne, HeaderThree } from '../components/common/';
 import { saveDaiBalance } from '../actions/ActionBalance';
 import styled from 'styled-components';
 import firebase from 'react-native-firebase';
@@ -44,26 +44,24 @@ class Dai extends Component {
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="96">Dai</HeaderOne>
+        <QRCodeIcon
+          onPress={() => {
+            navigation.navigate('QRCode');
+          }}
+        />
+        <HeaderOne marginTop="16">Dai</HeaderOne>
         <CardContainerWithoutFeedback>
-          <HeaderTwo color="#5F5F5F" fontSize="24px" marginBottom="8" marginLeft="8" marginTop="0">
+          <BalanceText>
             Balance
-          </HeaderTwo>
+          </BalanceText>
           <UsdBalance>${this.getUsdBalance()}</UsdBalance>
           <DaiBalance>{balance.daiBalance} DAI</DaiBalance>
           <ButtonContainer>
             <Button
-              text="Receive"
-              textColor="#5F5F5F"
-              backgroundColor="#EEEEEE"
-              margin="8px"
-              opacity="1"
-              onPress={() => navigation.navigate('Receive')}
-            />
-            <Button
               text="Send"
               textColor="white"
               backgroundColor="#12BB4F"
+              borderColor="#12BB4F"
               margin="8px"
               opacity="1"
               onPress={async () => {
@@ -73,9 +71,9 @@ class Dai extends Component {
           </ButtonContainer>
         </CardContainerWithoutFeedback>
         <View>
-          <HeaderTwo color="#000" fontSize="16px" marginBottom="16" marginLeft="16" marginTop="16">
+          <HeaderThree marginBottom="16" marginLeft="16" marginTop="16">
             TRANSACTION HISTORY
-          </HeaderTwo>
+          </HeaderThree>
         </View>
         <Transactions />
       </RootContainer>
@@ -95,6 +93,12 @@ const ButtonContainer = styled.View`
   alignItems: center;
   flexDirection: row;
   justifyContent: center;
+`;
+
+const BalanceText = styled.Text`
+  color: #5F5F5F;
+  font-size: 24px;
+  text-transform: uppercase;
 `;
 
 const UsdBalance = styled.Text`
