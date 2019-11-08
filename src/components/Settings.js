@@ -6,9 +6,10 @@ import {
   HeaderOne,
   UntouchableCardContainer,
   Button,
-  OneLiner
+  HeaderTwo,
+  Description
 } from '../components/common';
-import { View, Text, Modal, TouchableHighlight, Alert } from 'react-native';
+import { View, Text, Linking, Modal, TouchableHighlight, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
@@ -40,20 +41,19 @@ class Settings extends Component {
           }}
         >
           <View style={{ marginTop: 22 }}>
-            <OneLiner
-              fontSize="24px"
-              fontWeight="normal"
+            <HeaderTwo
               marginBottom="0"
               marginLeft="0"
               marginTop="96"
             >
               Reset your Wallet?
-            </OneLiner>
+            </HeaderTwo>
             <ButtonContainer>
               <Button
                 text="Cancel"
                 textColor="#5F5F5F"
                 backgroundColor="#EEEEEE"
+                borderColor="#EEEEEE"
                 margin="8px"
                 opacity="1"
                 onPress={() => {
@@ -64,6 +64,7 @@ class Settings extends Component {
                 text="Confirm"
                 textColor="#FFF"
                 backgroundColor="#FF3346"
+                borderColor="#FF3346"
                 margin="8px"
                 opacity="1"
                 onPress={async () => {
@@ -77,35 +78,47 @@ class Settings extends Component {
             </ButtonContainer>
           </View>
         </Modal>
-        <UntouchableCardContainer
-          alignItems="flex-start"
-          borderRadius="0"
-          flexDirection="column"
-          height="160px"
-          justifyContent="center"
-          textAlign="left"
-          width="100%"
+        <CommunityIconContainer>
+          <CommunityIcon><Icon onPress={() => {Linking.openURL('https://twitter.com/taisuke_mino')}} name="twitter" color="#00aced" size={40} /></CommunityIcon>
+          <CommunityIcon><Icon onPress={() => {Linking.openURL('https://github.com/taisukemino')}} name="github-circle" color="#333" size={40} /></CommunityIcon>
+          <CommunityIcon><Icon onPress={() => {Linking.openURL('https://discord.gg/mtbXB2')}} name="discord" color="#7289DA" size={40} /></CommunityIcon>
+        </CommunityIconContainer>
+        <Description
+          marginBottom="40"
+          marginLeft="8"
+          marginTop="16"
         >
-          <SettingsTextContainer>
-            <Icon name="information-outline" color="#5F5F5F" size={32} />
-            <SettingsText>About Us</SettingsText>
-          </SettingsTextContainer>
-          <SettingsTextContainer>
-            <Icon name="message-text-outline" color="#5F5F5F" size={32} />
-            <TouchableHighlight
-              underlayColor="#FFF"
-              onPress={() => this.props.navigation.navigate('BackupWords')}
-            >
-              <SettingsText>Backup Words</SettingsText>
-            </TouchableHighlight>
-          </SettingsTextContainer>
-        </UntouchableCardContainer>
+          Join the community
+        </Description>
+        <SettingsListContainer>
+        <SettingsList>
+          <Icon name="information-outline" color="#5F5F5F" size={28} />
+          <SettingsListText>FAQ</SettingsListText>
+          <Icon name="chevron-right" color="#5F5F5F" size={28} />
+        </SettingsList>
+        <SettingsList>
+          <Icon name="face" color="#5F5F5F" size={28} />
+          <SettingsListText>About Us</SettingsListText>
+          <Icon name="chevron-right" color="#5F5F5F" size={28} />
+        </SettingsList>
+        <TouchableHighlight
+          underlayColor="#FFF"
+          onPress={() => this.props.navigation.navigate('BackupWords')}
+        >
+          <SettingsList>
+            <Icon name="key-outline" color="#5F5F5F" size={28} />
+            <SettingsListText>Backup Words</SettingsListText>
+            <Icon name="chevron-right" color="#5F5F5F" size={28} />
+          </SettingsList>
+        </TouchableHighlight>
+        </SettingsListContainer>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="0"
           flexDirection="column"
           height="80px"
           justifyContent="center"
+          marginTop="40"
           textAlign="center"
           width="100%"
         >
@@ -118,34 +131,65 @@ class Settings extends Component {
             <ResetWalletText>Reset Wallet</ResetWalletText>
           </TouchableHighlight>
         </UntouchableCardContainer>
+        <VersionText><Text>v0.0.1</Text></VersionText>
       </RootContainer>
     );
   }
 }
 
-const SettingsTextContainer = styled.View`
-  flexDirection: row;
-  margin-bottom: 8px;
-  margin-left: 24px;
-  margin-top: 16px;
-`;
-
-const SettingsText = styled.Text`
-  color: #5F5F5F
-  font-size: 24px;
-  margin-left: 8px;
-`;
-
-const ButtonContainer = styled.View`
-  alignItems: center;
+const CommunityIconContainer = styled.View`
   flexDirection: row;
   justifyContent: center;
+  margin-top: 32px;
+`;
+
+const CommunityIcon = styled.View`
+  margin-left: 8px;
+  margin-right: 8px;
+`;
+
+const SettingsListContainer = styled.View`
+  background: #fff;
+  border-color: rgba(95, 95, 95, 0.3);
+  border-width: 0.5;
+  margin-bottom: 8px;
   margin-top: 16px;
+  width: 100%;
+`;
+
+const SettingsList = styled.View`
+  alignItems: center;
+  border-color: rgba(95, 95, 95, 0.3);
+  border-width: 0.5;
+  flexDirection: row;
+  justifyContent: space-between;
+  padding-bottom: 16px;
+  padding-left: 16px;
+  padding-top: 16px;
+  width: 100%;
+`;
+
+const SettingsListText = styled.Text`
+  color: #5F5F5F;
+  font-size: 20px;
+  margin-left: 16px;
+  width: 80%;
 `;
 
 const ResetWalletText = styled.Text`
   color: #ff3346;
   font-size: 24px;
+`;
+
+const ButtonContainer = styled.View`
+  flexDirection: row;
+  justifyContent: center;
+  margin-top: 16px;
+`;
+
+const VersionText = styled.View`
+  flexDirection: row;
+  justifyContent: center;
 `;
 
 const mapDispatchToProps = {
