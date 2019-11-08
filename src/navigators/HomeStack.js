@@ -15,7 +15,7 @@ import Wallets from '../components/Wallets';
 import Ethereum from '../containers/Ethereum';
 import Send from '../containers/Send';
 import Confirmation from '../containers/Confirmation';
-import Receive from '../containers/Receive';
+import QRCode from '../containers/QRCode';
 import Dai from '../containers/Dai';
 import SendDai from '../containers/SendDai';
 import ConfirmationDai from '../containers/ConfirmationDai';
@@ -119,8 +119,8 @@ const HomeStack = createStackNavigator(
         headerTransparent: true
       })
     },
-    Receive: {
-      screen: Receive,
+    QRCode: {
+      screen: QRCode,
       navigationOptions: () => ({
         headerTransparent: true
       })
