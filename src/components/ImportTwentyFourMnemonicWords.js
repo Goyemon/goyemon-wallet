@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { View, TextInput, Text } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-import { RootContainer, ProgressBar, Button, HeaderThree } from '../components/common';
+import { RootContainer, ProgressBar, HeaderTwo, Button, Description } from '../components/common';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 import ProviderUtilities from '../utilities/ProviderUtilities.ts';
 import { createChecksumAddress } from '../actions/ActionChecksumAddress';
@@ -83,14 +83,14 @@ class ImportTwentyFourMnemonicWords extends Component {
   render() {
     return (
       <RootContainer>
-        <ProgressBar
-          text="2"
-          width="67%"
-        />
+        <ProgressBar oneColor="#5f5f5f" twoColor="#5f5f5f" threeColor="#eeeeee" marginRight="40%" width="40%" />
         <Container>
-          <HeaderThree color="#000" fontSize="20px" marginBottom="8" marginLeft="8" marginTop="16">
+          <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
+            Import Backup Words
+          </HeaderTwo>
+          <Description marginBottom="8" marginLeft="8" marginTop="16">
           Enter the backup words to import your wallet.
-          </HeaderThree>
+          </Description>
           <MnemonicWordsContainer style={styles.table}>
             {this.state.mnemonicWords.map((word, id) => (
               <View style={styles.cell} key={id}>
@@ -110,9 +110,10 @@ class ImportTwentyFourMnemonicWords extends Component {
           </MnemonicWordsContainer>
           <ButtonContainer>
             <Button
-              text="go"
-              textColor="white"
-              backgroundColor="#009DC4"
+              text="Next"
+              textColor="#009DC4"
+              backgroundColor="#FFF"
+              borderColor="#009DC4"
               margin="24px auto"
               opacity="1"
               onPress={async () => {
