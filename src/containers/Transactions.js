@@ -75,11 +75,13 @@ const EmptyTransactionContainer = styled.View`
 `;
 
 const EmptyTransactionEmoji = styled.Text`
+  color: #5F5F5F;
   font-size: 40px;
   margin-bottom: 24px;
 `;
 
 const EmptyTransactionText = styled.Text`
+  color: #5F5F5F;
   font-size: 16px;
 `;
 
