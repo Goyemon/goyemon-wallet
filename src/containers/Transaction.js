@@ -1,7 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
-import { TouchableCardContainer } from '../components/common';
+import { UntouchableCardContainer } from '../components/common';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -76,11 +76,13 @@ class Transaction extends Component {
     time = TransactionUtilities.parseTransactionTime(time);
 
     return (
-      <TouchableCardContainer
+      <UntouchableCardContainer
         alignItems="center"
+        borderRadius="0"
         flexDirection="row"
         height="96px"
         justifyContent="center"
+        marginTop="0"
         textAlign="left"
         width="95%"
       >
@@ -96,7 +98,7 @@ class Transaction extends Component {
             <Text>{this.renderRoundedValue()}</Text>
           </ValueText>
         </TransactionList>
-      </TouchableCardContainer>
+      </UntouchableCardContainer>
     );
   }
 }
