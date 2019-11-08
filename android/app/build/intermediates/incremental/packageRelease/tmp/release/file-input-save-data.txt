@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Wed Oct 30 13:48:03 JST 2019
+#Fri Nov 08 19:05:32 JST 2019
 60.set=NATIVE_RESOURCE
 52.set=NATIVE_RESOURCE
 53.base=/Users/tai/Dropbox/Codes/DeBank/android/app/build/intermediates/merged_assets/release/out
