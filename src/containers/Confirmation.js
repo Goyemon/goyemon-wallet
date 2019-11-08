@@ -6,7 +6,7 @@ import {
   Button,
   UntouchableCardContainer,
   HeaderOne,
-  HeaderTwo
+  FormHeader
 } from '../components/common/';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
@@ -49,6 +49,7 @@ class Confirmation extends Component {
 
   render() {
     const { outgoingTransactionObjects, web3 } = this.props;
+
     const gasPriceInEther = web3.utils.fromWei(
       outgoingTransactionObjects[outgoingTransactionObjects.length - 1].gasPrice,
       'Ether'
@@ -66,7 +67,8 @@ class Confirmation extends Component {
       <RootContainer>
         <HeaderOne marginTop="96">Confirmation</HeaderOne>
         <TotalContainer>
-          <Text>You are sending</Text>
+          <CoinImage source={require('../../assets/ether_icon.png')} />
+          <Text>You are about to send</Text>
           <TotalValueText>{total} ETH</TotalValueText>
           <Text>USD</Text>
         </TotalContainer>
@@ -76,20 +78,21 @@ class Confirmation extends Component {
           flexDirection="column"
           height="280px"
           justifyContent="flex-start"
+          marginTop="0"
           textAlign="left"
           width="100%"
         >
-          <HeaderTwo color="#000" fontSize="16px" marginBottom="8" marginLeft="8" marginTop="16">
-            TO
-          </HeaderTwo>
+          <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
+            To
+          </FormHeader>
           <ToText>{outgoingTransactionObjects[outgoingTransactionObjects.length - 1].to}</ToText>
-          <HeaderTwo color="#000" fontSize="16px" marginBottom="8" marginLeft="8" marginTop="16">
-            AMOUNT
-          </HeaderTwo>
+          <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
+            Amount
+          </FormHeader>
           <AmountText>{valueInEther} ETH</AmountText>
-          <HeaderTwo color="#000" fontSize="16px" marginBottom="8" marginLeft="8" marginTop="16">
-            NETWORK FEE
-          </HeaderTwo>
+          <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
+            Network Fee
+          </FormHeader>
           <NetworkFeeText>{gasPriceInEther} ETH</NetworkFeeText>
         </UntouchableCardContainer>
         <ButtonContainer>
@@ -97,6 +100,7 @@ class Confirmation extends Component {
             text="Send"
             textColor="white"
             backgroundColor="#009DC4"
+            borderColor="#009DC4"
             margin="8px"
             opacity="1"
             onPress={async () => {
@@ -116,6 +120,12 @@ const TotalContainer = styled.View`
   justifyContent: center;
   margin-bottom: 56px;
   margin-top: 56px;
+`;
+
+const CoinImage = styled.Image`
+  border-radius: 20px;
+  height: 40px;
+  width: 40px;
 `;
 
 const ToText = styled.Text`
