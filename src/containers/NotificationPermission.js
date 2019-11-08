@@ -1,8 +1,8 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { RootContainer, Button, Loader, HeaderThree } from '../components/common';
-import { Text, View, Linking } from 'react-native';
+import { RootContainer, Button, Loader, HeaderTwo, Description } from '../components/common';
+import { Text, View, Linking, Image } from 'react-native';
 import { StackActions, NavigationActions } from 'react-navigation';
 import HomeStack from '../navigators/HomeStack';
 import styled from 'styled-components/native';
@@ -16,7 +16,7 @@ class NotificationPermission extends Component {
       loading: false
     };
   }
-
+ 
   async componentDidMount() {
     await this.checkFcmPermissions();
   }
@@ -81,30 +81,24 @@ class NotificationPermission extends Component {
       return (
         <View>
           <Loader loading={this.state.loading}>
-            <HeaderThree
-              color="#000"
-              fontSize="20px"
-              marginBottom="8"
-              marginLeft="8"
-              marginTop="16"
-            >
-              Creating your wallet...
-            </HeaderThree>
-            <HeaderThree
-              color="#000"
-              fontSize="20px"
+            <HeaderTwo marginBottom="0" marginLeft="0" marginTop="40">
+              Setting up your wallet...
+            </HeaderTwo>
+            <Description
               marginBottom="8"
               marginLeft="8"
               marginTop="16"
             >
               this shouldn't take long
-            </HeaderThree>
+            </Description>
+            <CreatingWalletImage source={require('../../assets/creating_wallet.png')} />
           </Loader>
           <Text>great!</Text>
           <Button
             text="Next"
             textColor="white"
             backgroundColor="#009DC4"
+            borderColor="#009DC4"
             margin="16px auto"
             opacity="1"
             onPress={() => {
@@ -116,7 +110,16 @@ class NotificationPermission extends Component {
     } else if (this.props.notificationPermission === false) {
       return (
         <View>
-          <Text>please go to the setting and change your permission. relaunch your app.</Text>
+          <HeaderTwo marginBottom="0" marginLeft="0" marginTop="40">
+            oops!
+          </HeaderTwo>
+          <Description
+            marginBottom="8"
+            marginLeft="8"
+            marginTop="16"
+          >
+          please go to the setting and change your permission. relaunch your app.</Description>
+          <NotificationPermissionDeniedImage source={require('../../assets/notification_not_granted.png')} />
           <Button
             text="Go To Device Settings"
             textColor="#5F5F5F"
@@ -146,6 +149,16 @@ const Container = styled.View`
   justify-content: center;
   margin-top: 240px;
   text-align: center;
+`;
+
+const CreatingWalletImage = styled.Image`
+  height: 320px;
+  width: 320px;
+`;
+
+const NotificationPermissionDeniedImage = styled.Image`
+  height: 320px;
+  width: 320px;
 `;
 
 function mapStateToProps(state) {
