@@ -28,9 +28,8 @@ const ModalBackground = styled.View`
 
 const ActivityIndicatorWrapper = styled.View`
   backgroundColor: #FFFFFF;
-  height: 240;
-  width: 240;
-  borderRadius: 16;
+  height: 100%;
+  width: 100%;
   display: flex;
   alignItems: center;
   justifyContent: space-around;
