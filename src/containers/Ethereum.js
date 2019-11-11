@@ -4,11 +4,31 @@ import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { View, Text } from 'react-native';
 import Transactions from '../containers/Transactions';
-import { RootContainer, QRCodeIcon, Button, HeaderOne, HeaderThree } from '../components/common/';
+import { RootContainer, Button, HeaderOne, HeaderThree } from '../components/common/';
 import styled from 'styled-components';
 import PriceUtilities from '../utilities/PriceUtilities.js';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 class Ethereum extends Component {
+  static navigationOptions = ({ navigation, navigationOptions }) => {
+    const { params } = navigation.state;
+
+    return {
+      headerRight: (
+        <HeaderQR>
+          <Icon
+            name="qrcode"
+            color="#000"
+            onPress={() => {
+              navigation.navigate('QRCode');
+            }}
+            size={32}
+          />
+        </HeaderQR>
+      )
+    }
+  }
+
   getUsdBalance() {
     try {
       return PriceUtilities.convertEthToUsd(this.props.balance.ethBalance);
@@ -26,12 +46,7 @@ class Ethereum extends Component {
 
     return (
       <RootContainer>
-        <QRCodeIcon
-          onPress={() => {
-            navigation.navigate('QRCode');
-          }}
-        />
-        <HeaderOne marginTop="16">Ether</HeaderOne>
+        <HeaderOne marginTop="96">Ether</HeaderOne>
         <CardContainerWithoutFeedback>
           <BalanceText>
             Balance
@@ -62,6 +77,11 @@ class Ethereum extends Component {
     );
   }
 }
+
+const HeaderQR = styled.View`
+  margin-top: 8px;
+  margin-right: 16px;
+`;
 
 const CardContainerWithoutFeedback = styled.View`
   align-items: center;
