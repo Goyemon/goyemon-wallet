@@ -4,13 +4,33 @@ import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { View, Text } from 'react-native';
 import Transactions from '../containers/Transactions';
-import { RootContainer, QRCodeIcon, Button, HeaderOne, HeaderThree } from '../components/common/';
+import { RootContainer, Button, HeaderOne, HeaderThree } from '../components/common/';
 import { saveDaiBalance } from '../actions/ActionBalance';
 import styled from 'styled-components';
 import firebase from 'react-native-firebase';
 import PriceUtilities from '../utilities/PriceUtilities.js';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 class Dai extends Component {
+  static navigationOptions = ({ navigation, navigationOptions }) => {
+    const { params } = navigation.state;
+
+    return {
+      headerRight: (
+        <HeaderQR>
+          <Icon
+            name="qrcode"
+            color="#000"
+            onPress={() => {
+              navigation.navigate('QRCode');
+            }}
+            size={32}
+          />
+        </HeaderQR>
+      )
+    }
+  }
+
   async componentDidMount() {
     this.messageListener = firebase.messaging().onMessage((downstreamMessage) => {
       if (downstreamMessage.data.type === "balance") {
@@ -44,12 +64,7 @@ class Dai extends Component {
 
     return (
       <RootContainer>
-        <QRCodeIcon
-          onPress={() => {
-            navigation.navigate('QRCode');
-          }}
-        />
-        <HeaderOne marginTop="16">Dai</HeaderOne>
+        <HeaderOne marginTop="96">Dai</HeaderOne>
         <CardContainerWithoutFeedback>
           <BalanceText>
             Balance
@@ -80,6 +95,11 @@ class Dai extends Component {
     );
   }
 }
+
+const HeaderQR = styled.View`
+  margin-top: 8px;
+  margin-right: 16px;
+`;
 
 const CardContainerWithoutFeedback = styled.View`
   align-items: center;
