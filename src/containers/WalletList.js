@@ -10,6 +10,20 @@ import styled from 'styled-components';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class WalletList extends Component {
+  static navigationOptions = ({ navigation, navigationOptions }) => {
+    const { params } = navigation.state;
+
+    return {
+      headerRight: (
+        <QRCodeIcon
+          onPress={() => {
+            navigation.navigate('QRCode');
+          }}
+        />
+      )
+    }
+  }
+
   getTotalBalance(ethBalance, daiBalance) {
     let totalUsdBalance =
       parseFloat(PriceUtilities.convertEthToUsd(ethBalance)) +
@@ -27,12 +41,7 @@ class WalletList extends Component {
 
     return (
       <RootContainer>
-        <QRCodeIcon
-          onPress={() => {
-            navigation.navigate('QRCode');
-          }}
-        />
-        <HeaderOne marginTop="0">Wallets</HeaderOne>
+        <HeaderOne marginTop="96">Wallets</HeaderOne>
         <CardContainerWithoutFeedback>
           <BalanceText>
             Total Balance
