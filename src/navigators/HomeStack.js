@@ -11,7 +11,7 @@ import ImportTwelveMnemonicWords from '../components/ImportTwelveMnemonicWords';
 import CreateWalletTutorial from '../components/CreateWalletTutorial';
 import ShowMnemonic from '../components/ShowMnemonic';
 import VerifyMnemonic from '../containers/VerifyMnemonic';
-import Wallets from '../components/Wallets';
+import WalletList from '../containers/WalletList';
 import Ethereum from '../containers/Ethereum';
 import Send from '../containers/Send';
 import Confirmation from '../containers/Confirmation';
@@ -91,8 +91,8 @@ const HomeStack = createStackNavigator(
         headerTransparent: true
       })
     },
-    Wallets: {
-      screen: Wallets,
+    WalletList: {
+      screen: WalletList,
       navigationOptions: () => ({
         headerLeft: null,
         headerTransparent: true,

@@ -18,7 +18,7 @@ class Initial extends Component {
     let mainPage = 'Welcome';
 
     if (privateKeySaved && notificationEnabled) {
-      mainPage = 'Wallets';
+      mainPage = 'WalletList';
     } else if (privateKeySaved && !notificationEnabled) {
       mainPage = 'NotificationPermission';
     } else if (!privateKeySaved && !notificationEnabled) {

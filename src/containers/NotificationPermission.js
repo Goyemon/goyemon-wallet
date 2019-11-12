@@ -16,7 +16,7 @@ class NotificationPermission extends Component {
       loading: false
     };
   }
- 
+
   async componentDidMount() {
     await this.checkFcmPermissions();
   }
@@ -64,7 +64,7 @@ class NotificationPermission extends Component {
     };
     const resetAction = StackActions.reset({
       index: 0,
-      actions: [NavigationActions.navigate({ routeName: 'Wallets' })]
+      actions: [NavigationActions.navigate({ routeName: 'WalletList' })]
     });
     this.props.navigation.dispatch(resetAction);
   }
