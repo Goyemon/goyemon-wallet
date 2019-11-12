@@ -15,12 +15,8 @@ const QRCodeIcon = props => (
 );
 
 const IconContainer = styled.View`
-  alignItems: flex-end;
-  flexDirection: row;
-  justifyContent: flex-end;
-  margin-top: 80px;
+  margin-top: 8px;
   margin-right: 16px;
-  position: relative;
 `;
 
 export { QRCodeIcon };

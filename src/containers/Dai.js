@@ -4,12 +4,11 @@ import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { View, Text } from 'react-native';
 import Transactions from '../containers/Transactions';
-import { RootContainer, Button, HeaderOne, HeaderThree } from '../components/common/';
+import { RootContainer, Button, HeaderOne, HeaderThree, QRCodeIcon } from '../components/common/';
 import { saveDaiBalance } from '../actions/ActionBalance';
 import styled from 'styled-components';
 import firebase from 'react-native-firebase';
 import PriceUtilities from '../utilities/PriceUtilities.js';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 class Dai extends Component {
   static navigationOptions = ({ navigation, navigationOptions }) => {
@@ -17,16 +16,11 @@ class Dai extends Component {
 
     return {
       headerRight: (
-        <HeaderQR>
-          <Icon
-            name="qrcode"
-            color="#000"
-            onPress={() => {
-              navigation.navigate('QRCode');
-            }}
-            size={32}
-          />
-        </HeaderQR>
+        <QRCodeIcon
+          onPress={() => {
+            navigation.navigate('QRCode');
+          }}
+        />
       )
     }
   }
@@ -95,11 +89,6 @@ class Dai extends Component {
     );
   }
 }
-
-const HeaderQR = styled.View`
-  margin-top: 8px;
-  margin-right: 16px;
-`;
 
 const CardContainerWithoutFeedback = styled.View`
   align-items: center;

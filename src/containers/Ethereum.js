@@ -4,10 +4,9 @@ import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { View, Text } from 'react-native';
 import Transactions from '../containers/Transactions';
-import { RootContainer, Button, HeaderOne, HeaderThree } from '../components/common/';
+import { RootContainer, Button, HeaderOne, HeaderThree, QRCodeIcon } from '../components/common/';
 import styled from 'styled-components';
 import PriceUtilities from '../utilities/PriceUtilities.js';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 class Ethereum extends Component {
   static navigationOptions = ({ navigation, navigationOptions }) => {
@@ -15,16 +14,11 @@ class Ethereum extends Component {
 
     return {
       headerRight: (
-        <HeaderQR>
-          <Icon
-            name="qrcode"
-            color="#000"
-            onPress={() => {
-              navigation.navigate('QRCode');
-            }}
-            size={32}
-          />
-        </HeaderQR>
+        <QRCodeIcon
+          onPress={() => {
+            navigation.navigate('QRCode');
+          }}
+        />
       )
     }
   }
@@ -77,11 +71,6 @@ class Ethereum extends Component {
     );
   }
 }
-
-const HeaderQR = styled.View`
-  margin-top: 8px;
-  margin-right: 16px;
-`;
 
 const CardContainerWithoutFeedback = styled.View`
   align-items: center;
