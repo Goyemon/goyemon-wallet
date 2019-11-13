@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import {
   RootContainer,
   Button,
@@ -45,8 +45,8 @@ class Send extends Component {
       toAddress: '',
       amount: '',
       checked: 1,
-      toAddressValidation: true,
-      amountValidation: true
+      toAddressValidation: undefined,
+      amountValidation: undefined,
       currency: "USD"
     };
   }
@@ -106,17 +106,19 @@ class Send extends Component {
       console.log('address validated!');
       this.setState({ toAddressValidation: true });
       return true;
-    }
+    } else if (!this.state.toAddressValidation) {
       console.log('invalid address');
       this.setState({ toAddressValidation: false });
       return false;
+    }
   }
 
   renderInvalidToAddressMessage() {
-    if (this.state.toAddressValidation) {
+    if (this.state.toAddressValidation || this.state.toAddressValidation === undefined) {
       return;
-    }
+    } else if (!this.state.toAddressValidation) {
       return <ErrorMessage>invalid address!</ErrorMessage>;
+    }
   }
 
   validateAmount(amount) {
@@ -137,9 +139,29 @@ class Send extends Component {
   }
 
   renderInsufficientBalanceMessage() {
-    if (this.state.amountValidation) {
+    if (this.state.amountValidation || this.state.amountValidation === undefined) {
     } else {
       return <ErrorMessage>C'mon, you know you don't own this much 😏</ErrorMessage>;
+    }
+  }
+
+  getAmountBorderColor() {
+    if (this.state.amountValidation === undefined) {
+      return "#FFF"
+    } else if(this.state.amountValidation) {
+      return "#12BB4F"
+    } else if (!this.state.amountValidation) {
+      return "#FF3346"
+    }
+  }
+
+  getToAddressBorderColor() {
+    if (this.state.toAddressValidation === undefined) {
+      return "#FFF"
+    } else if(this.state.toAddressValidation) {
+      return "#12BB4F"
+    } else if (!this.state.toAddressValidation) {
+      return "#FF3346"
     }
   }
 
@@ -190,11 +212,11 @@ class Send extends Component {
             To
           </FormHeader>
           <Form
-            borderColor={this.state.toAddressValidation ? "#000" : "#FF3346"}
-            borderWidth={this.state.toAddressValidation ? 0 : 2}
+            borderColor={this.getToAddressBorderColor()}
+            borderWidth={1}
             height="56px"
           >
-            <TextInput
+            <SendTextInput
               placeholder="address"
               clearButtonMode="while-editing"
               onChangeText={toAddress => {
@@ -205,21 +227,24 @@ class Send extends Component {
           </Form>
           <View>{this.renderInvalidToAddressMessage()}</View>
           <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
-            Amount(ETH)
+            Amount
           </FormHeader>
           <Form
-            borderColor={this.state.amountValidation ? "#000" : "#FF3346"}
-            borderWidth={this.state.amountValidation ? 0 : 2}
+            borderColor={this.getAmountBorderColor()}
+            borderWidth={1}
             height="56px"
           >
-            <TextInput
-              placeholder="type the amount of ether you would like to send"
-              clearButtonMode="while-editing"
-              onChangeText={amount => {
-                this.validateAmount(amount);
-                this.setState({ amount });
-              }}
-            />
+            <SendTextInputContainer>
+              <SendTextInput
+                placeholder="0"
+                clearButtonMode="while-editing"
+                onChangeText={amount => {
+                  this.validateAmount(amount);
+                  this.setState({ amount });
+                }}
+              />
+              <Text>ETH</Text>
+            </SendTextInputContainer>
           </Form>
           <View>{this.renderInsufficientBalanceMessage()}</View>
           <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
@@ -298,6 +323,18 @@ const Container = styled.View`
   alignItems: center;
   flexDirection: column;
   justifyContent: center;
+`;
+
+const SendTextInputContainer = styled.View`
+  flexDirection: row;
+  width: 95%;
+`;
+
+const SendTextInput = styled.TextInput`
+  font-size: 16px;
+  height: 100%;
+  width: 95%;
+  text-align: left;
 `;
 
 const CoinImage = styled.Image`

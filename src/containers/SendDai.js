@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { View, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import {
   RootContainer,
   Button,
@@ -48,9 +48,9 @@ class SendDai extends Component {
       toAddress: '',
       amount: '',
       checked: 1,
-      toAddressValidation: true,
-      daiAmountValidation: true,
-      ethAmountValidation: true
+      toAddressValidation: undefined,
+      daiAmountValidation: undefined,
+      ethAmountValidation: undefined,
       currency: "USD"
     };
   }
@@ -119,17 +119,19 @@ class SendDai extends Component {
       console.log('address validated!');
       this.setState({ toAddressValidation: true });
       return true;
-    }
+    } else if (!this.state.toAddressValidation) {
     console.log('invalid address');
     this.setState({ toAddressValidation: false });
     return false;
+    }
   }
 
   renderInvalidToAddressMessage() {
-    if (this.state.toAddressValidation) {
+    if (this.state.toAddressValidation || this.state.toAddressValidation === undefined) {
       return;
+    } else if (!this.state.toAddressValidation) {
+      return <ErrorMessage>invalid address!</ErrorMessage>;
     }
-    return <ErrorMessage>invalid address!</ErrorMessage>;
   }
 
   validateDaiAmount(amount) {
@@ -163,7 +165,7 @@ class SendDai extends Component {
   }
 
   renderInsufficientDaiBalanceMessage() {
-    if (this.state.daiAmountValidation) {
+    if (this.state.daiAmountValidation || this.state.daiAmountValidation === undefined) {
       // let animationCheckedDone;
       // return (
       //   <Animation
@@ -179,7 +181,7 @@ class SendDai extends Component {
   }
 
   renderInsufficientEthBalanceMessage() {
-    if (this.state.ethAmountValidation) {
+    if (this.state.ethAmountValidation || this.state.ethAmountValidation === undefined) {
       // let animationCheckedDone;
       // return (
       //   <Animation
@@ -191,6 +193,26 @@ class SendDai extends Component {
       // animationCheckedDone.play();
     } else {
       return <ErrorMessage>not enough ether!</ErrorMessage>;
+    }
+  }
+
+  getAmountBorderColor() {
+    if (this.state.daiAmountValidation === undefined) {
+      return "#FFF"
+    } else if(this.state.daiAmountValidation) {
+      return "#12BB4F"
+    } else if (!this.state.daiAmountValidation) {
+      return "#FF3346"
+    }
+  }
+
+  getToAddressBorderColor() {
+    if (this.state.toAddressValidation === undefined) {
+      return "#FFF"
+    } else if(this.state.toAddressValidation) {
+      return "#12BB4F"
+    } else if (!this.state.toAddressValidation) {
+      return "#FF3346"
     }
   }
 
@@ -245,12 +267,12 @@ class SendDai extends Component {
         <FormHeader marginBottom="4" marginLeft="0" marginTop="0">
           To
         </FormHeader>
-        <Form
-          borderColor={this.state.toAddressValidation ? "#000" : "#FF3346"}
-          borderWidth={this.state.toAddressValidation ? 0 : 2}
-          height="56px"
-        >
-            <TextInput
+          <Form
+            borderColor={this.getToAddressBorderColor()}
+            borderWidth={1}
+            height="56px"
+          >
+            <SendTextInput
               placeholder="address"
               clearButtonMode="while-editing"
               onChangeText={toAddress => {
@@ -261,21 +283,24 @@ class SendDai extends Component {
           </Form>
           <View>{this.renderInvalidToAddressMessage()}</View>
           <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
-            Amount(DAI)
+            Amount
           </FormHeader>
           <Form
-            borderColor={this.state.daiAmountValidation ? "#000" : "#FF3346"}
-            borderWidth={this.state.daiAmountValidation ? 0 : 2}
+            borderColor={this.getAmountBorderColor()}
+            borderWidth={1}
             height="56px"
           >
-          <TextInput
-            placeholder="type the amount of ether you would like to send"
-            clearButtonMode="while-editing"
-            onChangeText={amount => {
-              this.validateDaiAmount(amount);
-              this.setState({ amount });
-            }}
-          />
+            <SendTextInputContainer>
+              <SendTextInput
+                placeholder="0"
+                clearButtonMode="while-editing"
+                onChangeText={amount => {
+                  this.validateDaiAmount(amount);
+                  this.setState({ amount });
+                }}
+              />
+              <Text>DAI</Text>
+            </SendTextInputContainer>
           </Form>
           <View>{this.renderInsufficientDaiBalanceMessage()}</View>
           <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
@@ -355,6 +380,18 @@ const Container = styled.View`
   alignItems: center;
   flexDirection: column;
   justifyContent: center;
+`;
+
+const SendTextInputContainer = styled.View`
+  flexDirection: row;
+  width: 95%;
+`;
+
+const SendTextInput = styled.TextInput`
+  font-size: 16px;
+  height: 100%;
+  width: 95%;
+  text-align: left;
 `;
 
 const CoinImage = styled.Image`
