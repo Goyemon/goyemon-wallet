@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
+import { saveTransactionFeeEstimateUsd, saveTransactionFeeEstimateEth } from '../actions/ActionTransactionFeeEstimate';
 import { saveDaiAmount } from '../actions/ActionDaiAmount';
 import { saveDaiToAddress } from '../actions/ActionDaiToAddress';
 import { getGasPriceFast, getGasPriceAverage, getGasPriceSlow } from '../actions/ActionGasPrice';
@@ -193,6 +194,9 @@ class SendDai extends Component {
     this.state.gasPrice[0].gasPriceInWei = this.props.gasPrice.fast;
     this.state.gasPrice[1].gasPriceInWei = this.props.gasPrice.average;
     this.state.gasPrice[2].gasPriceInWei = this.props.gasPrice.slow;
+
+    this.props.saveTransactionFeeEstimateEth(GasUtilities.getTransactionFeeEstimateInEther(this.state.gasPrice[this.state.checked].gasPriceInWei, 100000));
+    this.props.saveTransactionFeeEstimateUsd(PriceUtilities.convertEthToUsd(GasUtilities.getTransactionFeeEstimateInEther(this.state.gasPrice[this.state.checked].gasPriceInWei, 100000)));
 
     return (
       <RootContainer>
@@ -392,6 +396,8 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   saveOutgoingTransactionObject,
+  saveTransactionFeeEstimateUsd,
+  saveTransactionFeeEstimateEth,
   saveDaiAmount,
   saveDaiToAddress,
   getGasPriceFast,
