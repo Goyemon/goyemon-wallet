@@ -19,8 +19,8 @@ class ConfirmationDai extends Component {
   constructor(props) {
     super();
     this.state = {
-      currency: "USD"
-    }
+      currency: 'USD'
+    };
   }
 
   async constructSignedOutgoingTransactionObject() {
@@ -55,17 +55,17 @@ class ConfirmationDai extends Component {
   }
 
   toggleCurrencySymbol() {
-    if(this.state.currency === "ETH") {
+    if (this.state.currency === 'ETH') {
       return <CurrencySymbol>ETH</CurrencySymbol>;
-    } else if(this.state.currency === "USD") {
+    } else if (this.state.currency === 'USD') {
       return <CurrencySymbol>$</CurrencySymbol>;
     }
   }
 
   toggleCurrency() {
-    if(this.state.currency === "ETH") {
+    if (this.state.currency === 'ETH') {
       return <Text>${this.props.transactionFeeEstimate.usd}</Text>;
-    } else if (this.state.currency === "USD") {
+    } else if (this.state.currency === 'USD') {
       return <Text>{this.props.transactionFeeEstimate.eth}ETH</Text>;
     }
   }
@@ -108,20 +108,18 @@ class ConfirmationDai extends Component {
           <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
             Network Fee
             <TouchableWithoutFeedback
-              onPress={ () => {
-                if(this.state.currency === "ETH") {
-                  this.setState({ currency: "USD" });
-                } else if (this.state.currency === "USD") {
-                  this.setState({ currency: "ETH" });
+              onPress={() => {
+                if (this.state.currency === 'ETH') {
+                  this.setState({ currency: 'USD' });
+                } else if (this.state.currency === 'USD') {
+                  this.setState({ currency: 'ETH' });
                 }
               }}
             >
               {this.toggleCurrencySymbol()}
             </TouchableWithoutFeedback>
           </FormHeader>
-          <NetworkFeeText>
-            {this.toggleCurrency()}
-          </NetworkFeeText>
+          <NetworkFeeText>{this.toggleCurrency()}</NetworkFeeText>
         </UntouchableCardContainer>
         <ButtonContainer>
           <Button

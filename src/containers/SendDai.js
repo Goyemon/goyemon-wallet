@@ -14,7 +14,10 @@ import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
-import { saveTransactionFeeEstimateUsd, saveTransactionFeeEstimateEth } from '../actions/ActionTransactionFeeEstimate';
+import {
+  saveTransactionFeeEstimateUsd,
+  saveTransactionFeeEstimateEth
+} from '../actions/ActionTransactionFeeEstimate';
 import { saveDaiAmount } from '../actions/ActionDaiAmount';
 import { saveDaiToAddress } from '../actions/ActionDaiToAddress';
 import { getGasPriceFast, getGasPriceAverage, getGasPriceSlow } from '../actions/ActionGasPrice';
@@ -51,7 +54,7 @@ class SendDai extends Component {
       toAddressValidation: undefined,
       daiAmountValidation: undefined,
       ethAmountValidation: undefined,
-      currency: "USD"
+      currency: 'USD'
     };
   }
 
@@ -70,25 +73,27 @@ class SendDai extends Component {
   }
 
   toggleCurrencySymbol() {
-    if(this.state.currency === "ETH") {
+    if (this.state.currency === 'ETH') {
       return <CurrencySymbol>ETH</CurrencySymbol>;
-    } else if(this.state.currency === "USD") {
+    } else if (this.state.currency === 'USD') {
       return <CurrencySymbol>$</CurrencySymbol>;
     }
   }
 
   toggleCurrency(gasPriceInWei) {
-    if(this.state.currency === "ETH") {
+    if (this.state.currency === 'ETH') {
       const usdValue = this.getTransactionFeeEstimateInUsd(gasPriceInWei);
       return <Text>${usdValue}</Text>;
-    } else if (this.state.currency === "USD") {
+    } else if (this.state.currency === 'USD') {
       const ethValue = GasUtilities.getTransactionFeeEstimateInEther(gasPriceInWei, 100000);
       return <NetworkFeeInEther>{ethValue}ETH</NetworkFeeInEther>;
     }
   }
 
   getTransactionFeeEstimateInUsd(gasPriceInWei) {
-    return PriceUtilities.convertEthToUsd(GasUtilities.getTransactionFeeEstimateInEther(gasPriceInWei, 100000));
+    return PriceUtilities.convertEthToUsd(
+      GasUtilities.getTransactionFeeEstimateInEther(gasPriceInWei, 100000)
+    );
   }
 
   getTransferEncodedABI(address, amount) {
@@ -120,9 +125,9 @@ class SendDai extends Component {
       this.setState({ toAddressValidation: true });
       return true;
     } else if (!this.state.toAddressValidation) {
-    console.log('invalid address');
-    this.setState({ toAddressValidation: false });
-    return false;
+      console.log('invalid address');
+      this.setState({ toAddressValidation: false });
+      return false;
     }
   }
 
@@ -151,7 +156,8 @@ class SendDai extends Component {
 
   validateEthAmount() {
     const transactionFeeLimitInEther = GasUtilities.getTransactionFeeEstimateInEther(
-      this.state.gasPrice[this.state.checked].gasPriceInWei, 100000
+      this.state.gasPrice[this.state.checked].gasPriceInWei,
+      100000
     );
 
     if (parseFloat(this.props.balance.ethBalance) > parseFloat(transactionFeeLimitInEther)) {
@@ -198,21 +204,21 @@ class SendDai extends Component {
 
   getAmountBorderColor() {
     if (this.state.daiAmountValidation === undefined) {
-      return "#FFF"
-    } else if(this.state.daiAmountValidation) {
-      return "#12BB4F"
+      return '#FFF';
+    } else if (this.state.daiAmountValidation) {
+      return '#12BB4F';
     } else if (!this.state.daiAmountValidation) {
-      return "#FF3346"
+      return '#FF3346';
     }
   }
 
   getToAddressBorderColor() {
     if (this.state.toAddressValidation === undefined) {
-      return "#FFF"
-    } else if(this.state.toAddressValidation) {
-      return "#12BB4F"
+      return '#FFF';
+    } else if (this.state.toAddressValidation) {
+      return '#12BB4F';
     } else if (!this.state.toAddressValidation) {
-      return "#FF3346"
+      return '#FF3346';
     }
   }
 
@@ -240,38 +246,44 @@ class SendDai extends Component {
     this.state.gasPrice[1].gasPriceInWei = this.props.gasPrice.average;
     this.state.gasPrice[2].gasPriceInWei = this.props.gasPrice.slow;
 
-    this.props.saveTransactionFeeEstimateEth(GasUtilities.getTransactionFeeEstimateInEther(this.state.gasPrice[this.state.checked].gasPriceInWei, 100000));
-    this.props.saveTransactionFeeEstimateUsd(PriceUtilities.convertEthToUsd(GasUtilities.getTransactionFeeEstimateInEther(this.state.gasPrice[this.state.checked].gasPriceInWei, 100000)));
+    this.props.saveTransactionFeeEstimateEth(
+      GasUtilities.getTransactionFeeEstimateInEther(
+        this.state.gasPrice[this.state.checked].gasPriceInWei,
+        100000
+      )
+    );
+    this.props.saveTransactionFeeEstimateUsd(
+      PriceUtilities.convertEthToUsd(
+        GasUtilities.getTransactionFeeEstimateInEther(
+          this.state.gasPrice[this.state.checked].gasPriceInWei,
+          100000
+        )
+      )
+    );
 
     return (
       <RootContainer>
         <HeaderOne marginTop="96">Send</HeaderOne>
         <Container>
-        <UntouchableCardContainer
-          alignItems="center"
-          borderRadius="8px"
-          flexDirection="column"
-          height="200px"
-          justifyContent="center"
-          marginTop="56"
-          textAlign="center"
-          width="80%"
-        >
-          <CoinImage source={require('../../assets/dai_icon.png')} />
-          <BalanceText>
-            your dai balance
-          </BalanceText>
-          <UsdBalance>${this.getUsdBalance()}</UsdBalance>
-          <EthBalance>{balance.daiBalance} DAI</EthBalance>
-        </UntouchableCardContainer>
-        <FormHeader marginBottom="4" marginLeft="0" marginTop="0">
-          To
-        </FormHeader>
-          <Form
-            borderColor={this.getToAddressBorderColor()}
-            borderWidth={1}
-            height="56px"
+          <UntouchableCardContainer
+            alignItems="center"
+            borderRadius="8px"
+            flexDirection="column"
+            height="200px"
+            justifyContent="center"
+            marginTop="56"
+            textAlign="center"
+            width="80%"
           >
+            <CoinImage source={require('../../assets/dai_icon.png')} />
+            <BalanceText>your dai balance</BalanceText>
+            <UsdBalance>${this.getUsdBalance()}</UsdBalance>
+            <EthBalance>{balance.daiBalance} DAI</EthBalance>
+          </UntouchableCardContainer>
+          <FormHeader marginBottom="4" marginLeft="0" marginTop="0">
+            To
+          </FormHeader>
+          <Form borderColor={this.getToAddressBorderColor()} borderWidth={1} height="56px">
             <SendTextInput
               placeholder="address"
               clearButtonMode="while-editing"
@@ -285,11 +297,7 @@ class SendDai extends Component {
           <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
             Amount
           </FormHeader>
-          <Form
-            borderColor={this.getAmountBorderColor()}
-            borderWidth={1}
-            height="56px"
-          >
+          <Form borderColor={this.getAmountBorderColor()} borderWidth={1} height="56px">
             <SendTextInputContainer>
               <SendTextInput
                 placeholder="0"
@@ -306,11 +314,11 @@ class SendDai extends Component {
           <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
             Network Fee
             <NetworkFeeSymbolContainer
-              onPress={ () => {
-                if(this.state.currency === "ETH") {
-                  this.setState({ currency: "USD" });
-                } else if (this.state.currency === "USD") {
-                  this.setState({ currency: "ETH" });
+              onPress={() => {
+                if (this.state.currency === 'ETH') {
+                  this.setState({ currency: 'USD' });
+                } else if (this.state.currency === 'USD') {
+                  this.setState({ currency: 'ETH' });
                 }
               }}
             >
@@ -327,49 +335,47 @@ class SendDai extends Component {
             textAlign="left"
             width="80%"
           >
-          <NetworkFeeContainer>
-            {this.state.gasPrice.map((gasPrice, key) => (
-              <NetworkFee key={key}>
-                {this.state.checked === key ? (
-                  <SpeedContainer>
-                    <SelectedButton>{gasPrice.speed}</SelectedButton>
-                    <Icon name={gasPrice.imageName} size={40} color="#12BB4F" />
-                    <SelectedButton>
-                      {this.toggleCurrency(gasPrice.gasPriceInWei)}
-                    </SelectedButton>
-                  </SpeedContainer>
-                ) : (
-                  <SpeedContainer
-                    onPress={() => {
-                      this.validateEthAmount();
-                      this.setState({ checked: key });
-                    }}
-                  >
-                    <UnselectedButton>{gasPrice.speed}</UnselectedButton>
-                    <Icon name={gasPrice.imageName} size={40} color="#000" />
-                    <UnselectedButton>
-                      {this.toggleCurrency(gasPrice.gasPriceInWei)}
-                    </UnselectedButton>
-                  </SpeedContainer>
-                )}
-              </NetworkFee>
-            ))}
-          </NetworkFeeContainer>
+            <NetworkFeeContainer>
+              {this.state.gasPrice.map((gasPrice, key) => (
+                <NetworkFee key={key}>
+                  {this.state.checked === key ? (
+                    <SpeedContainer>
+                      <SelectedButton>{gasPrice.speed}</SelectedButton>
+                      <Icon name={gasPrice.imageName} size={40} color="#12BB4F" />
+                      <SelectedButton>{this.toggleCurrency(gasPrice.gasPriceInWei)}</SelectedButton>
+                    </SpeedContainer>
+                  ) : (
+                    <SpeedContainer
+                      onPress={() => {
+                        this.validateEthAmount();
+                        this.setState({ checked: key });
+                      }}
+                    >
+                      <UnselectedButton>{gasPrice.speed}</UnselectedButton>
+                      <Icon name={gasPrice.imageName} size={40} color="#000" />
+                      <UnselectedButton>
+                        {this.toggleCurrency(gasPrice.gasPriceInWei)}
+                      </UnselectedButton>
+                    </SpeedContainer>
+                  )}
+                </NetworkFee>
+              ))}
+            </NetworkFeeContainer>
           </UntouchableCardContainer>
           <View>{this.renderInsufficientEthBalanceMessage()}</View>
-        <ButtonWrapper>
-          <Button
-            text="Next"
-            textColor="#009DC4"
-            backgroundColor="#FFF"
-            borderColor="#009DC4"
-            margin="40px auto"
-            opacity="1"
-            onPress={async () => {
-              await this.validateForm(this.state.toAddress, this.state.amount);
-            }}
-          />
-        </ButtonWrapper>
+          <ButtonWrapper>
+            <Button
+              text="Next"
+              textColor="#009DC4"
+              backgroundColor="#FFF"
+              borderColor="#009DC4"
+              margin="40px auto"
+              opacity="1"
+              onPress={async () => {
+                await this.validateForm(this.state.toAddress, this.state.amount);
+              }}
+            />
+          </ButtonWrapper>
         </Container>
       </RootContainer>
     );
@@ -401,7 +407,7 @@ const CoinImage = styled.Image`
 `;
 
 const BalanceText = styled.Text`
-  color: #5F5F5F;
+  color: #5f5f5f;
   font-size: 24px;
   margin-top: 16px;
   text-transform: uppercase;
@@ -417,7 +423,7 @@ const EthBalance = styled.Text`
 `;
 
 const NetworkFeeSymbolContainer = styled.TouchableWithoutFeedback`
-    margin-left: 8px;
+  margin-left: 8px;
 `;
 
 const NetworkFeeContainer = styled.View`
