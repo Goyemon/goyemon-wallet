@@ -29,17 +29,17 @@ class SendDai extends Component {
     this.state = {
       gasPrice: [
         {
-          speed: 'Fast',
+          speed: 'fast',
           imageName: 'run-fast',
           gasPriceInWei: '0'
         },
         {
-          speed: 'Average',
+          speed: 'average',
           imageName: 'run',
           gasPriceInWei: '0'
         },
         {
-          speed: 'Slow',
+          speed: 'slow',
           imageName: 'walk',
           gasPriceInWei: '0'
         }
