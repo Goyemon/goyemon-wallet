@@ -47,6 +47,7 @@ class Send extends Component {
       checked: 1,
       toAddressValidation: true,
       amountValidation: true
+      currency: "USD"
     };
   }
 
@@ -61,6 +62,24 @@ class Send extends Component {
       return PriceUtilities.convertEthToUsd(this.props.balance.ethBalance);
     } catch (err) {
       console.error(err);
+    }
+  }
+
+  toggleCurrencySymbol() {
+    if(this.state.currency === "ETH") {
+      return <CurrencySymbol>ETH</CurrencySymbol>;
+    } else if(this.state.currency === "USD") {
+      return <CurrencySymbol>$</CurrencySymbol>;
+    }
+  }
+
+  toggleCurrency(gasPriceInWei) {
+    if(this.state.currency === "ETH") {
+      const usdValue = this.getTransactionFeeEstimateInUsd(gasPriceInWei);
+      return <Text>${usdValue}</Text>;
+    } else if (this.state.currency === "USD") {
+      const ethValue = GasUtilities.getTransactionFeeEstimateInEther(gasPriceInWei, 21000);
+      return <NetworkFeeInEther>{ethValue}ETH</NetworkFeeInEther>;
     }
   }
 
@@ -205,6 +224,17 @@ class Send extends Component {
           <View>{this.renderInsufficientBalanceMessage()}</View>
           <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
             Network Fee
+            <NetworkFeeSymbolContainer
+              onPress={ () => {
+                if(this.state.currency === "ETH") {
+                  this.setState({ currency: "USD" });
+                } else if (this.state.currency === "USD") {
+                  this.setState({ currency: "ETH" });
+                }
+              }}
+            >
+              {this.toggleCurrencySymbol()}
+            </NetworkFeeSymbolContainer>
           </FormHeader>
           <UntouchableCardContainer
             alignItems="center"
@@ -212,7 +242,7 @@ class Send extends Component {
             flexDirection="column"
             height="120px"
             justifyContent="center"
-            marginTop="0"
+            marginTop="16"
             textAlign="center"
             width="80%"
           >
@@ -224,7 +254,7 @@ class Send extends Component {
                       <SelectedButton>{gasPrice.speed}</SelectedButton>
                       <Icon name={gasPrice.imageName} size={40} color="#12BB4F" />
                       <SelectedButton>
-                        ${this.getTransactionFeeEstimateInUsd(gasPrice.gasPriceInWei)}
+                        {this.toggleCurrency(gasPrice.gasPriceInWei)}
                       </SelectedButton>
                     </SpeedContainer>
                   ) : (
@@ -237,7 +267,7 @@ class Send extends Component {
                       <UnselectedButton>{gasPrice.speed}</UnselectedButton>
                       <Icon name={gasPrice.imageName} size={40} color="#000" />
                       <UnselectedButton>
-                        ${this.getTransactionFeeEstimateInUsd(gasPrice.gasPriceInWei)}
+                        {this.toggleCurrency(gasPrice.gasPriceInWei)}
                       </UnselectedButton>
                     </SpeedContainer>
                   )}
@@ -292,6 +322,10 @@ const EthBalance = styled.Text`
   font-size: 16px;
 `;
 
+const NetworkFeeSymbolContainer = styled.TouchableWithoutFeedback`
+    margin-left: 8px;
+`;
+
 const NetworkFeeContainer = styled.View`
   alignItems: center;
   flexDirection: row;
@@ -300,6 +334,14 @@ const NetworkFeeContainer = styled.View`
 
 const NetworkFee = styled.View`
   margin: 0 8px;
+`;
+
+const NetworkFeeInEther = styled.Text`
+  font-size: 12px;
+`;
+
+const CurrencySymbol = styled.Text`
+  font-size: 20px;
 `;
 
 const SpeedContainer = styled.TouchableOpacity`

@@ -51,6 +51,7 @@ class SendDai extends Component {
       toAddressValidation: true,
       daiAmountValidation: true,
       ethAmountValidation: true
+      currency: "USD"
     };
   }
 
@@ -66,6 +67,28 @@ class SendDai extends Component {
     } catch (err) {
       console.error(err);
     }
+  }
+
+  toggleCurrencySymbol() {
+    if(this.state.currency === "ETH") {
+      return <CurrencySymbol>ETH</CurrencySymbol>;
+    } else if(this.state.currency === "USD") {
+      return <CurrencySymbol>$</CurrencySymbol>;
+    }
+  }
+
+  toggleCurrency(gasPriceInWei) {
+    if(this.state.currency === "ETH") {
+      const usdValue = this.getTransactionFeeEstimateInUsd(gasPriceInWei);
+      return <Text>${usdValue}</Text>;
+    } else if (this.state.currency === "USD") {
+      const ethValue = GasUtilities.getTransactionFeeEstimateInEther(gasPriceInWei, 100000);
+      return <NetworkFeeInEther>{ethValue}ETH</NetworkFeeInEther>;
+    }
+  }
+
+  getTransactionFeeEstimateInUsd(gasPriceInWei) {
+    return PriceUtilities.convertEthToUsd(GasUtilities.getTransactionFeeEstimateInEther(gasPriceInWei, 100000));
   }
 
   getTransferEncodedABI(address, amount) {
@@ -257,6 +280,17 @@ class SendDai extends Component {
           <View>{this.renderInsufficientDaiBalanceMessage()}</View>
           <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
             Network Fee
+            <NetworkFeeSymbolContainer
+              onPress={ () => {
+                if(this.state.currency === "ETH") {
+                  this.setState({ currency: "USD" });
+                } else if (this.state.currency === "USD") {
+                  this.setState({ currency: "ETH" });
+                }
+              }}
+            >
+              {this.toggleCurrencySymbol()}
+            </NetworkFeeSymbolContainer>
           </FormHeader>
           <UntouchableCardContainer
             alignItems="center"
@@ -264,7 +298,7 @@ class SendDai extends Component {
             flexDirection="column"
             height="120px"
             justifyContent="flex-start"
-            marginTop="0"
+            marginTop="16"
             textAlign="left"
             width="80%"
           >
@@ -276,10 +310,7 @@ class SendDai extends Component {
                     <SelectedButton>{gasPrice.speed}</SelectedButton>
                     <Icon name={gasPrice.imageName} size={40} color="#12BB4F" />
                     <SelectedButton>
-                      $
-                      {PriceUtilities.convertEthToUsd(
-                        GasUtilities.getTransactionFeeEstimateInEther(gasPrice.gasPriceInWei, 100000)
-                      )}
+                      {this.toggleCurrency(gasPrice.gasPriceInWei)}
                     </SelectedButton>
                   </SpeedContainer>
                 ) : (
@@ -292,10 +323,7 @@ class SendDai extends Component {
                     <UnselectedButton>{gasPrice.speed}</UnselectedButton>
                     <Icon name={gasPrice.imageName} size={40} color="#000" />
                     <UnselectedButton>
-                      $
-                      {PriceUtilities.convertEthToUsd(
-                        GasUtilities.getTransactionFeeEstimateInEther(gasPrice.gasPriceInWei, 100000)
-                      )}
+                      {this.toggleCurrency(gasPrice.gasPriceInWei)}
                     </UnselectedButton>
                   </SpeedContainer>
                 )}
@@ -351,6 +379,10 @@ const EthBalance = styled.Text`
   font-size: 16px;
 `;
 
+const NetworkFeeSymbolContainer = styled.TouchableWithoutFeedback`
+    margin-left: 8px;
+`;
+
 const NetworkFeeContainer = styled.View`
   alignItems: center;
   flexDirection: row;
@@ -359,6 +391,14 @@ const NetworkFeeContainer = styled.View`
 
 const NetworkFee = styled.View`
   margin: 0 8px;
+`;
+
+const NetworkFeeInEther = styled.Text`
+  font-size: 12px;
+`;
+
+const CurrencySymbol = styled.Text`
+  font-size: 20px;
 `;
 
 const SpeedContainer = styled.TouchableOpacity`
