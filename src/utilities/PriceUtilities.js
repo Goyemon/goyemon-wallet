@@ -7,8 +7,8 @@ class PriceUtilities {
     const ethPrice = stateTree.ReducerPrice.price.ethPrice;
 
     try {
-      const usdValue = ethPrice * parseFloat(ether);
-      const roundedEthUsdValue = parseFloat(usdValue).toFixed(2);
+      const usdValue = parseFloat(ethPrice) * parseFloat(ether);
+      const roundedEthUsdValue = usdValue.toFixed(2);
       return roundedEthUsdValue;
     } catch (err) {
       console.error(err);
