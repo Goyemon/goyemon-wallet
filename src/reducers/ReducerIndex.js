@@ -10,6 +10,7 @@ import ReducerTransactionHistory from './ReducerTransactionHistory';
 import ReducerChecksumAddress from './ReducerChecksumAddress';
 import ReducerGasPrice from './ReducerGasPrice';
 import ReducerOutgoingTransactionObjects from './ReducerOutgoingTransactionObjects';
+import ReducerTransactionFeeEstimate from './ReducerTransactionFeeEstimate';
 import ReducerDaiAmount from './ReducerDaiAmount';
 import ReducerDaiToAddress from './ReducerDaiToAddress';
 import ReducerBalance from './ReducerBalance';
@@ -24,6 +25,7 @@ const appReducers = combineReducers({
   ReducerChecksumAddress,
   ReducerGasPrice,
   ReducerOutgoingTransactionObjects,
+  ReducerTransactionFeeEstimate,
   ReducerDaiAmount,
   ReducerDaiToAddress,
   ReducerBalance,
