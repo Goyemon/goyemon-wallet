@@ -284,14 +284,16 @@ class SendDai extends Component {
             To
           </FormHeader>
           <Form borderColor={this.getToAddressBorderColor()} borderWidth={1} height="56px">
-            <SendTextInput
-              placeholder="address"
-              clearButtonMode="while-editing"
-              onChangeText={toAddress => {
-                this.validateToAddress(toAddress);
-                this.setState({ toAddress });
-              }}
-            />
+          <SendTextInputContainer>
+              <SendTextInput
+                placeholder="address"
+                clearButtonMode="while-editing"
+                onChangeText={toAddress => {
+                  this.validateToAddress(toAddress);
+                  this.setState({ toAddress });
+                }}
+              />
+            </SendTextInputContainer>
           </Form>
           <View>{this.renderInvalidToAddressMessage()}</View>
           <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
@@ -389,13 +391,15 @@ const Container = styled.View`
 `;
 
 const SendTextInputContainer = styled.View`
+  alignItems: center;
   flexDirection: row;
+  height: 100%;
   width: 95%;
 `;
 
 const SendTextInput = styled.TextInput`
   font-size: 16px;
-  height: 100%;
+  height: 56px;
   width: 95%;
   text-align: left;
 `;

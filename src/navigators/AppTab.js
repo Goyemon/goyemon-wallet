@@ -15,14 +15,14 @@ const AppTab = createBottomTabNavigator(
       screen: HomeStack,
       navigationOptions: {
         tabBarLabel: 'Wallets',
-        tabBarIcon: ({ tintColor }) => <Icon name="wallet" size={32} color={tintColor} />
+        tabBarIcon: ({ tintColor }) => <Icon name="wallet" size={28} color={tintColor} />
       }
     },
     Settings: {
       screen: SettingsStack,
       navigationOptions: {
         tabBarLabel: 'Settings',
-        tabBarIcon: ({ tintColor }) => <Icon name="setting" size={32} color={tintColor} />
+        tabBarIcon: ({ tintColor }) => <Icon name="setting" size={28} color={tintColor} />
       }
     }
   },
@@ -31,8 +31,8 @@ const AppTab = createBottomTabNavigator(
       showLabel: true,
       activeTintColor: '#009DC4',
       tabStyle: {
-        height: 48,
-        marginTop: 16
+        height: 64,
+        marginTop: 0
       }
     }
   },
