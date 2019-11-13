@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, TouchableWithoutFeedback } from 'react-native';
 import {
   RootContainer,
   Button,
@@ -12,13 +12,17 @@ import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import ethTx from 'ethereumjs-tx';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
-import PriceUtilities from '../utilities/PriceUtilities.js';
-import EtherUtilities from '../utilities/EtherUtilities.js';
-import GasUtilities from '../utilities/GasUtilities.js';
 import firebase from 'react-native-firebase';
 import uuidv4 from 'uuid/v4';
 
 class ConfirmationDai extends Component {
+  constructor(props) {
+    super();
+    this.state = {
+      currency: "USD"
+    }
+  }
+
   async constructSignedOutgoingTransactionObject() {
     let outgoingTransactionObject = this.props.outgoingTransactionObjects[
       this.props.outgoingTransactionObjects.length - 1
@@ -50,6 +54,22 @@ class ConfirmationDai extends Component {
     firebase.messaging().sendMessage(upstreamMessage);
   }
 
+  toggleCurrencySymbol() {
+    if(this.state.currency === "ETH") {
+      return <CurrencySymbol>ETH</CurrencySymbol>;
+    } else if(this.state.currency === "USD") {
+      return <CurrencySymbol>$</CurrencySymbol>;
+    }
+  }
+
+  toggleCurrency() {
+    if(this.state.currency === "ETH") {
+      return <Text>${this.props.transactionFeeEstimate.usd}</Text>;
+    } else if (this.state.currency === "USD") {
+      return <Text>{this.props.transactionFeeEstimate.eth}ETH</Text>;
+    }
+  }
+
   render() {
     const { outgoingTransactionObjects, web3, daiAmount, daiToAddress } = this.props;
 
@@ -57,19 +77,15 @@ class ConfirmationDai extends Component {
       outgoingTransactionObjects[outgoingTransactionObjects.length - 1].gasPrice,
       'Ether'
     );
-    const total = (
-      parseFloat(PriceUtilities.convertDaiToUsd(daiAmount)) +
-      parseFloat(PriceUtilities.convertEthToUsd(gasPriceInEther))
-    ).toFixed(2);
 
     return (
       <RootContainer>
         <HeaderOne marginTop="96">Confirmation</HeaderOne>
         <TotalContainer>
           <CoinImage source={require('../../assets/dai_icon.png')} />
-          <Text>You are sending</Text>
+          <Text>You are about to send</Text>
           <TotalValueText>{daiAmount} DAI</TotalValueText>
-          <Text>{total} USD</Text>
+          <Text>+ network fee</Text>
         </TotalContainer>
         <UntouchableCardContainer
           alignItems="flex-start"
@@ -91,8 +107,21 @@ class ConfirmationDai extends Component {
           <AmountText>{daiAmount} DAI</AmountText>
           <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
             Network Fee
+            <TouchableWithoutFeedback
+              onPress={ () => {
+                if(this.state.currency === "ETH") {
+                  this.setState({ currency: "USD" });
+                } else if (this.state.currency === "USD") {
+                  this.setState({ currency: "ETH" });
+                }
+              }}
+            >
+              {this.toggleCurrencySymbol()}
+            </TouchableWithoutFeedback>
           </FormHeader>
-          <NetworkFeeText>{gasPriceInEther} ETH</NetworkFeeText>
+          <NetworkFeeText>
+            {this.toggleCurrency()}
+          </NetworkFeeText>
         </UntouchableCardContainer>
         <ButtonContainer>
           <Button
@@ -139,6 +168,10 @@ const NetworkFeeText = styled.Text`
   margin-left: 8px;
 `;
 
+const CurrencySymbol = styled.Text`
+  font-size: 20px;
+`;
+
 const TotalValueText = styled.Text`
   font-size: 24px;
 `;
@@ -153,6 +186,7 @@ function mapStateToProps(state) {
   return {
     web3: state.ReducerWeb3.web3,
     outgoingTransactionObjects: state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
+    transactionFeeEstimate: state.ReducerTransactionFeeEstimate.transactionFeeEstimate,
     daiAmount: state.ReducerDaiAmount.daiAmount,
     daiToAddress: state.ReducerDaiToAddress.daiToAddress
   };

@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, TouchableWithoutFeedback } from 'react-native';
 import {
   RootContainer,
   Button,
@@ -16,6 +16,13 @@ import firebase from 'react-native-firebase';
 import uuidv4 from 'uuid/v4';
 
 class Confirmation extends Component {
+  constructor(props) {
+    super();
+    this.state = {
+      currency: "USD"
+    }
+  }
+
   async constructSignedOutgoingTransactionObject() {
     let outgoingTransactionObject = this.props.outgoingTransactionObjects[
       this.props.outgoingTransactionObjects.length - 1
@@ -47,21 +54,31 @@ class Confirmation extends Component {
     firebase.messaging().sendMessage(upstreamMessage);
   }
 
+  toggleCurrencySymbol() {
+    if(this.state.currency === "ETH") {
+      return <CurrencySymbol>ETH</CurrencySymbol>;
+    } else if(this.state.currency === "USD") {
+      return <CurrencySymbol>$</CurrencySymbol>;
+    }
+  }
+
+  toggleCurrency() {
+    if(this.state.currency === "ETH") {
+      return <Text>${this.props.transactionFeeEstimate.usd}</Text>;
+    } else if (this.state.currency === "USD") {
+      return <Text>{this.props.transactionFeeEstimate.eth}ETH</Text>;
+    }
+  }
+
   render() {
     const { outgoingTransactionObjects, web3 } = this.props;
 
-    const gasPriceInEther = web3.utils.fromWei(
-      outgoingTransactionObjects[outgoingTransactionObjects.length - 1].gasPrice,
-      'Ether'
-    );
     const valueInEther = parseFloat(
       web3.utils.fromWei(
         outgoingTransactionObjects[outgoingTransactionObjects.length - 1].value,
         'Ether'
       )
     );
-    const gasPriceInEtherNumber = parseFloat(gasPriceInEther);
-    const total = gasPriceInEtherNumber + valueInEther;
 
     return (
       <RootContainer>
@@ -69,8 +86,8 @@ class Confirmation extends Component {
         <TotalContainer>
           <CoinImage source={require('../../assets/ether_icon.png')} />
           <Text>You are about to send</Text>
-          <TotalValueText>{total} ETH</TotalValueText>
-          <Text>USD</Text>
+          <TotalValueText>{valueInEther} ETH</TotalValueText>
+          <Text>+ network fee</Text>
         </TotalContainer>
         <UntouchableCardContainer
           alignItems="flex-start"
@@ -92,8 +109,21 @@ class Confirmation extends Component {
           <AmountText>{valueInEther} ETH</AmountText>
           <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
             Network Fee
+            <TouchableWithoutFeedback
+              onPress={ () => {
+                if(this.state.currency === "ETH") {
+                  this.setState({ currency: "USD" });
+                } else if (this.state.currency === "USD") {
+                  this.setState({ currency: "ETH" });
+                }
+              }}
+            >
+              {this.toggleCurrencySymbol()}
+            </TouchableWithoutFeedback>
           </FormHeader>
-          <NetworkFeeText>{gasPriceInEther} ETH</NetworkFeeText>
+          <NetworkFeeText>
+            {this.toggleCurrency()}
+          </NetworkFeeText>
         </UntouchableCardContainer>
         <ButtonContainer>
           <Button
@@ -140,6 +170,10 @@ const NetworkFeeText = styled.Text`
   margin-left: 8px;
 `;
 
+const CurrencySymbol = styled.Text`
+  font-size: 20px;
+`;
+
 const TotalValueText = styled.Text`
   font-size: 24px;
 `;
@@ -153,7 +187,8 @@ const ButtonContainer = styled.View`
 function mapStateToProps(state) {
   return {
     web3: state.ReducerWeb3.web3,
-    outgoingTransactionObjects: state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects
+    outgoingTransactionObjects: state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
+    transactionFeeEstimate: state.ReducerTransactionFeeEstimate.transactionFeeEstimate
   };
 }
 
