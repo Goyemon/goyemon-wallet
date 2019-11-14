@@ -84,11 +84,7 @@ class NotificationPermission extends Component {
             <HeaderTwo marginBottom="0" marginLeft="0" marginTop="40">
               Setting up your wallet...
             </HeaderTwo>
-            <Description
-              marginBottom="8"
-              marginLeft="8"
-              marginTop="16"
-            >
+            <Description marginBottom="8" marginLeft="8" marginTop="16">
               this shouldn't take long
             </Description>
             <CreatingWalletImage source={require('../../assets/creating_wallet.png')} />
@@ -109,17 +105,25 @@ class NotificationPermission extends Component {
       );
     } else if (this.props.notificationPermission === false) {
       return (
-        <View>
-          <HeaderTwo marginBottom="0" marginLeft="0" marginTop="40">
+        <NoPermissionContainer>
+          <HeaderTwo marginBottom="0" marginLeft="0" marginTop="0">
             oops!
           </HeaderTwo>
-          <Description
-            marginBottom="8"
-            marginLeft="8"
-            marginTop="16"
-          >
-          please go to the setting and change your permission. relaunch your app.</Description>
-          <NotificationPermissionDeniedImage source={require('../../assets/notification_not_granted.png')} />
+          <Description marginBottom="8" marginLeft="8" marginTop="16">
+            please go to the notification settings and enable them
+          </Description>
+          <NotificationPermissionDeniedImage
+            source={require('../../assets/notification_not_granted.png')}
+          />
+          <Description marginBottom="8" marginLeft="8" marginTop="8">
+            - We use a notification system to update your transactions.
+          </Description>
+          <Description marginBottom="8" marginLeft="8" marginTop="8">
+            - Don't worry. We will never annoy you with a pop-up notification.
+          </Description>
+          <Description marginBottom="8" marginLeft="8" marginTop="8">
+            - Everything happens in the background.
+          </Description>
           <Button
             text="Go To Device Settings"
             textColor="#5F5F5F"
@@ -129,7 +133,7 @@ class NotificationPermission extends Component {
             opacity="1"
             onPress={() => Linking.openURL('app-settings://notification/DeBank')}
           />
-        </View>
+        </NoPermissionContainer>
       );
     }
   }
@@ -137,19 +141,22 @@ class NotificationPermission extends Component {
   render() {
     return (
       <RootContainer>
-        <Container>
-          <View>{this.renderPermission()}</View>
-        </Container>
+        <Container>{this.renderPermission()}</Container>
       </RootContainer>
     );
   }
 }
 
 const Container = styled.View`
-  flex: 1;
-  justify-content: center;
-  margin-top: 240px;
-  text-align: center;
+  alignItems: center;
+  flexDirection: column;
+  margin-top: 120px;
+  width: 95%;
+`;
+
+const NoPermissionContainer = styled.View`
+  alignItems: center;
+  flexDirection: column;
 `;
 
 const CreatingWalletImage = styled.Image`
