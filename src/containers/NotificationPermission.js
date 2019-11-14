@@ -70,7 +70,7 @@ class NotificationPermission extends Component {
   }
 
   renderPermission() {
-    if (this.hasBalanceAndTransactions()) {
+    if (this.hasBalanceAndTransactions() && this.props.notificationPermission) {
       this.navigateToHome();
       return <View />;
     }
@@ -124,6 +124,7 @@ class NotificationPermission extends Component {
             text="Go To Device Settings"
             textColor="#5F5F5F"
             backgroundColor="#EEEEEE"
+            borderColor="#EEEEEE"
             margin="16px auto"
             opacity="1"
             onPress={() => Linking.openURL('app-settings://notification/DeBank')}

@@ -8,6 +8,8 @@ import WalletDetail from '../containers/WalletDetail';
 import { saveEthBalance } from '../actions/ActionBalance';
 import styled from 'styled-components';
 import PriceUtilities from '../utilities/PriceUtilities.js';
+import { saveNotificationPermission } from '../actions/ActionNotificationPermission';
+import firebase from 'react-native-firebase';
 
 class WalletList extends Component {
   static navigationOptions = ({ navigation, navigationOptions }) => {
@@ -21,6 +23,28 @@ class WalletList extends Component {
           }}
         />
       )
+    }
+  }
+
+  async componentDidMount() {
+    await this.checkFcmPermissions();
+  }
+
+  async checkFcmPermissions() {
+    const enabled = await firebase.messaging().hasPermission();
+    if (enabled) {
+      console.log('user has permissions');
+      this.props.saveNotificationPermission(true);
+    } else {
+      console.log("user doesn't have permission");
+      try {
+        await firebase.messaging().requestPermission();
+        console.log('User has authorised');
+        this.props.saveNotificationPermission(true);
+      } catch (error) {
+        console.log('User has rejected permissions');
+        this.props.saveNotificationPermission(false);
+      }
     }
   }
 
@@ -101,7 +125,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  saveEthBalance
+  saveEthBalance,
+  saveNotificationPermission
 };
 
 export default withNavigation(
