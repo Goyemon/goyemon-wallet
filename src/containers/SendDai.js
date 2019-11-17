@@ -101,7 +101,10 @@ class SendDai extends Component {
       JSON.parse(daiToken.daiTokenAbi),
       daiToken.daiTokenAddress
     );
-    const transferEncodedABI = daiTokenContract.methods.transfer(address, amount).encodeABI();
+
+    const amountWithDecimals = amount * 10 ** 18;
+
+    const transferEncodedABI = daiTokenContract.methods.transfer(address, amountWithDecimals).encodeABI();
     return transferEncodedABI;
   }
 
