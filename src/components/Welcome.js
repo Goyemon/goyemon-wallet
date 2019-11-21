@@ -6,32 +6,58 @@ import styled from 'styled-components/native';
 import * as Animatable from 'react-native-animatable';
 
 export default class Welcome extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      timePassed: false
+    };
+  }
+
+  hollaFadeInOut() {
+    setTimeout(() => {
+      this.setState({ timePassed: true });
+    }, 2000);
+
+    if (this.state.timePassed) {
+      return (
+        <HollaContainer animation="fadeOut">
+          <Title>
+            <TitleRedText>h</TitleRedText>
+            <TitleGreenText>o</TitleGreenText>
+            <TitleOrangeText>ll</TitleOrangeText>
+            <TitleGreenText>a</TitleGreenText>
+            <TitleRedText>!</TitleRedText>
+          </Title>
+        </HollaContainer>
+      )
+    }
+      return (
+        <HollaContainer animation="fadeInDown">
+          <Title>
+            <TitleRedText>h</TitleRedText>
+            <TitleGreenText>o</TitleGreenText>
+            <TitleOrangeText>ll</TitleOrangeText>
+            <TitleGreenText>a</TitleGreenText>
+            <TitleRedText>!</TitleRedText>
+          </Title>
+        </HollaContainer>
+      );
+  }
+
   render() {
     return (
       <RootContainer>
         <Container>
-          <HollaContainer animation="fadeInDown" delay={500}>
-            <Title>
-              <TitleRedText>h</TitleRedText>
-              <TitleGreenText>o</TitleGreenText>
-              <TitleOrangeText>ll</TitleOrangeText>
-              <TitleGreenText>a</TitleGreenText>
-              <TitleRedText>!</TitleRedText>
-            </Title>
-          </HollaContainer>
-          <WelcomeContainer animation="fadeIn" delay={2000}>
-            <Title>
-              Welcome to
-            </Title>
-            <Logo>
-              Crypterest
-            </Logo>
+          {this.hollaFadeInOut()}
+          <WelcomeContainer animation="fadeIn" delay={4000}>
+            <Title>Welcome to</Title>
+            <Logo>Crypterest</Logo>
             <HeaderTwo
               fontSize="24px"
               fontWeight="bold"
               marginBottom="24"
               marginLeft="0"
-              marginTop="16"
+              marginTop="0"
             >
               share your crypto assets,
             </HeaderTwo>
@@ -69,15 +95,13 @@ const Container = styled.View`
 `;
 
 const HollaContainer = Animatable.createAnimatableComponent(styled.View`
-  flex: 1;
-  margin-top: 16px;
-  text-align: center;
+  margin-top: 80px;
 `);
 
 const WelcomeContainer = Animatable.createAnimatableComponent(styled.View`
   alignItems: center;
   flex: 1;
-  margin-top: 20px;
+  margin-top: -120px;
 `);
 
 const Title = Animatable.createAnimatableComponent(styled.Text`
