@@ -9,7 +9,7 @@ import {
   HeaderTwo,
   Description
 } from '../components/common';
-import { View, Text, Linking, Modal, TouchableHighlight, Alert } from 'react-native';
+import { View, Text, Linking, TouchableHighlight, Alert, Modal } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
@@ -33,50 +33,55 @@ class Settings extends Component {
       <RootContainer>
         <HeaderOne marginTop="64">Settings</HeaderOne>
         <Modal
-          animationType="slide"
-          transparent={false}
+          animationType="fade"
+          transparent={true}
           visible={this.state.modalVisible}
           onRequestClose={() => {
             Alert.alert('Modal has been closed.');
           }}
         >
-          <View style={{ marginTop: 22 }}>
-            <HeaderTwo
-              marginBottom="0"
-              marginLeft="0"
-              marginTop="96"
-            >
-              Reset your Wallet?
-            </HeaderTwo>
-            <ButtonContainer>
-              <Button
-                text="Cancel"
-                textColor="#5F5F5F"
-                backgroundColor="#EEEEEE"
-                borderColor="#EEEEEE"
-                margin="8px"
-                opacity="1"
-                onPress={() => {
-                  this.setModalVisible(false);
-                }}
-              />
-              <Button
-                text="Confirm"
-                textColor="#FFF"
-                backgroundColor="#FF3346"
-                borderColor="#FF3346"
-                margin="8px"
-                opacity="1"
-                onPress={async () => {
-                  await WalletUtilities.resetKeychainData();
-                  await persistor.purge();
-                  this.props.clearState();
-                  this.setModalVisible(false);
-                  this.props.navigation.navigate('Initial');
-                }}
-              />
-            </ButtonContainer>
-          </View>
+          <ModalContainer>
+            <ModalBackground>
+              <HeaderTwo
+                marginBottom="0"
+                marginLeft="0"
+                marginTop="40"
+              >
+                Reset your Wallet?
+              </HeaderTwo>
+              <Description marginBottom="8" marginLeft="0" marginTop="16">Make sure you save your backup words before deletion. Otherwise, you will lose your funds.</Description>
+              <ButtonContainer>
+                <Button
+                  text="Cancel"
+                  textColor="#5F5F5F"
+                  backgroundColor="#EEEEEE"
+                  borderColor="#EEEEEE"
+                  margin="8px"
+                  opacity="1"
+                  onPress={() => {
+                    this.setModalVisible(false);
+                  }}
+                />
+                <Button
+                  text="Confirm"
+                  textColor="#FFF"
+                  backgroundColor="#FF3346"
+                  borderColor="#FF3346"
+                  margin="8px"
+                  opacity="1"
+                  onPress={async () => {
+                    await WalletUtilities.resetKeychainData();
+                    await persistor.purge();
+                    this.props.clearState();
+                    // reset notification settings
+                    // https://github.com/zo0r/react-native-push-notification
+                    this.setModalVisible(false);
+                    this.props.navigation.navigate('Initial');
+                  }}
+                />
+              </ButtonContainer>
+            </ModalBackground>
+          </ModalContainer>
         </Modal>
         <CommunityIconContainer>
           <CommunityIcon><Icon onPress={() => {Linking.openURL('https://twitter.com/taisuke_mino')}} name="twitter" color="#00aced" size={40} /></CommunityIcon>
@@ -136,6 +141,22 @@ class Settings extends Component {
     );
   }
 }
+
+const ModalContainer = styled.View`
+  background-color: rgba(0, 0, 0, 0.5);
+  flexDirection: row;
+  justifyContent: center;
+  height: 100%;
+`;
+
+const ModalBackground = styled.View`
+  background-color: #FFF;
+  borderTopWidth: 2;
+  borderTopColor: #FF3346;
+  height: 30%;
+  margin-top: 200px;
+  width: 90%;
+`;
 
 const CommunityIconContainer = styled.View`
   flexDirection: row;
