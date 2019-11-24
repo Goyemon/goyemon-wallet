@@ -154,6 +154,7 @@ const ModalBackground = styled.View`
   borderTopWidth: 2;
   borderTopColor: #FF3346;
   height: 30%;
+  min-height: 280px;
   margin-top: 200px;
   width: 90%;
 `;
