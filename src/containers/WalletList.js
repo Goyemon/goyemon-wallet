@@ -105,13 +105,4 @@ const mapStateToProps = state => ({
   balance: state.ReducerBalance.balance
 });
 
-const mapDispatchToProps = {
-  saveNotificationPermission
-};
-
-export default withNavigation(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(WalletList)
-);
+export default withNavigation(connect(mapStateToProps)(WalletList));
