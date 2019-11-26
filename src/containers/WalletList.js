@@ -5,7 +5,6 @@ import { withNavigation } from 'react-navigation';
 import { Text } from 'react-native';
 import { RootContainer, QRCodeIcon, TouchableCardContainer, HeaderOne, HeaderThree } from '../components/common';
 import WalletDetail from '../containers/WalletDetail';
-import { saveEthBalance } from '../actions/ActionBalance';
 import styled from 'styled-components';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import { saveNotificationPermission } from '../actions/ActionNotificationPermission';
@@ -125,7 +124,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  saveEthBalance,
   saveNotificationPermission
 };
 
