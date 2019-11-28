@@ -83,9 +83,42 @@ class Settings extends Component {
           </ModalContainer>
         </Modal>
         <CommunityIconContainer>
-          <CommunityIcon><Icon onPress={() => {Linking.openURL('https://twitter.com/taisuke_mino')}} name="twitter" color="#00aced" size={40} /></CommunityIcon>
-          <CommunityIcon><Icon onPress={() => {Linking.openURL('https://github.com/taisukemino')}} name="github-circle" color="#333" size={40} /></CommunityIcon>
-          <CommunityIcon><Icon onPress={() => {Linking.openURL('https://discord.gg/MXGfnJG')}} name="discord" color="#7289DA" size={40} /></CommunityIcon>
+          <CommunityIcon>
+            <Icon
+              onPress={() => {
+                Linking.openURL('https://twitter.com/taisuke_mino').catch(err =>
+                  console.error('An error occurred', err)
+                );
+              }}
+              name="twitter"
+              color="#00aced"
+              size={40}
+            />
+          </CommunityIcon>
+          <CommunityIcon>
+            <Icon
+              onPress={() => {
+                Linking.openURL('https://github.com/taisukemino').catch(err =>
+                  console.error('An error occurred', err)
+                );
+              }}
+              name="github-circle"
+              color="#333"
+              size={40}
+            />
+          </CommunityIcon>
+          <CommunityIcon>
+            <Icon
+              onPress={() => {
+                Linking.openURL('https://discord.gg/MXGfnJG').catch(err =>
+                  console.error('An error occurred', err)
+                );
+              }}
+              name="discord"
+              color="#7289DA"
+              size={40}
+            />
+          </CommunityIcon>
         </CommunityIconContainer>
         <Description marginBottom="40" marginLeft="8" marginTop="16">
           Join the community
