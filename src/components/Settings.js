@@ -34,7 +34,7 @@ class Settings extends Component {
         <HeaderOne marginTop="64">Settings</HeaderOne>
         <Modal
           animationType="fade"
-          transparent={true}
+          transparent
           visible={this.state.modalVisible}
           onRequestClose={() => {
             Alert.alert('Modal has been closed.');
@@ -42,14 +42,13 @@ class Settings extends Component {
         >
           <ModalContainer>
             <ModalBackground>
-              <HeaderTwo
-                marginBottom="0"
-                marginLeft="0"
-                marginTop="40"
-              >
+              <HeaderTwo marginBottom="0" marginLeft="0" marginTop="40">
                 Reset your Wallet?
               </HeaderTwo>
-              <Description marginBottom="8" marginLeft="0" marginTop="16">Make sure you save your backup words before deletion. Otherwise, you will lose your funds.</Description>
+              <Description marginBottom="8" marginLeft="0" marginTop="16">
+                Make sure you save your backup words before deletion. Otherwise, you will lose your
+                funds.
+              </Description>
               <ButtonContainer>
                 <Button
                   text="Cancel"
@@ -88,34 +87,30 @@ class Settings extends Component {
           <CommunityIcon><Icon onPress={() => {Linking.openURL('https://github.com/taisukemino')}} name="github-circle" color="#333" size={40} /></CommunityIcon>
           <CommunityIcon><Icon onPress={() => {Linking.openURL('https://discord.gg/MXGfnJG')}} name="discord" color="#7289DA" size={40} /></CommunityIcon>
         </CommunityIconContainer>
-        <Description
-          marginBottom="40"
-          marginLeft="8"
-          marginTop="16"
-        >
+        <Description marginBottom="40" marginLeft="8" marginTop="16">
           Join the community
         </Description>
         <SettingsListContainer>
-        <SettingsList>
-          <Icon name="information-outline" color="#5F5F5F" size={28} />
-          <SettingsListText>FAQ</SettingsListText>
-          <Icon name="chevron-right" color="#5F5F5F" size={28} />
-        </SettingsList>
-        <SettingsList>
-          <Icon name="face" color="#5F5F5F" size={28} />
-          <SettingsListText>About Us</SettingsListText>
-          <Icon name="chevron-right" color="#5F5F5F" size={28} />
-        </SettingsList>
-        <TouchableHighlight
-          underlayColor="#FFF"
-          onPress={() => this.props.navigation.navigate('BackupWords')}
-        >
           <SettingsList>
-            <Icon name="key-outline" color="#5F5F5F" size={28} />
-            <SettingsListText>Backup Words</SettingsListText>
+            <Icon name="information-outline" color="#5F5F5F" size={28} />
+            <SettingsListText>FAQ</SettingsListText>
             <Icon name="chevron-right" color="#5F5F5F" size={28} />
           </SettingsList>
-        </TouchableHighlight>
+          <SettingsList>
+            <Icon name="face" color="#5F5F5F" size={28} />
+            <SettingsListText>About Us</SettingsListText>
+            <Icon name="chevron-right" color="#5F5F5F" size={28} />
+          </SettingsList>
+          <TouchableHighlight
+            underlayColor="#FFF"
+            onPress={() => this.props.navigation.navigate('BackupWords')}
+          >
+            <SettingsList>
+              <Icon name="key-outline" color="#5F5F5F" size={28} />
+              <SettingsListText>Backup Words</SettingsListText>
+              <Icon name="chevron-right" color="#5F5F5F" size={28} />
+            </SettingsList>
+          </TouchableHighlight>
         </SettingsListContainer>
         <UntouchableCardContainer
           alignItems="center"
@@ -136,7 +131,9 @@ class Settings extends Component {
             <ResetWalletText>Reset Wallet</ResetWalletText>
           </TouchableHighlight>
         </UntouchableCardContainer>
-        <VersionText><Text>v0.0.1</Text></VersionText>
+        <VersionText>
+          <Text>v0.0.1</Text>
+        </VersionText>
       </RootContainer>
     );
   }
@@ -150,9 +147,9 @@ const ModalContainer = styled.View`
 `;
 
 const ModalBackground = styled.View`
-  background-color: #FFF;
+  background-color: #fff;
   borderTopWidth: 2;
-  borderTopColor: #FF3346;
+  borderTopColor: #ff3346;
   height: 30%;
   min-height: 280px;
   margin-top: 200px;
@@ -192,7 +189,7 @@ const SettingsList = styled.View`
 `;
 
 const SettingsListText = styled.Text`
-  color: #5F5F5F;
+  color: #5f5f5f;
   font-size: 20px;
   margin-left: 16px;
   width: 80%;
