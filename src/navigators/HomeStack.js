@@ -3,7 +3,8 @@ import { createStackNavigator } from 'react-navigation';
 import Initial from '../components/Initial';
 import Welcome from '../components/Welcome';
 import NotificationPermissionTutorial from '../components/NotificationPermissionTutorial';
-import NotificationPermission from '../containers/NotificationPermission';
+import NotificationPermissionNotGranted from '../components/NotificationPermissionNotGranted';
+import WalletCreation from '../components/WalletCreation';
 import Start from '../containers/Start';
 import ImportOptions from '../components/ImportOptions';
 import ImportTwentyFourMnemonicWords from '../components/ImportTwentyFourMnemonicWords';
@@ -40,8 +41,14 @@ const HomeStack = createStackNavigator(
         header: null
       })
     },
-    NotificationPermission: {
-      screen: NotificationPermission,
+    NotificationPermissionNotGranted: {
+      screen: NotificationPermissionNotGranted,
+      navigationOptions: () => ({
+        header: null
+      })
+    },
+    WalletCreation: {
+      screen: WalletCreation,
       navigationOptions: () => ({
         header: null
       })
