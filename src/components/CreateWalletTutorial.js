@@ -1,24 +1,14 @@
 'use strict';
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
 import styled from 'styled-components/native';
-import { RootContainer, Button, HeaderTwo, Description } from '../components/common';
+import { RootContainer, Button, HeaderTwo, Description, Loader } from '../components/common';
 import { connect } from 'react-redux';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
-import EtherUtilities from '../utilities/EtherUtilities.js';
-import ProviderUtilities from '../utilities/ProviderUtilities.ts';
-import { createChecksumAddress } from '../actions/ActionChecksumAddress';
-import firebase from 'react-native-firebase';
-import uuidv4 from 'uuid/v4';
+import { saveMnemonic } from '../actions/ActionMnemonic';
 
 class CreateWalletTutorial extends Component {
-  async savePrivateKey() {
-    const privateKey = await WalletUtilities.createPrivateKey();
-    await WalletUtilities.setPrivateKey(privateKey);
   }
 
-  render() {
-    const mnemonicWords = this.props.mnemonicWords;
 
     return (
       <RootContainer>
@@ -41,7 +31,11 @@ class CreateWalletTutorial extends Component {
             borderColor="#009DC4"
             margin="24px auto"
             opacity="1"
-            onPress={() => this.props.navigation.navigate('ShowMnemonic')}
+            onPress={async () => {
+              await WalletUtilities.init();
+              await this.props.saveMnemonic();
+              this.props.navigation.navigate('ShowMnemonic');
+            }}
           />
           <Button
             text="Do This Later"
@@ -51,12 +45,9 @@ class CreateWalletTutorial extends Component {
             margin="0 auto"
             opacity="1"
             onPress={async () => {
-              await WalletUtilities.setMnemonic(mnemonicWords);
-              await WalletUtilities.generateWallet(mnemonicWords);
-              await this.savePrivateKey();
-              await this.props.createChecksumAddress();
-              await ProviderUtilities.registerEthereumAddress(this.props.checksumAddress);
-              this.props.navigation.navigate('NotificationPermissionTutorial')
+              await WalletUtilities.init();
+              await this.props.saveMnemonic();
+              this.props.navigation.navigate('NotificationPermissionTutorial');
             }}
           />
         </Container>
@@ -71,18 +62,11 @@ const Container = styled.View`
   justifyContent: center;
 `;
 
-function mapStateToProps(state) {
-  return {
-    checksumAddress: state.ReducerChecksumAddress.checksumAddress,
-    mnemonicWords: state.ReducerMnemonic.mnemonicWords
-  };
-}
-
 const mapDispatchToProps = {
-  createChecksumAddress
+  saveMnemonic
 };
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(CreateWalletTutorial);

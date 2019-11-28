@@ -1,15 +1,10 @@
 'use strict';
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TextInput } from 'react-native';
+import { StyleSheet, View, TextInput } from 'react-native';
 import { RootContainer, ProgressBar, HeaderTwo, Button, Description } from '../components/common';
 import { connect } from 'react-redux';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
-import EtherUtilities from '../utilities/EtherUtilities.js';
-import ProviderUtilities from '../utilities/ProviderUtilities.ts';
-import { createChecksumAddress } from '../actions/ActionChecksumAddress';
 import styled from 'styled-components/native';
-import firebase from 'react-native-firebase';
-import uuidv4 from 'uuid/v4';
 
 class VerifyMnemonic extends Component {
   constructor() {
@@ -45,11 +40,6 @@ class VerifyMnemonic extends Component {
     };
   }
 
-  async savePrivateKey() {
-    const privateKey = await WalletUtilities.createPrivateKey();
-    await WalletUtilities.setPrivateKey(privateKey);
-  }
-
   async validateForm() {
     const mnemonicWords = this.state.mnemonicWords.join(' ');
 
@@ -58,11 +48,6 @@ class VerifyMnemonic extends Component {
       mnemonicWords === this.props.mnemonicWords
     ) {
       this.setState({ mnemonicWordsValidation: true });
-      await WalletUtilities.setMnemonic(mnemonicWords);
-      await WalletUtilities.generateWallet(mnemonicWords);
-      await this.savePrivateKey();
-      await this.props.createChecksumAddress();
-      await ProviderUtilities.registerEthereumAddress(this.props.checksumAddress);
       this.props.navigation.navigate('NotificationPermissionTutorial');
     } else {
       this.setState({ mnemonicWordsValidation: false });
@@ -170,16 +155,8 @@ const ErrorMessage = styled.Text`
 
 function mapStateToProps(state) {
   return {
-    checksumAddress: state.ReducerChecksumAddress.checksumAddress,
     mnemonicWords: state.ReducerMnemonic.mnemonicWords
   };
 }
 
-const mapDispatchToProps = {
-  createChecksumAddress
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(VerifyMnemonic);
+export default connect(mapStateToProps)(VerifyMnemonic);

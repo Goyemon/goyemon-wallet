@@ -1,13 +1,10 @@
 'use strict';
 import React, { Component } from 'react';
-import { View, TextInput, Text } from 'react-native';
+import { View, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { RootContainer, ProgressBar, HeaderTwo, Description, Button } from '../components/common';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
-import EtherUtilities from '../utilities/EtherUtilities';
-import ProviderUtilities from '../utilities/ProviderUtilities.ts';
-import { createChecksumAddress } from '../actions/ActionChecksumAddress';
 import { saveMnemonic } from '../actions/ActionMnemonic';
 
 class ImportTwelveMnemonicWords extends Component {
@@ -19,21 +16,12 @@ class ImportTwelveMnemonicWords extends Component {
     };
   }
 
-  async savePrivateKey() {
-    const privateKey = await WalletUtilities.createPrivateKey();
-    await WalletUtilities.setPrivateKey(privateKey);
-  }
-
   async validateForm() {
     const mnemonicWords = this.state.mnemonicWords.join(' ');
     if (WalletUtilities.validateMnemonic(mnemonicWords)) {
       this.setState({ mnemonicWordsValidation: true });
       await WalletUtilities.setMnemonic(mnemonicWords);
       await this.props.saveMnemonic();
-      await WalletUtilities.generateWallet(mnemonicWords);
-      await this.savePrivateKey();
-      await this.props.createChecksumAddress();
-      await ProviderUtilities.registerEthereumAddress(this.props.checksumAddress);
       this.props.navigation.navigate('NotificationPermissionTutorial');
     } else {
       this.setState({ mnemonicWordsValidation: false });
@@ -145,19 +133,11 @@ const ErrorMessage = styled.Text`
   color: #ff3346;
 `;
 
-function mapStateToProps(state) {
-  return {
-    web3: state.ReducerWeb3.web3,
-    checksumAddress: state.ReducerChecksumAddress.checksumAddress
-  };
-}
-
 const mapDispatchToProps = {
-  saveMnemonic,
-  createChecksumAddress
+  saveMnemonic
 };
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(ImportTwelveMnemonicWords);
