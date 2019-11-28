@@ -1,44 +1,18 @@
 'use strict';
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { saveMnemonic } from '../actions/ActionMnemonic';
 import styled from 'styled-components';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import {
   RootContainer,
   TouchableCardContainer,
   HeaderThree,
-  Description,
-  Loader
+  Description
 } from '../components/common/';
-import WalletUtilities from '../utilities/WalletUtilities.ts';
 
-class Start extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: false
-    };
-  }
-
-  async renderLoader() {
-    this.setState({
-      loading: true
-    });
-
-    const mnemonicWords = await WalletUtilities.getMnemonic();
-
-    if (mnemonicWords) {
-      this.setState({
-        loading: false
-      });
-    }
-  }
-
+export default class Start extends Component {
   render() {
     return (
       <RootContainer>
-        <Loader loading={this.state.loading} />
         <Container>
           <Description marginBottom="120" marginLeft="8" marginTop="240">
             Let's make your wallet first :)
@@ -50,10 +24,7 @@ class Start extends Component {
             justifyContent="center"
             textAlign="left"
             width="90%"
-            onPress={async () => {
-              await WalletUtilities.init();
-              await this.props.saveMnemonic();
-              await this.renderLoader();
+            onPress={() => {
               this.props.navigation.navigate('CreateWalletTutorial');
             }}
           >
@@ -113,12 +84,3 @@ const CardImage = styled.Image`
   resizeMode: contain;
   width: 64px;
 `;
-
-const mapDispatchToProps = {
-  saveMnemonic
-};
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(Start);
