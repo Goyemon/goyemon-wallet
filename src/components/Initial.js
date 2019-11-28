@@ -3,31 +3,67 @@ import React, { Component } from 'react';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { RootContainer } from '../components/common';
 import styled from 'styled-components/native';
-import { connect } from 'react-redux';
 import * as Animatable from 'react-native-animatable';
 import { saveWeb3 } from '../actions/ActionWeb3';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 import HomeStack from '../navigators/HomeStack';
 import firebase from 'react-native-firebase';
+import { store } from '../store/store.js';
 
-class Initial extends Component {
+export default class Initial extends Component {
   async componentWillMount() {
-    await this.props.saveWeb3();
-    const privateKeySaved = await WalletUtilities.privateKeySaved();
-    const notificationEnabled = await firebase.messaging().hasPermission();
+    store.dispatch(saveWeb3());
+
+    let mnemonicWordsStatePersisted;
+    const stateTree = store.getState();
+    const mnemonicWords = stateTree.ReducerMnemonic.mnemonicWords;
+    if (mnemonicWords === null) {
+      mnemonicWordsStatePersisted = false;
+    } else if (mnemonicWords != null) {
+      mnemonicWordsStatePersisted = true;
+    }
+
+    const hasPersistedState = this.hasPersistedState();
+
+    const hasPrivateKeyInKeychain = await WalletUtilities.privateKeySaved();
+
+    let notificationEnabled = stateTree.ReducerNotificationPermission.notificationPermission;
+    const enabled = await firebase.messaging().hasPermission();
+    if(enabled === true) {
+      notificationEnabled = true;
+    }
+
     let mainPage = 'Welcome';
 
-    if (privateKeySaved && notificationEnabled) {
+    if (!mnemonicWordsStatePersisted && !notificationEnabled && !hasPrivateKeyInKeychain) {
+      mainPage = 'Welcome';
+    } else if (mnemonicWordsStatePersisted && !notificationEnabled && !hasPrivateKeyInKeychain ) {
+      mainPage = 'Welcome';
+    } else if (mnemonicWordsStatePersisted && notificationEnabled && !hasPersistedState && !hasPrivateKeyInKeychain ) {
+      mainPage = 'WalletCreation';
+    } else if (mnemonicWordsStatePersisted && notificationEnabled && !hasPersistedState && hasPrivateKeyInKeychain ) {
+      mainPage = 'WalletCreation';
+    } else if (mnemonicWordsStatePersisted && notificationEnabled && hasPersistedState && hasPrivateKeyInKeychain ) {
       mainPage = 'WalletList';
-    } else if (privateKeySaved && !notificationEnabled) {
-      mainPage = 'NotificationPermission';
-    } else if (!privateKeySaved && !notificationEnabled) {
+    } else if (mnemonicWordsStatePersisted && notificationEnabled === null && hasPrivateKeyInKeychain) {
+      mainPage = 'Welcome';
+    } else if (mnemonicWordsStatePersisted && !notificationEnabled && hasPrivateKeyInKeychain) {
+      mainPage = 'NotificationPermissionNotGranted';
+    } else if (!mnemonicWordsStatePersisted && notificationEnabled && !hasPrivateKeyInKeychain) {
+      mainPage = 'Welcome';
+    } else if (!mnemonicWordsStatePersisted && !notificationEnabled && hasPrivateKeyInKeychain) {
       mainPage = 'Welcome';
     }
 
     HomeStack.navigationOptions = ({ navigation }) => {
       let tabBarVisible = true;
-      if (navigation.state.index >= 0 && mainPage === 'Welcome') {
+      if (navigation.state.index >= 0 && mainPage === 'WalletList') {
+        tabBarVisible = true;
+      } else if (
+        (navigation.state.index >= 0 && mainPage === 'Welcome') ||
+        'NotificationPermissionNotGranted' ||
+        'WalletCreation'
+      ) {
         tabBarVisible = false;
       }
 
@@ -41,6 +77,49 @@ class Initial extends Component {
       actions: [NavigationActions.navigate({ routeName: mainPage })]
     });
     this.props.navigation.dispatch(resetAction);
+  }
+
+  hasPersistedState() {
+    return (
+      this.hasTransactionHistory() &&
+      this.hasBalance() &&
+      this.hasChecksumAddress() &&
+      this.hasPrice()
+    );
+  }
+
+  hasTransactionHistory() {
+    const stateTree = store.getState();
+    const transactions = stateTree.ReducerTransactionHistory.transactions;
+    return transactions != null;
+  }
+
+  hasBalance() {
+    const stateTree = store.getState();
+    const balance = stateTree.ReducerBalance.balance;
+    return (
+      balance.ethBalance >= 0 &&
+      balance.ethBalance.length != 0 &&
+      balance.daiBalance >= 0 &&
+      balance.daiBalance.length != 0
+    );
+  }
+
+  hasChecksumAddress() {
+    const stateTree = store.getState();
+    const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
+    return checksumAddress != null;
+  }
+
+  hasPrice() {
+    const stateTree = store.getState();
+    const price = stateTree.ReducerPrice.price;
+    return (
+      price.ethPrice >= 0 &&
+      price.ethPrice.length != 0 &&
+      price.daiPrice >= 0 &&
+      price.daiPrice.length != 0
+    );
   }
 
   render() {
@@ -68,12 +147,3 @@ const Title = Animatable.createAnimatableComponent(styled.Text`
   margin-bottom: 16px;
   text-align: center;
 `);
-
-const mapDispatchToProps = {
-  saveWeb3
-};
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(Initial);
