@@ -4,8 +4,8 @@ import { SAVE_DAI_BALANCE } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
   balance: {
-    ethBalance: '0',
-    daiBalance: '0'
+    ethBalance: '',
+    daiBalance: '10'
   }
 };
 

@@ -3,8 +3,8 @@ import { GET_ETH_PRICE, GET_DAI_PRICE } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
   price: {
-    ethPrice: '0',
-    daiPrice: '0'
+    ethPrice: '',
+    daiPrice: ''
   }
 };
 
