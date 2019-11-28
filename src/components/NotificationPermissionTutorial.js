@@ -1,12 +1,21 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Image } from 'react-native';
 import { RootContainer, ProgressBar, Button, HeaderTwo, Description } from '../components/common';
 import styled from 'styled-components/native';
-import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
+import FcmPermissions from '../firebase/FcmPermissions.js';
 
 class NotificationPermissionTutorial extends Component {
+  notificationPermissionNavigation() {
+    if (this.props.notificationPermission === null) {
+      console.log("notification permission is not set");
+    } else if (this.props.notificationPermission === true) {
+      this.props.navigation.navigate('WalletCreation');
+    } else if (this.props.notificationPermission === false) {
+      this.props.navigation.navigate('NotificationPermissionNotGranted');
+    }
+  }
+
   render() {
     return (
       <RootContainer>
@@ -27,9 +36,8 @@ class NotificationPermissionTutorial extends Component {
             margin="16px auto"
             opacity="1"
             onPress={async () => {
-              await this.props.getEthPrice();
-              await this.props.getDaiPrice();
-              this.props.navigation.navigate('NotificationPermission');
+              await FcmPermissions.checkFcmPermissions();
+              this.notificationPermissionNavigation();
             }}
           />
         </Container>
@@ -52,15 +60,7 @@ const NotificationPermissionImage = styled.Image`
 `;
 
 const mapStateToProps = state => ({
-  web3: state.ReducerWeb3.web3
+  notificationPermission: state.ReducerNotificationPermission.notificationPermission,
 });
 
-const mapDispatchToProps = {
-  getEthPrice,
-  getDaiPrice
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(NotificationPermissionTutorial);
+export default connect(mapStateToProps)(NotificationPermissionTutorial);
