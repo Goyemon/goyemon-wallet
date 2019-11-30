@@ -102,9 +102,10 @@ class SendDai extends Component {
       daiToken.daiTokenAddress
     );
 
-    const amountWithDecimals = amount * 10 ** 18;
+    const amountWithDecimals = parseFloat(amount) * 10 ** 18;
+    const amountWithHex = this.props.web3.utils.toHex(amountWithDecimals);
 
-    const transferEncodedABI = daiTokenContract.methods.transfer(address, amountWithDecimals).encodeABI();
+    const transferEncodedABI = daiTokenContract.methods.transfer(address, amountWithHex).encodeABI();
     return transferEncodedABI;
   }
 
