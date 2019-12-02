@@ -32,7 +32,7 @@ class Ethereum extends Component {
   }
 
   render() {
-    const { transactions, balance, navigation } = this.props;
+    const { balance, navigation } = this.props;
 
     if (!this.props.web3.eth) {
       return <Text>loading...</Text>;
@@ -104,7 +104,6 @@ const EthBalance = styled.Text`
 `;
 
 const mapStateToProps = state => ({
-  transactions: state.ReducerTransactionHistory.transactions,
   web3: state.ReducerWeb3.web3,
   balance: state.ReducerBalance.balance
 });
