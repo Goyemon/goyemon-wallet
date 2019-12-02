@@ -1,11 +1,10 @@
-import ProviderUtilities from './ProviderUtilities.ts';
+import Web3 from 'web3';
 
-const web3 = ProviderUtilities.setProvider();
 
 class GasUtilities {
   getTransactionFeeEstimateInEther(gasPriceInWei, gasLimit) {
     const transactionFeeEstimateInWei = parseFloat(gasPriceInWei) * gasLimit;
-    const transactionFeeEstimateInEther = web3.utils.fromWei(
+    const transactionFeeEstimateInEther = Web3.utils.fromWei(
       transactionFeeEstimateInWei.toString(),
       'Ether'
     );
