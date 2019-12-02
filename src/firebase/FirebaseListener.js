@@ -6,10 +6,7 @@ import {
   saveEmptyTransaction,
   saveExistingTransactions
 } from '../actions/ActionTransactionHistory';
-import {
-  addPendingTransaction,
-  updateTransactionState
-} from '../actions/ActionTransactionHistory';
+import { addPendingTransaction, updateTransactionState } from '../actions/ActionTransactionHistory';
 
 store.dispatch(saveWeb3());
 
@@ -36,19 +33,32 @@ firebase.messaging().onMessage(downstreamMessage => {
     store.dispatch(saveExistingTransactions(transactions));
   } else if (downstreamMessage.data.type === 'txhistory' && downstreamMessage.data.count === '0') {
     store.dispatch(saveEmptyTransaction(downstreamMessage.data.items));
-  } else if (downstreamMessage.data.type === 'txstate' && downstreamMessage.data.state === 'pending') {
+  } else if (
+    downstreamMessage.data.type === 'txstate' &&
+    downstreamMessage.data.state === 'pending'
+  ) {
     store.dispatch(addPendingTransaction(downstreamMessage.data));
-  } else if (downstreamMessage.data.type === 'txstate' && downstreamMessage.data.state === 'included') {
-    transactionsHistory.map(transaction => {
-      if( transaction.hash === downstreamMessage.data.txhash ){
+  } else if (
+    downstreamMessage.data.type === 'txstate' &&
+    downstreamMessage.data.state === 'included'
+  ) {
+    if(Array.isArray(transactionHistory)) {
+      transactionsHistory.map(transaction => {
+        if (transaction.hash === downstreamMessage.data.txhash) {
+          store.dispatch(updateTransactionState(downstreamMessage.data));
+        }
+      });
+    }
+  } else if (
+    downstreamMessage.data.type === 'txstate' &&
+    downstreamMessage.data.state === 'confirmed'
+  ) {
+    if(Array.isArray(transactionHistory)) {
+      transactionsHistory.map(transaction => {
+      if (transaction.hash === downstreamMessage.data.txhash) {
         store.dispatch(updateTransactionState(downstreamMessage.data));
       }
     });
-  } else if (downstreamMessage.data.type === 'txstate' && downstreamMessage.data.state === 'confirmed') {
-    transactionsHistory.map(transaction => {
-      if(transaction.hash === downstreamMessage.data.txhash){
-        store.dispatch(updateTransactionState(downstreamMessage.data));
-      }
-    });
+  }
   }
 });
