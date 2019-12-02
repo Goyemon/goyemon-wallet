@@ -1,15 +1,13 @@
 'use strict';
 import React, { Component } from 'react';
 import styled from 'styled-components/native';
-import { RootContainer, Button, HeaderTwo, Description, Loader } from '../components/common';
+import { RootContainer, Button, HeaderTwo, Description } from '../components/common';
 import { connect } from 'react-redux';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 import { saveMnemonic } from '../actions/ActionMnemonic';
 
 class CreateWalletTutorial extends Component {
-  }
-
-
+  render() {
     return (
       <RootContainer>
         <HeaderTwo marginBottom="24" marginLeft="0" marginTop="120">
