@@ -1,16 +1,14 @@
 'use strict';
 import { GET_GAS_PRICE_FAST, GET_GAS_PRICE_AVERAGE, GET_GAS_PRICE_SLOW } from '../constants/ActionTypes';
 import axios from 'axios';
-import ProviderUtilities from '../utilities/ProviderUtilities.ts';
-
-const WEB3 = ProviderUtilities.setProvider();
+import Web3 from 'web3';
 
 export function getGasPriceFast() {
   return async function (dispatch) {
     try {
       const gasPrice = await axios.get('https://ethgasstation.info/json/ethgasAPI.json');
       const gasPriceFastInGwei =  (gasPrice.data.fast/10).toString();
-      const gasPriceFastInWei = WEB3.utils.toWei(gasPriceFastInGwei, 'Gwei');
+      const gasPriceFastInWei = Web3.utils.toWei(gasPriceFastInGwei, 'Gwei');
       dispatch(getGasPriceFastSuccess(gasPriceFastInWei));
     } catch(err) {
       console.error(err);
@@ -28,7 +26,7 @@ export function getGasPriceAverage() {
     try {
       const gasPrice = await axios.get('https://ethgasstation.info/json/ethgasAPI.json');
       const gasPriceAverageInGwei =  (gasPrice.data.average/10).toString();
-      const gasPriceAverageInWei = WEB3.utils.toWei(gasPriceAverageInGwei, 'Gwei');
+      const gasPriceAverageInWei = Web3.utils.toWei(gasPriceAverageInGwei, 'Gwei');
       dispatch(getGasPriceAverageSuccess(gasPriceAverageInWei));
     } catch(err) {
       console.error(err);
@@ -46,7 +44,7 @@ export function getGasPriceSlow() {
     try {
       const gasPrice = await axios.get('https://ethgasstation.info/json/ethgasAPI.json');
       const gasPriceSlowInGwei =  (gasPrice.data.safeLow/10).toString();
-      const gasPriceSlowInWei = WEB3.utils.toWei(gasPriceSlowInGwei, 'Gwei');
+      const gasPriceSlowInWei = Web3.utils.toWei(gasPriceSlowInGwei, 'Gwei');
       dispatch(getGasPriceSlowSuccess(gasPriceSlowInWei));
     } catch(err) {
       console.error(err);
