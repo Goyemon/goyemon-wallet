@@ -4,7 +4,6 @@ import { StackActions, NavigationActions } from 'react-navigation';
 import { RootContainer } from '../components/common';
 import styled from 'styled-components/native';
 import * as Animatable from 'react-native-animatable';
-import { saveWeb3 } from '../actions/ActionWeb3';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 import HomeStack from '../navigators/HomeStack';
 import firebase from 'react-native-firebase';
@@ -12,7 +11,6 @@ import { store } from '../store/store.js';
 
 export default class Initial extends Component {
   async componentWillMount() {
-    store.dispatch(saveWeb3());
 
     let mnemonicWordsStatePersisted;
     const stateTree = store.getState();
