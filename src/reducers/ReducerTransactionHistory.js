@@ -13,11 +13,19 @@ const transactions = (state = INITIAL_STATE, action) => {
     case SAVE_EMPTY_TRANSACTION:
       return { transactions: action.payload };
     case SAVE_EXISTING_TRANSACTIONS:
-      const transactions = [...action.payload];
-      const sortedTransactions = transactions.sort((a, b) => b.time - a.time);
-      return {
-        transactions: sortedTransactions
-      };
+      if (state.transactions === null) {
+        const transactions = [...action.payload];
+        const sortedTransactions = transactions.sort((a, b) => b.time - a.time);
+        return {
+          transactions: sortedTransactions
+        };
+      } else if (state.transactions != null) {
+        const transactions = [...state.transactions, ...action.payload];
+        const sortedTransactions = transactions.sort((a, b) => b.time - a.time);
+        return {
+          transactions: sortedTransactions
+        };
+      }
     case ADD_PENDING_TRANSACTION:
       return {
         transactions: [action.payload, ...state.transactions]
