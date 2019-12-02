@@ -1,5 +1,4 @@
 export const CLEAR_STATE = 'CLEAR_STATE';
-export const SAVE_WEB3 = 'SAVE_WEB3';
 export const SAVE_MNEMONIC = 'SAVE_MNEMONIC';
 export const CREATE_CHECKSUM_ADDRESS = 'CREATE_CHECKSUM_ADDRESS';
 export const GET_ETH_PRICE = 'GET_ETH_PRICE';
