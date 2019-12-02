@@ -2,7 +2,6 @@
 import { combineReducers } from 'redux';
 import { CLEAR_STATE } from '../constants/ActionTypes';
 
-import ReducerWeb3 from './ReducerWeb3';
 import ReducerMnemonic from './ReducerMnemonic';
 import ReducerWallets from './ReducerWallets';
 import ReducerPrice from './ReducerPrice';
@@ -17,7 +16,6 @@ import ReducerBalance from './ReducerBalance';
 import ReducerNotificationPermission from './ReducerNotificationPermission';
 
 const appReducers = combineReducers({
-  ReducerWeb3,
   ReducerMnemonic,
   ReducerWallets,
   ReducerPrice,
