@@ -1,14 +1,11 @@
 import firebase from 'react-native-firebase';
 import { store } from '../store/store';
-import { saveWeb3 } from '../actions/ActionWeb3';
 import { saveEthBalance } from '../actions/ActionBalance';
 import {
   saveEmptyTransaction,
   saveExistingTransactions
 } from '../actions/ActionTransactionHistory';
 import { addPendingTransaction, updateTransactionState } from '../actions/ActionTransactionHistory';
-
-store.dispatch(saveWeb3());
 
 let stateTree = store.getState();
 let web3 = stateTree.ReducerWeb3.web3;
