@@ -1,9 +1,9 @@
 'use strict';
 import ProviderUtilities from './ProviderUtilities.ts';
 import { store } from '../store/store.js';
+import Web3 from 'web3';
 
 class TransactionUtilities {
-  private web3 = ProviderUtilities.setProvider();
 
   parseExistingTransactions(transactions) {
     const parsedTransactions = transactions.map(transaction => {
@@ -39,8 +39,8 @@ class TransactionUtilities {
   }
 
   parseTransactionValue(value) {
-    const bigNumberValue = this.web3.utils.toBN(value).toString();
-    const parsedEtherValue = this.web3.utils.fromWei(bigNumberValue);
+    const bigNumberValue = Web3.utils.toBN(value).toString();
+    const parsedEtherValue = Web3.utils.fromWei(bigNumberValue);
     return parsedEtherValue;
   }
 
@@ -89,13 +89,12 @@ class TransactionUtilities {
   getBiggestNonce() {
     const stateTree = store.getState();
     const transactions = stateTree.ReducerTransactionHistory.transactions;
-    const web3 = stateTree.ReducerWeb3.web3;
     const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
 
     const array = [];
     transactions.map(transaction => {
       if (
-        web3.utils.toChecksumAddress(transaction.from) === checksumAddress
+        Web3.utils.toChecksumAddress(transaction.from) === checksumAddress
       ) {
         array.push(transaction.nonce);
       }
