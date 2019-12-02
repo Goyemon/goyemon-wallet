@@ -14,6 +14,7 @@ import ethTx from 'ethereumjs-tx';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 import firebase from 'react-native-firebase';
 import uuidv4 from 'uuid/v4';
+import Web3 from 'web3';
 
 class Confirmation extends Component {
   constructor(props) {
@@ -71,10 +72,10 @@ class Confirmation extends Component {
   }
 
   render() {
-    const { outgoingTransactionObjects, web3 } = this.props;
+    const { outgoingTransactionObjects} = this.props;
 
     const valueInEther = parseFloat(
-      web3.utils.fromWei(
+      Web3.utils.fromWei(
         outgoingTransactionObjects[outgoingTransactionObjects.length - 1].value,
         'Ether'
       )
@@ -184,7 +185,6 @@ const ButtonContainer = styled.View`
 
 function mapStateToProps(state) {
   return {
-    web3: state.ReducerWeb3.web3,
     outgoingTransactionObjects: state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
     transactionFeeEstimate: state.ReducerTransactionFeeEstimate.transactionFeeEstimate
   };

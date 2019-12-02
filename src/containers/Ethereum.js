@@ -34,10 +34,6 @@ class Ethereum extends Component {
   render() {
     const { balance, navigation } = this.props;
 
-    if (!this.props.web3.eth) {
-      return <Text>loading...</Text>;
-    }
-
     return (
       <RootContainer>
         <HeaderOne marginTop="96">Ether</HeaderOne>
@@ -104,7 +100,6 @@ const EthBalance = styled.Text`
 `;
 
 const mapStateToProps = state => ({
-  web3: state.ReducerWeb3.web3,
   balance: state.ReducerBalance.balance
 });
 

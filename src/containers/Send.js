@@ -23,6 +23,7 @@ import { getGasPriceFast, getGasPriceAverage, getGasPriceSlow } from '../actions
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import GasUtilities from '../utilities/GasUtilities.js';
+import Web3 from 'web3';
 
 class Send extends Component {
   constructor(props) {
@@ -100,7 +101,7 @@ class Send extends Component {
     } else {
       transactionNonce = theBiggestNonce + 1;
     }
-    const amountInWei = parseFloat(this.props.web3.utils.toWei(this.state.amount, 'Ether'));
+    const amountInWei = parseFloat(Web3.utils.toWei(this.state.amount, 'Ether'));
     const transactionObject = {
       nonce: `0x${transactionNonce.toString(16)}`,
       to: this.state.toAddress,
@@ -113,7 +114,7 @@ class Send extends Component {
   }
 
   validateToAddress(toAddress) {
-    if (this.props.web3.utils.isAddress(toAddress)) {
+    if (Web3.utils.isAddress(toAddress)) {
       console.log('address validated!');
       this.setState({ toAddressValidation: true });
       return true;
@@ -427,7 +428,6 @@ function mapStateToProps(state) {
   return {
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
     gasPrice: state.ReducerGasPrice.gasPrice,
-    web3: state.ReducerWeb3.web3,
     balance: state.ReducerBalance.balance,
     price: state.ReducerPrice.price,
     transactions: state.ReducerTransactionHistory.transactions

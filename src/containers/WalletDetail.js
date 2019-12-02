@@ -49,10 +49,6 @@ class WalletDetail extends Component {
   render() {
     const { coin, notation } = this.props.wallet;
 
-    if (!this.props.web3.eth) {
-      return <Text>loading...</Text>;
-    }
-
     return (
       <Container>
         {this.renderIcon()}
@@ -118,7 +114,6 @@ const UsdBalanceText = styled.Text`
 `;
 
 const mapStateToProps = state => ({
-  web3: state.ReducerWeb3.web3,
   price: state.ReducerPrice.price,
   balance: state.ReducerBalance.balance
 });

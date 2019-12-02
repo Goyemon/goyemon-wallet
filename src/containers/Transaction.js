@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
+import Web3 from 'web3';
 
 class Transaction extends Component {
   renderInOrOutTransactionIcon() {
@@ -15,13 +16,13 @@ class Transaction extends Component {
           <Icon name="call-made" size={16} color="#D0021B" />
         </Text>
       );
-    } else if (this.props.web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
+    } else if (Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
       return (
         <Text>
           <Icon name="call-received" size={16} color="#7ED321" />
         </Text>
       );
-    } else if (this.props.web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress) {
+    } else if (Web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress) {
       return (
         <Text>
           <Icon name="call-made" size={16} color="#D0021B" />
@@ -43,9 +44,9 @@ class Transaction extends Component {
   renderDirection() {
     if (this.props.transaction.to === null) {
       return <Text>Outgoing</Text>;
-    } else if (this.props.web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
+    } else if (Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
       return <Text>Incoming</Text>;
-    } else if (this.props.web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress) {
+    } else if (Web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress) {
       return <Text>Outgoing</Text>;
     }
   }
@@ -53,9 +54,9 @@ class Transaction extends Component {
   renderPlusOrMinusTransactionIcon() {
     if (this.props.transaction.to === null) {
       return ;
-    } else if (this.props.web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
+    } else if (Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
       return <Icon name="plus" size={16} color="#7ED321" />;
-    } else if (this.props.web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress) {
+    } else if (Web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress) {
       return <Icon name="minus" size={16} color="#D0021B" />;
     }
   }
@@ -64,9 +65,9 @@ class Transaction extends Component {
     const roundedEthValue = parseFloat(this.props.transaction.value).toFixed(4);
     if (this.props.transaction.to === null) {
       return <Text>Contract Creation</Text>;;
-    } else if (this.props.web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
+    } else if (Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
       return <Text style={styles.valueStyleGreen}>{roundedEthValue} ETH</Text>;
-    } else if (this.props.web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress) {
+    } else if (Web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress) {
       return <Text style={styles.valueStyleRed}>{roundedEthValue} ETH</Text>;
     }
   }
@@ -140,8 +141,7 @@ const ValueText = styled.Text`
 `;
 
 const mapStateToProps = state => ({
-  checksumAddress: state.ReducerChecksumAddress.checksumAddress,
-  web3: state.ReducerWeb3.web3
+  checksumAddress: state.ReducerChecksumAddress.checksumAddress
 });
 
 export default connect(mapStateToProps)(Transaction);

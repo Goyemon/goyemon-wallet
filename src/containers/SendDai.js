@@ -26,6 +26,7 @@ import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import GasUtilities from '../utilities/GasUtilities.js';
 import Animation from 'lottie-react-native';
 import daiToken from '../contracts/DaiToken';
+import Web3 from 'web3';
 
 class SendDai extends Component {
   constructor(props) {
@@ -97,13 +98,13 @@ class SendDai extends Component {
   }
 
   getTransferEncodedABI(address, amount) {
-    const daiTokenContract = new this.props.web3.eth.Contract(
+    const daiTokenContract = new Web3.eth.Contract(
       JSON.parse(daiToken.daiTokenAbi),
       daiToken.daiTokenAddress
     );
 
     const amountWithDecimals = parseFloat(amount) * 10 ** 18;
-    const amountWithHex = this.props.web3.utils.toHex(amountWithDecimals);
+    const amountWithHex = Web3.utils.toHex(amountWithDecimals);
 
     const transferEncodedABI = daiTokenContract.methods.transfer(address, amountWithHex).encodeABI();
     return transferEncodedABI;
@@ -131,7 +132,7 @@ class SendDai extends Component {
   }
 
   validateToAddress(toAddress) {
-    if (this.props.web3.utils.isAddress(toAddress)) {
+    if (Web3.utils.isAddress(toAddress)) {
       console.log('address validated!');
       this.setState({ toAddressValidation: true });
       return true;
@@ -486,7 +487,6 @@ function mapStateToProps(state) {
   return {
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
     gasPrice: state.ReducerGasPrice.gasPrice,
-    web3: state.ReducerWeb3.web3,
     balance: state.ReducerBalance.balance,
     transactions: state.ReducerTransactionHistory.transactions
   };

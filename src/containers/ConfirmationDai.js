@@ -14,6 +14,7 @@ import ethTx from 'ethereumjs-tx';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 import firebase from 'react-native-firebase';
 import uuidv4 from 'uuid/v4';
+import Web3 from 'web3';
 
 class ConfirmationDai extends Component {
   constructor(props) {
@@ -71,9 +72,9 @@ class ConfirmationDai extends Component {
   }
 
   render() {
-    const { outgoingTransactionObjects, web3, daiAmount, daiToAddress } = this.props;
+    const { outgoingTransactionObjects, daiAmount, daiToAddress } = this.props;
 
-    const gasPriceInEther = web3.utils.fromWei(
+    const gasPriceInEther = Web3.utils.fromWei(
       outgoingTransactionObjects[outgoingTransactionObjects.length - 1].gasPrice,
       'Ether'
     );
@@ -182,7 +183,6 @@ const ButtonContainer = styled.View`
 
 function mapStateToProps(state) {
   return {
-    web3: state.ReducerWeb3.web3,
     outgoingTransactionObjects: state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
     transactionFeeEstimate: state.ReducerTransactionFeeEstimate.transactionFeeEstimate,
     daiAmount: state.ReducerDaiAmount.daiAmount,

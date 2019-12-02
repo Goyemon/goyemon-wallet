@@ -6,21 +6,20 @@ import {
   saveExistingTransactions
 } from '../actions/ActionTransactionHistory';
 import { addPendingTransaction, updateTransactionState } from '../actions/ActionTransactionHistory';
+import Web3 from 'web3';
 
 let stateTree = store.getState();
-let web3 = stateTree.ReducerWeb3.web3;
 let transactionsHistory = stateTree.ReducerTransactionHistory.transactions;
 
 store.subscribe(() => {
   stateTree = store.getState();
-  web3 = stateTree.ReducerWeb3.web3;
   transactionsHistory = stateTree.ReducerTransactionHistory.transactions;
 });
 
 firebase.messaging().onMessage(downstreamMessage => {
   if (downstreamMessage.data.type === 'balance') {
     const balanceInWei = downstreamMessage.data.balance;
-    const balanceInEther = web3.utils.fromWei(balanceInWei);
+    const balanceInEther = Web3.utils.fromWei(balanceInWei);
     const roundedBalanceInEther = parseFloat(balanceInEther).toFixed(4);
     store.dispatch(saveEthBalance(roundedBalanceInEther));
   } else if (downstreamMessage.data.type === 'daiBalance') {
