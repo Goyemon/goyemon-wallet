@@ -23,6 +23,8 @@ firebase.messaging().onMessage(downstreamMessage => {
     const balanceInEther = web3.utils.fromWei(balanceInWei);
     const roundedBalanceInEther = parseFloat(balanceInEther).toFixed(4);
     store.dispatch(saveEthBalance(roundedBalanceInEther));
+  } else if (downstreamMessage.data.type === 'daiBalance') {
+    store.dispatch(saveDaiBalance(downstreamMessage.data.daiBalance));
   } else if (downstreamMessage.data.type === 'txhistory' && downstreamMessage.data.count != '0') {
     const transactions = JSON.parse(downstreamMessage.data.items);
     store.dispatch(saveExistingTransactions(transactions));
