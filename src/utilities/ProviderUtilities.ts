@@ -6,7 +6,7 @@ import EtherUtilities from './EtherUtilities.js';
 class ProviderUtilities {
   async registerEthereumAddress(checksumAddress) {
     const messageId = uuidv4();
-    const serverAddress = '400937673843@gcm.googleapis.com';
+    const serverAddress = '255097673919@gcm.googleapis.com';
     const checksumAddressWithoutPrefix = EtherUtilities.stripHexPrefix(checksumAddress);
 
     const upstreamMessage = new firebase.messaging.RemoteMessage()
