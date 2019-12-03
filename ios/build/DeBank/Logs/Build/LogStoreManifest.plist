@@ -6,7 +6,7 @@
 	<integer>10</integer>
 	<key>logs</key>
 	<dict>
-		<key>2DF4999A-960B-4BF8-BEC9-39039AA3ACB6</key>
+		<key>39D3E9A9-A3E9-4EF8-BB33-32B206092D6E</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -15,7 +15,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>2DF4999A-960B-4BF8-BEC9-39039AA3ACB6.xcactivitylog</string>
+			<string>39D3E9A9-A3E9-4EF8-BB33-32B206092D6E.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -32,15 +32,15 @@
 			<key>signature</key>
 			<string>Building workspace DeBank with scheme DeBank and configuration Debug</string>
 			<key>timeStartedRecording</key>
-			<real>596612422.63556504</real>
+			<real>596989970.36408997</real>
 			<key>timeStoppedRecording</key>
-			<real>596612424.63915098</real>
+			<real>596989972.337906</real>
 			<key>title</key>
 			<string>Building workspace DeBank with scheme DeBank and configuration Debug</string>
 			<key>uniqueIdentifier</key>
-			<string>2DF4999A-960B-4BF8-BEC9-39039AA3ACB6</string>
+			<string>39D3E9A9-A3E9-4EF8-BB33-32B206092D6E</string>
 		</dict>
-		<key>FE3D0B9D-3FA4-4AD6-B838-8532E9029966</key>
+		<key>B747B72B-5692-4AD0-99F6-084D292992C9</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -49,7 +49,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>FE3D0B9D-3FA4-4AD6-B838-8532E9029966.xcactivitylog</string>
+			<string>B747B72B-5692-4AD0-99F6-084D292992C9.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -66,13 +66,13 @@
 			<key>signature</key>
 			<string>Building workspace DeBank with scheme DeBank and configuration Debug</string>
 			<key>timeStartedRecording</key>
-			<real>596614137.59416401</real>
+			<real>596982450.30075502</real>
 			<key>timeStoppedRecording</key>
-			<real>596614139.72154403</real>
+			<real>596982452.70516801</real>
 			<key>title</key>
 			<string>Building workspace DeBank with scheme DeBank and configuration Debug</string>
 			<key>uniqueIdentifier</key>
-			<string>FE3D0B9D-3FA4-4AD6-B838-8532E9029966</string>
+			<string>B747B72B-5692-4AD0-99F6-084D292992C9</string>
 		</dict>
 	</dict>
 </dict>
