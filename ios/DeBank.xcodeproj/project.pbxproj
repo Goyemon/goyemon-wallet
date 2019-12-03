@@ -54,7 +54,7 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* DeBankTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeBankTests.m; sourceTree = "<group>"; };
 		08A4CCF072624933BCEC7820 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* DeBank.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeBank.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* Crypterest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Crypterest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = DeBank/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = DeBank/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -272,7 +272,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* DeBank.app */,
+				13B07F961A680F5B00A75B9A /* Crypterest.app */,
 				00E356EE1AD99517003FC87E /* DeBankTests.xctest */,
 			);
 			name = Products;
@@ -343,7 +343,7 @@
 			);
 			name = DeBank;
 			productName = "Hello World";
-			productReference = 13B07F961A680F5B00A75B9A /* DeBank.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* Crypterest.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -643,8 +643,8 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e1270625-25f1-4a2d-a96c-eb2aa1b66b16";
-				PROVISIONING_PROFILE_SPECIFIER = "com.debank.app AppStore";
+				PROVISIONING_PROFILE = "4e9523a0-557d-4470-9e35-8b127b42bd76";
+				PROVISIONING_PROFILE_SPECIFIER = "com.swarm.crypterest AppStore 1575346520";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DeBank.app/DeBank";
 				VALID_ARCHS = "$(ARCHS_STANDARD) ";
 			};
@@ -660,7 +660,7 @@
 				CODE_SIGN_ENTITLEMENTS = DeBank/DeBank.entitlements;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 4;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = UB87ZVZL7R;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -682,12 +682,12 @@
 					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)/**",
 					"$(SDKROOT)/usr/lib/swift",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 0.0.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
 				"OTHER_LDFLAGS[arch=*]" = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.debank.app;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.swarm.crypterest;
+				PRODUCT_NAME = Crypterest;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "DeBank-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -706,7 +706,7 @@
 				CODE_SIGN_ENTITLEMENTS = DeBank/DeBank.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = UB87ZVZL7R;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -727,14 +727,14 @@
 					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)/**",
 					"$(SDKROOT)/usr/lib/swift",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 0.0.1;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "$(inherited)";
 				"OTHER_LDFLAGS[arch=*]" = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.debank.app;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e1270625-25f1-4a2d-a96c-eb2aa1b66b16";
-				PROVISIONING_PROFILE_SPECIFIER = "com.debank.app AppStore";
+				PRODUCT_BUNDLE_IDENTIFIER = com.swarm.crypterest;
+				PRODUCT_NAME = Crypterest;
+				PROVISIONING_PROFILE = "4e9523a0-557d-4470-9e35-8b127b42bd76";
+				PROVISIONING_PROFILE_SPECIFIER = "com.swarm.crypterest AppStore 1575346520";
 				SWIFT_OBJC_BRIDGING_HEADER = "DeBank-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
