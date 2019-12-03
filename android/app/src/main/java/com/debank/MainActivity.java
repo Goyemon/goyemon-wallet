@@ -1,4 +1,4 @@
-package com.debank.app;
+package com.swarm.crypterest;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
@@ -15,7 +15,7 @@ public class MainActivity extends ReactActivity {
     protected String getMainComponentName() {
         return "DeBank";
     }
-    
+
     @Override
     protected ReactActivityDelegate createReactActivityDelegate() {
       return new ReactActivityDelegate(this, getMainComponentName()) {

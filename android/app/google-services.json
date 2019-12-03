@@ -1,35 +1,42 @@
 {
   "project_info": {
-    "project_number": "400937673843",
-    "firebase_url": "https://debank20190525.firebaseio.com",
-    "project_id": "debank20190525",
-    "storage_bucket": "debank20190525.appspot.com"
+    "project_number": "255097673919",
+    "firebase_url": "https://crypterest-ropsten-dev.firebaseio.com",
+    "project_id": "crypterest-ropsten-dev",
+    "storage_bucket": "crypterest-ropsten-dev.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:400937673843:android:f1a2ec8ab043e412",
+        "mobilesdk_app_id": "1:255097673919:android:4edf1caeb140d5b0170e0a",
         "android_client_info": {
-          "package_name": "com.debank.app"
+          "package_name": "com.swarm.crypterest"
         }
       },
       "oauth_client": [
         {
-          "client_id": "400937673843-3n8e9nrd9unrb9ijpipcrub1jmb48lpv.apps.googleusercontent.com",
+          "client_id": "255097673919-dqgvenhvfh6jmlln0u7o0g5pttnc6r2d.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCR-b1vcczIw00Imsg45SDeTCsMnY0POBQ"
+          "current_key": "AIzaSyAYj42dRT4leve8YoEjx97j7lquVJMXDPs"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "400937673843-3n8e9nrd9unrb9ijpipcrub1jmb48lpv.apps.googleusercontent.com",
+              "client_id": "255097673919-dqgvenhvfh6jmlln0u7o0g5pttnc6r2d.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "255097673919-ctdevr2mifuhjgt292pmo66prh4mmh1p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.swarm.crypterest"
+              }
             }
           ]
         }
