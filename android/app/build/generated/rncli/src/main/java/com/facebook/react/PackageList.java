@@ -11,8 +11,8 @@ import com.facebook.react.shell.MainReactPackage;
 import java.util.Arrays;
 import java.util.ArrayList;
 
-import com.debank.app.BuildConfig;
-import com.debank.app.R;
+import com.swarm.crypterest.BuildConfig;
+import com.swarm.crypterest.R;
 
 // lottie-react-native
 import com.airbnb.android.react.lottie.LottiePackage;
