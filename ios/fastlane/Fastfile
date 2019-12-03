@@ -41,13 +41,13 @@ platform :ios do
       clean: true,
       export_method: "app-store",
       export_options: {
-      provisioningProfiles: { 
-          CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier) => CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier) + " AppStore" # Value of this parameter is the name of the Provisioning Profile. By default, it will be "{bundleId} AppStore"
+        provisioningProfiles: {
+            CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier) => CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier) + " AppStore" # Value of this parameter is the name of the Provisioning Profile. By default, it will be "{bundleId} AppStore"
         }
       },
       build_path: "./builds",
-      output_directory: "./builds"      
-      )
+      output_directory: "./builds"
+    )
     upload_to_testflight
   end
 end
