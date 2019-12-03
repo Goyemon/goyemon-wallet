@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>400937673843-nk2167ks4qujds7vrecf2a0shlh201no.apps.googleusercontent.com</string>
+	<string>255097673919-ctdevr2mifuhjgt292pmo66prh4mmh1p.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.400937673843-nk2167ks4qujds7vrecf2a0shlh201no</string>
+	<string>com.googleusercontent.apps.255097673919-ctdevr2mifuhjgt292pmo66prh4mmh1p</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBWkzrvVNn9EV-yVDnUTMUQrUvkNbG5PiI</string>
+	<string>AIzaSyApZRuh-7ce8ny2lbTXqU_05-3_q5CPA0A</string>
 	<key>GCM_SENDER_ID</key>
-	<string>400937673843</string>
+	<string>255097673919</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.debank.app</string>
+	<string>com.swarm.crypterest</string>
 	<key>PROJECT_ID</key>
-	<string>debank20190525</string>
+	<string>crypterest-ropsten-dev</string>
 	<key>STORAGE_BUCKET</key>
-	<string>debank20190525.appspot.com</string>
+	<string>crypterest-ropsten-dev.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:400937673843:ios:f1a2ec8ab043e412</string>
+	<string>1:255097673919:ios:828c10b6accc1b42170e0a</string>
 	<key>DATABASE_URL</key>
-	<string>https://debank20190525.firebaseio.com</string>
+	<string>https://crypterest-ropsten-dev.firebaseio.com</string>
 </dict>
 </plist>
