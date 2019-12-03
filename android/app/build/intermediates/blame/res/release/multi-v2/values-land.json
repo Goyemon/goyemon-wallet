@@ -4,7 +4,7 @@
             "outputFile": "/Users/tai/Dropbox/Codes/DeBank/android/app/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-land/values-land.xml",
             "map": [
                 {
-                    "source": "/Users/tai/.gradle/caches/transforms-2/files-2.1/2eb030c7e3e36b77b48f0dacbc437936/res/values-land/values-land.xml",
+                    "source": "/Users/tai/.gradle/caches/transforms-2/files-2.1/e9a8b9819637e1138b6871b755bfb04b/res/values-land/values-land.xml",
                     "from": {
                         "startLines": "2,3,4",
                         "startColumns": "4,4,4",

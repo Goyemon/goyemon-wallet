@@ -4,7 +4,7 @@
             "outputFile": "/Users/tai/Dropbox/Codes/DeBank/android/app/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-sw600dp-v13/values-sw600dp-v13.xml",
             "map": [
                 {
-                    "source": "/Users/tai/.gradle/caches/transforms-2/files-2.1/2eb030c7e3e36b77b48f0dacbc437936/res/values-sw600dp-v13/values-sw600dp-v13.xml",
+                    "source": "/Users/tai/.gradle/caches/transforms-2/files-2.1/e9a8b9819637e1138b6871b755bfb04b/res/values-sw600dp-v13/values-sw600dp-v13.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",

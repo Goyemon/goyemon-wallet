@@ -4,7 +4,7 @@
             "outputFile": "/Users/tai/Dropbox/Codes/DeBank/android/app/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-en-rCA/values-en-rCA.xml",
             "map": [
                 {
-                    "source": "/Users/tai/.gradle/caches/transforms-2/files-2.1/2eb030c7e3e36b77b48f0dacbc437936/res/values-en-rCA/values-en-rCA.xml",
+                    "source": "/Users/tai/.gradle/caches/transforms-2/files-2.1/e9a8b9819637e1138b6871b755bfb04b/res/values-en-rCA/values-en-rCA.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "/Users/tai/.gradle/caches/transforms-2/files-2.1/1fe3c7c5a47daaea305f91a1757d52b1/res/values-en-rCA/values-en-rCA.xml",
+                    "source": "/Users/tai/.gradle/caches/transforms-2/files-2.1/8cac3ded9c352b7545e552b45eb17d54/res/values-en-rCA/values-en-rCA.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
