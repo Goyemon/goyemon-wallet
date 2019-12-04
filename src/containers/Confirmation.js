@@ -43,7 +43,7 @@ class Confirmation extends Component {
 
   async sendOutgoingTransactionToServer() {
     const messageId = uuidv4();
-    const serverAddress = '400937673843@gcm.googleapis.com';
+    const serverAddress = '255097673919@gcm.googleapis.com';
     const signedTransaction = await this.constructSignedOutgoingTransactionObject();
 
     const upstreamMessage = new firebase.messaging.RemoteMessage()
