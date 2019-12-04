@@ -615,7 +615,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DeBank.app/DeBank";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Crypterest.app/Crypterest";
 				VALID_ARCHS = "$(ARCHS_STANDARD) ";
 			};
 			name = Debug;
@@ -645,7 +645,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "4e9523a0-557d-4470-9e35-8b127b42bd76";
 				PROVISIONING_PROFILE_SPECIFIER = "com.swarm.crypterest AppStore 1575346520";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DeBank.app/DeBank";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Crypterest.app/Crypterest";
 				VALID_ARCHS = "$(ARCHS_STANDARD) ";
 			};
 			name = Release;

@@ -6,40 +6,6 @@
 	<integer>10</integer>
 	<key>logs</key>
 	<dict>
-		<key>39D3E9A9-A3E9-4EF8-BB33-32B206092D6E</key>
-		<dict>
-			<key>className</key>
-			<string>IDECommandLineBuildLog</string>
-			<key>documentTypeString</key>
-			<string>&lt;nil&gt;</string>
-			<key>domainType</key>
-			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
-			<key>fileName</key>
-			<string>39D3E9A9-A3E9-4EF8-BB33-32B206092D6E.xcactivitylog</string>
-			<key>hasPrimaryLog</key>
-			<true/>
-			<key>primaryObservable</key>
-			<dict>
-				<key>highLevelStatus</key>
-				<string>W</string>
-			</dict>
-			<key>schemeIdentifier-containerName</key>
-			<string>DeBank project</string>
-			<key>schemeIdentifier-schemeName</key>
-			<string>DeBank</string>
-			<key>schemeIdentifier-sharedScheme</key>
-			<integer>1</integer>
-			<key>signature</key>
-			<string>Building workspace DeBank with scheme DeBank and configuration Debug</string>
-			<key>timeStartedRecording</key>
-			<real>596989970.36408997</real>
-			<key>timeStoppedRecording</key>
-			<real>596989972.337906</real>
-			<key>title</key>
-			<string>Building workspace DeBank with scheme DeBank and configuration Debug</string>
-			<key>uniqueIdentifier</key>
-			<string>39D3E9A9-A3E9-4EF8-BB33-32B206092D6E</string>
-		</dict>
 		<key>6FFB21B0-370C-4563-806B-7FB0B7941EA2</key>
 		<dict>
 			<key>className</key>
