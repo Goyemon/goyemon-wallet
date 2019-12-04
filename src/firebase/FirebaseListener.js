@@ -8,15 +8,9 @@ import {
 import { addPendingTransaction, updateTransactionState } from '../actions/ActionTransactionHistory';
 import Web3 from 'web3';
 
-let stateTree = store.getState();
-let transactionsHistory = stateTree.ReducerTransactionHistory.transactions;
-
-store.subscribe(() => {
-  stateTree = store.getState();
-  transactionsHistory = stateTree.ReducerTransactionHistory.transactions;
-});
-
 firebase.messaging().onMessage(downstreamMessage => {
+  let stateTree = store.getState();
+  let transactionsHistory = stateTree.ReducerTransactionHistory.transactions;
   if (downstreamMessage.data.type === 'balance') {
     const balanceInWei = downstreamMessage.data.balance;
     const balanceInEther = Web3.utils.fromWei(balanceInWei);
@@ -38,23 +32,27 @@ firebase.messaging().onMessage(downstreamMessage => {
     downstreamMessage.data.type === 'txstate' &&
     downstreamMessage.data.state === 'included'
   ) {
-    if(Array.isArray(transactionHistory)) {
+    if (Array.isArray(transactionsHistory)) {
       transactionsHistory.map(transaction => {
         if (transaction.hash === downstreamMessage.data.txhash) {
           store.dispatch(updateTransactionState(downstreamMessage.data));
         }
       });
+    } else if (transactionsHistory === null) {
+      console.log('transactions are null');
     }
   } else if (
     downstreamMessage.data.type === 'txstate' &&
     downstreamMessage.data.state === 'confirmed'
   ) {
-    if(Array.isArray(transactionHistory)) {
+    if (Array.isArray(transactionsHistory)) {
       transactionsHistory.map(transaction => {
-      if (transaction.hash === downstreamMessage.data.txhash) {
-        store.dispatch(updateTransactionState(downstreamMessage.data));
-      }
-    });
-  }
+        if (transaction.hash === downstreamMessage.data.txhash) {
+          store.dispatch(updateTransactionState(downstreamMessage.data));
+        }
+      });
+    } else if (transactionsHistory === null) {
+      console.log('transactions are null');
+    }
   }
 });
