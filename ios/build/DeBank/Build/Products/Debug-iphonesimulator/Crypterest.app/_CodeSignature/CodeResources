@@ -72,6 +72,55 @@
 		<data>
 		SyvObHkkk6SlcWtv7C2+/olJLD8=
 		</data>
+		<key>Frameworks/XCTAutomationSupport.framework/Info.plist</key>
+		<data>
+		h3MnTj8yhzoP0Lg4EVNxXaTp/YY=
+		</data>
+		<key>Frameworks/XCTAutomationSupport.framework/XCTAutomationSupport</key>
+		<data>
+		1X5YD8JgNhrCOGciM5yd+BAkaFo=
+		</data>
+		<key>Frameworks/XCTAutomationSupport.framework/_CodeSignature/CodeResources</key>
+		<data>
+		8U6xgMN0XhiJd84hTiDBrCIyCA8=
+		</data>
+		<key>Frameworks/XCTAutomationSupport.framework/version.plist</key>
+		<data>
+		xIW7Y7yzOD6JGyOs6koc9aCjMmU=
+		</data>
+		<key>Frameworks/XCTest.framework/Info.plist</key>
+		<data>
+		vDar5GYm8oCbXa6hpw5388UIp/M=
+		</data>
+		<key>Frameworks/XCTest.framework/XCTest</key>
+		<data>
+		BxGDDspDE7UZ4y5B0KMkepi79P0=
+		</data>
+		<key>Frameworks/XCTest.framework/_CodeSignature/CodeResources</key>
+		<data>
+		kMeaDkpb9bsb+OIm7hyNsv3J0bQ=
+		</data>
+		<key>Frameworks/XCTest.framework/en.lproj/InfoPlist.strings</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			TuBj57ZP6zBqcL9HttO2Rucaw9E=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Frameworks/XCTest.framework/version.plist</key>
+		<data>
+		xIW7Y7yzOD6JGyOs6koc9aCjMmU=
+		</data>
+		<key>Frameworks/libXCTestBundleInject.dylib</key>
+		<data>
+		ZSmfVBZZGDNWNdn/b5XApmISgmA=
+		</data>
+		<key>Frameworks/libXCTestSwiftSupport.dylib</key>
+		<data>
+		qzsvM7v+EPBtC/vKd64pfwIkpKE=
+		</data>
 		<key>Frameworks/libswiftCore.dylib</key>
 		<data>
 		rrAp64iPhUL40XQR7JlGMDIZaMA=
@@ -118,7 +167,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		gf+K6f5ySWG+EAp7WaX6rv3I9rQ=
+		IaRWN9hbAvgRhoUu8GBplMmbURw=
 		</data>
 		<key>Ionicons.ttf</key>
 		<data>
@@ -139,6 +188,26 @@
 		<key>PkgInfo</key>
 		<data>
 		n57qDP4tZfLD1rCS43W0B4LQjzE=
+		</data>
+		<key>PlugIns/DeBankTests.xctest.dSYM/Contents/Info.plist</key>
+		<data>
+		E8FcQn0phaNhXR7BEHB7H9DZ21g=
+		</data>
+		<key>PlugIns/DeBankTests.xctest.dSYM/Contents/Resources/DWARF/DeBankTests</key>
+		<data>
+		xsf92GSeVKdrSrXn5F90yozfl7I=
+		</data>
+		<key>PlugIns/DeBankTests.xctest/DeBankTests</key>
+		<data>
+		/rsqTx9XPQOrfxdsmSFSs/bURH0=
+		</data>
+		<key>PlugIns/DeBankTests.xctest/Info.plist</key>
+		<data>
+		AQJ8uYv12tarleYPL32F/jFCcyQ=
+		</data>
+		<key>PlugIns/DeBankTests.xctest/_CodeSignature/CodeResources</key>
+		<data>
+		qeZKP18F+ltv379jK7iM4i+L5HU=
 		</data>
 		<key>SimpleLineIcons.ttf</key>
 		<data>
@@ -270,6 +339,85 @@
 			fh3QPdTOkLZYBSVUzXRZ3xZxZxc4mlUvpMbVal+JM+Y=
 			</data>
 		</dict>
+		<key>Frameworks/XCTAutomationSupport.framework/Info.plist</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			HlItwrQNlIOMRfT2H8C2fGiX54nXuJtTDikDQ0MdllU=
+			</data>
+		</dict>
+		<key>Frameworks/XCTAutomationSupport.framework/XCTAutomationSupport</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			TtyluH9gg6Dbq+H2gmKJwzTyrmUDj99RbsWx4CYqiak=
+			</data>
+		</dict>
+		<key>Frameworks/XCTAutomationSupport.framework/_CodeSignature/CodeResources</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			F1Ke5Z6rkzlru6Hls1dWC7AdiCbSmVnxE7P8XY2+cZY=
+			</data>
+		</dict>
+		<key>Frameworks/XCTAutomationSupport.framework/version.plist</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			6YYypq8I2iJo8ArOJiq6vPZEI0u3LnlIh8K2IyuVOBk=
+			</data>
+		</dict>
+		<key>Frameworks/XCTest.framework/Info.plist</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			AmK68TZqHbKBvdo7/uTYGofToBgnvlf9iZLByXIBl1U=
+			</data>
+		</dict>
+		<key>Frameworks/XCTest.framework/XCTest</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			1/TJAFwjHLbAmrSJiB+2LzkHJJCjrGOoyGJKJeDEB8I=
+			</data>
+		</dict>
+		<key>Frameworks/XCTest.framework/_CodeSignature/CodeResources</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			K9iq+LfV1aUbu8VtV4LFdMmoFS26FTT7V0Zve0G8HbE=
+			</data>
+		</dict>
+		<key>Frameworks/XCTest.framework/en.lproj/InfoPlist.strings</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			89RGkjZaKuewYnjpzwhIswhqfrU8+pcEXqM/DHVrUmo=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Frameworks/XCTest.framework/version.plist</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			6YYypq8I2iJo8ArOJiq6vPZEI0u3LnlIh8K2IyuVOBk=
+			</data>
+		</dict>
+		<key>Frameworks/libXCTestBundleInject.dylib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			Ctts81K0p3OXfMqY4w1cpAfRA+3NNciZc51gVVnslSE=
+			</data>
+		</dict>
+		<key>Frameworks/libXCTestSwiftSupport.dylib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			4ZUmLJZ1VKgmMVW4yEReB7C8EBLW8LBE17wTEaiVdoE=
+			</data>
+		</dict>
 		<key>Frameworks/libswiftCore.dylib</key>
 		<dict>
 			<key>hash2</key>
@@ -373,6 +521,41 @@
 			<key>hash2</key>
 			<data>
 			ua3cE7d8ZyDNSM0Y8PSoyuWJsbkQNjDCSd5gq3Lf1r4=
+			</data>
+		</dict>
+		<key>PlugIns/DeBankTests.xctest.dSYM/Contents/Info.plist</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			OMNp4xayWgAjQOZjyKs81UtZvCkxSMjgMNpf/lj3WE0=
+			</data>
+		</dict>
+		<key>PlugIns/DeBankTests.xctest.dSYM/Contents/Resources/DWARF/DeBankTests</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			NvvLDPh9GDxdo2pJ813oJ26aVQ2LBCmY/z0YeC6G51Q=
+			</data>
+		</dict>
+		<key>PlugIns/DeBankTests.xctest/DeBankTests</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			Aldrih5yLfv2EbkIDmwUN5uQc43+u4HZjziVOh1+84Q=
+			</data>
+		</dict>
+		<key>PlugIns/DeBankTests.xctest/Info.plist</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			P72QTlN+hV9wcEk2wSrnQ/rgYqvX/zIUOab3yFEsg94=
+			</data>
+		</dict>
+		<key>PlugIns/DeBankTests.xctest/_CodeSignature/CodeResources</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			EfHbaSJ5H30sKeoqLhaxM5Kjw4vNW+gBQ5U5fUdyan8=
 			</data>
 		</dict>
 		<key>SimpleLineIcons.ttf</key>

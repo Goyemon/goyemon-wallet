@@ -40,6 +40,40 @@
 			<key>uniqueIdentifier</key>
 			<string>6FFB21B0-370C-4563-806B-7FB0B7941EA2</string>
 		</dict>
+		<key>C421467B-6562-4872-B7E1-EF7BCBA49710</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>C421467B-6562-4872-B7E1-EF7BCBA49710.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>W</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>DeBank project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>DeBank</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building workspace DeBank with scheme DeBank and configuration Debug</string>
+			<key>timeStartedRecording</key>
+			<real>597207916.85698605</real>
+			<key>timeStoppedRecording</key>
+			<real>597207930.83238399</real>
+			<key>title</key>
+			<string>Building workspace DeBank with scheme DeBank and configuration Debug</string>
+			<key>uniqueIdentifier</key>
+			<string>C421467B-6562-4872-B7E1-EF7BCBA49710</string>
+		</dict>
 	</dict>
 </dict>
 </plist>
