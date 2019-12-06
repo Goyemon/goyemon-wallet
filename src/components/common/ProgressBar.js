@@ -28,7 +28,7 @@ const Outer = styled.View`
 `;
 
 const InnerContainer = styled.View`
-  background-color: #5f5f5f;
+  background-color: #FDC800;
   border-radius: 16px;
   height: 8px;
   margin-top: -8px;
@@ -52,43 +52,43 @@ const NumberContainer = styled.View`
 const OneContainer = styled.View`
   alignItems: center;
   background-color: ${props => props.oneColor};
-  border-radius: 12px;
-  height: 24px;
+  border-radius: 10px;
+  height: 20px;
   justifyContent: center;
-  width: 24px;
+  width: 20px;
 `;
 
 const One = styled.Text`
   color: #FFF;
-  font-family: 'HKGrotesk-Regular';
+  font-family: 'HKGrotesk-Bold';
 `;
 
 const TwoContainer = styled.View`
   alignItems: center;
   background-color: ${props => props.twoColor};
-  border-radius: 12px;
-  height: 24px;
+  border-radius: 10px;
+  height: 20px;
   justifyContent: center;
-  width: 24px;
+  width: 20px;
 `;
 
 const Two = styled.Text`
   color: #FFF;
-  font-family: 'HKGrotesk-Regular';
+  font-family: 'HKGrotesk-Bold';
 `;
 
 const ThreeContainer = styled.View`
   alignItems: center;
   background-color: ${props => props.threeColor};
-  border-radius: 12px;
-  height: 24px;
+  border-radius: 10px;
+  height: 20px;
   justifyContent: center;
-  width: 24px;
+  width: 20px;
 `;
 
 const Three = styled.Text`
   color: #FFF;
-  font-family: 'HKGrotesk-Regular';
+  font-family: 'HKGrotesk-Bold';
 `;
 
 export { ProgressBar };

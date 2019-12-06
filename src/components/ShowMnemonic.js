@@ -9,7 +9,7 @@ export default class ShowMnemonic extends Component {
   render() {
     return (
       <RootContainer>
-        <ProgressBar oneColor="#5f5f5f" twoColor="#eeeeee" threeColor="#eeeeee" marginRight="40%" width="0%" />
+        <ProgressBar oneColor="#FDC800" twoColor="#eeeeee" threeColor="#eeeeee" marginRight="40%" width="0%" />
         <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
           Backup Words
         </HeaderTwo>

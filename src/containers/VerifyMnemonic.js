@@ -74,7 +74,7 @@ class VerifyMnemonic extends Component {
 
     return (
       <RootContainer>
-        <ProgressBar oneColor="#5f5f5f" twoColor="#5f5f5f" threeColor="#eeeeee" marginRight="40%" width="40%" />
+        <ProgressBar oneColor="#FDC800" twoColor="#FDC800" threeColor="#eeeeee" marginRight="40%" width="40%" />
         <Container>
           <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
             Verify Backup Words

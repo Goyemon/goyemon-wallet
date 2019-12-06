@@ -19,7 +19,7 @@ class NotificationPermissionTutorial extends Component {
   render() {
     return (
       <RootContainer>
-      <ProgressBar oneColor="#5f5f5f" twoColor="#5f5f5f" threeColor="#5f5f5f" marginRight="0%" width="80%" />
+      <ProgressBar oneColor="#FDC800" twoColor="#FDC800" threeColor="#FDC800" marginRight="0%" width="80%" />
       <Container>
         <HeaderTwo marginBottom="0" marginLeft="0" marginTop="0">
           Almost done!
