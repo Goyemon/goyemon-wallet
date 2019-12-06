@@ -1,6 +1,13 @@
 'use strict';
 import React, { Component } from 'react';
-import { RootContainer, Button, HeaderTwo } from '../components/common';
+import { View } from 'react-native';
+import {
+  RootContainer,
+  Button,
+  HeaderTwo,
+  HeaderThree,
+  TouchableCardContainer
+} from '../components/common';
 import styled from 'styled-components/native';
 import * as Animatable from 'react-native-animatable';
 
@@ -28,19 +35,19 @@ export default class Welcome extends Component {
             <TitleRedText>!</TitleRedText>
           </Title>
         </HollaContainer>
-      )
-    }
-      return (
-        <HollaContainer animation="fadeInDown">
-          <Title>
-            <TitleRedText>h</TitleRedText>
-            <TitleGreenText>o</TitleGreenText>
-            <TitleOrangeText>ll</TitleOrangeText>
-            <TitleGreenText>a</TitleGreenText>
-            <TitleRedText>!</TitleRedText>
-          </Title>
-        </HollaContainer>
       );
+    }
+    return (
+      <HollaContainer animation="fadeInDown">
+        <Title>
+          <TitleRedText>h</TitleRedText>
+          <TitleGreenText>o</TitleGreenText>
+          <TitleOrangeText>ll</TitleOrangeText>
+          <TitleGreenText>a</TitleGreenText>
+          <TitleRedText>!</TitleRedText>
+        </Title>
+      </HollaContainer>
+    );
   }
 
   render() {
@@ -49,7 +56,6 @@ export default class Welcome extends Component {
         <Container>
           {this.hollaFadeInOut()}
           <WelcomeContainer animation="fadeIn" delay={4000}>
-            <Title>Welcome to</Title>
             <Logo>Crypterest</Logo>
             <HeaderTwo
               fontSize="24px"
@@ -69,17 +75,46 @@ export default class Welcome extends Component {
             >
               earn passive income
             </HeaderTwo>
-            <ButtonWrapper>
-              <Button
-                text="Continue"
-                textColor="#009DC4"
-                backgroundColor="#FFF"
-                borderColor="#009DC4"
-                margin="16px auto"
-                opacity="1"
-                onPress={() => this.props.navigation.navigate('Start')}
-              />
-            </ButtonWrapper>
+            <TouchableCardContainer
+              alignItems="center"
+              flexDirection="row"
+              height="120px"
+              justifyContent="center"
+              textAlign="left"
+              width="90%"
+              onPress={() => {
+                this.props.navigation.navigate('CreateWalletTutorial');
+              }}
+            >
+              <View>
+                <HeaderThree marginBottom="0" marginLeft="0" marginTop="0">
+                  Create
+                </HeaderThree>
+                <CardText>new wallet</CardText>
+              </View>
+              <View>
+                <CardImage source={require('../../assets/create_wallet_icon.png')} />
+              </View>
+            </TouchableCardContainer>
+            <TouchableCardContainer
+              alignItems="center"
+              flexDirection="row"
+              height="120px"
+              justifyContent="center"
+              textAlign="left"
+              width="90%"
+              onPress={() => this.props.navigation.navigate('ImportOptions')}
+            >
+              <View>
+                <HeaderThree marginBottom="0" marginLeft="0" marginTop="0">
+                  Import
+                </HeaderThree>
+                <CardText>existing wallet</CardText>
+              </View>
+              <View>
+                <CardImage source={require('../../assets/import_wallet_icon.png')} />
+              </View>
+            </TouchableCardContainer>
           </WelcomeContainer>
         </Container>
       </RootContainer>
@@ -116,6 +151,7 @@ const Logo = Animatable.createAnimatableComponent(styled.Text`
   font-size: 48px;
   margin-bottom: 16px;
   text-align: center;
+  text-transform: uppercase;
 `);
 
 const TitleRedText = styled.Text`
@@ -133,6 +169,17 @@ const TitleOrangeText = styled.Text`
   font-family: 'HKGrotesk-Regular';
 `;
 
-const ButtonWrapper = Animatable.createAnimatableComponent(styled.View`
-  font-size: 40px;
-`);
+const CardText = styled.Text`
+  font-family: 'HKGrotesk-Regular';
+  font-size: 16px;
+  padding-top: 8px;
+  padding-right: 32px;
+  text-align: left;
+`;
+
+const CardImage = styled.Image`
+  height: 64px;
+  padding: 16px;
+  resizemode: contain;
+  width: 64px;
+`;

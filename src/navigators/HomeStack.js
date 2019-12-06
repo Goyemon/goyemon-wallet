@@ -5,7 +5,6 @@ import Welcome from '../components/Welcome';
 import NotificationPermissionTutorial from '../containers/NotificationPermissionTutorial';
 import NotificationPermissionNotGranted from '../components/NotificationPermissionNotGranted';
 import WalletCreation from '../containers/WalletCreation';
-import Start from '../components/Start';
 import ImportOptions from '../components/ImportOptions';
 import ImportTwentyFourMnemonicWords from '../containers/ImportTwentyFourMnemonicWords';
 import ImportTwelveMnemonicWords from '../containers/ImportTwelveMnemonicWords';
@@ -49,12 +48,6 @@ const HomeStack = createStackNavigator(
     },
     WalletCreation: {
       screen: WalletCreation,
-      navigationOptions: () => ({
-        header: null
-      })
-    },
-    Start: {
-      screen: Start,
       navigationOptions: () => ({
         header: null
       })
