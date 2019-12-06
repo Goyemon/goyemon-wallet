@@ -180,6 +180,6 @@ const CardText = styled.Text`
 const CardImage = styled.Image`
   height: 64px;
   padding: 16px;
-  resizemode: contain;
+  resizeMode: contain;
   width: 64px;
 `;
