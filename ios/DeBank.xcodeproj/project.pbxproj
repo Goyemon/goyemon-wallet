@@ -18,6 +18,7 @@
 		33489E8022BB25110011677D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 33489E7F22BB25110011677D /* Default-568h@2x.png */; };
 		335A08222348B419003DC8EC /* RCTBridgeModule.h in Sources */ = {isa = PBXBuildFile; fileRef = 33ABA60023486E6300B36305 /* RCTBridgeModule.h */; };
 		335DD944234A127C0005C300 /* libswiftObjectiveC.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 335DD93B234A127C0005C300 /* libswiftObjectiveC.tbd */; };
+		338A9CA5239A7A27002F77F9 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 338A9CA4239A7A27002F77F9 /* Fonts */; };
 		339DF84F22C04DF300098626 /* FirebaseCoreDiagnostics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 339DF84C22C04DF300098626 /* FirebaseCoreDiagnostics.framework */; };
 		339DF85022C04DF300098626 /* FirebaseAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 339DF84D22C04DF300098626 /* FirebaseAnalytics.framework */; };
 		339DF85122C04DF300098626 /* FIRAnalyticsConnector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 339DF84E22C04DF300098626 /* FIRAnalyticsConnector.framework */; };
@@ -77,6 +78,7 @@
 		33892D7122BB2D0C00D9F8F4 /* Protobuf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Protobuf.framework; path = Firebase/Messaging/Protobuf.framework; sourceTree = SOURCE_ROOT; };
 		33892D7622BB2D1A00D9F8F4 /* nanopb.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = nanopb.framework; path = Firebase/Analytics/nanopb.framework; sourceTree = SOURCE_ROOT; };
 		33892D7822BB2D1A00D9F8F4 /* FirebaseInstanceID.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseInstanceID.framework; path = Firebase/Analytics/FirebaseInstanceID.framework; sourceTree = SOURCE_ROOT; };
+		338A9CA4239A7A27002F77F9 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
 		339DF84C22C04DF300098626 /* FirebaseCoreDiagnostics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseCoreDiagnostics.framework; path = Pods/FirebaseAnalytics/Frameworks/FirebaseCoreDiagnostics.framework; sourceTree = SOURCE_ROOT; };
 		339DF84D22C04DF300098626 /* FirebaseAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseAnalytics.framework; path = Pods/FirebaseAnalytics/Frameworks/FirebaseAnalytics.framework; sourceTree = SOURCE_ROOT; };
 		339DF84E22C04DF300098626 /* FIRAnalyticsConnector.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FIRAnalyticsConnector.framework; path = Pods/FirebaseAnalytics/Frameworks/FIRAnalyticsConnector.framework; sourceTree = SOURCE_ROOT; };
@@ -250,6 +252,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				338A9CA4239A7A27002F77F9 /* Fonts */,
 				33DCF64E23517B3F00342D08 /* FixLibswiftCoreErrorFile.swift */,
 				33ABA60023486E6300B36305 /* RCTBridgeModule.h */,
 				33A27D6322BF5DF100BECF88 /* GoogleService-Info.plist */,
@@ -412,6 +415,7 @@
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				33489E8022BB25110011677D /* Default-568h@2x.png in Resources */,
 				3305BCA322B2696B0010C8BD /* Arimo-Regular.ttf in Resources */,
+				338A9CA5239A7A27002F77F9 /* Fonts in Resources */,
 				33A27D6422BF5DF200BECF88 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

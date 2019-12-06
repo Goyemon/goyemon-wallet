@@ -159,6 +159,7 @@ const ButtonContainer = styled.View`
 
 const ErrorMessage = styled.Text`
   color: #FF3346;
+  font-family: 'HKGrotesk-Regular';
 `;
 
 const mapDispatchToProps = {

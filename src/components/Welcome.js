@@ -1,6 +1,5 @@
 'use strict';
 import React, { Component } from 'react';
-import { Text } from 'react-native';
 import { RootContainer, Button, HeaderTwo } from '../components/common';
 import styled from 'styled-components/native';
 import * as Animatable from 'react-native-animatable';
@@ -105,6 +104,7 @@ const WelcomeContainer = Animatable.createAnimatableComponent(styled.View`
 `);
 
 const Title = Animatable.createAnimatableComponent(styled.Text`
+  font-family: 'HKGrotesk-Regular';
   font-size: 48px;
   margin-bottom: 16px;
   text-align: center;
@@ -112,6 +112,7 @@ const Title = Animatable.createAnimatableComponent(styled.Text`
 
 const Logo = Animatable.createAnimatableComponent(styled.Text`
   color: #ff3346;
+  font-family: 'HKGrotesk-Regular';
   font-size: 48px;
   margin-bottom: 16px;
   text-align: center;
@@ -119,14 +120,17 @@ const Logo = Animatable.createAnimatableComponent(styled.Text`
 
 const TitleRedText = styled.Text`
   color: #ff3346;
+  font-family: 'HKGrotesk-Regular';
 `;
 
 const TitleGreenText = styled.Text`
   color: #12bb4f;
+  font-family: 'HKGrotesk-Regular';
 `;
 
 const TitleOrangeText = styled.Text`
   color: #ffbf00;
+  font-family: 'HKGrotesk-Regular';
 `;
 
 const ButtonWrapper = Animatable.createAnimatableComponent(styled.View`

@@ -11,3 +11,4 @@ export * from './HeaderOne';
 export * from './HeaderTwo';
 export * from './HeaderThree';
 export * from './Description';
+export * from './CrypterestText';

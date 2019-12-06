@@ -8,7 +8,7 @@ const HeaderOne = props => (
 
 const HeaderOneText = styled.Text`
   font-size: 32px;
-  font-weight: bold;
+  font-family: 'HKGrotesk-Bold';
   margin-left: 16px;
   margin-top: ${props => `${props.marginTop}px`};
 `;

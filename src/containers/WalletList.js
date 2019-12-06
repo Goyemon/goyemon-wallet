@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { Text } from 'react-native';
 import { RootContainer, QRCodeIcon, TouchableCardContainer, HeaderOne, HeaderThree } from '../components/common';
 import WalletDetail from '../containers/WalletDetail';
 import styled from 'styled-components';
@@ -85,6 +84,7 @@ const CardContainerWithoutFeedback = styled.View`
 
 const BalanceText = styled.Text`
   color: #5F5F5F;
+  font-family: 'HKGrotesk-Regular';
   font-size: 20px;
   margin-top: 24px;
   margin-bottom: 24px;
@@ -92,6 +92,7 @@ const BalanceText = styled.Text`
 `;
 
 const UsdBalance = styled.Text`
+  font-family: 'HKGrotesk-Regular';
   font-size: 32px;
 `;
 

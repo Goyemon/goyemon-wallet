@@ -7,9 +7,10 @@ import {
   UntouchableCardContainer,
   Button,
   HeaderTwo,
-  Description
+  Description,
+  CrypterestText
 } from '../components/common';
-import { View, Text, Linking, TouchableHighlight, Alert, Modal } from 'react-native';
+import { View, Linking, TouchableHighlight, Alert, Modal } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
@@ -165,7 +166,7 @@ class Settings extends Component {
           </TouchableHighlight>
         </UntouchableCardContainer>
         <VersionText>
-          <Text>v0.0.1</Text>
+          <CrypterestText>v0.0.1</CrypterestText>
         </VersionText>
       </RootContainer>
     );
@@ -223,6 +224,7 @@ const SettingsList = styled.View`
 
 const SettingsListText = styled.Text`
   color: #5f5f5f;
+  font-family: 'HKGrotesk-Regular';
   font-size: 20px;
   margin-left: 16px;
   width: 80%;
@@ -230,6 +232,7 @@ const SettingsListText = styled.Text`
 
 const ResetWalletText = styled.Text`
   color: #ff3346;
+  font-family: 'HKGrotesk-Regular';
   font-size: 24px;
 `;
 

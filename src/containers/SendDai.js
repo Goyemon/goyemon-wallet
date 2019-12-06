@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { View, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import {
   RootContainer,
   Button,
@@ -8,7 +8,8 @@ import {
   HeaderOne,
   HeaderTwo,
   Form,
-  FormHeader
+  FormHeader,
+  CrypterestText
 } from '../components/common';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
@@ -84,7 +85,7 @@ class SendDai extends Component {
   toggleCurrency(gasPriceInWei) {
     if (this.state.currency === 'ETH') {
       const usdValue = this.getTransactionFeeEstimateInUsd(gasPriceInWei);
-      return <Text>${usdValue}</Text>;
+      return <CrypterestText>${usdValue}</CrypterestText>;
     } else if (this.state.currency === 'USD') {
       const ethValue = GasUtilities.getTransactionFeeEstimateInEther(gasPriceInWei, 100000);
       return <NetworkFeeInEther>{ethValue}ETH</NetworkFeeInEther>;
@@ -321,7 +322,7 @@ class SendDai extends Component {
                   this.setState({ amount });
                 }}
               />
-              <Text>DAI</Text>
+              <CrypterestText>DAI</CrypterestText>
             </SendTextInputContainer>
           </Form>
           <View>{this.renderInsufficientDaiBalanceMessage()}</View>
@@ -424,17 +425,20 @@ const CoinImage = styled.Image`
 
 const BalanceText = styled.Text`
   color: #5f5f5f;
+  font-family: 'HKGrotesk-Regular';
   font-size: 24px;
   margin-top: 16px;
   text-transform: uppercase;
 `;
 
 const UsdBalance = styled.Text`
+  font-family: 'HKGrotesk-Regular';
   font-size: 28px;
   margin-top: 8px;
 `;
 
 const EthBalance = styled.Text`
+  font-family: 'HKGrotesk-Regular';
   font-size: 16px;
 `;
 
@@ -453,10 +457,12 @@ const NetworkFee = styled.View`
 `;
 
 const NetworkFeeInEther = styled.Text`
+  font-family: 'HKGrotesk-Regular';
   font-size: 12px;
 `;
 
 const CurrencySymbol = styled.Text`
+  font-family: 'HKGrotesk-Regular';
   font-size: 20px;
 `;
 
@@ -469,10 +475,12 @@ const SpeedContainer = styled.TouchableOpacity`
 
 const SelectedButton = styled.Text`
   color: #12bb4f;
+  font-family: 'HKGrotesk-Regular';
 `;
 
 const UnselectedButton = styled.Text`
   color: #000;
+  font-family: 'HKGrotesk-Regular';
 `;
 
 const ButtonWrapper = styled.View`
@@ -481,6 +489,7 @@ const ButtonWrapper = styled.View`
 
 const ErrorMessage = styled.Text`
   color: #ff3346;
+  font-family: 'HKGrotesk-Regular';
 `;
 
 function mapStateToProps(state) {

@@ -65,6 +65,7 @@ const NotificationPermissionDeniedText = styled.Text`
   alignItems: flex-start;
   flexDirection: column;
   flex: 1;
+  font-family: 'HKGrotesk-Regular';
   justifyContent: flex-start;
   text-align: left;
 `;

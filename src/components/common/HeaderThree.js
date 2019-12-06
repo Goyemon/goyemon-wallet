@@ -14,8 +14,8 @@ const HeaderThree = props => (
 
 const HeaderThreeText = styled.Text`
   color: #000;
+  font-family: 'HKGrotesk-Bold';
   font-size: 16px;
-  font-weight: bold;
   margin-bottom: ${props => `${props.marginBottom}px`};
   margin-left: ${props => `${props.marginLeft}px`};
   margin-top: ${props => `${props.marginTop}px`};

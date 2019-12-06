@@ -14,8 +14,8 @@ const HeaderTwo = props => (
 
 const HeaderTwoText = styled.Text`
   color: #5f5f5f;
+  font-family: 'HKGrotesk-Bold';
   font-size: 24px;
-  font-weight: bold;
   margin-bottom: ${props => `${props.marginBottom}px`};
   margin-left: ${props => `${props.marginLeft}px`};
   margin-top: ${props => `${props.marginTop}px`};

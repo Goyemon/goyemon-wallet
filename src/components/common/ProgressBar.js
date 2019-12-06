@@ -60,6 +60,7 @@ const OneContainer = styled.View`
 
 const One = styled.Text`
   color: #FFF;
+  font-family: 'HKGrotesk-Regular';
 `;
 
 const TwoContainer = styled.View`
@@ -73,6 +74,7 @@ const TwoContainer = styled.View`
 
 const Two = styled.Text`
   color: #FFF;
+  font-family: 'HKGrotesk-Regular';
 `;
 
 const ThreeContainer = styled.View`
@@ -86,6 +88,7 @@ const ThreeContainer = styled.View`
 
 const Three = styled.Text`
   color: #FFF;
+  font-family: 'HKGrotesk-Regular';
 `;
 
 export { ProgressBar };

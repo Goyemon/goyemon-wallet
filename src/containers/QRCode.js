@@ -85,6 +85,7 @@ const QrCodeContainer = styled.View`
 
 const QrCodeText = styled.Text`
   color: #5f5f5f;
+  font-family: 'HKGrotesk-Regular';
   margin-bottom: 16px;
 `;
 
@@ -96,12 +97,14 @@ const CopiedAddressContainer = styled.View`
 
 const CopiedAddressText = styled.Text`
   color: #12BB4F;
+  font-family: 'HKGrotesk-Regular';
   font-size: 20px;
   margin-right: 4px;
 `;
 
 const CopyAddressText = styled.Text`
   color: #009DC4;
+  font-family: 'HKGrotesk-Regular';
   font-size: 20px;
 `;
 

@@ -27,6 +27,7 @@ const ButtonContainer = styled.TouchableOpacity`
 
 const ButtonText = styled.Text`
   color: ${props => props.textColor};
+  font-family: 'HKGrotesk-Regular';
   font-size: 20px;
   padding: 16px 32px;
   text-align: center;

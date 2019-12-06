@@ -84,15 +84,18 @@ const ButtonContainer = styled.View`
 
 const BalanceText = styled.Text`
   color: #5F5F5F;
+  font-family: 'HKGrotesk-Regular';
   font-size: 24px;
   text-transform: uppercase;
 `;
 
 const UsdBalance = styled.Text`
+  font-family: 'HKGrotesk-Regular';
   font-size: 32px;
 `;
 
 const DaiBalance = styled.Text`
+  font-family: 'HKGrotesk-Regular';
   font-size: 16px;
 `;
 

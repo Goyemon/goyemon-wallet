@@ -1,12 +1,13 @@
 'use strict';
 import React, { Component } from 'react';
-import { Text, TouchableWithoutFeedback } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native';
 import {
   RootContainer,
   Button,
   UntouchableCardContainer,
   HeaderOne,
-  FormHeader
+  FormHeader,
+  CrypterestText
 } from '../components/common/';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
@@ -65,9 +66,9 @@ class Confirmation extends Component {
 
   toggleCurrency() {
     if (this.state.currency === 'ETH') {
-      return <Text>${this.props.transactionFeeEstimate.usd}</Text>;
+      return <CrypterestText>${this.props.transactionFeeEstimate.usd}</CrypterestText>;
     } else if (this.state.currency === 'USD') {
-      return <Text>{this.props.transactionFeeEstimate.eth}ETH</Text>;
+      return <CrypterestText>{this.props.transactionFeeEstimate.eth}ETH</CrypterestText>;
     }
   }
 
@@ -86,9 +87,9 @@ class Confirmation extends Component {
         <HeaderOne marginTop="96">Confirmation</HeaderOne>
         <TotalContainer>
           <CoinImage source={require('../../assets/ether_icon.png')} />
-          <Text>You are about to send</Text>
+          <CrypterestText>You are about to send</CrypterestText>
           <TotalValueText>{valueInEther} ETH</TotalValueText>
-          <Text>+ network fee</Text>
+          <CrypterestText>+ network fee</CrypterestText>
         </TotalContainer>
         <UntouchableCardContainer
           alignItems="flex-start"
@@ -158,22 +159,27 @@ const CoinImage = styled.Image`
 `;
 
 const ToText = styled.Text`
+  font-family: 'HKGrotesk-Regular';
   margin-left: 8px;
 `;
 
 const AmountText = styled.Text`
+  font-family: 'HKGrotesk-Regular';
   margin-left: 8px;
 `;
 
 const NetworkFeeText = styled.Text`
+  font-family: 'HKGrotesk-Regular';
   margin-left: 8px;
 `;
 
 const CurrencySymbol = styled.Text`
+  font-family: 'HKGrotesk-Regular';
   font-size: 20px;
 `;
 
 const TotalValueText = styled.Text`
+  font-family: 'HKGrotesk-Regular';
   font-size: 24px;
 `;
 

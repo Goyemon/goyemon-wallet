@@ -141,6 +141,7 @@ const Container = styled.View`
 `;
 
 const Title = Animatable.createAnimatableComponent(styled.Text`
+  font-family: 'HKGrotesk-Regular';
   font-size: 40px;
   margin-bottom: 16px;
   text-align: center;

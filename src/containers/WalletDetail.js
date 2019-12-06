@@ -1,6 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
+import { CrypterestText } from '../components/common';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import PriceUtilities from '../utilities/PriceUtilities.js';
@@ -17,13 +18,13 @@ class WalletDetail extends Component {
   renderUsdBalance() {
     if (this.props.wallet.id === 0) {
       try {
-        return <Text>$ {PriceUtilities.convertEthToUsd(this.props.balance.ethBalance)}</Text>;
+        return <CrypterestText>$ {PriceUtilities.convertEthToUsd(this.props.balance.ethBalance)}</CrypterestText>;
       } catch (err) {
         console.error(err);
       }
     } else if (this.props.wallet.id === 1) {
       try {
-        return <Text>$ {PriceUtilities.convertDaiToUsd(this.props.balance.daiBalance)}</Text>;
+        return <CrypterestText>$ {PriceUtilities.convertDaiToUsd(this.props.balance.daiBalance)}</CrypterestText>;
       } catch (err) {
         console.error(err);
       }
@@ -32,17 +33,17 @@ class WalletDetail extends Component {
 
   renderBalance() {
     if (this.props.wallet.id === 0) {
-      return <Text>{this.props.balance.ethBalance} ETH</Text>;
+      return <CrypterestText>{this.props.balance.ethBalance} ETH</CrypterestText>;
     } else if (this.props.wallet.id === 1) {
-      return <Text>{this.props.balance.daiBalance} DAI</Text>;
+      return <CrypterestText>{this.props.balance.daiBalance} DAI</CrypterestText>;
     }
   }
 
   renderPrice() {
     if (this.props.wallet.id === 0) {
-      return <Text>{this.props.price.ethPrice}</Text>;
+      return <CrypterestText>{this.props.price.ethPrice}</CrypterestText>;
     } else if (this.props.wallet.id === 1) {
-      return <Text>{this.props.price.daiPrice}</Text>;
+      return <CrypterestText>{this.props.price.daiPrice}</CrypterestText>;
     }
   }
 
@@ -87,6 +88,7 @@ const PriceContainer = styled.View`
 
 const CoinText = styled.Text`
   color: #5f5f5f;
+  font-family: 'HKGrotesk-Regular';
   font-size: 20px;
   margin-left: 16px;
   margin-bottom: 4px;
@@ -94,6 +96,7 @@ const CoinText = styled.Text`
 
 const PriceText = styled.Text`
   color: #5f5f5f;
+  font-family: 'HKGrotesk-Regular';
   margin-left: 16px;
 `;
 
@@ -103,11 +106,13 @@ const BalanceContainer = styled.View`
 
 const BalanceText = styled.Text`
   color: #5f5f5f;
+  font-family: 'HKGrotesk-Regular';
   font-size: 20px;
   margin-left: 16px;
 `;
 
 const UsdBalanceText = styled.Text`
+  font-family: 'HKGrotesk-Regular';
   font-size: 22px;
   margin-left: 16px;
   margin-bottom: 4px;

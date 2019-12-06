@@ -1,7 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
-import { UntouchableCardContainer } from '../components/common';
+import { View } from 'react-native';
+import { UntouchableCardContainer, CrypterestText } from '../components/common';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -12,42 +12,42 @@ class Transaction extends Component {
   renderInOrOutTransactionIcon() {
     if (this.props.transaction.to === null) {
       return (
-        <Text>
+        <CrypterestText>
           <Icon name="call-made" size={16} color="#D0021B" />
-        </Text>
+        </CrypterestText>
       );
     } else if (Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
       return (
-        <Text>
+        <CrypterestText>
           <Icon name="call-received" size={16} color="#7ED321" />
-        </Text>
+        </CrypterestText>
       );
     } else if (Web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress) {
       return (
-        <Text>
+        <CrypterestText>
           <Icon name="call-made" size={16} color="#D0021B" />
-        </Text>
+        </CrypterestText>
       );
     }
   }
 
   renderStatus() {
     if (this.props.transaction.state === 'pending') {
-      return <Text>pending...</Text>;
+      return <CrypterestText>pending...</CrypterestText>;
     } else if (this.props.transaction.state === 'included') {
-      return <Text>included</Text>;
+      return <CrypterestText>included</CrypterestText>;
     } else if (this.props.transaction.state === 'confirmed') {
-      return <Text>confirmed</Text>;
+      return <CrypterestText>confirmed</CrypterestText>;
     }
   }
 
   renderDirection() {
     if (this.props.transaction.to === null) {
-      return <Text>Outgoing</Text>;
+      return <CrypterestText>Outgoing</CrypterestText>;
     } else if (Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
-      return <Text>Incoming</Text>;
+      return <CrypterestText>Incoming</CrypterestText>;
     } else if (Web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress) {
-      return <Text>Outgoing</Text>;
+      return <CrypterestText>Outgoing</CrypterestText>;
     }
   }
 
@@ -64,11 +64,11 @@ class Transaction extends Component {
   renderRoundedValue() {
     const roundedEthValue = parseFloat(this.props.transaction.value).toFixed(4);
     if (this.props.transaction.to === null) {
-      return <Text>Contract Creation</Text>;;
+      return <CrypterestText>Contract Creation</CrypterestText>;;
     } else if (Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
-      return <Text style={styles.valueStyleGreen}>{roundedEthValue} ETH</Text>;
+      return <CrypterestText style={styles.valueStyleGreen}>{roundedEthValue} ETH</CrypterestText>;
     } else if (Web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress) {
-      return <Text style={styles.valueStyleRed}>{roundedEthValue} ETH</Text>;
+      return <CrypterestText style={styles.valueStyleRed}>{roundedEthValue} ETH</CrypterestText>;
     }
   }
 
@@ -96,7 +96,7 @@ class Transaction extends Component {
           <StatusText>{this.renderStatus()}</StatusText>
           <ValueText>
             {this.renderPlusOrMinusTransactionIcon()}
-            <Text>{this.renderRoundedValue()}</Text>
+            <CrypterestText>{this.renderRoundedValue()}</CrypterestText>
           </ValueText>
         </TransactionList>
       </UntouchableCardContainer>
@@ -120,6 +120,7 @@ const TransactionList = styled.View`
 `;
 
 const DirectionText = styled.Text`
+  font-family: 'HKGrotesk-Regular';
   font-size: 16px;
   margin-bottom: 4px;
   margin-left: 16px;
@@ -127,15 +128,18 @@ const DirectionText = styled.Text`
 
 const TimeText = styled.Text`
   color: #5F5F5F;
+  font-family: 'HKGrotesk-Regular';
   margin-left: 16px;
 `;
 
 const StatusText = styled.Text`
+  font-family: 'HKGrotesk-Regular';
   font-size: 16px;
   margin-left: 16px;
 `;
 
 const ValueText = styled.Text`
+  font-family: 'HKGrotesk-Regular';
   font-size: 16px;
   margin-left: 16px;
 `;

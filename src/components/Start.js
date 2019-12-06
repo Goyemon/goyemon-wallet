@@ -72,6 +72,7 @@ const Container = styled.ScrollView.attrs(props => ({
 }))``;
 
 const CardText = styled.Text`
+  font-family: 'HKGrotesk-Regular';
   font-size: 16px;
   padding-top: 8px;
   padding-right: 32px;

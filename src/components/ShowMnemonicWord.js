@@ -20,7 +20,8 @@ const styles = {
     flex: 1
   },
   text: {
-    fontSize: 16,
+    fontFamilt: 'HKGrotesk-Regular',
+    fontSize: 18,
     padding: 4,
     textAlign: 'center'
   }

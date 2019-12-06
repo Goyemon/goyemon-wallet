@@ -151,6 +151,7 @@ const MnemonicWordWrapper = styled.View`
 
 const ErrorMessage = styled.Text`
   color: #ff3346;
+  font-family: 'HKGrotesk-Regular';
 `;
 
 function mapStateToProps(state) {

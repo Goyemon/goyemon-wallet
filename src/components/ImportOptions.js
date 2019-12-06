@@ -1,7 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Text } from 'react-native';
 import { RootContainer, ProgressBar, HeaderTwo, Description, Button } from '../components/common/';
 
 export default class ImportOptions extends Component {

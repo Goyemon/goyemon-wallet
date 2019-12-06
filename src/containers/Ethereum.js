@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import Transactions from '../containers/Transactions';
 import { RootContainer, Button, HeaderOne, HeaderThree, QRCodeIcon } from '../components/common/';
 import styled from 'styled-components';
@@ -85,17 +85,20 @@ const ButtonContainer = styled.View`
 
 const BalanceText = styled.Text`
   color: #5F5F5F;
+  font-family: 'HKGrotesk-Regular';
   font-size: 24px;
   margin-bottom: 16px;
   text-transform: uppercase;
 `;
 
 const UsdBalance = styled.Text`
+  font-family: 'HKGrotesk-Regular';
   font-size: 32px;
   margin-bottom: 8px;
 `;
 
 const EthBalance = styled.Text`
+  font-family: 'HKGrotesk-Regular';
   font-size: 16px;
 `;
 
