@@ -19,15 +19,15 @@ export default class NotificationPermissionNotGranted extends Component {
             <NotificationPermissionDeniedImage
               source={require('../../assets/notification_not_granted.png')}
             />
-            <NotificationPermissionDeniedText>
+            <Description marginBottom="0" marginLeft="0" marginTop="16">
               - We use a notification system to update your transactions.
-            </NotificationPermissionDeniedText>
-            <NotificationPermissionDeniedText>
+            </Description>
+            <Description marginBottom="0" marginLeft="0" marginTop="0">
               - Don't worry. We will never annoy you with a pop-up notification.
-            </NotificationPermissionDeniedText>
-            <NotificationPermissionDeniedText>
+            </Description>
+            <Description marginBottom="8" marginLeft="0" marginTop="0">
               - Everything happens in the background.
-            </NotificationPermissionDeniedText>
+            </Description>
             <Button
               text="Go To Device Settings"
               textColor="#5F5F5F"
@@ -59,13 +59,4 @@ const NoPermissionContainer = styled.View`
 const NotificationPermissionDeniedImage = styled.Image`
   height: 320px;
   width: 320px;
-`;
-
-const NotificationPermissionDeniedText = styled.Text`
-  alignItems: flex-start;
-  flexDirection: column;
-  flex: 1;
-  font-family: 'HKGrotesk-Regular';
-  justifyContent: flex-start;
-  text-align: left;
 `;

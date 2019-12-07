@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { StyleSheet, View, TextInput } from 'react-native';
+import { StyleSheet, View, Text, TextInput } from 'react-native';
 import { RootContainer, ProgressBar, HeaderTwo, Button, Description } from '../components/common';
 import { connect } from 'react-redux';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
@@ -80,7 +80,7 @@ class VerifyMnemonic extends Component {
             Verify Backup Words
           </HeaderTwo>
           <Description marginBottom="8" marginLeft="8" marginTop="16">
-            Please write down a list of words again.
+            Let us help you to protect your assets. Please type in your backup words to make sure they are right!
           </Description>
           <MnemonicWordsContainer style={styles.table}>
             {this.state.mnemonicWords.map((word, id) => (

@@ -10,17 +10,15 @@ class CreateWalletTutorial extends Component {
   render() {
     return (
       <RootContainer>
-        <HeaderTwo marginBottom="24" marginLeft="0" marginTop="120">
-          With Great Power Comes Great Responsibility
-        </HeaderTwo>
         <Container>
-          <Description marginBottom="16" marginLeft="8" marginTop="16">
-            Your backup words are the only way to restore your wallet if your phone is lost, stoken,
-            broken or upgraded.
+          <HeaderTwo marginBottom="24" marginLeft="0" marginTop="120">
+            With Great Power Comes Great Responsibility
+          </HeaderTwo>
+          <Description marginBottom="8" marginLeft="0" marginTop="16">
+            - the backup words are the only way to restore your wallet
           </Description>
-          <Description marginBottom="16" marginLeft="8" marginTop="16">
-            We will show you a list of words to save in the next screen. We strongly recommend that
-            you write them down on a piece of paper. Please keep it somewhere safe.
+          <Description marginBottom="16" marginLeft="0" marginTop="8">
+            - only you have access to backup words. We do NOT.
           </Description>
           <Button
             text="Write down backup words"

@@ -60,7 +60,7 @@ export default class Welcome extends Component {
             <HeaderTwo
               fontSize="24px"
               fontWeight="bold"
-              marginBottom="24"
+              marginBottom="16"
               marginLeft="0"
               marginTop="0"
             >
@@ -69,7 +69,7 @@ export default class Welcome extends Component {
             <HeaderTwo
               fontSize="24px"
               fontWeight="bold"
-              marginBottom="24"
+              marginBottom="16"
               marginLeft="0"
               marginTop="0"
             >
@@ -140,7 +140,7 @@ const WelcomeContainer = Animatable.createAnimatableComponent(styled.View`
 
 const Title = Animatable.createAnimatableComponent(styled.Text`
   font-family: 'HKGrotesk-Regular';
-  font-size: 48px;
+  font-size: 64px;
   margin-bottom: 16px;
   text-align: center;
 `);
@@ -148,8 +148,8 @@ const Title = Animatable.createAnimatableComponent(styled.Text`
 const Logo = Animatable.createAnimatableComponent(styled.Text`
   color: #E41B13;
   font-family: 'HKGrotesk-Bold';
-  font-size: 48px;
-  margin-bottom: 16px;
+  font-size: 40px;
+  margin-bottom: 48px;
   text-align: center;
   text-transform: uppercase;
 `);
