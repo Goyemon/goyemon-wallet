@@ -58,7 +58,7 @@ class Dai extends Component {
           </ButtonContainer>
         </CardContainerWithoutFeedback>
         <View>
-          <HeaderThree marginBottom="16" marginLeft="16" marginTop="16">
+          <HeaderThree color="#000" marginBottom="16" marginLeft="16" marginTop="16">
             TRANSACTION HISTORY
           </HeaderThree>
         </View>

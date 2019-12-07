@@ -4,6 +4,7 @@ import styled from 'styled-components/native';
 
 const HeaderThree = props => (
   <HeaderThreeText
+    color={props.color}
     marginBottom={props.marginBottom}
     marginLeft={props.marginLeft}
     marginTop={props.marginTop}
@@ -13,7 +14,7 @@ const HeaderThree = props => (
 );
 
 const HeaderThreeText = styled.Text`
-  color: #000;
+  color: ${props => props.color};
   font-family: 'HKGrotesk-Bold';
   font-size: 16px;
   margin-bottom: ${props => `${props.marginBottom}px`};

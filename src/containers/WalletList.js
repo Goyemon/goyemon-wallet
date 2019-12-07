@@ -48,7 +48,7 @@ class WalletList extends Component {
           </BalanceText>
           <UsdBalance>${this.getTotalBalance(balance.ethBalance, balance.daiBalance)}</UsdBalance>
         </CardContainerWithoutFeedback>
-        <HeaderThree marginBottom="16" marginLeft="16" marginTop="16">
+        <HeaderThree color="#000" marginBottom="16" marginLeft="16" marginTop="16">
           YOUR ACCOUNTS
         </HeaderThree>
         {wallets.map(wallet => (
