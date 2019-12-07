@@ -130,7 +130,7 @@ const ButtonContainer = styled.View`
 `;
 
 const ErrorMessage = styled.Text`
-  color: #ff3346;
+  color: #E41B13;
   font-family: 'HKGrotesk-Regular';
 `;
 

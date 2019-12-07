@@ -47,8 +47,8 @@ class Dai extends Component {
             <Button
               text="Send"
               textColor="white"
-              backgroundColor="#12BB4F"
-              borderColor="#12BB4F"
+              backgroundColor="#1BA548"
+              borderColor="#1BA548"
               margin="8px"
               opacity="1"
               onPress={async () => {

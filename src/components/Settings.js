@@ -65,8 +65,8 @@ class Settings extends Component {
                 <Button
                   text="Confirm"
                   textColor="#FFF"
-                  backgroundColor="#FF3346"
-                  borderColor="#FF3346"
+                  backgroundColor="#E41B13"
+                  borderColor="#E41B13"
                   margin="8px"
                   opacity="1"
                   onPress={async () => {
@@ -183,7 +183,7 @@ const ModalContainer = styled.View`
 const ModalBackground = styled.View`
   background-color: #fff;
   borderTopWidth: 2;
-  borderTopColor: #ff3346;
+  borderTopColor: #E41B13;
   height: 30%;
   min-height: 280px;
   margin-top: 200px;
@@ -231,7 +231,7 @@ const SettingsListText = styled.Text`
 `;
 
 const ResetWalletText = styled.Text`
-  color: #ff3346;
+  color: #E41B13;
   font-family: 'HKGrotesk-Regular';
   font-size: 24px;
 `;

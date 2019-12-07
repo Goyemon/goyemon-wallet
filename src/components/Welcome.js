@@ -146,7 +146,7 @@ const Title = Animatable.createAnimatableComponent(styled.Text`
 `);
 
 const Logo = Animatable.createAnimatableComponent(styled.Text`
-  color: #ff3346;
+  color: #E41B13;
   font-family: 'HKGrotesk-Regular';
   font-size: 48px;
   margin-bottom: 16px;
@@ -155,17 +155,17 @@ const Logo = Animatable.createAnimatableComponent(styled.Text`
 `);
 
 const TitleRedText = styled.Text`
-  color: #ff3346;
+  color: #E41B13;
   font-family: 'HKGrotesk-Regular';
 `;
 
 const TitleGreenText = styled.Text`
-  color: #12bb4f;
+  color: #1BA548;
   font-family: 'HKGrotesk-Regular';
 `;
 
 const TitleOrangeText = styled.Text`
-  color: #ffbf00;
+  color: #1BA548;
   font-family: 'HKGrotesk-Regular';
 `;
 

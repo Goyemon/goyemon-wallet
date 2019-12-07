@@ -166,9 +166,9 @@ class Send extends Component {
     if (this.state.amountValidation === undefined) {
       return '#FFF';
     } else if (this.state.amountValidation) {
-      return '#12BB4F';
+      return '#1BA548';
     } else if (!this.state.amountValidation) {
-      return '#FF3346';
+      return '#E41B13';
     }
   }
 
@@ -176,9 +176,9 @@ class Send extends Component {
     if (this.state.toAddressValidation === undefined) {
       return '#FFF';
     } else if (this.state.toAddressValidation) {
-      return '#12BB4F';
+      return '#1BA548';
     } else if (!this.state.toAddressValidation) {
-      return '#FF3346';
+      return '#E41B13';
     }
   }
 
@@ -298,7 +298,7 @@ class Send extends Component {
                   {this.state.checked === key ? (
                     <SpeedContainer>
                       <SelectedButton>{gasPrice.speed}</SelectedButton>
-                      <Icon name={gasPrice.imageName} size={40} color="#12BB4F" />
+                      <Icon name={gasPrice.imageName} size={40} color="#1BA548" />
                       <SelectedButton>{this.toggleCurrency(gasPrice.gasPriceInWei)}</SelectedButton>
                     </SpeedContainer>
                   ) : (
@@ -415,7 +415,7 @@ const SpeedContainer = styled.TouchableOpacity`
 `;
 
 const SelectedButton = styled.Text`
-  color: #12bb4f;
+  color: #1BA548;
   font-family: 'HKGrotesk-Regular';
 `;
 
@@ -429,7 +429,7 @@ const ButtonWrapper = styled.View`
 `;
 
 const ErrorMessage = styled.Text`
-  color: #ff3346;
+  color: #E41B13;
   font-family: 'HKGrotesk-Regular';
 `;
 
