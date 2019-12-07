@@ -165,7 +165,7 @@ const TitleGreenText = styled.Text`
 `;
 
 const TitleOrangeText = styled.Text`
-  color: #1BA548;
+  color: #FDC800;
   font-family: 'HKGrotesk-Regular';
 `;
 
