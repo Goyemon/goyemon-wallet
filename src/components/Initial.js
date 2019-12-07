@@ -10,8 +10,7 @@ import firebase from 'react-native-firebase';
 import { store } from '../store/store.js';
 
 export default class Initial extends Component {
-  async componentWillMount() {
-
+  async componentDidMount() {
     let mnemonicWordsStatePersisted;
     const stateTree = store.getState();
     const mnemonicWords = stateTree.ReducerMnemonic.mnemonicWords;
