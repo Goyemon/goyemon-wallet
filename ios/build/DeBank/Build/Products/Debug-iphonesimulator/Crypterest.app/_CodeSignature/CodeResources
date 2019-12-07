@@ -68,6 +68,22 @@
 		<data>
 		wJCj7Jaj8bubYVwvPyBM4Nzc28M=
 		</data>
+		<key>Fonts/Arimo-Bold.ttf</key>
+		<data>
+		1lqkgC2TmX7qj3kyBMKko1nT0s0=
+		</data>
+		<key>Fonts/Arimo-Regular.ttf</key>
+		<data>
+		wZ/qIb8FU1htx9ePUQXl29mhI60=
+		</data>
+		<key>Fonts/HKGrotesk-Bold.ttf</key>
+		<data>
+		L2AqeJdnvglfvUZX2RijD2brbLA=
+		</data>
+		<key>Fonts/HKGrotesk-Regular.ttf</key>
+		<data>
+		KecyRJv5ma5PjsZHaErYjPo7oEE=
+		</data>
 		<key>Foundation.ttf</key>
 		<data>
 		SyvObHkkk6SlcWtv7C2+/olJLD8=
@@ -167,7 +183,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		IaRWN9hbAvgRhoUu8GBplMmbURw=
+		82IGAy3icZMrHSo8Vxja2VR2Rq4=
 		</data>
 		<key>Ionicons.ttf</key>
 		<data>
@@ -191,7 +207,7 @@
 		</data>
 		<key>PlugIns/DeBankTests.xctest.dSYM/Contents/Info.plist</key>
 		<data>
-		E8FcQn0phaNhXR7BEHB7H9DZ21g=
+		QM4g73QUZX/DC6Ydz7FEWAP1d4c=
 		</data>
 		<key>PlugIns/DeBankTests.xctest.dSYM/Contents/Resources/DWARF/DeBankTests</key>
 		<data>
@@ -199,15 +215,15 @@
 		</data>
 		<key>PlugIns/DeBankTests.xctest/DeBankTests</key>
 		<data>
-		/rsqTx9XPQOrfxdsmSFSs/bURH0=
+		/y9u9TkeAmhpzPu8B2EN9FQGoDk=
 		</data>
 		<key>PlugIns/DeBankTests.xctest/Info.plist</key>
 		<data>
-		AQJ8uYv12tarleYPL32F/jFCcyQ=
+		0/iXdebNNB4Fatsxjrcy59/hZp0=
 		</data>
 		<key>PlugIns/DeBankTests.xctest/_CodeSignature/CodeResources</key>
 		<data>
-		qeZKP18F+ltv379jK7iM4i+L5HU=
+		Cu1akKPFp7xohZ3yM8xI2yMWSxA=
 		</data>
 		<key>SimpleLineIcons.ttf</key>
 		<data>
@@ -330,6 +346,34 @@
 			<key>hash2</key>
 			<data>
 			lNq58dWxPqB2nRJKLaDQJDPzuZ1t6loHwERqdxWBAMA=
+			</data>
+		</dict>
+		<key>Fonts/Arimo-Bold.ttf</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			KzCp4kbHr+VuhP+ydIrxudHO7wLlirGDlxE+F/eqiXc=
+			</data>
+		</dict>
+		<key>Fonts/Arimo-Regular.ttf</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			vpXkoPiDYPIrqsyJvqP/SYcLEP3RXFGWjcA5lIoGVss=
+			</data>
+		</dict>
+		<key>Fonts/HKGrotesk-Bold.ttf</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			CtkiJMxagc3guWQX2Qqum5Lxp9ul3ZAyR1WqMx+GHlQ=
+			</data>
+		</dict>
+		<key>Fonts/HKGrotesk-Regular.ttf</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			Fe6MlYUErQZB1EV9w9kt94+sPCzX5sJuNjIi9aUwW0Y=
 			</data>
 		</dict>
 		<key>Foundation.ttf</key>
@@ -527,7 +571,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			OMNp4xayWgAjQOZjyKs81UtZvCkxSMjgMNpf/lj3WE0=
+			sqDJnAEU+fHQP0fC+NbEgat7Jj9EeogoHUPVnYIoJio=
 			</data>
 		</dict>
 		<key>PlugIns/DeBankTests.xctest.dSYM/Contents/Resources/DWARF/DeBankTests</key>
@@ -541,21 +585,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Aldrih5yLfv2EbkIDmwUN5uQc43+u4HZjziVOh1+84Q=
+			hZmyn6D3VYFdngIoDJAyFs+9yEoTeFrOhOFgJJMc68w=
 			</data>
 		</dict>
 		<key>PlugIns/DeBankTests.xctest/Info.plist</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			P72QTlN+hV9wcEk2wSrnQ/rgYqvX/zIUOab3yFEsg94=
+			6pkf7JN/vZLHYM5RTV5aMNzsfeSpARxFiobO7k9CWS0=
 			</data>
 		</dict>
 		<key>PlugIns/DeBankTests.xctest/_CodeSignature/CodeResources</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			EfHbaSJ5H30sKeoqLhaxM5Kjw4vNW+gBQ5U5fUdyan8=
+			G9wOiSiwO1NQdS5AeBVZ/zZoaK6vTG1D60mOHGr2fVY=
 			</data>
 		</dict>
 		<key>SimpleLineIcons.ttf</key>
