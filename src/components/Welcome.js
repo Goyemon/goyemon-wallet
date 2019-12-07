@@ -147,7 +147,7 @@ const Title = Animatable.createAnimatableComponent(styled.Text`
 
 const Logo = Animatable.createAnimatableComponent(styled.Text`
   color: #E41B13;
-  font-family: 'HKGrotesk-Regular';
+  font-family: 'HKGrotesk-Bold';
   font-size: 48px;
   margin-bottom: 16px;
   text-align: center;
