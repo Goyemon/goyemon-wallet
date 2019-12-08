@@ -5,24 +5,42 @@ import Web3 from 'web3';
 
 class TransactionUtilities {
   parseExistingTransactions(transactions) {
-    const parsedTransactions = transactions.map(transaction => ({
-        hash: transaction.hash,
-        from: transaction.from,
-        to: transaction.to,
-        gas: transaction.gas,
-        gasPrice: transaction.gasPrice,
-        value: this.parseTransactionValue(transaction.value),
-        time: transaction.time,
-        nonce: parseInt(transaction.nonce),
-        state: 'confirmed',
-        ame_ropsten: transaction.ame_ropsten
-      }));
+    let parsedTransactions;
+    parsedTransactions = transactions.map(transaction => {
+      if (transaction.hasOwnProperty('ame_ropsten')) {
+        return {
+          hash: transaction.hash,
+          from: transaction.from,
+          to: transaction.to,
+          gas: transaction.gas,
+          gasPrice: transaction.gasPrice,
+          value: this.parseTransactionValue(transaction.value),
+          time: transaction.time,
+          nonce: parseInt(transaction.nonce),
+          state: 'confirmed',
+          ame_ropsten: transaction.ame_ropsten
+        };
+      } else if (!transaction.hasOwnProperty('ame_ropsten')) {
+        return {
+          hash: transaction.hash,
+          from: transaction.from,
+          to: transaction.to,
+          gas: transaction.gas,
+          gasPrice: transaction.gasPrice,
+          value: this.parseTransactionValue(transaction.value),
+          time: transaction.time,
+          nonce: parseInt(transaction.nonce),
+          state: 'confirmed'
+        };
+      }
+    });
+
     return parsedTransactions;
   }
 
   parsePendingTransaction(transactionObject) {
     let parsedTransaction;
-    if (transactionObject.ame_ropsten != undefined) {
+    if (transactionObject.hasOwnProperty('ame_ropsten')) {
       parsedTransaction = {
         hash: transactionObject.txhash,
         from: transactionObject.txfrom,
@@ -35,18 +53,19 @@ class TransactionUtilities {
         state: transactionObject.state,
         ame_ropsten: JSON.parse(transactionObject.ame_ropsten)
       };
+    } else if (!transactionObject.hasOwnProperty('ame_ropsten')) {
+      parsedTransaction = {
+        hash: transactionObject.txhash,
+        from: transactionObject.txfrom,
+        to: transactionObject.txto,
+        gasLimit: transactionObject.gas,
+        gasPrice: transactionObject.gasPrice,
+        value: this.parseTransactionValue(transactionObject.value),
+        time: transactionObject.timestamp,
+        nonce: transactionObject.nonce,
+        state: transactionObject.state
+      };
     }
-    parsedTransaction = {
-      hash: transactionObject.txhash,
-      from: transactionObject.txfrom,
-      to: transactionObject.txto,
-      gasLimit: transactionObject.gas,
-      gasPrice: transactionObject.gasPrice,
-      value: this.parseTransactionValue(transactionObject.value),
-      time: transactionObject.timestamp,
-      nonce: transactionObject.nonce,
-      state: transactionObject.state
-    };
     return parsedTransaction;
   }
 
