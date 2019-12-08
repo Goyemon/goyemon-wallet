@@ -8,11 +8,14 @@ import styled from 'styled-components/native';
 class TransactionsDai extends Component {
   renderTransactions() {
     const { transactions } = this.props;
-    const daiTransactions = transactions.filter(transaction => {
-      if(transaction.hasOwnProperty("ame_ropsten")) {
-        return transaction;
-      }
-    });
+    let daiTransactions;
+    if(transactions != null){
+      daiTransactions = transactions.filter(transaction => {
+        if(transaction.ame_ropsten != undefined) {
+          return transaction;
+        }
+      });
+    }
 
     if (daiTransactions === null || daiTransactions.length === 0) {
       return (
