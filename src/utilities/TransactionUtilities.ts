@@ -34,7 +34,7 @@ class TransactionUtilities {
       time: transactionObject.timestamp,
       nonce: transactionObject.nonce,
       state: transactionObject.state,
-      ame_ropsten: transactionObject.ame_ropsten
+      ame_ropsten: JSON.parse(transactionObject.ame_ropsten)
     };
 
     return parsedTransaction;
