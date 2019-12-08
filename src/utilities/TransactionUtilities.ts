@@ -16,7 +16,8 @@ class TransactionUtilities {
         value: this.parseTransactionValue(transaction.value),
         time: transaction.time,
         nonce: parseInt(transaction.nonce),
-        state: 'confirmed'
+        state: 'confirmed',
+        ame_ropsten: transaction.ame_ropsten
       };
     });
     return parsedTransactions;
@@ -32,7 +33,8 @@ class TransactionUtilities {
       value: this.parseTransactionValue(transactionObject.value),
       time: transactionObject.timestamp,
       nonce: transactionObject.nonce,
-      state: transactionObject.state
+      state: transactionObject.state,
+      ame_ropsten: transactionObject.ame_ropsten
     };
 
     return parsedTransaction;
