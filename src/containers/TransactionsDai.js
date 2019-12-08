@@ -8,7 +8,7 @@ import styled from 'styled-components/native';
 class TransactionsDai extends Component {
   renderTransactions() {
     const { transactions } = this.props;
-    let daiTransactions;
+    let daiTransactions = null;
     if(transactions != null){
       daiTransactions = transactions.filter(transaction => {
         if(transaction.ame_ropsten != undefined) {
