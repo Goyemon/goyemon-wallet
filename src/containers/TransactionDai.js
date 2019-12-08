@@ -10,19 +10,19 @@ import Web3 from 'web3';
 
 class TransactionDai extends Component {
   renderInOrOutTransactionIcon() {
-    if (this.props.daiTransactions.ame_ropsten.to === null) {
+    if (this.props.daiTransaction.ame_ropsten.to === null) {
       return (
         <CrypterestText>
           <Icon name="call-made" size={16} color="#D0021B" />
         </CrypterestText>
       );
-    } else if (Web3.utils.toChecksumAddress(this.props.daiTransactions.ame_ropsten.to) === this.props.checksumAddress) {
+    } else if (Web3.utils.toChecksumAddress(this.props.daiTransaction.ame_ropsten.to) === this.props.checksumAddress) {
       return (
         <CrypterestText>
           <Icon name="call-received" size={16} color="#7ED321" />
         </CrypterestText>
       );
-    } else if (Web3.utils.toChecksumAddress(this.props.daiTransactions.ame_ropsten.from) === this.props.checksumAddress) {
+    } else if (Web3.utils.toChecksumAddress(this.props.daiTransaction.ame_ropsten.from) === this.props.checksumAddress) {
       return (
         <CrypterestText>
           <Icon name="call-made" size={16} color="#D0021B" />
@@ -32,48 +32,48 @@ class TransactionDai extends Component {
   }
 
   renderStatus() {
-    if (this.props.daiTransactions.state === 'pending') {
+    if (this.props.daiTransaction.state === 'pending') {
       return <CrypterestText>pending...</CrypterestText>;
-    } else if (this.props.daiTransactions.state === 'included') {
+    } else if (this.props.daiTransaction.state === 'included') {
       return <CrypterestText>included</CrypterestText>;
-    } else if (this.props.daiTransactions.state === 'confirmed') {
+    } else if (this.props.daiTransaction.state === 'confirmed') {
       return <CrypterestText>confirmed</CrypterestText>;
     }
   }
 
   renderDirection() {
-    if (this.props.daiTransactions.ame_ropsten.to === null) {
+    if (this.props.daiTransaction.ame_ropsten.to === null) {
       return <CrypterestText>Outgoing</CrypterestText>;
-    } else if (Web3.utils.toChecksumAddress(this.props.daiTransactions.ame_ropsten.to) === this.props.checksumAddress) {
+    } else if (Web3.utils.toChecksumAddress(this.props.daiTransaction.ame_ropsten.to) === this.props.checksumAddress) {
       return <CrypterestText>Incoming</CrypterestText>;
-    } else if (Web3.utils.toChecksumAddress(this.props.daiTransactions.ame_ropsten.from) === this.props.checksumAddress) {
+    } else if (Web3.utils.toChecksumAddress(this.props.daiTransaction.ame_ropsten.from) === this.props.checksumAddress) {
       return <CrypterestText>Outgoing</CrypterestText>;
     }
   }
 
   renderPlusOrMinusTransactionIcon() {
-    if (this.props.daiTransactions.ame_ropsten.to === null) {
+    if (this.props.daiTransaction.ame_ropsten.to === null) {
       return ;
-    } else if (Web3.utils.toChecksumAddress(this.props.daiTransactions.ame_ropsten.to) === this.props.checksumAddress) {
+    } else if (Web3.utils.toChecksumAddress(this.props.daiTransaction.ame_ropsten.to) === this.props.checksumAddress) {
       return <Icon name="plus" size={16} color="#7ED321" />;
-    } else if (Web3.utils.toChecksumAddress(this.props.daiTransactions.ame_ropsten.from) === this.props.checksumAddress) {
+    } else if (Web3.utils.toChecksumAddress(this.props.daiTransaction.ame_ropsten.from) === this.props.checksumAddress) {
       return <Icon name="minus" size={16} color="#D0021B" />;
     }
   }
 
   renderValue() {
-    const ameValue = parseInt(this.props.daiTransactions.ame_ropsten.value, 16) / 10 ** 18;
-    if (this.props.daiTransactions.ame_ropsten.to === null) {
+    const ameValue = parseInt(this.props.daiTransaction.ame_ropsten.value, 16) / 10 ** 18;
+    if (this.props.daiTransaction.ame_ropsten.to === null) {
       return <CrypterestText>Contract Creation</CrypterestText>;;
-    } else if (Web3.utils.toChecksumAddress(this.props.daiTransactions.ame_ropsten.to) === this.props.checksumAddress) {
+    } else if (Web3.utils.toChecksumAddress(this.props.daiTransaction.ame_ropsten.to) === this.props.checksumAddress) {
       return <CrypterestText style={styles.valueStyleGreen}>{ameValue} AME</CrypterestText>;
-    } else if (Web3.utils.toChecksumAddress(this.props.daiTransactions.ame_ropsten.from) === this.props.checksumAddress) {
+    } else if (Web3.utils.toChecksumAddress(this.props.daiTransaction.ame_ropsten.from) === this.props.checksumAddress) {
       return <CrypterestText style={styles.valueStyleRed}>{ameValue} AME</CrypterestText>;
     }
   }
 
   render() {
-    let { time } = this.props.daiTransactions;
+    let { time } = this.props.daiTransaction;
     time = TransactionUtilities.parseTransactionTime(time);
 
     return (
