@@ -26,7 +26,7 @@ class TransactionsDai extends Component {
       return (
         <FlatList
           data={daiTransactions}
-          renderItem={({ item }) => <TransactionDai transaction={item} />}
+          renderItem={({ item }) => <TransactionDai daiTransactions={item} />}
           keyExtractor={item => item.hash}
         />
       );
