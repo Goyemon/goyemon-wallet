@@ -99,7 +99,12 @@ class SendDai extends Component {
   }
 
   getTransferEncodedABI(address, amount) {
-    const daiTokenContract = new Web3.eth.Contract(
+    const infuraId = '884958b4538343aaa814e3a32718ce91';
+    const web3 = new Web3(
+      new Web3.providers.HttpProvider(`https://ropsten.infura.io/v3/${this.infuraId}`)
+    );
+
+    const daiTokenContract = new web3.eth.Contract(
       JSON.parse(daiToken.daiTokenAbi),
       daiToken.daiTokenAddress
     );
