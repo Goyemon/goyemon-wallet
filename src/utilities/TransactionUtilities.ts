@@ -4,10 +4,8 @@ import { store } from '../store/store.js';
 import Web3 from 'web3';
 
 class TransactionUtilities {
-
   parseExistingTransactions(transactions) {
-    const parsedTransactions = transactions.map(transaction => {
-      return {
+    const parsedTransactions = transactions.map(transaction => ({
         hash: transaction.hash,
         from: transaction.from,
         to: transaction.to,
@@ -18,8 +16,7 @@ class TransactionUtilities {
         nonce: parseInt(transaction.nonce),
         state: 'confirmed',
         ame_ropsten: transaction.ame_ropsten
-      };
-    });
+      }));
     return parsedTransactions;
   }
 
@@ -79,26 +76,25 @@ class TransactionUtilities {
     if (seconds < 5) {
       return 'just now';
     } else if (seconds < 60) {
-      return seconds + ' seconds ago';
+      return `${seconds} seconds ago`;
     } else if (seconds < 3600) {
       const minutes = Math.floor(seconds / 60);
-      if (minutes > 1) return minutes + ' minutes ago';
-      else return '1 minute ago';
+      if (minutes > 1) return `${minutes} minutes ago`;
+      return '1 minute ago';
     } else if (seconds < 86400) {
       const hours = Math.floor(seconds / 3600);
-      if (hours > 1) return hours + ' hours ago';
-      else return '1 hour ago';
+      if (hours > 1) return `${hours} hours ago`;
+      return '1 hour ago';
     }
     //2 days and no more
     else if (seconds < 172800) {
       const days = Math.floor(seconds / 86400);
-      if (days > 1) return days + ' days ago';
-      else return '1 day ago';
-    } else {
-      return (
-        time.getDate().toString() + ' ' + months[time.getMonth()] + ', ' + '\n' + time.getFullYear()
-      );
+      if (days > 1) return `${days} days ago`;
+      return '1 day ago';
     }
+      return (
+        `${time.getDate().toString()} ${months[time.getMonth()]}, ` + `\n${time.getFullYear()}`
+      );
   }
 
   getBiggestNonce() {
@@ -108,9 +104,7 @@ class TransactionUtilities {
 
     const array = [];
     transactions.map(transaction => {
-      if (
-        Web3.utils.toChecksumAddress(transaction.from) === checksumAddress
-      ) {
+      if (Web3.utils.toChecksumAddress(transaction.from) === checksumAddress) {
         array.push(transaction.nonce);
       }
     });
