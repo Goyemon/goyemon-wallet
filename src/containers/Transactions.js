@@ -6,8 +6,6 @@ import Transaction from './Transaction';
 import styled from 'styled-components/native';
 
 class Transactions extends Component {
-  // handleLoadMore = () => {};
-
   renderTransactions() {
     const { transactions } = this.props;
     if (transactions === null || transactions.length === 0) {
@@ -24,9 +22,6 @@ class Transactions extends Component {
           data={transactions}
           renderItem={({ item }) => <Transaction transaction={item} />}
           keyExtractor={item => item.hash}
-          // onEndReached={this.handleLoadMore}
-          // onEndThreshold={1}
-          // initialNumToRender={5}
         />
       );
     }
