@@ -9,9 +9,9 @@ class TransactionsDai extends Component {
   renderTransactions() {
     const { transactions } = this.props;
     let daiTransactions = null;
-    if(transactions != null){
+    if (transactions != null) {
       daiTransactions = transactions.filter(transaction => {
-        if(transaction.ame_ropsten != undefined) {
+        if (transaction.hasOwnProperty('ame_ropsten')) {
           return transaction;
         }
       });

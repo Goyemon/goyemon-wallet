@@ -10,7 +10,7 @@ import Web3 from 'web3';
 
 class Transaction extends Component {
   renderInOrOutTransactionIcon() {
-    if (this.props.transaction.ame_ropsten != undefined) {
+    if (this.props.transaction.hasOwnProperty('ame_ropsten')) {
       if (this.props.transaction.ame_ropsten.to === null) {
         return (
           <CrypterestText>
@@ -73,7 +73,7 @@ class Transaction extends Component {
   }
 
   renderDirection() {
-    if (this.props.transaction.ame_ropsten != undefined) {
+    if (this.props.transaction.hasOwnProperty('ame_ropsten')) {
       if (this.props.transaction.ame_ropsten.to === null) {
         return <CrypterestText>Outgoing</CrypterestText>;
       } else if (
@@ -102,7 +102,7 @@ class Transaction extends Component {
   }
 
   renderPlusOrMinusTransactionIcon() {
-    if (this.props.transaction.ame_ropsten != undefined) {
+    if (this.props.transaction.hasOwnProperty('ame_ropsten')) {
       if (this.props.transaction.ame_ropsten.to === null) {
         return;
       } else if (
@@ -131,7 +131,7 @@ class Transaction extends Component {
   }
 
   renderRoundedValue() {
-    if (this.props.transaction.ame_ropsten != undefined) {
+    if (this.props.transaction.hasOwnProperty('ame_ropsten')) {
       const ameValue = parseInt(this.props.transaction.ame_ropsten.value, 16) / 10 ** 18;
       if (this.props.transaction.ame_ropsten.to === null) {
         return <CrypterestText>Contract Creation</CrypterestText>;
