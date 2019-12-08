@@ -10,19 +10,50 @@ import Web3 from 'web3';
 
 class Transaction extends Component {
   renderInOrOutTransactionIcon() {
+    if (this.props.transaction.ame_ropsten != undefined) {
+      if (this.props.transaction.ame_ropsten.to === null) {
+        return (
+          <CrypterestText>
+            <Icon name="call-made" size={16} color="#D0021B" />
+          </CrypterestText>
+        );
+      } else if (
+        Web3.utils.toChecksumAddress(this.props.transaction.ame_ropsten.to) ===
+        this.props.checksumAddress
+      ) {
+        return (
+          <CrypterestText>
+            <Icon name="call-received" size={16} color="#7ED321" />
+          </CrypterestText>
+        );
+      } else if (
+        Web3.utils.toChecksumAddress(this.props.transaction.ame_ropsten.from) ===
+        this.props.checksumAddress
+      ) {
+        return (
+          <CrypterestText>
+            <Icon name="call-made" size={16} color="#D0021B" />
+          </CrypterestText>
+        );
+      }
+    }
     if (this.props.transaction.to === null) {
       return (
         <CrypterestText>
           <Icon name="call-made" size={16} color="#D0021B" />
         </CrypterestText>
       );
-    } else if (Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
+    } else if (
+      Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress
+    ) {
       return (
         <CrypterestText>
           <Icon name="call-received" size={16} color="#7ED321" />
         </CrypterestText>
       );
-    } else if (Web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress) {
+    } else if (
+      Web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress
+    ) {
       return (
         <CrypterestText>
           <Icon name="call-made" size={16} color="#D0021B" />
@@ -42,32 +73,90 @@ class Transaction extends Component {
   }
 
   renderDirection() {
+    if (this.props.transaction.ame_ropsten != undefined) {
+      if (this.props.transaction.ame_ropsten.to === null) {
+        return <CrypterestText>Outgoing</CrypterestText>;
+      } else if (
+        Web3.utils.toChecksumAddress(this.props.transaction.ame_ropsten.to) ===
+        this.props.checksumAddress
+      ) {
+        return <CrypterestText>Incoming</CrypterestText>;
+      } else if (
+        Web3.utils.toChecksumAddress(this.props.transaction.ame_ropsten.from) ===
+        this.props.checksumAddress
+      ) {
+        return <CrypterestText>Outgoing</CrypterestText>;
+      }
+    }
     if (this.props.transaction.to === null) {
       return <CrypterestText>Outgoing</CrypterestText>;
-    } else if (Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
+    } else if (
+      Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress
+    ) {
       return <CrypterestText>Incoming</CrypterestText>;
-    } else if (Web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress) {
+    } else if (
+      Web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress
+    ) {
       return <CrypterestText>Outgoing</CrypterestText>;
     }
   }
 
   renderPlusOrMinusTransactionIcon() {
+    if (this.props.transaction.ame_ropsten != undefined) {
+      if (this.props.transaction.ame_ropsten.to === null) {
+        return;
+      } else if (
+        Web3.utils.toChecksumAddress(this.props.transaction.ame_ropsten.to) ===
+        this.props.checksumAddress
+      ) {
+        return <Icon name="plus" size={16} color="#7ED321" />;
+      } else if (
+        Web3.utils.toChecksumAddress(this.props.transaction.ame_ropsten.from) ===
+        this.props.checksumAddress
+      ) {
+        return <Icon name="minus" size={16} color="#D0021B" />;
+      }
+    }
     if (this.props.transaction.to === null) {
-      return ;
-    } else if (Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
+      return;
+    } else if (
+      Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress
+    ) {
       return <Icon name="plus" size={16} color="#7ED321" />;
-    } else if (Web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress) {
+    } else if (
+      Web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress
+    ) {
       return <Icon name="minus" size={16} color="#D0021B" />;
     }
   }
 
   renderRoundedValue() {
+    if (this.props.transaction.ame_ropsten != undefined) {
+      const ameValue = parseInt(this.props.transaction.ame_ropsten.value, 16) / 10 ** 18;
+      if (this.props.transaction.ame_ropsten.to === null) {
+        return <CrypterestText>Contract Creation</CrypterestText>;
+      } else if (
+        Web3.utils.toChecksumAddress(this.props.transaction.ame_ropsten.to) ===
+        this.props.checksumAddress
+      ) {
+        return <CrypterestText style={styles.valueStyleGreen}>{ameValue} AME</CrypterestText>;
+      } else if (
+        Web3.utils.toChecksumAddress(this.props.transaction.ame_ropsten.from) ===
+        this.props.checksumAddress
+      ) {
+        return <CrypterestText style={styles.valueStyleRed}>{ameValue} AME</CrypterestText>;
+      }
+    }
     const roundedEthValue = parseFloat(this.props.transaction.value).toFixed(4);
     if (this.props.transaction.to === null) {
-      return <CrypterestText>Contract Creation</CrypterestText>;;
-    } else if (Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
+      return <CrypterestText>Contract Creation</CrypterestText>;
+    } else if (
+      Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress
+    ) {
       return <CrypterestText style={styles.valueStyleGreen}>{roundedEthValue} ETH</CrypterestText>;
-    } else if (Web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress) {
+    } else if (
+      Web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress
+    ) {
       return <CrypterestText style={styles.valueStyleRed}>{roundedEthValue} ETH</CrypterestText>;
     }
   }
@@ -127,7 +216,7 @@ const DirectionText = styled.Text`
 `;
 
 const TimeText = styled.Text`
-  color: #5F5F5F;
+  color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
   margin-left: 16px;
 `;
