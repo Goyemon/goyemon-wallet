@@ -2,8 +2,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { View, Text } from 'react-native';
-import Transactions from '../containers/Transactions';
+import { View } from 'react-native';
+import TransactionsDai from '../containers/TransactionsDai';
 import { RootContainer, Button, HeaderOne, HeaderThree, QRCodeIcon } from '../components/common/';
 import styled from 'styled-components';
 import PriceUtilities from '../utilities/PriceUtilities.js';
@@ -62,7 +62,7 @@ class Dai extends Component {
             TRANSACTION HISTORY
           </HeaderThree>
         </View>
-        <Transactions />
+        <TransactionsDai />
       </RootContainer>
     );
   }
