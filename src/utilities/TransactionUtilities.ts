@@ -24,7 +24,22 @@ class TransactionUtilities {
   }
 
   parsePendingTransaction(transactionObject) {
-    const parsedTransaction = {
+    let parsedTransaction;
+    if (transactionObject.ame_ropsten != undefined) {
+      parsedTransaction = {
+        hash: transactionObject.txhash,
+        from: transactionObject.txfrom,
+        to: transactionObject.txto,
+        gasLimit: transactionObject.gas,
+        gasPrice: transactionObject.gasPrice,
+        value: this.parseTransactionValue(transactionObject.value),
+        time: transactionObject.timestamp,
+        nonce: transactionObject.nonce,
+        state: transactionObject.state,
+        ame_ropsten: JSON.parse(transactionObject.ame_ropsten)
+      };
+    }
+    parsedTransaction = {
       hash: transactionObject.txhash,
       from: transactionObject.txfrom,
       to: transactionObject.txto,
@@ -33,10 +48,8 @@ class TransactionUtilities {
       value: this.parseTransactionValue(transactionObject.value),
       time: transactionObject.timestamp,
       nonce: transactionObject.nonce,
-      state: transactionObject.state,
-      ame_ropsten: JSON.parse(transactionObject.ame_ropsten)
+      state: transactionObject.state
     };
-
     return parsedTransaction;
   }
 
