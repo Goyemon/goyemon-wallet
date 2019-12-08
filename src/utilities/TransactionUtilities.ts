@@ -111,9 +111,7 @@ class TransactionUtilities {
       if (days > 1) return `${days} days ago`;
       return '1 day ago';
     }
-      return (
-        `${time.getDate().toString()} ${months[time.getMonth()]}, ` + `\n${time.getFullYear()}`
-      );
+    return `${time.getDate().toString()} ${months[time.getMonth()]}, ` + `\n${time.getFullYear()}`;
   }
 
   getBiggestNonce() {
