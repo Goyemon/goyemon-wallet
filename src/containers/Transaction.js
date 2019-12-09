@@ -132,8 +132,8 @@ class Transaction extends Component {
 
   renderValue() {
     if (this.props.transaction.hasOwnProperty('ame_ropsten')) {
-      let ameValue = TransactionUtilities.parseDaiValue(this.props.daiTransaction.ame_ropsten.value);
-      if(!this.props.daiTransaction.ame_ropsten.value) {
+      let ameValue = TransactionUtilities.parseDaiValue(this.props.transaction.ame_ropsten.value);
+      if(!this.props.transaction.ame_ropsten.value) {
         ameValue = 0;
       }
       if (this.props.transaction.ame_ropsten.to === null) {
