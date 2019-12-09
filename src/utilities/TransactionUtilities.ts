@@ -14,7 +14,7 @@ class TransactionUtilities {
           to: transaction.to,
           gas: transaction.gas,
           gasPrice: transaction.gasPrice,
-          value: this.parseTransactionValue(transaction.value),
+          value: this.parseEthValue(transaction.value),
           time: transaction.time,
           nonce: parseInt(transaction.nonce),
           state: 'confirmed',
@@ -27,7 +27,7 @@ class TransactionUtilities {
           to: transaction.to,
           gas: transaction.gas,
           gasPrice: transaction.gasPrice,
-          value: this.parseTransactionValue(transaction.value),
+          value: this.parseEthValue(transaction.value),
           time: transaction.time,
           nonce: parseInt(transaction.nonce),
           state: 'confirmed'
@@ -47,7 +47,7 @@ class TransactionUtilities {
         to: transactionObject.txto,
         gasLimit: transactionObject.gas,
         gasPrice: transactionObject.gasPrice,
-        value: this.parseTransactionValue(transactionObject.value),
+        value: this.parseEthValue(transactionObject.value),
         time: transactionObject.timestamp,
         nonce: transactionObject.nonce,
         state: transactionObject.state,
@@ -60,7 +60,7 @@ class TransactionUtilities {
         to: transactionObject.txto,
         gasLimit: transactionObject.gas,
         gasPrice: transactionObject.gasPrice,
-        value: this.parseTransactionValue(transactionObject.value),
+        value: this.parseEthValue(transactionObject.value),
         time: transactionObject.timestamp,
         nonce: transactionObject.nonce,
         state: transactionObject.state
@@ -69,7 +69,7 @@ class TransactionUtilities {
     return parsedTransaction;
   }
 
-  parseTransactionValue(value) {
+  parseEthValue(value) {
     const bigNumberValue = Web3.utils.toBN(value).toString();
     const parsedEtherValue = Web3.utils.fromWei(bigNumberValue);
     return parsedEtherValue;

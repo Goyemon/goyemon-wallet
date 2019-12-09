@@ -130,7 +130,7 @@ class Transaction extends Component {
     }
   }
 
-  renderRoundedValue() {
+  renderValue() {
     if (this.props.transaction.hasOwnProperty('ame_ropsten')) {
       let ameValue = TransactionUtilities.parseDaiValue(this.props.daiTransaction.ame_ropsten.value);
       if(!this.props.daiTransaction.ame_ropsten.value) {
@@ -188,7 +188,7 @@ class Transaction extends Component {
           <StatusText>{this.renderStatus()}</StatusText>
           <ValueText>
             {this.renderPlusOrMinusTransactionIcon()}
-            <CrypterestText>{this.renderRoundedValue()}</CrypterestText>
+            <CrypterestText>{this.renderValue()}</CrypterestText>
           </ValueText>
         </TransactionList>
       </UntouchableCardContainer>
