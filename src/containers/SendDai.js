@@ -117,7 +117,7 @@ class SendDai extends Component {
   }
 
   async constructTransactionObject() {
-    const theBiggestNonce = TransactionUtilities.getBiggestNonce();
+    const theBiggestNonce = parseInt(TransactionUtilities.getBiggestNonce());
     let transactionNonce;
     if(theBiggestNonce === 0) {
       transactionNonce = 0;
