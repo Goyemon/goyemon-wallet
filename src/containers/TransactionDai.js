@@ -62,7 +62,11 @@ class TransactionDai extends Component {
   }
 
   renderValue() {
-    const ameValue = parseInt(this.props.daiTransaction.ame_ropsten.value, 16) / 10 ** 18;
+    let ameValue = TransactionUtilities.parseDaiValue(this.props.daiTransaction.ame_ropsten.value);
+    if(!this.props.daiTransaction.ame_ropsten.value) {
+      ameValue = 0;
+    }
+
     if (this.props.daiTransaction.ame_ropsten.to === null) {
       return <CrypterestText>Contract Creation</CrypterestText>;;
     } else if (Web3.utils.toChecksumAddress(this.props.daiTransaction.ame_ropsten.to) === this.props.checksumAddress) {

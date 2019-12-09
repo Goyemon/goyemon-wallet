@@ -132,7 +132,10 @@ class Transaction extends Component {
 
   renderRoundedValue() {
     if (this.props.transaction.hasOwnProperty('ame_ropsten')) {
-      const ameValue = parseInt(this.props.transaction.ame_ropsten.value, 16) / 10 ** 18;
+      let ameValue = TransactionUtilities.parseDaiValue(this.props.daiTransaction.ame_ropsten.value);
+      if(!this.props.daiTransaction.ame_ropsten.value) {
+        ameValue = 0;
+      }
       if (this.props.transaction.ame_ropsten.to === null) {
         return <CrypterestText>Contract Creation</CrypterestText>;
       } else if (
