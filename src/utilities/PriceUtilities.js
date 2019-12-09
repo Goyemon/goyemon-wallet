@@ -8,7 +8,7 @@ class PriceUtilities {
 
     try {
       const usdValue = parseFloat(ethPrice) * parseFloat(ether);
-      const roundedEthUsdValue = usdValue.toFixed(2);
+      const roundedEthUsdValue = usdValue.toFixed(3);
       return roundedEthUsdValue;
     } catch (err) {
       console.error(err);
