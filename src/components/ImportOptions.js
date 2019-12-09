@@ -18,9 +18,9 @@ export default class ImportOptions extends Component {
           <ButtonContainer>
             <Button
               text="12 Words"
-              textColor="#009DC4"
+              textColor="#00A3E2"
               backgroundColor="#FFF"
-              borderColor="#009DC4"
+              borderColor="#00A3E2"
               margin="8px auto"
               opacity="1"
               onPress={async () => {
@@ -29,9 +29,9 @@ export default class ImportOptions extends Component {
             />
             <Button
               text="24 Words"
-              textColor="#009DC4"
+              textColor="#00A3E2"
               backgroundColor="#FFF"
-              borderColor="#009DC4"
+              borderColor="#00A3E2"
               margin="8px auto"
               opacity="1"
               onPress={async () => {

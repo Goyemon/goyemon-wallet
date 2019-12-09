@@ -14,6 +14,7 @@ class WalletList extends Component {
     const { params } = navigation.state;
 
     return {
+      headerTitle: () => <HeaderThree color="#E41B13" marginBottom="0" marginLeft="0" marginTop="16">crypterest</HeaderThree>,
       headerRight: (
         <QRCodeIcon
           onPress={() => {

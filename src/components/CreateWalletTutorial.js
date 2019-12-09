@@ -22,9 +22,9 @@ class CreateWalletTutorial extends Component {
           </Description>
           <Button
             text="Write down backup words"
-            textColor="#009DC4"
+            textColor="#00A3E2"
             backgroundColor="#FFF"
-            borderColor="#009DC4"
+            borderColor="#00A3E2"
             margin="24px auto"
             opacity="1"
             onPress={async () => {
@@ -35,7 +35,7 @@ class CreateWalletTutorial extends Component {
           />
           <Button
             text="Do This Later"
-            textColor="#009DC4"
+            textColor="#00A3E2"
             backgroundColor="#F8F8F8"
             borderColor="#F8F8F8"
             margin="0 auto"

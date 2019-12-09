@@ -125,10 +125,10 @@ class ConfirmationDai extends Component {
         </UntouchableCardContainer>
         <ButtonContainer>
           <Button
-            text="Send"
+            text="Confirm"
             textColor="white"
-            backgroundColor="#009DC4"
-            borderColor="#009DC4"
+            backgroundColor="#00A3E2"
+            borderColor="#00A3E2"
             margin="8px"
             opacity="1"
             onPress={async () => {

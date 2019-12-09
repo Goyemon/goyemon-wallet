@@ -14,7 +14,7 @@ class Transaction extends Component {
       if (this.props.transaction.ame_ropsten.to === null) {
         return (
           <CrypterestText>
-            <Icon name="call-made" size={16} color="#D0021B" />
+            <Icon name="call-made" size={16} color="#F1860E" />
           </CrypterestText>
         );
       } else if (
@@ -23,7 +23,7 @@ class Transaction extends Component {
       ) {
         return (
           <CrypterestText>
-            <Icon name="call-received" size={16} color="#7ED321" />
+            <Icon name="call-received" size={16} color="#1BA548" />
           </CrypterestText>
         );
       } else if (
@@ -32,7 +32,7 @@ class Transaction extends Component {
       ) {
         return (
           <CrypterestText>
-            <Icon name="call-made" size={16} color="#D0021B" />
+            <Icon name="call-made" size={16} color="#F1860E" />
           </CrypterestText>
         );
       }
@@ -40,7 +40,7 @@ class Transaction extends Component {
     if (this.props.transaction.to === null) {
       return (
         <CrypterestText>
-          <Icon name="call-made" size={16} color="#D0021B" />
+          <Icon name="call-made" size={16} color="#F1860E" />
         </CrypterestText>
       );
     } else if (
@@ -48,7 +48,7 @@ class Transaction extends Component {
     ) {
       return (
         <CrypterestText>
-          <Icon name="call-received" size={16} color="#7ED321" />
+          <Icon name="call-received" size={16} color="#1BA548" />
         </CrypterestText>
       );
     } else if (
@@ -56,7 +56,7 @@ class Transaction extends Component {
     ) {
       return (
         <CrypterestText>
-          <Icon name="call-made" size={16} color="#D0021B" />
+          <Icon name="call-made" size={16} color="#F1860E" />
         </CrypterestText>
       );
     }
@@ -109,12 +109,12 @@ class Transaction extends Component {
         Web3.utils.toChecksumAddress(this.props.transaction.ame_ropsten.to) ===
         this.props.checksumAddress
       ) {
-        return <Icon name="plus" size={16} color="#7ED321" />;
+        return <Icon name="plus" size={16} color="#1BA548" />;
       } else if (
         Web3.utils.toChecksumAddress(this.props.transaction.ame_ropsten.from) ===
         this.props.checksumAddress
       ) {
-        return <Icon name="minus" size={16} color="#D0021B" />;
+        return <Icon name="minus" size={16} color="#F1860E" />;
       }
     }
     if (this.props.transaction.to === null) {
@@ -122,11 +122,11 @@ class Transaction extends Component {
     } else if (
       Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress
     ) {
-      return <Icon name="plus" size={16} color="#7ED321" />;
+      return <Icon name="plus" size={16} color="#1BA548" />;
     } else if (
       Web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress
     ) {
-      return <Icon name="minus" size={16} color="#D0021B" />;
+      return <Icon name="minus" size={16} color="#F1860E" />;
     }
   }
 
@@ -198,10 +198,10 @@ class Transaction extends Component {
 
 const styles = {
   valueStyleRed: {
-    color: '#D0021B'
+    color: '#F1860E'
   },
   valueStyleGreen: {
-    color: '#7ED321'
+    color: '#1BA548'
   }
 };
 

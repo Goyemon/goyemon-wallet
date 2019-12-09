@@ -13,19 +13,19 @@ class TransactionDai extends Component {
     if (this.props.daiTransaction.ame_ropsten.to === null) {
       return (
         <CrypterestText>
-          <Icon name="call-made" size={16} color="#D0021B" />
+          <Icon name="call-made" size={16} color="#F1860E" />
         </CrypterestText>
       );
     } else if (Web3.utils.toChecksumAddress(this.props.daiTransaction.ame_ropsten.to) === this.props.checksumAddress) {
       return (
         <CrypterestText>
-          <Icon name="call-received" size={16} color="#7ED321" />
+          <Icon name="call-received" size={16} color="#1BA548" />
         </CrypterestText>
       );
     } else if (Web3.utils.toChecksumAddress(this.props.daiTransaction.ame_ropsten.from) === this.props.checksumAddress) {
       return (
         <CrypterestText>
-          <Icon name="call-made" size={16} color="#D0021B" />
+          <Icon name="call-made" size={16} color="#F1860E" />
         </CrypterestText>
       );
     }
@@ -55,9 +55,9 @@ class TransactionDai extends Component {
     if (this.props.daiTransaction.ame_ropsten.to === null) {
       return ;
     } else if (Web3.utils.toChecksumAddress(this.props.daiTransaction.ame_ropsten.to) === this.props.checksumAddress) {
-      return <Icon name="plus" size={16} color="#7ED321" />;
+      return <Icon name="plus" size={16} color="#1BA548" />;
     } else if (Web3.utils.toChecksumAddress(this.props.daiTransaction.ame_ropsten.from) === this.props.checksumAddress) {
-      return <Icon name="minus" size={16} color="#D0021B" />;
+      return <Icon name="minus" size={16} color="#F1860E" />;
     }
   }
 
@@ -110,10 +110,10 @@ class TransactionDai extends Component {
 
 const styles = {
   valueStyleRed: {
-    color: '#D0021B'
+    color: '#F1860E'
   },
   valueStyleGreen: {
-    color: '#7ED321'
+    color: '#1BA548'
   }
 };
 

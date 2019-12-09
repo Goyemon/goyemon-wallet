@@ -30,9 +30,9 @@ class NotificationPermissionTutorial extends Component {
           </Description>
           <Button
             text="Enable Now"
-            textColor="#009DC4"
+            textColor="#00A3E2"
             backgroundColor="#FFF"
-            borderColor="#009DC4"
+            borderColor="#00A3E2"
             margin="16px auto"
             opacity="1"
             onPress={async () => {

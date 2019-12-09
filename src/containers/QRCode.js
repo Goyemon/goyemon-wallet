@@ -32,7 +32,7 @@ class QRCode extends Component {
           <Icon
             name="check"
             size={24}
-            color="#009DC4"
+            color="#00A3E2"
           />
         </CopiedAddressContainer>
       );
@@ -96,14 +96,14 @@ const CopiedAddressContainer = styled.View`
 `;
 
 const CopiedAddressText = styled.Text`
-  color: #009DC4;
+  color: #00A3E2;
   font-family: 'HKGrotesk-Regular';
   font-size: 20px;
   margin-right: 4px;
 `;
 
 const CopyAddressText = styled.Text`
-  color: #009DC4;
+  color: #00A3E2;
   font-family: 'HKGrotesk-Regular';
   font-size: 20px;
 `;

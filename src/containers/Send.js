@@ -323,9 +323,9 @@ class Send extends Component {
           <ButtonWrapper>
             <Button
               text="Next"
-              textColor="#009DC4"
+              textColor="#00A3E2"
               backgroundColor="#FFF"
-              borderColor="#009DC4"
+              borderColor="#00A3E2"
               margin="40px auto"
               opacity="1"
               onPress={async () => {

@@ -16,7 +16,6 @@ class TransactionsDai extends Component {
         }
       });
     }
-
     if (daiTransactions === null || daiTransactions.length === 0) {
       return (
         <EmptyTransactionContainer>

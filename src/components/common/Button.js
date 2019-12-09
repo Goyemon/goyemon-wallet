@@ -21,15 +21,15 @@ const ButtonContainer = styled.TouchableOpacity`
   border-radius: 16px;
   border-width: 1;
   margin: ${props => props.margin};
-  min-width: 160px;
+  min-width: 136px;
   opacity: ${props => props.opacity};
 `;
 
 const ButtonText = styled.Text`
   color: ${props => props.textColor};
-  font-family: 'HKGrotesk-Regular';
+  font-family: 'HKGrotesk-Bold';
   font-size: 20px;
-  padding: 16px 32px;
+  padding: 12px 24px;
   text-align: center;
 `;
 

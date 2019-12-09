@@ -10,7 +10,7 @@ const Loader = props => {
     <Modal transparent animationType={'none'} visible={loading}>
       <ModalBackground>
         <ActivityIndicatorWrapper>
-          <ActivityIndicator animating={loading} />
+          <ActivityIndicator animating={loading} size="large" color="#FDC800" />
           {props.children}
         </ActivityIndicatorWrapper>
       </ModalBackground>
