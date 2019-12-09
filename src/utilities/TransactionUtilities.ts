@@ -75,6 +75,11 @@ class TransactionUtilities {
     return parsedEtherValue;
   }
 
+  parseDaiValue(value) {
+    const parsedDaiValue = parseInt(value, 16) / 10 ** 18;
+    return parsedDaiValue;
+  }
+
   parseTransactionTime(timestamp) {
     const time = new Date(timestamp * 1000);
     const seconds = Math.floor((new Date() - time) / 1000);
