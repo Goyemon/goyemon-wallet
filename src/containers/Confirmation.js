@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import ethTx from 'ethereumjs-tx';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
+import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import firebase from 'react-native-firebase';
 import uuidv4 from 'uuid/v4';
 import Web3 from 'web3';
@@ -25,35 +26,11 @@ class Confirmation extends Component {
     };
   }
 
-  async constructSignedOutgoingTransactionObject() {
+  async sendSignedTx() {
     let outgoingTransactionObject = this.props.outgoingTransactionObjects[
       this.props.outgoingTransactionObjects.length - 1
     ];
-    outgoingTransactionObject = new ethTx(outgoingTransactionObject);
-    let privateKey = await WalletUtilities.retrievePrivateKey();
-    privateKey = Buffer.from(privateKey, 'hex');
-    outgoingTransactionObject.sign(privateKey);
-    let signedTransaction = outgoingTransactionObject.serialize();
-    signedTransaction = `0x${signedTransaction.toString('hex')}`;
-    return signedTransaction;
-  }
-
-  async sendSignedTx() {
-    await this.sendOutgoingTransactionToServer();
-  }
-
-  async sendOutgoingTransactionToServer() {
-    const messageId = uuidv4();
-    const serverAddress = '255097673919@gcm.googleapis.com';
-    const signedTransaction = await this.constructSignedOutgoingTransactionObject();
-
-    const upstreamMessage = new firebase.messaging.RemoteMessage()
-      .setMessageId(messageId)
-      .setTo(serverAddress)
-      .setData({
-        signedTransaction
-      });
-    firebase.messaging().sendMessage(upstreamMessage);
+    await TransactionUtilities.sendOutgoingTransactionToServer(outgoingTransactionObject);
   }
 
   toggleCurrencySymbol() {

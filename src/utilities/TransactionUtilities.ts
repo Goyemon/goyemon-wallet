@@ -139,6 +139,32 @@ class TransactionUtilities {
 
     return biggestNonce;
   }
+
+  async constructSignedOutgoingTransactionObject(outgoingTransactionObject) {
+    outgoingTransactionObject = new ethTx(outgoingTransactionObject);
+    let privateKey = await WalletUtilities.retrievePrivateKey();
+    privateKey = Buffer.from(privateKey, 'hex');
+    outgoingTransactionObject.sign(privateKey);
+    let signedTransaction = outgoingTransactionObject.serialize();
+    signedTransaction = `0x${signedTransaction.toString('hex')}`;
+    return signedTransaction;
+  }
+
+  async sendOutgoingTransactionToServer(outgoingTransactionObject) {
+    const messageId = uuidv4();
+    const serverAddress = '255097673919@gcm.googleapis.com';
+    const signedTransaction = await this.constructSignedOutgoingTransactionObject(outgoingTransactionObject);
+
+    const upstreamMessage = new firebase.messaging.RemoteMessage()
+      .setMessageId(messageId)
+      .setTo(serverAddress)
+      .setData({
+        signedTransaction
+      });
+    firebase.messaging().sendMessage(upstreamMessage);
+  }
+
+
 }
 
 export default new TransactionUtilities();
