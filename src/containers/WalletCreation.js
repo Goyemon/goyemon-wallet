@@ -7,7 +7,7 @@ import styled from 'styled-components/native';
 import { StackActions, NavigationActions } from 'react-navigation';
 import HomeStack from '../navigators/HomeStack';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
-import ProviderUtilities from '../utilities/ProviderUtilities.ts';
+import FirebaseRegister from '../firebase/FirebaseRegister.ts';
 import { createChecksumAddress } from '../actions/ActionChecksumAddress';
 import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
 
@@ -26,7 +26,7 @@ class WalletCreation extends Component {
     const privateKeyInKeychain = await WalletUtilities.privateKeySaved();
     this.setState({ hasPrivateKeyInKeychain: privateKeyInKeychain });
     await this.props.createChecksumAddress();
-    await ProviderUtilities.registerEthereumAddress(this.props.checksumAddress);
+    await FirebaseRegister.registerEthereumAddress(this.props.checksumAddress);
     await this.props.getEthPrice();
     await this.props.getDaiPrice();
   }

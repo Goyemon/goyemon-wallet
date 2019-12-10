@@ -1,5 +1,5 @@
 'use strict';
-import ProviderUtilities from './ProviderUtilities.ts';
+import FirebaseRegister from '../firebase/FirebaseRegister.ts';
 import { store } from '../store/store.js';
 import Web3 from 'web3';
 

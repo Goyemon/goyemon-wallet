@@ -1,9 +1,9 @@
 'use strict';
 import firebase from 'react-native-firebase';
 import uuidv4 from 'uuid/v4';
-import EtherUtilities from './EtherUtilities.js';
+import EtherUtilities from '../utilities/EtherUtilities.js';
 
-class ProviderUtilities {
+class FirebaseRegister {
   async registerEthereumAddress(checksumAddress) {
     const messageId = uuidv4();
     const serverAddress = '255097673919@gcm.googleapis.com';
@@ -20,4 +20,4 @@ class ProviderUtilities {
   }
 }
 
-export default new ProviderUtilities();
+export default new FirebaseRegister();
