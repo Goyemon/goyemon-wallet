@@ -1,3 +1,4 @@
+'use strict';
 export const CLEAR_STATE = 'CLEAR_STATE';
 export const SAVE_MNEMONIC = 'SAVE_MNEMONIC';
 export const CREATE_CHECKSUM_ADDRESS = 'CREATE_CHECKSUM_ADDRESS';

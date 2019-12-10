@@ -1,3 +1,4 @@
+'use strict';
 import firebase from 'react-native-firebase';
 import { store } from '../store/store';
 import { saveEthBalance } from '../actions/ActionBalance';
