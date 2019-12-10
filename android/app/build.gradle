@@ -170,6 +170,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.facebook.react:react-native:0.59.4'
     implementation project(':@react-native-community_async-storage')
+    implementation project(':react-native-android-open-settings')
     // From node_modules
 
     if (enableHermes) {

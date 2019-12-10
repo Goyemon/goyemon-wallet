@@ -18,6 +18,7 @@ import com.oblador.keychain.KeychainPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.levelasquez.androidopensettings.AndroidOpenSettingsPackage;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -47,6 +48,7 @@ public class MainApplication extends Application implements ReactApplication {
         new RNGestureHandlerPackage();
         new RandomBytesPackage();
         new KeychainPackage();
+        new AndroidOpenSettingsPackage();
         return packages;
       }
 
