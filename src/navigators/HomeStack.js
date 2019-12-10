@@ -8,7 +8,7 @@ import WalletCreation from '../containers/WalletCreation';
 import ImportOptions from '../components/ImportOptions';
 import ImportTwentyFourMnemonicWords from '../containers/ImportTwentyFourMnemonicWords';
 import ImportTwelveMnemonicWords from '../containers/ImportTwelveMnemonicWords';
-import CreateWalletTutorial from '../components/CreateWalletTutorial';
+import CreateWalletTutorial from '../containers/CreateWalletTutorial';
 import ShowMnemonic from '../components/ShowMnemonic';
 import VerifyMnemonic from '../containers/VerifyMnemonic';
 import WalletList from '../containers/WalletList';
