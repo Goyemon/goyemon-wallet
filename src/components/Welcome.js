@@ -9,6 +9,7 @@ import {
   TouchableCardContainer
 } from '../components/common';
 import styled from 'styled-components/native';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import * as Animatable from 'react-native-animatable';
 
 export default class Welcome extends Component {
@@ -124,18 +125,17 @@ export default class Welcome extends Component {
 
 const Container = styled.View`
   flex: 1;
-  margin-top: 240px;
+  margin-top: ${hp('40%')};
   text-align: center;
 `;
 
 const HollaContainer = Animatable.createAnimatableComponent(styled.View`
-  margin-top: 80px;
 `);
 
 const WelcomeContainer = Animatable.createAnimatableComponent(styled.View`
   alignItems: center;
   flex: 1;
-  margin-top: -120px;
+  margin-top: ${hp('-30%')};
 `);
 
 const Title = Animatable.createAnimatableComponent(styled.Text`
