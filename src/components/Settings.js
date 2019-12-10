@@ -47,8 +47,7 @@ class Settings extends Component {
                 Reset your Wallet?
               </HeaderTwo>
               <Description marginBottom="8" marginLeft="0" marginTop="16">
-                Make sure you save your backup words before deletion. Otherwise, you will lose your
-                funds.
+                Make sure you save your backup words before deletion. Otherwise, you will lose your funds.
               </Description>
               <ButtonContainer>
                 <Button
