@@ -43,42 +43,43 @@ class Settings extends Component {
         >
           <ModalContainer>
             <ModalBackground>
-              <HeaderTwo marginBottom="0" marginLeft="0" marginTop="40">
-                Reset your Wallet?
-              </HeaderTwo>
-              <Description marginBottom="8" marginLeft="0" marginTop="16">
-                Make sure you save your backup words before deletion. Otherwise, you will lose your funds.
-              </Description>
-              <ButtonContainer>
-                <Button
-                  text="Cancel"
-                  textColor="#5F5F5F"
-                  backgroundColor="#EEEEEE"
-                  borderColor="#EEEEEE"
-                  margin="8px"
-                  opacity="1"
-                  onPress={() => {
-                    this.setModalVisible(false);
-                  }}
-                />
-                <Button
-                  text="Confirm"
-                  textColor="#FFF"
-                  backgroundColor="#E41B13"
-                  borderColor="#E41B13"
-                  margin="8px"
-                  opacity="1"
-                  onPress={async () => {
-                    await WalletUtilities.resetKeychainData();
-                    await persistor.purge();
-                    this.props.clearState();
-                    // reset notification settings
-                    // https://github.com/zo0r/react-native-push-notification
-                    this.setModalVisible(false);
-                    this.props.navigation.navigate('Initial');
-                  }}
-                />
-              </ButtonContainer>
+              <MondalInner>
+                <HeaderTwo marginBottom="0" marginLeft="0" marginTop="40">
+                  Reset your Wallet?
+                </HeaderTwo>
+                <Description marginBottom="8" marginLeft="0" marginTop="16">
+                  Make sure you save your backup words before deletion. Otherwise, you will lose your funds.
+                </Description>
+                <ButtonContainer>
+                  <Button
+                    text="Cancel"
+                    textColor="#5F5F5F"
+                    backgroundColor="#EEEEEE"
+                    borderColor="#EEEEEE"
+                    margin="8px"
+                    opacity="1"
+                    onPress={() => {
+                      this.setModalVisible(false);
+                    }}
+                  />
+                  <Button
+                    text="Confirm"
+                    textColor="#FFF"
+                    backgroundColor="#E41B13"
+                    borderColor="#E41B13"
+                    margin="8px"
+                    opacity="1"
+                    onPress={async () => {
+                      await WalletUtilities.resetKeychainData();
+                      await persistor.purge();
+                      this.props.clearState();
+                      // reset notification settings using https://github.com/zo0r/react-native-push-notification
+                      this.setModalVisible(false);
+                      this.props.navigation.navigate('Initial');
+                    }}
+                  />
+                </ButtonContainer>
+              </MondalInner>
             </ModalBackground>
           </ModalContainer>
         </Modal>
@@ -181,11 +182,16 @@ const ModalContainer = styled.View`
 
 const ModalBackground = styled.View`
   background-color: #fff;
+  border-radius: 16px;
   borderTopWidth: 2;
   borderTopColor: #E41B13;
   height: 30%;
   min-height: 280px;
   margin-top: 200px;
+  width: 90%;
+`;
+
+const MondalInner = styled.View`
   width: 90%;
 `;
 
@@ -203,7 +209,8 @@ const CommunityIcon = styled.View`
 const SettingsListContainer = styled.View`
   background: #fff;
   border-color: rgba(95, 95, 95, 0.3);
-  border-width: 0.5;
+  borderTopWidth: 0.5;
+  borderBottomWidth: 0.5;
   margin-bottom: 8px;
   margin-top: 16px;
   width: 100%;
@@ -212,11 +219,13 @@ const SettingsListContainer = styled.View`
 const SettingsList = styled.View`
   alignItems: center;
   border-color: rgba(95, 95, 95, 0.3);
-  border-width: 0.5;
+  borderTopWidth: 0.5;
+  borderBottomWidth: 0.5;
   flexDirection: row;
   justifyContent: space-between;
   padding-bottom: 16px;
   padding-left: 16px;
+  padding-right: 16px;
   padding-top: 16px;
   width: 100%;
 `;
@@ -244,6 +253,7 @@ const ButtonContainer = styled.View`
 const VersionText = styled.View`
   flexDirection: row;
   justifyContent: center;
+  margin-bottom: 32px;
 `;
 
 const mapDispatchToProps = {

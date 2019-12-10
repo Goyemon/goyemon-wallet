@@ -89,7 +89,7 @@ class TransactionDai extends Component {
         justifyContent="center"
         marginTop="0"
         textAlign="left"
-        width="95%"
+        width="90%"
       >
         <TransactionList>
           {this.renderInOrOutTransactionIcon()}

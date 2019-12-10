@@ -106,18 +106,15 @@ class WalletCreation extends Component {
     return (
       <RootContainer>
         <Container>
-          <View>
-            <Loader loading={this.state.loading}>
-              <HeaderTwo marginBottom="0" marginLeft="0" marginTop="40">
-                Setting up your wallet...
-              </HeaderTwo>
-              <Description marginBottom="8" marginLeft="8" marginTop="16">
-                this shouldn't take long
-              </Description>
-              <CreatingWalletImage source={require('../../assets/creating_wallet.png')} />
-            </Loader>
-          </View>
-        </Container>
+          <HeaderTwo marginBottom="0" marginLeft="0" marginTop="40">
+            Setting up your wallet...
+          </HeaderTwo>
+          <Description marginBottom="24" marginLeft="8" marginTop="16">
+            this shouldn't take long
+          </Description>
+          <Loader loading={this.state.loading} />
+          <CreatingWalletImage source={require('../../assets/creating_wallet.png')} />
+      </Container>
       </RootContainer>
     );
   }
@@ -126,8 +123,8 @@ class WalletCreation extends Component {
 const Container = styled.View`
   alignItems: center;
   flexDirection: column;
+  justifyContent: center;
   margin-top: 120px;
-  width: 95%;
 `;
 
 const CreatingWalletImage = styled.Image`

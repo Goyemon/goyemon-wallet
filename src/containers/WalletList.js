@@ -59,7 +59,7 @@ class WalletList extends Component {
             height="120px"
             justifyContent="flex-start"
             textAlign="left"
-            width="95%"
+            width="90%"
             key={wallet.id}
             onPress={
               wallet.coin === 'Ether'

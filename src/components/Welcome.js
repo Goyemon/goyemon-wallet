@@ -69,7 +69,7 @@ export default class Welcome extends Component {
             <HeaderTwo
               fontSize="24px"
               fontWeight="bold"
-              marginBottom="16"
+              marginBottom="80"
               marginLeft="0"
               marginTop="0"
             >
@@ -78,7 +78,7 @@ export default class Welcome extends Component {
             <TouchableCardContainer
               alignItems="center"
               flexDirection="row"
-              height="120px"
+              height="25%"
               justifyContent="space-between"
               textAlign="left"
               width="80%"
@@ -99,7 +99,7 @@ export default class Welcome extends Component {
             <TouchableCardContainer
               alignItems="center"
               flexDirection="row"
-              height="120px"
+              height="25%"
               justifyContent="space-between"
               textAlign="left"
               width="80%"

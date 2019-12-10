@@ -21,7 +21,7 @@ const ButtonContainer = styled.TouchableOpacity`
   border-radius: 16px;
   border-width: 1;
   margin: ${props => props.margin};
-  min-width: 136px;
+  min-width: 120px;
   opacity: ${props => props.opacity};
 `;
 
