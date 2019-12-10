@@ -179,6 +179,7 @@ class Send extends Component {
     const toAddressValidation = this.validateToAddress(toAddress);
     const amountValidation = this.validateAmount(amount);
     if (toAddressValidation && amountValidation) {
+      console.log('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
       this.props.navigation.navigate('Confirmation');
