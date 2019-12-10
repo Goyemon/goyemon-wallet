@@ -16,6 +16,8 @@ import com.swarm.crypterest.R;
 
 // lottie-react-native
 import com.airbnb.android.react.lottie.LottiePackage;
+// react-native-android-open-settings
+import com.levelasquez.androidopensettings.AndroidOpenSettingsPackage;
 // react-native-camera
 import org.reactnative.camera.RNCameraPackage;
 // react-native-firebase
@@ -84,6 +86,7 @@ public class PackageList {
     return new ArrayList<>(Arrays.<ReactPackage>asList(
       new MainReactPackage(mConfig),
       new LottiePackage(),
+      new AndroidOpenSettingsPackage(),
       new RNCameraPackage(),
       new RNFirebasePackage(),
       new RNGestureHandlerPackage(),

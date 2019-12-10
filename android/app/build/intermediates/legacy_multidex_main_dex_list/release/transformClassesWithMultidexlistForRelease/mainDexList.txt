@@ -299,6 +299,7 @@ com/horcrux/svg/TextProperties$AlignmentBaseline.class
 com/horcrux/svg/TextProperties$FontWeight.class
 com/horcrux/svg/TextProperties$TextDecoration.class
 com/horcrux/svg/VirtualView.class
+com/levelasquez/androidopensettings/AndroidOpenSettingsPackage.class
 com/oblador/keychain/KeychainPackage.class
 com/oblador/vectoricons/VectorIconsPackage.class
 com/peel/react/rnos/RNOSModule.class
