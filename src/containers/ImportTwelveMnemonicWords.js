@@ -38,7 +38,7 @@ class ImportTwelveMnemonicWords extends Component {
 
   handleTextChange = (text, id) => {
     const mnemonicWords = this.state.mnemonicWords;
-    mnemonicWords[id] = text;
+    mnemonicWords[id] = text.trim().toLowerCase();
 
     this.setState({ mnemonicWords });
   };
