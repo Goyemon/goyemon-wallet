@@ -1,7 +1,9 @@
 'use strict';
+import React, { Component } from 'react';
+import styled from 'styled-components';
 import { store } from '../store/store.js';
 
-class PriceUtilities {
+export default class PriceUtilities extends Component {
   convertEthToUsd(ether) {
     const stateTree = store.getState();
     const ethPrice = stateTree.ReducerPrice.price.ethPrice;
@@ -27,6 +29,17 @@ class PriceUtilities {
       console.error(err);
     }
   }
+
+  toggleCurrencySymbol(currency) {
+    if (currency === 'ETH') {
+      return <CurrencySymbol>ETH</CurrencySymbol>;
+    } else if (currency === 'USD') {
+      return <CurrencySymbol>$</CurrencySymbol>;
+    }
+  }
 }
 
-export default new PriceUtilities();
+const CurrencySymbol = styled.Text`
+  font-family: 'HKGrotesk-Regular';
+  font-size: 20px;
+`;

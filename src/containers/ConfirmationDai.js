@@ -12,6 +12,7 @@ import {
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import ethTx from 'ethereumjs-tx';
+import PriceUtilities from '../utilities/PriceUtilities.js';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import firebase from 'react-native-firebase';
@@ -31,14 +32,6 @@ class ConfirmationDai extends Component {
       this.props.outgoingTransactionObjects.length - 1
     ];
     await TransactionUtilities.sendOutgoingTransactionToServer(outgoingTransactionObject);
-  }
-
-  toggleCurrencySymbol() {
-    if (this.state.currency === 'ETH') {
-      return <CurrencySymbol>ETH</CurrencySymbol>;
-    } else if (this.state.currency === 'USD') {
-      return <CurrencySymbol>$</CurrencySymbol>;
-    }
   }
 
   toggleCurrency() {
@@ -95,7 +88,7 @@ class ConfirmationDai extends Component {
                 }
               }}
             >
-              {this.toggleCurrencySymbol()}
+              {PriceUtilities.toggleCurrencySymbol(this.state.currency)}
             </TouchableWithoutFeedback>
           </FormHeader>
           <NetworkFeeText>{this.toggleCurrency()}</NetworkFeeText>
@@ -146,11 +139,6 @@ const AmountText = styled.Text`
 const NetworkFeeText = styled.Text`
   font-family: 'HKGrotesk-Regular';
   margin-left: 8px;
-`;
-
-const CurrencySymbol = styled.Text`
-  font-family: 'HKGrotesk-Regular';
-  font-size: 20px;
 `;
 
 const TotalValueText = styled.Text`

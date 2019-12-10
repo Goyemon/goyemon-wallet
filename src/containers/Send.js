@@ -70,14 +70,6 @@ class Send extends Component {
     }
   }
 
-  toggleCurrencySymbol() {
-    if (this.state.currency === 'ETH') {
-      return <CurrencySymbol>ETH</CurrencySymbol>;
-    } else if (this.state.currency === 'USD') {
-      return <CurrencySymbol>$</CurrencySymbol>;
-    }
-  }
-
   toggleCurrency(gasPriceInWei) {
     if (this.state.currency === 'ETH') {
       const usdValue = this.getTransactionFeeEstimateInUsd(gasPriceInWei);
@@ -280,7 +272,7 @@ class Send extends Component {
                 }
               }}
             >
-              {this.toggleCurrencySymbol()}
+              {PriceUtilities.toggleCurrencySymbol(this.state.currency)}
             </NetworkFeeSymbolContainer>
           </FormHeader>
           <UntouchableCardContainer
@@ -401,11 +393,6 @@ const NetworkFee = styled.View`
 const NetworkFeeInEther = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 12px;
-`;
-
-const CurrencySymbol = styled.Text`
-  font-family: 'HKGrotesk-Regular';
-  font-size: 20px;
 `;
 
 const SpeedContainer = styled.TouchableOpacity`
