@@ -1,8 +1,9 @@
 'use strict';
 import React, { Component } from 'react';
 import { RootContainer, Button, HeaderTwo, Description } from '../components/common';
-import { Linking } from 'react-native';
+import { Platform, Linking } from 'react-native';
 import styled from 'styled-components/native';
+import AndroidOpenSettings from 'react-native-android-open-settings'
 
 export default class NotificationPermissionNotGranted extends Component {
   render() {
@@ -32,7 +33,13 @@ export default class NotificationPermissionNotGranted extends Component {
               borderColor="#EEEEEE"
               margin="16px auto"
               opacity="1"
-              onPress={() => Linking.openURL('app-settings://notification/DeBank')}
+              onPress={() => {
+                if (Platform.OS === 'ios') {
+                  Linking.openURL('app-settings://notification/DeBank');
+                } else if (Platform.OS === 'android') {
+                  AndroidOpenSettings.appNotificationSettings();
+                }
+              }}
             />
           </NoPermissionContainer>
         </Container>
