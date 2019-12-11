@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { RootContainer, Loader, HeaderTwo, Description } from '../components/common';
-import { View, Image } from 'react-native';
+import { View, Image, ScrollView, RefreshControl } from 'react-native';
 import styled from 'styled-components/native';
 import { StackActions, NavigationActions } from 'react-navigation';
 import HomeStack from '../navigators/HomeStack';
@@ -15,12 +15,30 @@ class WalletCreation extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true,
+      refreshing: false,
       hasPrivateKeyInKeychain: false
     };
   }
 
+  handleRefresh = () => {
+    this.setState(
+      {
+        refreshing: true
+      },
+      async () => {
+        await this.createWallet();
+        this.setState({
+          refreshing: false
+        });
+      }
+    );
+  }
+
   async componentDidMount() {
+    await this.createWallet();
+  }
+
+  async createWallet() {
     await WalletUtilities.generateWallet(this.props.mnemonicWords);
     await this.savePrivateKey();
     const privateKeyInKeychain = await WalletUtilities.privateKeySaved();
@@ -76,14 +94,6 @@ class WalletCreation extends Component {
     );
   }
 
-  toggleLoadingState() {
-    const hasLoaded = this.hasPersistedState();
-
-    this.setState({
-      loading: !hasLoaded
-    });
-  }
-
   navigateToWalletList() {
     HomeStack.navigationOptions = ({ navigation }) => {
       const tabBarVisible = true;
@@ -97,14 +107,17 @@ class WalletCreation extends Component {
   }
 
   render() {
-    // this.toggleLoadingState();
     if (this.state.hasPrivateKeyInKeychain && this.hasPersistedState()) {
       this.navigateToWalletList();
       return <View />;
     }
 
     return (
-      <RootContainer>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={this.state.refreshing} onRefresh={this.handleRefresh} tintColor="#FDC800" />
+        }
+      >
         <Container>
           <HeaderTwo marginBottom="0" marginLeft="0" marginTop="40">
             Setting up your wallet...
@@ -112,10 +125,9 @@ class WalletCreation extends Component {
           <Description marginBottom="24" marginLeft="8" marginTop="16">
             this shouldn't take long
           </Description>
-          <Loader loading={this.state.loading} />
           <CreatingWalletImage source={require('../../assets/creating_wallet.png')} />
-      </Container>
-      </RootContainer>
+        </Container>
+      </ScrollView>
     );
   }
 }
