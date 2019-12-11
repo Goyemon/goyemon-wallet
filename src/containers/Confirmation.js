@@ -11,11 +11,7 @@ import {
 } from '../components/common/';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-import ethTx from 'ethereumjs-tx';
-import WalletUtilities from '../utilities/WalletUtilities.ts';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
-import firebase from 'react-native-firebase';
-import uuidv4 from 'uuid/v4';
 import Web3 from 'web3';
 
 class Confirmation extends Component {
