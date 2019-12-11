@@ -18,13 +18,13 @@ class WalletDetail extends Component {
   renderUsdBalance() {
     if (this.props.wallet.id === 0) {
       try {
-        return <CrypterestText>$ {PriceUtilities.convertEthToUsd(this.props.balance.ethBalance)}</CrypterestText>;
+        return <CrypterestText fontSize="20px">$ {PriceUtilities.convertEthToUsd(this.props.balance.ethBalance)}</CrypterestText>;
       } catch (err) {
         console.error(err);
       }
     } else if (this.props.wallet.id === 1) {
       try {
-        return <CrypterestText>$ {PriceUtilities.convertDaiToUsd(this.props.balance.daiBalance)}</CrypterestText>;
+        return <CrypterestText fontSize="20px">$ {PriceUtilities.convertDaiToUsd(this.props.balance.daiBalance)}</CrypterestText>;
       } catch (err) {
         console.error(err);
       }
@@ -33,17 +33,17 @@ class WalletDetail extends Component {
 
   renderBalance() {
     if (this.props.wallet.id === 0) {
-      return <CrypterestText>{this.props.balance.ethBalance} ETH</CrypterestText>;
+      return <CrypterestText fontSize="20px">{this.props.balance.ethBalance} ETH</CrypterestText>;
     } else if (this.props.wallet.id === 1) {
-      return <CrypterestText>{this.props.balance.daiBalance} DAI</CrypterestText>;
+      return <CrypterestText fontSize="20px">{this.props.balance.daiBalance} DAI</CrypterestText>;
     }
   }
 
   renderPrice() {
     if (this.props.wallet.id === 0) {
-      return <CrypterestText>{this.props.price.ethPrice}</CrypterestText>;
+      return <CrypterestText fontSize="16px">{this.props.price.ethPrice}</CrypterestText>;
     } else if (this.props.wallet.id === 1) {
-      return <CrypterestText>{this.props.price.daiPrice}</CrypterestText>;
+      return <CrypterestText fontSize="16px">{this.props.price.daiPrice}</CrypterestText>;
     }
   }
 

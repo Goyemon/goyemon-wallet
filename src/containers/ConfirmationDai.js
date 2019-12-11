@@ -43,9 +43,9 @@ class ConfirmationDai extends Component {
 
   toggleCurrency() {
     if (this.state.currency === 'ETH') {
-      return <CrypterestText>${this.props.transactionFeeEstimate.usd}</CrypterestText>;
+      return <NetworkFeeText fontSize="16px">${this.props.transactionFeeEstimate.usd}</NetworkFeeText>;
     } else if (this.state.currency === 'USD') {
-      return <CrypterestText>{this.props.transactionFeeEstimate.eth}ETH</CrypterestText>;
+      return <NetworkFeeText fontSize="16px">{this.props.transactionFeeEstimate.eth}ETH</NetworkFeeText>;
     }
   }
 
@@ -62,9 +62,9 @@ class ConfirmationDai extends Component {
         <HeaderOne marginTop="96">Confirmation</HeaderOne>
         <TotalContainer>
           <CoinImage source={require('../../assets/dai_icon.png')} />
-          <CrypterestText>You are about to send</CrypterestText>
+          <CrypterestText fontSize="16px">You are about to send</CrypterestText>
           <TotalValueText>{daiAmount} DAI</TotalValueText>
-          <CrypterestText>+ network fee</CrypterestText>
+          <CrypterestText fontSize="16px">+ network fee</CrypterestText>
         </TotalContainer>
         <UntouchableCardContainer
           alignItems="flex-start"
@@ -84,8 +84,10 @@ class ConfirmationDai extends Component {
             Amount
           </FormHeader>
           <AmountText>{daiAmount} DAI</AmountText>
-          <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
-            Network Fee
+          <NetworkFeeContainer>
+            <FormHeader marginBottom="0" marginLeft="8" marginTop="0">
+              Network Fee
+            </FormHeader>
             <TouchableWithoutFeedback
               onPress={() => {
                 if (this.state.currency === 'ETH') {
@@ -97,7 +99,7 @@ class ConfirmationDai extends Component {
             >
               {this.toggleCurrencySymbol()}
             </TouchableWithoutFeedback>
-          </FormHeader>
+          </NetworkFeeContainer>
           <NetworkFeeText>{this.toggleCurrency()}</NetworkFeeText>
         </UntouchableCardContainer>
         <ButtonContainer>
@@ -134,23 +136,35 @@ const CoinImage = styled.Image`
 `;
 
 const ToText = styled.Text`
-  font-family: 'HKGrotesk-Regular';
+  color: #5F5F5F;
+  font-family: 'HKGrotesk-Bold';
   margin-left: 8px;
 `;
 
 const AmountText = styled.Text`
-  font-family: 'HKGrotesk-Regular';
+  color: #5F5F5F;
+  font-family: 'HKGrotesk-Bold';
   margin-left: 8px;
 `;
 
+const NetworkFeeContainer = styled.View`
+  alignItems: center;
+  flexDirection: row;
+  justifyContent: center;
+  margin-top: 16px;
+  margin-bottom: 8px;
+`;
+
 const NetworkFeeText = styled.Text`
-  font-family: 'HKGrotesk-Regular';
+  color: #5F5F5F;
+  font-family: 'HKGrotesk-Bold';
   margin-left: 8px;
 `;
 
 const CurrencySymbol = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 20px;
+  margin-left: 8px;
 `;
 
 const TotalValueText = styled.Text`

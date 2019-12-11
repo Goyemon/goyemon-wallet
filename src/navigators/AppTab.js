@@ -28,11 +28,22 @@ const AppTab = createBottomTabNavigator(
   },
   {
     tabBarOptions: {
-      showLabel: true,
       activeTintColor: '#00A3E2',
+      style: {
+        height: 60,
+        marginTop: 8
+      },
+      labelStyle: {
+        fontSize: 12,
+        fontFamily: 'HKGrotesk-Bold',
+        marginBottom: 0
+      },
+      labelPosition: {
+
+      },
       tabStyle: {
-        height: 64,
-        marginTop: 0
+        marginTop: 8
+
       }
     }
   },

@@ -166,7 +166,7 @@ class Settings extends Component {
           </TouchableHighlight>
         </UntouchableCardContainer>
         <VersionText>
-          <CrypterestText>v0.0.1</CrypterestText>
+          <CrypterestText fontSize="16px">v0.0.1</CrypterestText>
         </VersionText>
       </RootContainer>
     );
@@ -192,7 +192,9 @@ const ModalBackground = styled.View`
 `;
 
 const MondalInner = styled.View`
-  width: 90%;
+  justifyContent: center;
+  flex: 1;
+  flexDirection: column;
 `;
 
 const CommunityIconContainer = styled.View`
@@ -211,8 +213,8 @@ const SettingsListContainer = styled.View`
   border-color: rgba(95, 95, 95, 0.3);
   borderTopWidth: 0.5;
   borderBottomWidth: 0.5;
-  margin-bottom: 8px;
   margin-top: 16px;
+  margin-bottom: 8px;
   width: 100%;
 `;
 

@@ -5,6 +5,7 @@ import { withNavigation } from 'react-navigation';
 import { RootContainer, QRCodeIcon, TouchableCardContainer, HeaderOne, HeaderThree } from '../components/common';
 import WalletDetail from '../containers/WalletDetail';
 import styled from 'styled-components';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import firebase from 'react-native-firebase';
 import FcmPermissions from '../firebase/FcmPermissions.js';
@@ -78,7 +79,7 @@ class WalletList extends Component {
 const CardContainerWithoutFeedback = styled.View`
   align-items: center;
   background: #fff;
-  height: 160px;
+  height: ${hp('20%')};
   margin-top: 24px;
   padding: 24px;
 `;
@@ -93,6 +94,7 @@ const BalanceText = styled.Text`
 `;
 
 const UsdBalance = styled.Text`
+  color: #000;
   font-family: 'HKGrotesk-Regular';
   font-size: 32px;
 `;

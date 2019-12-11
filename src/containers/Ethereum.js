@@ -6,6 +6,7 @@ import { View } from 'react-native';
 import Transactions from '../containers/Transactions';
 import { RootContainer, Button, HeaderOne, HeaderThree, QRCodeIcon } from '../components/common/';
 import styled from 'styled-components';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class Ethereum extends Component {
@@ -50,7 +51,7 @@ class Ethereum extends Component {
               textColor="white"
               backgroundColor="#1BA548"
               borderColor="#1BA548"
-              margin="8px"
+              margin="24px"
               opacity="1"
               onPress={async () => {
                 navigation.navigate('Send');
@@ -72,7 +73,7 @@ class Ethereum extends Component {
 const CardContainerWithoutFeedback = styled.View`
   align-items: center;
   background: #fff;
-  height: 240px;
+  height: ${hp('25%')};
   margin-top: 24px;
   padding: 24px;
 `;
@@ -81,26 +82,27 @@ const ButtonContainer = styled.View`
   alignItems: center;
   flexDirection: row;
   justifyContent: center;
-  margin-top: 16px;
 `;
 
 const BalanceText = styled.Text`
   color: #5F5F5F;
   font-family: 'HKGrotesk-Regular';
   font-size: 24px;
-  margin-bottom: 16px;
   text-transform: uppercase;
 `;
 
 const UsdBalance = styled.Text`
+  color: #000;
   font-family: 'HKGrotesk-Regular';
-  font-size: 32px;
-  margin-bottom: 8px;
+  font-size: 28px;
+  margin-top: 8px;
 `;
 
 const EthBalance = styled.Text`
+  color: #5F5F5F;
   font-family: 'HKGrotesk-Regular';
   font-size: 16px;
+  margin-top: 8px;
 `;
 
 const mapStateToProps = state => ({

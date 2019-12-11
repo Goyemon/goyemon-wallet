@@ -12,20 +12,20 @@ class TransactionDai extends Component {
   renderInOrOutTransactionIcon() {
     if (this.props.daiTransaction.ame_ropsten.to === null) {
       return (
-        <CrypterestText>
-          <Icon name="call-made" size={16} color="#F1860E" />
+        <CrypterestText fontSize="16px">
+          <Icon name="call-made" size={20} color="#F1860E" />
         </CrypterestText>
       );
     } else if (Web3.utils.toChecksumAddress(this.props.daiTransaction.ame_ropsten.to) === this.props.checksumAddress) {
       return (
-        <CrypterestText>
-          <Icon name="call-received" size={16} color="#1BA548" />
+        <CrypterestText fontSize="16px">
+          <Icon name="call-received" size={20} color="#1BA548" />
         </CrypterestText>
       );
     } else if (Web3.utils.toChecksumAddress(this.props.daiTransaction.ame_ropsten.from) === this.props.checksumAddress) {
       return (
-        <CrypterestText>
-          <Icon name="call-made" size={16} color="#F1860E" />
+        <CrypterestText fontSize="16px">
+          <Icon name="call-made" size={20} color="#F1860E" />
         </CrypterestText>
       );
     }
@@ -33,21 +33,21 @@ class TransactionDai extends Component {
 
   renderStatus() {
     if (this.props.daiTransaction.state === 'pending') {
-      return <CrypterestText>pending...</CrypterestText>;
+      return <CrypterestText fontSize="20px">pending...</CrypterestText>;
     } else if (this.props.daiTransaction.state === 'included') {
-      return <CrypterestText>included</CrypterestText>;
+      return <CrypterestText fontSize="20px">included</CrypterestText>;
     } else if (this.props.daiTransaction.state === 'confirmed') {
-      return <CrypterestText>confirmed</CrypterestText>;
+      return <CrypterestText fontSize="20px">confirmed</CrypterestText>;
     }
   }
 
   renderDirection() {
     if (this.props.daiTransaction.ame_ropsten.to === null) {
-      return <CrypterestText>Outgoing</CrypterestText>;
+      return <CrypterestText fontSize="16px">Outgoing</CrypterestText>;
     } else if (Web3.utils.toChecksumAddress(this.props.daiTransaction.ame_ropsten.to) === this.props.checksumAddress) {
-      return <CrypterestText>Incoming</CrypterestText>;
+      return <CrypterestText fontSize="16px">Incoming</CrypterestText>;
     } else if (Web3.utils.toChecksumAddress(this.props.daiTransaction.ame_ropsten.from) === this.props.checksumAddress) {
-      return <CrypterestText>Outgoing</CrypterestText>;
+      return <CrypterestText fontSize="16px">Outgoing</CrypterestText>;
     }
   }
 
@@ -68,11 +68,11 @@ class TransactionDai extends Component {
     }
 
     if (this.props.daiTransaction.ame_ropsten.to === null) {
-      return <CrypterestText>Contract Creation</CrypterestText>;;
+      return <CrypterestText fontSize="16px">Contract Creation</CrypterestText>;;
     } else if (Web3.utils.toChecksumAddress(this.props.daiTransaction.ame_ropsten.to) === this.props.checksumAddress) {
-      return <CrypterestText style={styles.valueStyleGreen}>{ameValue} AME</CrypterestText>;
+      return <CrypterestText fontSize="16px" style={styles.valueStyleGreen}>{ameValue} AME</CrypterestText>;
     } else if (Web3.utils.toChecksumAddress(this.props.daiTransaction.ame_ropsten.from) === this.props.checksumAddress) {
-      return <CrypterestText style={styles.valueStyleRed}>{ameValue} AME</CrypterestText>;
+      return <CrypterestText fontSize="16px" style={styles.valueStyleRed}>{ameValue} AME</CrypterestText>;
     }
   }
 
@@ -100,7 +100,7 @@ class TransactionDai extends Component {
           <StatusText>{this.renderStatus()}</StatusText>
           <ValueText>
             {this.renderPlusOrMinusTransactionIcon()}
-            <CrypterestText>{this.renderValue()}</CrypterestText>
+            <CrypterestText fontSize="16px">{this.renderValue()}</CrypterestText>
           </ValueText>
         </TransactionList>
       </UntouchableCardContainer>
@@ -118,9 +118,10 @@ const styles = {
 };
 
 const TransactionList = styled.View`
+  alignItems: center;
   flex: 1;
   flexDirection: row;
-  justifyContent: center;
+  justifyContent: space-around;
 `;
 
 const DirectionText = styled.Text`

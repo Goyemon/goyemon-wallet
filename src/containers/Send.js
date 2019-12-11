@@ -81,7 +81,7 @@ class Send extends Component {
   toggleCurrency(gasPriceInWei) {
     if (this.state.currency === 'ETH') {
       const usdValue = this.getTransactionFeeEstimateInUsd(gasPriceInWei);
-      return <CrypterestText>${usdValue}</CrypterestText>;
+      return <CrypterestText fontSize="16px">${usdValue}</CrypterestText>;
     } else if (this.state.currency === 'USD') {
       const ethValue = GasUtilities.getTransactionFeeEstimateInEther(gasPriceInWei, 21000);
       return <NetworkFeeInEther>{ethValue}ETH</NetworkFeeInEther>;
@@ -226,7 +226,7 @@ class Send extends Component {
             alignItems="center"
             borderRadius="8px"
             flexDirection="column"
-            height="200px"
+            height="160px"
             justifyContent="flex-start"
             marginTop="56px"
             textAlign="left"
@@ -234,8 +234,10 @@ class Send extends Component {
           >
             <CoinImage source={require('../../assets/ether_icon.png')} />
             <BalanceText>your eth balance</BalanceText>
-            <UsdBalance>${this.getUsdBalance()}</UsdBalance>
-            <EthBalance>{balance.ethBalance} ETH</EthBalance>
+            <BalanceContainer>
+              <EthBalance>{balance.ethBalance} ETH</EthBalance>
+              <UsdBalance>${this.getUsdBalance()}</UsdBalance>
+            </BalanceContainer>
           </UntouchableCardContainer>
           <FormHeader marginBottom="4" marginLeft="0" marginTop="0">
             To
@@ -266,12 +268,14 @@ class Send extends Component {
                   this.setState({ amount });
                 }}
               />
-              <CrypterestText>ETH</CrypterestText>
+              <CurrencySymbolText>ETH</CurrencySymbolText>
             </SendTextInputContainer>
           </Form>
           <View>{this.renderInsufficientBalanceMessage()}</View>
-          <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
-            Network Fee
+          <NetworkFeeHeaderContainer>
+            <FormHeader marginBottom="0" marginLeft="0" marginTop="0">
+              Network Fee
+            </FormHeader>
             <NetworkFeeSymbolContainer
               onPress={() => {
                 if (this.state.currency === 'ETH') {
@@ -283,7 +287,7 @@ class Send extends Component {
             >
               {this.toggleCurrencySymbol()}
             </NetworkFeeSymbolContainer>
-          </FormHeader>
+          </NetworkFeeHeaderContainer>
           <UntouchableCardContainer
             alignItems="center"
             borderRadius="0"
@@ -363,30 +367,48 @@ const SendTextInput = styled.TextInput`
 const CoinImage = styled.Image`
   border-radius: 20px;
   height: 40px;
+  margin-top: 16px;
   width: 40px;
 `;
 
 const BalanceText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
-  font-size: 24px;
+  font-size: 16px;
   margin-top: 16px;
   text-transform: uppercase;
 `;
 
+const BalanceContainer = styled.View`
+  alignItems: center;
+  flexDirection: row;
+  margin-top: 8px;
+`;
+
 const UsdBalance = styled.Text`
   font-family: 'HKGrotesk-Regular';
-  font-size: 32px;
-  margin-top: 8px;
+  font-size: 16px;
+  margin-left: 4px;
 `;
 
 const EthBalance = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 16px;
+  margin-right: 4px;
+`;
+
+const CurrencySymbolText = styled.Text`
+  font-family: 'HKGrotesk-Regular';
+`;
+
+const NetworkFeeHeaderContainer = styled.View`
+  alignItems: center;
+  flexDirection: row;
+  justifyContent: center;
+  margin-top: 24px;
 `;
 
 const NetworkFeeSymbolContainer = styled.TouchableWithoutFeedback`
-  margin-left: 8px;
 `;
 
 const NetworkFeeContainer = styled.View`
@@ -407,6 +429,7 @@ const NetworkFeeInEther = styled.Text`
 const CurrencySymbol = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 20px;
+  margin-left: 8px;
 `;
 
 const SpeedContainer = styled.TouchableOpacity`

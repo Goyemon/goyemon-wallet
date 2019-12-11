@@ -6,6 +6,7 @@ import { View } from 'react-native';
 import TransactionsDai from '../containers/TransactionsDai';
 import { RootContainer, Button, HeaderOne, HeaderThree, QRCodeIcon } from '../components/common/';
 import styled from 'styled-components';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class Dai extends Component {
@@ -50,7 +51,7 @@ class Dai extends Component {
               textColor="white"
               backgroundColor="#1BA548"
               borderColor="#1BA548"
-              margin="8px"
+              margin="24px"
               opacity="1"
               onPress={async () => {
                 navigation.navigate('SendDai');
@@ -72,7 +73,7 @@ class Dai extends Component {
 const CardContainerWithoutFeedback = styled.View`
   align-items: center;
   background: #fff;
-  height: 240px;
+  height: ${hp('25%')};
   margin-top: 24px;
   padding: 24px;
 `;
@@ -91,13 +92,17 @@ const BalanceText = styled.Text`
 `;
 
 const UsdBalance = styled.Text`
+  color: #000;
   font-family: 'HKGrotesk-Regular';
-  font-size: 32px;
+  font-size: 28px;
+  margin-top: 8px;
 `;
 
 const DaiBalance = styled.Text`
+  color: #5F5F5F;
   font-family: 'HKGrotesk-Regular';
   font-size: 16px;
+  margin-top: 8px;
 `;
 
 const mapStateToProps = state => ({

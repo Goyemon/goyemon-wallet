@@ -13,8 +13,8 @@ class Transaction extends Component {
     if (this.props.transaction.hasOwnProperty('ame_ropsten')) {
       if (this.props.transaction.ame_ropsten.to === null) {
         return (
-          <CrypterestText>
-            <Icon name="call-made" size={16} color="#F1860E" />
+          <CrypterestText fontSize="16px">
+            <Icon name="call-made" size={20} color="#F1860E" />
           </CrypterestText>
         );
       } else if (
@@ -22,8 +22,8 @@ class Transaction extends Component {
         this.props.checksumAddress
       ) {
         return (
-          <CrypterestText>
-            <Icon name="call-received" size={16} color="#1BA548" />
+          <CrypterestText fontSize="16px">
+            <Icon name="call-received" size={20} color="#1BA548" />
           </CrypterestText>
         );
       } else if (
@@ -31,32 +31,32 @@ class Transaction extends Component {
         this.props.checksumAddress
       ) {
         return (
-          <CrypterestText>
-            <Icon name="call-made" size={16} color="#F1860E" />
+          <CrypterestText fontSize="16px">
+            <Icon name="call-made" size={20} color="#F1860E" />
           </CrypterestText>
         );
       }
     }
     if (this.props.transaction.to === null) {
       return (
-        <CrypterestText>
-          <Icon name="call-made" size={16} color="#F1860E" />
+        <CrypterestText fontSize="16px">
+          <Icon name="call-made" size={20} color="#F1860E" />
         </CrypterestText>
       );
     } else if (
       Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress
     ) {
       return (
-        <CrypterestText>
-          <Icon name="call-received" size={16} color="#1BA548" />
+        <CrypterestText fontSize="16px">
+          <Icon name="call-received" size={20} color="#1BA548" />
         </CrypterestText>
       );
     } else if (
       Web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress
     ) {
       return (
-        <CrypterestText>
-          <Icon name="call-made" size={16} color="#F1860E" />
+        <CrypterestText fontSize="16px">
+          <Icon name="call-made" size={20} color="#F1860E" />
         </CrypterestText>
       );
     }
@@ -64,40 +64,40 @@ class Transaction extends Component {
 
   renderStatus() {
     if (this.props.transaction.state === 'pending') {
-      return <CrypterestText>pending...</CrypterestText>;
+      return <CrypterestText fontSize="20px">pending...</CrypterestText>;
     } else if (this.props.transaction.state === 'included') {
-      return <CrypterestText>included</CrypterestText>;
+      return <CrypterestText fontSize="20px">included</CrypterestText>;
     } else if (this.props.transaction.state === 'confirmed') {
-      return <CrypterestText>confirmed</CrypterestText>;
+      return <CrypterestText fontSize="20px">confirmed</CrypterestText>;
     }
   }
 
   renderDirection() {
     if (this.props.transaction.hasOwnProperty('ame_ropsten')) {
       if (this.props.transaction.ame_ropsten.to === null) {
-        return <CrypterestText>Outgoing</CrypterestText>;
+        return <CrypterestText fontSize="16px">Outgoing</CrypterestText>;
       } else if (
         Web3.utils.toChecksumAddress(this.props.transaction.ame_ropsten.to) ===
         this.props.checksumAddress
       ) {
-        return <CrypterestText>Incoming</CrypterestText>;
+        return <CrypterestText fontSize="16px">Incoming</CrypterestText>;
       } else if (
         Web3.utils.toChecksumAddress(this.props.transaction.ame_ropsten.from) ===
         this.props.checksumAddress
       ) {
-        return <CrypterestText>Outgoing</CrypterestText>;
+        return <CrypterestText fontSize="16px">Outgoing</CrypterestText>;
       }
     }
     if (this.props.transaction.to === null) {
-      return <CrypterestText>Outgoing</CrypterestText>;
+      return <CrypterestText fontSize="16px">Outgoing</CrypterestText>;
     } else if (
       Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress
     ) {
-      return <CrypterestText>Incoming</CrypterestText>;
+      return <CrypterestText fontSize="16px">Incoming</CrypterestText>;
     } else if (
       Web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress
     ) {
-      return <CrypterestText>Outgoing</CrypterestText>;
+      return <CrypterestText fontSize="16px">Outgoing</CrypterestText>;
     }
   }
 
@@ -137,30 +137,30 @@ class Transaction extends Component {
         ameValue = 0;
       }
       if (this.props.transaction.ame_ropsten.to === null) {
-        return <CrypterestText>Contract Creation</CrypterestText>;
+        return <CrypterestText fontSize="16px">Contract Creation</CrypterestText>;
       } else if (
         Web3.utils.toChecksumAddress(this.props.transaction.ame_ropsten.to) ===
         this.props.checksumAddress
       ) {
-        return <CrypterestText style={styles.valueStyleGreen}>{ameValue} AME</CrypterestText>;
+        return <CrypterestText fontSize="16px" style={styles.valueStyleGreen}>{ameValue} AME</CrypterestText>;
       } else if (
         Web3.utils.toChecksumAddress(this.props.transaction.ame_ropsten.from) ===
         this.props.checksumAddress
       ) {
-        return <CrypterestText style={styles.valueStyleRed}>{ameValue} AME</CrypterestText>;
+        return <CrypterestText fontSize="16px" style={styles.valueStyleRed}>{ameValue} AME</CrypterestText>;
       }
     }
     const roundedEthValue = parseFloat(this.props.transaction.value).toFixed(4);
     if (this.props.transaction.to === null) {
-      return <CrypterestText>Contract Creation</CrypterestText>;
+      return <CrypterestText fontSize="16px">Contract Creation</CrypterestText>;
     } else if (
       Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress
     ) {
-      return <CrypterestText style={styles.valueStyleGreen}>{roundedEthValue} ETH</CrypterestText>;
+      return <CrypterestText fontSize="16px" style={styles.valueStyleGreen}>{roundedEthValue} ETH</CrypterestText>;
     } else if (
       Web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress
     ) {
-      return <CrypterestText style={styles.valueStyleRed}>{roundedEthValue} ETH</CrypterestText>;
+      return <CrypterestText fontSize="16px" style={styles.valueStyleRed}>{roundedEthValue} ETH</CrypterestText>;
     }
   }
 
@@ -188,7 +188,7 @@ class Transaction extends Component {
           <StatusText>{this.renderStatus()}</StatusText>
           <ValueText>
             {this.renderPlusOrMinusTransactionIcon()}
-            <CrypterestText>{this.renderValue()}</CrypterestText>
+            <CrypterestText fontSize="16px">{this.renderValue()}</CrypterestText>
           </ValueText>
         </TransactionList>
       </UntouchableCardContainer>
@@ -206,9 +206,10 @@ const styles = {
 };
 
 const TransactionList = styled.View`
+  alignItems: center;
   flex: 1;
   flexDirection: row;
-  justifyContent: center;
+  justifyContent: space-around;
 `;
 
 const DirectionText = styled.Text`
