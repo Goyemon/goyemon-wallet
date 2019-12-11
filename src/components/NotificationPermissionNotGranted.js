@@ -1,7 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
 import { RootContainer, Button, HeaderTwo, Description } from '../components/common';
-import { Platform, Linking } from 'react-native';
+import { Platform, Linking, Text } from 'react-native';
 import styled from 'styled-components/native';
 import AndroidOpenSettings from 'react-native-android-open-settings'
 
@@ -41,6 +41,7 @@ export default class NotificationPermissionNotGranted extends Component {
                 }
               }}
             />
+            <Text>*relaunch your app once you enable them</Text>
           </NoPermissionContainer>
         </Container>
       </RootContainer>
