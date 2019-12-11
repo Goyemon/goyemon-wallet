@@ -13,8 +13,9 @@ firebase.messaging().onMessage(downstreamMessage => {
   let stateTree = store.getState();
   let transactionsHistory = stateTree.ReducerTransactionHistory.transactions;
   if (downstreamMessage.data.type === 'balance') {
-    const balanceInWei = downstreamMessage.data.balance;
-    const balanceInEther = Web3.utils.fromWei(balanceInWei);
+    const balanceArray = JSON.parse(downstreamMessage.data.balance);
+    const ethBalanceInWei = parseInt(balanceArray[0].balance, 16);
+    const balanceInEther = Web3.utils.fromWei(ethBalanceInWei.toString());
     const roundedBalanceInEther = parseFloat(balanceInEther).toFixed(4);
     store.dispatch(saveEthBalance(roundedBalanceInEther));
   } else if (downstreamMessage.data.type === 'daiBalance') {
