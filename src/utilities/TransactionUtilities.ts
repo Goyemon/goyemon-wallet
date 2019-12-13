@@ -2,6 +2,7 @@
 import FirebaseRegister from '../firebase/FirebaseRegister.ts';
 import { store } from '../store/store.js';
 import { addSentTransaction } from '../actions/ActionTransactionHistory';
+import daiToken from '../contracts/DaiToken';
 import WalletUtilities from './WalletUtilities.ts';
 import Web3 from 'web3';
 import ethTx from 'ethereumjs-tx';
@@ -41,6 +42,45 @@ class TransactionUtilities {
     });
 
     return parsedTransactions;
+  }
+
+  parseSentEthTransaction(transactionObject) {
+    const stateTree = store.getState();
+    const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
+    const parsedTransaction = {
+      hash: uuidv4(),
+      from: checksumAddress,
+      to: transactionObject.to,
+      gasLimit: transactionObject.gasLimit,
+      gasPrice: transactionObject.gasPrice,
+      value: this.parseEthValue(transactionObject.value),
+      time: Math.floor(Date.now() / 1000),
+      nonce: transactionObject.nonce,
+      state: 'sent'
+    };
+    return parsedTransaction;
+  }
+
+  async parseSentDaiTransaction(transactionObject) {
+    const stateTree = store.getState();
+    const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
+    const parsedTransaction = {
+      hash: uuidv4(),
+      from: checksumAddress,
+      to: daiToken.daiTokenAddress,
+      gasLimit: transactionObject.gasLimit,
+      gasPrice: transactionObject.gasPrice,
+      value: '0x',
+      time: Math.floor(Date.now() / 1000),
+      nonce: transactionObject.nonce,
+      state: 'sent',
+      ame_ropsten: {
+        from: checksumAddress,
+        to: (await this.decodeTransactionData(transactionObject.data)).to,
+        value: (await this.decodeTransactionData(transactionObject.data)).value
+      }
+    };
+    return parsedTransaction;
   }
 
   parsePendingTransaction(transactionObject) {
@@ -122,6 +162,21 @@ class TransactionUtilities {
       return '1 day ago';
     }
     return `${time.getDate().toString()} ${months[time.getMonth()]}, ` + `\n${time.getFullYear()}`;
+  }
+
+  async decodeTransactionData(transactionData) {
+    const infuraId = '884958b4538343aaa814e3a32718ce91';
+    const web3 = new Web3(
+      new Web3.providers.HttpProvider(`https://ropsten.infura.io/v3/${this.infuraId}`)
+    );
+
+    const decodedAbi = await web3.eth.abi.decodeParameters(
+      ['address', 'uint256'],
+      transactionData.substring(10, transactionData.length)
+    );
+    const to = decodedAbi[0];
+    const value = decodedAbi[1].toString(16);
+    return { to, value };
   }
 
   getBiggestNonce() {
