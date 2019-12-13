@@ -20,7 +20,8 @@ firebase.messaging().onMessage(downstreamMessage => {
       store.dispatch(saveEthBalance(roundedBalanceInEther));
     }
     if (downstreamMessage.data.hasOwnProperty('ame_ropsten')) {
-      const daiBalance = parseInt(downstreamMessage.data.ame_ropsten, 16) / 10 ** 18;
+      let daiBalance = parseInt(downstreamMessage.data.ame_ropsten, 16) / 10 ** 18;
+      daiBalance = daiBalance.toFixed(2);
       store.dispatch(saveDaiBalance(daiBalance));
     }
   } else if (downstreamMessage.data.type === 'txhistory' && downstreamMessage.data.count != '0') {
