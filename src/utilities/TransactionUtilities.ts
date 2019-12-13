@@ -85,20 +85,7 @@ class TransactionUtilities {
 
   parsePendingTransaction(transactionObject) {
     let parsedTransaction;
-    if (transactionObject.hasOwnProperty('ame_ropsten')) {
-      parsedTransaction = {
-        hash: transactionObject.txhash,
-        from: transactionObject.txfrom,
-        to: transactionObject.txto,
-        gasLimit: transactionObject.gas,
-        gasPrice: transactionObject.gasPrice,
-        value: this.parseEthValue(transactionObject.value),
-        time: transactionObject.timestamp,
-        nonce: transactionObject.nonce,
-        state: transactionObject.state,
-        ame_ropsten: JSON.parse(transactionObject.ame_ropsten)
-      };
-    } else if (!transactionObject.hasOwnProperty('ame_ropsten')) {
+    if (!transactionObject.hasOwnProperty('ame_ropsten')) {
       parsedTransaction = {
         hash: transactionObject.txhash,
         from: transactionObject.txfrom,
@@ -109,6 +96,23 @@ class TransactionUtilities {
         time: transactionObject.timestamp,
         nonce: transactionObject.nonce,
         state: transactionObject.state
+      };
+    } else if (transactionObject.hasOwnProperty('ame_ropsten')) {
+      parsedTransaction = {
+        hash: transactionObject.txhash,
+        from: transactionObject.txfrom,
+        to: transactionObject.txto,
+        gasLimit: transactionObject.gas,
+        gasPrice: transactionObject.gasPrice,
+        value: this.parseEthValue(transactionObject.value),
+        time: transactionObject.timestamp,
+        nonce: transactionObject.nonce,
+        state: transactionObject.state,
+        ame_ropsten: {
+          from: (JSON.parse(transactionObject.ame_ropsten)).from,
+          to: (JSON.parse(transactionObject.ame_ropsten)).to,
+          value: parseInt((JSON.parse(transactionObject.ame_ropsten)).value, 16)
+        }
       };
     }
     return parsedTransaction;
