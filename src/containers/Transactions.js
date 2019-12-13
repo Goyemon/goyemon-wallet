@@ -8,6 +8,7 @@ import styled from 'styled-components/native';
 class Transactions extends Component {
   renderTransactions() {
     const { transactions } = this.props;
+
     if (transactions === null || transactions.length === 0) {
       return (
         <EmptyTransactionContainer>
