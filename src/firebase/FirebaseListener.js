@@ -28,31 +28,17 @@ firebase.messaging().onMessage(downstreamMessage => {
     store.dispatch(saveExistingTransactions(transactions));
   } else if (downstreamMessage.data.type === 'txhistory' && downstreamMessage.data.count === '0') {
     store.dispatch(saveEmptyTransaction(downstreamMessage.data.items));
-  } else if (
-    downstreamMessage.data.type === 'txstate' &&
-    downstreamMessage.data.state === 'pending'
-  ) {
-    store.dispatch(addPendingTransaction(downstreamMessage.data));
-  } else if (
-    downstreamMessage.data.type === 'txstate' &&
-    downstreamMessage.data.state === 'included'
-  ) {
+  } else if (downstreamMessage.data.type === 'txstate') {
     if (Array.isArray(transactionsHistory)) {
       transactionsHistory.map(transaction => {
-        if (transaction.hash === downstreamMessage.data.txhash) {
-          store.dispatch(updateTransactionState(downstreamMessage.data));
-        }
-      });
-    } else if (transactionsHistory === null) {
-      console.log('transactions are null');
-    }
-  } else if (
-    downstreamMessage.data.type === 'txstate' &&
-    downstreamMessage.data.state === 'confirmed'
-  ) {
-    if (Array.isArray(transactionsHistory)) {
-      transactionsHistory.map(transaction => {
-        if (transaction.hash === downstreamMessage.data.txhash) {
+        if (
+          transaction.nonce === downstreamMessage.data.nonce &&
+          downstreamMessage.data.state === 'pending'
+        ) {
+          store.dispatch(addPendingTransaction(downstreamMessage.data));
+        } else if (
+          (transaction.hash === downstreamMessage.data.txhash && downstreamMessage.data.state === 'included') || (transaction.hash === downstreamMessage.data.txhash && downstreamMessage.data.state === 'confirmed')
+        ) {
           store.dispatch(updateTransactionState(downstreamMessage.data));
         }
       });
