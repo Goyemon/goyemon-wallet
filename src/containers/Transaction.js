@@ -63,7 +63,9 @@ class Transaction extends Component {
   }
 
   renderStatus() {
-    if (this.props.transaction.state === 'pending') {
+    if (this.props.transaction.state === 'sent') {
+      return <CrypterestText fontSize="20px">sent...</CrypterestText>;
+    } else if (this.props.transaction.state === 'pending') {
       return <CrypterestText fontSize="20px">pending...</CrypterestText>;
     } else if (this.props.transaction.state === 'included') {
       return <CrypterestText fontSize="20px">included</CrypterestText>;
@@ -132,8 +134,10 @@ class Transaction extends Component {
 
   renderValue() {
     if (this.props.transaction.hasOwnProperty('ame_ropsten')) {
-      let ameValue = TransactionUtilities.parseDaiValue(this.props.transaction.ame_ropsten.value);
-      if(!this.props.transaction.ame_ropsten.value) {
+      let ameValue;
+      if(this.props.transaction.state === 'sent') {
+        ameValue = this.props.transaction.ame_ropsten.value / 10 ** 18;
+      } else if(!this.props.transaction.ame_ropsten.value) {
         ameValue = 0;
       }
       if (this.props.transaction.ame_ropsten.to === null) {

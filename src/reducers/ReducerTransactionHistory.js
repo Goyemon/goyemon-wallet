@@ -1,6 +1,7 @@
 'use strict';
 import { SAVE_EMPTY_TRANSACTION } from '../constants/ActionTypes';
 import { SAVE_EXISTING_TRANSACTIONS } from '../constants/ActionTypes';
+import { ADD_SENT_TRANSACTION } from '../constants/ActionTypes';
 import { ADD_PENDING_TRANSACTION } from '../constants/ActionTypes';
 import { UPDATE_TRANSACTION_STATE } from '../constants/ActionTypes';
 
@@ -25,8 +26,8 @@ const transactions = (state = INITIAL_STATE, action) => {
         return {
           transactions: sortedTransactions
         };
-      }
-    case ADD_PENDING_TRANSACTION:
+    }
+    case ADD_SENT_TRANSACTION:
       return {
         transactions: [action.payload, ...state.transactions]
       };

@@ -1,6 +1,7 @@
 'use strict';
 import FirebaseRegister from '../firebase/FirebaseRegister.ts';
 import { store } from '../store/store.js';
+import { addSentTransaction } from '../actions/ActionTransactionHistory';
 import WalletUtilities from './WalletUtilities.ts';
 import Web3 from 'web3';
 import ethTx from 'ethereumjs-tx';
@@ -157,7 +158,9 @@ class TransactionUtilities {
   async sendOutgoingTransactionToServer(outgoingTransactionObject) {
     const messageId = uuidv4();
     const serverAddress = '255097673919@gcm.googleapis.com';
-    const signedTransaction = await this.constructSignedOutgoingTransactionObject(outgoingTransactionObject);
+    const signedTransaction = await this.constructSignedOutgoingTransactionObject(
+      outgoingTransactionObject
+    );
 
     const upstreamMessage = new firebase.messaging.RemoteMessage()
       .setMessageId(messageId)
@@ -166,9 +169,9 @@ class TransactionUtilities {
         signedTransaction
       });
     firebase.messaging().sendMessage(upstreamMessage);
+
+    store.dispatch(addSentTransaction(outgoingTransactionObject));
   }
-
-
 }
 
 export default new TransactionUtilities();

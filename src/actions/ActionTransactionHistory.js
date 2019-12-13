@@ -1,6 +1,7 @@
 'use strict';
-import { SAVE_EMPTY_TRANSACTION, SAVE_EXISTING_TRANSACTIONS, ADD_PENDING_TRANSACTION, UPDATE_TRANSACTION_STATE } from '../constants/ActionTypes';
+import { SAVE_EMPTY_TRANSACTION, SAVE_EXISTING_TRANSACTIONS, ADD_SENT_TRANSACTION, ADD_PENDING_TRANSACTION, UPDATE_TRANSACTION_STATE } from '../constants/ActionTypes';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
+import daiToken from '../contracts/DaiToken';
 
 export function saveEmptyTransaction(emptyTransaction) {
   return function (dispatch) {
@@ -32,6 +33,27 @@ export function saveExistingTransactions(transactions) {
 const saveExistingTransactionsSuccess = (parsedExistingTransactions) => ({
   type: SAVE_EXISTING_TRANSACTIONS,
   payload: parsedExistingTransactions
+})
+
+export function addSentTransaction(transactionObject) {
+  return async function (dispatch) {
+    let parsedSentTransaction;
+    try {
+      if(transactionObject.to != daiToken.daiTokenAddress) {
+        parsedSentTransaction = TransactionUtilities.parseSentEthTransaction(transactionObject);
+      } else if (transactionObject.to === daiToken.daiTokenAddress) {
+        parsedSentTransaction = await TransactionUtilities.parseSentDaiTransaction(transactionObject);
+      }
+      dispatch(addSentTransactionSuccess(parsedSentTransaction));
+    } catch(err) {
+      console.error(err);
+    }
+  }
+};
+
+const addSentTransactionSuccess = (parsedSentTransaction) => ({
+  type: ADD_SENT_TRANSACTION,
+  payload: parsedSentTransaction
 })
 
 export function addPendingTransaction(transactionObject) {
