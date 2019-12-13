@@ -31,6 +31,15 @@ const transactions = (state = INITIAL_STATE, action) => {
       return {
         transactions: [action.payload, ...state.transactions]
       };
+    case ADD_PENDING_TRANSACTION:
+      return {
+        transactions: state.transactions.map((transaction, index) => {
+          if (action.payload.nonce === transaction.nonce) {
+            return { ...transaction, ...action.payload };
+          }
+          return transaction;
+        })
+      };
     case UPDATE_TRANSACTION_STATE:
       return {
         transactions: state.transactions.map((transaction, index) => {
