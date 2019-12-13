@@ -24,7 +24,11 @@ class TransactionUtilities {
           time: transaction.time,
           nonce: parseInt(transaction.nonce),
           state: 'confirmed',
-          ame_ropsten: transaction.ame_ropsten
+          ame_ropsten: {
+            from: transaction.from,
+            to: transaction.ame_ropsten.to,
+            value: parseInt(transaction.ame_ropsten.value, 16)
+          }
         };
       } else if (!transaction.hasOwnProperty('ame_ropsten')) {
         return {
