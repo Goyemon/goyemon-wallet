@@ -1,7 +1,7 @@
 'use strict';
 import firebase from 'react-native-firebase';
 import { store } from '../store/store';
-import { saveEthBalance } from '../actions/ActionBalance';
+import { saveEthBalance, saveDaiBalance } from '../actions/ActionBalance';
 import {
   saveEmptyTransaction,
   saveExistingTransactions
@@ -10,16 +10,19 @@ import { addPendingTransaction, updateTransactionState } from '../actions/Action
 import Web3 from 'web3';
 
 firebase.messaging().onMessage(downstreamMessage => {
-  let stateTree = store.getState();
-  let transactionsHistory = stateTree.ReducerTransactionHistory.transactions;
+  const stateTree = store.getState();
+  const transactionsHistory = stateTree.ReducerTransactionHistory.transactions;
   if (downstreamMessage.data.type === 'balance') {
-    const balanceArray = JSON.parse(downstreamMessage.data.balance);
-    const ethBalanceInWei = parseInt(balanceArray[0].balance, 16);
-    const balanceInEther = Web3.utils.fromWei(ethBalanceInWei.toString());
-    const roundedBalanceInEther = parseFloat(balanceInEther).toFixed(4);
-    store.dispatch(saveEthBalance(roundedBalanceInEther));
-  } else if (downstreamMessage.data.type === 'daiBalance') {
-    store.dispatch(saveDaiBalance(downstreamMessage.data.daiBalance));
+    if (downstreamMessage.data.hasOwnProperty('eth')) {
+      const ethBalanceInWei = parseInt(downstreamMessage.data.eth, 16);
+      const balanceInEther = Web3.utils.fromWei(ethBalanceInWei.toString());
+      const roundedBalanceInEther = parseFloat(balanceInEther).toFixed(4);
+      store.dispatch(saveEthBalance(roundedBalanceInEther));
+    }
+    if (downstreamMessage.data.hasOwnProperty('ame_ropsten')) {
+      const daiBalance = parseInt(downstreamMessage.data.ame_ropsten, 16) / 10 ** 18;
+      store.dispatch(saveDaiBalance(daiBalance));
+    }
   } else if (downstreamMessage.data.type === 'txhistory' && downstreamMessage.data.count != '0') {
     const transactions = JSON.parse(downstreamMessage.data.items);
     store.dispatch(saveExistingTransactions(transactions));
