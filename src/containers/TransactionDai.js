@@ -32,9 +32,9 @@ class TransactionDai extends Component {
   }
 
   renderStatus() {
-    if (this.props.daiTransaction.state === 'pending') {
     if (this.props.daiTransaction.state === 'sent') {
       return <CrypterestText fontSize="20px">sent...</CrypterestText>;
+    } else if (this.props.daiTransaction.state === 'pending') {
       return <CrypterestText fontSize="20px">pending...</CrypterestText>;
     } else if (this.props.daiTransaction.state === 'included') {
       return <CrypterestText fontSize="20px">included</CrypterestText>;
@@ -66,6 +66,8 @@ class TransactionDai extends Component {
   renderValue() {
     let ameValue;
     if(this.props.daiTransaction.state === 'sent') {
+      ameValue = this.props.daiTransaction.ame_ropsten.value / 10 ** 18;
+    } else if (this.props.daiTransaction.state === 'pending' || this.props.daiTransaction.state === 'included' || this.props.daiTransaction.state === 'confirmed') {
       ameValue = this.props.daiTransaction.ame_ropsten.value / 10 ** 18;
     } else if(!this.props.daiTransaction.ame_ropsten.value) {
       ameValue = 0;

@@ -137,6 +137,8 @@ class Transaction extends Component {
       let ameValue;
       if(this.props.transaction.state === 'sent') {
         ameValue = this.props.transaction.ame_ropsten.value / 10 ** 18;
+      } else if (this.props.transaction.state === 'pending' || this.props.transaction.state === 'included' || this.props.transaction.state === 'confirmed') {
+        ameValue = this.props.transaction.ame_ropsten.value / 10 ** 18;
       } else if(!this.props.transaction.ame_ropsten.value) {
         ameValue = 0;
       }
