@@ -165,9 +165,11 @@ class Settings extends Component {
             <ResetWalletText>Reset Wallet</ResetWalletText>
           </TouchableHighlight>
         </UntouchableCardContainer>
-        <VersionText>
-          <CrypterestText fontSize="16px">v0.0.1</CrypterestText>
-        </VersionText>
+        <BottomText>
+          <VersionText>v0.0.1</VersionText>
+          <Icon name="heart-outline" color="#5f5f5f" size={24} />
+          <LoveText>Made with love by Swarm</LoveText>
+        </BottomText>
       </RootContainer>
     );
   }
@@ -252,10 +254,22 @@ const ButtonContainer = styled.View`
   margin-top: 16px;
 `;
 
-const VersionText = styled.View`
-  flexDirection: row;
+const BottomText = styled.View`
+  alignItems: center;
+  flexDirection: column;
   justifyContent: center;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
+`;
+
+const VersionText = styled.Text`
+  color: #5f5f5f;
+  font-family: 'HKGrotesk-Regular';
+  margin-bottom: 40px;
+`;
+
+const LoveText = styled.Text`
+  color: #5f5f5f;
+  font-family: 'HKGrotesk-Regular';
 `;
 
 const mapDispatchToProps = {
