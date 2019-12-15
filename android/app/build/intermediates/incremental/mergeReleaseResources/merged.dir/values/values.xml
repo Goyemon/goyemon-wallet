@@ -315,7 +315,7 @@
     <string name="catalyst_sample_profiler_enable" project="catalyst" translatable="false">Enable Sampling Profiler</string>
     <string name="catalyst_settings" project="catalyst" translatable="false">Settings</string>
     <string name="catalyst_settings_title" project="catalyst" translatable="false">Debug Settings</string>
-    <string name="com.crashlytics.android.build_id" ns2:ignore="UnusedResources,TypographyDashes" translatable="false">41281640-91fc-4f74-b849-b64f88ad63de</string>
+    <string name="com.crashlytics.android.build_id" ns2:ignore="UnusedResources,TypographyDashes" translatable="false">afa0df48-45b4-4c18-8a9b-a2fe73dd6642</string>
     <string name="combobox_description" translatable="false">Combo Box</string>
     <string msgid="2523291102206661146" name="common_google_play_services_enable_button">Enable</string>
     <string msgid="227660514972886228" name="common_google_play_services_enable_text"><ns1:g id="app_name">%1$s</ns1:g> won\'t work unless you enable Google Play services.</string>

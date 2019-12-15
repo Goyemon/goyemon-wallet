@@ -1,4 +1,0 @@
-# Referenced at /Users/tai/Dropbox/Codes/DeBank/android/app/build/intermediates/merged_manifests/debug/AndroidManifest.xml:52
--keep class androidx.core.app.CoreComponentFactory { <init>(); }
-# Referenced at /Users/tai/Dropbox/Codes/DeBank/android/app/build/intermediates/merged_manifests/debug/AndroidManifest.xml:52
--keep class com.swarm.crypterest.MainApplication { <init>(); }

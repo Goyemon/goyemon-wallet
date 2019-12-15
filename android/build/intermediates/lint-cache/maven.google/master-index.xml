@@ -137,4 +137,5 @@
   <com.google.androidbrowserhelper/>
   <org.jetbrains.kotlin/>
   <com.google.prefab/>
+  <com.android.billingclient/>
 </metadata>
