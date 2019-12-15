@@ -1,7 +1,6 @@
 'use strict';
 import Web3 from 'web3';
 
-
 class GasUtilities {
   getTransactionFeeEstimateInEther(gasPriceInWei, gasLimit) {
     const transactionFeeEstimateInWei = parseFloat(gasPriceInWei) * gasLimit;

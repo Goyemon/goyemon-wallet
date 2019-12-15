@@ -23,7 +23,7 @@ class ConfirmationDai extends Component {
   }
 
   async sendSignedTx() {
-    let outgoingTransactionObject = this.props.outgoingTransactionObjects[
+    const outgoingTransactionObject = this.props.outgoingTransactionObjects[
       this.props.outgoingTransactionObjects.length - 1
     ];
     await TransactionUtilities.sendOutgoingTransactionToServer(outgoingTransactionObject);
@@ -39,9 +39,13 @@ class ConfirmationDai extends Component {
 
   toggleCurrency() {
     if (this.state.currency === 'ETH') {
-      return <NetworkFeeText fontSize="16px">${this.props.transactionFeeEstimate.usd}</NetworkFeeText>;
+      return (
+        <NetworkFeeText fontSize="16px">${this.props.transactionFeeEstimate.usd}</NetworkFeeText>
+      );
     } else if (this.state.currency === 'USD') {
-      return <NetworkFeeText fontSize="16px">{this.props.transactionFeeEstimate.eth}ETH</NetworkFeeText>;
+      return (
+        <NetworkFeeText fontSize="16px">{this.props.transactionFeeEstimate.eth}ETH</NetworkFeeText>
+      );
     }
   }
 
@@ -132,13 +136,13 @@ const CoinImage = styled.Image`
 `;
 
 const ToText = styled.Text`
-  color: #5F5F5F;
+  color: #5f5f5f;
   font-family: 'HKGrotesk-Bold';
   margin-left: 8px;
 `;
 
 const AmountText = styled.Text`
-  color: #5F5F5F;
+  color: #5f5f5f;
   font-family: 'HKGrotesk-Bold';
   margin-left: 8px;
 `;
@@ -152,7 +156,7 @@ const NetworkFeeContainer = styled.View`
 `;
 
 const NetworkFeeText = styled.Text`
-  color: #5F5F5F;
+  color: #5f5f5f;
   font-family: 'HKGrotesk-Bold';
   margin-left: 8px;
 `;

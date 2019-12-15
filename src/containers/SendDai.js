@@ -112,14 +112,16 @@ class SendDai extends Component {
     const amountWithDecimals = parseFloat(amount) * 10 ** 18;
     const amountWithHex = Web3.utils.toHex(amountWithDecimals);
 
-    const transferEncodedABI = daiTokenContract.methods.transfer(address, amountWithHex).encodeABI();
+    const transferEncodedABI = daiTokenContract.methods
+      .transfer(address, amountWithHex)
+      .encodeABI();
     return transferEncodedABI;
   }
 
   async constructTransactionObject() {
     const theBiggestNonce = parseInt(TransactionUtilities.getBiggestNonce());
     let transactionNonce;
-    if(theBiggestNonce === 0) {
+    if (theBiggestNonce === 0) {
       transactionNonce = 0;
     } else {
       transactionNonce = theBiggestNonce + 1;
@@ -304,7 +306,7 @@ class SendDai extends Component {
             To
           </FormHeader>
           <Form borderColor={this.getToAddressBorderColor()} borderWidth={1} height="56px">
-          <SendTextInputContainer>
+            <SendTextInputContainer>
               <SendTextInput
                 placeholder="address"
                 clearButtonMode="while-editing"
@@ -470,8 +472,7 @@ const NetworkFeeHeaderContainer = styled.View`
   margin-top: 24px;
 `;
 
-const NetworkFeeSymbolContainer = styled.TouchableWithoutFeedback`
-`;
+const NetworkFeeSymbolContainer = styled.TouchableWithoutFeedback``;
 
 const NetworkFeeContainer = styled.View`
   alignItems: center;
@@ -502,7 +503,7 @@ const SpeedContainer = styled.TouchableOpacity`
 `;
 
 const SelectedButton = styled.Text`
-  color: #1BA548;
+  color: #1ba548;
   font-family: 'HKGrotesk-Regular';
 `;
 
@@ -516,7 +517,7 @@ const ButtonWrapper = styled.View`
 `;
 
 const ErrorMessage = styled.Text`
-  color: #E41B13;
+  color: #e41b13;
   font-family: 'HKGrotesk-Regular';
 `;
 

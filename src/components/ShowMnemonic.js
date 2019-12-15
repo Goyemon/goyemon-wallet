@@ -9,13 +9,19 @@ export default class ShowMnemonic extends Component {
   render() {
     return (
       <RootContainer>
-        <ProgressBar oneColor="#FDC800" twoColor="#eeeeee" threeColor="#eeeeee" marginRight="40%" width="0%" />
+        <ProgressBar
+          oneColor="#FDC800"
+          twoColor="#eeeeee"
+          threeColor="#eeeeee"
+          marginRight="40%"
+          width="0%"
+        />
         <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
           Save Backup Words
         </HeaderTwo>
         <Container>
           <Description marginBottom="8" marginLeft="8" marginTop="16">
-          The order of words matters. We will confirm these words on the next screen.
+            The order of words matters. We will confirm these words on the next screen.
           </Description>
           <ShowMnemonicWords />
           <Button

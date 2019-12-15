@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { RootContainer, Button, HeaderTwo, Description } from '../components/common';
 import { Platform, Linking, Text } from 'react-native';
 import styled from 'styled-components/native';
-import AndroidOpenSettings from 'react-native-android-open-settings'
+import AndroidOpenSettings from 'react-native-android-open-settings';
 
 export default class NotificationPermissionNotGranted extends Component {
   render() {

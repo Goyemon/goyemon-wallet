@@ -42,24 +42,23 @@ class ImportTwentyFourMnemonicWords extends Component {
   }
 
   async validateForm() {
-    const mnemonicWords = this.state.mnemonicWords.join(" ");
+    const mnemonicWords = this.state.mnemonicWords.join(' ');
     if (WalletUtilities.validateMnemonic(mnemonicWords)) {
-      this.setState({mnemonicWordsValidation: true});
+      this.setState({ mnemonicWordsValidation: true });
       await WalletUtilities.setMnemonic(mnemonicWords);
       await this.props.saveMnemonic();
       this.props.navigation.navigate('NotificationPermissionTutorial');
     } else {
-      this.setState({mnemonicWordsValidation: false});
+      this.setState({ mnemonicWordsValidation: false });
       console.log('form validation failed!');
     }
   }
 
   renderInvalidMnemonicWordsMessage() {
     if (this.state.mnemonicWordsValidation) {
-      return ;
-    } else {
-      return <ErrorMessage>invalid mnemonic words!</ErrorMessage>
+      return;
     }
+      return <ErrorMessage>invalid mnemonic words!</ErrorMessage>;
   }
 
   handleTextChange = (text, id) => {
@@ -72,13 +71,19 @@ class ImportTwentyFourMnemonicWords extends Component {
   render() {
     return (
       <RootContainer>
-        <ProgressBar oneColor="#FDC800" twoColor="#FDC800" threeColor="#eeeeee" marginRight="40%" width="40%" />
+        <ProgressBar
+          oneColor="#FDC800"
+          twoColor="#FDC800"
+          threeColor="#eeeeee"
+          marginRight="40%"
+          width="40%"
+        />
         <Container>
           <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
             Import Backup Words
           </HeaderTwo>
           <Description marginBottom="8" marginLeft="8" marginTop="16">
-          Enter the backup words to import your wallet.
+            Enter the backup words to import your wallet.
           </Description>
           <MnemonicWordsContainer style={styles.table}>
             {this.state.mnemonicWords.map((word, id) => (
@@ -110,9 +115,7 @@ class ImportTwentyFourMnemonicWords extends Component {
               }}
             />
           </ButtonContainer>
-          <View>
-            {this.renderInvalidMnemonicWordsMessage()}
-          </View>
+          <View>{this.renderInvalidMnemonicWordsMessage()}</View>
         </Container>
       </RootContainer>
     );
@@ -158,7 +161,7 @@ const ButtonContainer = styled.View`
 `;
 
 const ErrorMessage = styled.Text`
-  color: #E41B13;
+  color: #e41b13;
   font-family: 'HKGrotesk-Regular';
 `;
 

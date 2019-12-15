@@ -38,12 +38,8 @@ const AppTab = createBottomTabNavigator(
         fontFamily: 'HKGrotesk-Bold',
         marginBottom: 0
       },
-      labelPosition: {
-
-      },
       tabStyle: {
         marginTop: 8
-
       }
     }
   },

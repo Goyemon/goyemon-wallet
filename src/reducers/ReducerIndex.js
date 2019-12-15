@@ -31,10 +31,10 @@ const appReducers = combineReducers({
 });
 
 const rootReducers = (state, action) => {
-    if (action.type === CLEAR_STATE) {
-        state = undefined;
-    }
-    return appReducers(state, action);
+  if (action.type === CLEAR_STATE) {
+    state = undefined;
+  }
+  return appReducers(state, action);
 };
 
 export default rootReducers;

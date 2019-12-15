@@ -113,9 +113,9 @@ class TransactionUtilities {
         nonce: transactionObject.nonce,
         state: transactionObject.state,
         ame_ropsten: {
-          from: (JSON.parse(transactionObject.ame_ropsten)).from,
-          to: (JSON.parse(transactionObject.ame_ropsten)).to,
-          value: parseInt((JSON.parse(transactionObject.ame_ropsten)).value, 16)
+          from: JSON.parse(transactionObject.ame_ropsten).from,
+          to: JSON.parse(transactionObject.ame_ropsten).to,
+          value: parseInt(JSON.parse(transactionObject.ame_ropsten).value, 16)
         }
       };
     }

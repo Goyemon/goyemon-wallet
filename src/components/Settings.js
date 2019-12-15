@@ -48,7 +48,8 @@ class Settings extends Component {
                   Reset your Wallet?
                 </HeaderTwo>
                 <Description marginBottom="8" marginLeft="0" marginTop="16">
-                  Make sure you save your backup words before deletion. Otherwise, you will lose your funds.
+                  Make sure you save your backup words before deletion. Otherwise, you will lose
+                  your funds.
                 </Description>
                 <ButtonContainer>
                   <Button
@@ -186,7 +187,7 @@ const ModalBackground = styled.View`
   background-color: #fff;
   border-radius: 16px;
   borderTopWidth: 2;
-  borderTopColor: #E41B13;
+  borderTopColor: #e41b13;
   height: 30%;
   min-height: 280px;
   margin-top: 200px;
@@ -243,7 +244,7 @@ const SettingsListText = styled.Text`
 `;
 
 const ResetWalletText = styled.Text`
-  color: #E41B13;
+  color: #e41b13;
   font-family: 'HKGrotesk-Regular';
   font-size: 24px;
 `;

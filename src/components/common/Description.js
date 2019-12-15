@@ -13,7 +13,7 @@ const Description = props => (
 );
 
 const DescriptionText = styled.Text`
-  color: #5F5F5F;
+  color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
   font-size: 20px;
   margin-bottom: ${props => `${props.marginBottom}px`};

@@ -1,7 +1,12 @@
 'use strict';
 import React, { Component } from 'react';
 import { Clipboard, TouchableWithoutFeedback } from 'react-native';
-import { RootContainer, UntouchableCardContainer, HeaderOne, CrypterestText } from '../components/common';
+import {
+  RootContainer,
+  UntouchableCardContainer,
+  HeaderOne,
+  CrypterestText
+} from '../components/common';
 import { connect } from 'react-redux';
 import QRCodeSvg from 'react-native-qrcode-svg';
 import styled from 'styled-components/native';
@@ -28,12 +33,10 @@ class QRCode extends Component {
             onPress={async () => {
               await this.writeToClipboard();
             }}
-          ><CopiedAddressText>Copied</CopiedAddressText></TouchableWithoutFeedback>
-          <Icon
-            name="check"
-            size={24}
-            color="#00A3E2"
-          />
+          >
+            <CopiedAddressText>Copied</CopiedAddressText>
+          </TouchableWithoutFeedback>
+          <Icon name="check" size={24} color="#00A3E2" />
         </CopiedAddressContainer>
       );
     } else if (this.state.clipboardContent === null) {
@@ -42,7 +45,9 @@ class QRCode extends Component {
           onPress={async () => {
             await this.writeToClipboard();
           }}
-        ><CopyAddressText>Copy</CopyAddressText></TouchableWithoutFeedback>
+        >
+          <CopyAddressText>Copy</CopyAddressText>
+        </TouchableWithoutFeedback>
       );
     }
   }
@@ -98,7 +103,7 @@ const CopiedAddressContainer = styled.View`
 `;
 
 const CopiedAddressText = styled.Text`
-  color: #00A3E2;
+  color: #00a3e2;
   font-family: 'HKGrotesk-Regular';
   font-size: 20px;
   margin-top: 24px;
@@ -106,7 +111,7 @@ const CopiedAddressText = styled.Text`
 `;
 
 const CopyAddressText = styled.Text`
-  color: #00A3E2;
+  color: #00a3e2;
   font-family: 'HKGrotesk-Regular';
   font-size: 20px;
 `;

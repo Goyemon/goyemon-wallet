@@ -26,7 +26,7 @@ export default class Initial extends Component {
 
     let notificationEnabled = stateTree.ReducerNotificationPermission.notificationPermission;
     const enabled = await firebase.messaging().hasPermission();
-    if(enabled === true) {
+    if (enabled === true) {
       notificationEnabled = true;
     }
 
@@ -34,15 +34,34 @@ export default class Initial extends Component {
 
     if (!mnemonicWordsStatePersisted && !notificationEnabled && !hasPrivateKeyInKeychain) {
       mainPage = 'Welcome';
-    } else if (mnemonicWordsStatePersisted && !notificationEnabled && !hasPrivateKeyInKeychain ) {
+    } else if (mnemonicWordsStatePersisted && !notificationEnabled && !hasPrivateKeyInKeychain) {
       mainPage = 'Welcome';
-    } else if (mnemonicWordsStatePersisted && notificationEnabled && !hasPersistedState && !hasPrivateKeyInKeychain ) {
+    } else if (
+      mnemonicWordsStatePersisted &&
+      notificationEnabled &&
+      !hasPersistedState &&
+      !hasPrivateKeyInKeychain
+    ) {
       mainPage = 'WalletCreation';
-    } else if (mnemonicWordsStatePersisted && notificationEnabled && !hasPersistedState && hasPrivateKeyInKeychain ) {
+    } else if (
+      mnemonicWordsStatePersisted &&
+      notificationEnabled &&
+      !hasPersistedState &&
+      hasPrivateKeyInKeychain
+    ) {
       mainPage = 'WalletCreation';
-    } else if (mnemonicWordsStatePersisted && notificationEnabled && hasPersistedState && hasPrivateKeyInKeychain ) {
+    } else if (
+      mnemonicWordsStatePersisted &&
+      notificationEnabled &&
+      hasPersistedState &&
+      hasPrivateKeyInKeychain
+    ) {
       mainPage = 'WalletList';
-    } else if (mnemonicWordsStatePersisted && notificationEnabled === null && hasPrivateKeyInKeychain) {
+    } else if (
+      mnemonicWordsStatePersisted &&
+      notificationEnabled === null &&
+      hasPrivateKeyInKeychain
+    ) {
       mainPage = 'Welcome';
     } else if (mnemonicWordsStatePersisted && !notificationEnabled && hasPrivateKeyInKeychain) {
       mainPage = 'NotificationPermissionNotGranted';
@@ -123,9 +142,7 @@ export default class Initial extends Component {
     return (
       <RootContainer>
         <Container>
-          <Logo animation="fadeIn">
-            Crypterest
-          </Logo>
+          <Logo animation="fadeIn">Crypterest</Logo>
           <Title animation="fadeIn" delay={2000}>
             loading
           </Title>
@@ -143,7 +160,7 @@ const Container = styled.View`
 `;
 
 const Logo = Animatable.createAnimatableComponent(styled.Text`
-  color: #E41B13;
+  color: #e41b13;
   font-family: 'HKGrotesk-Bold';
   font-size: 40px;
   margin-bottom: 48px;

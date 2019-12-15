@@ -32,7 +32,7 @@ class WalletCreation extends Component {
         });
       }
     );
-  }
+  };
 
   async componentDidMount() {
     await this.createWallet();
@@ -115,7 +115,11 @@ class WalletCreation extends Component {
     return (
       <ScrollView
         refreshControl={
-          <RefreshControl refreshing={this.state.refreshing} onRefresh={this.handleRefresh} tintColor="#FDC800" />
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this.handleRefresh}
+            tintColor="#FDC800"
+          />
         }
       >
         <Container>

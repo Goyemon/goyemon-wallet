@@ -46,7 +46,13 @@ class ImportTwelveMnemonicWords extends Component {
   render() {
     return (
       <RootContainer>
-      <ProgressBar oneColor="#FDC800" twoColor="#FDC800" threeColor="#eeeeee" marginRight="40%" width="40%" />
+        <ProgressBar
+          oneColor="#FDC800"
+          twoColor="#FDC800"
+          threeColor="#eeeeee"
+          marginRight="40%"
+          width="40%"
+        />
         <Container>
           <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
             Import Backup Words
@@ -130,7 +136,7 @@ const ButtonContainer = styled.View`
 `;
 
 const ErrorMessage = styled.Text`
-  color: #E41B13;
+  color: #e41b13;
   font-family: 'HKGrotesk-Regular';
 `;
 

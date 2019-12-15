@@ -97,7 +97,7 @@ class Send extends Component {
   async constructTransactionObject() {
     const theBiggestNonce = parseInt(TransactionUtilities.getBiggestNonce());
     let transactionNonce;
-    if(theBiggestNonce === 0) {
+    if (theBiggestNonce === 0) {
       transactionNonce = 0;
     } else {
       transactionNonce = theBiggestNonce + 1;
@@ -408,8 +408,7 @@ const NetworkFeeHeaderContainer = styled.View`
   margin-top: 24px;
 `;
 
-const NetworkFeeSymbolContainer = styled.TouchableWithoutFeedback`
-`;
+const NetworkFeeSymbolContainer = styled.TouchableWithoutFeedback``;
 
 const NetworkFeeContainer = styled.View`
   alignItems: center;
@@ -440,7 +439,7 @@ const SpeedContainer = styled.TouchableOpacity`
 `;
 
 const SelectedButton = styled.Text`
-  color: #1BA548;
+  color: #1ba548;
   font-family: 'HKGrotesk-Regular';
 `;
 
@@ -454,7 +453,7 @@ const ButtonWrapper = styled.View`
 `;
 
 const ErrorMessage = styled.Text`
-  color: #E41B13;
+  color: #e41b13;
   font-family: 'HKGrotesk-Regular';
 `;
 

@@ -2,10 +2,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { RootContainer, QRCodeIcon, TouchableCardContainer, HeaderOne, HeaderThree } from '../components/common';
+import {
+  RootContainer,
+  QRCodeIcon,
+  TouchableCardContainer,
+  HeaderOne,
+  HeaderThree
+} from '../components/common';
 import WalletDetail from '../containers/WalletDetail';
 import styled from 'styled-components';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import firebase from 'react-native-firebase';
 import FcmPermissions from '../firebase/FcmPermissions.js';
@@ -22,8 +31,8 @@ class WalletList extends Component {
           }}
         />
       )
-    }
-  }
+    };
+  };
 
   async componentDidMount() {
     await FcmPermissions.checkFcmPermissions();
@@ -44,9 +53,7 @@ class WalletList extends Component {
       <RootContainer>
         <HeaderOne marginTop="96">Wallets</HeaderOne>
         <CardContainerWithoutFeedback>
-          <BalanceText>
-            Total Balance
-          </BalanceText>
+          <BalanceText>Total Balance</BalanceText>
           <UsdBalance>${this.getTotalBalance(balance.ethBalance, balance.daiBalance)}</UsdBalance>
         </CardContainerWithoutFeedback>
         <HeaderThree color="#000" marginBottom="16" marginLeft="16" marginTop="16">
@@ -84,7 +91,7 @@ const CardContainerWithoutFeedback = styled.View`
 `;
 
 const BalanceText = styled.Text`
-  color: #5F5F5F;
+  color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
   font-size: 20px;
   margin-top: 24px;

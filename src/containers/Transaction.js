@@ -135,11 +135,15 @@ class Transaction extends Component {
   renderValue() {
     if (this.props.transaction.hasOwnProperty('ame_ropsten')) {
       let ameValue;
-      if(this.props.transaction.state === 'sent') {
+      if (this.props.transaction.state === 'sent') {
         ameValue = this.props.transaction.ame_ropsten.value / 10 ** 18;
-      } else if (this.props.transaction.state === 'pending' || this.props.transaction.state === 'included' || this.props.transaction.state === 'confirmed') {
+      } else if (
+        this.props.transaction.state === 'pending' ||
+        this.props.transaction.state === 'included' ||
+        this.props.transaction.state === 'confirmed'
+      ) {
         ameValue = this.props.transaction.ame_ropsten.value / 10 ** 18;
-      } else if(!this.props.transaction.ame_ropsten.value) {
+      } else if (!this.props.transaction.ame_ropsten.value) {
         ameValue = 0;
       }
       if (this.props.transaction.ame_ropsten.to === null) {
@@ -148,12 +152,20 @@ class Transaction extends Component {
         Web3.utils.toChecksumAddress(this.props.transaction.ame_ropsten.to) ===
         this.props.checksumAddress
       ) {
-        return <CrypterestText fontSize="16px" style={styles.valueStyleGreen}>{ameValue} AME</CrypterestText>;
+        return (
+          <CrypterestText fontSize="16px" style={styles.valueStyleGreen}>
+            {ameValue} AME
+          </CrypterestText>
+        );
       } else if (
         Web3.utils.toChecksumAddress(this.props.transaction.ame_ropsten.from) ===
         this.props.checksumAddress
       ) {
-        return <CrypterestText fontSize="16px" style={styles.valueStyleRed}>{ameValue} AME</CrypterestText>;
+        return (
+          <CrypterestText fontSize="16px" style={styles.valueStyleRed}>
+            {ameValue} AME
+          </CrypterestText>
+        );
       }
     }
     const roundedEthValue = parseFloat(this.props.transaction.value).toFixed(4);
@@ -162,11 +174,19 @@ class Transaction extends Component {
     } else if (
       Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress
     ) {
-      return <CrypterestText fontSize="16px" style={styles.valueStyleGreen}>{roundedEthValue} ETH</CrypterestText>;
+      return (
+        <CrypterestText fontSize="16px" style={styles.valueStyleGreen}>
+          {roundedEthValue} ETH
+        </CrypterestText>
+      );
     } else if (
       Web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress
     ) {
-      return <CrypterestText fontSize="16px" style={styles.valueStyleRed}>{roundedEthValue} ETH</CrypterestText>;
+      return (
+        <CrypterestText fontSize="16px" style={styles.valueStyleRed}>
+          {roundedEthValue} ETH
+        </CrypterestText>
+      );
     }
   }
 

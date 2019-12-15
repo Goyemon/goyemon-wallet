@@ -26,7 +26,7 @@ const transactions = (state = INITIAL_STATE, action) => {
         return {
           transactions: sortedTransactions
         };
-    }
+      }
     case ADD_SENT_TRANSACTION:
       return {
         transactions: [action.payload, ...state.transactions]

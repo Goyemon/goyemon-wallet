@@ -18,13 +18,21 @@ class WalletDetail extends Component {
   renderUsdBalance() {
     if (this.props.wallet.id === 0) {
       try {
-        return <CrypterestText fontSize="20px">$ {PriceUtilities.convertEthToUsd(this.props.balance.ethBalance)}</CrypterestText>;
+        return (
+          <CrypterestText fontSize="20px">
+            $ {PriceUtilities.convertEthToUsd(this.props.balance.ethBalance)}
+          </CrypterestText>
+        );
       } catch (err) {
         console.error(err);
       }
     } else if (this.props.wallet.id === 1) {
       try {
-        return <CrypterestText fontSize="20px">$ {PriceUtilities.convertDaiToUsd(this.props.balance.daiBalance)}</CrypterestText>;
+        return (
+          <CrypterestText fontSize="20px">
+            $ {PriceUtilities.convertDaiToUsd(this.props.balance.daiBalance)}
+          </CrypterestText>
+        );
       } catch (err) {
         console.error(err);
       }

@@ -6,15 +6,24 @@ import storage from 'redux-persist/lib/storage';
 import rootReducers from '../reducers/ReducerIndex';
 
 const persistConfig = {
-    key: 'root',
-    storage,
-    whitelist: ['ReducerOutgoingTransactionObjects', 'ReducerTransactionHistory', 'ReducerBalance', 'ReducerChecksumAddress', 'ReducerWallets', 'ReducerPrice', 'ReducerNotificationPermission', 'ReducerMnemonic']
-}
+  key: 'root',
+  storage,
+  whitelist: [
+    'ReducerOutgoingTransactionObjects',
+    'ReducerTransactionHistory',
+    'ReducerBalance',
+    'ReducerChecksumAddress',
+    'ReducerWallets',
+    'ReducerPrice',
+    'ReducerNotificationPermission',
+    'ReducerMnemonic'
+  ]
+};
 
 const persistedReducer = persistReducer(persistConfig, rootReducers);
 
-let store = createStore(persistedReducer, applyMiddleware(thunk));
+const store = createStore(persistedReducer, applyMiddleware(thunk));
 
-let persistor = persistStore(store);
+const persistor = persistStore(store);
 
 export { store, persistor };

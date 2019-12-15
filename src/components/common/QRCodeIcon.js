@@ -5,12 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const QRCodeIcon = props => (
   <IconContainer>
-    <Icon
-      name="qrcode"
-      color="#000"
-      onPress={props.onPress}
-      size={32}
-    />
+    <Icon name="qrcode" color="#000" onPress={props.onPress} size={32} />
   </IconContainer>
 );
 

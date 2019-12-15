@@ -6,11 +6,19 @@ import styled from 'styled-components';
 const ProgressBar = props => (
   <Container>
     <Outer />
-    <InnerContainer marginRight={props.marginRight} width={props.width}><Inner /></InnerContainer>
+    <InnerContainer marginRight={props.marginRight} width={props.width}>
+      <Inner />
+    </InnerContainer>
     <NumberContainer>
-      <OneContainer oneColor={props.oneColor}><One>1</One></OneContainer>
-      <TwoContainer twoColor={props.twoColor}r><Two>2</Two></TwoContainer>
-      <ThreeContainer threeColor={props.threeColor}><Three>3</Three></ThreeContainer>
+      <OneContainer oneColor={props.oneColor}>
+        <One>1</One>
+      </OneContainer>
+      <TwoContainer twoColor={props.twoColor} r>
+        <Two>2</Two>
+      </TwoContainer>
+      <ThreeContainer threeColor={props.threeColor}>
+        <Three>3</Three>
+      </ThreeContainer>
     </NumberContainer>
   </Container>
 );
@@ -28,7 +36,7 @@ const Outer = styled.View`
 `;
 
 const InnerContainer = styled.View`
-  background-color: #FDC800;
+  background-color: #fdc800;
   border-radius: 16px;
   height: 8px;
   margin-top: -8px;
@@ -59,7 +67,7 @@ const OneContainer = styled.View`
 `;
 
 const One = styled.Text`
-  color: #FFF;
+  color: #fff;
   font-family: 'HKGrotesk-Bold';
 `;
 
@@ -73,7 +81,7 @@ const TwoContainer = styled.View`
 `;
 
 const Two = styled.Text`
-  color: #FFF;
+  color: #fff;
   font-family: 'HKGrotesk-Bold';
 `;
 
@@ -87,7 +95,7 @@ const ThreeContainer = styled.View`
 `;
 
 const Three = styled.Text`
-  color: #FFF;
+  color: #fff;
   font-family: 'HKGrotesk-Bold';
 `;
 

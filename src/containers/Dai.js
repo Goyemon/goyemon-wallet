@@ -6,7 +6,10 @@ import { View } from 'react-native';
 import TransactionsDai from '../containers/TransactionsDai';
 import { RootContainer, Button, HeaderOne, HeaderThree, QRCodeIcon } from '../components/common/';
 import styled from 'styled-components';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class Dai extends Component {
@@ -21,8 +24,8 @@ class Dai extends Component {
           }}
         />
       )
-    }
-  }
+    };
+  };
 
   getUsdBalance() {
     try {
@@ -39,9 +42,7 @@ class Dai extends Component {
       <RootContainer>
         <HeaderOne marginTop="96">Dai</HeaderOne>
         <CardContainerWithoutFeedback>
-          <BalanceText>
-            Balance
-          </BalanceText>
+          <BalanceText>Balance</BalanceText>
           <UsdBalance>${this.getUsdBalance()}</UsdBalance>
           <DaiBalance>{balance.daiBalance} DAI</DaiBalance>
           <ButtonContainer>
@@ -84,7 +85,7 @@ const ButtonContainer = styled.View`
 `;
 
 const BalanceText = styled.Text`
-  color: #5F5F5F;
+  color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
   font-size: 24px;
   text-transform: uppercase;
@@ -98,7 +99,7 @@ const UsdBalance = styled.Text`
 `;
 
 const DaiBalance = styled.Text`
-  color: #5F5F5F;
+  color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
   font-size: 16px;
   margin-top: 8px;

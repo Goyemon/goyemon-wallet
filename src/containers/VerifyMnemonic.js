@@ -59,7 +59,7 @@ class VerifyMnemonic extends Component {
     if (this.state.mnemonicWordsValidation) {
       return;
     }
-      return <ErrorMessage>invalid mnemonic words!</ErrorMessage>;
+    return <ErrorMessage>invalid mnemonic words!</ErrorMessage>;
   }
 
   handleTextChange = (text, id) => {
@@ -74,13 +74,20 @@ class VerifyMnemonic extends Component {
 
     return (
       <RootContainer>
-        <ProgressBar oneColor="#FDC800" twoColor="#FDC800" threeColor="#eeeeee" marginRight="40%" width="40%" />
+        <ProgressBar
+          oneColor="#FDC800"
+          twoColor="#FDC800"
+          threeColor="#eeeeee"
+          marginRight="40%"
+          width="40%"
+        />
         <Container>
           <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
             Verify Backup Words
           </HeaderTwo>
           <Description marginBottom="8" marginLeft="8" marginTop="16">
-            Let us help you to protect your assets. Please type in your backup words to make sure they are right!
+            Let us help you to protect your assets. Please type in your backup words to make sure
+            they are right!
           </Description>
           <MnemonicWordsContainer style={styles.table}>
             {this.state.mnemonicWords.map((word, id) => (
@@ -150,7 +157,7 @@ const MnemonicWordWrapper = styled.View`
 `;
 
 const ErrorMessage = styled.Text`
-  color: #E41B13;
+  color: #e41b13;
   font-family: 'HKGrotesk-Regular';
 `;
 

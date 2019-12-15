@@ -8,7 +8,7 @@ import FcmPermissions from '../firebase/FcmPermissions.js';
 class NotificationPermissionTutorial extends Component {
   notificationPermissionNavigation() {
     if (this.props.notificationPermission === null) {
-      console.log("notification permission is not set");
+      console.log('notification permission is not set');
     } else if (this.props.notificationPermission === true) {
       this.props.navigation.navigate('WalletCreation');
     } else if (this.props.notificationPermission === false) {
@@ -19,11 +19,17 @@ class NotificationPermissionTutorial extends Component {
   render() {
     return (
       <RootContainer>
-      <ProgressBar oneColor="#FDC800" twoColor="#FDC800" threeColor="#FDC800" marginRight="0%" width="80%" />
-      <Container>
-        <HeaderTwo marginBottom="0" marginLeft="0" marginTop="0">
-          Almost done!
-        </HeaderTwo>
+        <ProgressBar
+          oneColor="#FDC800"
+          twoColor="#FDC800"
+          threeColor="#FDC800"
+          marginRight="0%"
+          width="80%"
+        />
+        <Container>
+          <HeaderTwo marginBottom="0" marginLeft="0" marginTop="0">
+            Almost done!
+          </HeaderTwo>
           <NotificationPermissionImage source={require('../../assets/notification_tutorial.png')} />
           <Description marginBottom="8" marginLeft="0" marginTop="16">
             We use a notification system to process your transactions.
@@ -60,7 +66,7 @@ const NotificationPermissionImage = styled.Image`
 `;
 
 const mapStateToProps = state => ({
-  notificationPermission: state.ReducerNotificationPermission.notificationPermission,
+  notificationPermission: state.ReducerNotificationPermission.notificationPermission
 });
 
 export default connect(mapStateToProps)(NotificationPermissionTutorial);

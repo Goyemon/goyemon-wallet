@@ -9,7 +9,10 @@ import {
   TouchableCardContainer
 } from '../components/common';
 import styled from 'styled-components/native';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 import * as Animatable from 'react-native-animatable';
 
 export default class Welcome extends Component {
@@ -142,7 +145,7 @@ const Title = Animatable.createAnimatableComponent(styled.Text`
 `);
 
 const Logo = Animatable.createAnimatableComponent(styled.Text`
-  color: #E41B13;
+  color: #e41b13;
   font-family: 'HKGrotesk-Bold';
   font-size: 40px;
   margin-bottom: 48px;
@@ -151,17 +154,17 @@ const Logo = Animatable.createAnimatableComponent(styled.Text`
 `);
 
 const TitleRedText = styled.Text`
-  color: #E41B13;
+  color: #e41b13;
   font-family: 'HKGrotesk-Regular';
 `;
 
 const TitleGreenText = styled.Text`
-  color: #1BA548;
+  color: #1ba548;
   font-family: 'HKGrotesk-Regular';
 `;
 
 const TitleOrangeText = styled.Text`
-  color: #FDC800;
+  color: #fdc800;
   font-family: 'HKGrotesk-Regular';
 `;
 
