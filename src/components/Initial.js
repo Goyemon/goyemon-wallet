@@ -123,6 +123,9 @@ export default class Initial extends Component {
     return (
       <RootContainer>
         <Container>
+          <Logo animation="fadeIn">
+            Crypterest
+          </Logo>
           <Title animation="fadeIn" delay={2000}>
             loading
           </Title>
@@ -138,6 +141,15 @@ const Container = styled.View`
   margin-top: 240px;
   text-align: center;
 `;
+
+const Logo = Animatable.createAnimatableComponent(styled.Text`
+  color: #E41B13;
+  font-family: 'HKGrotesk-Bold';
+  font-size: 40px;
+  margin-bottom: 48px;
+  text-align: center;
+  text-transform: uppercase;
+`);
 
 const Title = Animatable.createAnimatableComponent(styled.Text`
   font-family: 'HKGrotesk-Regular';

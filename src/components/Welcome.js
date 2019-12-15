@@ -79,7 +79,7 @@ export default class Welcome extends Component {
             <TouchableCardContainer
               alignItems="center"
               flexDirection="row"
-              height="25%"
+              height="120px"
               justifyContent="space-between"
               textAlign="left"
               width="80%"
@@ -93,14 +93,12 @@ export default class Welcome extends Component {
                 </HeaderThree>
                 <CardText>new wallet</CardText>
               </View>
-              <View>
-                <CardImage source={require('../../assets/create_wallet_icon.png')} />
-              </View>
+              <CardImage source={require('../../assets/create_wallet_icon.png')} />
             </TouchableCardContainer>
             <TouchableCardContainer
               alignItems="center"
               flexDirection="row"
-              height="25%"
+              height="120px"
               justifyContent="space-between"
               textAlign="left"
               width="80%"
@@ -112,9 +110,7 @@ export default class Welcome extends Component {
                 </HeaderThree>
                 <CardText>existing wallet</CardText>
               </View>
-              <View>
-                <CardImage source={require('../../assets/import_wallet_icon.png')} />
-              </View>
+              <CardImage source={require('../../assets/import_wallet_icon.png')} />
             </TouchableCardContainer>
           </WelcomeContainer>
         </Container>
@@ -125,17 +121,17 @@ export default class Welcome extends Component {
 
 const Container = styled.View`
   flex: 1;
-  margin-top: ${hp('40%')};
   text-align: center;
 `;
 
 const HollaContainer = Animatable.createAnimatableComponent(styled.View`
+  margin-top: ${hp('40%')};
 `);
 
 const WelcomeContainer = Animatable.createAnimatableComponent(styled.View`
   alignItems: center;
   flex: 1;
-  margin-top: ${hp('-30%')};
+  margin-top: ${hp('-40%')};
 `);
 
 const Title = Animatable.createAnimatableComponent(styled.Text`

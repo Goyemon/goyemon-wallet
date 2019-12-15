@@ -21,7 +21,7 @@ const styles = {
   },
   text: {
     fontFamily: 'HKGrotesk-Regular',
-    fontSize: 18,
+    fontSize: 16,
     padding: 4,
     textAlign: 'center'
   }

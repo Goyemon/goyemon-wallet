@@ -1,7 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
 import { Clipboard, TouchableWithoutFeedback } from 'react-native';
-import { RootContainer, UntouchableCardContainer, HeaderOne } from '../components/common';
+import { RootContainer, UntouchableCardContainer, HeaderOne, CrypterestText } from '../components/common';
 import { connect } from 'react-redux';
 import QRCodeSvg from 'react-native-qrcode-svg';
 import styled from 'styled-components/native';
@@ -67,7 +67,7 @@ class QRCode extends Component {
             <QRCodeSvg value={checksumAddress} size={120} />
           </QrCodeContainer>
           <QrCodeText>Your Address</QrCodeText>
-          <QrCodeText>{checksumAddress}</QrCodeText>
+          <CrypterestText fontSize="14px">{checksumAddress}</CrypterestText>
           {this.renderCopyText()}
         </UntouchableCardContainer>
       </RootContainer>
@@ -86,7 +86,9 @@ const QrCodeContainer = styled.View`
 const QrCodeText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
-  margin-bottom: 16px;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
 `;
 
 const CopiedAddressContainer = styled.View`
@@ -99,6 +101,7 @@ const CopiedAddressText = styled.Text`
   color: #00A3E2;
   font-family: 'HKGrotesk-Regular';
   font-size: 20px;
+  margin-top: 24px;
   margin-right: 4px;
 `;
 

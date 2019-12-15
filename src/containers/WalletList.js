@@ -78,7 +78,7 @@ class WalletList extends Component {
 const CardContainerWithoutFeedback = styled.View`
   align-items: center;
   background: #fff;
-  height: ${hp('20%')};
+  height: 176px;
   margin-top: 24px;
   padding: 24px;
 `;

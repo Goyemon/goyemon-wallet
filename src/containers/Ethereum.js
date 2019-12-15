@@ -72,7 +72,7 @@ class Ethereum extends Component {
 const CardContainerWithoutFeedback = styled.View`
   align-items: center;
   background: #fff;
-  height: ${hp('25%')};
+  height: 240px;
   margin-top: 24px;
   padding: 24px;
 `;
