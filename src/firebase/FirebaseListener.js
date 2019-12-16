@@ -9,6 +9,7 @@ import {
 import { addPendingTransaction, updateTransactionState } from '../actions/ActionTransactionHistory';
 import Web3 from 'web3';
 
+const firebaseListener = async () => {
 firebase.messaging().onMessage(downstreamMessage => {
   const stateTree = store.getState();
   const transactionsHistory = stateTree.ReducerTransactionHistory.transactions;
@@ -48,3 +49,9 @@ firebase.messaging().onMessage(downstreamMessage => {
     }
   }
 });
+  return Promise.resolve();
+};
+
+firebaseListener();
+
+export default firebaseListener;
