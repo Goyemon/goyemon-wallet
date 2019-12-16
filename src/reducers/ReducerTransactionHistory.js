@@ -22,7 +22,13 @@ const transactions = (state = INITIAL_STATE, action) => {
         };
       } else if (state.transactions != null) {
         const transactions = [...state.transactions, ...action.payload];
-        const sortedTransactions = transactions.sort((a, b) => b.time - a.time);
+        const filteredTransactions = transactions.reduce((accumulator, element) => {
+            if (!accumulator.find(el => el['hash'] === element['hash'])) {
+              accumulator.push(element);
+            }
+            return accumulator;
+          }, []);
+        const sortedTransactions = filteredTransactions.sort((a, b) => b.time - a.time);
         return {
           transactions: sortedTransactions
         };
