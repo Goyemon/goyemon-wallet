@@ -324,7 +324,7 @@ class SendDai extends Component {
           <Form borderColor={this.getAmountBorderColor()} borderWidth={1} height="56px">
             <SendTextInputContainer>
               <SendTextInput
-                placeholder="0"
+                placeholder="amount"
                 clearButtonMode="while-editing"
                 onChangeText={amount => {
                   this.validateDaiAmount(amount);
