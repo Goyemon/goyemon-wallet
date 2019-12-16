@@ -2,6 +2,7 @@
 import firebase from 'react-native-firebase';
 import { store } from '../store/store';
 import { saveEthBalance, saveDaiBalance } from '../actions/ActionBalance';
+import { saveTransactionCount } from '../actions/ActionTransactionCount';
 import {
   saveEmptyTransaction,
   saveExistingTransactions
@@ -29,11 +30,13 @@ const firebaseListener = async () => {
     } else if (downstreamMessage.data.type === 'txhistory' && downstreamMessage.data.count != '0') {
       const transactions = JSON.parse(downstreamMessage.data.items);
       store.dispatch(saveExistingTransactions(transactions));
+      store.dispatch(saveTransactionCount(downstreamMessage.data.count));
     } else if (
       downstreamMessage.data.type === 'txhistory' &&
       downstreamMessage.data.count === '0'
     ) {
       store.dispatch(saveEmptyTransaction(downstreamMessage.data.items));
+      store.dispatch(saveTransactionCount(downstreamMessage.data.count));
     } else if (downstreamMessage.data.type === 'txstate') {
       if (Array.isArray(transactionsHistory)) {
         transactionsHistory.map(transaction => {

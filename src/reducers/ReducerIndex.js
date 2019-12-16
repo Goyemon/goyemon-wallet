@@ -5,6 +5,7 @@ import { CLEAR_STATE } from '../constants/ActionTypes';
 import ReducerMnemonic from './ReducerMnemonic';
 import ReducerWallets from './ReducerWallets';
 import ReducerPrice from './ReducerPrice';
+import ReducerTransactionCount from './ReducerTransactionCount';
 import ReducerTransactionHistory from './ReducerTransactionHistory';
 import ReducerChecksumAddress from './ReducerChecksumAddress';
 import ReducerGasPrice from './ReducerGasPrice';
@@ -19,6 +20,7 @@ const appReducers = combineReducers({
   ReducerMnemonic,
   ReducerWallets,
   ReducerPrice,
+  ReducerTransactionCount,
   ReducerTransactionHistory,
   ReducerChecksumAddress,
   ReducerGasPrice,
