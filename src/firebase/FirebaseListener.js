@@ -47,9 +47,11 @@ const firebaseListener = async () => {
           ) {
             store.dispatch(addPendingTransaction(downstreamMessage.data));
           } else if (
-            (transaction.hash === downstreamMessage.data.txhash &&
+            (transaction.nonce === downstreamMessage.data.nonce &&
+              transation.from === downstreamMessage.data.txfrom &&
               downstreamMessage.data.state === 'included') ||
-            (transaction.hash === downstreamMessage.data.txhash &&
+            (transaction.nonce === downstreamMessage.data.nonce &&
+              transation.from === downstreamMessage.data.txfrom &&
               downstreamMessage.data.state === 'confirmed')
           ) {
             store.dispatch(updateTransactionState(downstreamMessage.data));
