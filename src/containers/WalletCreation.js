@@ -69,7 +69,11 @@ class WalletCreation extends Component {
   }
 
   hasTransactionHistory() {
-    return this.props.transactions != null;
+    return (
+      this.props.transactions != null &&
+      this.props.transactions.length != null &&
+      this.props.transactions.length.toString() === this.props.transactionCount
+    );
   }
 
   hasBalance() {
@@ -151,6 +155,7 @@ const CreatingWalletImage = styled.Image`
 function mapStateToProps(state) {
   return {
     balance: state.ReducerBalance.balance,
+    transactionCount: state.ReducerTransactionCount.transactionCount,
     transactions: state.ReducerTransactionHistory.transactions,
     mnemonicWords: state.ReducerMnemonic.mnemonicWords,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
