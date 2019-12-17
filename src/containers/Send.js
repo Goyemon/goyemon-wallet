@@ -262,6 +262,7 @@ class Send extends Component {
             <SendTextInputContainer>
               <SendTextInput
                 placeholder="0"
+                keyboardType = 'numeric'
                 clearButtonMode="while-editing"
                 onChangeText={amount => {
                   this.validateAmount(amount);
