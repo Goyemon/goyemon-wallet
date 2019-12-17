@@ -7,8 +7,12 @@ import {
   saveEmptyTransaction,
   saveExistingTransactions
 } from '../actions/ActionTransactionHistory';
-import { addPendingTransaction, updateTransactionState } from '../actions/ActionTransactionHistory';
+import {
+  addPendingOrIncludedTransaction,
+  updateTransactionState
+} from '../actions/ActionTransactionHistory';
 import Web3 from 'web3';
+import EtherUtilities from '../utilities/EtherUtilities.js';
 
 const firebaseListener = async () => {
   firebase.messaging().onMessage(downstreamMessage => {
@@ -40,21 +44,48 @@ const firebaseListener = async () => {
     } else if (downstreamMessage.data.type === 'txstate') {
       if (Array.isArray(transactionsHistory)) {
         transactionsHistory.map(transaction => {
-          if (
-            transaction.nonce === downstreamMessage.data.nonce &&
-            transaction.from === downstreamMessage.data.txfrom &&
-            downstreamMessage.data.state === 'pending'
-          ) {
-            store.dispatch(addPendingTransaction(downstreamMessage.data));
-          } else if (
-            (transaction.nonce === downstreamMessage.data.nonce &&
-              transaction.from === downstreamMessage.data.txfrom &&
-              downstreamMessage.data.state === 'included') ||
-            (transaction.nonce === downstreamMessage.data.nonce &&
-              transaction.from === downstreamMessage.data.txfrom &&
-              downstreamMessage.data.state === 'confirmed')
-          ) {
-            store.dispatch(updateTransactionState(downstreamMessage.data));
+          if (downstreamMessage.data.state === 'pending') {
+            if (
+              downstreamMessage.data.hasOwnProperty('txfrom') &&
+              downstreamMessage.data.hasOwnProperty('nonce')
+            ) {
+              if (
+                transaction.from ===
+                  Web3.utils.toChecksumAddress(
+                    EtherUtilities.stripHexPrefix(downstreamMessage.data.txfrom)
+                  ) &&
+                transaction.nonce === parseInt(downstreamMessage.data.nonce, 16) &&
+                transaction.state === 'sent' &&
+                !(transaction.state === 'included') &&
+                !(transaction.state === 'confirmed')
+              ) {
+                store.dispatch(addPendingOrIncludedTransaction(downstreamMessage.data));
+              }
+            }
+          } else if (downstreamMessage.data.state === 'included') {
+            if (
+              downstreamMessage.data.hasOwnProperty('txfrom') &&
+              downstreamMessage.data.hasOwnProperty('nonce')
+            ) {
+              if (
+                transaction.from ===
+                  Web3.utils.toChecksumAddress(
+                    EtherUtilities.stripHexPrefix(downstreamMessage.data.txfrom)
+                  ) &&
+                transaction.nonce === parseInt(downstreamMessage.data.nonce, 16) &&
+                transaction.state === 'sent' &&
+                !(transaction.state === 'confirmed')
+              ) {
+                store.dispatch(addPendingOrIncludedTransaction(downstreamMessage.data));
+              }
+            }
+            if (transaction.hash === downstreamMessage.data.txhash) {
+              store.dispatch(updateTransactionState(downstreamMessage.data));
+            }
+          } else if (downstreamMessage.data.state === 'confirmed') {
+            if (transaction.hash === downstreamMessage.data.txhash) {
+              store.dispatch(updateTransactionState(downstreamMessage.data));
+            }
           }
         });
       } else if (transactionsHistory === null) {
@@ -62,6 +93,7 @@ const firebaseListener = async () => {
       }
     }
   });
+
   return Promise.resolve();
 };
 

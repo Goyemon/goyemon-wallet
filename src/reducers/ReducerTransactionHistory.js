@@ -2,7 +2,7 @@
 import { SAVE_EMPTY_TRANSACTION } from '../constants/ActionTypes';
 import { SAVE_EXISTING_TRANSACTIONS } from '../constants/ActionTypes';
 import { ADD_SENT_TRANSACTION } from '../constants/ActionTypes';
-import { ADD_PENDING_TRANSACTION } from '../constants/ActionTypes';
+import { ADD_PENDING_OR_INCLUDED_TRANSACTION } from '../constants/ActionTypes';
 import { UPDATE_TRANSACTION_STATE } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
@@ -37,7 +37,7 @@ const transactions = (state = INITIAL_STATE, action) => {
       return {
         transactions: [action.payload, ...state.transactions]
       };
-    case ADD_PENDING_TRANSACTION:
+    case ADD_PENDING_OR_INCLUDED_TRANSACTION:
       return {
         transactions: state.transactions.map((transaction, index) => {
           if (action.payload.nonce === transaction.nonce) {

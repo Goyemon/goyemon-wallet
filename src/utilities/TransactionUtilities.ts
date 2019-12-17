@@ -59,7 +59,7 @@ class TransactionUtilities {
       gasPrice: transactionObject.gasPrice,
       value: this.parseEthValue(transactionObject.value),
       time: Math.floor(Date.now() / 1000),
-      nonce: transactionObject.nonce,
+      nonce: parseInt(transactionObject.nonce, 16),
       state: 'sent'
     };
     return parsedTransaction;
@@ -76,7 +76,7 @@ class TransactionUtilities {
       gasPrice: transactionObject.gasPrice,
       value: '0x',
       time: Math.floor(Date.now() / 1000),
-      nonce: transactionObject.nonce,
+      nonce: parseInt(transactionObject.nonce, 16),
       state: 'sent',
       ame_ropsten: {
         from: checksumAddress,
@@ -87,7 +87,7 @@ class TransactionUtilities {
     return parsedTransaction;
   }
 
-  parsePendingTransaction(transactionObject) {
+  parsePendingOrIncludedTransaction(transactionObject) {
     let parsedTransaction;
     if (!transactionObject.hasOwnProperty('ame_ropsten')) {
       parsedTransaction = {
@@ -98,7 +98,7 @@ class TransactionUtilities {
         gasPrice: transactionObject.gasPrice,
         value: this.parseEthValue(transactionObject.value),
         time: transactionObject.timestamp,
-        nonce: transactionObject.nonce,
+        nonce: parseInt(transactionObject.nonce, 16),
         state: transactionObject.state
       };
     } else if (transactionObject.hasOwnProperty('ame_ropsten')) {
@@ -110,7 +110,7 @@ class TransactionUtilities {
         gasPrice: transactionObject.gasPrice,
         value: this.parseEthValue(transactionObject.value),
         time: transactionObject.timestamp,
-        nonce: transactionObject.nonce,
+        nonce: parseInt(transactionObject.nonce, 16),
         state: transactionObject.state,
         ame_ropsten: {
           from: JSON.parse(transactionObject.ame_ropsten).from,
