@@ -1,8 +1,8 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { RootContainer, Loader, HeaderTwo, Description } from '../components/common';
-import { View, Image, ScrollView, RefreshControl } from 'react-native';
+import { HeaderTwo, Description, Button } from '../components/common';
+import { Image, ScrollView, RefreshControl, Modal } from 'react-native';
 import styled from 'styled-components/native';
 import { StackActions, NavigationActions } from 'react-navigation';
 import HomeStack from '../navigators/HomeStack';
@@ -16,7 +16,8 @@ class WalletCreation extends Component {
     super(props);
     this.state = {
       refreshing: false,
-      hasPrivateKeyInKeychain: false
+      hasPrivateKeyInKeychain: false,
+      modalVisible: false
     };
   }
 
@@ -112,8 +113,9 @@ class WalletCreation extends Component {
 
   render() {
     if (this.state.hasPrivateKeyInKeychain && this.hasPersistedState()) {
-      this.navigateToWalletList();
-      return <View />;
+      if(!this.state.modalVisible) {
+        this.setState({ modalVisible: true });
+      }
     }
 
     return (
@@ -134,11 +136,51 @@ class WalletCreation extends Component {
             this shouldn't take long
           </Description>
           <CreatingWalletImage source={require('../../assets/creating_wallet.png')} />
+          <Modal
+            animationType="fade"
+            transparent
+            visible={this.state.modalVisible}
+          >
+            <ModalBackground>
+              <ModalInner>
+                <ModalText>Your wallet is created!</ModalText>
+              </ModalInner>
+              <Button
+                text="Go!"
+                textColor="#00A3E2"
+                backgroundColor="#FFF"
+                borderColor="#00A3E2"
+                margin="120px auto"
+                opacity="1"
+                onPress={() => {
+                  this.navigateToWalletList();
+                }}
+              />
+            </ModalBackground>
+          </Modal>
         </Container>
       </ScrollView>
     );
   }
 }
+
+const ModalBackground = styled.View`
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 100%;
+`;
+
+const ModalInner = styled.View`
+  alignItems: center;
+  flexDirection: column;
+  justifyContent: center;
+`;
+
+const ModalText = styled.Text`
+  background-color: #FFF;
+  margin-top: 70%;
+  padding: 8px 24px;
+  text-align: center;
+`;
 
 const Container = styled.View`
   alignItems: center;
