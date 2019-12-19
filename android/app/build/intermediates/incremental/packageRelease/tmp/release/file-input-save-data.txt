@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Sun Dec 15 12:04:53 JST 2019
+#Tue Dec 17 18:46:12 JST 2019
 60.set=ASSET
 52.set=ASSET
 53.base=/Users/tai/Dropbox/Codes/DeBank/android/app/build/intermediates/transforms/mergeJniLibs/release/0
