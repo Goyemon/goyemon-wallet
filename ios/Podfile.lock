@@ -263,7 +263,7 @@ PODS:
     - React
   - react-native-randombytes (3.5.3):
     - React
-  - react-native-webview (7.4.2):
+  - react-native-webview (7.4.3):
     - React
   - React-RCTActionSheet (0.61.2):
     - React-Core/RCTActionSheetHeaders (= 0.61.2)
@@ -311,15 +311,15 @@ PODS:
     - Fabric
     - Firebase/Core
     - React
-  - RNGestureHandler (1.4.1):
+  - RNGestureHandler (1.5.0):
     - React
   - RNKeychain (3.1.3):
     - React
-  - RNReanimated (1.3.0):
+  - RNReanimated (1.4.0):
     - React
   - RNScreens (1.0.0-alpha.23):
     - React
-  - RNSVG (9.12.0):
+  - RNSVG (9.13.3):
     - React
   - RNVectorIcons (6.6.0):
     - React
@@ -496,7 +496,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 111d7d342b07a904c400592e02a2b958f1098b60
   react-native-camera: 3e52a28e4f437b566302e574bed0f77eeab3f737
   react-native-randombytes: 991545e6eaaf700b4ee384c291ef3d572e0b2ca8
-  react-native-webview: 5e82a4853e16e02bb6cb184ae4892df71c200571
+  react-native-webview: dbfec7f16f09a71ea53731bdf5f86ae70eac4313
   React-RCTActionSheet: 89b037c0fb7d2671607cb645760164e7e0c013f6
   React-RCTAnimation: e3cefa93c38c004c318f7ec04b883eb14b8b8235
   React-RCTBlob: d26ac0e313fbf14e7203473fd593ccaaeee8329e
@@ -509,14 +509,14 @@ SPEC CHECKSUMS:
   ReactCommon: 5848032ed2f274fcb40f6b9ec24067787c42d479
   RNCAsyncStorage: 5ae4d57458804e99f73d427214442a6b10a53856
   RNFirebase: ac0de8b24c6f91ae9459575491ed6a77327619c6
-  RNGestureHandler: 4cb47a93019c1a201df2644413a0a1569a51c8aa
+  RNGestureHandler: a4ddde1ffc6e590c8127b8b7eabfdade45475c74
   RNKeychain: c658833a9cb2cbcba6423bdd6e16cce59e27da0e
-  RNReanimated: 6abbbae2e5e72609d85aabd92a982a94566885f1
+  RNReanimated: b2ab0b693dddd2339bd2f300e770f6302d2e960c
   RNScreens: f28b48b8345f2f5f39ed6195518291515032a788
-  RNSVG: 75670614bca635d3dd64bc267bc199e539cb4fa9
+  RNSVG: f6177f8d7c095fada7cfee2e4bb7388ba426064c
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   Yoga: 14927e37bd25376d216b150ab2a561773d57911f
 
-PODFILE CHECKSUM: 6cf8e50196d07f0d7860a5c92246977fb77b9232
+PODFILE CHECKSUM: a84b3acc02e847cead9509025c4a12a8277a88a5
 
 COCOAPODS: 1.7.5
