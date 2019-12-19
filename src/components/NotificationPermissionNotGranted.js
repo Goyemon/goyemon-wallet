@@ -35,7 +35,7 @@ export default class NotificationPermissionNotGranted extends Component {
               opacity="1"
               onPress={() => {
                 if (Platform.OS === 'ios') {
-                  Linking.openURL('app-settings://notification/DeBank');
+                  Linking.openURL('app-settings://notification/Crypterest');
                 } else if (Platform.OS === 'android') {
                   AndroidOpenSettings.appNotificationSettings();
                 }
