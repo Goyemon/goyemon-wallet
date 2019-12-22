@@ -107,7 +107,12 @@ export default class Initial extends Component {
   hasTransactionHistory() {
     const stateTree = store.getState();
     const transactions = stateTree.ReducerTransactionHistory.transactions;
-    return transactions != null;
+    const transactionCount = stateTree.ReducerTransactionHistory.transactionCount;
+    return (
+      transactions != null &&
+      transactions.length != null &&
+      transactions.length.toString() === transactionCount
+    );
   }
 
   hasBalance() {
