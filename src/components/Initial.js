@@ -72,7 +72,7 @@ export default class Initial extends Component {
     }
 
     HomeStack.navigationOptions = ({ navigation }) => {
-      let tabBarVisible = true;
+      let tabBarVisible;
       if (navigation.state.index >= 0 && mainPage === 'WalletList') {
         tabBarVisible = true;
       } else if (
