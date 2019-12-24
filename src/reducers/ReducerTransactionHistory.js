@@ -24,11 +24,12 @@ const transactions = (state = INITIAL_STATE, action) => {
       } else if (state.transactions != null) {
         const transactions = [...state.transactions, ...action.payload];
         const filteredTransactions = transactions.reduce((accumulator, element) => {
-            if (!accumulator.find(el => el['hash'] === element['hash'])) {
-              accumulator.push(element);
-            }
-            return accumulator;
-          }, []);
+          if (!accumulator.find(el => el['hash'] === element['hash'])) {
+            accumulator.push(element);
+          }
+          return accumulator;
+        }, []);
+
         let removeSentTx;
         removeSentTx = filteredTransactions.map(transaction => transaction.state).indexOf('sent');
         if (removeSentTx === -1) {
