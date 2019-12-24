@@ -5,6 +5,75 @@
 	<key>logFormatVersion</key>
 	<integer>10</integer>
 	<key>logs</key>
-	<dict/>
+	<dict>
+		<key>53949BE6-45C9-42DA-A125-C28D9ADBDC94</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>53949BE6-45C9-42DA-A125-C28D9ADBDC94.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>W</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>Crypterest project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>Crypterest</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building workspace Crypterest with scheme Crypterest and configuration Debug</string>
+			<key>timeStartedRecording</key>
+			<real>598799182.09117305</real>
+			<key>timeStoppedRecording</key>
+			<real>598799184.954705</real>
+			<key>title</key>
+			<string>Building workspace Crypterest with scheme Crypterest and configuration Debug</string>
+			<key>uniqueIdentifier</key>
+			<string>53949BE6-45C9-42DA-A125-C28D9ADBDC94</string>
+		</dict>
+		<key>B88C16EB-A145-42F9-A734-D34EB97301D5</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>B88C16EB-A145-42F9-A734-D34EB97301D5.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>W</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>Crypterest project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>Crypterest</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building workspace Crypterest with scheme Crypterest and configuration Debug</string>
+			<key>timeStartedRecording</key>
+			<real>598840858.457111</real>
+			<key>timeStoppedRecording</key>
+			<real>598840861.24930096</real>
+			<key>title</key>
+			<string>Building workspace Crypterest with scheme Crypterest and configuration Debug</string>
+			<key>uniqueIdentifier</key>
+			<string>B88C16EB-A145-42F9-A734-D34EB97301D5</string>
+		</dict>
+	</dict>
 </dict>
 </plist>

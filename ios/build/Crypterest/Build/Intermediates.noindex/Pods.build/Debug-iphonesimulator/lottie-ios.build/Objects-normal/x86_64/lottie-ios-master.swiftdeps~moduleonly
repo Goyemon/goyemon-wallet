@@ -1,6 +1,6 @@
 version: "Apple Swift version 5.1 (swiftlang-1100.0.270.13 clang-1100.0.33.7)"
 options: "de31879ba3f8e77c9c775f1958f7d8ad"
-build_time: [1576728251, 84336000]
+build_time: [1576813537, 774750000]
 inputs:
   "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-swift/src/Public/iOS/AnimatedButton.swift": [1571805891, 967031995]
   "/Users/tai/Dropbox/Codes/DeBank/ios/Pods/lottie-ios/lottie-swift/src/Public/iOS/AnimatedControl.swift": [1571805891, 968556350]
