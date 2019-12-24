@@ -7,6 +7,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from '../store/store.js';
 import HomeStack from './HomeStack';
 import SettingsStack from './SettingsStack';
+import '../firebase/FirebaseListener';
 
 const AppTab = createBottomTabNavigator(
   {
