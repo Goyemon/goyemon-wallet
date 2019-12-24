@@ -46,6 +46,8 @@ const transactions = (state = INITIAL_STATE, action) => {
       };
     case ADD_PENDING_OR_INCLUDED_TRANSACTION:
       return {
+        transactions: [action.payload, ...state.transactions]
+      };
     case UPDATE_PENDING_OR_INCLUDED_TRANSACTION:
       return {
         transactions: state.transactions.map((transaction, index) => {
