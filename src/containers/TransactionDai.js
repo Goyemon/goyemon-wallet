@@ -112,7 +112,7 @@ class TransactionDai extends Component {
     ) {
       return (
         <CrypterestText fontSize="16px" style={styles.valueStyleRed}>
-          {ameValue} AME
+          {ameValue} DAI
         </CrypterestText>
       );
     }

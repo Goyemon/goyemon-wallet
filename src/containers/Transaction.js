@@ -154,7 +154,7 @@ class Transaction extends Component {
       ) {
         return (
           <CrypterestText fontSize="16px" style={styles.valueStyleGreen}>
-            {ameValue} AME
+            {ameValue} DAI
           </CrypterestText>
         );
       } else if (
@@ -163,7 +163,7 @@ class Transaction extends Component {
       ) {
         return (
           <CrypterestText fontSize="16px" style={styles.valueStyleRed}>
-            {ameValue} AME
+            {ameValue} DAI
           </CrypterestText>
         );
       }
