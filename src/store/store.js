@@ -11,6 +11,7 @@ const persistConfig = {
   whitelist: [
     'ReducerOutgoingTransactionObjects',
     'ReducerTransactionHistory',
+    'ReducerTransactionCount',
     'ReducerBalance',
     'ReducerChecksumAddress',
     'ReducerWallets',
