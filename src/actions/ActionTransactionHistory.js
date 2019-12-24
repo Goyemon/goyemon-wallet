@@ -1,5 +1,5 @@
 'use strict';
-import { SAVE_EMPTY_TRANSACTION, SAVE_EXISTING_TRANSACTIONS, ADD_SENT_TRANSACTION, ADD_PENDING_OR_INCLUDED_TRANSACTION, UPDATE_TRANSACTION_STATE } from '../constants/ActionTypes';
+import { SAVE_EMPTY_TRANSACTION, SAVE_EXISTING_TRANSACTIONS, ADD_SENT_TRANSACTION, ADD_PENDING_OR_INCLUDED_TRANSACTION, UPDATE_PENDING_OR_INCLUDED_TRANSACTION, UPDATE_TRANSACTION_STATE } from '../constants/ActionTypes';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import daiToken from '../contracts/DaiToken';
 
@@ -69,6 +69,22 @@ export function addPendingOrIncludedTransaction(transactionObject) {
 
 const addPendingOrIncludedTransactionSuccess = (parsedTransaction) => ({
   type: ADD_PENDING_OR_INCLUDED_TRANSACTION,
+  payload: parsedTransaction
+})
+
+export function updatePendingOrIncludedTransaction(transactionObject) {
+  return function (dispatch) {
+    try {
+      let parsedTransaction = TransactionUtilities.parsePendingOrIncludedTransaction(transactionObject);
+      dispatch(updatePendingOrIncludedTransactionSuccess(parsedTransaction));
+    } catch(err) {
+      console.error(err);
+    }
+  }
+};
+
+const updatePendingOrIncludedTransactionSuccess = (parsedTransaction) => ({
+  type: UPDATE_PENDING_OR_INCLUDED_TRANSACTION,
   payload: parsedTransaction
 })
 
