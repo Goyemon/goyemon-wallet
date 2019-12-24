@@ -20,49 +20,49 @@ export default async (message) => {
   const transactionsHistory = stateTree.ReducerTransactionHistory.transactions;
   const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
 
-  console.log("downstreamMessage ===>", downstreamMessage);
+  console.log("message ===>", message);
 
-  if (downstreamMessage.data.type === 'balance') {
-    if (downstreamMessage.data.hasOwnProperty('eth')) {
-      const ethBalanceInWei = parseInt(downstreamMessage.data.eth, 16);
+  if (message.data.type === 'balance') {
+    if (message.data.hasOwnProperty('eth')) {
+      const ethBalanceInWei = parseInt(message.data.eth, 16);
       const balanceInEther = Web3.utils.fromWei(ethBalanceInWei.toString());
       const roundedBalanceInEther = parseFloat(balanceInEther).toFixed(4);
       store.dispatch(saveEthBalance(roundedBalanceInEther));
     }
-    if (downstreamMessage.data.hasOwnProperty('ame_ropsten')) {
-      let daiBalance = parseInt(downstreamMessage.data.ame_ropsten, 16) / 10 ** 18;
+    if (message.data.hasOwnProperty('ame_ropsten')) {
+      let daiBalance = parseInt(message.data.ame_ropsten, 16) / 10 ** 18;
       daiBalance = daiBalance.toFixed(2);
       store.dispatch(saveDaiBalance(daiBalance));
     }
-  } else if (downstreamMessage.data.type === 'txhistory' && downstreamMessage.data.count != '0') {
-    const transactions = JSON.parse(downstreamMessage.data.items);
+  } else if (message.data.type === 'txhistory' && message.data.count != '0') {
+    const transactions = JSON.parse(message.data.items);
     store.dispatch(saveExistingTransactions(transactions));
-    store.dispatch(saveTransactionCount(downstreamMessage.data.count));
-  } else if (downstreamMessage.data.type === 'txhistory' && downstreamMessage.data.count === '0') {
-    store.dispatch(saveEmptyTransaction(downstreamMessage.data.items));
-    store.dispatch(saveTransactionCount(downstreamMessage.data.count));
-  } else if (downstreamMessage.data.type === 'txstate') {
-    if (downstreamMessage.data.state === 'pending') {
+    store.dispatch(saveTransactionCount(message.data.count));
+  } else if (message.data.type === 'txhistory' && message.data.count === '0') {
+    store.dispatch(saveEmptyTransaction(message.data.items));
+    store.dispatch(saveTransactionCount(message.data.count));
+  } else if (message.data.type === 'txstate') {
+    if (message.data.state === 'pending') {
       if (Array.isArray(transactionsHistory)) {
         const txHashExist = transactionsHistory.some(
-          transaction => transaction.hash === downstreamMessage.data.txhash
+          transaction => transaction.hash === message.data.txhash
         );
-        if(downstreamMessage.data.hasOwnProperty('txto')){
+        if(message.data.hasOwnProperty('txto')){
           if (
             checksumAddress ===
-              Web3.utils.toChecksumAddress(downstreamMessage.data.txto) &&
+              Web3.utils.toChecksumAddress(message.data.txto) &&
             txHashExist === false
           ) {
-              store.dispatch(addPendingOrIncludedTransaction(downstreamMessage.data));
+              store.dispatch(addPendingOrIncludedTransaction(message.data));
               store.dispatch(incrementTransactionCount());
           }
         }
-        if(downstreamMessage.data.hasOwnProperty('ame_ropsten')){
+        if(message.data.hasOwnProperty('ame_ropsten')){
           if (
-            checksumAddress === Web3.utils.toChecksumAddress(JSON.parse(downstreamMessage.data.ame_ropsten).to) &&
+            checksumAddress === Web3.utils.toChecksumAddress(JSON.parse(message.data.ame_ropsten).to) &&
             txHashExist === false
           ) {
-              store.dispatch(addPendingOrIncludedTransaction(downstreamMessage.data));
+              store.dispatch(addPendingOrIncludedTransaction(message.data));
               store.dispatch(incrementTransactionCount());
           }
         }
@@ -72,38 +72,38 @@ export default async (message) => {
         transactionsHistory.map(transaction => {
           if (
             transaction.from ===
-            Web3.utils.toChecksumAddress(downstreamMessage.data.txfrom)
+            Web3.utils.toChecksumAddress(message.data.txfrom)
           ) {
-            if(transaction.nonce === parseInt(downstreamMessage.data.nonce, 16) &&
+            if(transaction.nonce === parseInt(message.data.nonce, 16) &&
             !(transaction.state === 'included') &&
             !(transaction.state === 'confirmed')
           ) {
-              store.dispatch(updatePendingOrIncludedTransaction(downstreamMessage.data));
+              store.dispatch(updatePendingOrIncludedTransaction(message.data));
             }
           }
         });
       }
-    } else if (downstreamMessage.data.state === 'included') {
+    } else if (message.data.state === 'included') {
       if (Array.isArray(transactionsHistory)) {
         const txHashExist = transactionsHistory.some(
-          transaction => transaction.hash === downstreamMessage.data.txhash
+          transaction => transaction.hash === message.data.txhash
         );
-        if(downstreamMessage.data.hasOwnProperty('txto')) {
+        if(message.data.hasOwnProperty('txto')) {
           if (
             (checksumAddress ===
-              Web3.utils.toChecksumAddress(downstreamMessage.data.txto) &&
+              Web3.utils.toChecksumAddress(message.data.txto) &&
               txHashExist === false)
           ) {
-              store.dispatch(addPendingOrIncludedTransaction(downstreamMessage.data));
+              store.dispatch(addPendingOrIncludedTransaction(message.data));
               store.dispatch(incrementTransactionCount());
             }
         }
-        if(downstreamMessage.data.hasOwnProperty('ame_ropsten')){
+        if(message.data.hasOwnProperty('ame_ropsten')){
           if (
-              checksumAddress === Web3.utils.toChecksumAddress(JSON.parse(downstreamMessage.data.ame_ropsten).to) &&
+              checksumAddress === Web3.utils.toChecksumAddress(JSON.parse(message.data.ame_ropsten).to) &&
               txHashExist === false
           ) {
-              store.dispatch(addPendingOrIncludedTransaction(downstreamMessage.data));
+              store.dispatch(addPendingOrIncludedTransaction(message.data));
               store.dispatch(incrementTransactionCount());
             }
         }
@@ -114,11 +114,11 @@ export default async (message) => {
         transactionsHistory.map(transaction => {
           if (
             transaction.from ===
-            Web3.utils.toChecksumAddress(downstreamMessage.data.txfrom) &&
-            transaction.nonce === parseInt(downstreamMessage.data.nonce, 16) &&
+            Web3.utils.toChecksumAddress(message.data.txfrom) &&
+            transaction.nonce === parseInt(message.data.nonce, 16) &&
             transaction.state === 'sent'
           ) {
-            store.dispatch(updatePendingOrIncludedTransaction(downstreamMessage.data));
+            store.dispatch(updatePendingOrIncludedTransaction(message.data));
           }
         });
       }
@@ -126,21 +126,21 @@ export default async (message) => {
       if (Array.isArray(transactionsHistory)) {
         transactionsHistory.map(transaction => {
           if (
-            transaction.hash === downstreamMessage.data.txhash &&
+            transaction.hash === message.data.txhash &&
             !(transaction.state === 'confirmed')
           ) {
-            store.dispatch(updateTransactionState(downstreamMessage.data));
+            store.dispatch(updateTransactionState(message.data));
           }
         });
       }
 
-    } else if (downstreamMessage.data.state === 'confirmed') {
+    } else if (message.data.state === 'confirmed') {
       if (Array.isArray(transactionsHistory)) {
         transactionsHistory.map(transaction => {
           if (
-            transaction.hash === downstreamMessage.data.txhash
+            transaction.hash === message.data.txhash
           ) {
-            store.dispatch(updateTransactionState(downstreamMessage.data));
+            store.dispatch(updateTransactionState(message.data));
           }
         });
       }
