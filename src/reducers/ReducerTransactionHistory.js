@@ -29,6 +29,12 @@ const transactions = (state = INITIAL_STATE, action) => {
             }
             return accumulator;
           }, []);
+        let removeSentTx;
+        removeSentTx = filteredTransactions.map(transaction => transaction.state).indexOf('sent');
+        if (removeSentTx === -1) {
+          removeSentTx = 0;
+        }
+
         const sortedTransactions = filteredTransactions.sort((a, b) => b.time - a.time);
         return {
           transactions: sortedTransactions
