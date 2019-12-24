@@ -5,7 +5,7 @@ import 'react-native-gesture-handler';
 import { AppRegistry } from 'react-native';
 import App from './src/navigators/AppTab';
 import { name as appName } from './app.json';
-import { firebaseListener } from './src/firebase/FirebaseListener';
+import FirebaseBackgroundListener from './src/firebase/FirebaseBackgroundListener';
 
 AppRegistry.registerComponent(appName, () => App);
-AppRegistry.registerHeadlessTask('RNFirebaseBackgroundMessage', () => firebaseListener);
+AppRegistry.registerHeadlessTask('RNFirebaseBackgroundMessage', () => FirebaseBackgroundListener);
