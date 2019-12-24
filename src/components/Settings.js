@@ -88,7 +88,7 @@ class Settings extends Component {
           <CommunityIcon>
             <Icon
               onPress={() => {
-                Linking.openURL('https://twitter.com/taisuke_mino').catch(err =>
+                Linking.openURL('#').catch(err =>
                   console.error('An error occurred', err)
                 );
               }}
@@ -100,7 +100,7 @@ class Settings extends Component {
           <CommunityIcon>
             <Icon
               onPress={() => {
-                Linking.openURL('https://github.com/taisukemino').catch(err =>
+                Linking.openURL('#').catch(err =>
                   console.error('An error occurred', err)
                 );
               }}
