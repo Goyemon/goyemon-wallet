@@ -3,7 +3,7 @@
     {
       "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "Icon-App-40x40@1x.png",
+      "filename" : "Icon-App-20x20@2x.png",
       "scale" : "2x"
     },
     {
@@ -51,7 +51,7 @@
     {
       "size" : "1024x1024",
       "idiom" : "ios-marketing",
-      "filename" : "icon-swift.png",
+      "filename" : "playstore-icon.png",
       "scale" : "1x"
     }
   ],
