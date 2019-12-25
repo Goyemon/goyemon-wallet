@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Thu Dec 19 15:51:51 JST 2019
+#Wed Dec 25 16:47:52 JST 2019
 60.set=NATIVE_RESOURCE
 52.set=NATIVE_RESOURCE
 53.base=/Users/tai/Dropbox/Codes/DeBank/android/app/build/intermediates/transforms/mergeJniLibs/release/0
