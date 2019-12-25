@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TextInput } from 'react-native';
+import { KeyboardAvoidingView, Platform, StyleSheet, View, Text, TextInput } from 'react-native';
 import { RootContainer, ProgressBar, HeaderTwo, Button, Description } from '../components/common';
 import { connect } from 'react-redux';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
@@ -73,53 +73,59 @@ class VerifyMnemonic extends Component {
     const { mnemonicWords } = this.state;
 
     return (
-      <RootContainer>
-        <ProgressBar
-          oneColor="#FDC800"
-          twoColor="#FDC800"
-          threeColor="#eeeeee"
-          marginRight="40%"
-          width="40%"
-        />
-        <Container>
-          <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
-            Verify Backup Words
-          </HeaderTwo>
-          <Description marginBottom="8" marginLeft="8" marginTop="16">
-            Let us help you to protect your assets. Please type in your backup words to make sure
-            they are right!
-          </Description>
-          <MnemonicWordsContainer style={styles.table}>
-            {this.state.mnemonicWords.map((word, id) => (
-              <View style={styles.cell} key={id}>
-                <MnemonicWordWrapper>
-                  <TextInput
-                    style={{ textAlign: 'center', padding: 4 }}
-                    placeholder={(id + 1).toString()}
-                    autoCapitalize="none"
-                    maxLength={15}
-                    onChangeText={text => {
-                      this.handleTextChange(text, id);
-                    }}
-                  />
-                </MnemonicWordWrapper>
-              </View>
-            ))}
-          </MnemonicWordsContainer>
-          <View>{this.renderInvalidMnemonicWordsMessage()}</View>
-          <Button
-            text="Verify"
-            textColor="#00A3E2"
-            backgroundColor="#FFF"
-            borderColor="#00A3E2"
-            margin="24px auto"
-            opacity="1"
-            onPress={async () => {
-              await this.validateForm();
-            }}
+      <KeyboardAvoidingView
+        style={styles.avoidKeyboard}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        enabled
+      >
+        <RootContainer>
+          <ProgressBar
+            oneColor="#FDC800"
+            twoColor="#FDC800"
+            threeColor="#eeeeee"
+            marginRight="40%"
+            width="40%"
           />
-        </Container>
-      </RootContainer>
+          <Container>
+            <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
+              Verify Backup Words
+            </HeaderTwo>
+            <Description marginBottom="8" marginLeft="8" marginTop="16">
+              Let us help you to protect your assets. Please type in your backup words to make sure
+              they are right!
+            </Description>
+            <MnemonicWordsContainer style={styles.table}>
+              {this.state.mnemonicWords.map((word, id) => (
+                <View style={styles.cell} key={id}>
+                  <MnemonicWordWrapper>
+                    <TextInput
+                      style={{ textAlign: 'center', padding: 4 }}
+                      placeholder={(id + 1).toString()}
+                      autoCapitalize="none"
+                      maxLength={15}
+                      onChangeText={text => {
+                        this.handleTextChange(text, id);
+                      }}
+                    />
+                  </MnemonicWordWrapper>
+                </View>
+              ))}
+            </MnemonicWordsContainer>
+            <View>{this.renderInvalidMnemonicWordsMessage()}</View>
+            <Button
+              text="Verify"
+              textColor="#00A3E2"
+              backgroundColor="#FFF"
+              borderColor="#00A3E2"
+              margin="24px auto"
+              opacity="1"
+              onPress={async () => {
+                await this.validateForm();
+              }}
+            />
+          </Container>
+        </RootContainer>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -133,6 +139,11 @@ const styles = StyleSheet.create({
     flexBasis: '25%',
     flex: 1,
     marginBottom: 8
+  },
+  avoidKeyboard: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center'
   }
 });
 

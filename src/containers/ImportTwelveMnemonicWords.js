@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { View, TextInput } from 'react-native';
+import { KeyboardAvoidingView, Platform, View, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { RootContainer, ProgressBar, HeaderTwo, Description, Button } from '../components/common';
@@ -45,54 +45,60 @@ class ImportTwelveMnemonicWords extends Component {
 
   render() {
     return (
-      <RootContainer>
-        <ProgressBar
-          oneColor="#FDC800"
-          twoColor="#FDC800"
-          threeColor="#eeeeee"
-          marginRight="40%"
-          width="40%"
-        />
-        <Container>
-          <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
-            Import Backup Words
-          </HeaderTwo>
-          <Description marginBottom="8" marginLeft="8" marginTop="16">
-            Enter the backup words to import your wallet.
-          </Description>
-          <MnemonicWordsContainer style={styles.table}>
-            {this.state.mnemonicWords.map((word, id) => (
-              <View style={styles.cell} key={id}>
-                <MnemonicWordWrapper>
-                  <TextInput
-                    style={{ textAlign: 'center', padding: 4 }}
-                    placeholder={(id + 1).toString()}
-                    autoCapitalize="none"
-                    maxLength={15}
-                    onChangeText={text => {
-                      this.handleTextChange(text, id);
-                    }}
-                  />
-                </MnemonicWordWrapper>
-              </View>
-            ))}
-          </MnemonicWordsContainer>
-          <ButtonContainer>
-            <Button
-              text="Next"
-              textColor="#00A3E2"
-              backgroundColor="#FFF"
-              borderColor="#00A3E2"
-              margin="24px auto"
-              opacity="1"
-              onPress={async () => {
-                await this.validateForm();
-              }}
-            />
-          </ButtonContainer>
-          <View>{this.renderInvalidMnemonicWordsMessage()}</View>
-        </Container>
-      </RootContainer>
+      <KeyboardAvoidingView
+        style={styles.avoidKeyboard}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        enabled
+      >
+        <RootContainer>
+          <ProgressBar
+            oneColor="#FDC800"
+            twoColor="#FDC800"
+            threeColor="#eeeeee"
+            marginRight="40%"
+            width="40%"
+          />
+          <Container>
+            <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
+              Import Backup Words
+            </HeaderTwo>
+            <Description marginBottom="8" marginLeft="8" marginTop="16">
+              Enter the backup words to import your wallet.
+            </Description>
+            <MnemonicWordsContainer style={styles.table}>
+              {this.state.mnemonicWords.map((word, id) => (
+                <View style={styles.cell} key={id}>
+                  <MnemonicWordWrapper>
+                    <TextInput
+                      style={{ textAlign: 'center', padding: 4 }}
+                      placeholder={(id + 1).toString()}
+                      autoCapitalize="none"
+                      maxLength={15}
+                      onChangeText={text => {
+                        this.handleTextChange(text, id);
+                      }}
+                    />
+                  </MnemonicWordWrapper>
+                </View>
+              ))}
+            </MnemonicWordsContainer>
+            <ButtonContainer>
+              <Button
+                text="Next"
+                textColor="#00A3E2"
+                backgroundColor="#FFF"
+                borderColor="#00A3E2"
+                margin="24px auto"
+                opacity="1"
+                onPress={async () => {
+                  await this.validateForm();
+                }}
+              />
+            </ButtonContainer>
+            <View>{this.renderInvalidMnemonicWordsMessage()}</View>
+          </Container>
+        </RootContainer>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -106,6 +112,11 @@ const styles = {
     flexBasis: '25%',
     flex: 1,
     marginBottom: 8
+  },
+  avoidKeyboard: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center'
   }
 };
 
