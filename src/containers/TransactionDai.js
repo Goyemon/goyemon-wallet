@@ -103,7 +103,7 @@ class TransactionDai extends Component {
     ) {
       return (
         <CrypterestText fontSize="16px" style={styles.valueStyleGreen}>
-          {ameValue} AME
+          {ameValue} DAI
         </CrypterestText>
       );
     } else if (
