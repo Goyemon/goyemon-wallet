@@ -68,6 +68,10 @@ class ImportTwentyFourMnemonicWords extends Component {
     this.setState({ mnemonicWords });
   };
 
+  focusNextInput(nextInput) {
+    this.refs[nextInput].focus();
+  }
+
   render() {
     return (
       <KeyboardAvoidingView
@@ -95,6 +99,7 @@ class ImportTwentyFourMnemonicWords extends Component {
                 <View style={styles.cell} key={id}>
                   <MnemonicWordWrapper>
                     <TextInput
+                      ref={id}
                       style={{ textAlign: 'center', padding: 4 }}
                       placeholder={(id + 1).toString()}
                       autoCapitalize="none"
@@ -102,6 +107,8 @@ class ImportTwentyFourMnemonicWords extends Component {
                       onChangeText={text => {
                         this.handleTextChange(text, id);
                       }}
+                      onSubmitEditing={id === 23 ? console.log('done') : () => this.focusNextInput((id + 1).toString())}
+                      returnKeyType={id === 23 ? 'done' : 'next'}
                     />
                   </MnemonicWordWrapper>
                 </View>
