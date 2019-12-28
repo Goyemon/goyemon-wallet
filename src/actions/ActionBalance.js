@@ -1,21 +1,5 @@
 'use strict';
-import { SAVE_ETH_BALANCE } from '../constants/ActionTypes';
-import { SAVE_DAI_BALANCE } from '../constants/ActionTypes';
-
-export function saveEthBalance(ethBalance) {
-  return async function (dispatch) {
-    try {
-      dispatch(saveEthBalanceSuccess(ethBalance));
-    } catch(err) {
-      console.error(err);
-    }
-  }
-};
-
-const saveEthBalanceSuccess = (ethBalance) => ({
-  type: SAVE_ETH_BALANCE,
-  payload: ethBalance
-})
+import { SAVE_DAI_BALANCE, SAVE_ETH_BALANCE } from '../constants/ActionTypes';
 
 export function saveDaiBalance(daiBalance) {
   return async function (dispatch) {
@@ -30,4 +14,19 @@ export function saveDaiBalance(daiBalance) {
 const saveDaiBalanceSuccess = (daiBalance) => ({
   type: SAVE_DAI_BALANCE,
   payload: daiBalance
+})
+
+export function saveEthBalance(ethBalance) {
+  return async function (dispatch) {
+    try {
+      dispatch(saveEthBalanceSuccess(ethBalance));
+    } catch(err) {
+      console.error(err);
+    }
+  }
+};
+
+const saveEthBalanceSuccess = (ethBalance) => ({
+  type: SAVE_ETH_BALANCE,
+  payload: ethBalance
 })

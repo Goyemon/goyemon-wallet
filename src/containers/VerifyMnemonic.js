@@ -1,10 +1,10 @@
 'use strict';
 import React, { Component } from 'react';
-import { KeyboardAvoidingView, Platform, StyleSheet, View, Text, TextInput } from 'react-native';
-import { RootContainer, ProgressBar, HeaderTwo, Button, Description } from '../components/common';
 import { connect } from 'react-redux';
-import WalletUtilities from '../utilities/WalletUtilities.ts';
+import { KeyboardAvoidingView, Platform, StyleSheet, View, Text, TextInput } from 'react-native';
 import styled from 'styled-components/native';
+import { RootContainer, ProgressBar, HeaderTwo, Button, Description } from '../components/common';
+import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class VerifyMnemonic extends Component {
   constructor() {

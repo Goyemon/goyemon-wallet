@@ -1,13 +1,13 @@
 'use strict';
 import React, { Component } from 'react';
-import { StackActions, NavigationActions } from 'react-navigation';
-import { RootContainer } from '../components/common';
-import styled from 'styled-components/native';
 import * as Animatable from 'react-native-animatable';
-import WalletUtilities from '../utilities/WalletUtilities.ts';
-import HomeStack from '../navigators/HomeStack';
 import firebase from 'react-native-firebase';
+import { StackActions, NavigationActions } from 'react-navigation';
+import styled from 'styled-components/native';
+import { RootContainer } from '../components/common';
+import HomeStack from '../navigators/HomeStack';
 import { store } from '../store/store.js';
+import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 export default class Initial extends Component {
   async componentDidMount() {

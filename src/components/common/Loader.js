@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react';
-import styled from 'styled-components';
 import { ActivityIndicator } from 'react-native';
+import styled from 'styled-components';
 
 const Loader = props => {
   const { loading, ...attributes } = props;

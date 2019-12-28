@@ -1,11 +1,11 @@
 'use strict';
 import React, { Component } from 'react';
-import { KeyboardAvoidingView, Platform, View, TextInput } from 'react-native';
 import { connect } from 'react-redux';
+import { KeyboardAvoidingView, Platform, View, TextInput } from 'react-native';
 import styled from 'styled-components/native';
+import { saveMnemonic } from '../actions/ActionMnemonic';
 import { RootContainer, ProgressBar, HeaderTwo, Button, Description } from '../components/common';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
-import { saveMnemonic } from '../actions/ActionMnemonic';
 
 class ImportTwentyFourMnemonicWords extends Component {
   constructor() {

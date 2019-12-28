@@ -1,9 +1,9 @@
 'use strict';
 import React, { Component } from 'react';
-import { View, FlatList } from 'react-native';
 import { connect } from 'react-redux';
-import TransactionDai from './TransactionDai';
+import { View, FlatList } from 'react-native';
 import styled from 'styled-components/native';
+import TransactionDai from './TransactionDai';
 
 class TransactionsDai extends Component {
   renderTransactions() {

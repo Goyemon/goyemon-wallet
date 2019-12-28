@@ -2,34 +2,34 @@
 import { combineReducers } from 'redux';
 import { CLEAR_STATE } from '../constants/ActionTypes';
 
-import ReducerMnemonic from './ReducerMnemonic';
-import ReducerWallets from './ReducerWallets';
-import ReducerPrice from './ReducerPrice';
-import ReducerTransactionCount from './ReducerTransactionCount';
-import ReducerTransactionHistory from './ReducerTransactionHistory';
+import ReducerBalance from './ReducerBalance';
 import ReducerChecksumAddress from './ReducerChecksumAddress';
-import ReducerGasPrice from './ReducerGasPrice';
-import ReducerOutgoingTransactionObjects from './ReducerOutgoingTransactionObjects';
-import ReducerTransactionFeeEstimate from './ReducerTransactionFeeEstimate';
 import ReducerDaiAmount from './ReducerDaiAmount';
 import ReducerDaiToAddress from './ReducerDaiToAddress';
-import ReducerBalance from './ReducerBalance';
+import ReducerGasPrice from './ReducerGasPrice';
+import ReducerMnemonic from './ReducerMnemonic';
 import ReducerNotificationPermission from './ReducerNotificationPermission';
+import ReducerOutgoingTransactionObjects from './ReducerOutgoingTransactionObjects';
+import ReducerPrice from './ReducerPrice';
+import ReducerTransactionCount from './ReducerTransactionCount';
+import ReducerTransactionFeeEstimate from './ReducerTransactionFeeEstimate';
+import ReducerTransactionHistory from './ReducerTransactionHistory';
+import ReducerWallets from './ReducerWallets';
 
 const appReducers = combineReducers({
-  ReducerMnemonic,
-  ReducerWallets,
-  ReducerPrice,
-  ReducerTransactionCount,
-  ReducerTransactionHistory,
+  ReducerBalance,
   ReducerChecksumAddress,
-  ReducerGasPrice,
-  ReducerOutgoingTransactionObjects,
-  ReducerTransactionFeeEstimate,
   ReducerDaiAmount,
   ReducerDaiToAddress,
-  ReducerBalance,
-  ReducerNotificationPermission
+  ReducerGasPrice,
+  ReducerMnemonic,
+  ReducerNotificationPermission,
+  ReducerOutgoingTransactionObjects,
+  ReducerPrice,
+  ReducerTransactionCount,
+  ReducerTransactionFeeEstimate,
+  ReducerTransactionHistory,
+  ReducerWallets
 });
 
 const rootReducers = (state, action) => {

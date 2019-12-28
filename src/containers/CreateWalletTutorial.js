@@ -1,10 +1,10 @@
 'use strict';
 import React, { Component } from 'react';
-import styled from 'styled-components/native';
-import { RootContainer, Button, HeaderTwo, Description } from '../components/common';
 import { connect } from 'react-redux';
-import WalletUtilities from '../utilities/WalletUtilities.ts';
+import styled from 'styled-components/native';
 import { saveMnemonic } from '../actions/ActionMnemonic';
+import { RootContainer, Button, HeaderTwo, Description } from '../components/common';
+import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class CreateWalletTutorial extends Component {
   render() {

@@ -1,6 +1,19 @@
 'use strict';
+import Animation from 'lottie-react-native';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import styled from 'styled-components/native';
+import Web3 from 'web3';
+import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
+import { saveDaiAmount } from '../actions/ActionDaiAmount';
+import { saveDaiToAddress } from '../actions/ActionDaiToAddress';
+import { getGasPriceFast, getGasPriceAverage, getGasPriceSlow } from '../actions/ActionGasPrice';
+import {
+  saveTransactionFeeEstimateUsd,
+  saveTransactionFeeEstimateEth
+} from '../actions/ActionTransactionFeeEstimate';
 import {
   RootContainer,
   Button,
@@ -11,23 +24,10 @@ import {
   FormHeader,
   CrypterestText
 } from '../components/common';
-import { connect } from 'react-redux';
-import styled from 'styled-components/native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
-import {
-  saveTransactionFeeEstimateUsd,
-  saveTransactionFeeEstimateEth
-} from '../actions/ActionTransactionFeeEstimate';
-import { saveDaiAmount } from '../actions/ActionDaiAmount';
-import { saveDaiToAddress } from '../actions/ActionDaiToAddress';
-import { getGasPriceFast, getGasPriceAverage, getGasPriceSlow } from '../actions/ActionGasPrice';
+import daiToken from '../contracts/DaiToken';
+import GasUtilities from '../utilities/GasUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
-import GasUtilities from '../utilities/GasUtilities.js';
-import Animation from 'lottie-react-native';
-import daiToken from '../contracts/DaiToken';
-import Web3 from 'web3';
 
 class SendDai extends Component {
   constructor(props) {

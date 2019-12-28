@@ -1,9 +1,9 @@
 'use strict';
 import React, { Component } from 'react';
-import { View } from 'react-native';
-import { CrypterestText } from '../components/common';
 import { connect } from 'react-redux';
+import { View } from 'react-native';
 import styled from 'styled-components';
+import { CrypterestText } from '../components/common';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class WalletDetail extends Component {

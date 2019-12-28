@@ -1,8 +1,8 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { RootContainer, ProgressBar, Button, HeaderTwo, Description } from '../components/common';
 import styled from 'styled-components/native';
+import { RootContainer, ProgressBar, Button, HeaderTwo, Description } from '../components/common';
 import FcmPermissions from '../firebase/FcmPermissions.js';
 
 class NotificationPermissionTutorial extends Component {

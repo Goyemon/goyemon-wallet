@@ -1,13 +1,13 @@
 'use strict';
 import React from 'react';
+import { Provider } from 'react-redux';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
-import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import { store, persistor } from '../store/store.js';
+import '../firebase/FirebaseListener';
 import HomeStack from './HomeStack';
 import SettingsStack from './SettingsStack';
-import '../firebase/FirebaseListener';
+import { store, persistor } from '../store/store.js';
 
 const AppTab = createBottomTabNavigator(
   {

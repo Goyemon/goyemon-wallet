@@ -1,16 +1,16 @@
 'use strict';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Clipboard, TouchableWithoutFeedback } from 'react-native';
+import QRCodeSvg from 'react-native-qrcode-svg';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import styled from 'styled-components/native';
 import {
   RootContainer,
   UntouchableCardContainer,
   HeaderOne,
   CrypterestText
 } from '../components/common';
-import { connect } from 'react-redux';
-import QRCodeSvg from 'react-native-qrcode-svg';
-import styled from 'styled-components/native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 class QRCode extends Component {
   constructor(props) {

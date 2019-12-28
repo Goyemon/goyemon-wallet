@@ -1,15 +1,15 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { HeaderTwo, Description, Button } from '../components/common';
 import { Image, ScrollView, RefreshControl, Modal } from 'react-native';
-import styled from 'styled-components/native';
 import { StackActions, NavigationActions } from 'react-navigation';
-import HomeStack from '../navigators/HomeStack';
-import WalletUtilities from '../utilities/WalletUtilities.ts';
-import FirebaseRegister from '../firebase/FirebaseRegister.ts';
+import styled from 'styled-components/native';
 import { createChecksumAddress } from '../actions/ActionChecksumAddress';
 import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
+import { HeaderTwo, Description, Button } from '../components/common';
+import FirebaseRegister from '../firebase/FirebaseRegister.ts';
+import HomeStack from '../navigators/HomeStack';
+import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class WalletCreation extends Component {
   constructor(props) {

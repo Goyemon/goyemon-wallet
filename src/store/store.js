@@ -1,23 +1,23 @@
 'use strict';
-import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
+import { applyMiddleware, createStore } from 'redux';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import thunk from 'redux-thunk';
 import rootReducers from '../reducers/ReducerIndex';
 
 const persistConfig = {
   key: 'root',
   storage,
   whitelist: [
-    'ReducerOutgoingTransactionObjects',
-    'ReducerTransactionHistory',
-    'ReducerTransactionCount',
     'ReducerBalance',
     'ReducerChecksumAddress',
-    'ReducerWallets',
-    'ReducerPrice',
+    'ReducerMnemonic',
     'ReducerNotificationPermission',
-    'ReducerMnemonic'
+    'ReducerOutgoingTransactionObjects',
+    'ReducerPrice',
+    'ReducerTransactionHistory',
+    'ReducerTransactionCount',
+    'ReducerWallets'
   ]
 };
 

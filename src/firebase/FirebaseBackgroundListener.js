@@ -1,19 +1,17 @@
 'use strict';
 import firebase from 'react-native-firebase';
-import { store } from '../store/store';
-import { saveEthBalance, saveDaiBalance } from '../actions/ActionBalance';
-import { saveTransactionCount, incrementTransactionCount } from '../actions/ActionTransactionCount';
+import Web3 from 'web3';
+import { saveDaiBalance, saveEthBalance } from '../actions/ActionBalance';
+import { incrementTransactionCount, saveTransactionCount } from '../actions/ActionTransactionCount';
 import {
+  saveExistingTransactions,
   saveEmptyTransaction,
-  saveExistingTransactions
-} from '../actions/ActionTransactionHistory';
-import {
   addPendingOrIncludedTransaction,
   updatePendingOrIncludedTransaction,
   updateTransactionState
 } from '../actions/ActionTransactionHistory';
-import Web3 from 'web3';
 import EtherUtilities from '../utilities/EtherUtilities.js';
+import { store } from '../store/store';
 
 export default async (message) => {
   const stateTree = store.getState();

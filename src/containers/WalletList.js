@@ -1,7 +1,12 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 import { withNavigation } from 'react-navigation';
+import styled from 'styled-components';
 import {
   RootContainer,
   QRCodeIcon,
@@ -9,15 +14,9 @@ import {
   HeaderOne,
   HeaderThree
 } from '../components/common';
-import WalletDetail from '../containers/WalletDetail';
-import styled from 'styled-components';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp
-} from 'react-native-responsive-screen';
-import PriceUtilities from '../utilities/PriceUtilities.js';
-import firebase from 'react-native-firebase';
 import FcmPermissions from '../firebase/FcmPermissions.js';
+import PriceUtilities from '../utilities/PriceUtilities.js';
+import WalletDetail from '../containers/WalletDetail';
 
 class WalletList extends Component {
   static navigationOptions = ({ navigation, navigationOptions }) => {

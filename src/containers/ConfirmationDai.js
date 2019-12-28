@@ -1,6 +1,9 @@
 'use strict';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { TouchableWithoutFeedback } from 'react-native';
+import styled from 'styled-components/native';
+import Web3 from 'web3';
 import {
   RootContainer,
   Button,
@@ -9,10 +12,7 @@ import {
   FormHeader,
   CrypterestText
 } from '../components/common/';
-import { connect } from 'react-redux';
-import styled from 'styled-components/native';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
-import Web3 from 'web3';
 
 class ConfirmationDai extends Component {
   constructor(props) {

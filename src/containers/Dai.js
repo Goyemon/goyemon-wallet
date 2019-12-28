@@ -1,16 +1,16 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withNavigation } from 'react-navigation';
 import { View } from 'react-native';
-import TransactionsDai from '../containers/TransactionsDai';
-import { RootContainer, Button, HeaderOne, HeaderThree, QRCodeIcon } from '../components/common/';
-import styled from 'styled-components';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
+import { withNavigation } from 'react-navigation';
+import styled from 'styled-components';
+import { RootContainer, Button, HeaderOne, HeaderThree, QRCodeIcon } from '../components/common/';
 import PriceUtilities from '../utilities/PriceUtilities.js';
+import TransactionsDai from '../containers/TransactionsDai';
 
 class Dai extends Component {
   static navigationOptions = ({ navigation, navigationOptions }) => {

@@ -1,6 +1,12 @@
 'use strict';
 import React, { Component } from 'react';
 import { View } from 'react-native';
+import * as Animatable from 'react-native-animatable';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
+import styled from 'styled-components/native';
 import {
   RootContainer,
   Button,
@@ -8,12 +14,6 @@ import {
   HeaderThree,
   TouchableCardContainer
 } from '../components/common';
-import styled from 'styled-components/native';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp
-} from 'react-native-responsive-screen';
-import * as Animatable from 'react-native-animatable';
 
 export default class Welcome extends Component {
   constructor(props) {

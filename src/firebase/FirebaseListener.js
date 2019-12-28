@@ -1,19 +1,17 @@
 'use strict';
 import firebase from 'react-native-firebase';
-import { store } from '../store/store';
+import Web3 from 'web3';
 import { saveEthBalance, saveDaiBalance } from '../actions/ActionBalance';
 import { saveTransactionCount, incrementTransactionCount } from '../actions/ActionTransactionCount';
 import {
+  saveExistingTransactions,
   saveEmptyTransaction,
-  saveExistingTransactions
-} from '../actions/ActionTransactionHistory';
-import {
   addPendingOrIncludedTransaction,
   updatePendingOrIncludedTransaction,
   updateTransactionState
 } from '../actions/ActionTransactionHistory';
-import Web3 from 'web3';
 import EtherUtilities from '../utilities/EtherUtilities.js';
+import { store } from '../store/store';
 
 firebase.messaging().onMessage(downstreamMessage => {
   const stateTree = store.getState();

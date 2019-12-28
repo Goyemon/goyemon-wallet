@@ -1,8 +1,8 @@
 'use strict';
-import * as Keychain from 'react-native-keychain';
-import bip39 from 'react-native-bip39';
-import hdkey from 'ethereumjs-wallet/hdkey';
 const Buffer = require('buffer').Buffer;
+import hdkey from 'ethereumjs-wallet/hdkey';
+import bip39 from 'react-native-bip39';
+import * as Keychain from 'react-native-keychain';
 import EtherUtilities from './EtherUtilities.js';
 
 const KEY_WALLET_MNEMONIC = 'KEY_WALLET_MNEMONIC';

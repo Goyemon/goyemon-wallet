@@ -1,23 +1,6 @@
 'use strict';
-import { GET_ETH_PRICE, GET_DAI_PRICE } from '../constants/ActionTypes';
 import axios from 'axios';
-
-export function getEthPrice() {
-  return async function (dispatch) {
-    try {
-      const res = await axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD');
-      const ethPrice = parseFloat(res.data.USD).toFixed(2);
-      dispatch(getEthPriceSuccess(ethPrice));
-    } catch(err) {
-      console.error(err);
-    }
-  }
-};
-
-const getEthPriceSuccess = (ethPrice) => ({
-  type: GET_ETH_PRICE,
-  payload: ethPrice
-})
+import { GET_DAI_PRICE, GET_ETH_PRICE } from '../constants/ActionTypes';
 
 export function getDaiPrice() {
   return async function (dispatch) {
@@ -34,4 +17,21 @@ export function getDaiPrice() {
 const getDaiPriceSuccess = (daiPrice) => ({
   type: GET_DAI_PRICE,
   payload: daiPrice
+})
+
+export function getEthPrice() {
+  return async function (dispatch) {
+    try {
+      const res = await axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD');
+      const ethPrice = parseFloat(res.data.USD).toFixed(2);
+      dispatch(getEthPriceSuccess(ethPrice));
+    } catch(err) {
+      console.error(err);
+    }
+  }
+};
+
+const getEthPriceSuccess = (ethPrice) => ({
+  type: GET_ETH_PRICE,
+  payload: ethPrice
 })

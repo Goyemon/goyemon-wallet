@@ -1,7 +1,7 @@
 'use strict';
-import { GET_GAS_PRICE_FAST, GET_GAS_PRICE_AVERAGE, GET_GAS_PRICE_SLOW } from '../constants/ActionTypes';
 import axios from 'axios';
 import Web3 from 'web3';
+import { GET_GAS_PRICE_FAST, GET_GAS_PRICE_AVERAGE, GET_GAS_PRICE_SLOW } from '../constants/ActionTypes';
 
 export function getGasPriceFast() {
   return async function (dispatch) {

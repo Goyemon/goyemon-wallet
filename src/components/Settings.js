@@ -1,6 +1,10 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { View, Linking, TouchableHighlight, Alert, Modal } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import styled from 'styled-components/native';
+import { clearState } from '../actions/ActionClearState';
 import {
   RootContainer,
   HeaderOne,
@@ -10,12 +14,8 @@ import {
   Description,
   CrypterestText
 } from '../components/common';
-import { View, Linking, TouchableHighlight, Alert, Modal } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import styled from 'styled-components/native';
-import WalletUtilities from '../utilities/WalletUtilities.ts';
 import { persistor } from '../store/store.js';
-import { clearState } from '../actions/ActionClearState';
+import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class Settings extends Component {
   constructor() {

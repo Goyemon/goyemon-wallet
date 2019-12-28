@@ -1,12 +1,12 @@
 'use strict';
 import React, { Component } from 'react';
-import { View } from 'react-native';
-import { UntouchableCardContainer, CrypterestText } from '../components/common';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
+import { View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import TransactionUtilities from '../utilities/TransactionUtilities.ts';
+import styled from 'styled-components';
 import Web3 from 'web3';
+import { UntouchableCardContainer, CrypterestText } from '../components/common';
+import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 
 class TransactionDai extends Component {
   renderInOrOutTransactionIcon() {

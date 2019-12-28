@@ -1,7 +1,7 @@
 'use strict';
 import firebase from 'react-native-firebase';
-import { store } from '../store/store';
 import { saveNotificationPermission } from '../actions/ActionNotificationPermission';
+import { store } from '../store/store';
 
 class FcmPermissions {
   async checkFcmPermissions() {
