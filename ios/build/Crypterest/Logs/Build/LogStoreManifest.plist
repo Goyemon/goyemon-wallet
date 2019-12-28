@@ -6,7 +6,7 @@
 	<integer>10</integer>
 	<key>logs</key>
 	<dict>
-		<key>26C13DFE-9641-45B9-8F78-9D00F1F1D0B9</key>
+		<key>3207E31F-1781-492A-930F-C982DE58543A</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -15,7 +15,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>26C13DFE-9641-45B9-8F78-9D00F1F1D0B9.xcactivitylog</string>
+			<string>3207E31F-1781-492A-930F-C982DE58543A.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -32,13 +32,47 @@
 			<key>signature</key>
 			<string>Building workspace Crypterest with scheme Crypterest and configuration Debug</string>
 			<key>timeStartedRecording</key>
-			<real>598936836.26543903</real>
+			<real>599221391.16435099</real>
 			<key>timeStoppedRecording</key>
-			<real>598936853.21312499</real>
+			<real>599221393.71951401</real>
 			<key>title</key>
 			<string>Building workspace Crypterest with scheme Crypterest and configuration Debug</string>
 			<key>uniqueIdentifier</key>
-			<string>26C13DFE-9641-45B9-8F78-9D00F1F1D0B9</string>
+			<string>3207E31F-1781-492A-930F-C982DE58543A</string>
+		</dict>
+		<key>A7B48196-BBCC-4B73-8822-99C30004148F</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>A7B48196-BBCC-4B73-8822-99C30004148F.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>W</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>Crypterest project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>Crypterest</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building workspace Crypterest with scheme Crypterest and configuration Debug</string>
+			<key>timeStartedRecording</key>
+			<real>599224048.93159997</real>
+			<key>timeStoppedRecording</key>
+			<real>599224051.44587195</real>
+			<key>title</key>
+			<string>Building workspace Crypterest with scheme Crypterest and configuration Debug</string>
+			<key>uniqueIdentifier</key>
+			<string>A7B48196-BBCC-4B73-8822-99C30004148F</string>
 		</dict>
 	</dict>
 </dict>
