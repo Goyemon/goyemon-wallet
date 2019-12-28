@@ -87,21 +87,21 @@ const ButtonContainer = styled.View`
 const BalanceText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
-  font-size: 24px;
+  font-size: 24;
   text-transform: uppercase;
 `;
 
 const UsdBalance = styled.Text`
   color: #000;
   font-family: 'HKGrotesk-Regular';
-  font-size: 28px;
+  font-size: 28;
   margin-top: 8px;
 `;
 
 const EthBalance = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
-  font-size: 16px;
+  font-size: 16;
   margin-top: 8px;
 `;
 

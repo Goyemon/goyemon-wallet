@@ -19,7 +19,7 @@ class WalletDetail extends Component {
     if (this.props.wallet.id === 0) {
       try {
         return (
-          <CrypterestText fontSize="20px">
+          <CrypterestText fontSize="20">
             $ {PriceUtilities.convertEthToUsd(this.props.balance.ethBalance)}
           </CrypterestText>
         );
@@ -29,7 +29,7 @@ class WalletDetail extends Component {
     } else if (this.props.wallet.id === 1) {
       try {
         return (
-          <CrypterestText fontSize="20px">
+          <CrypterestText fontSize="20">
             $ {PriceUtilities.convertDaiToUsd(this.props.balance.daiBalance)}
           </CrypterestText>
         );
@@ -41,17 +41,17 @@ class WalletDetail extends Component {
 
   renderBalance() {
     if (this.props.wallet.id === 0) {
-      return <CrypterestText fontSize="20px">{this.props.balance.ethBalance} ETH</CrypterestText>;
+      return <CrypterestText fontSize="20">{this.props.balance.ethBalance} ETH</CrypterestText>;
     } else if (this.props.wallet.id === 1) {
-      return <CrypterestText fontSize="20px">{this.props.balance.daiBalance} DAI</CrypterestText>;
+      return <CrypterestText fontSize="20">{this.props.balance.daiBalance} DAI</CrypterestText>;
     }
   }
 
   renderPrice() {
     if (this.props.wallet.id === 0) {
-      return <CrypterestText fontSize="16px">{this.props.price.ethPrice}</CrypterestText>;
+      return <CrypterestText fontSize="16">{this.props.price.ethPrice}</CrypterestText>;
     } else if (this.props.wallet.id === 1) {
-      return <CrypterestText fontSize="16px">{this.props.price.daiPrice}</CrypterestText>;
+      return <CrypterestText fontSize="16">{this.props.price.daiPrice}</CrypterestText>;
     }
   }
 
@@ -60,7 +60,9 @@ class WalletDetail extends Component {
 
     return (
       <Container>
-        {this.renderIcon()}
+        <CoinImageContainer>
+          {this.renderIcon()}
+        </CoinImageContainer>
         <PriceContainer>
           <CoinText>{coin}</CoinText>
           <PriceText>
@@ -84,6 +86,10 @@ const Container = styled.View`
   width: 100%;
 `;
 
+const CoinImageContainer = styled.View`
+  width: 12%;
+`;
+
 const CoinImage = styled.Image`
   border-radius: 20px;
   height: 40px;
@@ -91,13 +97,13 @@ const CoinImage = styled.Image`
 `;
 
 const PriceContainer = styled.View`
-  width: 45%;
+  width: 44%;
 `;
 
 const CoinText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
-  font-size: 20px;
+  font-size: 20;
   margin-left: 16px;
   margin-bottom: 4px;
 `;
@@ -109,18 +115,18 @@ const PriceText = styled.Text`
 `;
 
 const BalanceContainer = styled.View`
-  width: 55%;
+  width: 44%;
 `;
 
 const BalanceText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
-  font-size: 20px;
+  font-size: 20;
 `;
 
 const UsdBalanceText = styled.Text`
   font-family: 'HKGrotesk-Regular';
-  font-size: 22px;
+  font-size: 22;
   margin-bottom: 4px;
 `;
 

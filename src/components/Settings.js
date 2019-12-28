@@ -44,13 +44,15 @@ class Settings extends Component {
           <ModalContainer>
             <ModalBackground>
               <MondalInner>
-                <HeaderTwo marginBottom="0" marginLeft="0" marginTop="40">
-                  Reset your Wallet?
-                </HeaderTwo>
-                <Description marginBottom="8" marginLeft="0" marginTop="16">
-                  Make sure you save your backup words before deletion. Otherwise, you will lose
-                  your funds.
-                </Description>
+                <ModalTextContainer>
+                  <HeaderTwo marginBottom="0" marginLeft="0" marginTop="40">
+                    Reset your Wallet?
+                  </HeaderTwo>
+                  <Description marginBottom="8" marginLeft="0" marginTop="16">
+                    Make sure you save your backup words before deletion. Otherwise, you will lose
+                    your funds.
+                  </Description>
+                </ModalTextContainer>
                 <ButtonContainer>
                   <Button
                     text="Cancel"
@@ -198,6 +200,11 @@ const MondalInner = styled.View`
   justifyContent: center;
   flex: 1;
   flexDirection: column;
+  width: 100%;
+`;
+
+const ModalTextContainer = styled.View`
+  width: 90%;
 `;
 
 const CommunityIconContainer = styled.View`
@@ -238,7 +245,7 @@ const SettingsList = styled.View`
 const SettingsListText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
-  font-size: 20px;
+  font-size: 20;
   margin-left: 16px;
   width: 80%;
 `;
@@ -246,7 +253,7 @@ const SettingsListText = styled.Text`
 const ResetWalletText = styled.Text`
   color: #e41b13;
   font-family: 'HKGrotesk-Regular';
-  font-size: 24px;
+  font-size: 24;
 `;
 
 const ButtonContainer = styled.View`

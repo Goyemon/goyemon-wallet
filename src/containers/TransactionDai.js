@@ -12,7 +12,7 @@ class TransactionDai extends Component {
   renderInOrOutTransactionIcon() {
     if (this.props.daiTransaction.ame_ropsten.to === null) {
       return (
-        <CrypterestText fontSize="16px">
+        <CrypterestText fontSize="16">
           <Icon name="call-made" size={20} color="#F1860E" />
         </CrypterestText>
       );
@@ -21,7 +21,7 @@ class TransactionDai extends Component {
       this.props.checksumAddress
     ) {
       return (
-        <CrypterestText fontSize="16px">
+        <CrypterestText fontSize="16">
           <Icon name="call-received" size={20} color="#1BA548" />
         </CrypterestText>
       );
@@ -30,7 +30,7 @@ class TransactionDai extends Component {
       this.props.checksumAddress
     ) {
       return (
-        <CrypterestText fontSize="16px">
+        <CrypterestText fontSize="16">
           <Icon name="call-made" size={20} color="#F1860E" />
         </CrypterestText>
       );
@@ -39,29 +39,29 @@ class TransactionDai extends Component {
 
   renderStatus() {
     if (this.props.daiTransaction.state === 'sent') {
-      return <CrypterestText fontSize="20px">sent...</CrypterestText>;
+      return <CrypterestText fontSize="20">sent...</CrypterestText>;
     } else if (this.props.daiTransaction.state === 'pending') {
-      return <CrypterestText fontSize="20px">pending...</CrypterestText>;
+      return <CrypterestText fontSize="20">pending...</CrypterestText>;
     } else if (this.props.daiTransaction.state === 'included') {
-      return <CrypterestText fontSize="20px">included</CrypterestText>;
+      return <CrypterestText fontSize="20">included</CrypterestText>;
     } else if (this.props.daiTransaction.state === 'confirmed') {
-      return <CrypterestText fontSize="20px">confirmed</CrypterestText>;
+      return <CrypterestText fontSize="20">confirmed</CrypterestText>;
     }
   }
 
   renderDirection() {
     if (this.props.daiTransaction.ame_ropsten.to === null) {
-      return <CrypterestText fontSize="16px">Outgoing</CrypterestText>;
+      return <CrypterestText fontSize="16">Outgoing</CrypterestText>;
     } else if (
       Web3.utils.toChecksumAddress(this.props.daiTransaction.ame_ropsten.to) ===
       this.props.checksumAddress
     ) {
-      return <CrypterestText fontSize="16px">Incoming</CrypterestText>;
+      return <CrypterestText fontSize="16">Incoming</CrypterestText>;
     } else if (
       Web3.utils.toChecksumAddress(this.props.daiTransaction.ame_ropsten.from) ===
       this.props.checksumAddress
     ) {
-      return <CrypterestText fontSize="16px">Outgoing</CrypterestText>;
+      return <CrypterestText fontSize="16">Outgoing</CrypterestText>;
     }
   }
 
@@ -96,13 +96,13 @@ class TransactionDai extends Component {
     }
 
     if (this.props.daiTransaction.ame_ropsten.to === null) {
-      return <CrypterestText fontSize="16px">Contract Creation</CrypterestText>;
+      return <CrypterestText fontSize="16">Contract Creation</CrypterestText>;
     } else if (
       Web3.utils.toChecksumAddress(this.props.daiTransaction.ame_ropsten.to) ===
       this.props.checksumAddress
     ) {
       return (
-        <CrypterestText fontSize="16px" style={styles.valueStyleGreen}>
+        <CrypterestText fontSize="16" style={styles.valueStyleGreen}>
           {ameValue} DAI
         </CrypterestText>
       );
@@ -111,7 +111,7 @@ class TransactionDai extends Component {
       this.props.checksumAddress
     ) {
       return (
-        <CrypterestText fontSize="16px" style={styles.valueStyleRed}>
+        <CrypterestText fontSize="16" style={styles.valueStyleRed}>
           {ameValue} DAI
         </CrypterestText>
       );
@@ -128,22 +128,24 @@ class TransactionDai extends Component {
         borderRadius="0"
         flexDirection="row"
         height="96px"
-        justifyContent="center"
+        justifyContent="space-around"
         marginTop="0"
         textAlign="left"
-        width="90%"
+        width="95%"
       >
         <TransactionList>
-          {this.renderInOrOutTransactionIcon()}
-          <View>
+          <InOrOutTransactionContainer>
+            {this.renderInOrOutTransactionIcon()}
+          </InOrOutTransactionContainer>
+          <DirectionTimeContainer>
             <DirectionText>{this.renderDirection()}</DirectionText>
             <TimeText>{time}</TimeText>
-          </View>
-          <StatusText>{this.renderStatus()}</StatusText>
-          <ValueText>
+          </DirectionTimeContainer>
+          <StatusContainer>{this.renderStatus()}</StatusContainer>
+          <ValueContainer>
             {this.renderPlusOrMinusTransactionIcon()}
-            <CrypterestText fontSize="16px">{this.renderValue()}</CrypterestText>
-          </ValueText>
+            <CrypterestText fontSize="16">{this.renderValue()}</CrypterestText>
+          </ValueContainer>
         </TransactionList>
       </UntouchableCardContainer>
     );
@@ -164,31 +166,34 @@ const TransactionList = styled.View`
   flex: 1;
   flexDirection: row;
   justifyContent: space-around;
+  width: 100%;
+`;
+
+const InOrOutTransactionContainer = styled.View`
+  width: 10%;
+`;
+
+const DirectionTimeContainer = styled.View`
+  width: 30%;
 `;
 
 const DirectionText = styled.Text`
-  font-family: 'HKGrotesk-Regular';
-  font-size: 16px;
   margin-bottom: 4px;
-  margin-left: 16px;
 `;
 
 const TimeText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
-  margin-left: 16px;
 `;
 
-const StatusText = styled.Text`
-  font-family: 'HKGrotesk-Regular';
-  font-size: 16px;
-  margin-left: 16px;
+const StatusContainer = styled.View`
+  width: 30%
 `;
 
-const ValueText = styled.Text`
-  font-family: 'HKGrotesk-Regular';
-  font-size: 16px;
-  margin-left: 16px;
+const ValueContainer = styled.View`
+  alignItems: center;
+  flexDirection: row;
+  width: 30%;
 `;
 
 const mapStateToProps = state => ({

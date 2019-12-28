@@ -62,7 +62,7 @@ export default class Welcome extends Component {
           <WelcomeContainer animation="fadeIn" delay={4000}>
             <Logo>Crypterest</Logo>
             <HeaderTwo
-              fontSize="24px"
+              fontSize="24"
               fontWeight="bold"
               marginBottom="16"
               marginLeft="0"
@@ -71,7 +71,7 @@ export default class Welcome extends Component {
               share your crypto assets,
             </HeaderTwo>
             <HeaderTwo
-              fontSize="24px"
+              fontSize="24"
               fontWeight="bold"
               marginBottom="80"
               marginLeft="0"
@@ -139,7 +139,7 @@ const WelcomeContainer = Animatable.createAnimatableComponent(styled.View`
 
 const Title = Animatable.createAnimatableComponent(styled.Text`
   font-family: 'HKGrotesk-Regular';
-  font-size: 64px;
+  font-size: 64;
   margin-bottom: 16px;
   text-align: center;
 `);
@@ -147,7 +147,7 @@ const Title = Animatable.createAnimatableComponent(styled.Text`
 const Logo = Animatable.createAnimatableComponent(styled.Text`
   color: #e41b13;
   font-family: 'HKGrotesk-Bold';
-  font-size: 40px;
+  font-size: 40;
   margin-bottom: 48px;
   text-align: center;
   text-transform: uppercase;
@@ -170,7 +170,7 @@ const TitleOrangeText = styled.Text`
 
 const CardText = styled.Text`
   font-family: 'HKGrotesk-Regular';
-  font-size: 16px;
+  font-size: 16;
   margin-left: 8px;
   padding-top: 8px;
   padding-right: 32px;

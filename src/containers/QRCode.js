@@ -72,7 +72,7 @@ class QRCode extends Component {
             <QRCodeSvg value={checksumAddress} size={120} />
           </QrCodeContainer>
           <QrCodeText>Your Address</QrCodeText>
-          <CrypterestText fontSize="14px">{checksumAddress}</CrypterestText>
+          <CrypterestText fontSize="14">{checksumAddress}</CrypterestText>
           {this.renderCopyText()}
         </UntouchableCardContainer>
       </RootContainer>
@@ -91,7 +91,7 @@ const QrCodeContainer = styled.View`
 const QrCodeText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
-  font-size: 16px;
+  font-size: 16;
   font-weight: bold;
   margin-bottom: 8px;
 `;
@@ -105,7 +105,7 @@ const CopiedAddressContainer = styled.View`
 const CopiedAddressText = styled.Text`
   color: #00a3e2;
   font-family: 'HKGrotesk-Regular';
-  font-size: 20px;
+  font-size: 20;
   margin-top: 24px;
   margin-right: 4px;
 `;
@@ -113,7 +113,7 @@ const CopiedAddressText = styled.Text`
 const CopyAddressText = styled.Text`
   color: #00a3e2;
   font-family: 'HKGrotesk-Regular';
-  font-size: 20px;
+  font-size: 20;
 `;
 
 function mapStateToProps(state) {

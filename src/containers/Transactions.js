@@ -42,14 +42,14 @@ const EmptyTransactionContainer = styled.View`
 const EmptyTransactionEmoji = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
-  font-size: 40px;
+  font-size: 40;
   margin-bottom: 24px;
 `;
 
 const EmptyTransactionText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
-  font-size: 16px;
+  font-size: 16;
 `;
 
 const mapStateToProps = state => ({

@@ -81,7 +81,7 @@ class Send extends Component {
   toggleCurrency(gasPriceInWei) {
     if (this.state.currency === 'ETH') {
       const usdValue = this.getTransactionFeeEstimateInUsd(gasPriceInWei);
-      return <CrypterestText fontSize="16px">${usdValue}</CrypterestText>;
+      return <CrypterestText fontSize="16">${usdValue}</CrypterestText>;
     } else if (this.state.currency === 'USD') {
       const ethValue = GasUtilities.getTransactionFeeEstimateInEther(gasPriceInWei, 21000);
       return <NetworkFeeInEther>{ethValue}ETH</NetworkFeeInEther>;
@@ -230,7 +230,7 @@ class Send extends Component {
             justifyContent="flex-start"
             marginTop="56px"
             textAlign="left"
-            width="80%"
+            width="85%"
           >
             <CoinImage source={require('../../assets/ether_icon.png')} />
             <BalanceText>your eth balance</BalanceText>
@@ -359,7 +359,7 @@ const SendTextInputContainer = styled.View`
 `;
 
 const SendTextInput = styled.TextInput`
-  font-size: 16px;
+  font-size: 16;
   height: 56px;
   width: 95%;
   text-align: left;
@@ -375,7 +375,7 @@ const CoinImage = styled.Image`
 const BalanceText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
-  font-size: 16px;
+  font-size: 16;
   margin-top: 16px;
   text-transform: uppercase;
 `;
@@ -388,13 +388,13 @@ const BalanceContainer = styled.View`
 
 const UsdBalance = styled.Text`
   font-family: 'HKGrotesk-Regular';
-  font-size: 16px;
+  font-size: 16;
   margin-left: 4px;
 `;
 
 const EthBalance = styled.Text`
   font-family: 'HKGrotesk-Regular';
-  font-size: 16px;
+  font-size: 16;
   margin-right: 4px;
 `;
 
@@ -415,20 +415,22 @@ const NetworkFeeContainer = styled.View`
   alignItems: center;
   flexDirection: row;
   justifyContent: center;
+  width: 100%;
 `;
 
 const NetworkFee = styled.View`
   margin: 0 8px;
+  width: 33.3%;
 `;
 
 const NetworkFeeInEther = styled.Text`
   font-family: 'HKGrotesk-Regular';
-  font-size: 12px;
+  font-size: 12;
 `;
 
 const CurrencySymbol = styled.Text`
   font-family: 'HKGrotesk-Regular';
-  font-size: 20px;
+  font-size: 20;
   margin-left: 8px;
 `;
 

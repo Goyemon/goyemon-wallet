@@ -40,11 +40,11 @@ class Confirmation extends Component {
   toggleCurrency() {
     if (this.state.currency === 'ETH') {
       return (
-        <NetworkFeeText fontSize="16px">${this.props.transactionFeeEstimate.usd}</NetworkFeeText>
+        <NetworkFeeText fontSize="16">${this.props.transactionFeeEstimate.usd}</NetworkFeeText>
       );
     } else if (this.state.currency === 'USD') {
       return (
-        <NetworkFeeText fontSize="16px">{this.props.transactionFeeEstimate.eth}ETH</NetworkFeeText>
+        <NetworkFeeText fontSize="16">{this.props.transactionFeeEstimate.eth}ETH</NetworkFeeText>
       );
     }
   }
@@ -64,9 +64,9 @@ class Confirmation extends Component {
         <HeaderOne marginTop="96">Confirmation</HeaderOne>
         <TotalContainer>
           <CoinImage source={require('../../assets/ether_icon.png')} />
-          <CrypterestText fontSize="16px">You are about to send</CrypterestText>
+          <CrypterestText fontSize="16">You are about to send</CrypterestText>
           <TotalValueText>{valueInEther} ETH</TotalValueText>
-          <CrypterestText fontSize="16px">+ network fee</CrypterestText>
+          <CrypterestText fontSize="16">+ network fee</CrypterestText>
         </TotalContainer>
         <UntouchableCardContainer
           alignItems="flex-start"
@@ -165,13 +165,13 @@ const NetworkFeeText = styled.Text`
 
 const CurrencySymbol = styled.Text`
   font-family: 'HKGrotesk-Regular';
-  font-size: 20px;
+  font-size: 20;
   margin-left: 8px;
 `;
 
 const TotalValueText = styled.Text`
   font-family: 'HKGrotesk-Regular';
-  font-size: 24px;
+  font-size: 24;
 `;
 
 const ButtonContainer = styled.View`

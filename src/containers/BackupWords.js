@@ -63,7 +63,7 @@ const MnemonicWordsWrapper = styled.View`
 
 const MnemonicWordsText = styled.Text`
   font-family: 'HKGrotesk-Regular';
-  font-size: 16px;
+  font-size: 16;
   padding: 4px;
   text-align: center;
 `;

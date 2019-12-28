@@ -92,7 +92,7 @@ const CardContainerWithoutFeedback = styled.View`
 const BalanceText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
-  font-size: 20px;
+  font-size: 20;
   margin-top: 24px;
   margin-bottom: 24px;
   text-transform: uppercase;
@@ -101,7 +101,7 @@ const BalanceText = styled.Text`
 const UsdBalance = styled.Text`
   color: #000;
   font-family: 'HKGrotesk-Regular';
-  font-size: 32px;
+  font-size: 32;
 `;
 
 const mapStateToProps = state => ({
