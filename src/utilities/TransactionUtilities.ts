@@ -188,25 +188,18 @@ class TransactionUtilities {
     return { to, value };
   }
 
-  getBiggestNonce() {
+  getTransactionNonce() {
     const stateTree = store.getState();
     const transactions = stateTree.ReducerTransactionHistory.transactions;
     const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
-
-    const array = [];
-    transactions.map(transaction => {
-      if (Web3.utils.toChecksumAddress(transaction.from) === checksumAddress) {
-        array.push(transaction.nonce);
+    const outgoingTransactions = transactions.filter(transaction => {
+      if(Web3.utils.toChecksumAddress(transaction.from) === checksumAddress) {
+        return transaction;
       }
-    });
-    let biggestNonce = 0;
-    for (let i = 0; i <= biggestNonce; i++) {
-      if (array[i] > biggestNonce) {
-        biggestNonce = array[i];
-      }
-    }
+    })
+    const transactionNonce = outgoingTransactions.length;
 
-    return biggestNonce;
+    return transactionNonce;
   }
 
   async constructSignedOutgoingTransactionObject(outgoingTransactionObject) {

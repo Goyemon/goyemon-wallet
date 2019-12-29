@@ -119,14 +119,7 @@ class SendDai extends Component {
   }
 
   async constructTransactionObject() {
-    const theBiggestNonce = parseInt(TransactionUtilities.getBiggestNonce());
-    let transactionNonce;
-    if (theBiggestNonce === 0) {
-      transactionNonce = 0;
-    } else {
-      transactionNonce = theBiggestNonce + 1;
-    }
-
+    const transactionNonce = parseInt(TransactionUtilities.getTransactionNonce());
     const transferEncodedABI = this.getTransferEncodedABI(this.state.toAddress, this.state.amount);
     const transactionObject = {
       nonce: `0x${transactionNonce.toString(16)}`,

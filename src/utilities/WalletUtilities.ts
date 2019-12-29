@@ -23,6 +23,15 @@ class WalletUtilities {
     return this.mnemonic;
   }
 
+  // public async init() {
+  //   this.mnemonic = await this.getMnemonic();
+  //   if (!this.mnemonic || !this.mnemonic.length || !this.validateMnemonic(this.mnemonic)) {
+  //     this.mnemonic = await this.generateMnemonic();
+  //     await this.setMnemonic(this.mnemonic);
+  //   }
+  //   return this.mnemonic;
+  // }
+
   public async generateWallet(mnemonic) {
     let seedhex = bip39.mnemonicToSeedHex(mnemonic);
     let seed = Buffer.from(seedhex, 'hex');
