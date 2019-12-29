@@ -106,7 +106,6 @@ const CopiedAddressText = styled.Text`
   color: #00a3e2;
   font-family: 'HKGrotesk-Regular';
   font-size: 20;
-  margin-top: 24px;
   margin-right: 4px;
 `;
 
