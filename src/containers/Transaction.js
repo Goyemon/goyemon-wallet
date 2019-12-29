@@ -261,13 +261,13 @@ const TimeText = styled.Text`
 `;
 
 const StatusContainer = styled.View`
-  width: 30%
+  width: 35%;
 `;
 
 const ValueContainer = styled.View`
   alignItems: center;
   flexDirection: row;
-  width: 30%;
+  width: 25%;
 `;
 
 const mapStateToProps = state => ({
