@@ -154,7 +154,8 @@ class SendDai extends Component {
 
   validateDaiAmount(amount) {
     if (
-      parseFloat(this.props.balance.daiBalance) > parseFloat(amount) &&
+      parseFloat(this.props.balance.daiBalance) > 0 &&
+      parseFloat(this.props.balance.daiBalance) >= parseFloat(amount) &&
       parseFloat(amount) >= 0 &&
       amount.length != 0
     ) {
