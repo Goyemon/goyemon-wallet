@@ -135,8 +135,8 @@ class Send extends Component {
     );
 
     if (
-      parseFloat(amount) + parseFloat(transactionFeeLimitInEther) <
-        parseFloat(this.props.balance.ethBalance) &&
+      parseFloat(this.props.balance.ethBalance) > 0 &&
+      parseFloat(this.props.balance.ethBalance) >= parseFloat(amount) + parseFloat(transactionFeeLimitInEther) &&
       parseFloat(amount) >= 0 &&
       amount.length != 0
     ) {
