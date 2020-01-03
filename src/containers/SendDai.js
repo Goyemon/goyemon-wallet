@@ -195,7 +195,7 @@ class SendDai extends Component {
       // );
       // animationCheckedDone.play();
     } else {
-      return <ErrorMessage>not enough dai!</ErrorMessage>;
+      return <ErrorMessage>C'mon, you know you don't own this much 😏</ErrorMessage>;
     }
   }
 
