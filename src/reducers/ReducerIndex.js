@@ -8,6 +8,7 @@ import ReducerDaiAmount from './ReducerDaiAmount';
 import ReducerDaiToAddress from './ReducerDaiToAddress';
 import ReducerGasPrice from './ReducerGasPrice';
 import ReducerMnemonic from './ReducerMnemonic';
+import ReducerMnemonicWordsValidation from './ReducerMnemonicWordsValidation';
 import ReducerNotificationPermission from './ReducerNotificationPermission';
 import ReducerOutgoingTransactionObjects from './ReducerOutgoingTransactionObjects';
 import ReducerPrice from './ReducerPrice';
@@ -23,6 +24,7 @@ const appReducers = combineReducers({
   ReducerDaiToAddress,
   ReducerGasPrice,
   ReducerMnemonic,
+  ReducerMnemonicWordsValidation,
   ReducerNotificationPermission,
   ReducerOutgoingTransactionObjects,
   ReducerPrice,
