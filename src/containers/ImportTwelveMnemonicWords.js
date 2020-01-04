@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { KeyboardAvoidingView, Platform, View, TextInput } from 'react-native';
 import styled from 'styled-components/native';
 import { saveMnemonic } from '../actions/ActionMnemonic';
+import { updateMnemonicWordsValidation } from '../actions/ActionMnemonicWordsValidation';
 import { RootContainer, ProgressBar, HeaderTwo, Description, Button } from '../components/common';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
@@ -20,6 +21,7 @@ class ImportTwelveMnemonicWords extends Component {
     const mnemonicWords = this.state.mnemonicWords.join(' ');
     if (WalletUtilities.validateMnemonic(mnemonicWords)) {
       this.setState({ mnemonicWordsValidation: true });
+      this.props.updateMnemonicWordsValidation(true);
       await WalletUtilities.setMnemonic(mnemonicWords);
       await this.props.saveMnemonic();
       this.props.navigation.navigate('NotificationPermissionTutorial');
@@ -159,7 +161,8 @@ const ErrorMessage = styled.Text`
 `;
 
 const mapDispatchToProps = {
-  saveMnemonic
+  saveMnemonic,
+  updateMnemonicWordsValidation
 };
 
 export default connect(

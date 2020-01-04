@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { KeyboardAvoidingView, Platform, StyleSheet, View, Text, TextInput } from 'react-native';
 import styled from 'styled-components/native';
+import { updateMnemonicWordsValidation } from '../actions/ActionMnemonicWordsValidation';
 import { RootContainer, ProgressBar, HeaderTwo, Button, Description } from '../components/common';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
@@ -48,6 +49,7 @@ class VerifyMnemonic extends Component {
       mnemonicWords === this.props.mnemonicWords
     ) {
       this.setState({ mnemonicWordsValidation: true });
+      this.props.updateMnemonicWordsValidation(true);
       this.props.navigation.navigate('NotificationPermissionTutorial');
     } else {
       this.setState({ mnemonicWordsValidation: false });
@@ -185,4 +187,11 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(VerifyMnemonic);
+const mapDispatchToProps = {
+  updateMnemonicWordsValidation
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(VerifyMnemonic);
