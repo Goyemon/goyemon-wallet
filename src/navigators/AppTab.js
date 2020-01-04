@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 import { PersistGate } from 'redux-persist/integration/react';
 import '../firebase/FirebaseListener';
+import WalletIcon from '../../assets/WalletIcon.js';
 import HomeStack from './HomeStack';
 import SettingsStack from './SettingsStack';
 import { store, persistor } from '../store/store.js';
@@ -15,7 +16,7 @@ const AppTab = createBottomTabNavigator(
       screen: HomeStack,
       navigationOptions: {
         tabBarLabel: 'Wallets',
-        tabBarIcon: ({ tintColor }) => <Icon name="wallet" size={28} color={tintColor} />
+        tabBarIcon: ({ tintColor }) => <WalletIcon fill={tintColor} />
       }
     },
     Settings: {
