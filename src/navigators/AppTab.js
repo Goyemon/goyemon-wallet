@@ -5,7 +5,9 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 import { PersistGate } from 'redux-persist/integration/react';
 import '../firebase/FirebaseListener';
+import EarnIcon from '../../assets/EarnIcon.js';
 import WalletIcon from '../../assets/WalletIcon.js';
+import EarnStack from './EarnStack';
 import HomeStack from './HomeStack';
 import SettingsStack from './SettingsStack';
 import { store, persistor } from '../store/store.js';
@@ -17,6 +19,13 @@ const AppTab = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: 'Wallets',
         tabBarIcon: ({ tintColor }) => <WalletIcon fill={tintColor} />
+      }
+    },
+    Earn: {
+      screen: EarnStack,
+      navigationOptions: {
+        tabBarLabel: 'Earn',
+        tabBarIcon: ({ tintColor }) => <EarnIcon fill={tintColor} />
       }
     },
     Settings: {
