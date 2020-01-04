@@ -20,6 +20,8 @@ export default class Initial extends Component {
       mnemonicWordsStatePersisted = true;
     }
 
+    let mnemonicWordsValidation = stateTree.ReducerMnemonicWordsValidation.mnemonicWordsValidation;
+
     const hasPersistedState = this.hasPersistedState();
 
     const hasPrivateKeyInKeychain = await WalletUtilities.privateKeySaved();
@@ -34,10 +36,11 @@ export default class Initial extends Component {
 
     if (!mnemonicWordsStatePersisted && !notificationEnabled && !hasPrivateKeyInKeychain) {
       mainPage = 'Welcome';
-    } else if (mnemonicWordsStatePersisted && !notificationEnabled && !hasPrivateKeyInKeychain) {
+    } else if (mnemonicWordsStatePersisted && !mnemonicWordsValidation && !notificationEnabled && !hasPrivateKeyInKeychain) {
       mainPage = 'Welcome';
     } else if (
       mnemonicWordsStatePersisted &&
+      mnemonicWordsValidation &&
       notificationEnabled &&
       !hasPersistedState &&
       !hasPrivateKeyInKeychain
