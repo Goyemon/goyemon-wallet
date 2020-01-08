@@ -12,6 +12,12 @@ import WalletUtilities from './WalletUtilities.ts';
 
 class TransactionUtilities {
   parseExistingTransactions(transactions) {
+    const filteredTransactions = Object.entries(transactions).filter((transaction) => {
+      if (transaction[0] != '_contracts') {
+        return transaction;
+      }
+    });
+
     let parsedTransactions;
     parsedTransactions = transactions.map(transaction => {
       if (transaction.hasOwnProperty('ame_ropsten')) {
