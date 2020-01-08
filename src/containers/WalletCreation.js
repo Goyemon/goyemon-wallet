@@ -7,7 +7,7 @@ import styled from 'styled-components/native';
 import { createChecksumAddress } from '../actions/ActionChecksumAddress';
 import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
 import { HeaderTwo, Description, Button } from '../components/common';
-import FirebaseRegister from '../firebase/FirebaseRegister.ts';
+import FcmUpstreamMessages from '../firebase/FcmUpstreamMessages.ts';
 import HomeStack from '../navigators/HomeStack';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
@@ -45,7 +45,7 @@ class WalletCreation extends Component {
     const privateKeyInKeychain = await WalletUtilities.privateKeySaved();
     this.setState({ hasPrivateKeyInKeychain: privateKeyInKeychain });
     await this.props.createChecksumAddress();
-    await FirebaseRegister.registerEthereumAddress(this.props.checksumAddress);
+    await FcmUpstreamMessages.registerEthereumAddress(this.props.checksumAddress);
     await this.props.getEthPrice();
     await this.props.getDaiPrice();
   }

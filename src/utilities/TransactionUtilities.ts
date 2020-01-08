@@ -6,7 +6,6 @@ import Web3 from 'web3';
 import { incrementTransactionCount } from '../actions/ActionTransactionCount';
 import { addSentTransaction } from '../actions/ActionTransactionHistory';
 import daiToken from '../contracts/DaiToken';
-import FirebaseRegister from '../firebase/FirebaseRegister.ts';
 import { store } from '../store/store.js';
 import WalletUtilities from './WalletUtilities.ts';
 
