@@ -21,7 +21,7 @@ const CardContainer = styled.TouchableOpacity`
   background: #fff;
   border-radius: 8px;
   flexDirection: ${props => props.flexDirection};
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   height: ${props => props.height};
   justifyContent: ${props => props.justifyContent};
   margin: 8px auto;
