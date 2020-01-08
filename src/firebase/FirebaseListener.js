@@ -44,6 +44,8 @@ firebase.messaging().onMessage(downstreamMessage => {
     if (fcmMsgs[downstreamMessage.data.uid] != undefined) {
       if (fcmMsgs[downstreamMessage.data.uid].length === parseInt(downstreamMessage.data.count)) {
         const transactions = FcmMsgsParser.fcmMsgsToTransactions(downstreamMessage.data);
+        store.dispatch(saveExistingTransactions(transactions));
+        store.dispatch(saveTransactionCount(transactions.length - 1));
       }
     }
   } else if (downstreamMessage.data.type === 'txstate') {

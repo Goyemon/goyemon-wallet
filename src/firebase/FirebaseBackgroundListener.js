@@ -44,6 +44,8 @@ export default async (message) => {
     if (fcmMsgs[message.data.uid] != undefined) {
       if (fcmMsgs[message.data.uid].length === parseInt(message.data.count)) {
         const transactions = FcmMsgsParser.fcmMsgsToTransactions(message.data);
+        store.dispatch(saveExistingTransactions(transactions));
+        store.dispatch(saveTransactionCount(transactions.length - 1));
       }
     }
   } else if (message.data.type === 'txstate') {
