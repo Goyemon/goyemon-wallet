@@ -35,9 +35,12 @@ export default async (message) => {
     const transactions = JSON.parse(message.data.items);
     store.dispatch(saveExistingTransactions(transactions));
     store.dispatch(saveTransactionCount(message.data.count));
-  } else if (message.data.type === 'txhistory' && message.data.count === '0') {
-    store.dispatch(saveEmptyTransaction(message.data.items));
-    store.dispatch(saveTransactionCount(message.data.count));
+  } else if (message.data.type === 'txhistory') {
+    if (message.data.data === '{}') {
+      store.dispatch(saveEmptyTransaction(message.data.data));
+      store.dispatch(saveTransactionCount(0));
+    }
+
   } else if (message.data.type === 'txstate') {
     if (message.data.state === 'pending') {
       if (Array.isArray(transactionsHistory)) {

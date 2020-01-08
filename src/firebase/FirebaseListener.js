@@ -35,9 +35,12 @@ firebase.messaging().onMessage(downstreamMessage => {
     const transactions = JSON.parse(downstreamMessage.data.items);
     store.dispatch(saveExistingTransactions(transactions));
     store.dispatch(saveTransactionCount(downstreamMessage.data.count));
-  } else if (downstreamMessage.data.type === 'txhistory' && downstreamMessage.data.count === '0') {
-    store.dispatch(saveEmptyTransaction(downstreamMessage.data.items));
-    store.dispatch(saveTransactionCount(downstreamMessage.data.count));
+  } else if (downstreamMessage.data.type === 'txhistory') {
+    if (downstreamMessage.data.data === '{}') {
+      store.dispatch(saveEmptyTransaction(downstreamMessage.data.data));
+      store.dispatch(saveTransactionCount(0));
+    }
+
   } else if (downstreamMessage.data.type === 'txstate') {
     if (downstreamMessage.data.state === 'pending') {
       if (Array.isArray(transactionsHistory)) {
