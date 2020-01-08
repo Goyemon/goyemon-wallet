@@ -19,14 +19,15 @@ firebase.messaging().onMessage(downstreamMessage => {
   const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
 
   if (downstreamMessage.data.type === 'balance') {
-    if (downstreamMessage.data.hasOwnProperty('eth')) {
-      const ethBalanceInWei = parseInt(downstreamMessage.data.eth, 16);
+    const balanceMessage = JSON.parse(downstreamMessage.data.data);
+    if (balanceMessage.hasOwnProperty('eth')) {
+      const ethBalanceInWei = parseInt(balanceMessage.eth, 16);
       const balanceInEther = Web3.utils.fromWei(ethBalanceInWei.toString());
       const roundedBalanceInEther = parseFloat(balanceInEther).toFixed(4);
       store.dispatch(saveEthBalance(roundedBalanceInEther));
     }
-    if (downstreamMessage.data.hasOwnProperty('ame_ropsten')) {
-      let daiBalance = parseInt(downstreamMessage.data.ame_ropsten, 16) / 10 ** 18;
+    if (balanceMessage.hasOwnProperty('ame_ropsten')) {
+      let daiBalance = parseInt(balanceMessage.ame_ropsten, 16) / 10 ** 18;
       daiBalance = daiBalance.toFixed(2);
       store.dispatch(saveDaiBalance(daiBalance));
     }
