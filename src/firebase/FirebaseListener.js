@@ -11,6 +11,7 @@ import {
   updateTransactionState
 } from '../actions/ActionTransactionHistory';
 import EtherUtilities from '../utilities/EtherUtilities.js';
+import FcmMsgsParser from './FcmMsgsParser.js';
 import { store } from '../store/store';
 
 firebase.messaging().onMessage(downstreamMessage => {
@@ -31,16 +32,20 @@ firebase.messaging().onMessage(downstreamMessage => {
       daiBalance = daiBalance.toFixed(2);
       store.dispatch(saveDaiBalance(daiBalance));
     }
-  } else if (downstreamMessage.data.type === 'txhistory' && downstreamMessage.data.count != '0') {
-    const transactions = JSON.parse(downstreamMessage.data.items);
-    store.dispatch(saveExistingTransactions(transactions));
-    store.dispatch(saveTransactionCount(downstreamMessage.data.count));
   } else if (downstreamMessage.data.type === 'txhistory') {
     if (downstreamMessage.data.data === '{}') {
       store.dispatch(saveEmptyTransaction(downstreamMessage.data.data));
       store.dispatch(saveTransactionCount(0));
     }
 
+    FcmMsgsParser.fcmMsgsSaver(downstreamMessage.data);
+    const stateTree = store.getState();
+    const fcmMsgs = stateTree.ReducerFcmMsgs.fcmMsgs;
+    if (fcmMsgs[downstreamMessage.data.uid] != undefined) {
+      if (fcmMsgs[downstreamMessage.data.uid].length === parseInt(downstreamMessage.data.count)) {
+        const transactions = FcmMsgsParser.fcmMsgsToTransactions(downstreamMessage.data);
+      }
+    }
   } else if (downstreamMessage.data.type === 'txstate') {
     if (downstreamMessage.data.state === 'pending') {
       if (Array.isArray(transactionsHistory)) {

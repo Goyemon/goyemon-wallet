@@ -11,6 +11,7 @@ import {
   updateTransactionState
 } from '../actions/ActionTransactionHistory';
 import EtherUtilities from '../utilities/EtherUtilities.js';
+import FcmMsgsParser from './FcmMsgsParser.js';
 import { store } from '../store/store';
 
 export default async (message) => {
@@ -31,16 +32,20 @@ export default async (message) => {
       daiBalance = daiBalance.toFixed(2);
       store.dispatch(saveDaiBalance(daiBalance));
     }
-  } else if (message.data.type === 'txhistory' && message.data.count != '0') {
-    const transactions = JSON.parse(message.data.items);
-    store.dispatch(saveExistingTransactions(transactions));
-    store.dispatch(saveTransactionCount(message.data.count));
   } else if (message.data.type === 'txhistory') {
     if (message.data.data === '{}') {
       store.dispatch(saveEmptyTransaction(message.data.data));
       store.dispatch(saveTransactionCount(0));
     }
 
+    FcmMsgsParser.fcmMsgsSaver(message.data);
+    const stateTree = store.getState();
+    const fcmMsgs = stateTree.ReducerFcmMsgs.fcmMsgs;
+    if (fcmMsgs[message.data.uid] != undefined) {
+      if (fcmMsgs[message.data.uid].length === parseInt(message.data.count)) {
+        const transactions = FcmMsgsParser.fcmMsgsToTransactions(message.data);
+      }
+    }
   } else if (message.data.type === 'txstate') {
     if (message.data.state === 'pending') {
       if (Array.isArray(transactionsHistory)) {
