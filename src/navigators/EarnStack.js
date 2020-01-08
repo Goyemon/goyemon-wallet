@@ -1,13 +1,23 @@
 'use strict';
 import { createStackNavigator } from 'react-navigation';
+import EarnDai from '../components/EarnDai';
 import EarnList from '../components/EarnList';
 
 const EarnStack = createStackNavigator(
   {
+    EarnDai: {
+      screen: EarnDai,
+      navigationOptions: () => ({
+        headerTransparent: true,
+      })
+    },
     EarnList: {
       screen: EarnList,
       navigationOptions: () => ({
-        header: null
+        headerTransparent: true,
+        headerBackTitle: 'Earn'
+      })
+    },
       })
     }
   },
