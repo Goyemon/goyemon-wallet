@@ -15,32 +15,17 @@ const transactions = (state = INITIAL_STATE, action) => {
     case SAVE_EMPTY_TRANSACTION:
       return { transactions: action.payload };
     case SAVE_EXISTING_TRANSACTIONS:
-      if (state.transactions === null) {
-        const transactions = [...action.payload];
-        const sortedTransactions = transactions.sort((a, b) => b.time - a.time);
-        return {
-          transactions: sortedTransactions
-        };
-      } else if (state.transactions != null) {
-        const transactions = [...state.transactions, ...action.payload];
-        const filteredTransactions = transactions.reduce((accumulator, element) => {
-          if (!accumulator.find(el => el['hash'] === element['hash'])) {
-            accumulator.push(element);
-          }
-          return accumulator;
-        }, []);
+      const transactions = [...action.payload];
 
-        let removeSentTx;
-        removeSentTx = filteredTransactions.map(transaction => transaction.state).indexOf('sent');
-        if (removeSentTx === -1) {
-          removeSentTx = 0;
-        }
-
-        const sortedTransactions = filteredTransactions.sort((a, b) => b.time - a.time);
-        return {
-          transactions: sortedTransactions
-        };
+      let removeSentTx;
+      removeSentTx = transactions.map(transaction => transaction.state).indexOf('sent');
+      if (removeSentTx === -1) {
+        removeSentTx = 0;
       }
+
+      return {
+        transactions
+      };
     case ADD_SENT_TRANSACTION:
       return {
         transactions: [action.payload, ...state.transactions]
