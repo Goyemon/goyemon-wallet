@@ -8,7 +8,7 @@ import {
 } from 'react-native-responsive-screen';
 import { withNavigation } from 'react-navigation';
 import styled from 'styled-components';
-import { RootContainer, Button, HeaderOne, HeaderThree, QRCodeIcon } from '../components/common/';
+import { RootContainer, TransactionButton, HeaderOne, HeaderThree, QRCodeIcon } from '../components/common/';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import Transactions from '../containers/Transactions';
 
@@ -31,20 +31,35 @@ class Ethereum extends Component {
           <BalanceText>Balance</BalanceText>
           <UsdBalance>${this.getUsdBalance()}</UsdBalance>
           <EthBalance>{balance.ethBalance} ETH</EthBalance>
-          <ButtonContainer>
-            <Button
-              text="Send"
-              textColor="white"
-              backgroundColor="#1BA548"
-              borderColor="#1BA548"
-              margin="24px"
-              opacity="1"
-              onPress={async () => {
-                navigation.navigate('Send');
-              }}
-            />
-          </ButtonContainer>
         </CardContainerWithoutFeedback>
+        <ButtonContainer>
+          <TransactionButton
+            text="Receive"
+            textColor="#000"
+            backgroundColor="#FFF"
+            borderColor="#FFF"
+            iconColor="#1BA548"
+            iconName="call-received"
+            margin="16px 0"
+            opacity="1"
+            onPress={async () => {
+              navigation.navigate('QRCode');
+            }}
+          />
+          <TransactionButton
+            text="Send"
+            textColor="#000"
+            backgroundColor="#FFF"
+            borderColor="#FFF"
+            iconColor="#F1860E"
+            iconName="call-made"
+            margin="16px 0"
+            opacity="1"
+            onPress={async () => {
+              navigation.navigate('Send');
+            }}
+          />
+        </ButtonContainer>
         <View>
           <HeaderThree color="#000" marginBottom="16" marginLeft="16" marginTop="16">
             TRANSACTION HISTORY
@@ -59,15 +74,20 @@ class Ethereum extends Component {
 const CardContainerWithoutFeedback = styled.View`
   align-items: center;
   background: #fff;
-  height: 240px;
+  borderRadius: 8px;
+  height: 160px;
+  margin: 8px auto;
   margin-top: 24px;
   padding: 24px;
+  width: 85%
 `;
 
 const ButtonContainer = styled.View`
   alignItems: center;
   flexDirection: row;
-  justifyContent: center;
+  justifyContent: space-between;
+  margin: 0 auto;
+  width: 85%;
 `;
 
 const BalanceText = styled.Text`

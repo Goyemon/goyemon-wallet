@@ -12,4 +12,5 @@ export * from './ProgressBar';
 export * from './QRCodeIcon';
 export * from './RootContainer';
 export * from './TouchableCardContainer';
+export * from './TransactionButton';
 export * from './UntouchableCardContainer';
