@@ -11,6 +11,7 @@ import {
   updateTransactionState
 } from '../actions/ActionTransactionHistory';
 import EtherUtilities from '../utilities/EtherUtilities.js';
+import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import FcmMsgsParser from './FcmMsgsParser.js';
 import { store } from '../store/store';
 
@@ -44,8 +45,9 @@ firebase.messaging().onMessage(downstreamMessage => {
     if (fcmMsgs[downstreamMessage.data.uid] != undefined) {
       if (fcmMsgs[downstreamMessage.data.uid].length === parseInt(downstreamMessage.data.count)) {
         const transactions = FcmMsgsParser.fcmMsgsToTransactions(downstreamMessage.data);
-        store.dispatch(saveExistingTransactions(transactions));
-        store.dispatch(saveTransactionCount(transactions.length - 1));
+        const parsedExistingTransactions = TransactionUtilities.parseExistingTransactions(transactions);
+        store.dispatch(saveExistingTransactions(parsedExistingTransactions));
+        store.dispatch(saveTransactionCount(parsedExistingTransactions.length));
       }
     }
   } else if (downstreamMessage.data.type === 'txstate') {

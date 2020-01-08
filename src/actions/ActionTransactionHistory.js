@@ -22,8 +22,7 @@ const saveEmptyTransactionSuccess = (parsedEmptyTransaction) => ({
 export function saveExistingTransactions(transactions) {
   return function (dispatch) {
     try {
-      const parsedExistingTransactions = TransactionUtilities.parseExistingTransactions(transactions);
-      dispatch(saveExistingTransactionsSuccess(parsedExistingTransactions));
+      dispatch(saveExistingTransactionsSuccess(transactions));
     } catch(err) {
       console.error(err);
     }
