@@ -202,10 +202,10 @@ class TransactionUtilities {
     const transactions = stateTree.ReducerTransactionHistory.transactions;
     const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
     const outgoingTransactions = transactions.filter(transaction => {
-      if(Web3.utils.toChecksumAddress(transaction.from) === checksumAddress) {
+      if (Web3.utils.toChecksumAddress(transaction.from) === checksumAddress) {
         return transaction;
       }
-    })
+    });
     const transactionNonce = outgoingTransactions.length;
 
     return transactionNonce;

@@ -8,7 +8,7 @@ import Transaction from './Transaction';
 class Transactions extends Component {
   renderTransactions() {
     const { transactions } = this.props;
-
+    
     if (transactions === null || transactions.length === 0) {
       return (
         <EmptyTransactionContainer>
