@@ -43,7 +43,7 @@ class Dai extends Component {
             margin="16px 0"
             opacity="1"
             onPress={async () => {
-              navigation.navigate('QRCode');
+              navigation.navigate('Receive');
             }}
           />
           <TransactionButton

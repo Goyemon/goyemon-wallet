@@ -12,7 +12,7 @@ import {
   CrypterestText
 } from '../components/common';
 
-class QRCode extends Component {
+class Receive extends Component {
   constructor(props) {
     super();
     this.state = {
@@ -56,7 +56,7 @@ class QRCode extends Component {
     const { checksumAddress } = this.props;
     return (
       <RootContainer>
-        <HeaderOne marginTop="96">QRCode</HeaderOne>
+        <HeaderOne marginTop="96">Receive</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="0"
@@ -121,4 +121,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(QRCode);
+export default connect(mapStateToProps)(Receive);
