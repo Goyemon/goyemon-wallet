@@ -45,7 +45,9 @@ firebase.messaging().onMessage(downstreamMessage => {
     if (fcmMsgs[downstreamMessage.data.uid] != undefined) {
       if (fcmMsgs[downstreamMessage.data.uid].length === parseInt(downstreamMessage.data.count)) {
         const transactions = FcmMsgsParser.fcmMsgsToTransactions(downstreamMessage.data);
-        const parsedExistingTransactions = TransactionUtilities.parseExistingTransactions(transactions);
+        const parsedExistingTransactions = TransactionUtilities.parseExistingTransactions(
+          transactions
+        );
         store.dispatch(saveExistingTransactions(parsedExistingTransactions));
         store.dispatch(saveTransactionCount(parsedExistingTransactions.length));
       }

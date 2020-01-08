@@ -131,7 +131,10 @@ export default async message => {
 
       if (Array.isArray(transactionsHistory)) {
         transactionsHistory.map(transaction => {
-          if (transaction.hash === message.data.txhash && !(transaction.state === 'confirmed')) {
+          if (
+            transaction.hash === message.data.txhash &&
+            !(transaction.state === 'confirmed')
+          ) {
             store.dispatch(updateTransactionState(message.data));
           }
         });
