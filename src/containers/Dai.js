@@ -8,7 +8,7 @@ import {
 } from 'react-native-responsive-screen';
 import { withNavigation } from 'react-navigation';
 import styled from 'styled-components';
-import { RootContainer, TransactionButton, HeaderOne, HeaderThree, QRCodeIcon } from '../components/common/';
+import { RootContainer, TransactionButton, HeaderOne, HeaderThree } from '../components/common/';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionsDai from '../containers/TransactionsDai';
 
