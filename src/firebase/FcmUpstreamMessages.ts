@@ -18,6 +18,21 @@ class FcmUpstreamMessages {
       });
     firebase.messaging().sendMessage(upstreamMessage);
   }
+
+  async requestCDaiLendingInfo(checksumAddress) {
+    const messageId = uuidv4();
+    const serverAddress = '255097673919@gcm.googleapis.com';
+    const checksumAddressWithoutPrefix = EtherUtilities.stripHexPrefix(checksumAddress);
+
+    const upstreamMessage = new firebase.messaging.RemoteMessage()
+      .setMessageId(messageId)
+      .setTo(serverAddress)
+      .setData({
+        type: 'cDai_lending_info',
+        address: checksumAddressWithoutPrefix
+      });
+    firebase.messaging().sendMessage(upstreamMessage);
+  }
 }
 
 export default new FcmUpstreamMessages();

@@ -1,11 +1,17 @@
 'use strict';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Text } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import styled from 'styled-components';
 import { RootContainer, HeaderOne, TouchableCardContainer } from '../components/common';
+import FcmUpstreamMessages from '../firebase/FcmUpstreamMessages.ts';
 
 class EarnList extends Component {
+  async componentDidMount() {
+    await FcmUpstreamMessages.requestCDaiLendingInfo(this.props.checksumAddress);
+  }
+
   render() {
     const { navigation } = this.props;
 
@@ -120,4 +126,10 @@ const ValueText = styled.Text`
   margin-bottom: 4px;
 `;
 
-export default withNavigation(EarnList);
+function mapStateToProps(state) {
+  return {
+    checksumAddress: state.ReducerChecksumAddress.checksumAddress
+  };
+}
+
+export default withNavigation(connect(mapStateToProps)(EarnList));
