@@ -13,20 +13,6 @@ import PriceUtilities from '../utilities/PriceUtilities.js';
 import Transactions from '../containers/Transactions';
 
 class Ethereum extends Component {
-  static navigationOptions = ({ navigation, navigationOptions }) => {
-    const { params } = navigation.state;
-
-    return {
-      headerRight: (
-        <QRCodeIcon
-          onPress={() => {
-            navigation.navigate('QRCode');
-          }}
-        />
-      )
-    };
-  };
-
   getUsdBalance() {
     try {
       return PriceUtilities.convertEthToUsd(this.props.balance.ethBalance);

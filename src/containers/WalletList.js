@@ -19,20 +19,6 @@ import PriceUtilities from '../utilities/PriceUtilities.js';
 import WalletDetail from '../containers/WalletDetail';
 
 class WalletList extends Component {
-  static navigationOptions = ({ navigation, navigationOptions }) => {
-    const { params } = navigation.state;
-
-    return {
-      headerRight: (
-        <QRCodeIcon
-          onPress={() => {
-            navigation.navigate('QRCode');
-          }}
-        />
-      )
-    };
-  };
-
   async componentDidMount() {
     await FcmPermissions.checkFcmPermissions();
   }

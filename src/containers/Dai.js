@@ -13,20 +13,6 @@ import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionsDai from '../containers/TransactionsDai';
 
 class Dai extends Component {
-  static navigationOptions = ({ navigation, navigationOptions }) => {
-    const { params } = navigation.state;
-
-    return {
-      headerRight: (
-        <QRCodeIcon
-          onPress={() => {
-            navigation.navigate('QRCode');
-          }}
-        />
-      )
-    };
-  };
-
   getUsdBalance() {
     try {
       return PriceUtilities.convertDaiToUsd(this.props.balance.daiBalance);
