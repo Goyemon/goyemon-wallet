@@ -13,7 +13,7 @@ class FcmUpstreamMessages {
       .setMessageId(messageId)
       .setTo(serverAddress)
       .setData({
-        register: 'true',
+        type: 'address_register',
         address: checksumAddressWithoutPrefix
       });
     firebase.messaging().sendMessage(upstreamMessage);

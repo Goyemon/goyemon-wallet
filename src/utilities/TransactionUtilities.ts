@@ -233,7 +233,8 @@ class TransactionUtilities {
       .setMessageId(messageId)
       .setTo(serverAddress)
       .setData({
-        signedTransaction
+        type: 'outgoing_tx',
+        data: signedTransaction
       });
     firebase.messaging().sendMessage(upstreamMessage);
 
