@@ -130,9 +130,12 @@ class TransactionUtilities {
   }
 
   parseEthValue(value) {
-    const bigNumberValue = Web3.utils.toBN(value).toString();
-    const parsedEtherValue = Web3.utils.fromWei(bigNumberValue);
-    return parsedEtherValue;
+    if (value != null) {
+      const bigNumberValue = Web3.utils.toBN(value).toString();
+      const parsedEtherValue = Web3.utils.fromWei(bigNumberValue);
+      return parsedEtherValue;
+    }
+      return null;
   }
 
   parseDaiValue(value) {

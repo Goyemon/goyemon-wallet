@@ -70,11 +70,15 @@ class WalletCreation extends Component {
   }
 
   hasTransactionHistory() {
-    return (
+    if (this.props.transactionCount != null && this.props.transactions != null) {
+      return (
       this.props.transactions != null &&
       this.props.transactions.length != null &&
-      this.props.transactions.length.toString() === this.props.transactionCount
-    );
+      this.props.transactions.length.toString() === this.props.transactionCount.toString()
+      );
+    } else if (this.props.transactionCount === null) {
+      return false;
+    }
   }
 
   hasBalance() {
