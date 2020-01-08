@@ -13,7 +13,7 @@ class TransactionUtilities {
   parseExistingTransactions(transactions) {
     const filteredTransactions = Object.entries(transactions).filter((transaction) => {
       if (transaction[0] != '_contracts') {
-        return transaction;
+        return true;
       }
     });
 
