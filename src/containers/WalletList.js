@@ -70,9 +70,12 @@ class WalletList extends Component {
 const CardContainerWithoutFeedback = styled.View`
   align-items: center;
   background: #fff;
+  borderRadius: 8px;
   height: 176px;
+  margin: 8px auto;
   margin-top: 24px;
   padding: 24px;
+  width: 90%;
 `;
 
 const BalanceText = styled.Text`
