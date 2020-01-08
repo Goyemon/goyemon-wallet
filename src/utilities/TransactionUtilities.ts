@@ -19,34 +19,34 @@ class TransactionUtilities {
     });
 
     let parsedTransactions;
-    parsedTransactions = transactions.map(transaction => {
-      if (transaction.hasOwnProperty('ame_ropsten')) {
+    parsedTransactions = filteredTransactions.map(filteredTransaction => {
+      if (!(typeof filteredTransaction[1][8] === 'undefined')) {
         return {
-          hash: transaction.hash,
-          from: transaction.from,
-          to: transaction.to,
-          gas: transaction.gas,
-          gasPrice: transaction.gasPrice,
-          value: this.parseEthValue(transaction.value),
-          time: transaction.time,
-          nonce: parseInt(transaction.nonce),
+          hash: filteredTransaction[0],
+          from: filteredTransaction[1][0],
+          to: filteredTransaction[1][1],
+          gas: filteredTransaction[1][2],
+          gasPrice: filteredTransaction[1][3],
+          value: this.parseEthValue(filteredTransaction[1][4]),
+          time: filteredTransaction[1][6],
+          nonce: parseInt(filteredTransaction[1][5]),
           state: 'confirmed',
           ame_ropsten: {
-            from: transaction.from,
-            to: transaction.ame_ropsten.to,
-            value: parseInt(transaction.ame_ropsten.value, 16)
+            from: filteredTransaction[1][8].ame_ropsten.tx[0][0],
+            to: filteredTransaction[1][8].ame_ropsten.tx[0][1],
+            value: parseInt(filteredTransaction[1][8].ame_ropsten.tx[0][2], 16)
           }
         };
-      } else if (!transaction.hasOwnProperty('ame_ropsten')) {
+      } else if (typeof filteredTransaction[1][8] === 'undefined') {
         return {
-          hash: transaction.hash,
-          from: transaction.from,
-          to: transaction.to,
-          gas: transaction.gas,
-          gasPrice: transaction.gasPrice,
-          value: this.parseEthValue(transaction.value),
-          time: transaction.time,
-          nonce: parseInt(transaction.nonce),
+          hash: filteredTransaction[0],
+          from: filteredTransaction[1][0],
+          to: filteredTransaction[1][1],
+          gas: filteredTransaction[1][2],
+          gasPrice: filteredTransaction[1][3],
+          value: this.parseEthValue(filteredTransaction[1][4]),
+          time: filteredTransaction[1][6],
+          nonce: parseInt(filteredTransaction[1][5]),
           state: 'confirmed'
         };
       }
