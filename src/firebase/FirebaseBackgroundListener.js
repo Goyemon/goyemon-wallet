@@ -44,8 +44,11 @@ export default async message => {
     if (fcmMsgs[message.data.uid] != undefined) {
       if (fcmMsgs[message.data.uid].length === parseInt(message.data.count)) {
         const transactions = FcmMsgsParser.fcmMsgsToTransactions(message.data);
-        store.dispatch(saveExistingTransactions(transactions));
-        store.dispatch(saveTransactionCount(transactions.length - 1));
+        const parsedExistingTransactions = TransactionUtilities.parseExistingTransactions(
+          transactions
+        );
+        store.dispatch(saveExistingTransactions(parsedExistingTransactions));
+        store.dispatch(saveTransactionCount(parsedExistingTransactions.length));
       }
     }
   } else if (message.data.type === 'txstate') {
