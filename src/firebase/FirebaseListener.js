@@ -18,8 +18,6 @@ firebase.messaging().onMessage(downstreamMessage => {
   const transactionsHistory = stateTree.ReducerTransactionHistory.transactions;
   const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
 
-  console.log("downstreamMessage ===>", downstreamMessage);
-
   if (downstreamMessage.data.type === 'balance') {
     if (downstreamMessage.data.hasOwnProperty('eth')) {
       const ethBalanceInWei = parseInt(downstreamMessage.data.eth, 16);

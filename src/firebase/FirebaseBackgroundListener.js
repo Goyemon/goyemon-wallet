@@ -18,8 +18,6 @@ export default async (message) => {
   const transactionsHistory = stateTree.ReducerTransactionHistory.transactions;
   const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
 
-  console.log("message ===>", message);
-
   if (message.data.type === 'balance') {
     if (message.data.hasOwnProperty('eth')) {
       const ethBalanceInWei = parseInt(message.data.eth, 16);
