@@ -5,7 +5,7 @@ import uuidv4 from 'uuid/v4';
 import Web3 from 'web3';
 import { incrementTransactionCount } from '../actions/ActionTransactionCount';
 import { addSentTransaction } from '../actions/ActionTransactionHistory';
-import daiToken from '../contracts/DaiToken';
+import daiTokenContract from '../contracts/daiTokenContract';
 import { store } from '../store/store.js';
 import WalletUtilities from './WalletUtilities.ts';
 
@@ -77,7 +77,7 @@ class TransactionUtilities {
     const parsedTransaction = {
       hash: uuidv4(),
       from: checksumAddress,
-      to: daiToken.daiTokenAddress,
+      to: daiTokenContract.daiTokenAddress,
       gasLimit: transactionObject.gasLimit,
       gasPrice: transactionObject.gasPrice,
       value: '0x',

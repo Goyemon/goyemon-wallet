@@ -1,6 +1,6 @@
 'use strict';
 import { SAVE_EMPTY_TRANSACTION, SAVE_EXISTING_TRANSACTIONS, ADD_SENT_TRANSACTION, ADD_PENDING_OR_INCLUDED_TRANSACTION, UPDATE_PENDING_OR_INCLUDED_TRANSACTION, UPDATE_TRANSACTION_STATE } from '../constants/ActionTypes';
-import daiToken from '../contracts/DaiToken';
+import daiTokenContract from '../contracts/daiTokenContract';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 
 export function saveEmptyTransaction(emptyTransaction) {
@@ -38,9 +38,9 @@ export function addSentTransaction(transactionObject) {
   return async function (dispatch) {
     let parsedSentTransaction;
     try {
-      if(transactionObject.to != daiToken.daiTokenAddress) {
+      if(transactionObject.to != daiTokenContract.daiTokenAddress) {
         parsedSentTransaction = TransactionUtilities.parseSentEthTransaction(transactionObject);
-      } else if (transactionObject.to === daiToken.daiTokenAddress) {
+      } else if (transactionObject.to === daiTokenContract.daiTokenAddress) {
         parsedSentTransaction = await TransactionUtilities.parseSentDaiTransaction(transactionObject);
       }
       dispatch(addSentTransactionSuccess(parsedSentTransaction));

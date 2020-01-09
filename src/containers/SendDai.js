@@ -24,7 +24,7 @@ import {
   FormHeader,
   CrypterestText
 } from '../components/common';
-import daiToken from '../contracts/DaiToken';
+import daiTokenContract from '../contracts/daiTokenContract';
 import GasUtilities from '../utilities/GasUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
@@ -104,15 +104,15 @@ class SendDai extends Component {
       new Web3.providers.HttpProvider(`https://ropsten.infura.io/v3/${this.infuraId}`)
     );
 
-    const daiTokenContract = new web3.eth.Contract(
-      JSON.parse(daiToken.daiTokenAbi),
-      daiToken.daiTokenAddress
+    const daiTokenContractInstance = new web3.eth.Contract(
+      JSON.parse(daiTokenContract.daiTokenAbi),
+      daiTokenContract.daiTokenAddress
     );
 
     const amountWithDecimals = parseFloat(amount) * 10 ** 18;
     const amountWithHex = Web3.utils.toHex(amountWithDecimals);
 
-    const transferEncodedABI = daiTokenContract.methods
+    const transferEncodedABI = daiTokenContractInstance.methods
       .transfer(address, amountWithHex)
       .encodeABI();
     return transferEncodedABI;
@@ -123,7 +123,7 @@ class SendDai extends Component {
     const transferEncodedABI = this.getTransferEncodedABI(this.state.toAddress, this.state.amount);
     const transactionObject = {
       nonce: `0x${transactionNonce.toString(16)}`,
-      to: daiToken.daiTokenAddress,
+      to: daiTokenContract.daiTokenAddress,
       gasPrice: `0x${this.state.gasPrice[this.state.checked].gasPriceInWei.toString(16)}`,
       gasLimit: `0x${parseFloat(100000).toString(16)}`,
       chainId: 3,
