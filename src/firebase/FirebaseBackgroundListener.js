@@ -2,6 +2,7 @@
 import firebase from 'react-native-firebase';
 import Web3 from 'web3';
 import { saveDaiBalance, saveEthBalance } from '../actions/ActionBalance';
+import { saveCDaiLendingInfo } from '../actions/ActionCDaiLendingInfo';
 import { incrementTransactionCount, saveTransactionCount } from '../actions/ActionTransactionCount';
 import {
   saveExistingTransactions,
@@ -148,6 +149,9 @@ export default async message => {
         });
       }
     }
+  } else if (downstreamMessage.data.type === 'cDai_lending_info') {
+    const cDaiLendingInfoMessage = JSON.parse(downstreamMessage.data.data);
+    store.dispatch(saveCDaiLendingInfo(cDaiLendingInfoMessage));
   }
 
   return Promise.resolve();
