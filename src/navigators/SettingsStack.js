@@ -1,6 +1,6 @@
 'use strict';
 import { createStackNavigator } from 'react-navigation';
-import Settings from '../components/Settings';
+import Settings from '../containers/Settings';
 import BackupWords from '../containers/BackupWords';
 
 const SettingsStack = createStackNavigator(
