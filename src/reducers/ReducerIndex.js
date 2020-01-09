@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 import { CLEAR_STATE } from '../constants/ActionTypes';
 
 import ReducerBalance from './ReducerBalance';
+import ReducerCDaiLendingInfo from './ReducerCDaiLendingInfo';
 import ReducerChecksumAddress from './ReducerChecksumAddress';
 import ReducerDaiAmount from './ReducerDaiAmount';
 import ReducerDaiToAddress from './ReducerDaiToAddress';
@@ -20,6 +21,7 @@ import ReducerWallets from './ReducerWallets';
 
 const appReducers = combineReducers({
   ReducerBalance,
+  ReducerCDaiLendingInfo,
   ReducerChecksumAddress,
   ReducerDaiAmount,
   ReducerDaiToAddress,

@@ -13,14 +13,14 @@ class EarnList extends Component {
   }
 
   render() {
-    const { navigation } = this.props;
+    const { cDaiLendingInfo, navigation } = this.props;
 
     return (
       <RootContainer>
         <HeaderOne marginTop="96">Earn</HeaderOne>
         <CardContainerWithoutFeedback>
           <UsdSuppliedBalanceText>Total Supplied</UsdSuppliedBalanceText>
-          <UsdSuppliedBalance>$</UsdSuppliedBalance>
+          <UsdSuppliedBalance></UsdSuppliedBalance>
           <InterestEarnedText>earned!</InterestEarnedText>
         </CardContainerWithoutFeedback>
         <TouchableCardContainer
@@ -44,9 +44,9 @@ class EarnList extends Component {
             <TitleText>interest earned</TitleText>
           </TitleContainer>
           <ValueContainer>
-            <ValueText>424 DAI</ValueText>
-            <ValueText>3.96%</ValueText>
-            <ValueText>0.8313 DAI</ValueText>
+            <ValueText>{cDaiLendingInfo.daiBalance} DAI</ValueText>
+            <ValueText>{cDaiLendingInfo.currentRate}%</ValueText>
+            <ValueText>{cDaiLendingInfo.lifetimeEarned} DAI</ValueText>
           </ValueContainer>
         </TouchableCardContainer>
       </RootContainer>
@@ -128,6 +128,7 @@ const ValueText = styled.Text`
 
 function mapStateToProps(state) {
   return {
+    cDaiLendingInfo: state.ReducerCDaiLendingInfo.cDaiLendingInfo,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress
   };
 }

@@ -149,5 +149,8 @@ firebase.messaging().onMessage(downstreamMessage => {
         });
       }
     }
+  } else if (downstreamMessage.data.type === 'cDai_lending_info') {
+    const cDaiLendingInfoMessage = JSON.parse(downstreamMessage.data.data);
+    store.dispatch(saveCDaiLendingInfo(cDaiLendingInfoMessage));
   }
 });
