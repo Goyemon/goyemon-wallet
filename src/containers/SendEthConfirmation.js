@@ -14,7 +14,7 @@ import {
 } from '../components/common/';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 
-class Confirmation extends Component {
+class SendEthConfirmation extends Component {
   constructor(props) {
     super();
     this.state = {
@@ -187,4 +187,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Confirmation);
+export default connect(mapStateToProps)(SendEthConfirmation);

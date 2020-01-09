@@ -183,7 +183,7 @@ class SendEth extends Component {
       console.log('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
-      this.props.navigation.navigate('Confirmation');
+      this.props.navigation.navigate('SendEthConfirmation');
     } else {
       console.log('form validation failed!');
     }
