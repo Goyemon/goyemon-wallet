@@ -14,7 +14,7 @@ import {
 } from '../components/common/';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 
-class ConfirmationDai extends Component {
+class WithdrawDaiConfirmation extends Component {
   constructor(props) {
     super();
     this.state = {
@@ -176,4 +176,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(ConfirmationDai);
+export default connect(mapStateToProps)(WithdrawDaiConfirmation);
