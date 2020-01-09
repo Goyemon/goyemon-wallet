@@ -247,7 +247,7 @@ class SendDai extends Component {
       await this.props.saveOutgoingTransactionObject(transactionObject);
       await this.props.saveDaiAmount(amount);
       await this.props.saveDaiToAddress(toAddress);
-      this.props.navigation.navigate('ConfirmationDai');
+      this.props.navigation.navigate('SendDaiConfirmation');
     } else {
       console.log('form validation failed!');
     }

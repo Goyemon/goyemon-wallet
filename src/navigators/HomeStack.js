@@ -18,7 +18,7 @@ import Confirmation from '../containers/Confirmation';
 import Receive from '../containers/Receive';
 import Dai from '../containers/Dai';
 import SendDai from '../containers/SendDai';
-import ConfirmationDai from '../containers/ConfirmationDai';
+import SendDaiConfirmation from '../containers/SendDaiConfirmation';
 
 const HomeStack = createStackNavigator(
   {
@@ -139,11 +139,11 @@ const HomeStack = createStackNavigator(
         headerBackTitle: 'SendDai'
       })
     },
-    ConfirmationDai: {
-      screen: ConfirmationDai,
+    SendDaiConfirmation: {
+      screen: SendDaiConfirmation,
       navigationOptions: () => ({
         headerTransparent: true,
-        headerBackTitle: 'ConfirmationDai'
+        headerBackTitle: 'SendDaiConfirmation'
       })
     }
   },
