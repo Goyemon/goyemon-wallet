@@ -13,7 +13,7 @@ import ShowMnemonic from '../components/ShowMnemonic';
 import VerifyMnemonic from '../containers/VerifyMnemonic';
 import WalletList from '../containers/WalletList';
 import Ethereum from '../containers/Ethereum';
-import Send from '../containers/Send';
+import SendEth from '../containers/SendEth';
 import Confirmation from '../containers/Confirmation';
 import Receive from '../containers/Receive';
 import Dai from '../containers/Dai';
@@ -106,11 +106,11 @@ const HomeStack = createStackNavigator(
         headerBackTitle: 'Ethereum'
       })
     },
-    Send: {
-      screen: Send,
+    SendEth: {
+      screen: SendEth,
       navigationOptions: () => ({
         headerTransparent: true,
-        headerBackTitle: 'Send'
+        headerBackTitle: 'SendEth'
       })
     },
     Confirmation: {

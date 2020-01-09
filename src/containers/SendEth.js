@@ -26,7 +26,7 @@ import GasUtilities from '../utilities/GasUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 
-class Send extends Component {
+class SendEth extends Component {
   constructor(props) {
     super();
     this.state = {
@@ -475,4 +475,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Send);
+)(SendEth);
