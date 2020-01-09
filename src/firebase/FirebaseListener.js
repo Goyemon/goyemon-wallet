@@ -2,6 +2,7 @@
 import firebase from 'react-native-firebase';
 import Web3 from 'web3';
 import { saveEthBalance, saveDaiBalance } from '../actions/ActionBalance';
+import { saveCDaiLendingInfo } from '../actions/ActionCDaiLendingInfo';
 import { saveTransactionCount, incrementTransactionCount } from '../actions/ActionTransactionCount';
 import {
   saveExistingTransactions,
