@@ -52,7 +52,7 @@ export default class NotificationPermissionNotGranted extends Component {
 const Container = styled.View`
   alignItems: center;
   flexDirection: column;
-  margin-top: 120px;
+  margin-top: 120;
   width: 95%;
 `;
 

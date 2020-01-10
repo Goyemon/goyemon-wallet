@@ -47,8 +47,8 @@ const Container = styled.View`
 `;
 
 const MnemonicWordsContainer = styled.View`
-  margin-top: 24px;
-  margin-bottom: 24px;
+  margin-top: 24;
+  margin-bottom: 24;
   width: 95%;
 `;
 
@@ -57,7 +57,7 @@ const MnemonicWordsWrapper = styled.View`
   border-radius: 16px;
   border-color: #f8f8f8;
   border-width: 4px;
-  margin-bottom: 8px;
+  margin-bottom: 8;
   text-align: center;
 `;
 

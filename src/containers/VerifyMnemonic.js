@@ -163,8 +163,8 @@ const Container = styled.View`
 `;
 
 const MnemonicWordsContainer = styled.View`
-  margin-bottom: 24px;
-  margin-top: 24px;
+  margin-bottom: 24;
+  margin-top: 24;
   width: 95%;
 `;
 

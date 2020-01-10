@@ -192,7 +192,7 @@ const ModalBackground = styled.View`
   borderTopColor: #e41b13;
   height: 30%;
   min-height: 280px;
-  margin-top: 200px;
+  margin-top: 200;
   width: 90%;
 `;
 
@@ -210,12 +210,12 @@ const ModalTextContainer = styled.View`
 const CommunityIconContainer = styled.View`
   flexDirection: row;
   justifyContent: center;
-  margin-top: 32px;
+  margin-top: 32;
 `;
 
 const CommunityIcon = styled.View`
-  margin-left: 8px;
-  margin-right: 8px;
+  margin-left: 8;
+  margin-right: 8;
 `;
 
 const SettingsListContainer = styled.View`
@@ -223,8 +223,8 @@ const SettingsListContainer = styled.View`
   border-color: rgba(95, 95, 95, 0.3);
   borderTopWidth: 0.5;
   borderBottomWidth: 0.5;
-  margin-top: 16px;
-  margin-bottom: 8px;
+  margin-top: 16;
+  margin-bottom: 8;
   width: 100%;
 `;
 
@@ -246,7 +246,7 @@ const SettingsListText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
   font-size: 20;
-  margin-left: 16px;
+  margin-left: 16;
   width: 80%;
 `;
 
@@ -259,20 +259,20 @@ const ResetWalletText = styled.Text`
 const ButtonContainer = styled.View`
   flexDirection: row;
   justifyContent: center;
-  margin-top: 16px;
+  margin-top: 16;
 `;
 
 const BottomText = styled.View`
   alignItems: center;
   flexDirection: column;
   justifyContent: center;
-  margin-bottom: 24px;
+  margin-bottom: 24;
 `;
 
 const VersionText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
-  margin-bottom: 40px;
+  margin-bottom: 40;
 `;
 
 const LoveText = styled.Text`

@@ -140,7 +140,7 @@ const WelcomeContainer = Animatable.createAnimatableComponent(styled.View`
 const Title = Animatable.createAnimatableComponent(styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 64;
-  margin-bottom: 16px;
+  margin-bottom: 16;
   text-align: center;
 `);
 
@@ -148,7 +148,7 @@ const Logo = Animatable.createAnimatableComponent(styled.Text`
   color: #e41b13;
   font-family: 'HKGrotesk-Bold';
   font-size: 40;
-  margin-bottom: 48px;
+  margin-bottom: 48;
   text-align: center;
   text-transform: uppercase;
 `);
@@ -171,7 +171,7 @@ const TitleOrangeText = styled.Text`
 const CardText = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 16;
-  margin-left: 8px;
+  margin-left: 8;
   padding-top: 8px;
   padding-right: 32px;
   text-align: left;
@@ -179,7 +179,7 @@ const CardText = styled.Text`
 
 const CardImage = styled.Image`
   height: 64px;
-  margin-right: 8px;
+  margin-right: 8;
   padding: 16px;
   resizeMode: contain;
   width: 64px;

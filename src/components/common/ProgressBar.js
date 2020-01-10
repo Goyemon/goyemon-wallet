@@ -25,7 +25,7 @@ const ProgressBar = props => (
 
 const Container = styled.View`
   alignItems: center;
-  margin-top: 112px;
+  margin-top: 112;
 `;
 
 const Outer = styled.View`
@@ -39,7 +39,7 @@ const InnerContainer = styled.View`
   background-color: #fdc800;
   border-radius: 16px;
   height: 8px;
-  margin-top: -8px;
+  margin-top: -8;
   margin-right: ${props => props.marginRight};
   width: ${props => props.width};
 `;
@@ -53,7 +53,7 @@ const NumberContainer = styled.View`
   flex: 1;
   flexDirection: row;
   justifyContent: space-around;
-  margin-top: -16px;
+  margin-top: -16;
   width: 115%;
 `;
 

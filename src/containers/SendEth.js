@@ -223,10 +223,10 @@ class SendEth extends Component {
             justifyContent="flex-start"
             marginTop="56px"
             textAlign="left"
-            width="85%"
+            width="80%"
           >
             <CoinImage source={require('../../assets/ether_icon.png')} />
-            <BalanceText>your eth balance</BalanceText>
+            <BalanceText>your eth wallet balance</BalanceText>
             <BalanceContainer>
               <EthBalance>{balance.ethBalance} ETH</EthBalance>
               <UsdBalance>${this.getUsdBalance()}</UsdBalance>
@@ -361,7 +361,7 @@ const SendTextInput = styled.TextInput`
 const CoinImage = styled.Image`
   border-radius: 20px;
   height: 40px;
-  margin-top: 16px;
+  margin-top: 16;
   width: 40px;
 `;
 
@@ -369,26 +369,26 @@ const BalanceText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
   font-size: 16;
-  margin-top: 16px;
+  margin-top: 16;
   text-transform: uppercase;
 `;
 
 const BalanceContainer = styled.View`
   alignItems: center;
   flexDirection: row;
-  margin-top: 8px;
+  margin-top: 8;
 `;
 
 const UsdBalance = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 16;
-  margin-left: 4px;
+  margin-left: 4;
 `;
 
 const EthBalance = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 16;
-  margin-right: 4px;
+  margin-right: 4;
 `;
 
 const CurrencySymbolText = styled.Text`
@@ -399,7 +399,7 @@ const NetworkFeeHeaderContainer = styled.View`
   alignItems: center;
   flexDirection: row;
   justifyContent: center;
-  margin-top: 24px;
+  margin-top: 24;
 `;
 
 const NetworkFeeSymbolContainer = styled.TouchableWithoutFeedback``;
@@ -424,7 +424,7 @@ const NetworkFeeInEther = styled.Text`
 const CurrencySymbol = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 20;
-  margin-left: 8px;
+  margin-left: 8;
 `;
 
 const SpeedContainer = styled.TouchableOpacity`

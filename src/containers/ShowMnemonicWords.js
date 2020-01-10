@@ -26,8 +26,8 @@ const styles = {
 };
 
 const MnemonicWordsContainer = styled.View`
-  margin-top: 24px;
-  margin-bottom: 24px;
+  margin-top: 24;
+  margin-bottom: 24;
   width: 95%;
 `;
 

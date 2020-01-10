@@ -9,10 +9,12 @@ import { withNavigation } from 'react-navigation';
 import styled from 'styled-components';
 import {
   RootContainer,
+  UntouchableCardContainer,
   QRCodeIcon,
   TouchableCardContainer,
   HeaderOne,
-  HeaderThree
+  HeaderThree,
+  HeaderFour
 } from '../components/common';
 import FcmPermissions from '../firebase/FcmPermissions.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
@@ -36,11 +38,20 @@ class WalletList extends Component {
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="96">Wallets</HeaderOne>
-        <CardContainerWithoutFeedback>
-          <BalanceText>Total Balance</BalanceText>
-          <UsdBalance>${this.getTotalBalance(balance.ethBalance, balance.daiBalance)}</UsdBalance>
-        </CardContainerWithoutFeedback>
+        <HeaderOne marginTop="64">Wallets</HeaderOne>
+          <UntouchableCardContainer
+            alignItems="center"
+            borderRadius="8"
+            flexDirection="column"
+            height="176px"
+            justifyContent="center"
+            marginTop="24px"
+            textAlign="left"
+            width="90%"
+          >
+            <HeaderFour marginTop="24">total wallet balance</HeaderFour>
+            <UsdBalance>${this.getTotalBalance(balance.ethBalance, balance.daiBalance)}</UsdBalance>
+        </UntouchableCardContainer>
         <HeaderThree color="#000" marginBottom="16" marginLeft="16" marginTop="16">
           YOUR ACCOUNTS
         </HeaderThree>
@@ -66,26 +77,6 @@ class WalletList extends Component {
     );
   }
 }
-
-const CardContainerWithoutFeedback = styled.View`
-  align-items: center;
-  background: #fff;
-  borderRadius: 8px;
-  height: 176px;
-  margin: 8px auto;
-  margin-top: 24px;
-  padding: 24px;
-  width: 90%;
-`;
-
-const BalanceText = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 20;
-  margin-top: 24px;
-  margin-bottom: 24px;
-  text-transform: uppercase;
-`;
 
 const UsdBalance = styled.Text`
   color: #000;

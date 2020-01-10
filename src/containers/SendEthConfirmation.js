@@ -106,7 +106,7 @@ class SendEthConfirmation extends Component {
         </UntouchableCardContainer>
         <ButtonContainer>
           <Button
-            text="Confirm"
+            text="Send"
             textColor="white"
             backgroundColor="#00A3E2"
             borderColor="#00A3E2"
@@ -127,8 +127,8 @@ const TotalContainer = styled.View`
   alignItems: center;
   flexDirection: column;
   justifyContent: center;
-  margin-bottom: 56px;
-  margin-top: 56px;
+  margin-bottom: 56;
+  margin-top: 56;
 `;
 
 const CoinImage = styled.Image`
@@ -140,33 +140,33 @@ const CoinImage = styled.Image`
 const ToText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Bold';
-  margin-left: 8px;
+  margin-left: 8;
 `;
 
 const AmountText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Bold';
-  margin-left: 8px;
+  margin-left: 8;
 `;
 
 const NetworkFeeContainer = styled.View`
   alignItems: center;
   flexDirection: row;
   justifyContent: center;
-  margin-top: 16px;
-  margin-bottom: 8px;
+  margin-top: 16;
+  margin-bottom: 8;
 `;
 
 const NetworkFeeText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Bold';
-  margin-left: 8px;
+  margin-left: 8;
 `;
 
 const CurrencySymbol = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 20;
-  margin-left: 8px;
+  margin-left: 8;
 `;
 
 const TotalValueText = styled.Text`

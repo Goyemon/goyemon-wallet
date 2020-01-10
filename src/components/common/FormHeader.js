@@ -15,10 +15,10 @@ const FormHeader = props => (
 const FormHeaderText = styled.Text`
   color: #000;
   font-family: 'HKGrotesk-Bold';
-  font-size: 24;
-  margin-bottom: ${props => `${props.marginBottom}px`};
-  margin-left: ${props => `${props.marginLeft}px`};
-  margin-top: ${props => `${props.marginTop}px`};
+  font-size: 20;
+  margin-bottom: ${props => `${props.marginBottom}`};
+  margin-left: ${props => `${props.marginLeft}`};
+  margin-top: ${props => `${props.marginTop}`};
   text-align: center;
 `;
 

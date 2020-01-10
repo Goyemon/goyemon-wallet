@@ -4,25 +4,57 @@ import { connect } from 'react-redux';
 import { Text } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import styled from 'styled-components';
-import { RootContainer, HeaderOne, TouchableCardContainer } from '../components/common';
+import {
+  RootContainer,
+  UntouchableCardContainer,
+  HeaderOne,
+  HeaderThree,
+  HeaderFour,
+  TouchableCardContainer
+} from '../components/common';
 import FcmUpstreamMessages from '../firebase/FcmUpstreamMessages.ts';
+import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class EarnList extends Component {
   async componentDidMount() {
     await FcmUpstreamMessages.requestCDaiLendingInfo(this.props.checksumAddress);
   }
 
+  getUsdValue(daiBalance) {
+    let usdValue = parseFloat(PriceUtilities.convertDaiToUsd(daiBalance));
+    usdValue = parseFloat(usdValue).toFixed(2);
+    return usdValue;
+  }
+
   render() {
     const { cDaiLendingInfo, navigation } = this.props;
+    const currentRate = cDaiLendingInfo.currentRate / 10 ** 18;
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="96">Earn</HeaderOne>
-        <CardContainerWithoutFeedback>
-          <UsdSuppliedBalanceText>Total Supplied</UsdSuppliedBalanceText>
-          <UsdSuppliedBalance></UsdSuppliedBalance>
-          <InterestEarnedText>earned!</InterestEarnedText>
-        </CardContainerWithoutFeedback>
+        <HeaderOne marginTop="64">Earn</HeaderOne>
+        <UntouchableCardContainer
+          alignItems="center"
+          borderRadius="8"
+          flexDirection="column"
+          height="176px"
+          justifyContent="center"
+          marginTop="24px"
+          textAlign="left"
+          width="90%"
+        >
+          <HeaderFour marginTop="24">total savings balance</HeaderFour>
+          <BalanceText>${this.getUsdValue(cDaiLendingInfo.daiBalance)}</BalanceText>
+          <InterestEarnedTextContainer>
+            <InterestEarnedText>
+              ${this.getUsdValue(cDaiLendingInfo.lifetimeEarned)}
+            </InterestEarnedText>
+            <Text> earned!</Text>
+          </InterestEarnedTextContainer>
+        </UntouchableCardContainer>
+        <HeaderThree color="#000" marginBottom="16" marginLeft="16" marginTop="16">
+          YOUR ACCOUNTS
+        </HeaderThree>
         <TouchableCardContainer
           alignItems="center"
           flexDirection="row"
@@ -30,7 +62,7 @@ class EarnList extends Component {
           justifyContent="center"
           textAlign="center"
           width="85%"
-          onPress={ () => {
+          onPress={() => {
             navigation.navigate('EarnDai');
           }}
         >
@@ -39,14 +71,14 @@ class EarnList extends Component {
             <Text>Dai</Text>
           </CoinImageContainer>
           <TitleContainer>
-            <TitleText>supplied</TitleText>
-            <TitleText>rate</TitleText>
+            <TitleText>savings balance</TitleText>
+            <TitleText>interest rate</TitleText>
             <TitleText>interest earned</TitleText>
           </TitleContainer>
           <ValueContainer>
             <ValueText>{cDaiLendingInfo.daiBalance} DAI</ValueText>
-            <ValueText>{cDaiLendingInfo.currentRate}%</ValueText>
-            <ValueText>{cDaiLendingInfo.lifetimeEarned} DAI</ValueText>
+            <ValueText>{currentRate}%</ValueText>
+            <DaiInterestEarnedText>{cDaiLendingInfo.lifetimeEarned} DAI</DaiInterestEarnedText>
           </ValueContainer>
         </TouchableCardContainer>
       </RootContainer>
@@ -54,54 +86,39 @@ class EarnList extends Component {
   }
 }
 
-const CardContainerWithoutFeedback = styled.View`
-  align-items: center;
-  background: #fff;
-  borderRadius: 8px;
-  height: 200px;
-  margin: 8px auto;
-  margin-top: 24px;
-  padding: 24px;
-  width: 85%
-`;
-
-const CoinImageContainer = styled.View`
-  align-items: center;
-  width: 12%;
-`;
-
-const CoinImage = styled.Image`
-  border-radius: 20px;
-  height: 40px;
-  margin-bottom: 8px;
-  width: 40px;
-`;
-
-const UsdSuppliedBalanceText = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 20;
-  margin-top: 24px;
-  margin-bottom: 24px;
-  text-transform: uppercase;
-`;
-
-const UsdSuppliedBalance = styled.Text`
+const BalanceText = styled.Text`
   color: #000;
   font-family: 'HKGrotesk-Regular';
   font-size: 32;
 `;
 
-const InterestEarnedText = styled.Text`
-  color: #000;
+const InterestEarnedTextContainer = styled.Text`
   font-family: 'HKGrotesk-Regular';
-  font-size: 18;
-  margin-top: 12px;
+  margin-top: 16;
 `;
 
+const InterestEarnedText = styled.Text`
+  color: #1ba548;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 18;
+  font-weight: bold;
+`;
+
+const CoinImageContainer = styled.View`
+  align-items: center;
+  width: 16%;
+`;
+
+const CoinImage = styled.Image`
+  border-radius: 20px;
+  height: 40px;
+  margin-bottom: 8;
+  width: 40px;
+`;
 
 const TitleContainer = styled.View`
-  width: 44%;
+  margin-left: 8;
+  width: 42%;
 `;
 
 const TitleText = styled.Text`
@@ -109,12 +126,12 @@ const TitleText = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 18;
   font-weight: bold;
-  margin-left: 16px;
-  margin-bottom: 4px;
+  margin-bottom: 8;
 `;
 
 const ValueContainer = styled.View`
-  width: 44%;
+  margin-left: 12;
+  width: 42%;
 `;
 
 const ValueText = styled.Text`
@@ -122,8 +139,15 @@ const ValueText = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 18;
   font-weight: bold;
-  margin-left: 16px;
-  margin-bottom: 4px;
+  margin-bottom: 4;
+`;
+
+const DaiInterestEarnedText = styled.Text`
+  color: #1ba548;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 18;
+  font-weight: bold;
+  margin-bottom: 4;
 `;
 
 function mapStateToProps(state) {

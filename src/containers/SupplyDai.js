@@ -218,7 +218,7 @@ class SupplyDai extends Component {
   };
 
   render() {
-    const { balance } = this.props;
+    const { balance, cDaiLendingInfo } = this.props;
 
     this.state.gasPrice[0].gasPriceInWei = this.props.gasPrice.fast;
     this.state.gasPrice[1].gasPriceInWei = this.props.gasPrice.average;
@@ -247,18 +247,20 @@ class SupplyDai extends Component {
             alignItems="center"
             borderRadius="8px"
             flexDirection="column"
-            height="160px"
+            height="240px"
             justifyContent="center"
             marginTop="56"
             textAlign="center"
-            width="85%"
+            width="80%"
           >
             <CoinImage source={require('../../assets/dai_icon.png')} />
-            <BalanceText>your dai balance</BalanceText>
+            <BalanceText>your dai wallet balance</BalanceText>
             <BalanceContainer>
               <EthBalance>{balance.daiBalance} DAI</EthBalance>
               <UsdBalance>${this.getUsdBalance()}</UsdBalance>
             </BalanceContainer>
+            <BalanceText>interest rate</BalanceText>
+            <EthBalance>{cDaiLendingInfo.currentRate} %</EthBalance>
           </UntouchableCardContainer>
           <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
             Supply Amount
@@ -374,7 +376,7 @@ const SendTextInput = styled.TextInput`
 const CoinImage = styled.Image`
   border-radius: 20px;
   height: 40px;
-  margin-top: 16px;
+  margin-top: 16;
   width: 40px;
 `;
 
@@ -382,26 +384,26 @@ const BalanceText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
   font-size: 16;
-  margin-top: 16px;
+  margin-top: 16;
   text-transform: uppercase;
 `;
 
 const BalanceContainer = styled.View`
   alignItems: center;
   flexDirection: row;
-  margin-top: 8px;
+  margin-top: 8;
 `;
 
 const UsdBalance = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 16;
-  margin-left: 4px;
+  margin-left: 4;
 `;
 
 const EthBalance = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 16;
-  margin-left: 4px;
+  margin-left: 4;
 `;
 
 const CurrencySymbolText = styled.Text`
@@ -412,7 +414,7 @@ const NetworkFeeHeaderContainer = styled.View`
   alignItems: center;
   flexDirection: row;
   justifyContent: center;
-  margin-top: 24px;
+  margin-top: 24;
 `;
 
 const NetworkFeeSymbolContainer = styled.TouchableWithoutFeedback``;
@@ -435,7 +437,7 @@ const NetworkFeeInEther = styled.Text`
 const CurrencySymbol = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 20;
-  margin-left: 8px;
+  margin-left: 8;
 `;
 
 const SpeedContainer = styled.TouchableOpacity`
@@ -466,6 +468,7 @@ const ErrorMessage = styled.Text`
 
 function mapStateToProps(state) {
   return {
+    cDaiLendingInfo: state.ReducerCDaiLendingInfo.cDaiLendingInfo,
     gasPrice: state.ReducerGasPrice.gasPrice,
     balance: state.ReducerBalance.balance
   };

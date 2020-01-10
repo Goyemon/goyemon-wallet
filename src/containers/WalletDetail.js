@@ -104,14 +104,14 @@ const CoinText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
   font-size: 20;
-  margin-left: 16px;
-  margin-bottom: 4px;
+  margin-left: 16;
+  margin-bottom: 4;
 `;
 
 const PriceText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
-  margin-left: 16px;
+  margin-left: 16;
 `;
 
 const BalanceContainer = styled.View`
@@ -127,7 +127,7 @@ const BalanceText = styled.Text`
 const UsdBalanceText = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 22;
-  margin-bottom: 4px;
+  margin-bottom: 4;
 `;
 
 const mapStateToProps = state => ({

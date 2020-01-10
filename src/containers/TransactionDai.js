@@ -178,7 +178,7 @@ const DirectionTimeContainer = styled.View`
 `;
 
 const DirectionText = styled.Text`
-  margin-bottom: 4px;
+  margin-bottom: 4;
 `;
 
 const TimeText = styled.Text`

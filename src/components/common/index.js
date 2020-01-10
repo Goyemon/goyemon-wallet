@@ -7,6 +7,7 @@ export * from './FormHeader';
 export * from './HeaderOne';
 export * from './HeaderTwo';
 export * from './HeaderThree';
+export * from './HeaderFour';
 export * from './Loader';
 export * from './ProgressBar';
 export * from './QRCodeIcon';

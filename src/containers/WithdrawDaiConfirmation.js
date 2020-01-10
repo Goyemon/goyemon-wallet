@@ -52,11 +52,6 @@ class WithdrawDaiConfirmation extends Component {
   render() {
     const { outgoingTransactionObjects, daiAmount } = this.props;
 
-    const gasPriceInEther = Web3.utils.fromWei(
-      outgoingTransactionObjects[outgoingTransactionObjects.length - 1].gasPrice,
-      'Ether'
-    );
-
     return (
       <RootContainer>
         <HeaderOne marginTop="96">Confirmation</HeaderOne>
@@ -64,13 +59,12 @@ class WithdrawDaiConfirmation extends Component {
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <CrypterestText fontSize="16">You are about to withdraw</CrypterestText>
           <TotalValueText>{daiAmount} DAI</TotalValueText>
-          <CrypterestText fontSize="16">+ network fee</CrypterestText>
         </TotalContainer>
         <UntouchableCardContainer
           alignItems="flex-start"
           borderRadius="0"
           flexDirection="column"
-          height="280px"
+          height="200px"
           justifyContent="flex-start"
           marginTop="0"
           textAlign="left"
@@ -100,7 +94,7 @@ class WithdrawDaiConfirmation extends Component {
         </UntouchableCardContainer>
         <ButtonContainer>
           <Button
-            text="Confirm"
+            text="Withdraw"
             textColor="white"
             backgroundColor="#00A3E2"
             borderColor="#00A3E2"
@@ -121,8 +115,8 @@ const TotalContainer = styled.View`
   alignItems: center;
   flexDirection: column;
   justifyContent: center;
-  margin-bottom: 56px;
-  margin-top: 56px;
+  margin-bottom: 40;
+  margin-top: 56;
 `;
 
 const CoinImage = styled.Image`
@@ -134,27 +128,27 @@ const CoinImage = styled.Image`
 const AmountText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Bold';
-  margin-left: 8px;
+  margin-left: 8;
 `;
 
 const NetworkFeeContainer = styled.View`
   alignItems: center;
   flexDirection: row;
   justifyContent: center;
-  margin-top: 16px;
-  margin-bottom: 8px;
+  margin-top: 16;
+  margin-bottom: 8;
 `;
 
 const NetworkFeeText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Bold';
-  margin-left: 8px;
+  margin-left: 8;
 `;
 
 const CurrencySymbol = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 20;
-  margin-left: 8px;
+  margin-left: 8;
 `;
 
 const TotalValueText = styled.Text`

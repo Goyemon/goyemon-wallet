@@ -10,8 +10,8 @@ const QRCodeIcon = props => (
 );
 
 const IconContainer = styled.View`
-  margin-top: 8px;
-  margin-right: 16px;
+  margin-top: 8;
+  margin-right: 16;
 `;
 
 export { QRCodeIcon };

@@ -51,7 +51,7 @@ const EmptyTransactionEmoji = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
   font-size: 40;
-  margin-bottom: 24px;
+  margin-bottom: 24;
 `;
 
 const EmptyTransactionText = styled.Text`

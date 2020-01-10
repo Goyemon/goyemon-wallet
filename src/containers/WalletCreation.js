@@ -190,7 +190,7 @@ const Container = styled.View`
   alignItems: center;
   flexDirection: column;
   justifyContent: center;
-  margin-top: 120px;
+  margin-top: 120;
 `;
 
 const CreatingWalletImage = styled.Image`

@@ -166,13 +166,13 @@ export default class Initial extends Component {
 const Container = styled.View`
   flex: 1;
   justify-content: center;
-  margin-top: 240px;
+  margin-top: 240;
   text-align: center;
 `;
 
 const Title = Animatable.createAnimatableComponent(styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 40;
-  margin-bottom: 16px;
+  margin-bottom: 16;
   text-align: center;
 `);

@@ -287,10 +287,10 @@ class SendDai extends Component {
             justifyContent="center"
             marginTop="56"
             textAlign="center"
-            width="85%"
+            width="80%"
           >
             <CoinImage source={require('../../assets/dai_icon.png')} />
-            <BalanceText>your dai balance</BalanceText>
+            <BalanceText>your dai wallet balance</BalanceText>
             <BalanceContainer>
               <EthBalance>{balance.daiBalance} DAI</EthBalance>
               <UsdBalance>${this.getUsdBalance()}</UsdBalance>
@@ -487,7 +487,7 @@ const NetworkFeeInEther = styled.Text`
 const CurrencySymbol = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 20;
-  margin-left: 8px;
+  margin-left: 8;
 `;
 
 const SpeedContainer = styled.TouchableOpacity`

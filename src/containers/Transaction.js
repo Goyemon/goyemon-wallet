@@ -252,7 +252,7 @@ const DirectionTimeContainer = styled.View`
 const DirectionText = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 16;
-  margin-bottom: 4px;
+  margin-bottom: 4;
 `;
 
 const TimeText = styled.Text`

@@ -56,7 +56,7 @@ const Container = styled.View`
   alignItems: center;
   flex: 1;
   justify-content: center;
-  margin-top: 40px;
+  margin-top: 40;
   text-align: center;
 `;
 

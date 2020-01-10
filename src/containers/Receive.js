@@ -84,8 +84,8 @@ const QrCodeContainer = styled.View`
   alignItems: center;
   flexDirection: column;
   justifyContent: center;
-  margin-top: 32px;
-  margin-bottom: 32px;
+  margin-top: 32;
+  margin-bottom: 32;
 `;
 
 const QrCodeText = styled.Text`
@@ -93,7 +93,7 @@ const QrCodeText = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 16;
   font-weight: bold;
-  margin-bottom: 8px;
+  margin-bottom: 8;
 `;
 
 const CopiedAddressContainer = styled.View`
@@ -106,7 +106,7 @@ const CopiedAddressText = styled.Text`
   color: #00a3e2;
   font-family: 'HKGrotesk-Regular';
   font-size: 20;
-  margin-right: 4px;
+  margin-right: 4;
 `;
 
 const CopyAddressText = styled.Text`
