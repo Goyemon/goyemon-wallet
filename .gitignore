@@ -19,15 +19,17 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
+ios/build
 
 # Gradle
 /build/
-/DeBank/android/app/build/
-/DeBank/android/app/gradle/
-/DeBank/android/app/gradlew
-/DeBank/android/app/gradlew.bat
+android/build
+android/app/build/
+android/app/gradle/
+android/app/gradlew
+android/app/gradlew.bat
 /ReactAndroid/build/
-/DeBank/android/gradle.properties
+android/gradle.properties
 
 # Buck
 .buckd
