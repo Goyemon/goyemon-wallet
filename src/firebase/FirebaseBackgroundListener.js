@@ -140,11 +140,12 @@ export default async message => {
           }
         });
       }
-    } else if (message.data.state === 'confirmed') {
+    } else if (txStateMessage[Object.keys(txStateMessage)[0]][7] === 3) {
+      const parsedTransaction = TransactionUtilities.parseConfirmedTransaction(txStateMessage);
       if (Array.isArray(transactionsHistory)) {
         transactionsHistory.map(transaction => {
-          if (transaction.hash === message.data.txhash) {
-            store.dispatch(updateTransactionState(message.data));
+          if (transaction.hash === parsedTransaction.hash) {
+            store.dispatch(updateTransactionState(parsedTransaction));
           }
         });
       }
