@@ -44,7 +44,7 @@ class EarnList extends Component {
           width="90%"
         >
           <HeaderFour marginTop="24">total savings balance</HeaderFour>
-          <BalanceText>${this.getUsdValue(cDaiLendingInfo.daiBalance)}</BalanceText>
+          <BalanceText>${this.getUsdValue(cDaiLendingInfo.daiSavingsBalance)}</BalanceText>
           <InterestEarnedTextContainer>
             <InterestEarnedText>
               ${this.getUsdValue(cDaiLendingInfo.lifetimeEarned)}
@@ -76,7 +76,7 @@ class EarnList extends Component {
             <TitleText>interest earned</TitleText>
           </TitleContainer>
           <ValueContainer>
-            <ValueText>{cDaiLendingInfo.daiBalance} DAI</ValueText>
+            <ValueText>{cDaiLendingInfo.daiSavingsBalance} DAI</ValueText>
             <ValueText>{currentRate}%</ValueText>
             <DaiInterestEarnedText>{cDaiLendingInfo.lifetimeEarned} DAI</DaiInterestEarnedText>
           </ValueContainer>

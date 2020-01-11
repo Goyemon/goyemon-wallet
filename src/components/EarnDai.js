@@ -24,7 +24,7 @@ class EarnDai extends Component {
           width="90%"
         >
           <HeaderFour marginTop="24">dai savings balance</HeaderFour>
-          <BalanceText>{cDaiLendingInfo.daiBalance} DAI</BalanceText>
+          <BalanceText>{cDaiLendingInfo.daiSavingsBalance} DAI</BalanceText>
           <DaiInterestEarnedTextContainer>
             <DaiInterestEarnedText>
             {cDaiLendingInfo.lifetimeEarned} DAI
