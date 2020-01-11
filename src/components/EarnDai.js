@@ -60,6 +60,17 @@ class EarnDai extends Component {
             }}
           />
         </ButtonContainer>
+        <Button
+          text="Approve"
+          textColor="#00A3E2"
+          backgroundColor="#FFF"
+          borderColor="#00A3E2"
+          margin="40px auto"
+          opacity="1"
+          onPress={async () => {
+            this.props.navigation.navigate('ApproveDai');
+          }}
+        />
       </RootContainer>
     );
   }
