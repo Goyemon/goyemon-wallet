@@ -58,8 +58,7 @@ const addSentTransactionSuccess = (parsedSentTransaction) => ({
 export function addPendingOrIncludedTransaction(transactionObject) {
   return function (dispatch) {
     try {
-      let parsedTransaction = TransactionUtilities.parsePendingOrIncludedTransaction(transactionObject);
-      dispatch(addPendingOrIncludedTransactionSuccess(parsedTransaction));
+      dispatch(addPendingOrIncludedTransactionSuccess(transactionObject));
     } catch(err) {
       console.error(err);
     }
@@ -74,8 +73,7 @@ const addPendingOrIncludedTransactionSuccess = (parsedTransaction) => ({
 export function updatePendingOrIncludedTransaction(transactionObject) {
   return function (dispatch) {
     try {
-      let parsedTransaction = TransactionUtilities.parsePendingOrIncludedTransaction(transactionObject);
-      dispatch(updatePendingOrIncludedTransactionSuccess(parsedTransaction));
+      dispatch(updatePendingOrIncludedTransactionSuccess(transactionObject));
     } catch(err) {
       console.error(err);
     }

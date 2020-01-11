@@ -53,27 +53,30 @@ export default async message => {
       }
     }
   } else if (message.data.type === 'txstate') {
-    if (message.data.state === 'pending') {
+    const txStateMessage = JSON.parse(message.data.data);
+    if (txStateMessage[Object.keys(txStateMessage)[0]][7] === 1) {
+      const parsedTransaction = TransactionUtilities.parsePendingOrIncludedTransaction(
+        txStateMessage
+      );
       if (Array.isArray(transactionsHistory)) {
         const txHashExist = transactionsHistory.some(
-          transaction => transaction.hash === message.data.txhash
+          transaction => transaction.hash === parsedTransaction.hash
         );
-        if (message.data.hasOwnProperty('txto')) {
+        if (parsedTransaction.state != 'confirmed') {
           if (
-            checksumAddress === Web3.utils.toChecksumAddress(message.data.txto) &&
+            checksumAddress === Web3.utils.toChecksumAddress(parsedTransaction.txto) &&
             txHashExist === false
           ) {
-            store.dispatch(addPendingOrIncludedTransaction(message.data));
+            store.dispatch(addPendingOrIncludedTransaction(parsedTransaction));
             store.dispatch(incrementTransactionCount());
           }
         }
-        if (message.data.hasOwnProperty('ame_ropsten')) {
+        if (parsedTransaction.hasOwnProperty('ame_ropsten')) {
           if (
-            checksumAddress ===
-              Web3.utils.toChecksumAddress(JSON.parse(message.data.ame_ropsten).to) &&
+            checksumAddress === Web3.utils.toChecksumAddress(parsedTransaction.ame_ropsten.to) &&
             txHashExist === false
           ) {
-            store.dispatch(addPendingOrIncludedTransaction(message.data));
+            store.dispatch(addPendingOrIncludedTransaction(parsedTransaction));
             store.dispatch(incrementTransactionCount());
           }
         }
@@ -81,38 +84,40 @@ export default async message => {
 
       if (Array.isArray(transactionsHistory)) {
         transactionsHistory.map(transaction => {
-          if (transaction.from === Web3.utils.toChecksumAddress(message.data.txfrom)) {
+          if (transaction.from === Web3.utils.toChecksumAddress(parsedTransaction.from)) {
             if (
-              transaction.nonce === parseInt(message.data.nonce, 16) &&
+              transaction.nonce === parsedTransaction.nonce &&
               !(transaction.state === 'included') &&
               !(transaction.state === 'confirmed')
             ) {
-              store.dispatch(updatePendingOrIncludedTransaction(message.data));
+              store.dispatch(updatePendingOrIncludedTransaction(parsedTransaction));
             }
           }
         });
       }
-    } else if (message.data.state === 'included') {
+    } else if (txStateMessage[Object.keys(txStateMessage)[0]][7] === 2) {
+      const parsedTransaction = TransactionUtilities.parsePendingOrIncludedTransaction(
+        txStateMessage
+      );
       if (Array.isArray(transactionsHistory)) {
         const txHashExist = transactionsHistory.some(
-          transaction => transaction.hash === message.data.txhash
+          transaction => transaction.hash === parsedTransaction.hash
         );
-        if (message.data.hasOwnProperty('txto')) {
+        if (parsedTransaction.state != 'confirmed') {
           if (
-            checksumAddress === Web3.utils.toChecksumAddress(message.data.txto) &&
+            checksumAddress === Web3.utils.toChecksumAddress(parsedTransaction.to) &&
             txHashExist === false
           ) {
-            store.dispatch(addPendingOrIncludedTransaction(message.data));
+            store.dispatch(addPendingOrIncludedTransaction(parsedTransaction));
             store.dispatch(incrementTransactionCount());
           }
         }
-        if (message.data.hasOwnProperty('ame_ropsten')) {
+        if (parsedTransaction.hasOwnProperty('ame_ropsten')) {
           if (
-            checksumAddress ===
-              Web3.utils.toChecksumAddress(JSON.parse(message.data.ame_ropsten).to) &&
+            checksumAddress === Web3.utils.toChecksumAddress(parsedTransaction.ame_ropsten.to) &&
             txHashExist === false
           ) {
-            store.dispatch(addPendingOrIncludedTransaction(message.data));
+            store.dispatch(addPendingOrIncludedTransaction(parsedTransaction));
             store.dispatch(incrementTransactionCount());
           }
         }
@@ -121,22 +126,19 @@ export default async message => {
       if (Array.isArray(transactionsHistory)) {
         transactionsHistory.map(transaction => {
           if (
-            transaction.from === Web3.utils.toChecksumAddress(message.data.txfrom) &&
-            transaction.nonce === parseInt(message.data.nonce, 16) &&
+            transaction.from === Web3.utils.toChecksumAddress(parsedTransaction.from) &&
+            transaction.nonce === parsedTransaction.nonce &&
             transaction.state === 'sent'
           ) {
-            store.dispatch(updatePendingOrIncludedTransaction(message.data));
+            store.dispatch(updatePendingOrIncludedTransaction(parsedTransaction));
           }
         });
       }
 
       if (Array.isArray(transactionsHistory)) {
         transactionsHistory.map(transaction => {
-          if (
-            transaction.hash === message.data.txhash &&
-            !(transaction.state === 'confirmed')
-          ) {
-            store.dispatch(updateTransactionState(message.data));
+          if (transaction.hash === parsedTransaction.hash && !(transaction.state === 'confirmed')) {
+            store.dispatch(updateTransactionState(parsedTransaction));
           }
         });
       }

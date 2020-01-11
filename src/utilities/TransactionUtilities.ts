@@ -11,7 +11,7 @@ import WalletUtilities from './WalletUtilities.ts';
 
 class TransactionUtilities {
   parseExistingTransactions(transactions) {
-    const filteredTransactions = Object.entries(transactions).filter((transaction) => {
+    const filteredTransactions = Object.entries(transactions).filter(transaction => {
       if (transaction[0] != '_contracts') {
         return true;
       }
@@ -27,8 +27,8 @@ class TransactionUtilities {
           gas: filteredTransaction[1][2],
           gasPrice: filteredTransaction[1][3],
           value: this.parseEthValue(filteredTransaction[1][4]),
-          time: filteredTransaction[1][6],
           nonce: parseInt(filteredTransaction[1][5]),
+          time: filteredTransaction[1][6],
           state: 'confirmed',
           ame_ropsten: {
             from: filteredTransaction[1][8].ame_ropsten.tx[0][0],
@@ -44,8 +44,8 @@ class TransactionUtilities {
           gas: filteredTransaction[1][2],
           gasPrice: filteredTransaction[1][3],
           value: this.parseEthValue(filteredTransaction[1][4]),
-          time: filteredTransaction[1][6],
           nonce: parseInt(filteredTransaction[1][5]),
+          time: filteredTransaction[1][6],
           state: 'confirmed'
         };
       }
@@ -105,33 +105,36 @@ class TransactionUtilities {
 
   parsePendingOrIncludedTransaction(transactionObject) {
     let parsedTransaction;
-    if (!transactionObject.hasOwnProperty('ame_ropsten')) {
+    if (typeof transactionObject[Object.keys(transactionObject)[0]][8] === 'undefined') {
       parsedTransaction = {
-        hash: transactionObject.txhash,
-        from: transactionObject.txfrom,
-        to: transactionObject.txto,
-        gasLimit: transactionObject.gas,
-        gasPrice: transactionObject.gasPrice,
-        value: this.parseEthValue(transactionObject.value),
-        time: transactionObject.timestamp,
-        nonce: parseInt(transactionObject.nonce, 16),
-        state: transactionObject.state
+        hash: Object.keys(transactionObject)[0],
+        from: transactionObject[Object.keys(transactionObject)[0]][0],
+        to: transactionObject[Object.keys(transactionObject)[0]][1],
+        gasLimit: transactionObject[Object.keys(transactionObject)[0]][2],
+        gasPrice: transactionObject[Object.keys(transactionObject)[0]][3],
+        value: this.parseEthValue(transactionObject[Object.keys(transactionObject)[0]][4]),
+        nonce: parseInt(transactionObject[Object.keys(transactionObject)[0]][5], 16),
+        time: transactionObject[Object.keys(transactionObject)[0]][6],
+        state: this.returnState(transactionObject[Object.keys(transactionObject)[0]][7])
       };
-    } else if (transactionObject.hasOwnProperty('ame_ropsten')) {
+    } else if (!(typeof transactionObject[Object.keys(transactionObject)[0]][8] === 'undefined')) {
       parsedTransaction = {
-        hash: transactionObject.txhash,
-        from: transactionObject.txfrom,
-        to: transactionObject.txto,
-        gasLimit: transactionObject.gas,
-        gasPrice: transactionObject.gasPrice,
-        value: this.parseEthValue(transactionObject.value),
-        time: transactionObject.timestamp,
-        nonce: parseInt(transactionObject.nonce, 16),
-        state: transactionObject.state,
+        hash: Object.keys(transactionObject)[0],
+        from: transactionObject[Object.keys(transactionObject)[0]][0],
+        to: transactionObject[Object.keys(transactionObject)[0]][1],
+        gasLimit: transactionObject[Object.keys(transactionObject)[0]][2],
+        gasPrice: transactionObject[Object.keys(transactionObject)[0]][3],
+        value: this.parseEthValue(transactionObject[Object.keys(transactionObject)[0]][4]),
+        nonce: parseInt(transactionObject[Object.keys(transactionObject)[0]][5], 16),
+        time: transactionObject[Object.keys(transactionObject)[0]][6],
+        state: this.returnState(transactionObject[Object.keys(transactionObject)[0]][7]),
         ame_ropsten: {
-          from: JSON.parse(transactionObject.ame_ropsten).from,
-          to: JSON.parse(transactionObject.ame_ropsten).to,
-          value: parseInt(JSON.parse(transactionObject.ame_ropsten).value, 16)
+          from: transactionObject[Object.keys(transactionObject)[0]][8].ame_ropsten.tx[0][0],
+          to: transactionObject[Object.keys(transactionObject)[0]][8].ame_ropsten.tx[0][1],
+          value: parseInt(
+            transactionObject[Object.keys(transactionObject)[0]][8].ame_ropsten.tx[0][2],
+            16
+          )
         }
       };
     }
@@ -154,7 +157,7 @@ class TransactionUtilities {
       const parsedEtherValue = Web3.utils.fromWei(bigNumberValue);
       return parsedEtherValue;
     }
-      return null;
+    return null;
   }
 
   parseDaiValue(value) {
@@ -221,8 +224,7 @@ class TransactionUtilities {
     const transactions = stateTree.ReducerTransactionHistory.transactions;
     const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
     const outgoingTransactions = transactions.filter(transaction => {
-      if (!transaction.from)
-        return false;
+      if (!transaction.from) return false;
       if (Web3.utils.toChecksumAddress(transaction.from) === checksumAddress) {
         return true;
       }
