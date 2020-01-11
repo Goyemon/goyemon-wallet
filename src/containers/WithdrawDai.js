@@ -254,10 +254,8 @@ class WithdrawDai extends Component {
             width="80%"
           >
             <CoinImage source={require('../../assets/dai_icon.png')} />
-            <BalanceText>your dai savings balance</BalanceText>
-            <BalanceContainer>
-              <EthBalance>{cDaiLendingInfo.daiBalance} DAI</EthBalance>
-            </BalanceContainer>
+            <Title>your dai savings balance</Title>
+            <ValueText>{cDaiLendingInfo.daiSavingsBalance} DAI</ValueText>
           </UntouchableCardContainer>
           <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
             Withdraw Amount
@@ -377,7 +375,7 @@ const CoinImage = styled.Image`
   width: 40px;
 `;
 
-const BalanceText = styled.Text`
+const Title = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
   font-size: 16;
@@ -385,16 +383,9 @@ const BalanceText = styled.Text`
   text-transform: uppercase;
 `;
 
-const BalanceContainer = styled.View`
-  alignItems: center;
-  flexDirection: row;
-  margin-top: 8;
-`;
-
-const EthBalance = styled.Text`
+const ValueText = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 16;
-  margin-left: 4;
 `;
 
 const CurrencySymbolText = styled.Text`
