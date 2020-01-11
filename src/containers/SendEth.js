@@ -352,7 +352,7 @@ const SendTextInputContainer = styled.View`
 `;
 
 const SendTextInput = styled.TextInput`
-  font-size: 16;
+  font-size: 14;
   height: 56px;
   width: 95%;
   text-align: left;
