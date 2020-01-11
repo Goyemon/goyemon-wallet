@@ -150,8 +150,8 @@ export default async message => {
         });
       }
     }
-  } else if (downstreamMessage.data.type === 'cDai_lending_info') {
-    const cDaiLendingInfoMessage = JSON.parse(downstreamMessage.data.data);
+  } else if (message.data.type === 'cDai_lending_info') {
+    const cDaiLendingInfoMessage = JSON.parse(message.data.data);
     store.dispatch(saveCDaiLendingInfo(cDaiLendingInfoMessage));
   }
 
