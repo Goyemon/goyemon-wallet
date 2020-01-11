@@ -46,7 +46,7 @@ const transactions = (state = INITIAL_STATE, action) => {
     case UPDATE_TRANSACTION_STATE:
       return {
         transactions: state.transactions.map((transaction, index) => {
-          if (action.payload.txhash === transaction.hash) {
+          if (action.payload.hash === transaction.hash) {
             return { ...transaction, state: action.payload.state };
           }
           return transaction;

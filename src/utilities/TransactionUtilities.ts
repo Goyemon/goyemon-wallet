@@ -93,6 +93,16 @@ class TransactionUtilities {
     return parsedTransaction;
   }
 
+  returnState(state) {
+    if (state === 1) {
+      return 'pending';
+    } else if (state === 2) {
+      return 'included';
+    } else if (state === 3) {
+      return 'confirmed';
+    }
+  }
+
   parsePendingOrIncludedTransaction(transactionObject) {
     let parsedTransaction;
     if (!transactionObject.hasOwnProperty('ame_ropsten')) {
@@ -125,6 +135,16 @@ class TransactionUtilities {
         }
       };
     }
+    return parsedTransaction;
+  }
+
+  parseConfirmedTransaction(transactionObject) {
+    let parsedTransaction;
+    parsedTransaction = {
+      hash: Object.keys(transactionObject)[0],
+      time: transactionObject[Object.keys(transactionObject)[0]][6],
+      state: this.returnState(transactionObject[Object.keys(transactionObject)[0]][7])
+    };
     return parsedTransaction;
   }
 

@@ -141,11 +141,12 @@ firebase.messaging().onMessage(downstreamMessage => {
           }
         });
       }
-    } else if (downstreamMessage.data.state === 'confirmed') {
+    } else if (txStateMessage[Object.keys(txStateMessage)[0]][7] === 3) {
+      const parsedTransaction = TransactionUtilities.parseConfirmedTransaction(txStateMessage);
       if (Array.isArray(transactionsHistory)) {
         transactionsHistory.map(transaction => {
-          if (transaction.hash === downstreamMessage.data.txhash) {
-            store.dispatch(updateTransactionState(downstreamMessage.data));
+          if (transaction.hash === parsedTransaction.hash) {
+            store.dispatch(updateTransactionState(parsedTransaction));
           }
         });
       }
