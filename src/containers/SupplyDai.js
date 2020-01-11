@@ -62,14 +62,6 @@ class SupplyDai extends Component {
     this.props.getGasPriceSlow();
   }
 
-  getUsdBalance() {
-    try {
-      return PriceUtilities.convertDaiToUsd(this.props.balance.daiBalance);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
   toggleCurrencySymbol() {
     if (this.state.currency === 'ETH') {
       return <CurrencySymbol>ETH</CurrencySymbol>;
@@ -257,7 +249,6 @@ class SupplyDai extends Component {
             <BalanceText>your dai wallet balance</BalanceText>
             <BalanceContainer>
               <EthBalance>{balance.daiBalance} DAI</EthBalance>
-              <UsdBalance>${this.getUsdBalance()}</UsdBalance>
             </BalanceContainer>
             <BalanceText>interest rate</BalanceText>
             <EthBalance>{cDaiLendingInfo.currentRate} %</EthBalance>
@@ -392,12 +383,6 @@ const BalanceContainer = styled.View`
   alignItems: center;
   flexDirection: row;
   margin-top: 8;
-`;
-
-const UsdBalance = styled.Text`
-  font-family: 'HKGrotesk-Regular';
-  font-size: 16;
-  margin-left: 4;
 `;
 
 const EthBalance = styled.Text`
