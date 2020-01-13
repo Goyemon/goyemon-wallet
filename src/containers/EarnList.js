@@ -40,7 +40,7 @@ class EarnList extends Component {
           height="176px"
           justifyContent="center"
           marginTop="24px"
-          textAlign="left"
+          textAlign="center"
           width="90%"
         >
           <HeaderFour marginTop="24">total savings balance</HeaderFour>
@@ -61,7 +61,7 @@ class EarnList extends Component {
           height="160px"
           justifyContent="center"
           textAlign="center"
-          width="85%"
+          width="90%"
           onPress={() => {
             navigation.navigate('EarnDai');
           }}
@@ -106,7 +106,7 @@ const InterestEarnedText = styled.Text`
 
 const CoinImageContainer = styled.View`
   align-items: center;
-  width: 16%;
+  width: 20%;
 `;
 
 const CoinImage = styled.Image`
@@ -118,7 +118,7 @@ const CoinImage = styled.Image`
 
 const TitleContainer = styled.View`
   margin-left: 8;
-  width: 42%;
+  width: 50%;
 `;
 
 const TitleText = styled.Text`
@@ -131,7 +131,7 @@ const TitleText = styled.Text`
 
 const ValueContainer = styled.View`
   margin-left: 12;
-  width: 42%;
+  width: 30%;
 `;
 
 const ValueText = styled.Text`
