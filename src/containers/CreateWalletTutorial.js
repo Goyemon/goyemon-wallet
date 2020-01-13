@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-import { saveMnemonic } from '../actions/ActionMnemonic';
+import { saveMnemonicWords } from '../actions/ActionMnemonic';
 import { RootContainer, Button, HeaderTwo, Description } from '../components/common';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
@@ -29,7 +29,7 @@ class CreateWalletTutorial extends Component {
             opacity="1"
             onPress={async () => {
               await WalletUtilities.init();
-              await this.props.saveMnemonic();
+              await this.props.saveMnemonicWords();
               this.props.navigation.navigate('ShowMnemonic');
             }}
           />
@@ -42,7 +42,7 @@ class CreateWalletTutorial extends Component {
             opacity="1"
             onPress={async () => {
               await WalletUtilities.init();
-              await this.props.saveMnemonic();
+              await this.props.saveMnemonicWords();
               this.props.navigation.navigate('NotificationPermissionTutorial');
             }}
           />
@@ -59,7 +59,7 @@ const Container = styled.View`
 `;
 
 const mapDispatchToProps = {
-  saveMnemonic
+  saveMnemonicWords
 };
 
 export default connect(

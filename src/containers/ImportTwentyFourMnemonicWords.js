@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { KeyboardAvoidingView, Platform, View, TextInput } from 'react-native';
 import styled from 'styled-components/native';
-import { saveMnemonic } from '../actions/ActionMnemonic';
+import { saveMnemonicWords } from '../actions/ActionMnemonic';
 import { updateMnemonicWordsValidation } from '../actions/ActionMnemonicWordsValidation';
 import { RootContainer, ProgressBar, HeaderTwo, Button, Description } from '../components/common';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
@@ -48,7 +48,7 @@ class ImportTwentyFourMnemonicWords extends Component {
       this.setState({ mnemonicWordsValidation: true });
       this.props.updateMnemonicWordsValidation(true);
       await WalletUtilities.setMnemonic(mnemonicWords);
-      await this.props.saveMnemonic();
+      await this.props.saveMnemonicWords();
       this.props.navigation.navigate('NotificationPermissionTutorial');
     } else {
       this.setState({ mnemonicWordsValidation: false });
@@ -186,7 +186,7 @@ const ErrorMessage = styled.Text`
 `;
 
 const mapDispatchToProps = {
-  saveMnemonic,
+  saveMnemonicWords,
   updateMnemonicWordsValidation
 };
 

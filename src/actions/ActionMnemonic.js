@@ -2,18 +2,18 @@
 import { SAVE_MNEMONIC } from '../constants/ActionTypes';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
-export function saveMnemonic() {
+export function saveMnemonicWords() {
   return async function (dispatch) {
     try {
       const mnemonicWords = await WalletUtilities.getMnemonic();
-      dispatch(saveMnemonicSuccess(mnemonicWords));
+      dispatch(saveMnemonicWordsSuccess(mnemonicWords));
     } catch(err) {
       console.error(err);
     }
   }
 };
 
-const saveMnemonicSuccess = (mnemonicWords) => ({
+const saveMnemonicWordsSuccess = (mnemonicWords) => ({
   type: SAVE_MNEMONIC,
   payload: mnemonicWords
 })
