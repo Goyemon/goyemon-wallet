@@ -35,17 +35,17 @@ class WithdrawDai extends Component {
         {
           speed: 'fast',
           imageName: 'run-fast',
-          gasPriceInWei: '0'
+          gasPriceWei: '0'
         },
         {
           speed: 'average',
           imageName: 'run',
-          gasPriceInWei: '0'
+          gasPriceWei: '0'
         },
         {
           speed: 'slow',
           imageName: 'walk',
-          gasPriceInWei: '0'
+          gasPriceWei: '0'
         }
       ],
       amount: '',
@@ -78,19 +78,19 @@ class WithdrawDai extends Component {
     }
   }
 
-  toggleCurrency(gasPriceInWei) {
+  toggleCurrency(gasPriceWei) {
     if (this.state.currency === 'ETH') {
-      const usdValue = this.getTransactionFeeEstimateInUsd(gasPriceInWei);
+      const usdValue = this.getTransactionFeeEstimateInUsd(gasPriceWei);
       return <CrypterestText fontSize="16">${usdValue}</CrypterestText>;
     } else if (this.state.currency === 'USD') {
-      const ethValue = GasUtilities.getTransactionFeeEstimateInEther(gasPriceInWei, 100000);
+      const ethValue = GasUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 100000);
       return <NetworkFeeInEther>{ethValue}ETH</NetworkFeeInEther>;
     }
   }
 
-  getTransactionFeeEstimateInUsd(gasPriceInWei) {
+  getTransactionFeeEstimateInUsd(gasPriceWei) {
     return PriceUtilities.convertEthToUsd(
-      GasUtilities.getTransactionFeeEstimateInEther(gasPriceInWei, 100000)
+      GasUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 100000)
     );
   }
 
@@ -120,7 +120,7 @@ class WithdrawDai extends Component {
     const transactionObject = {
       nonce: `0x${transactionNonce.toString(16)}`,
       to: cDaiContract.cDaiAddress,
-      gasPrice: `0x${this.state.gasPrice[this.state.checked].gasPriceInWei.toString(16)}`,
+      gasPrice: `0x${this.state.gasPrice[this.state.checked].gasPriceWei.toString(16)}`,
       gasLimit: `0x${parseFloat(100000).toString(16)}`,
       chainId: 3,
       data: redeemUnderlyingEncodedABI
@@ -146,7 +146,7 @@ class WithdrawDai extends Component {
 
   validateEthAmount() {
     const transactionFeeLimitInEther = GasUtilities.getTransactionFeeEstimateInEther(
-      this.state.gasPrice[this.state.checked].gasPriceInWei,
+      this.state.gasPrice[this.state.checked].gasPriceWei,
       100000
     );
 
@@ -220,20 +220,20 @@ class WithdrawDai extends Component {
   render() {
     const { balance, cDaiLendingInfo } = this.props;
 
-    this.state.gasPrice[0].gasPriceInWei = this.props.gasPrice.fast;
-    this.state.gasPrice[1].gasPriceInWei = this.props.gasPrice.average;
-    this.state.gasPrice[2].gasPriceInWei = this.props.gasPrice.slow;
+    this.state.gasPrice[0].gasPriceWei = this.props.gasPrice.fast;
+    this.state.gasPrice[1].gasPriceWei = this.props.gasPrice.average;
+    this.state.gasPrice[2].gasPriceWei = this.props.gasPrice.slow;
 
     this.props.saveTransactionFeeEstimateEth(
       GasUtilities.getTransactionFeeEstimateInEther(
-        this.state.gasPrice[this.state.checked].gasPriceInWei,
+        this.state.gasPrice[this.state.checked].gasPriceWei,
         100000
       )
     );
     this.props.saveTransactionFeeEstimateUsd(
       PriceUtilities.convertEthToUsd(
         GasUtilities.getTransactionFeeEstimateInEther(
-          this.state.gasPrice[this.state.checked].gasPriceInWei,
+          this.state.gasPrice[this.state.checked].gasPriceWei,
           100000
         )
       )
@@ -308,7 +308,7 @@ class WithdrawDai extends Component {
                     <SpeedContainer>
                       <SelectedButton>{gasPrice.speed}</SelectedButton>
                       <Icon name={gasPrice.imageName} size={40} color="#1BA548" />
-                      <SelectedButton>{this.toggleCurrency(gasPrice.gasPriceInWei)}</SelectedButton>
+                      <SelectedButton>{this.toggleCurrency(gasPrice.gasPriceWei)}</SelectedButton>
                     </SpeedContainer>
                   ) : (
                     <SpeedContainer
@@ -320,7 +320,7 @@ class WithdrawDai extends Component {
                       <UnselectedButton>{gasPrice.speed}</UnselectedButton>
                       <Icon name={gasPrice.imageName} size={40} color="#000" />
                       <UnselectedButton>
-                        {this.toggleCurrency(gasPrice.gasPriceInWei)}
+                        {this.toggleCurrency(gasPrice.gasPriceWei)}
                       </UnselectedButton>
                     </SpeedContainer>
                   )}

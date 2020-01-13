@@ -2,10 +2,10 @@
 import Web3 from 'web3';
 
 class GasUtilities {
-  getTransactionFeeEstimateInEther(gasPriceInWei, gasLimit) {
-    const transactionFeeEstimateInWei = parseFloat(gasPriceInWei) * gasLimit;
+  getTransactionFeeEstimateInEther(gasPriceWei, gasLimit) {
+    const transactionFeeEstimateWei = parseFloat(gasPriceWei) * gasLimit;
     const transactionFeeEstimateInEther = Web3.utils.fromWei(
-      transactionFeeEstimateInWei.toString(),
+      transactionFeeEstimateWei.toString(),
       'Ether'
     );
     return transactionFeeEstimateInEther;

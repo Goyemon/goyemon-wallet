@@ -34,17 +34,17 @@ class SendEth extends Component {
         {
           speed: 'fast',
           imageName: 'run-fast',
-          gasPriceInWei: '0'
+          gasPriceWei: '0'
         },
         {
           speed: 'average',
           imageName: 'run',
-          gasPriceInWei: '0'
+          gasPriceWei: '0'
         },
         {
           speed: 'slow',
           imageName: 'walk',
-          gasPriceInWei: '0'
+          gasPriceWei: '0'
         }
       ],
       toAddress: '',
@@ -78,30 +78,30 @@ class SendEth extends Component {
     }
   }
 
-  toggleCurrency(gasPriceInWei) {
+  toggleCurrency(gasPriceWei) {
     if (this.state.currency === 'ETH') {
-      const usdValue = this.getTransactionFeeEstimateInUsd(gasPriceInWei);
+      const usdValue = this.getTransactionFeeEstimateInUsd(gasPriceWei);
       return <CrypterestText fontSize="16">${usdValue}</CrypterestText>;
     } else if (this.state.currency === 'USD') {
-      const ethValue = GasUtilities.getTransactionFeeEstimateInEther(gasPriceInWei, 21000);
+      const ethValue = GasUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 21000);
       return <NetworkFeeInEther>{ethValue}ETH</NetworkFeeInEther>;
     }
   }
 
-  getTransactionFeeEstimateInUsd(gasPriceInWei) {
+  getTransactionFeeEstimateInUsd(gasPriceWei) {
     return PriceUtilities.convertEthToUsd(
-      GasUtilities.getTransactionFeeEstimateInEther(gasPriceInWei, 21000)
+      GasUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 21000)
     );
   }
 
   async constructTransactionObject() {
     const transactionNonce = parseInt(TransactionUtilities.getTransactionNonce());
-    const amountInWei = parseFloat(Web3.utils.toWei(this.state.amount, 'Ether'));
+    const amountWei = parseFloat(Web3.utils.toWei(this.state.amount, 'Ether'));
     const transactionObject = {
       nonce: `0x${transactionNonce.toString(16)}`,
       to: this.state.toAddress,
-      value: `0x${amountInWei.toString(16)}`,
-      gasPrice: `0x${this.state.gasPrice[this.state.checked].gasPriceInWei.toString(16)}`,
+      value: `0x${amountWei.toString(16)}`,
+      gasPrice: `0x${this.state.gasPrice[this.state.checked].gasPriceWei.toString(16)}`,
       gasLimit: `0x${parseFloat(21000).toString(16)}`,
       chainId: 3
     };
@@ -130,7 +130,7 @@ class SendEth extends Component {
 
   validateAmount(amount) {
     const transactionFeeLimitInEther = GasUtilities.getTransactionFeeEstimateInEther(
-      this.state.gasPrice[this.state.checked].gasPriceInWei,
+      this.state.gasPrice[this.state.checked].gasPriceWei,
       21000
     );
 
@@ -192,20 +192,20 @@ class SendEth extends Component {
   render() {
     const { balance } = this.props;
 
-    this.state.gasPrice[0].gasPriceInWei = this.props.gasPrice.fast;
-    this.state.gasPrice[1].gasPriceInWei = this.props.gasPrice.average;
-    this.state.gasPrice[2].gasPriceInWei = this.props.gasPrice.slow;
+    this.state.gasPrice[0].gasPriceWei = this.props.gasPrice.fast;
+    this.state.gasPrice[1].gasPriceWei = this.props.gasPrice.average;
+    this.state.gasPrice[2].gasPriceWei = this.props.gasPrice.slow;
 
     this.props.saveTransactionFeeEstimateEth(
       GasUtilities.getTransactionFeeEstimateInEther(
-        this.state.gasPrice[this.state.checked].gasPriceInWei,
+        this.state.gasPrice[this.state.checked].gasPriceWei,
         21000
       )
     );
     this.props.saveTransactionFeeEstimateUsd(
       PriceUtilities.convertEthToUsd(
         GasUtilities.getTransactionFeeEstimateInEther(
-          this.state.gasPrice[this.state.checked].gasPriceInWei,
+          this.state.gasPrice[this.state.checked].gasPriceWei,
           21000
         )
       )
@@ -299,7 +299,7 @@ class SendEth extends Component {
                     <SpeedContainer>
                       <SelectedButton>{gasPrice.speed}</SelectedButton>
                       <Icon name={gasPrice.imageName} size={40} color="#1BA548" />
-                      <SelectedButton>{this.toggleCurrency(gasPrice.gasPriceInWei)}</SelectedButton>
+                      <SelectedButton>{this.toggleCurrency(gasPrice.gasPriceWei)}</SelectedButton>
                     </SpeedContainer>
                   ) : (
                     <SpeedContainer
@@ -311,7 +311,7 @@ class SendEth extends Component {
                       <UnselectedButton>{gasPrice.speed}</UnselectedButton>
                       <Icon name={gasPrice.imageName} size={40} color="#000" />
                       <UnselectedButton>
-                        {this.toggleCurrency(gasPrice.gasPriceInWei)}
+                        {this.toggleCurrency(gasPrice.gasPriceWei)}
                       </UnselectedButton>
                     </SpeedContainer>
                   )}

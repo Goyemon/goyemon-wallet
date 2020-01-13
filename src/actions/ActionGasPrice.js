@@ -7,52 +7,52 @@ export function getGasPriceFast() {
   return async function (dispatch) {
     try {
       const gasPrice = await axios.get('https://ethgasstation.info/json/ethgasAPI.json');
-      const gasPriceFastInGwei =  (gasPrice.data.fast/10).toString();
-      const gasPriceFastInWei = Web3.utils.toWei(gasPriceFastInGwei, 'Gwei');
-      dispatch(getGasPriceFastSuccess(gasPriceFastInWei));
+      const gasPriceFastGwei =  (gasPrice.data.fast/10).toString();
+      const gasPriceFastWei = Web3.utils.toWei(gasPriceFastGwei, 'Gwei');
+      dispatch(getGasPriceFastSuccess(gasPriceFastWei));
     } catch(err) {
       console.error(err);
     }
   }
 };
 
-const getGasPriceFastSuccess = (gasPriceFastInWei) => ({
+const getGasPriceFastSuccess = (gasPriceFastWei) => ({
   type: GET_GAS_PRICE_FAST,
-  payload: gasPriceFastInWei
+  payload: gasPriceFastWei
 })
 
 export function getGasPriceAverage() {
   return async function (dispatch) {
     try {
       const gasPrice = await axios.get('https://ethgasstation.info/json/ethgasAPI.json');
-      const gasPriceAverageInGwei =  (gasPrice.data.average/10).toString();
-      const gasPriceAverageInWei = Web3.utils.toWei(gasPriceAverageInGwei, 'Gwei');
-      dispatch(getGasPriceAverageSuccess(gasPriceAverageInWei));
+      const gasPriceAverageGwei =  (gasPrice.data.average/10).toString();
+      const gasPriceAverageWei = Web3.utils.toWei(gasPriceAverageGwei, 'Gwei');
+      dispatch(getGasPriceAverageSuccess(gasPriceAverageWei));
     } catch(err) {
       console.error(err);
     }
   }
 };
 
-const getGasPriceAverageSuccess = (gasPriceAverageInWei) => ({
+const getGasPriceAverageSuccess = (gasPriceAverageWei) => ({
   type: GET_GAS_PRICE_AVERAGE,
-  payload: gasPriceAverageInWei
+  payload: gasPriceAverageWei
 })
 
 export function getGasPriceSlow() {
   return async function (dispatch) {
     try {
       const gasPrice = await axios.get('https://ethgasstation.info/json/ethgasAPI.json');
-      const gasPriceSlowInGwei =  (gasPrice.data.safeLow/10).toString();
-      const gasPriceSlowInWei = Web3.utils.toWei(gasPriceSlowInGwei, 'Gwei');
-      dispatch(getGasPriceSlowSuccess(gasPriceSlowInWei));
+      const gasPriceSlowGwei =  (gasPrice.data.safeLow/10).toString();
+      const gasPriceSlowWei = Web3.utils.toWei(gasPriceSlowGwei, 'Gwei');
+      dispatch(getGasPriceSlowSuccess(gasPriceSlowWei));
     } catch(err) {
       console.error(err);
     }
   }
 };
 
-const getGasPriceSlowSuccess = (gasPriceSlowInWei) => ({
+const getGasPriceSlowSuccess = (gasPriceSlowWei) => ({
   type: GET_GAS_PRICE_SLOW,
-  payload: gasPriceSlowInWei
+  payload: gasPriceSlowWei
 })
