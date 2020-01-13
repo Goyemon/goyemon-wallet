@@ -1,6 +1,6 @@
 'use strict';
 import { store } from '../store/store';
-import { addFcmMsg, appendFcmMsg } from '../actions/ActionFcmMsgs';
+import { saveFcmMsg, appendFcmMsg } from '../actions/ActionFcmMsgs';
 
 class FcmMsgsParser {
   fcmMsgsToTransactions(fcmMsg) {
@@ -18,7 +18,7 @@ class FcmMsgsParser {
     const fcmMsgs = stateTree.ReducerFcmMsgs.fcmMsgs;
 
     if (Object.entries(fcmMsgs).length === 0 && fcmMsgs.constructor === Object) {
-      store.dispatch(addFcmMsg(fcmMsg));
+      store.dispatch(saveFcmMsg(fcmMsg));
     } else if (
       Object.keys(fcmMsgs)[0] === fcmMsg.uid &&
       !(Object.entries(fcmMsgs).length === 0 && fcmMsgs.constructor === Object)

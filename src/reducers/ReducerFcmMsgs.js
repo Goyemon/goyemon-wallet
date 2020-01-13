@@ -1,5 +1,5 @@
 'use strict';
-import { ADD_FCM_MSG } from '../constants/ActionTypes';
+import { SAVE_FCM_MSG } from '../constants/ActionTypes';
 import { APPEND_FCM_MSG } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
@@ -8,7 +8,7 @@ const INITIAL_STATE = {
 
 const fcmMsgs = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case ADD_FCM_MSG:
+    case SAVE_FCM_MSG:
       return {
         fcmMsgs: {
           [action.payload.uid]: [action.payload]

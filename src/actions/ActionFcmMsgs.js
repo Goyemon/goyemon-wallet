@@ -1,19 +1,19 @@
 'use strict';
-import { ADD_FCM_MSG } from '../constants/ActionTypes';
+import { SAVE_FCM_MSG } from '../constants/ActionTypes';
 import { APPEND_FCM_MSG } from '../constants/ActionTypes';
 
-export function addFcmMsg(fcmMsg) {
+export function saveFcmMsg(fcmMsg) {
   return async function (dispatch) {
     try {
-      dispatch(addFcmMsgSuccess(fcmMsg));
+      dispatch(saveFcmMsgSuccess(fcmMsg));
     } catch(err) {
       console.error(err);
     }
   }
 };
 
-const addFcmMsgSuccess = (fcmMsg) => ({
-  type: ADD_FCM_MSG,
+const saveFcmMsgSuccess = (fcmMsg) => ({
+  type: SAVE_FCM_MSG,
   payload: fcmMsg
 })
 
