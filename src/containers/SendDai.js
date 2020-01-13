@@ -290,10 +290,10 @@ class SendDai extends Component {
             width="80%"
           >
             <CoinImage source={require('../../assets/dai_icon.png')} />
-            <BalanceText>your dai wallet balance</BalanceText>
+            <Title>your dai wallet balance</Title>
             <BalanceContainer>
-              <EthBalance>{balance.daiBalance} DAI</EthBalance>
-              <UsdBalance>${this.getUsdBalance()}</UsdBalance>
+              <Value>{balance.daiBalance} DAI</Value>
+              <Value>${this.getUsdBalance()}</Value>
             </BalanceContainer>
           </UntouchableCardContainer>
           <FormHeader marginBottom="4" marginLeft="0" marginTop="0">
@@ -430,7 +430,7 @@ const CoinImage = styled.Image`
   width: 40px;
 `;
 
-const BalanceText = styled.Text`
+const Title = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
   font-size: 16;
@@ -444,16 +444,10 @@ const BalanceContainer = styled.View`
   margin-top: 8px;
 `;
 
-const UsdBalance = styled.Text`
+const Value = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 16;
-  margin-left: 4px;
-`;
-
-const EthBalance = styled.Text`
-  font-family: 'HKGrotesk-Regular';
-  font-size: 16;
-  margin-left: 4px;
+  margin-left: 4;
 `;
 
 const CurrencySymbolText = styled.Text`

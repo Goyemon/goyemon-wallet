@@ -248,7 +248,7 @@ class SupplyDai extends Component {
             <CoinImage source={require('../../assets/dai_icon.png')} />
             <EthBalance>{cDaiLendingInfo.currentRate} %</EthBalance>
             <Title>your dai wallet balance</Title>
-            <ValueText>{balance.daiBalance} DAI</ValueText>
+            <Value>{balance.daiBalance} DAI</Value>
             <Title>interest rate</Title>
           </UntouchableCardContainer>
           <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
@@ -377,7 +377,7 @@ const Title = styled.Text`
   text-transform: uppercase;
 `;
 
-const ValueText = styled.Text`
+const Value = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 16;
 `;

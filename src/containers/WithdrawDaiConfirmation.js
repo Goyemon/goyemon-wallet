@@ -40,11 +40,11 @@ class WithdrawDaiConfirmation extends Component {
   toggleCurrency() {
     if (this.state.currency === 'ETH') {
       return (
-        <NetworkFeeText fontSize="16">${this.props.transactionFeeEstimate.usd}</NetworkFeeText>
+        <NetworkFee fontSize="16">${this.props.transactionFeeEstimate.usd}</NetworkFee>
       );
     } else if (this.state.currency === 'USD') {
       return (
-        <NetworkFeeText fontSize="16">{this.props.transactionFeeEstimate.eth}ETH</NetworkFeeText>
+        <NetworkFee fontSize="16">{this.props.transactionFeeEstimate.eth}ETH</NetworkFee>
       );
     }
   }
@@ -58,7 +58,7 @@ class WithdrawDaiConfirmation extends Component {
         <TotalContainer>
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <CrypterestText fontSize="16">You are about to withdraw</CrypterestText>
-          <TotalValueText>{daiAmount} DAI</TotalValueText>
+          <TotalValue>{daiAmount} DAI</TotalValue>
         </TotalContainer>
         <UntouchableCardContainer
           alignItems="flex-start"
@@ -73,7 +73,7 @@ class WithdrawDaiConfirmation extends Component {
           <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
             Withdraw Amount
           </FormHeader>
-          <AmountText>{daiAmount} DAI</AmountText>
+          <Amount>{daiAmount} DAI</Amount>
           <NetworkFeeContainer>
             <FormHeader marginBottom="0" marginLeft="8" marginTop="0">
               Network Fee
@@ -90,7 +90,7 @@ class WithdrawDaiConfirmation extends Component {
               {this.toggleCurrencySymbol()}
             </TouchableWithoutFeedback>
           </NetworkFeeContainer>
-          <NetworkFeeText>{this.toggleCurrency()}</NetworkFeeText>
+          <NetworkFee>{this.toggleCurrency()}</NetworkFee>
         </UntouchableCardContainer>
         <ButtonContainer>
           <Button
@@ -125,7 +125,7 @@ const CoinImage = styled.Image`
   width: 40px;
 `;
 
-const AmountText = styled.Text`
+const Amount = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Bold';
   margin-left: 8;
@@ -139,7 +139,7 @@ const NetworkFeeContainer = styled.View`
   margin-bottom: 8;
 `;
 
-const NetworkFeeText = styled.Text`
+const NetworkFee = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Bold';
   margin-left: 8;
@@ -151,7 +151,7 @@ const CurrencySymbol = styled.Text`
   margin-left: 8;
 `;
 
-const TotalValueText = styled.Text`
+const TotalValue = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 24;
 `;

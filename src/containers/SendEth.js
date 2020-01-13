@@ -226,10 +226,10 @@ class SendEth extends Component {
             width="80%"
           >
             <CoinImage source={require('../../assets/ether_icon.png')} />
-            <BalanceText>your eth wallet balance</BalanceText>
+            <Title>your eth wallet balance</Title>
             <BalanceContainer>
-              <EthBalance>{balance.ethBalance} ETH</EthBalance>
-              <UsdBalance>${this.getUsdBalance()}</UsdBalance>
+              <Value>{balance.ethBalance} ETH</Value>
+              <Value>${this.getUsdBalance()}</Value>
             </BalanceContainer>
           </UntouchableCardContainer>
           <FormHeader marginBottom="4" marginLeft="0" marginTop="0">
@@ -365,7 +365,7 @@ const CoinImage = styled.Image`
   width: 40px;
 `;
 
-const BalanceText = styled.Text`
+const Title = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
   font-size: 16;
@@ -379,13 +379,7 @@ const BalanceContainer = styled.View`
   margin-top: 8;
 `;
 
-const UsdBalance = styled.Text`
-  font-family: 'HKGrotesk-Regular';
-  font-size: 16;
-  margin-left: 4;
-`;
-
-const EthBalance = styled.Text`
+const Value = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 16;
   margin-right: 4;
@@ -458,7 +452,6 @@ function mapStateToProps(state) {
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
     gasPrice: state.ReducerGasPrice.gasPrice,
     balance: state.ReducerBalance.balance,
-    price: state.ReducerPrice.price,
     transactions: state.ReducerTransactionHistory.transactions
   };
 }

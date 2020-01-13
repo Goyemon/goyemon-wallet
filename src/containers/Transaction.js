@@ -210,8 +210,8 @@ class Transaction extends Component {
             {this.renderInOrOutTransactionIcon()}
           </InOrOutTransactionContainer>
           <DirectionTimeContainer>
-            <DirectionText>{this.renderDirection()}</DirectionText>
-            <TimeText>{time}</TimeText>
+            <Direction>{this.renderDirection()}</Direction>
+            <Time>{time}</Time>
           </DirectionTimeContainer>
           <StatusContainer>{this.renderStatus()}</StatusContainer>
           <ValueContainer>
@@ -249,13 +249,13 @@ const DirectionTimeContainer = styled.View`
   width: 30%;
 `;
 
-const DirectionText = styled.Text`
+const Direction = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 16;
   margin-bottom: 4;
 `;
 
-const TimeText = styled.Text`
+const Time = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
 `;

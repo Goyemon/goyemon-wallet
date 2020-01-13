@@ -383,7 +383,7 @@ const Title = styled.Text`
   text-transform: uppercase;
 `;
 
-const ValueText = styled.Text`
+const Value = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 16;
 `;

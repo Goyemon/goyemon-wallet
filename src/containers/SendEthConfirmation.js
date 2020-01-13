@@ -40,11 +40,11 @@ class SendEthConfirmation extends Component {
   toggleCurrency() {
     if (this.state.currency === 'ETH') {
       return (
-        <NetworkFeeText fontSize="16">${this.props.transactionFeeEstimate.usd}</NetworkFeeText>
+        <NetworkFee fontSize="16">${this.props.transactionFeeEstimate.usd}</NetworkFee>
       );
     } else if (this.state.currency === 'USD') {
       return (
-        <NetworkFeeText fontSize="16">{this.props.transactionFeeEstimate.eth}ETH</NetworkFeeText>
+        <NetworkFee fontSize="16">{this.props.transactionFeeEstimate.eth}ETH</NetworkFee>
       );
     }
   }
@@ -65,7 +65,7 @@ class SendEthConfirmation extends Component {
         <TotalContainer>
           <CoinImage source={require('../../assets/ether_icon.png')} />
           <CrypterestText fontSize="16">You are about to send</CrypterestText>
-          <TotalValueText>{valueInEther} ETH</TotalValueText>
+          <TotalValue>{valueInEther} ETH</TotalValue>
           <CrypterestText fontSize="16">+ network fee</CrypterestText>
         </TotalContainer>
         <UntouchableCardContainer
@@ -102,7 +102,7 @@ class SendEthConfirmation extends Component {
               {this.toggleCurrencySymbol()}
             </TouchableWithoutFeedback>
           </NetworkFeeContainer>
-          <NetworkFeeText>{this.toggleCurrency()}</NetworkFeeText>
+          <NetworkFee>{this.toggleCurrency()}</NetworkFee>
         </UntouchableCardContainer>
         <ButtonContainer>
           <Button
@@ -157,7 +157,7 @@ const NetworkFeeContainer = styled.View`
   margin-bottom: 8;
 `;
 
-const NetworkFeeText = styled.Text`
+const NetworkFee = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Bold';
   margin-left: 8;
@@ -169,7 +169,7 @@ const CurrencySymbol = styled.Text`
   margin-left: 8;
 `;
 
-const TotalValueText = styled.Text`
+const TotalValue = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 24;
 `;
