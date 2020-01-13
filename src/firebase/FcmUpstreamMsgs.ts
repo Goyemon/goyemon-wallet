@@ -3,7 +3,7 @@ import firebase from 'react-native-firebase';
 import uuidv4 from 'uuid/v4';
 import EtherUtilities from '../utilities/EtherUtilities.js';
 
-class FcmUpstreamMessages {
+class FcmUpstreamMsgs {
   async registerEthereumAddress(checksumAddress) {
     const messageId = uuidv4();
     const serverAddress = '255097673919@gcm.googleapis.com';
@@ -35,4 +35,4 @@ class FcmUpstreamMessages {
   }
 }
 
-export default new FcmUpstreamMessages();
+export default new FcmUpstreamMsgs();

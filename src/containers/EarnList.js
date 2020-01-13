@@ -12,12 +12,12 @@ import {
   HeaderFour,
   TouchableCardContainer
 } from '../components/common';
-import FcmUpstreamMessages from '../firebase/FcmUpstreamMessages.ts';
+import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class EarnList extends Component {
   async componentDidMount() {
-    await FcmUpstreamMessages.requestCDaiLendingInfo(this.props.checksumAddress);
+    await FcmUpstreamMsgs.requestCDaiLendingInfo(this.props.checksumAddress);
   }
 
   getUsdValue(daiBalance) {
