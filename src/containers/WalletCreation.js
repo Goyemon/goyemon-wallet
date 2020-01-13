@@ -96,10 +96,10 @@ class WalletCreation extends Component {
 
   hasPrice() {
     return (
-      this.props.price.ethPrice >= 0 &&
-      this.props.price.ethPrice.length != 0 &&
-      this.props.price.daiPrice >= 0 &&
-      this.props.price.daiPrice.length != 0
+      this.props.price.eth >= 0 &&
+      this.props.price.eth.length != 0 &&
+      this.props.price.dai >= 0 &&
+      this.props.price.dai.length != 0
     );
   }
 

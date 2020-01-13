@@ -143,10 +143,10 @@ export default class Initial extends Component {
     const stateTree = store.getState();
     const price = stateTree.ReducerPrice.price;
     return (
-      price.ethPrice >= 0 &&
-      price.ethPrice.length != 0 &&
-      price.daiPrice >= 0 &&
-      price.daiPrice.length != 0
+      price.eth >= 0 &&
+      price.eth.length != 0 &&
+      price.dai >= 0 &&
+      price.dai.length != 0
     );
   }
 

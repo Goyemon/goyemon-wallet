@@ -4,7 +4,7 @@ import { store } from '../store/store.js';
 class PriceUtilities {
   convertEthToUsd(ether) {
     const stateTree = store.getState();
-    const ethPrice = stateTree.ReducerPrice.price.ethPrice;
+    const ethPrice = stateTree.ReducerPrice.price.eth;
 
     try {
       const usdValue = parseFloat(ethPrice) * parseFloat(ether);
@@ -17,7 +17,7 @@ class PriceUtilities {
 
   convertDaiToUsd(dai) {
     const stateTree = store.getState();
-    const daiPrice = stateTree.ReducerPrice.price.daiPrice;
+    const daiPrice = stateTree.ReducerPrice.price.dai;
 
     try {
       const usdValue = daiPrice * parseFloat(dai);

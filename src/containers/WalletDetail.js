@@ -49,9 +49,9 @@ class WalletDetail extends Component {
 
   renderPrice() {
     if (this.props.wallet.id === 0) {
-      return <CrypterestText fontSize="16">{this.props.price.ethPrice}</CrypterestText>;
+      return <CrypterestText fontSize="16">{this.props.price.eth}</CrypterestText>;
     } else if (this.props.wallet.id === 1) {
-      return <CrypterestText fontSize="16">{this.props.price.daiPrice}</CrypterestText>;
+      return <CrypterestText fontSize="16">{this.props.price.dai}</CrypterestText>;
     }
   }
 
