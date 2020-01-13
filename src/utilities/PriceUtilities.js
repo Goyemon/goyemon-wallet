@@ -10,8 +10,8 @@ class PriceUtilities {
       const usdValue = parseFloat(ethPrice) * parseFloat(ether);
       const roundedEthUsdValue = usdValue.toFixed(3);
       return roundedEthUsdValue;
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      console.error(error);
     }
   }
 
@@ -23,8 +23,8 @@ class PriceUtilities {
       const usdValue = daiPrice * parseFloat(dai);
       const roundedDaiUsdValue = parseFloat(usdValue).toFixed(2);
       return roundedDaiUsdValue;
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      console.error(error);
     }
   }
 }

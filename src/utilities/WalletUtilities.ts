@@ -120,7 +120,7 @@ class WalletUtilities {
       } else {
         return result.password;
       }
-    } catch (err) {
+    } catch (error) {
       return '';
     }
   }

@@ -1,18 +1,18 @@
 'use strict';
 class EtherUtilities {
-  hexArrayToString(arr) {
+  hexArrayToString(array) {
     let result = '';
-    for (let i = 0; i < arr.length; i++) {
-      const dec = arr[i];
-      const hexStr = Number(dec).toString(16);
-      const str = hexStr.length == 1 ? `0${hexStr}` : hexStr;
-      result += str;
+    for (let i = 0; i < array.length; i++) {
+      const dec = array[i];
+      const hexString = Number(dec).toString(16);
+      const string = hexString.length == 1 ? `0${hexString}` : hexString;
+      result += string;
     }
     return result;
   }
 
-  stripHexPrefix(str) {
-    return str.startsWith('0x') ? str.slice(2) : str;
+  stripHexPrefix(string) {
+    return string.startsWith('0x') ? string.slice(2) : string;
   }
 }
 
