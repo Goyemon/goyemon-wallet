@@ -55,7 +55,10 @@ firebase.messaging().onMessage(downstreamMessage => {
     }
   } else if (downstreamMessage.data.type === 'txstate') {
     const txStateMessage = JSON.parse(downstreamMessage.data.data);
-    if (txStateMessage[Object.keys(txStateMessage)[0]][7] === 1) {
+    const isPendingState = txStateMessage[Object.keys(txStateMessage)[0]][7] === 1;
+    const isIncludedState = txStateMessage[Object.keys(txStateMessage)[0]][7] === 2;
+    const isConfirmedState = txStateMessage[Object.keys(txStateMessage)[0]][7] === 3;
+    if (isPendingState) {
       const parsedTransaction = TransactionUtilities.parsePendingOrIncludedTransaction(
         txStateMessage
       );
@@ -96,7 +99,7 @@ firebase.messaging().onMessage(downstreamMessage => {
           }
         });
       }
-    } else if (txStateMessage[Object.keys(txStateMessage)[0]][7] === 2) {
+    } else if (isIncludedState) {
       const parsedTransaction = TransactionUtilities.parsePendingOrIncludedTransaction(
         txStateMessage
       );
@@ -143,7 +146,7 @@ firebase.messaging().onMessage(downstreamMessage => {
           }
         });
       }
-    } else if (txStateMessage[Object.keys(txStateMessage)[0]][7] === 3) {
+    } else if (isConfirmedState) {
       const parsedTransaction = TransactionUtilities.parseConfirmedTransaction(txStateMessage);
       if (Array.isArray(transactionsHistory)) {
         transactionsHistory.map(transaction => {
