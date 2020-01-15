@@ -180,16 +180,16 @@ class Settings extends Component {
 
 const ModalContainer = styled.View`
   background-color: rgba(0, 0, 0, 0.5);
-  flexDirection: row;
-  justifyContent: center;
+  flex-direction: row;
+  justify-content: center;
   height: 100%;
 `;
 
 const ModalBackground = styled.View`
   background-color: #fff;
   border-radius: 16px;
-  borderTopWidth: 2;
-  borderTopColor: #e41b13;
+  border-top-width: 2;
+  border-top-color: #e41b13;
   height: 30%;
   min-height: 280px;
   margin-top: 200;
@@ -197,9 +197,9 @@ const ModalBackground = styled.View`
 `;
 
 const MondalInner = styled.View`
-  justifyContent: center;
+  justify-content: center;
   flex: 1;
-  flexDirection: column;
+  flex-direction: column;
   width: 100%;
 `;
 
@@ -208,8 +208,8 @@ const ModalTextContainer = styled.View`
 `;
 
 const CommunityIconContainer = styled.View`
-  flexDirection: row;
-  justifyContent: center;
+  flex-direction: row;
+  justify-content: center;
   margin-top: 32;
 `;
 
@@ -221,20 +221,20 @@ const CommunityIcon = styled.View`
 const SettingsListContainer = styled.View`
   background: #fff;
   border-color: rgba(95, 95, 95, 0.3);
-  borderTopWidth: 0.5;
-  borderBottomWidth: 0.5;
+  border-top-width: 0.5;
+  border-bottom-width: 0.5;
   margin-top: 16;
   margin-bottom: 8;
   width: 100%;
 `;
 
 const SettingsList = styled.View`
-  alignItems: center;
+  align-items: center;
   border-color: rgba(95, 95, 95, 0.3);
-  borderTopWidth: 0.5;
-  borderBottomWidth: 0.5;
-  flexDirection: row;
-  justifyContent: space-between;
+  border-top-width: 0.5;
+  border-bottom-width: 0.5;
+  flex-direction: row;
+  justify-content: space-between;
   padding-bottom: 16px;
   padding-left: 16px;
   padding-right: 16px;
@@ -257,15 +257,15 @@ const ResetWalletText = styled.Text`
 `;
 
 const ButtonContainer = styled.View`
-  flexDirection: row;
-  justifyContent: center;
+  flex-direction: row;
+  justify-content: center;
   margin-top: 16;
 `;
 
 const BottomText = styled.View`
-  alignItems: center;
-  flexDirection: column;
-  justifyContent: center;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
   margin-bottom: 24;
 `;
 

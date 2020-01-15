@@ -132,7 +132,7 @@ const HollaContainer = Animatable.createAnimatableComponent(styled.View`
 `);
 
 const WelcomeContainer = Animatable.createAnimatableComponent(styled.View`
-  alignItems: center;
+  align-items: center;
   flex: 1;
   margin-top: ${hp('-40%')};
 `);
@@ -181,6 +181,6 @@ const CardImage = styled.Image`
   height: 64px;
   margin-right: 8;
   padding: 16px;
-  resizeMode: contain;
+  resize-mode: contain;
   width: 64px;
 `;

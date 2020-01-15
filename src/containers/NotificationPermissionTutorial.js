@@ -53,7 +53,7 @@ class NotificationPermissionTutorial extends Component {
 }
 
 const Container = styled.View`
-  alignItems: center;
+  align-items: center;
   flex: 1;
   justify-content: center;
   margin-top: 40;

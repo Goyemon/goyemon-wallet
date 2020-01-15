@@ -50,15 +50,15 @@ export default class NotificationPermissionNotGranted extends Component {
 }
 
 const Container = styled.View`
-  alignItems: center;
-  flexDirection: column;
+  align-items: center;
+  flex-direction: column;
   margin-top: 120;
   width: 95%;
 `;
 
 const NoPermissionContainer = styled.View`
-  alignItems: center;
-  flexDirection: column;
+  align-items: center;
+  flex-direction: column;
 `;
 
 const NotificationPermissionDeniedImage = styled.Image`

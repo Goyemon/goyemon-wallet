@@ -174,22 +174,22 @@ const ModalBackground = styled.View`
 `;
 
 const ModalInner = styled.View`
-  alignItems: center;
-  flexDirection: column;
-  justifyContent: center;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const ModalText = styled.Text`
-  background-color: #FFF;
+  background-color: #fff;
   margin-top: 70%;
   padding: 8px 24px;
   text-align: center;
 `;
 
 const Container = styled.View`
-  alignItems: center;
-  flexDirection: column;
-  justifyContent: center;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
   margin-top: 120;
 `;
 

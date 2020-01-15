@@ -79,10 +79,10 @@ class WalletDetail extends Component {
 }
 
 const Container = styled.View`
-  alignItems: center;
+  align-items: center;
   flex: 1;
-  flexDirection: row;
-  justifyContent: space-between;
+  flex-direction: row;
+  justify-content: space-between;
   width: 100%;
 `;
 

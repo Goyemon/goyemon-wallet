@@ -127,9 +127,9 @@ class ApproveDai extends Component {
 }
 
 const Container = styled.View`
-  alignItems: center;
-  flexDirection: column;
-  justifyContent: center;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const ErrorMessage = styled.Text`

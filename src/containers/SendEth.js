@@ -339,14 +339,14 @@ class SendEth extends Component {
 }
 
 const Container = styled.View`
-  alignItems: center;
-  flexDirection: column;
-  justifyContent: center;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const SendTextInputContainer = styled.View`
-  alignItems: center;
-  flexDirection: row;
+  align-items: center;
+  flex-direction: row;
   height: 100%;
   width: 95%;
 `;
@@ -374,8 +374,8 @@ const Title = styled.Text`
 `;
 
 const BalanceContainer = styled.View`
-  alignItems: center;
-  flexDirection: row;
+  align-items: center;
+  flex-direction: row;
   margin-top: 8;
 `;
 
@@ -390,18 +390,18 @@ const CurrencySymbolText = styled.Text`
 `;
 
 const NetworkFeeHeaderContainer = styled.View`
-  alignItems: center;
-  flexDirection: row;
-  justifyContent: center;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
   margin-top: 24;
 `;
 
 const NetworkFeeSymbolContainer = styled.TouchableWithoutFeedback``;
 
 const NetworkFeeContainer = styled.View`
-  alignItems: center;
-  flexDirection: row;
-  justifyContent: center;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
   width: 100%;
 `;
 
@@ -422,9 +422,9 @@ const CurrencySymbol = styled.Text`
 `;
 
 const SpeedContainer = styled.TouchableOpacity`
-  alignItems: center;
-  flexDirection: column;
-  justifyContent: center;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
   margin: 0 8px;
 `;
 
@@ -439,7 +439,7 @@ const UnselectedButton = styled.Text`
 `;
 
 const ButtonWrapper = styled.View`
-  alignItems: center;
+  align-items: center;
 `;
 
 const ErrorMessage = styled.Text`

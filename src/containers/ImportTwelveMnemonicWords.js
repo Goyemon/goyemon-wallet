@@ -130,9 +130,9 @@ const styles = {
 };
 
 const Container = styled.View`
-  alignItems: center;
-  flexDirection: column;
-  justifyContent: center;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const MnemonicWordsContainer = styled.View`
@@ -150,9 +150,9 @@ const MnemonicWordWrapper = styled.View`
 `;
 
 const ButtonContainer = styled.View`
-  alignItems: center;
-  flexDirection: row;
-  justifyContent: center;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
 `;
 
 const ErrorMessage = styled.Text`

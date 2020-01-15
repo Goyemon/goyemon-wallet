@@ -157,9 +157,9 @@ const styles = StyleSheet.create({
 });
 
 const Container = styled.View`
-  alignItems: center;
-  flexDirection: column;
-  justifyContent: center;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const MnemonicWordsContainer = styled.View`

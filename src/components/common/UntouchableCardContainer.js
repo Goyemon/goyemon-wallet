@@ -18,12 +18,12 @@ const UntouchableCardContainer = props => (
 );
 
 const CardContainer = styled.View`
-  alignItems: ${props => props.alignItems};
+  align-items: ${props => props.alignItems};
   background: #fff;
   border-radius: ${props => props.borderRadius};
-  flexDirection: ${props => props.flexDirection};
+  flex-direction: ${props => props.flexDirection};
   height: ${props => props.height};
-  justifyContent: ${props => props.justifyContent};
+  justify-content: ${props => props.justifyContent};
   margin: 16px auto;
   margin-top: ${props => props.marginTop};
   padding: 16px;

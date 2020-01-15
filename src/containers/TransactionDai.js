@@ -162,10 +162,10 @@ const styles = {
 };
 
 const TransactionList = styled.View`
-  alignItems: center;
+  align-items: center;
   flex: 1;
-  flexDirection: row;
-  justifyContent: space-around;
+  flex-direction: row;
+  justify-content: space-around;
   width: 100%;
 `;
 
@@ -191,8 +191,8 @@ const StatusContainer = styled.View`
 `;
 
 const ValueContainer = styled.View`
-  alignItems: center;
-  flexDirection: row;
+  align-items: center;
+  flex-direction: row;
   width: 25%;
 `;
 

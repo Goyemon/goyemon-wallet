@@ -13,14 +13,14 @@ const Form = props => (
 );
 
 const CardContainer = styled.View`
-  alignItems: center;
+  align-items: center;
   background: #fff;
   border-radius: 0;
   border-color: ${props => props.borderColor};
   border-width: ${props => props.borderWidth};
-  flexDirection: column;
+  flex-direction: column;
   height: ${props => props.height};
-  justifyContent: flex-start;
+  justify-content: flex-start;
   margin: 16px auto;
   padding: 16px;
   width: 80%;

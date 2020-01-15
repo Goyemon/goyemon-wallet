@@ -81,9 +81,9 @@ class Receive extends Component {
 }
 
 const QrCodeContainer = styled.View`
-  alignItems: center;
-  flexDirection: column;
-  justifyContent: center;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
   margin-top: 32;
   margin-bottom: 32;
 `;
@@ -97,9 +97,9 @@ const QrCodeText = styled.Text`
 `;
 
 const CopiedAddressContainer = styled.View`
-  alignItems: center;
-  flexDirection: row;
-  justifyContent: center;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
 `;
 
 const CopiedAddressText = styled.Text`

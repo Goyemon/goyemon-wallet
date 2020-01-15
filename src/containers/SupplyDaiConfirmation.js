@@ -112,9 +112,9 @@ class SupplyDaiConfirmation extends Component {
 }
 
 const TotalContainer = styled.View`
-  alignItems: center;
-  flexDirection: column;
-  justifyContent: center;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
   margin-bottom: 40;
   margin-top: 56;
 `;
@@ -132,9 +132,9 @@ const Amount = styled.Text`
 `;
 
 const NetworkFeeContainer = styled.View`
-  alignItems: center;
-  flexDirection: row;
-  justifyContent: center;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
   margin-top: 16;
   margin-bottom: 8;
 `;
@@ -157,9 +157,9 @@ const TotalValue = styled.Text`
 `;
 
 const ButtonContainer = styled.View`
-  alignItems: center;
-  flexDirection: row;
-  justifyContent: center;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
 `;
 
 function mapStateToProps(state) {

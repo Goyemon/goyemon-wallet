@@ -18,9 +18,9 @@ const TransactionButton = props => (
 );
 
 const ButtonContainer = styled.TouchableOpacity`
-  alignItems: center;
-  flexDirection: row;
-  justifyContent: center;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
   background-color: ${props => props.backgroundColor};
   border-color: ${props => props.borderColor};
   border-radius: 16px;

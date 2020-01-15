@@ -24,7 +24,7 @@ const ProgressBar = props => (
 );
 
 const Container = styled.View`
-  alignItems: center;
+  align-items: center;
   margin-top: 112;
 `;
 
@@ -49,20 +49,20 @@ const Inner = styled.View`
 `;
 
 const NumberContainer = styled.View`
-  alignItems: center;
+  align-items: center;
   flex: 1;
-  flexDirection: row;
-  justifyContent: space-around;
+  flex-direction: row;
+  justify-content: space-around;
   margin-top: -16;
   width: 115%;
 `;
 
 const OneContainer = styled.View`
-  alignItems: center;
+  align-items: center;
   background-color: ${props => props.oneColor};
   border-radius: 10px;
   height: 20px;
-  justifyContent: center;
+  justify-content: center;
   width: 20px;
 `;
 
@@ -72,11 +72,11 @@ const One = styled.Text`
 `;
 
 const TwoContainer = styled.View`
-  alignItems: center;
+  align-items: center;
   background-color: ${props => props.twoColor};
   border-radius: 10px;
   height: 20px;
-  justifyContent: center;
+  justify-content: center;
   width: 20px;
 `;
 
@@ -86,11 +86,11 @@ const Two = styled.Text`
 `;
 
 const ThreeContainer = styled.View`
-  alignItems: center;
+  align-items: center;
   background-color: ${props => props.threeColor};
   border-radius: 10px;
   height: 20px;
-  justifyContent: center;
+  justify-content: center;
   width: 20px;
 `;
 

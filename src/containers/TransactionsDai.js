@@ -42,9 +42,9 @@ class TransactionsDai extends Component {
 }
 
 const EmptyTransactionContainer = styled.View`
-  alignItems: center;
-  flexDirection: column;
-  justifyContent: center;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const EmptyTransactionEmoji = styled.Text`

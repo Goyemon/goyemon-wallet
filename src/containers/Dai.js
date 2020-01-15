@@ -82,9 +82,9 @@ class Dai extends Component {
 }
 
 const ButtonContainer = styled.View`
-  alignItems: center;
-  flexDirection: row;
-  justifyContent: space-between;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
   margin: 0 auto;
   width: 90%;
 `;
