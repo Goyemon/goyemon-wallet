@@ -319,7 +319,7 @@ class SendDai extends Component {
             <SendTextInputContainer>
               <SendTextInput
                 placeholder="amount"
-                keyboardType = 'numeric'
+                keyboardType="numeric"
                 clearButtonMode="while-editing"
                 onChangeText={amount => {
                   this.validateDaiAmount(amount);

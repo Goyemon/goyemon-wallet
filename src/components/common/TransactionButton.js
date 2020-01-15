@@ -12,7 +12,13 @@ const TransactionButton = props => (
     opacity={props.opacity}
     disabled={props.disabled}
   >
-    <Icon name={props.iconName} size={20} backgroundColor="red" padding="16px" color={props.iconColor} />
+    <Icon
+      name={props.iconName}
+      size={20}
+      backgroundColor="red"
+      padding="16"
+      color={props.iconColor}
+    />
     <ButtonText textColor={props.textColor}>{props.text}</ButtonText>
   </ButtonContainer>
 );

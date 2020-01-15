@@ -136,7 +136,8 @@ class SendEth extends Component {
 
     if (
       parseFloat(this.props.balance.ethBalance) > 0 &&
-      parseFloat(this.props.balance.ethBalance) >= parseFloat(amount) + parseFloat(transactionFeeLimitInEther) &&
+      parseFloat(this.props.balance.ethBalance) >=
+        parseFloat(amount) + parseFloat(transactionFeeLimitInEther) &&
       parseFloat(amount) >= 0 &&
       amount.length != 0
     ) {
@@ -255,7 +256,7 @@ class SendEth extends Component {
             <SendTextInputContainer>
               <SendTextInput
                 placeholder="0"
-                keyboardType = 'numeric'
+                keyboardType="numeric"
                 clearButtonMode="while-editing"
                 onChangeText={amount => {
                   this.validateAmount(amount);

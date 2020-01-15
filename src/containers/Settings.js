@@ -90,9 +90,7 @@ class Settings extends Component {
           <CommunityIcon>
             <Icon
               onPress={() => {
-                Linking.openURL('#').catch(err =>
-                  console.error('An error occurred', err)
-                );
+                Linking.openURL('#').catch(err => console.error('An error occurred', err));
               }}
               name="twitter"
               color="#00aced"
@@ -102,9 +100,7 @@ class Settings extends Component {
           <CommunityIcon>
             <Icon
               onPress={() => {
-                Linking.openURL('#').catch(err =>
-                  console.error('An error occurred', err)
-                );
+                Linking.openURL('#').catch(err => console.error('An error occurred', err));
               }}
               name="github-circle"
               color="#333"

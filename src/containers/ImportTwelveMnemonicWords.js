@@ -84,7 +84,11 @@ class ImportTwelveMnemonicWords extends Component {
                       onChangeText={text => {
                         this.handleTextChange(text, id);
                       }}
-                      onSubmitEditing={id === 11 ? console.log('done') : () => this.focusNextInput((id + 1).toString())}
+                      onSubmitEditing={
+                        id === 11
+                          ? console.log('done')
+                          : () => this.focusNextInput((id + 1).toString())
+                      }
                       returnKeyType={id === 11 ? 'done' : 'next'}
                     />
                   </MnemonicWordWrapper>

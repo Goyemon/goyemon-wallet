@@ -39,18 +39,18 @@ class WalletList extends Component {
     return (
       <RootContainer>
         <HeaderOne marginTop="64">Wallets</HeaderOne>
-          <UntouchableCardContainer
-            alignItems="center"
-            borderRadius="8"
-            flexDirection="column"
-            height="176px"
-            justifyContent="center"
-            marginTop="24px"
-            textAlign="left"
-            width="90%"
-          >
-            <HeaderFour marginTop="24">total wallet balance</HeaderFour>
-            <UsdBalance>${this.getTotalBalance(balance.ethBalance, balance.daiBalance)}</UsdBalance>
+        <UntouchableCardContainer
+          alignItems="center"
+          borderRadius="8"
+          flexDirection="column"
+          height="176px"
+          justifyContent="center"
+          marginTop="24px"
+          textAlign="left"
+          width="90%"
+        >
+          <HeaderFour marginTop="24">total wallet balance</HeaderFour>
+          <UsdBalance>${this.getTotalBalance(balance.ethBalance, balance.daiBalance)}</UsdBalance>
         </UntouchableCardContainer>
         <HeaderThree color="#000" marginBottom="16" marginLeft="16" marginTop="16">
           YOUR ACCOUNTS

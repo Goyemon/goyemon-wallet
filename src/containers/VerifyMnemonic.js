@@ -113,7 +113,11 @@ class VerifyMnemonic extends Component {
                       onChangeText={text => {
                         this.handleTextChange(text, id);
                       }}
-                      onSubmitEditing={id === 23 ? console.log('done') : () => this.focusNextInput((id + 1).toString())}
+                      onSubmitEditing={
+                        id === 23
+                          ? console.log('done')
+                          : () => this.focusNextInput((id + 1).toString())
+                      }
                       returnKeyType={id === 23 ? 'done' : 'next'}
                     />
                   </MnemonicWordWrapper>

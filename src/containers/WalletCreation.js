@@ -72,9 +72,9 @@ class WalletCreation extends Component {
   hasTransactionHistory() {
     if (this.props.transactionCount != null && this.props.transactions != null) {
       return (
-      this.props.transactions != null &&
-      this.props.transactions.length != null &&
-      this.props.transactions.length.toString() === this.props.transactionCount.toString()
+        this.props.transactions != null &&
+        this.props.transactions.length != null &&
+        this.props.transactions.length.toString() === this.props.transactionCount.toString()
       );
     } else if (this.props.transactionCount === null) {
       return false;
@@ -117,7 +117,7 @@ class WalletCreation extends Component {
 
   render() {
     if (this.state.hasPrivateKeyInKeychain && this.hasPersistedState()) {
-      if(!this.state.modalVisible) {
+      if (!this.state.modalVisible) {
         this.setState({ modalVisible: true });
       }
     }
@@ -140,11 +140,7 @@ class WalletCreation extends Component {
             this shouldn't take long
           </Description>
           <CreatingWalletImage source={require('../../assets/creating_wallet.png')} />
-          <Modal
-            animationType="fade"
-            transparent
-            visible={this.state.modalVisible}
-          >
+          <Modal animationType="fade" transparent visible={this.state.modalVisible}>
             <ModalBackground>
               <ModalInner>
                 <ModalText>Your wallet is created!</ModalText>

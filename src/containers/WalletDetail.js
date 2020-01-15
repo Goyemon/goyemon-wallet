@@ -60,9 +60,7 @@ class WalletDetail extends Component {
 
     return (
       <Container>
-        <CoinImageContainer>
-          {this.renderIcon()}
-        </CoinImageContainer>
+        <CoinImageContainer>{this.renderIcon()}</CoinImageContainer>
         <PriceContainer>
           <CoinText>{coin}</CoinText>
           <PriceText>

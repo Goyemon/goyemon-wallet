@@ -20,7 +20,8 @@ export default class Initial extends Component {
       mnemonicWordsStatePersisted = true;
     }
 
-    let mnemonicWordsValidation = stateTree.ReducerMnemonicWordsValidation.mnemonicWordsValidation;
+    const mnemonicWordsValidation =
+      stateTree.ReducerMnemonicWordsValidation.mnemonicWordsValidation;
 
     const hasPersistedState = this.hasPersistedState();
 
@@ -142,12 +143,7 @@ export default class Initial extends Component {
   hasPrice() {
     const stateTree = store.getState();
     const price = stateTree.ReducerPrice.price;
-    return (
-      price.eth >= 0 &&
-      price.eth.length != 0 &&
-      price.dai >= 0 &&
-      price.dai.length != 0
-    );
+    return price.eth >= 0 && price.eth.length != 0 && price.dai >= 0 && price.dai.length != 0;
   }
 
   render() {

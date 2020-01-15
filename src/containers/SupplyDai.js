@@ -100,9 +100,7 @@ class SupplyDai extends Component {
     const mintAmountWithDecimals = parseFloat(amount) * 10 ** 18;
     const mintAmountWithHex = Web3.utils.toHex(mintAmountWithDecimals);
 
-    const mintEncodedABI = cDaiContractInstance.methods
-      .mint(mintAmountWithHex)
-      .encodeABI();
+    const mintEncodedABI = cDaiContractInstance.methods.mint(mintAmountWithHex).encodeABI();
     return mintEncodedABI;
   }
 
@@ -194,7 +192,7 @@ class SupplyDai extends Component {
     }
   }
 
-  validateForm = async (amount) => {
+  validateForm = async amount => {
     const daiAmountValidation = this.validateDaiAmount(amount);
     const ethAmountValidation = this.validateEthAmount();
 
@@ -258,7 +256,7 @@ class SupplyDai extends Component {
             <SendTextInputContainer>
               <SendTextInput
                 placeholder="amount"
-                keyboardType = 'numeric'
+                keyboardType="numeric"
                 clearButtonMode="while-editing"
                 onChangeText={amount => {
                   this.validateDaiAmount(amount);

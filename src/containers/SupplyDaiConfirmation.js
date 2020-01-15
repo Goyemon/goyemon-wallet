@@ -39,13 +39,9 @@ class SupplyDaiConfirmation extends Component {
 
   toggleCurrency() {
     if (this.state.currency === 'ETH') {
-      return (
-        <NetworkFee fontSize="16">${this.props.transactionFeeEstimate.usd}</NetworkFee>
-      );
+      return <NetworkFee fontSize="16">${this.props.transactionFeeEstimate.usd}</NetworkFee>;
     } else if (this.state.currency === 'USD') {
-      return (
-        <NetworkFee fontSize="16">{this.props.transactionFeeEstimate.eth}ETH</NetworkFee>
-      );
+      return <NetworkFee fontSize="16">{this.props.transactionFeeEstimate.eth}ETH</NetworkFee>;
     }
   }
 
