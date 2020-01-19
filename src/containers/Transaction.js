@@ -1,4 +1,5 @@
 'use strict';
+import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View } from 'react-native';
@@ -36,53 +37,69 @@ class Transaction extends Component {
   }
 
   renderInOrOutTransactionIcon() {
-    if (this.props.transaction.hasOwnProperty('ame_ropsten')) {
-      if (this.props.transaction.ame_ropsten.to === null) {
+    if (this.isDaiTransferTx) {
+      if (this.isOutgoingDaiTx) {
         return (
           <CrypterestText fontSize="16">
             <Icon name="call-made" size={20} color="#F1860E" />
           </CrypterestText>
         );
-      } else if (
-        Web3.utils.toChecksumAddress(this.props.transaction.ame_ropsten.to) ===
-        this.props.checksumAddress
-      ) {
+      } else if (this.isIncomingDaiTx) {
         return (
           <CrypterestText fontSize="16">
             <Icon name="call-received" size={20} color="#1BA548" />
           </CrypterestText>
         );
-      } else if (
-        Web3.utils.toChecksumAddress(this.props.transaction.ame_ropsten.from) ===
-        this.props.checksumAddress
-      ) {
+      }
+    }
+
+    if (this.isAmeTransferTx) {
+      if (this.isOutgoingAmeTx) {
         return (
           <CrypterestText fontSize="16">
             <Icon name="call-made" size={20} color="#F1860E" />
           </CrypterestText>
         );
+      } else if (this.isIncomingAmeTx) {
+        return (
+          <CrypterestText fontSize="16">
+            <Icon name="call-received" size={20} color="#1BA548" />
+          </CrypterestText>
+        );
       }
     }
-    if (this.props.transaction.to === null) {
+
+    if (this.isDaiApproveTx || this.isCDaiMintTx) {
       return (
         <CrypterestText fontSize="16">
           <Icon name="call-made" size={20} color="#F1860E" />
         </CrypterestText>
       );
-    } else if (
-      Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress
-    ) {
+    }
+
+    if (this.isCDaiRedeemUnderlyingTx) {
       return (
         <CrypterestText fontSize="16">
           <Icon name="call-received" size={20} color="#1BA548" />
         </CrypterestText>
       );
-    } else if (
+    }
+
+    if (
+      this.props.transaction.from === null ||
       Web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress
     ) {
       return (
         <CrypterestText fontSize="16">
           <Icon name="call-made" size={20} color="#F1860E" />
+        </CrypterestText>
+      );
+    }
+
+    if (Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
+      return (
+        <CrypterestText fontSize="16">
+          <Icon name="call-received" size={20} color="#1BA548" />
         </CrypterestText>
       );
     }
@@ -101,115 +118,176 @@ class Transaction extends Component {
   }
 
   renderDirection() {
-    if (this.props.transaction.hasOwnProperty('ame_ropsten')) {
-      if (this.props.transaction.ame_ropsten.to === null) {
+    if (this.isDaiTransferTx) {
+      if (this.isOutgoingDaiTx) {
         return <CrypterestText fontSize="16">Outgoing</CrypterestText>;
-      } else if (
-        Web3.utils.toChecksumAddress(this.props.transaction.ame_ropsten.to) ===
-        this.props.checksumAddress
-      ) {
+      } else if (this.isIncomingDaiTx) {
         return <CrypterestText fontSize="16">Incoming</CrypterestText>;
-      } else if (
-        Web3.utils.toChecksumAddress(this.props.transaction.ame_ropsten.from) ===
-        this.props.checksumAddress
-      ) {
-        return <CrypterestText fontSize="16">Outgoing</CrypterestText>;
       }
     }
-    if (this.props.transaction.to === null) {
-      return <CrypterestText fontSize="16">Outgoing</CrypterestText>;
-    } else if (
-      Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress
-    ) {
-      return <CrypterestText fontSize="16">Incoming</CrypterestText>;
-    } else if (
+
+    if (this.isAmeTransferTx) {
+      if (this.isOutgoingAmeTx) {
+        return <CrypterestText fontSize="16">Outgoing</CrypterestText>;
+      } else if (this.isIncomingAmeTx) {
+        return <CrypterestText fontSize="16">Incoming</CrypterestText>;
+      }
+    }
+
+    if (this.isDaiApproveTx) {
+      return <CrypterestText fontSize="16">Approved</CrypterestText>;
+    } else if (this.isCDaiMintTx) {
+      return <CrypterestText fontSize="16">Supplied</CrypterestText>;
+    } else if (this.isCDaiRedeemUnderlyingTx) {
+      return <CrypterestText fontSize="16">Withdrawn</CrypterestText>;
+    }
+
+    if (
+      this.props.transaction.from === null ||
       Web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress
     ) {
       return <CrypterestText fontSize="16">Outgoing</CrypterestText>;
+    }
+    if (Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
+      return <CrypterestText fontSize="16">Incoming</CrypterestText>;
     }
   }
 
   renderPlusOrMinusTransactionIcon() {
-    if (this.props.transaction.hasOwnProperty('ame_ropsten')) {
-      if (this.props.transaction.ame_ropsten.to === null) {
-        return;
-      } else if (
-        Web3.utils.toChecksumAddress(this.props.transaction.ame_ropsten.to) ===
-        this.props.checksumAddress
-      ) {
-        return <Icon name="plus" size={16} color="#1BA548" />;
-      } else if (
-        Web3.utils.toChecksumAddress(this.props.transaction.ame_ropsten.from) ===
-        this.props.checksumAddress
-      ) {
+    if (this.isDaiTransferTx) {
+      if (this.isOutgoingDaiTx) {
         return <Icon name="minus" size={16} color="#F1860E" />;
+      } else if (this.isIncomingDaiTx) {
+        return <Icon name="plus" size={16} color="#1BA548" />;
       }
     }
-    if (this.props.transaction.to === null) {
+
+    if (this.isAmeTransferTx) {
+      if (this.isOutgoingAmeTx) {
+        return <Icon name="minus" size={16} color="#F1860E" />;
+      } else if (this.isIncomingAmeTx) {
+        return <Icon name="plus" size={16} color="#1BA548" />;
+      }
+    }
+
+    if (this.isDaiApproveTx) {
       return;
-    } else if (
-      Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress
-    ) {
+    }
+
+    if (this.isCDaiMintTx) {
+      return <Icon name="minus" size={16} color="#F1860E" />;
+    }
+
+    if (this.isCDaiRedeemUnderlyingTx) {
       return <Icon name="plus" size={16} color="#1BA548" />;
-    } else if (
+    }
+
+    if (
+      this.props.transaction.from === null ||
       Web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress
     ) {
       return <Icon name="minus" size={16} color="#F1860E" />;
     }
+
+    if (Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
+      return <Icon name="plus" size={16} color="#1BA548" />;
+    }
   }
 
   renderValue() {
-    if (this.props.transaction.hasOwnProperty('ame_ropsten')) {
-      let ameValue;
-      if (this.props.transaction.state === 'sent') {
-        ameValue = this.props.transaction.ame_ropsten.value / 10 ** 18;
-      } else if (
-        this.props.transaction.state === 'pending' ||
-        this.props.transaction.state === 'included' ||
-        this.props.transaction.state === 'confirmed'
-      ) {
-        ameValue = this.props.transaction.ame_ropsten.value / 10 ** 18;
-      } else if (!this.props.transaction.ame_ropsten.value) {
-        ameValue = 0;
+    if (this.isDaiTransferTx) {
+      let daiValue;
+      if (!this.props.transaction.dai_tr.value) {
+        daiValue = 0;
       }
-      if (this.props.transaction.ame_ropsten.to === null) {
-        return <CrypterestText fontSize="16">Contract Creation</CrypterestText>;
-      } else if (
-        Web3.utils.toChecksumAddress(this.props.transaction.ame_ropsten.to) ===
-        this.props.checksumAddress
-      ) {
-        return (
-          <CrypterestText fontSize="16" style={styles.valueStyleGreen}>
-            {ameValue} DAI
-          </CrypterestText>
-        );
-      } else if (
-        Web3.utils.toChecksumAddress(this.props.transaction.ame_ropsten.from) ===
-        this.props.checksumAddress
-      ) {
+      daiValue = this.props.transaction.dai_tr.value;
+      if (this.isOutgoingDaiTx) {
         return (
           <CrypterestText fontSize="16" style={styles.valueStyleRed}>
-            {ameValue} DAI
+            {daiValue} DAI
+          </CrypterestText>
+        );
+      } else if (this.isIncomingDaiTx) {
+        return (
+          <CrypterestText fontSize="16" style={styles.valueStyleGreen}>
+            {daiValue} DAI
           </CrypterestText>
         );
       }
     }
-    const roundedEthValue = parseFloat(this.props.transaction.value).toFixed(4);
-    if (this.props.transaction.to === null) {
-      return <CrypterestText fontSize="16">Contract Creation</CrypterestText>;
-    } else if (
-      Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress
-    ) {
+
+    if (this.isAmeTransferTx) {
+      let ameValue;
+      if (!this.props.transaction.ame_ropsten_tr.value) {
+        ameValue = 0;
+      }
+      ameValue = this.props.transaction.ame_ropsten_tr.value;
+      if (this.isOutgoingAmeTx) {
+        return (
+          <CrypterestText fontSize="16" style={styles.valueStyleRed}>
+            {ameValue} AME
+          </CrypterestText>
+        );
+      } else if (this.isIncomingAmeTx) {
+        return (
+          <CrypterestText fontSize="16" style={styles.valueStyleGreen}>
+            {ameValue} AME
+          </CrypterestText>
+        );
+      }
+    }
+
+    if (this.isDaiApproveTx) {
+      return <CrypterestText fontSize="16">Approve</CrypterestText>;
+    }
+
+    if (this.isCDaiMintTx) {
+      let mintDaiValue;
+      if (!this.props.transaction.cdai_mint.daiSupplied) {
+        mintDaiValue = 0;
+      }
+      mintDaiValue = this.props.transaction.cdai_mint.daiSupplied;
+
+      return (
+        <CrypterestText fontSize="16" style={styles.valueStyleRed}>
+          {mintDaiValue} DAI
+        </CrypterestText>
+      );
+    }
+
+    if (this.isCDaiRedeemUnderlyingTx) {
+      let daiRedeemValue;
+      if (!this.props.transaction.cdai_redeem.daiWithdrawn) {
+        daiRedeemValue = 0;
+      }
+      daiRedeemValue = this.props.transaction.cdai_redeem.daiWithdrawn;
+
       return (
         <CrypterestText fontSize="16" style={styles.valueStyleGreen}>
+          {daiRedeemValue} DAI
+        </CrypterestText>
+      );
+    }
+
+    if (this.props.transaction.from === null) {
+      return <CrypterestText fontSize="16">Token Transfer</CrypterestText>;
+    }
+
+    if (this.props.transaction.to === null) {
+      return <CrypterestText fontSize="16">Contract Creation</CrypterestText>;
+    }
+
+    const roundedEthValue = parseFloat(this.props.transaction.value).toFixed(4);
+    if (Web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress) {
+      return (
+        <CrypterestText fontSize="16" style={styles.valueStyleRed}>
           {roundedEthValue} ETH
         </CrypterestText>
       );
-    } else if (
-      Web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress
-    ) {
+    }
+    if (Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
       return (
-        <CrypterestText fontSize="16" style={styles.valueStyleRed}>
+        <CrypterestText fontSize="16" style={styles.valueStyleGreen}>
           {roundedEthValue} ETH
         </CrypterestText>
       );
