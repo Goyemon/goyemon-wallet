@@ -28,10 +28,11 @@ class EarnList extends Component {
   }
 
   render() {
-    const { cDaiLendingInfo, navigation } = this.props;
     const currentRate = cDaiLendingInfo.currentRate / 10 ** 18;
+    const { balance, cDaiLendingInfo, navigation } = this.props;
     let lifetimeEarnedInDai = new BigNumber(cDaiLendingInfo.lifetimeEarned).div(10 ** 36);
     lifetimeEarnedInDai = lifetimeEarnedInDai.toFixed(10);
+    const daiSavingsBalance = new BigNumber(balance.daiSavingsBalance).div(10 ** 36).toFixed(4);
 
     return (
       <RootContainer>
@@ -47,7 +48,7 @@ class EarnList extends Component {
           width="90%"
         >
           <HeaderFour marginTop="24">total savings balance</HeaderFour>
-          <BalanceText>${this.getUsdValue(cDaiLendingInfo.daiSavingsBalance)}</BalanceText>
+          <BalanceText>${this.getUsdValue(daiSavingsBalance)}</BalanceText>
           <InterestEarnedTextContainer>
             <InterestEarnedText>
               ${this.getUsdValue(lifetimeEarnedInDai)}
@@ -79,8 +80,8 @@ class EarnList extends Component {
             <TitleText>interest earned</TitleText>
           </TitleContainer>
           <ValueContainer>
-            <ValueText>{cDaiLendingInfo.daiSavingsBalance} DAI</ValueText>
             <ValueText>{currentRate}%</ValueText>
+            <ValueText>{daiSavingsBalance} DAI</ValueText>
             <DaiInterestEarnedText>{lifetimeEarnedInDai} DAI</DaiInterestEarnedText>
           </ValueContainer>
         </TouchableCardContainer>
@@ -155,6 +156,7 @@ const DaiInterestEarnedText = styled.Text`
 
 function mapStateToProps(state) {
   return {
+    balance: state.ReducerBalance.balance,
     cDaiLendingInfo: state.ReducerCDaiLendingInfo.cDaiLendingInfo,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress
   };

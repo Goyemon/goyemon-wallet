@@ -1,4 +1,5 @@
 'use strict';
+import BigNumber from "bignumber.js"
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Text } from 'react-native';
@@ -8,9 +9,10 @@ import { RootContainer, UntouchableCardContainer, TransactionButton, HeaderOne, 
 
 class EarnDai extends Component {
   render() {
-    const { cDaiLendingInfo, navigation } = this.props;
+    const { balance, cDaiLendingInfo, navigation } = this.props;
     let lifetimeEarnedInDai = new BigNumber(cDaiLendingInfo.lifetimeEarned).div(10 ** 36);
     lifetimeEarnedInDai = lifetimeEarnedInDai.toFixed(10);
+    const daiSavingsBalance = new BigNumber(balance.daiSavingsBalance).div(10 ** 36).toFixed(4);
 
     return (
       <RootContainer>
@@ -26,7 +28,7 @@ class EarnDai extends Component {
           width="90%"
         >
           <HeaderFour marginTop="24">dai savings balance</HeaderFour>
-          <BalanceText>{cDaiLendingInfo.daiSavingsBalance} DAI</BalanceText>
+          <BalanceText>{daiSavingsBalance} DAI</BalanceText>
           <DaiInterestEarnedTextContainer>
             <DaiInterestEarnedText>{lifetimeEarnedInDai} DAI</DaiInterestEarnedText>
             <Text> earned!</Text>
@@ -104,7 +106,8 @@ const ButtonContainer = styled.View`
 
 function mapStateToProps(state) {
   return {
-    cDaiLendingInfo: state.ReducerCDaiLendingInfo.cDaiLendingInfo
+    balance: state.ReducerBalance.balance,
+    cDaiLendingInfo: state.ReducerCDaiLendingInfo.cDaiLendingInfo,
   };
 }
 

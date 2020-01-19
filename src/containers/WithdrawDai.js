@@ -210,7 +210,8 @@ class WithdrawDai extends Component {
   };
 
   render() {
-    const { balance, cDaiLendingInfo } = this.props;
+    const { balance } = this.props;
+    const daiSavingsBalance = new BigNumber(balance.daiSavingsBalance).div(10 ** 36).toFixed(4);
 
     this.state.gasPrice[0].gasPriceWei = this.props.gasPrice.fast;
     this.state.gasPrice[1].gasPriceWei = this.props.gasPrice.average;
@@ -247,7 +248,7 @@ class WithdrawDai extends Component {
           >
             <CoinImage source={require('../../assets/dai_icon.png')} />
             <Title>your dai savings balance</Title>
-            <ValueText>{cDaiLendingInfo.daiSavingsBalance} DAI</ValueText>
+            <Value>{daiSavingsBalance} DAI</Value>
           </UntouchableCardContainer>
           <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
             Withdraw Amount
