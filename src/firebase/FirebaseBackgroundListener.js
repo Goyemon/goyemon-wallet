@@ -20,13 +20,11 @@ export default async message => {
   const transactionsHistory = stateTree.ReducerTransactionHistory.transactions;
   const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
 
-  if (message.data.type === 'balance') {
-    const balanceMessage = JSON.parse(message.data.data);
+  if (downstreamMessage.data.type === 'balance') {
+    const balanceMessage = JSON.parse(downstreamMessage.data.data);
     if (balanceMessage.hasOwnProperty('eth')) {
-      const ethBalanceInWei = parseInt(balanceMessage.eth, 16);
-      const balanceInEther = Web3.utils.fromWei(ethBalanceInWei.toString());
-      const roundedBalanceInEther = parseFloat(balanceInEther).toFixed(4);
-      store.dispatch(saveEthBalance(roundedBalanceInEther));
+      const weiBalance = parseInt(balanceMessage.eth, 16);
+      store.dispatch(saveWeiBalance(weiBalance));
     }
     if (balanceMessage.hasOwnProperty('dai')) {
       const daiBalance = parseInt(balanceMessage.dai, 16);
