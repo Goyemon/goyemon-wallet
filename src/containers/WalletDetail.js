@@ -9,6 +9,13 @@ import { CrypterestText } from '../components/common';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class WalletDetail extends Component {
+  constructor(props) {
+    super(props);
+    this.daiBalance = new BigNumber(props.balance.daiBalance).div(10 ** 18).toFixed(2);
+    this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance.toString());
+    this.ethBalance = parseFloat(this.ethBalance).toFixed(6);
+  }
+
   renderIcon() {
     if (this.props.wallet.id === 0) {
       return <CoinImage source={require('../../assets/ether_icon.png')} />;
