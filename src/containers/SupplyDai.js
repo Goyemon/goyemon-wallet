@@ -209,6 +209,8 @@ class SupplyDai extends Component {
 
   render() {
     const { balance, cDaiLendingInfo } = this.props;
+    let currentInterestRate = new BigNumber(cDaiLendingInfo.currentInterestRate).div(10 ** 24);
+    currentInterestRate = currentInterestRate.toFixed(2);
 
     this.state.gasPrice[0].gasPriceWei = this.props.gasPrice.fast;
     this.state.gasPrice[1].gasPriceWei = this.props.gasPrice.average;
@@ -244,10 +246,10 @@ class SupplyDai extends Component {
             width="80%"
           >
             <CoinImage source={require('../../assets/dai_icon.png')} />
-            <EthBalance>{cDaiLendingInfo.currentRate} %</EthBalance>
             <Title>your dai wallet balance</Title>
             <Value>{this.daiBalance} DAI</Value>
             <Title>interest rate</Title>
+            <Value>{currentInterestRate} %</Value>
           </UntouchableCardContainer>
           <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
             Supply Amount

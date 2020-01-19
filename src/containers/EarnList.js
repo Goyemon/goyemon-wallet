@@ -28,8 +28,9 @@ class EarnList extends Component {
   }
 
   render() {
-    const currentRate = cDaiLendingInfo.currentRate / 10 ** 18;
     const { balance, cDaiLendingInfo, navigation } = this.props;
+    let currentInterestRate = new BigNumber(cDaiLendingInfo.currentInterestRate).div(10 ** 24);
+    currentInterestRate = currentInterestRate.toFixed(2);
     let lifetimeEarnedInDai = new BigNumber(cDaiLendingInfo.lifetimeEarned).div(10 ** 36);
     lifetimeEarnedInDai = lifetimeEarnedInDai.toFixed(10);
     const daiSavingsBalance = new BigNumber(balance.daiSavingsBalance).div(10 ** 36).toFixed(4);
@@ -76,12 +77,12 @@ class EarnList extends Component {
           </CoinImageContainer>
           <TitleContainer>
             <TitleText>savings balance</TitleText>
-            <TitleText>interest rate</TitleText>
+            <TitleText>yearly interest rate</TitleText>
             <TitleText>interest earned</TitleText>
           </TitleContainer>
           <ValueContainer>
-            <ValueText>{currentRate}%</ValueText>
             <ValueText>{daiSavingsBalance} DAI</ValueText>
+            <ValueText>{currentInterestRate}%</ValueText>
             <DaiInterestEarnedText>{lifetimeEarnedInDai} DAI</DaiInterestEarnedText>
           </ValueContainer>
         </TouchableCardContainer>
