@@ -8,6 +8,7 @@ import {
 } from 'react-native-responsive-screen';
 import { withNavigation } from 'react-navigation';
 import styled from 'styled-components';
+import Web3 from 'web3';
 import {
   RootContainer,
   UntouchableCardContainer,
@@ -37,6 +38,8 @@ class WalletList extends Component {
   render() {
     const { wallets, balance, navigation } = this.props;
     const daiBalance = new BigNumber(balance.daiBalance).div(10 ** 18).toFixed(2);
+    let ethBalance = Web3.utils.fromWei(balance.weiBalance.toString());
+    ethBalance = parseFloat(ethBalance).toFixed(6);
 
     return (
       <RootContainer>
@@ -52,7 +55,7 @@ class WalletList extends Component {
           width="90%"
         >
           <HeaderFour marginTop="24">total wallet balance</HeaderFour>
-          <UsdBalance>${this.getTotalBalance(balance.ethBalance, balance.daiBalance)}</UsdBalance>
+          <UsdBalance>${this.getTotalBalance(ethBalance, daiBalance)}</UsdBalance>
         </UntouchableCardContainer>
         <HeaderThree color="#000" marginBottom="16" marginLeft="16" marginTop="16">
           YOUR ACCOUNTS
