@@ -3,14 +3,16 @@ import { SAVE_DAI_BALANCE, SAVE_ETH_BALANCE } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
   balance: {
+    cDaiBalance: '',
     daiBalance: '',
     ethBalance: '',
-    cDaiBalance: ''
   }
 };
 
 const balance = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case SAVE_C_DAI_BALANCE:
+      return { balance: { ...state.balance, cDaiBalance: action.payload } };
     case SAVE_DAI_BALANCE:
       return { balance: { ...state.balance, daiBalance: action.payload } };
     case SAVE_ETH_BALANCE:
