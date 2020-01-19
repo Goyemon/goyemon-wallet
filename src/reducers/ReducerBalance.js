@@ -6,6 +6,7 @@ const INITIAL_STATE = {
     cDaiBalance: '',
     daiBalance: '',
     ethBalance: '',
+    daiSavingsBalance: '',
   }
 };
 
@@ -17,6 +18,8 @@ const balance = (state = INITIAL_STATE, action) => {
       return { balance: { ...state.balance, daiBalance: action.payload } };
     case SAVE_ETH_BALANCE:
       return { balance: { ...state.balance, ethBalance: action.payload } };
+    case SAVE_DAI_SAVINGS_BALANCE:
+      return { balance: { ...state.balance, daiSavingsBalance: action.payload } };
     default:
       return state || INITIAL_STATE;
   }
