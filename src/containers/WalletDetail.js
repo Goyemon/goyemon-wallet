@@ -29,7 +29,7 @@ class WalletDetail extends Component {
       try {
         return (
           <CrypterestText fontSize="20">
-            $ {PriceUtilities.convertEthToUsd(this.props.balance.ethBalance)}
+            $ {PriceUtilities.convertEthToUsd(this.ethBalance)}
           </CrypterestText>
         );
       } catch (err) {
@@ -39,7 +39,7 @@ class WalletDetail extends Component {
       try {
         return (
           <CrypterestText fontSize="20">
-            $ {PriceUtilities.convertDaiToUsd(this.props.balance.daiBalance)}
+            $ {PriceUtilities.convertDaiToUsd(this.daiBalance)}
           </CrypterestText>
         );
       } catch (err) {
@@ -50,9 +50,9 @@ class WalletDetail extends Component {
 
   renderBalance() {
     if (this.props.wallet.id === 0) {
-      return <CrypterestText fontSize="20">{this.props.balance.ethBalance} ETH</CrypterestText>;
+      return <CrypterestText fontSize="20">{this.ethBalance} ETH</CrypterestText>;
     } else if (this.props.wallet.id === 1) {
-      return <CrypterestText fontSize="20">{this.props.balance.daiBalance} DAI</CrypterestText>;
+      return <CrypterestText fontSize="20">{this.daiBalance} DAI</CrypterestText>;
     }
   }
 
