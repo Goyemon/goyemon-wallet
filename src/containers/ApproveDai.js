@@ -15,11 +15,12 @@ import Web3ProviderUtilities from '../utilities/Web3ProviderUtilities.js';
 
 class ApproveDai extends Component {
   constructor(props) {
-    super();
+    super(props);
     this.state = {
       ethAmountValidation: undefined
     };
     this.web3 = Web3ProviderUtilities.web3Provider();
+    this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance.toString());
   }
 
   componentDidMount() {
@@ -32,7 +33,7 @@ class ApproveDai extends Component {
       100000
     );
 
-    if (parseFloat(this.props.balance.ethBalance) > parseFloat(transactionFeeLimitInEther)) {
+    if (parseFloat(this.ethBalance) > parseFloat(transactionFeeLimitInEther)) {
       console.log('the eth amount validated!');
       this.setState({ ethAmountValidation: true });
       return true;
