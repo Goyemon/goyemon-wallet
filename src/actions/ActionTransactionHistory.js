@@ -70,17 +70,17 @@ const addPendingOrIncludedTransactionSuccess = (parsedTransaction) => ({
   payload: parsedTransaction
 })
 
-export function updatePendingOrIncludedTransaction(transactionObject) {
+export function updateWithPendingOrIncludedTransaction(transactionObject) {
   return function (dispatch) {
     try {
-      dispatch(updatePendingOrIncludedTransactionSuccess(transactionObject));
+      dispatch(updateWithPendingOrIncludedTransactionSuccess(transactionObject));
     } catch(err) {
       console.error(err);
     }
   }
 };
 
-const updatePendingOrIncludedTransactionSuccess = (parsedTransaction) => ({
+const updateWithPendingOrIncludedTransactionSuccess = (parsedTransaction) => ({
   type: UPDATE_PENDING_OR_INCLUDED_TRANSACTION,
   payload: parsedTransaction
 })
