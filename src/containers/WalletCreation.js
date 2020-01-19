@@ -83,12 +83,12 @@ class WalletCreation extends Component {
 
   hasBalance() {
     return (
-      this.props.balance.ethBalance >= 0 &&
-      this.props.balance.ethBalance.length != 0 &&
       this.props.balance.cDaiBalance >= 0 &&
       this.props.balance.cDaiBalance.length != 0 &&
       this.props.balance.daiBalance >= 0 &&
-      this.props.balance.daiBalance.length != 0
+      this.props.balance.daiBalance.length != 0 &&
+      this.props.balance.weiBalance >= 0 &&
+      this.props.balance.weiBalance.length != 0
     );
   }
 
