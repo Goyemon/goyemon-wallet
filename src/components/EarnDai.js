@@ -5,7 +5,15 @@ import { connect } from 'react-redux';
 import { Text } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import styled from 'styled-components';
-import { RootContainer, UntouchableCardContainer, TransactionButton, HeaderOne, HeaderFour } from '../components/common/';
+import {
+  RootContainer,
+  UntouchableCardContainer,
+  TransactionButton,
+  HeaderOne,
+  HeaderFour,
+  Button
+} from '../components/common/';
+import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
 
 class EarnDai extends Component {
   render() {

@@ -9,7 +9,14 @@ import {
 } from 'react-native-responsive-screen';
 import { withNavigation } from 'react-navigation';
 import styled from 'styled-components';
-import { RootContainer, UntouchableCardContainer, TransactionButton, HeaderOne, HeaderThree, HeaderFour } from '../components/common/';
+import {
+  RootContainer,
+  UntouchableCardContainer,
+  TransactionButton,
+  HeaderOne,
+  HeaderThree,
+  HeaderFour
+} from '../components/common/';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import Transactions from '../containers/Transactions';
 
