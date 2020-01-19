@@ -12,7 +12,12 @@ class TransactionsDai extends Component {
     let daiTransactions = null;
     if (transactions != null) {
       daiTransactions = transactions.filter(transaction => {
-        if (transaction.hasOwnProperty('ame_ropsten')) {
+        if (
+          transaction.hasOwnProperty('dai_tr') ||
+          transaction.hasOwnProperty('dai_appr') ||
+          transaction.hasOwnProperty('cdai_mint') ||
+          transaction.hasOwnProperty('cdai_redeem')
+        ) {
           return true;
         }
       });
