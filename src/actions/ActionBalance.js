@@ -30,7 +30,6 @@ const saveDaiBalanceSuccess = (daiBalance) => ({
   payload: daiBalance
 })
 
-export function saveEthBalance(ethBalance) {
 export function saveDaiSavingsBalance(cDaiBalance, currentExchangeRate) {
   return async function (dispatch) {
     try {
@@ -46,16 +45,18 @@ const saveDaiSavingsBalanceSuccess = (daiSavingsBalance) => ({
   type: SAVE_DAI_SAVINGS_BALANCE,
   payload: daiSavingsBalance
 })
+
+export function saveWeiBalance(weiBalance) {
   return async function (dispatch) {
     try {
-      dispatch(saveEthBalanceSuccess(ethBalance));
+      dispatch(saveWeiBalanceSuccess(weiBalance));
     } catch(err) {
       console.error(err);
     }
   }
 };
 
-const saveEthBalanceSuccess = (ethBalance) => ({
-  type: SAVE_ETH_BALANCE,
-  payload: ethBalance
+const saveWeiBalanceSuccess = (weiBalance) => ({
+  type: SAVE_WEI_BALANCE,
+  payload: weiBalance
 })
