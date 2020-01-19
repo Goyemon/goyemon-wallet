@@ -64,14 +64,6 @@ class WithdrawDai extends Component {
     this.props.getGasPriceSlow();
   }
 
-  getUsdBalance() {
-    try {
-      return PriceUtilities.convertDaiToUsd(this.props.balance.daiBalance);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
   toggleCurrencySymbol() {
     if (this.state.currency === 'ETH') {
       return <CurrencySymbol>ETH</CurrencySymbol>;
