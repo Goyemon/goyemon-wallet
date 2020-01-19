@@ -97,7 +97,7 @@ class WithdrawDai extends Component {
       cDaiContract.cDaiAddress
     );
 
-    const redeemAmountWithDecimals = parseFloat(amount) * 10 ** 18;
+    const redeemAmountWithDecimals = new BigNumber(parseFloat(amount)).times(10 ** 18);
     const redeemAmountWithHex = Web3.utils.toHex(redeemAmountWithDecimals);
 
     const redeemUnderlyingEncodedABI = cDaiContractInstance.methods
