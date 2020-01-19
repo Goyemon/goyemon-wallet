@@ -9,6 +9,8 @@ import { RootContainer, UntouchableCardContainer, TransactionButton, HeaderOne, 
 class EarnDai extends Component {
   render() {
     const { cDaiLendingInfo, navigation } = this.props;
+    let lifetimeEarnedInDai = new BigNumber(cDaiLendingInfo.lifetimeEarned).div(10 ** 36);
+    lifetimeEarnedInDai = lifetimeEarnedInDai.toFixed(10);
 
     return (
       <RootContainer>
@@ -26,9 +28,7 @@ class EarnDai extends Component {
           <HeaderFour marginTop="24">dai savings balance</HeaderFour>
           <BalanceText>{cDaiLendingInfo.daiSavingsBalance} DAI</BalanceText>
           <DaiInterestEarnedTextContainer>
-            <DaiInterestEarnedText>
-            {cDaiLendingInfo.lifetimeEarned} DAI
-            </DaiInterestEarnedText>
+            <DaiInterestEarnedText>{lifetimeEarnedInDai} DAI</DaiInterestEarnedText>
             <Text> earned!</Text>
           </DaiInterestEarnedTextContainer>
         </UntouchableCardContainer>

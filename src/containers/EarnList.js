@@ -1,4 +1,5 @@
 'use strict';
+import BigNumber from "bignumber.js"
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Text } from 'react-native';
@@ -29,6 +30,8 @@ class EarnList extends Component {
   render() {
     const { cDaiLendingInfo, navigation } = this.props;
     const currentRate = cDaiLendingInfo.currentRate / 10 ** 18;
+    let lifetimeEarnedInDai = new BigNumber(cDaiLendingInfo.lifetimeEarned).div(10 ** 36);
+    lifetimeEarnedInDai = lifetimeEarnedInDai.toFixed(10);
 
     return (
       <RootContainer>
@@ -47,7 +50,7 @@ class EarnList extends Component {
           <BalanceText>${this.getUsdValue(cDaiLendingInfo.daiSavingsBalance)}</BalanceText>
           <InterestEarnedTextContainer>
             <InterestEarnedText>
-              ${this.getUsdValue(cDaiLendingInfo.lifetimeEarned)}
+              ${this.getUsdValue(lifetimeEarnedInDai)}
             </InterestEarnedText>
             <Text> earned!</Text>
           </InterestEarnedTextContainer>
@@ -78,7 +81,7 @@ class EarnList extends Component {
           <ValueContainer>
             <ValueText>{cDaiLendingInfo.daiSavingsBalance} DAI</ValueText>
             <ValueText>{currentRate}%</ValueText>
-            <DaiInterestEarnedText>{cDaiLendingInfo.lifetimeEarned} DAI</DaiInterestEarnedText>
+            <DaiInterestEarnedText>{lifetimeEarnedInDai} DAI</DaiInterestEarnedText>
           </ValueContainer>
         </TouchableCardContainer>
       </RootContainer>
