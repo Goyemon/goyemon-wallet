@@ -1,6 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Web3 from 'web3';
 import { View } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -13,9 +14,15 @@ import PriceUtilities from '../utilities/PriceUtilities.js';
 import Transactions from '../containers/Transactions';
 
 class Ethereum extends Component {
+  constructor(props) {
+    super(props);
+    this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance.toString());
+    this.ethBalance = parseFloat(this.ethBalance).toFixed(6);
+  }
+
   getUsdBalance() {
     try {
-      return PriceUtilities.convertEthToUsd(this.props.balance.ethBalance);
+      return PriceUtilities.convertEthToUsd(this.ethBalance);
     } catch (err) {
       console.error(err);
     }
@@ -39,7 +46,7 @@ class Ethereum extends Component {
         >
           <HeaderFour marginTop="24">eth wallet balance</HeaderFour>
           <UsdBalance>${this.getUsdBalance()}</UsdBalance>
-          <EthBalance>{balance.ethBalance} ETH</EthBalance>
+          <EthBalance>{this.ethBalance} ETH</EthBalance>
         </UntouchableCardContainer>
         <ButtonContainer>
           <TransactionButton
