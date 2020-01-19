@@ -1,5 +1,7 @@
 'use strict';
-import { SAVE_DAI_BALANCE, SAVE_ETH_BALANCE } from '../constants/ActionTypes';
+import BigNumber from "bignumber.js"
+import { SAVE_C_DAI_BALANCE, SAVE_DAI_BALANCE, SAVE_DAI_SAVINGS_BALANCE, SAVE_WEI_BALANCE } from '../constants/ActionTypes';
+
 export function saveCDaiBalance(cDaiBalance) {
   return async function (dispatch) {
     try {
