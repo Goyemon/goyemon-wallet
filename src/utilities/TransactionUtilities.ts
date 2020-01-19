@@ -227,14 +227,42 @@ class TransactionUtilities {
     return `${time.getDate().toString()} ${months[time.getMonth()]}, ` + `\n${time.getFullYear()}`;
   }
 
-  async decodeTransactionData(transactionData) {
+  async decodeDaiTransferTransactionData(transactionData) {
     const decodedAbi = await this.web3.eth.abi.decodeParameters(
       ['address', 'uint256'],
       transactionData.substring(10, transactionData.length)
     );
     const to = decodedAbi[0];
-    const value = decodedAbi[1].toString(16);
+    const value = decodedAbi[1];
     return { to, value };
+  }
+
+  async decodeDaiApproveTransactionData(transactionData) {
+    const decodedAbi = await this.web3.eth.abi.decodeParameters(
+      ['address', 'uint256'],
+      transactionData.substring(10, transactionData.length)
+    );
+    const spender = decodedAbi[0];
+    const amount = decodedAbi[1];
+    return { spender, amount };
+  }
+
+  async decodeCDaiMintTransactionData(transactionData) {
+    const decodedAbi = await this.web3.eth.abi.decodeParameters(
+      ['uint256'],
+      transactionData.substring(10, transactionData.length)
+    );
+    const mintTokens = decodedAbi[0];
+    return { mintTokens };
+  }
+
+  async decodeCDaiRedeemUnderlyingTransactionData(transactionData) {
+    const decodedAbi = await this.web3.eth.abi.decodeParameters(
+      ['uint256'],
+      transactionData.substring(10, transactionData.length)
+    );
+    const redeemTokens = decodedAbi[0];
+    return { redeemTokens };
   }
 
   getTransactionNonce() {
