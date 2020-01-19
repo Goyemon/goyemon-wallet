@@ -37,6 +37,7 @@ firebase.messaging().onMessage(downstreamMessage => {
     if (balanceMessage.hasOwnProperty('cdai')) {
       const cDaiBalance = parseInt(balanceMessage.cdai, 16);
       store.dispatch(saveCDaiBalance(cDaiBalance));
+      store.dispatch(saveDaiSavingsBalance(cDaiBalance, cDaiLendingInfo.currentExchangeRate));
     }
   } else if (downstreamMessage.data.type === 'txhistory') {
     if (downstreamMessage.data.data === '{}') {
@@ -163,5 +164,6 @@ firebase.messaging().onMessage(downstreamMessage => {
   } else if (downstreamMessage.data.type === 'cDai_lending_info') {
     const cDaiLendingInfoMessage = JSON.parse(downstreamMessage.data.data);
     store.dispatch(saveCDaiLendingInfo(cDaiLendingInfoMessage));
+    store.dispatch(saveDaiSavingsBalance(balance.cDaiBalance, cDaiLendingInfoMessage.current_exchange_rate));
   }
 });

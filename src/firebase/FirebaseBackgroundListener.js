@@ -39,6 +39,7 @@ export default async message => {
     if (balanceMessage.hasOwnProperty('cdai')) {
       const cDaiBalance = parseInt(balanceMessage.cdai, 16);
       store.dispatch(saveCDaiBalance(cDaiBalance));
+      store.dispatch(saveDaiSavingsBalance(cDaiBalance, cDaiLendingInfo.currentExchangeRate));
     }
       store.dispatch(saveTransactionCount(0));
     }
@@ -159,6 +160,9 @@ export default async message => {
   } else if (message.data.type === 'cDai_lending_info') {
     const cDaiLendingInfoMessage = JSON.parse(message.data.data);
     store.dispatch(saveCDaiLendingInfo(cDaiLendingInfoMessage));
+    store.dispatch(
+      saveDaiSavingsBalance(balance.cDaiBalance, cDaiLendingInfoMessage.current_exchange_rate)
+    );
   }
 
   return Promise.resolve();
