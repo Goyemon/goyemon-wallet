@@ -31,6 +31,21 @@ const saveDaiBalanceSuccess = (daiBalance) => ({
 })
 
 export function saveEthBalance(ethBalance) {
+export function saveDaiSavingsBalance(cDaiBalance, currentExchangeRate) {
+  return async function (dispatch) {
+    try {
+      const daiSavingsBalance = new BigNumber(cDaiBalance).times(currentExchangeRate);
+      dispatch(saveDaiSavingsBalanceSuccess(daiSavingsBalance));
+    } catch(err) {
+      console.error(err);
+    }
+  }
+};
+
+const saveDaiSavingsBalanceSuccess = (daiSavingsBalance) => ({
+  type: SAVE_DAI_SAVINGS_BALANCE,
+  payload: daiSavingsBalance
+})
   return async function (dispatch) {
     try {
       dispatch(saveEthBalanceSuccess(ethBalance));
