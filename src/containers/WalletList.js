@@ -1,4 +1,5 @@
 'use strict';
+import BigNumber from "bignumber.js"
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
@@ -35,6 +36,7 @@ class WalletList extends Component {
 
   render() {
     const { wallets, balance, navigation } = this.props;
+    const daiBalance = new BigNumber(balance.daiBalance).div(10 ** 18).toFixed(2);
 
     return (
       <RootContainer>
