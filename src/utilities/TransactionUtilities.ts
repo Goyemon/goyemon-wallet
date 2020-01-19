@@ -173,8 +173,18 @@ class TransactionUtilities {
     return null;
   }
 
-  parseDaiValue(value) {
-    const parsedDaiValue = parseInt(value, 16) / 10 ** 18;
+  parseHexDaiValue(value) {
+    const parsedDaiValue = new BigNumber(parseInt(value, 16)).div(10 ** 18).toFixed(4);
+    return parsedDaiValue;
+  }
+
+  parseDecimalDaiValue(value) {
+    const parsedDaiValue = new BigNumber(parseInt(value)).div(10 ** 18).toFixed(4);
+    return parsedDaiValue;
+  }
+
+  parseHexCDaiValue(value) {
+    const parsedDaiValue = new BigNumber(parseInt(value, 16)).div(10 ** 8).toFixed(4);
     return parsedDaiValue;
   }
 
