@@ -108,7 +108,7 @@ class SupplyDai extends Component {
       nonce: `0x${transactionNonce.toString(16)}`,
       to: cDaiContract.cDaiAddress,
       gasPrice: `0x${this.state.gasPrice[this.state.checked].gasPriceWei.toString(16)}`,
-      gasLimit: `0x${parseFloat(100000).toString(16)}`,
+      gasLimit: `0x${parseFloat(250000).toString(16)}`,
       chainId: 3,
       data: mintEncodedABI
     };
