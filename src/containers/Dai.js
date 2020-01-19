@@ -1,4 +1,5 @@
 'use strict';
+import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View } from 'react-native';
@@ -14,9 +15,14 @@ import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionsDai from '../containers/TransactionsDai';
 
 class Dai extends Component {
+  constructor(props) {
+    super(props);
+    this.daiBalance = new BigNumber(this.props.balance.daiBalance).div(10 ** 18).toFixed(2);
+  }
+
   getUsdBalance() {
     try {
-      return PriceUtilities.convertDaiToUsd(this.props.balance.daiBalance);
+      return PriceUtilities.convertDaiToUsd(this.daiBalance);
     } catch (err) {
       console.error(err);
     }
@@ -40,7 +46,7 @@ class Dai extends Component {
         >
           <HeaderFour marginTop="24">dai wallet balance</HeaderFour>
           <UsdBalance>${this.getUsdBalance()}</UsdBalance>
-          <DaiBalance>{balance.daiBalance} DAI</DaiBalance>
+          <DaiBalance>{this.daiBalance} DAI</DaiBalance>
         </UntouchableCardContainer>
         <ButtonContainer>
           <TransactionButton
