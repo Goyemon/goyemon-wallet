@@ -9,6 +9,22 @@ import { UntouchableCardContainer, CrypterestText } from '../components/common';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 
 class TransactionDai extends Component {
+  constructor(props) {
+    super(props);
+    this.isDaiTransferTx = props.daiTransaction.hasOwnProperty('dai_tr');
+    this.isDaiApproveTx = props.daiTransaction.hasOwnProperty('dai_appr');
+    this.isCDaiMintTx = props.daiTransaction.hasOwnProperty('cdai_mint');
+    this.isCDaiRedeemUnderlyingTx = props.daiTransaction.hasOwnProperty('cdai_redeem');
+    this.isIncomingDaiTx;
+    this.isOutgoingDaiTx;
+    if (props.daiTransaction.hasOwnProperty('dai_tr')) {
+      this.isIncomingDaiTx =
+        Web3.utils.toChecksumAddress(props.daiTransaction.dai_tr.to) === props.checksumAddress;
+      this.isOutgoingDaiTx =
+        Web3.utils.toChecksumAddress(props.daiTransaction.dai_tr.from) === props.checksumAddress;
+    }
+  }
+
   renderInOrOutTransactionIcon() {
     if (this.props.daiTransaction.ame_ropsten.to === null) {
       return (
