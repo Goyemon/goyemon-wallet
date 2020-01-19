@@ -25,6 +25,11 @@ class TransactionUtilities {
     return filteredTransactions;
   }
 
+  sortTransactions(transactions) {
+    const sortedTransactions = transactions.sort((a, b) => b[1][6] - a[1][6]);
+    return sortedTransactions;
+  }
+
     let parsedTransactions;
     parsedTransactions = filteredTransactions.map(filteredTransaction => {
       if (!(typeof filteredTransaction[1][8] === 'undefined')) {
