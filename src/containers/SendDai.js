@@ -28,6 +28,7 @@ import daiTokenContract from '../contracts/daiTokenContract';
 import GasUtilities from '../utilities/GasUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
+import Web3ProviderUtilities from '../utilities/Web3ProviderUtilities.js';
 
 class SendDai extends Component {
   constructor(props) {
@@ -58,6 +59,7 @@ class SendDai extends Component {
       ethAmountValidation: undefined,
       currency: 'USD'
     };
+    this.web3 = Web3ProviderUtilities.web3Provider();
   }
 
   componentDidMount() {
@@ -99,12 +101,7 @@ class SendDai extends Component {
   }
 
   getTransferEncodedABI(address, amount) {
-    const infuraId = '884958b4538343aaa814e3a32718ce91';
-    const web3 = new Web3(
-      new Web3.providers.HttpProvider(`https://ropsten.infura.io/v3/${this.infuraId}`)
-    );
-
-    const daiTokenContractInstance = new web3.eth.Contract(
+    const daiTokenContractInstance = new this.web3.eth.Contract(
       JSON.parse(daiTokenContract.daiTokenAbi),
       daiTokenContract.daiTokenAddress
     );

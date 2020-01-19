@@ -8,9 +8,13 @@ import { addSentTransaction } from '../actions/ActionTransactionHistory';
 import daiTokenContract from '../contracts/daiTokenContract';
 import { store } from '../store/store.js';
 import WalletUtilities from './WalletUtilities.ts';
+import Web3ProviderUtilities from './Web3ProviderUtilities.js';
 
 class TransactionUtilities {
   parseExistingTransactions(transactions) {
+  constructor() {
+    this.web3 = Web3ProviderUtilities.web3Provider();
+  }
     const filteredTransactions = Object.entries(transactions).filter(transaction => {
       if (transaction[0] != '_contracts') {
         return true;
@@ -205,12 +209,7 @@ class TransactionUtilities {
   }
 
   async decodeTransactionData(transactionData) {
-    const infuraId = '884958b4538343aaa814e3a32718ce91';
-    const web3 = new Web3(
-      new Web3.providers.HttpProvider(`https://ropsten.infura.io/v3/${this.infuraId}`)
-    );
-
-    const decodedAbi = await web3.eth.abi.decodeParameters(
+    const decodedAbi = await this.web3.eth.abi.decodeParameters(
       ['address', 'uint256'],
       transactionData.substring(10, transactionData.length)
     );
