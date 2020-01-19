@@ -282,7 +282,6 @@ class SendDai extends Component {
             <CoinImage source={require('../../assets/dai_icon.png')} />
             <Title>your dai wallet balance</Title>
             <BalanceContainer>
-              <Value>${this.getUsdBalance()}</Value>
               <Value>{this.daiBalance} DAI</Value>
             </BalanceContainer>
           </UntouchableCardContainer>
