@@ -97,7 +97,7 @@ class SupplyDaiConfirmation extends Component {
             margin="8px"
             opacity="1"
             onPress={async () => {
-              this.props.navigation.navigate('EarnDai');
+              this.props.navigation.navigate('Dai');
               await this.sendSignedTx();
             }}
           />
