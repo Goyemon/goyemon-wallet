@@ -70,6 +70,7 @@ class TransactionUtilities {
   parseSentEthTransaction(transactionObject) {
     const stateTree = store.getState();
     const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
+
     const parsedTransaction = {
       hash: uuidv4(),
       from: checksumAddress,
@@ -97,10 +98,83 @@ class TransactionUtilities {
       time: Math.floor(Date.now() / 1000),
       nonce: parseInt(transactionObject.nonce, 16),
       state: 'sent',
-      ame_ropsten: {
+      dai_tr: {
         from: checksumAddress,
-        to: (await this.decodeTransactionData(transactionObject.data)).to,
-        value: (await this.decodeTransactionData(transactionObject.data)).value
+        to: (await this.decodeDaiTransferTransactionData(transactionObject.data)).to,
+        value: this.parseDecimalDaiValue(
+          (await this.decodeDaiTransferTransactionData(transactionObject.data)).value
+        )
+      }
+    };
+    return parsedTransaction;
+  }
+
+  async parseSentDaiApproveTransaction(transactionObject) {
+    const stateTree = store.getState();
+    const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
+    const parsedTransaction = {
+      hash: uuidv4(),
+      from: checksumAddress,
+      to: daiTokenContract.daiTokenAddress,
+      gasLimit: transactionObject.gasLimit,
+      gasPrice: transactionObject.gasPrice,
+      value: '0x',
+      time: Math.floor(Date.now() / 1000),
+      nonce: parseInt(transactionObject.nonce, 16),
+      state: 'sent',
+      dai_appr: {
+        owner: checksumAddress,
+        spender: (await this.decodeDaiApproveTransactionData(transactionObject.data)).spender,
+        amount: this.parseDecimalDaiValue(
+          (await this.decodeDaiApproveTransactionData(transactionObject.data)).amount
+        )
+      }
+    };
+    return parsedTransaction;
+  }
+
+  async parseSentCDaiMintTransaction(transactionObject) {
+    const stateTree = store.getState();
+    const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
+    const parsedTransaction = {
+      hash: uuidv4(),
+      from: checksumAddress,
+      to: cDaiContract.cDaiAddress,
+      gasLimit: transactionObject.gasLimit,
+      gasPrice: transactionObject.gasPrice,
+      value: '0x',
+      time: Math.floor(Date.now() / 1000),
+      nonce: parseInt(transactionObject.nonce, 16),
+      state: 'sent',
+      cdai_mint: {
+        minter: checksumAddress,
+        daiSupplied: this.parseDecimalDaiValue(
+          (await this.decodeCDaiMintTransactionData(transactionObject.data)).mintTokens
+        )
+      }
+    };
+    return parsedTransaction;
+  }
+
+  async parseSentCDaiRedeemUnderlyingTransaction(transactionObject) {
+    const stateTree = store.getState();
+    const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
+    const parsedTransaction = {
+      hash: uuidv4(),
+      from: checksumAddress,
+      to: cDaiContract.cDaiAddress,
+      gasLimit: transactionObject.gasLimit,
+      gasPrice: transactionObject.gasPrice,
+      value: '0x',
+      time: Math.floor(Date.now() / 1000),
+      nonce: parseInt(transactionObject.nonce, 16),
+      state: 'sent',
+      cdai_redeem: {
+        redeemer: checksumAddress,
+        daiWithdrawn: this.parseDecimalDaiValue(
+          (await this.decodeCDaiRedeemUnderlyingTransactionData(transactionObject.data))
+            .redeemTokens
+        )
       }
     };
     return parsedTransaction;
