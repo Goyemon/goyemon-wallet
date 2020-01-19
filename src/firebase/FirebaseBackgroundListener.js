@@ -36,6 +36,10 @@ export default async message => {
   } else if (message.data.type === 'txhistory') {
     if (message.data.data === '{}') {
       store.dispatch(saveEmptyTransaction(message.data.data));
+    if (balanceMessage.hasOwnProperty('cdai')) {
+      const cDaiBalance = parseInt(balanceMessage.cdai, 16);
+      store.dispatch(saveCDaiBalance(cDaiBalance));
+    }
       store.dispatch(saveTransactionCount(0));
     }
 

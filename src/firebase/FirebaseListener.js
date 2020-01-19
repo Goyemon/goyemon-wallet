@@ -34,6 +34,10 @@ firebase.messaging().onMessage(downstreamMessage => {
       daiBalance = daiBalance.toFixed(2);
       store.dispatch(saveDaiBalance(daiBalance));
     }
+    if (balanceMessage.hasOwnProperty('cdai')) {
+      const cDaiBalance = parseInt(balanceMessage.cdai, 16);
+      store.dispatch(saveCDaiBalance(cDaiBalance));
+    }
   } else if (downstreamMessage.data.type === 'txhistory') {
     if (downstreamMessage.data.data === '{}') {
       store.dispatch(saveEmptyTransaction(downstreamMessage.data.data));
