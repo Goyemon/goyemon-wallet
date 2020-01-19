@@ -6,7 +6,7 @@
 	<integer>10</integer>
 	<key>logs</key>
 	<dict>
-		<key>02934CE9-69D2-4DA9-81D8-48A7A22F80C0</key>
+		<key>BF0F0BE1-127B-4DBF-B39F-C7BE2ECBBE87</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -15,7 +15,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>02934CE9-69D2-4DA9-81D8-48A7A22F80C0.xcactivitylog</string>
+			<string>BF0F0BE1-127B-4DBF-B39F-C7BE2ECBBE87.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -32,15 +32,15 @@
 			<key>signature</key>
 			<string>Building workspace Crypterest with scheme Crypterest and configuration Debug</string>
 			<key>timeStartedRecording</key>
-			<real>600334021.39711797</real>
+			<real>601092385.19722903</real>
 			<key>timeStoppedRecording</key>
-			<real>600334023.41803503</real>
+			<real>601092387.680776</real>
 			<key>title</key>
 			<string>Building workspace Crypterest with scheme Crypterest and configuration Debug</string>
 			<key>uniqueIdentifier</key>
-			<string>02934CE9-69D2-4DA9-81D8-48A7A22F80C0</string>
+			<string>BF0F0BE1-127B-4DBF-B39F-C7BE2ECBBE87</string>
 		</dict>
-		<key>78875C12-A2A4-41BA-9510-A4435D426544</key>
+		<key>E96D14B8-E7B5-44EC-B81B-0A635F99901A</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -49,7 +49,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>78875C12-A2A4-41BA-9510-A4435D426544.xcactivitylog</string>
+			<string>E96D14B8-E7B5-44EC-B81B-0A635F99901A.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -66,13 +66,13 @@
 			<key>signature</key>
 			<string>Building workspace Crypterest with scheme Crypterest and configuration Debug</string>
 			<key>timeStartedRecording</key>
-			<real>600405452.13352799</real>
+			<real>601098532.61588001</real>
 			<key>timeStoppedRecording</key>
-			<real>600405454.64883196</real>
+			<real>601098535.47070503</real>
 			<key>title</key>
 			<string>Building workspace Crypterest with scheme Crypterest and configuration Debug</string>
 			<key>uniqueIdentifier</key>
-			<string>78875C12-A2A4-41BA-9510-A4435D426544</string>
+			<string>E96D14B8-E7B5-44EC-B81B-0A635F99901A</string>
 		</dict>
 	</dict>
 </dict>
