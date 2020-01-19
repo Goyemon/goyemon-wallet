@@ -1,8 +1,10 @@
 'use strict';
+import BigNumber from "bignumber.js"
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View } from 'react-native';
 import styled from 'styled-components';
+import Web3 from 'web3';
 import { CrypterestText } from '../components/common';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
