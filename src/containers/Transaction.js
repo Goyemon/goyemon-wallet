@@ -9,6 +9,32 @@ import { UntouchableCardContainer, CrypterestText } from '../components/common';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 
 class Transaction extends Component {
+  constructor(props) {
+    super(props);
+    this.isAmeTransferTx = props.transaction.hasOwnProperty('ame_ropsten_tr');
+    this.isDaiTransferTx = props.transaction.hasOwnProperty('dai_tr');
+    this.isDaiApproveTx = props.transaction.hasOwnProperty('dai_appr');
+    this.isCDaiMintTx = props.transaction.hasOwnProperty('cdai_mint');
+    this.isCDaiRedeemUnderlyingTx = props.transaction.hasOwnProperty('cdai_redeem');
+    this.isIncomingAmeTx;
+    this.isOutgoingAmeTx;
+    if (props.transaction.hasOwnProperty('ame_ropsten_tr')) {
+      this.isIncomingAmeTx =
+        Web3.utils.toChecksumAddress(props.transaction.ame_ropsten_tr.to) === props.checksumAddress;
+      this.isOutgoingAmeTx =
+        Web3.utils.toChecksumAddress(props.transaction.ame_ropsten_tr.from) ===
+        props.checksumAddress;
+    }
+    this.isIncomingDaiTx;
+    this.isOutgoingDaiTx;
+    if (props.transaction.hasOwnProperty('dai_tr')) {
+      this.isIncomingDaiTx =
+        Web3.utils.toChecksumAddress(props.transaction.dai_tr.to) === props.checksumAddress;
+      this.isOutgoingDaiTx =
+        Web3.utils.toChecksumAddress(props.transaction.dai_tr.from) === this.props.checksumAddress;
+    }
+  }
+
   renderInOrOutTransactionIcon() {
     if (this.props.transaction.hasOwnProperty('ame_ropsten')) {
       if (this.props.transaction.ame_ropsten.to === null) {
