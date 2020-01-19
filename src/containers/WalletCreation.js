@@ -46,6 +46,7 @@ class WalletCreation extends Component {
     this.setState({ hasPrivateKeyInKeychain: privateKeyInKeychain });
     await this.props.createChecksumAddress();
     await FcmUpstreamMsgs.registerEthereumAddress(this.props.checksumAddress);
+    await FcmUpstreamMsgs.requestCDaiLendingInfo(this.props.checksumAddress);
     await this.props.getEthPrice();
     await this.props.getDaiPrice();
   }
