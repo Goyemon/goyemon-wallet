@@ -1,4 +1,5 @@
 'use strict';
+export const SAVE_C_DAI_BALANCE = 'SAVE_C_DAI_BALANCE';
 export const SAVE_DAI_BALANCE = 'SAVE_DAI_BALANCE';
 export const SAVE_ETH_BALANCE = 'SAVE_ETH_BALANCE';
 export const SAVE_CDAI_LENDING_INFO = 'SAVE_CDAI_LENDING_INFO';
