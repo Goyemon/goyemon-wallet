@@ -29,9 +29,8 @@ firebase.messaging().onMessage(downstreamMessage => {
       const roundedBalanceInEther = parseFloat(balanceInEther).toFixed(4);
       store.dispatch(saveEthBalance(roundedBalanceInEther));
     }
-    if (balanceMessage.hasOwnProperty('ame_ropsten')) {
-      let daiBalance = parseInt(balanceMessage.ame_ropsten, 16) / 10 ** 18;
-      daiBalance = daiBalance.toFixed(2);
+    if (balanceMessage.hasOwnProperty('dai')) {
+      const daiBalance = parseInt(balanceMessage.dai, 16);
       store.dispatch(saveDaiBalance(daiBalance));
     }
     if (balanceMessage.hasOwnProperty('cdai')) {
