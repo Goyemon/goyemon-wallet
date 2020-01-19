@@ -21,8 +21,8 @@ class EarnList extends Component {
     await FcmUpstreamMsgs.requestCDaiLendingInfo(this.props.checksumAddress);
   }
 
-  getUsdValue(daiBalance) {
-    let usdValue = parseFloat(PriceUtilities.convertDaiToUsd(daiBalance));
+  getUsdValue(daiValue) {
+    let usdValue = parseFloat(PriceUtilities.convertDaiToUsd(daiValue));
     usdValue = parseFloat(usdValue).toFixed(2);
     return usdValue;
   }
