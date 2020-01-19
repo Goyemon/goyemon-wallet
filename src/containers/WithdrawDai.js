@@ -1,4 +1,5 @@
 'use strict';
+import BigNumber from "bignumber.js"
 import Animation from 'lottie-react-native';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -56,6 +57,8 @@ class WithdrawDai extends Component {
       currency: 'USD'
     };
     this.web3 = Web3ProviderUtilities.web3Provider();
+    this.daiBalance = new BigNumber(props.balance.daiBalance).div(10 ** 18).toFixed(2);
+    this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance.toString());
   }
 
   componentDidMount() {
@@ -119,8 +122,8 @@ class WithdrawDai extends Component {
 
   validateDaiAmount(amount) {
     if (
-      parseFloat(this.props.balance.daiBalance) > 0 &&
-      parseFloat(this.props.balance.daiBalance) >= parseFloat(amount) &&
+      parseFloat(this.daiBalance) > 0 &&
+      parseFloat(this.daiBalance) >= parseFloat(amount) &&
       parseFloat(amount) >= 0 &&
       amount.length != 0
     ) {
@@ -139,7 +142,7 @@ class WithdrawDai extends Component {
       100000
     );
 
-    if (parseFloat(this.props.balance.ethBalance) > parseFloat(transactionFeeLimitInEther)) {
+    if (parseFloat(this.ethBalance) > parseFloat(transactionFeeLimitInEther)) {
       console.log('the eth amount validated!');
       this.setState({ ethAmountValidation: true });
       return true;

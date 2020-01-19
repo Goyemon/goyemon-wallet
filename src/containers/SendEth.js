@@ -54,6 +54,8 @@ class SendEth extends Component {
       amountValidation: undefined,
       currency: 'USD'
     };
+    this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance.toString());
+    this.ethBalance = parseFloat(this.ethBalance).toFixed(6);
   }
 
   componentDidMount() {
@@ -64,7 +66,7 @@ class SendEth extends Component {
 
   getUsdBalance() {
     try {
-      return PriceUtilities.convertEthToUsd(this.props.balance.ethBalance);
+      return PriceUtilities.convertEthToUsd(this.ethBalance);
     } catch (err) {
       console.error(err);
     }
@@ -135,8 +137,8 @@ class SendEth extends Component {
     );
 
     if (
-      parseFloat(this.props.balance.ethBalance) > 0 &&
-      parseFloat(this.props.balance.ethBalance) >=
+      parseFloat(this.ethBalance) > 0 &&
+      parseFloat(this.ethBalance) >=
         parseFloat(amount) + parseFloat(transactionFeeLimitInEther) &&
       parseFloat(amount) >= 0 &&
       amount.length != 0
@@ -229,7 +231,7 @@ class SendEth extends Component {
             <CoinImage source={require('../../assets/ether_icon.png')} />
             <Title>your eth wallet balance</Title>
             <BalanceContainer>
-              <Value>{balance.ethBalance} ETH</Value>
+              <Value>{this.ethBalance} ETH</Value>
               <Value>${this.getUsdBalance()}</Value>
             </BalanceContainer>
           </UntouchableCardContainer>
