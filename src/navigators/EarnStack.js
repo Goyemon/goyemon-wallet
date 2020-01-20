@@ -1,7 +1,7 @@
 'use strict';
 import { createStackNavigator } from 'react-navigation';
 import ApproveDai from '../containers/ApproveDai';
-import EarnDai from '../components/EarnDai';
+import EarnDai from '../containers/EarnDai';
 import EarnList from '../containers/EarnList';
 import SupplyDai from '../containers/SupplyDai';
 import SupplyDaiConfirmation from '../containers/SupplyDaiConfirmation';
