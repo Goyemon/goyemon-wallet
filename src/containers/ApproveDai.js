@@ -55,7 +55,7 @@ class ApproveDai extends Component {
       // );
       // animationCheckedDone.play();
     } else {
-      return <ErrorMessage>not enough ether!</ErrorMessage>;
+      return <ErrorMessage>you need to have some ether to initiate</ErrorMessage>;
     }
   }
 
@@ -111,7 +111,7 @@ class ApproveDai extends Component {
             textColor="#00A3E2"
             backgroundColor="#FFF"
             borderColor="#00A3E2"
-            margin="400px auto"
+            margin="400px auto 40px"
             opacity="1"
             onPress={async () => {
               await this.sendTransaction();
