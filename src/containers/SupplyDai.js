@@ -80,7 +80,7 @@ class SupplyDai extends Component {
       const usdValue = this.getTransactionFeeEstimateInUsd(gasPriceWei);
       return <CrypterestText fontSize="16">${usdValue}</CrypterestText>;
     } else if (this.state.currency === 'USD') {
-      const ethValue = GasUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 100000);
+      const ethValue = GasUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 350000);
       return <NetworkFeeInEther>{ethValue}ETH</NetworkFeeInEther>;
     }
   }
@@ -137,7 +137,7 @@ class SupplyDai extends Component {
   validateEthAmount() {
     const transactionFeeLimitInEther = GasUtilities.getTransactionFeeEstimateInEther(
       this.state.gasPrice[this.state.checked].gasPriceWei,
-      100000
+      350000
     );
 
     if (parseFloat(this.ethBalance) > parseFloat(transactionFeeLimitInEther)) {
@@ -219,14 +219,14 @@ class SupplyDai extends Component {
     this.props.saveTransactionFeeEstimateEth(
       GasUtilities.getTransactionFeeEstimateInEther(
         this.state.gasPrice[this.state.checked].gasPriceWei,
-        100000
+        350000
       )
     );
     this.props.saveTransactionFeeEstimateUsd(
       PriceUtilities.convertEthToUsd(
         GasUtilities.getTransactionFeeEstimateInEther(
           this.state.gasPrice[this.state.checked].gasPriceWei,
-          100000
+          350000
         )
       )
     );

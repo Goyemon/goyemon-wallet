@@ -80,7 +80,7 @@ class WithdrawDai extends Component {
       const usdValue = this.getTransactionFeeEstimateInUsd(gasPriceWei);
       return <CrypterestText fontSize="16">${usdValue}</CrypterestText>;
     } else if (this.state.currency === 'USD') {
-      const ethValue = GasUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 100000);
+      const ethValue = GasUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 650000);
       return <NetworkFeeInEther>{ethValue}ETH</NetworkFeeInEther>;
     }
   }
@@ -140,7 +140,7 @@ class WithdrawDai extends Component {
   validateEthAmount() {
     const transactionFeeLimitInEther = GasUtilities.getTransactionFeeEstimateInEther(
       this.state.gasPrice[this.state.checked].gasPriceWei,
-      100000
+      650000
     );
 
     if (parseFloat(this.ethBalance) > parseFloat(transactionFeeLimitInEther)) {
@@ -221,14 +221,14 @@ class WithdrawDai extends Component {
     this.props.saveTransactionFeeEstimateEth(
       GasUtilities.getTransactionFeeEstimateInEther(
         this.state.gasPrice[this.state.checked].gasPriceWei,
-        100000
+        650000
       )
     );
     this.props.saveTransactionFeeEstimateUsd(
       PriceUtilities.convertEthToUsd(
         GasUtilities.getTransactionFeeEstimateInEther(
           this.state.gasPrice[this.state.checked].gasPriceWei,
-          100000
+          650000
         )
       )
     );
