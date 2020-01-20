@@ -96,7 +96,7 @@ class ApproveDai extends Component {
       console.log('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await TransactionUtilities.sendOutgoingTransactionToServer(transactionObject);
-      this.props.navigation.navigate('EarnDai');
+      this.props.navigation.navigate('Dai');
     } else {
       console.log('validation failed!');
     }
