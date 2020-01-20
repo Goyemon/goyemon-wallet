@@ -3,9 +3,10 @@ import { SAVE_CDAI_LENDING_INFO, SAVE_DAI_APPROVAL_INFO } from '../constants/Act
 
 const INITIAL_STATE = {
   cDaiLendingInfo: {
-    lifetimeEarned: '',
-    currentRate: ''
     daiApproval: null,
+    currentExchangeRate: '',
+    currentInterestRate: '',
+    lifetimeEarned: ''
   }
 };
 
@@ -14,9 +15,11 @@ const cDaiLendingInfo = (state = INITIAL_STATE, action) => {
     case SAVE_CDAI_LENDING_INFO:
       return {
         cDaiLendingInfo: {
-          daiSavingsBalance: action.payload.dai_balance,
-          lifetimeEarned: action.payload.lifetime_earned,
-          currentRate: action.payload.yearly_interest_rate
+          currentExchangeRate: action.payload.current_exchange_rate,
+          currentInterestRate: action.payload.yearly_interest_rate,
+          lifetimeEarned: action.payload.lifetime_earned
+        }
+      };
     case SAVE_DAI_APPROVAL_INFO:
       return {
         cDaiLendingInfo: {
