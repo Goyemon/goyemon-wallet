@@ -48,7 +48,7 @@ class SupplyDaiConfirmation extends Component {
   }
 
   render() {
-    const { outgoingTransactionObjects, daiAmount } = this.props;
+    const { outgoingTransactionObjects, outgoingDaiTransactionAmount } = this.props;
 
     return (
       <RootContainer>
@@ -56,7 +56,7 @@ class SupplyDaiConfirmation extends Component {
         <TotalContainer>
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <CrypterestText fontSize="16">You are about to supply</CrypterestText>
-          <TotalValue>{daiAmount} DAI</TotalValue>
+          <TotalValue>{outgoingDaiTransactionAmount} DAI</TotalValue>
         </TotalContainer>
         <UntouchableCardContainer
           alignItems="flex-start"
@@ -71,7 +71,7 @@ class SupplyDaiConfirmation extends Component {
           <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
             Supply Amount
           </FormHeader>
-          <Amount>{daiAmount} DAI</Amount>
+          <Amount>{outgoingDaiTransactionAmount} DAI</Amount>
           <NetworkFeeContainer>
             <FormHeader marginBottom="0" marginLeft="8" marginTop="0">
               Network Fee
@@ -164,7 +164,7 @@ function mapStateToProps(state) {
   return {
     outgoingTransactionObjects: state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
     transactionFeeEstimate: state.ReducerTransactionFeeEstimate.transactionFeeEstimate,
-    daiAmount: state.ReducerDaiAmount.daiAmount
+    outgoingDaiTransactionAmount: state.ReducerDaiAmount.outgoingDaiTransactionAmount
   };
 }
 
