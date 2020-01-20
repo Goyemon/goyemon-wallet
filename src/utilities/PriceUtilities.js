@@ -4,11 +4,11 @@ import { store } from '../store/store.js';
 class PriceUtilities {
   convertEthToUsd(ether) {
     const stateTree = store.getState();
-    const ethPrice = stateTree.ReducerPrice.price.eth;
+    const price = stateTree.ReducerPrice.price;
 
     try {
-      const usdValue = parseFloat(ethPrice) * parseFloat(ether);
-      const roundedEthUsdValue = usdValue.toFixed(3);
+      const usdValue = parseFloat(price.eth) * parseFloat(ether);
+      const roundedEthUsdValue = usdValue;
       return roundedEthUsdValue;
     } catch (error) {
       console.error(error);
@@ -17,11 +17,11 @@ class PriceUtilities {
 
   convertDaiToUsd(dai) {
     const stateTree = store.getState();
-    const daiPrice = stateTree.ReducerPrice.price.dai;
+    const price = stateTree.ReducerPrice.price;
 
     try {
-      const usdValue = daiPrice * parseFloat(dai);
-      const roundedDaiUsdValue = parseFloat(usdValue).toFixed(2);
+      const usdValue = price.dai * parseFloat(dai);
+      const roundedDaiUsdValue = parseFloat(usdValue);
       return roundedDaiUsdValue;
     } catch (error) {
       console.error(error);
