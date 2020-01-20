@@ -86,9 +86,9 @@ class SupplyDai extends Component {
   }
 
   getTransactionFeeEstimateInUsd(gasPriceWei) {
-    return PriceUtilities.convertEthToUsd(
-      GasUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 100000)
-    );
+    let transactionFeeEstimateInEther = PriceUtilities.convertEthToUsd(GasUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 350000));
+    transactionFeeEstimateInEther = transactionFeeEstimateInEther.toFixed(3);
+    return transactionFeeEstimateInEther;
   }
 
   getMintEncodedABI(amount) {

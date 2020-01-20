@@ -90,9 +90,9 @@ class SendDai extends Component {
   }
 
   getTransactionFeeEstimateInUsd(gasPriceWei) {
-    return PriceUtilities.convertEthToUsd(
-      GasUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 100000)
-    );
+    let transactionFeeEstimateInEther = PriceUtilities.convertEthToUsd(GasUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 65000));
+    transactionFeeEstimateInEther = transactionFeeEstimateInEther.toFixed(3);
+    return transactionFeeEstimateInEther;
   }
 
   getTransferEncodedABI(address, amount) {

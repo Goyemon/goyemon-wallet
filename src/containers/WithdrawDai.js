@@ -86,9 +86,9 @@ class WithdrawDai extends Component {
   }
 
   getTransactionFeeEstimateInUsd(gasPriceWei) {
-    return PriceUtilities.convertEthToUsd(
-      GasUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 100000)
-    );
+    let transactionFeeEstimateInEther = PriceUtilities.convertEthToUsd(GasUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 650000));
+    transactionFeeEstimateInEther = transactionFeeEstimateInEther.toFixed(3);
+    return transactionFeeEstimateInEther;
   }
 
   getRedeemEncodedAbi(daiWithdrawAmount) {

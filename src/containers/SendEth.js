@@ -66,7 +66,9 @@ class SendEth extends Component {
 
   getUsdBalance() {
     try {
-      return PriceUtilities.convertEthToUsd(this.ethBalance);
+      let ethUsdBalance = PriceUtilities.convertEthToUsd(this.ethBalance);
+      ethUsdBalance = ethUsdBalance.toFixed(2);
+      return ethUsdBalance;
     } catch (err) {
       console.error(err);
     }
@@ -91,9 +93,9 @@ class SendEth extends Component {
   }
 
   getTransactionFeeEstimateInUsd(gasPriceWei) {
-    return PriceUtilities.convertEthToUsd(
-      GasUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 21000)
-    );
+    let transactionFeeEstimateInEther = PriceUtilities.convertEthToUsd(GasUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 21000));
+    transactionFeeEstimateInEther = transactionFeeEstimateInEther.toFixed(3);
+    return transactionFeeEstimateInEther;
   }
 
   async constructTransactionObject() {

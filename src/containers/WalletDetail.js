@@ -25,11 +25,15 @@ class WalletDetail extends Component {
   }
 
   renderUsdBalance() {
+    let ethUsdBalance = PriceUtilities.convertEthToUsd(this.ethBalance);
+    ethUsdBalance = ethUsdBalance.toFixed(2);
+    let daiUsdBalance = PriceUtilities.convertDaiToUsd(this.daiBalance);
+    daiUsdBalance = daiUsdBalance.toFixed(2);
     if (this.props.wallet.id === 0) {
       try {
         return (
           <CrypterestText fontSize="20">
-            $ {PriceUtilities.convertEthToUsd(this.ethBalance)}
+            $ {ethUsdBalance}
           </CrypterestText>
         );
       } catch (err) {
@@ -39,7 +43,7 @@ class WalletDetail extends Component {
       try {
         return (
           <CrypterestText fontSize="20">
-            $ {PriceUtilities.convertDaiToUsd(this.daiBalance)}
+            $ {daiUsdBalance}
           </CrypterestText>
         );
       } catch (err) {
@@ -138,8 +142,8 @@ const UsdBalanceText = styled.Text`
 `;
 
 const mapStateToProps = state => ({
-  price: state.ReducerPrice.price,
-  balance: state.ReducerBalance.balance
+  balance: state.ReducerBalance.balance,
+  price: state.ReducerPrice.price
 });
 
 export default connect(mapStateToProps)(WalletDetail);

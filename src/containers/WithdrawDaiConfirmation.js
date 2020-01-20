@@ -41,7 +41,8 @@ class WithdrawDaiConfirmation extends Component {
 
   toggleCurrency() {
     if (this.state.currency === 'ETH') {
-      return <NetworkFee fontSize="16">${this.props.transactionFeeEstimate.usd}</NetworkFee>;
+      let usdTransactionFeeEstimateValue = this.props.transactionFeeEstimate.usd.toFixed(3);
+      return <NetworkFee fontSize="16">${usdTransactionFeeEstimateValue}</NetworkFee>;
     } else if (this.state.currency === 'USD') {
       return <NetworkFee fontSize="16">{this.props.transactionFeeEstimate.eth}ETH</NetworkFee>;
     }
