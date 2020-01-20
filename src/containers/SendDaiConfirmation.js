@@ -173,7 +173,7 @@ function mapStateToProps(state) {
   return {
     outgoingTransactionObjects: state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
     transactionFeeEstimate: state.ReducerTransactionFeeEstimate.transactionFeeEstimate,
-    outgoingDaiTransactionAmount: state.ReducerDaiAmount.outgoingDaiTransactionAmount,
+    outgoingDaiTransactionAmount: state.ReducerOutgoingDaiTransactionAmount.outgoingDaiTransactionAmount,
     daiToAddress: state.ReducerDaiToAddress.daiToAddress
   };
 }

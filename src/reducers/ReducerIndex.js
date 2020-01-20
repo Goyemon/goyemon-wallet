@@ -5,13 +5,13 @@ import { CLEAR_STATE } from '../constants/ActionTypes';
 import ReducerBalance from './ReducerBalance';
 import ReducerCDaiLendingInfo from './ReducerCDaiLendingInfo';
 import ReducerChecksumAddress from './ReducerChecksumAddress';
-import ReducerDaiAmount from './ReducerDaiAmount';
 import ReducerDaiToAddress from './ReducerDaiToAddress';
 import ReducerFcmMsgs from './ReducerFcmMsgs';
 import ReducerGasPrice from './ReducerGasPrice';
 import ReducerMnemonic from './ReducerMnemonic';
 import ReducerMnemonicWordsValidation from './ReducerMnemonicWordsValidation';
 import ReducerNotificationPermission from './ReducerNotificationPermission';
+import ReducerOutgoingDaiTransactionAmount from './ReducerOutgoingDaiTransactionAmount';
 import ReducerOutgoingTransactionObjects from './ReducerOutgoingTransactionObjects';
 import ReducerPrice from './ReducerPrice';
 import ReducerTransactionCount from './ReducerTransactionCount';
@@ -23,13 +23,13 @@ const appReducers = combineReducers({
   ReducerBalance,
   ReducerCDaiLendingInfo,
   ReducerChecksumAddress,
-  ReducerDaiAmount,
   ReducerDaiToAddress,
   ReducerFcmMsgs,
   ReducerGasPrice,
   ReducerMnemonic,
   ReducerMnemonicWordsValidation,
   ReducerNotificationPermission,
+  ReducerOutgoingDaiTransactionAmount,
   ReducerOutgoingTransactionObjects,
   ReducerPrice,
   ReducerTransactionCount,
