@@ -1,4 +1,4 @@
-<h1 align="center">Swarm</h1>
+<h1 align="center">Crypterest</h1>
 <p align="center">
   <a href="#"><img src="./assets/sample_img2.jpg" width="200"></a>
 </p>
