@@ -1,5 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
+import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import { TouchableWithoutFeedback } from 'react-native';
 import styled from 'styled-components/native';
@@ -27,6 +28,7 @@ class SupplyDaiConfirmation extends Component {
       this.props.outgoingTransactionObjects.length - 1
     ];
     await TransactionUtilities.sendOutgoingTransactionToServer(outgoingTransactionObject);
+    this.props.navigation.reset([NavigationActions.navigate({ routeName: 'EarnList' })], 0);
   }
 
   toggleCurrencySymbol() {
@@ -97,8 +99,8 @@ class SupplyDaiConfirmation extends Component {
             margin="8px"
             opacity="1"
             onPress={async () => {
-              this.props.navigation.navigate('Dai');
               await this.sendSignedTx();
+              this.props.navigation.navigate('Dai');
             }}
           />
         </ButtonContainer>
