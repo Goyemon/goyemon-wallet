@@ -15,6 +15,7 @@ const cDaiLendingInfo = (state = INITIAL_STATE, action) => {
     case SAVE_CDAI_LENDING_INFO:
       return {
         cDaiLendingInfo: {
+          ...state.cDaiLendingInfo,
           currentExchangeRate: action.payload.current_exchange_rate,
           currentInterestRate: action.payload.yearly_interest_rate,
           lifetimeEarned: action.payload.lifetime_earned
@@ -23,6 +24,7 @@ const cDaiLendingInfo = (state = INITIAL_STATE, action) => {
     case SAVE_DAI_APPROVAL_INFO:
       return {
         cDaiLendingInfo: {
+          ...state.cDaiLendingInfo,
           daiApproval: action.payload
         }
       };
