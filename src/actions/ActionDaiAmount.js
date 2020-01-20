@@ -1,17 +1,17 @@
 'use strict';
 import { SAVE_DAI_AMOUNT } from '../constants/ActionTypes';
 
-export function saveDaiAmount(daiAmount) {
+export function saveOutgoingDaiTransactionAmount(daiAmount) {
   return async function (dispatch) {
     try {
-      dispatch(saveDaiAmountSuccess(daiAmount));
+      dispatch(saveOutgoingDaiTransactionAmountSuccess(daiAmount));
     } catch(err) {
       console.error(err);
     }
   }
 };
 
-const saveDaiAmountSuccess = (daiAmount) => ({
+const saveOutgoingDaiTransactionAmountSuccess = (daiAmount) => ({
   type: SAVE_DAI_AMOUNT,
   payload: daiAmount
 })

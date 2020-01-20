@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
-import { saveDaiAmount } from '../actions/ActionDaiAmount';
+import { saveOutgoingDaiTransactionAmount } from '../actions/ActionDaiAmount';
 import { getGasPriceFast, getGasPriceAverage, getGasPriceSlow } from '../actions/ActionGasPrice';
 import {
   saveTransactionFeeEstimateUsd,
@@ -200,7 +200,7 @@ class SupplyDai extends Component {
       console.log('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
-      await this.props.saveDaiAmount(amount);
+      await this.props.saveOutgoingDaiTransactionAmount(amount);
       this.props.navigation.navigate('SupplyDaiConfirmation');
     } else {
       console.log('form validation failed!');
@@ -454,7 +454,7 @@ const mapDispatchToProps = {
   saveOutgoingTransactionObject,
   saveTransactionFeeEstimateUsd,
   saveTransactionFeeEstimateEth,
-  saveDaiAmount,
+  saveOutgoingDaiTransactionAmount,
   getGasPriceFast,
   getGasPriceAverage,
   getGasPriceSlow

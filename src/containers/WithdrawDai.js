@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
-import { saveDaiAmount } from '../actions/ActionDaiAmount';
+import { saveOutgoingDaiTransactionAmount } from '../actions/ActionDaiAmount';
 import { getGasPriceFast, getGasPriceAverage, getGasPriceSlow } from '../actions/ActionGasPrice';
 import {
   saveTransactionFeeEstimateUsd,
@@ -203,7 +203,7 @@ class WithdrawDai extends Component {
       console.log('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
-      await this.props.saveDaiAmount(daiWithdrawAmount);
+      await this.props.saveOutgoingDaiTransactionAmount(daiWithdrawAmount);
       this.props.navigation.navigate('WithdrawDaiConfirmation');
     } else {
       console.log('form validation failed!');
@@ -454,7 +454,7 @@ const mapDispatchToProps = {
   saveOutgoingTransactionObject,
   saveTransactionFeeEstimateUsd,
   saveTransactionFeeEstimateEth,
-  saveDaiAmount,
+  saveOutgoingDaiTransactionAmount,
   getGasPriceFast,
   getGasPriceAverage,
   getGasPriceSlow
