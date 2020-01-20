@@ -14,8 +14,12 @@ import {
   Button
 } from '../components/common/';
 import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
+import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 
 class EarnDai extends Component {
+  async componentDidMount() {
+    this.props.saveDaiApprovalInfo(TransactionUtilities.daiApproved());
+  }
   render() {
     const { balance, cDaiLendingInfo, navigation } = this.props;
     let lifetimeEarnedInDai = new BigNumber(cDaiLendingInfo.lifetimeEarned).div(10 ** 36);
