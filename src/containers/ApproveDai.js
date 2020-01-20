@@ -30,7 +30,7 @@ class ApproveDai extends Component {
   validateEthAmount() {
     const transactionFeeLimitInEther = GasUtilities.getTransactionFeeEstimateInEther(
       this.props.gasPrice.average,
-      100000
+      50000
     );
 
     if (parseFloat(this.ethBalance) > parseFloat(transactionFeeLimitInEther)) {
