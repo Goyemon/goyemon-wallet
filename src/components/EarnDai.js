@@ -14,6 +14,7 @@ import {
   Button
 } from '../components/common/';
 import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
+import { saveDaiApprovalInfo } from '../actions/ActionCDaiLendingInfo';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 
 class EarnDai extends Component {
@@ -134,4 +135,8 @@ function mapStateToProps(state) {
   };
 }
 
-export default withNavigation(connect(mapStateToProps)(EarnDai));
+const mapDispatchToProps = {
+  saveDaiApprovalInfo
+};
+
+export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(EarnDai));
