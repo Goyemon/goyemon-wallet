@@ -3,7 +3,6 @@ import { SAVE_CDAI_LENDING_INFO, SAVE_DAI_APPROVAL_INFO } from '../constants/Act
 
 const INITIAL_STATE = {
   cDaiLendingInfo: {
-    daiSavingsBalance: '',
     lifetimeEarned: '',
     currentRate: ''
     daiApproval: null,
