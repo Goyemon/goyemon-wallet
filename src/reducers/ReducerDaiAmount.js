@@ -2,7 +2,7 @@
 import { SAVE_OUTGOING_DAI_TRANSACTION_AMOUNT } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
-  daiAmount: '10'
+  daiAmount: ''
 };
 
 const daiAmount = (state = INITIAL_STATE, action) => {
