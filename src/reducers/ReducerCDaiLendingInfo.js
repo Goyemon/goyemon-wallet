@@ -1,11 +1,12 @@
 'use strict';
-import { SAVE_CDAI_LENDING_INFO } from '../constants/ActionTypes';
+import { SAVE_CDAI_LENDING_INFO, SAVE_DAI_APPROVAL_INFO } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
   cDaiLendingInfo: {
     daiSavingsBalance: '',
     lifetimeEarned: '',
     currentRate: ''
+    daiApproval: null,
   }
 };
 
@@ -17,6 +18,10 @@ const cDaiLendingInfo = (state = INITIAL_STATE, action) => {
           daiSavingsBalance: action.payload.dai_balance,
           lifetimeEarned: action.payload.lifetime_earned,
           currentRate: action.payload.yearly_interest_rate
+    case SAVE_DAI_APPROVAL_INFO:
+      return {
+        cDaiLendingInfo: {
+          daiApproval: action.payload
         }
       };
     default:
