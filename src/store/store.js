@@ -10,6 +10,7 @@ const persistConfig = {
   storage,
   whitelist: [
     'ReducerBalance',
+    'ReducerCDaiLendingInfo',
     'ReducerChecksumAddress',
     'ReducerMnemonic',
     'ReducerNotificationPermission',
