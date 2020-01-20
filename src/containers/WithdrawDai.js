@@ -50,14 +50,14 @@ class WithdrawDai extends Component {
           gasPriceWei: '0'
         }
       ],
-      amount: '',
+      daiWithdrawAmount: '',
       checked: 1,
-      daiAmountValidation: undefined,
+      daiSavingsAmountValidation: undefined,
       ethAmountValidation: undefined,
       currency: 'USD'
     };
     this.web3 = Web3ProviderUtilities.web3Provider();
-    this.daiBalance = new BigNumber(props.balance.daiBalance).div(10 ** 18).toFixed(2);
+    this.daiSavingsBalance = new BigNumber(props.balance.daiSavingsBalance).div(10 ** 36);
     this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance.toString());
   }
 
@@ -91,13 +91,13 @@ class WithdrawDai extends Component {
     );
   }
 
-  getRedeemEncodedAbi(amount) {
+  getRedeemEncodedAbi(daiWithdrawAmount) {
     const cDaiContractInstance = new this.web3.eth.Contract(
       JSON.parse(cDaiContract.cDaiAbi),
       cDaiContract.cDaiAddress
     );
 
-    const redeemAmountWithDecimals = new BigNumber(parseFloat(amount)).times(10 ** 18);
+    const redeemAmountWithDecimals = new BigNumber(parseFloat(daiWithdrawAmount)).times(10 ** 18);
     const redeemAmountWithHex = Web3.utils.toHex(redeemAmountWithDecimals);
 
     const redeemUnderlyingEncodedABI = cDaiContractInstance.methods
@@ -108,7 +108,7 @@ class WithdrawDai extends Component {
 
   async constructTransactionObject() {
     const transactionNonce = parseInt(TransactionUtilities.getTransactionNonce());
-    const redeemUnderlyingEncodedABI = this.getRedeemEncodedAbi(this.state.amount);
+    const redeemUnderlyingEncodedABI = this.getRedeemEncodedAbi(this.state.daiWithdrawAmount);
     const transactionObject = {
       nonce: `0x${transactionNonce.toString(16)}`,
       to: cDaiContract.cDaiAddress,
@@ -120,19 +120,20 @@ class WithdrawDai extends Component {
     return transactionObject;
   }
 
-  validateDaiAmount(amount) {
+  validateDaiSavingsAmount(daiWithdrawAmount) {
+    daiWithdrawAmount = new BigNumber(daiWithdrawAmount);
+
     if (
-      parseFloat(this.daiBalance) > 0 &&
-      parseFloat(this.daiBalance) >= parseFloat(amount) &&
-      parseFloat(amount) >= 0 &&
-      amount.length != 0
+      this.daiSavingsBalance.isGreaterThan(new BigNumber(0)) &&
+      this.daiSavingsBalance.isGreaterThanOrEqualTo(daiWithdrawAmount) &&
+      daiWithdrawAmount.isGreaterThanOrEqualTo(new BigNumber(0))
     ) {
-      console.log('the dai amount validated!');
-      this.setState({ daiAmountValidation: true });
+      console.log('the dai savings amount validated!');
+      this.setState({ daiSavingsAmountValidation: true });
       return true;
     }
     console.log('wrong dai balance!');
-    this.setState({ daiAmountValidation: false });
+    this.setState({ daiSavingsAmountValidation: false });
     return false;
   }
 
@@ -153,7 +154,7 @@ class WithdrawDai extends Component {
   }
 
   renderInsufficientDaiBalanceMessage() {
-    if (this.state.daiAmountValidation || this.state.daiAmountValidation === undefined) {
+    if (this.state.daiSavingsAmountValidation || this.state.daiSavingsAmountValidation === undefined) {
       // let animationCheckedDone;
       // return (
       //   <Animation
@@ -185,24 +186,24 @@ class WithdrawDai extends Component {
   }
 
   getAmountBorderColor() {
-    if (this.state.daiAmountValidation === undefined) {
+    if (this.state.daiSavingsAmountValidation === undefined) {
       return '#FFF';
-    } else if (this.state.daiAmountValidation) {
+    } else if (this.state.daiSavingsAmountValidation) {
       return '#1BA548';
-    } else if (!this.state.daiAmountValidation) {
+    } else if (!this.state.daiSavingsAmountValidation) {
       return '#E41B13';
     }
   }
 
-  validateForm = async (amount) => {
-    const daiAmountValidation = this.validateDaiAmount(amount);
+  validateForm = async daiWithdrawAmount => {
+    const daiSavingsAmountValidation = this.state.daiSavingsAmountValidation;
     const ethAmountValidation = this.validateEthAmount();
 
-    if (daiAmountValidation && ethAmountValidation) {
+    if (daiSavingsAmountValidation && ethAmountValidation) {
       console.log('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
-      await this.props.saveDaiAmount(amount);
+      await this.props.saveDaiAmount(daiWithdrawAmount);
       this.props.navigation.navigate('WithdrawDaiConfirmation');
     } else {
       console.log('form validation failed!');
@@ -259,9 +260,9 @@ class WithdrawDai extends Component {
                 placeholder="amount"
                 keyboardType = 'numeric'
                 clearButtonMode="while-editing"
-                onChangeText={amount => {
-                  this.validateDaiAmount(amount);
-                  this.setState({ amount });
+                onChangeText={daiWithdrawAmount => {
+                  this.validateDaiSavingsAmount(daiWithdrawAmount);
+                  this.setState({ daiWithdrawAmount });
                 }}
               />
               <CurrencySymbolText>DAI</CurrencySymbolText>
@@ -331,7 +332,7 @@ class WithdrawDai extends Component {
               margin="40px auto"
               opacity="1"
               onPress={async () => {
-                await this.validateForm(this.state.amount);
+                await this.validateForm(this.state.daiWithdrawAmount);
               }}
             />
           </ButtonWrapper>
