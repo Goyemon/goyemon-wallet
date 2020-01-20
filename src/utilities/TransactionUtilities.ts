@@ -339,6 +339,28 @@ class TransactionUtilities {
     return { redeemTokens };
   }
 
+  daiApproved() {
+    const stateTree = store.getState();
+    const transactions = stateTree.ReducerTransactionHistory.transactions;
+
+    const daiApproveTxes = transactions.filter(transaction => {
+      if (
+        transaction.hasOwnProperty('dai_appr') &&
+        (transaction.state === 'included' || transaction.state === 'confirmed')
+      ) {
+        return true;
+      }
+    });
+
+    const daiApproved = daiApproveTxes.some(
+      daiApproveTx =>
+        daiApproveTx.dai_appr.amount ===
+        'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+    );
+
+    return daiApproved;
+  }
+
   getTransactionNonce() {
     const stateTree = store.getState();
     const transactions = stateTree.ReducerTransactionHistory.transactions;
