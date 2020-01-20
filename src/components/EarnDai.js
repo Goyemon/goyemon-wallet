@@ -20,6 +20,27 @@ class EarnDai extends Component {
   async componentDidMount() {
     this.props.saveDaiApprovalInfo(TransactionUtilities.daiApproved());
   }
+
+  renderApproveButton() {
+    if(!this.props.cDaiLendingInfo.daiApproval) {
+      return (
+        <Button
+          text="Approve"
+          textColor="#00A3E2"
+          backgroundColor="#FFF"
+          borderColor="#00A3E2"
+          margin="40px auto"
+          opacity="1"
+          onPress={async () => {
+            this.props.navigation.navigate('ApproveDai');
+          }}
+        />
+      )
+    } else {
+      console.log("dai already approved");
+    }
+  }
+
   render() {
     const { balance, cDaiLendingInfo, navigation } = this.props;
     let lifetimeEarnedInDai = new BigNumber(cDaiLendingInfo.lifetimeEarned).div(10 ** 36);
@@ -73,18 +94,8 @@ class EarnDai extends Component {
               navigation.navigate('SupplyDai');
             }}
           />
-        </ButtonContainer>
-        <Button
-          text="Approve"
-          textColor="#00A3E2"
-          backgroundColor="#FFF"
-          borderColor="#00A3E2"
-          margin="40px auto"
-          opacity="1"
-          onPress={async () => {
-            this.props.navigation.navigate('ApproveDai');
-          }}
-        />
+          </ButtonContainer>
+          {this.renderApproveButton()}
       </RootContainer>
     );
   }
@@ -119,7 +130,7 @@ const ButtonContainer = styled.View`
 function mapStateToProps(state) {
   return {
     balance: state.ReducerBalance.balance,
-    cDaiLendingInfo: state.ReducerCDaiLendingInfo.cDaiLendingInfo,
+    cDaiLendingInfo: state.ReducerCDaiLendingInfo.cDaiLendingInfo
   };
 }
 
