@@ -21,6 +21,42 @@ class EarnDai extends Component {
     this.props.saveDaiApprovalInfo(TransactionUtilities.daiApproved());
   }
 
+  renderTransactionButtons() {
+    if (this.props.cDaiLendingInfo.daiApproval) {
+      return (
+        <ButtonContainer>
+          <TransactionButton
+            text="Withdraw"
+            textColor="#000"
+            backgroundColor="#FFF"
+            borderColor="#FFF"
+            iconColor="#1BA548"
+            iconName="call-received"
+            margin="8px 0"
+            opacity="1"
+            onPress={async () => {
+              this.props.navigation.navigate('WithdrawDai');
+            }}
+          />
+          <TransactionButton
+            text="Supply"
+            textColor="#000"
+            backgroundColor="#FFF"
+            borderColor="#FFF"
+            iconColor="#F1860E"
+            iconName="call-made"
+            margin="8px 0"
+            opacity="1"
+            onPress={async () => {
+              this.props.navigation.navigate('SupplyDai');
+            }}
+          />
+        </ButtonContainer>
+      );
+    }
+      console.log('dai not approved yet');
+  }
+
   renderApproveButton() {
     if(!this.props.cDaiLendingInfo.daiApproval) {
       return (
@@ -35,14 +71,13 @@ class EarnDai extends Component {
             this.props.navigation.navigate('ApproveDai');
           }}
         />
-      )
-    } else {
-      console.log("dai already approved");
+      );
     }
+      console.log('dai already approved');
   }
 
   render() {
-    const { balance, cDaiLendingInfo, navigation } = this.props;
+    const { balance, cDaiLendingInfo } = this.props;
     let lifetimeEarnedInDai = new BigNumber(cDaiLendingInfo.lifetimeEarned).div(10 ** 36);
     lifetimeEarnedInDai = lifetimeEarnedInDai.toFixed(10);
     const daiSavingsBalance = new BigNumber(balance.daiSavingsBalance).div(10 ** 36).toFixed(4);
@@ -67,35 +102,8 @@ class EarnDai extends Component {
             <Text> earned!</Text>
           </DaiInterestEarnedTextContainer>
         </UntouchableCardContainer>
-        <ButtonContainer>
-          <TransactionButton
-            text="Withdraw"
-            textColor="#000"
-            backgroundColor="#FFF"
-            borderColor="#FFF"
-            iconColor="#1BA548"
-            iconName="call-received"
-            margin="8px 0"
-            opacity="1"
-            onPress={async () => {
-              navigation.navigate('WithdrawDai');
-            }}
-          />
-          <TransactionButton
-            text="Supply"
-            textColor="#000"
-            backgroundColor="#FFF"
-            borderColor="#FFF"
-            iconColor="#F1860E"
-            iconName="call-made"
-            margin="8px 0"
-            opacity="1"
-            onPress={async () => {
-              navigation.navigate('SupplyDai');
-            }}
-          />
-          </ButtonContainer>
-          {this.renderApproveButton()}
+        {this.renderTransactionButtons()}
+        {this.renderApproveButton()}
       </RootContainer>
     );
   }
