@@ -197,7 +197,7 @@ class WithdrawDai extends Component {
   }
 
   validateForm = async daiWithdrawAmount => {
-    const daiSavingsAmountValidation = this.state.daiSavingsAmountValidation;
+    const daiSavingsAmountValidation = this.validateDaiSavingsAmount(daiWithdrawAmount);
     const ethAmountValidation = this.validateEthAmount();
 
     if (daiSavingsAmountValidation && ethAmountValidation) {
