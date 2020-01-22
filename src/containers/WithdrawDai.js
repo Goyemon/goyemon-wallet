@@ -259,7 +259,7 @@ class WithdrawDai extends Component {
             <SendTextInputContainer>
               <SendTextInput
                 placeholder="amount"
-                keyboardType = 'numeric'
+                keyboardType="numeric"
                 clearButtonMode="while-editing"
                 onChangeText={daiWithdrawAmount => {
                   this.validateDaiSavingsAmount(daiWithdrawAmount);
@@ -447,9 +447,8 @@ const ErrorMessage = styled.Text`
 
 function mapStateToProps(state) {
   return {
-    cDaiLendingInfo: state.ReducerCDaiLendingInfo.cDaiLendingInfo,
-    gasPrice: state.ReducerGasPrice.gasPrice,
-    balance: state.ReducerBalance.balance
+    balance: state.ReducerBalance.balance,
+    gasPrice: state.ReducerGasPrice.gasPrice
   };
 }
 

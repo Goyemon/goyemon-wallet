@@ -1,5 +1,5 @@
 'use strict';
-import BigNumber from "bignumber.js"
+import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Text } from 'react-native';
@@ -58,7 +58,7 @@ class EarnDai extends Component {
   }
 
   renderApproveButton() {
-    if(!this.props.cDaiLendingInfo.daiApproval) {
+    if (!this.props.cDaiLendingInfo.daiApproval) {
       return (
         <Button
           text="Approve"
@@ -146,4 +146,9 @@ const mapDispatchToProps = {
   saveDaiApprovalInfo
 };
 
-export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(EarnDai));
+export default withNavigation(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(EarnDai)
+);
