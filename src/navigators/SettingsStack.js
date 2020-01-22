@@ -2,7 +2,7 @@
 import { createStackNavigator } from 'react-navigation';
 import Settings from '../containers/Settings';
 import BackupWords from '../containers/BackupWords';
-import DeviceInfo from '../components/DeviceInfo';
+import DeviceInfo from '../containers/DeviceInfo';
 
 const SettingsStack = createStackNavigator(
   {
