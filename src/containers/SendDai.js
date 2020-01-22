@@ -84,7 +84,8 @@ class SendDai extends Component {
       const usdValue = this.getTransactionFeeEstimateInUsd(gasPriceWei);
       return <CrypterestText fontSize="16">${usdValue}</CrypterestText>;
     } else if (this.state.currency === 'USD') {
-      const ethValue = GasUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 65000);
+      let ethValue = GasUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 65000);
+      ethValue = parseFloat(ethValue).toFixed(5);
       return <NetworkFeeInEther>{ethValue}ETH</NetworkFeeInEther>;
     }
   }
