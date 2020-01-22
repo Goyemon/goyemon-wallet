@@ -124,16 +124,6 @@ class Settings extends Component {
           Join the community
         </Description>
         <SettingsListContainer>
-          <SettingsList>
-            <Icon name="information-outline" color="#5F5F5F" size={28} />
-            <SettingsListText>FAQ</SettingsListText>
-            <Icon name="chevron-right" color="#5F5F5F" size={28} />
-          </SettingsList>
-          <SettingsList>
-            <Icon name="face" color="#5F5F5F" size={28} />
-            <SettingsListText>About Us</SettingsListText>
-            <Icon name="chevron-right" color="#5F5F5F" size={28} />
-          </SettingsList>
           <TouchableHighlight
             underlayColor="#FFF"
             onPress={() => this.props.navigation.navigate('BackupWords')}
