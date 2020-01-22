@@ -23,7 +23,7 @@ class EarnList extends Component {
 
   getUsdValue(daiValue) {
     let usdValue = parseFloat(PriceUtilities.convertDaiToUsd(daiValue));
-    usdValue = parseFloat(usdValue).toFixed(2);
+    usdValue = parseFloat(usdValue).toFixed(4);
     return usdValue;
   }
 
