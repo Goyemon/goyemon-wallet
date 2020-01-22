@@ -144,6 +144,16 @@ class Settings extends Component {
               <Icon name="chevron-right" color="#5F5F5F" size={28} />
             </SettingsList>
           </TouchableHighlight>
+          <TouchableHighlight
+            underlayColor="#FFF"
+            onPress={() => this.props.navigation.navigate('DeviceInfo')}
+          >
+            <SettingsList>
+              <Icon name="cellphone" color="#5F5F5F" size={28} />
+              <SettingsListText>Device Info</SettingsListText>
+              <Icon name="chevron-right" color="#5F5F5F" size={28} />
+            </SettingsList>
+          </TouchableHighlight>
         </SettingsListContainer>
         <UntouchableCardContainer
           alignItems="center"
