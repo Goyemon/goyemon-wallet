@@ -11,7 +11,6 @@ import WalletUtilities from './WalletUtilities.ts';
 import Web3ProviderUtilities from './Web3ProviderUtilities.js';
 
 class TransactionUtilities {
-  parseExistingTransactions(transactions) {
   constructor() {
     this.web3 = Web3ProviderUtilities.web3Provider();
   }
@@ -30,37 +29,172 @@ class TransactionUtilities {
     return sortedTransactions;
   }
 
+  parseExistingTransactions(transactions) {
+    transactions = this.filterTransactions(transactions);
+    transactions = this.sortTransactions(transactions);
+
     let parsedTransactions;
-    parsedTransactions = filteredTransactions.map(filteredTransaction => {
-      if (!(typeof filteredTransaction[1][8] === 'undefined')) {
+    parsedTransactions = transactions.map(transaction => {
+      const isContractTx = !(typeof transaction[1][8] === 'undefined');
+      if (!isContractTx) {
         return {
-          hash: filteredTransaction[0],
-          from: filteredTransaction[1][0],
-          to: filteredTransaction[1][1],
-          gas: filteredTransaction[1][2],
-          gasPrice: filteredTransaction[1][3],
-          value: this.parseEthValue(filteredTransaction[1][4]),
-          nonce: parseInt(filteredTransaction[1][5]),
-          time: filteredTransaction[1][6],
-          state: 'confirmed',
-          ame_ropsten: {
-            from: filteredTransaction[1][8].ame_ropsten.tx[0][0],
-            to: filteredTransaction[1][8].ame_ropsten.tx[0][1],
-            value: parseInt(filteredTransaction[1][8].ame_ropsten.tx[0][2], 16)
-          }
-        };
-      } else if (typeof filteredTransaction[1][8] === 'undefined') {
-        return {
-          hash: filteredTransaction[0],
-          from: filteredTransaction[1][0],
-          to: filteredTransaction[1][1],
-          gas: filteredTransaction[1][2],
-          gasPrice: filteredTransaction[1][3],
-          value: this.parseEthValue(filteredTransaction[1][4]),
-          nonce: parseInt(filteredTransaction[1][5]),
-          time: filteredTransaction[1][6],
+          hash: transaction[0],
+          from: transaction[1][0],
+          to: transaction[1][1],
+          gas: transaction[1][2],
+          gasPrice: transaction[1][3],
+          value: this.parseEthValue(transaction[1][4]),
+          nonce: parseInt(transaction[1][5]),
+          time: transaction[1][6],
           state: 'confirmed'
         };
+      } else if (isContractTx) {
+        const tokenObject = transaction[1][8];
+        const tokenName = Object.keys(tokenObject)[0];
+
+        if (tokenName === 'ame_ropsten') {
+          const isAmeTransferTx = Object.keys(tokenObject.ame_ropsten)[0] === 'tr';
+          const isAmeApproveTx = Object.keys(tokenObject.ame_ropsten)[0] === 'appr';
+
+          if (isAmeTransferTx) {
+            return {
+              hash: transaction[0],
+              from: transaction[1][0],
+              to: transaction[1][1],
+              gas: transaction[1][2],
+              gasPrice: transaction[1][3],
+              value: this.parseEthValue(transaction[1][4]),
+              nonce: parseInt(transaction[1][5]),
+              time: transaction[1][6],
+              state: 'confirmed',
+              ame_ropsten_tr: {
+                from: tokenObject.ame_ropsten.tr[0][0],
+                to: tokenObject.ame_ropsten.tr[0][1],
+                value: this.parseHexDaiValue(tokenObject.ame_ropsten.tr[0][2])
+              }
+            };
+          } else if (isAmeApproveTx) {
+            return {
+              hash: transaction[0],
+              from: transaction[1][0],
+              to: transaction[1][1],
+              gas: transaction[1][2],
+              gasPrice: transaction[1][3],
+              value: this.parseEthValue(transaction[1][4]),
+              nonce: parseInt(transaction[1][5]),
+              time: transaction[1][6],
+              state: 'confirmed',
+              ame_ropsten_appr: {
+                owner: tokenObject.ame_ropsten.appr[0][0],
+                spender: tokenObject.ame_ropsten.appr[0][1],
+                amount: this.parseHexDaiValue(tokenObject.ame_ropsten.appr[0][2])
+              }
+            };
+          }
+          console.log('transaction ===>', transaction);
+        } else if (tokenName === 'dai') {
+          const isDaiTransferTx = Object.keys(tokenObject.dai)[0] === 'tr';
+          const isDaiApproveTx = Object.keys(tokenObject.dai)[0] === 'appr';
+          if (isDaiTransferTx) {
+            return {
+              hash: transaction[0],
+              from: transaction[1][0],
+              to: transaction[1][1],
+              gas: transaction[1][2],
+              gasPrice: transaction[1][3],
+              value: this.parseEthValue(transaction[1][4]),
+              nonce: parseInt(transaction[1][5]),
+              time: transaction[1][6],
+              state: 'confirmed',
+              dai_tr: {
+                from: tokenObject.dai.tr[0][0],
+                to: tokenObject.dai.tr[0][1],
+                value: this.parseHexDaiValue(tokenObject.dai.tr[0][2])
+              }
+            };
+          } else if (isDaiApproveTx) {
+            return {
+              hash: transaction[0],
+              from: transaction[1][0],
+              to: transaction[1][1],
+              gas: transaction[1][2],
+              gasPrice: transaction[1][3],
+              value: this.parseEthValue(transaction[1][4]),
+              nonce: parseInt(transaction[1][5]),
+              time: transaction[1][6],
+              state: 'confirmed',
+              dai_appr: {
+                owner: tokenObject.dai.appr[0][0],
+                spender: tokenObject.dai.appr[0][1],
+                amount: tokenObject.dai.appr[0][2]
+              }
+            };
+          }
+          console.log('transaction ===>', transaction);
+        } else if (tokenName === 'cdai') {
+          const isCDaiMintTx = Object.keys(tokenObject.cdai)[0] === 'mint';
+          const isCDaiRedeemUnderlyingTx = Object.keys(tokenObject.cdai)[0] === 'redeem';
+          if (isCDaiMintTx) {
+            return {
+              hash: transaction[0],
+              from: transaction[1][0],
+              to: transaction[1][1],
+              gas: transaction[1][2],
+              gasPrice: transaction[1][3],
+              value: this.parseEthValue(transaction[1][4]),
+              nonce: parseInt(transaction[1][5]),
+              time: transaction[1][6],
+              state: 'confirmed',
+              cdai_mint: {
+                minter: tokenObject.cdai.mint[0][0],
+                daiSupplied: this.parseHexDaiValue(tokenObject.cdai.mint[0][1]),
+                cDaiMinted: this.parseHexCDaiValue(tokenObject.cdai.mint[0][2])
+              }
+            };
+          } else if (isCDaiRedeemUnderlyingTx) {
+            return {
+              hash: transaction[0],
+              from: transaction[1][0],
+              to: transaction[1][1],
+              gas: transaction[1][2],
+              gasPrice: transaction[1][3],
+              value: this.parseEthValue(transaction[1][4]),
+              nonce: parseInt(transaction[1][5]),
+              time: transaction[1][6],
+              state: 'confirmed',
+              cdai_redeem: {
+                redeemer: tokenObject.cdai.redeem[0][0],
+                daiWithdrawn: this.parseHexDaiValue(tokenObject.cdai.redeem[0][1]),
+                cDaiRepayed: this.parseHexCDaiValue(tokenObject.cdai.redeem[0][2])
+              }
+            };
+          }
+          return {
+            hash: transaction[0],
+            from: transaction[1][0],
+            to: transaction[1][1],
+            gas: transaction[1][2],
+            gasPrice: transaction[1][3],
+            value: this.parseEthValue(transaction[1][4]),
+            nonce: parseInt(transaction[1][5]),
+            time: transaction[1][6],
+            state: 'confirmed'
+          };
+        } else if (tokenName != ('dai' || 'cdai' || 'ame_ropsten')) {
+          return {
+            hash: transaction[0],
+            from: transaction[1][0],
+            to: transaction[1][1],
+            gas: transaction[1][2],
+            gasPrice: transaction[1][3],
+            value: this.parseEthValue(transaction[1][4]),
+            nonce: parseInt(transaction[1][5]),
+            time: transaction[1][6],
+            state: 'confirmed'
+          };
+        }
+      } else {
+        console.log('transaction ===>', transaction);
       }
     });
 
