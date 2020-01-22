@@ -326,7 +326,11 @@ class TransactionUtilities {
 
   parsePendingOrIncludedTransaction(transactionObject) {
     let parsedTransaction;
-    if (typeof transactionObject[Object.keys(transactionObject)[0]][8] === 'undefined') {
+    const isContractTx = !(
+      typeof transactionObject[Object.keys(transactionObject)[0]][8] === 'undefined'
+    );
+
+    if (!isContractTx) {
       parsedTransaction = {
         hash: Object.keys(transactionObject)[0],
         from: transactionObject[Object.keys(transactionObject)[0]][0],
@@ -338,26 +342,100 @@ class TransactionUtilities {
         time: transactionObject[Object.keys(transactionObject)[0]][6],
         state: this.returnState(transactionObject[Object.keys(transactionObject)[0]][7])
       };
-    } else if (!(typeof transactionObject[Object.keys(transactionObject)[0]][8] === 'undefined')) {
-      parsedTransaction = {
-        hash: Object.keys(transactionObject)[0],
-        from: transactionObject[Object.keys(transactionObject)[0]][0],
-        to: transactionObject[Object.keys(transactionObject)[0]][1],
-        gasLimit: transactionObject[Object.keys(transactionObject)[0]][2],
-        gasPrice: transactionObject[Object.keys(transactionObject)[0]][3],
-        value: this.parseEthValue(transactionObject[Object.keys(transactionObject)[0]][4]),
-        nonce: parseInt(transactionObject[Object.keys(transactionObject)[0]][5], 16),
-        time: transactionObject[Object.keys(transactionObject)[0]][6],
-        state: this.returnState(transactionObject[Object.keys(transactionObject)[0]][7]),
-        ame_ropsten: {
-          from: transactionObject[Object.keys(transactionObject)[0]][8].ame_ropsten.tx[0][0],
-          to: transactionObject[Object.keys(transactionObject)[0]][8].ame_ropsten.tx[0][1],
-          value: parseInt(
-            transactionObject[Object.keys(transactionObject)[0]][8].ame_ropsten.tx[0][2],
-            16
-          )
+    } else if (isContractTx) {
+      const tokenObject = transactionObject[Object.keys(transactionObject)[0]][8];
+      const tokenName = Object.keys(tokenObject)[0];
+
+      if (tokenName === 'dai') {
+        const isDaiTransferTx = Object.keys(tokenObject.dai)[0] === 'tr';
+        const isDaiApproveTx = Object.keys(tokenObject.dai)[0] === 'appr';
+
+        if (isDaiTransferTx) {
+          parsedTransaction = {
+            hash: Object.keys(transactionObject)[0],
+            from: transactionObject[Object.keys(transactionObject)[0]][0],
+            to: transactionObject[Object.keys(transactionObject)[0]][1],
+            gasLimit: transactionObject[Object.keys(transactionObject)[0]][2],
+            gasPrice: transactionObject[Object.keys(transactionObject)[0]][3],
+            value: this.parseEthValue(transactionObject[Object.keys(transactionObject)[0]][4]),
+            nonce: parseInt(transactionObject[Object.keys(transactionObject)[0]][5], 16),
+            time: transactionObject[Object.keys(transactionObject)[0]][6],
+            state: this.returnState(transactionObject[Object.keys(transactionObject)[0]][7]),
+            dai_tr: {
+              from: tokenObject.dai.tr[0][0],
+              to: tokenObject.dai.tr[0][1],
+              value: this.parseHexDaiValue(tokenObject.dai.tr[0][2])
+            }
+          };
+        } else if (isDaiApproveTx) {
+          parsedTransaction = {
+            hash: Object.keys(transactionObject)[0],
+            from: transactionObject[Object.keys(transactionObject)[0]][0],
+            to: transactionObject[Object.keys(transactionObject)[0]][1],
+            gasLimit: transactionObject[Object.keys(transactionObject)[0]][2],
+            gasPrice: transactionObject[Object.keys(transactionObject)[0]][3],
+            value: this.parseEthValue(transactionObject[Object.keys(transactionObject)[0]][4]),
+            nonce: parseInt(transactionObject[Object.keys(transactionObject)[0]][5], 16),
+            time: transactionObject[Object.keys(transactionObject)[0]][6],
+            state: this.returnState(transactionObject[Object.keys(transactionObject)[0]][7]),
+            dai_appr: {
+              owner: tokenObject.dai.appr[0][0],
+              spender: tokenObject.dai.appr[0][1],
+              amount: tokenObject.dai.appr[0][2]
+            }
+          };
         }
-      };
+      } else if (tokenName === 'cdai') {
+        const isCDaiMintTx = Object.keys(tokenObject.cdai)[0] === 'mint';
+        const isCDaiRedeemUnderlyingTx = Object.keys(tokenObject.cdai)[0] === 'redeem';
+        if (isCDaiMintTx) {
+          parsedTransaction = {
+            hash: Object.keys(transactionObject)[0],
+            from: transactionObject[Object.keys(transactionObject)[0]][0],
+            to: transactionObject[Object.keys(transactionObject)[0]][1],
+            gasLimit: transactionObject[Object.keys(transactionObject)[0]][2],
+            gasPrice: transactionObject[Object.keys(transactionObject)[0]][3],
+            value: this.parseEthValue(transactionObject[Object.keys(transactionObject)[0]][4]),
+            nonce: parseInt(transactionObject[Object.keys(transactionObject)[0]][5], 16),
+            time: transactionObject[Object.keys(transactionObject)[0]][6],
+            state: this.returnState(transactionObject[Object.keys(transactionObject)[0]][7]),
+            cdai_mint: {
+              minter: tokenObject.cdai.mint[0][0],
+              daiSupplied: this.parseHexDaiValue(tokenObject.cdai.mint[0][1]),
+              cDaiMinted: this.parseHexCDaiValue(tokenObject.cdai.mint[0][2])
+            }
+          };
+        } else if (isCDaiRedeemUnderlyingTx) {
+          parsedTransaction = {
+            hash: Object.keys(transactionObject)[0],
+            from: transactionObject[Object.keys(transactionObject)[0]][0],
+            to: transactionObject[Object.keys(transactionObject)[0]][1],
+            gasLimit: transactionObject[Object.keys(transactionObject)[0]][2],
+            gasPrice: transactionObject[Object.keys(transactionObject)[0]][3],
+            value: this.parseEthValue(transactionObject[Object.keys(transactionObject)[0]][4]),
+            nonce: parseInt(transactionObject[Object.keys(transactionObject)[0]][5], 16),
+            time: transactionObject[Object.keys(transactionObject)[0]][6],
+            state: this.returnState(transactionObject[Object.keys(transactionObject)[0]][7]),
+            cdai_redeem: {
+              redeemer: tokenObject.cdai.redeem[0][0],
+              daiWithdrawn: this.parseHexDaiValue(tokenObject.cdai.redeem[0][1]),
+              cDaiRepayed: this.parseHexCDaiValue(tokenObject.cdai.redeem[0][2])
+            }
+          };
+        }
+      } else if (tokenName != ('dai' || 'cdai')) {
+        parsedTransaction = {
+          hash: Object.keys(transactionObject)[0],
+          from: transactionObject[Object.keys(transactionObject)[0]][0],
+          to: transactionObject[Object.keys(transactionObject)[0]][1],
+          gasLimit: transactionObject[Object.keys(transactionObject)[0]][2],
+          gasPrice: transactionObject[Object.keys(transactionObject)[0]][3],
+          value: this.parseEthValue(transactionObject[Object.keys(transactionObject)[0]][4]),
+          nonce: parseInt(transactionObject[Object.keys(transactionObject)[0]][5], 16),
+          time: transactionObject[Object.keys(transactionObject)[0]][6],
+          state: this.returnState(transactionObject[Object.keys(transactionObject)[0]][7])
+        };
+      }
     }
     return parsedTransaction;
   }
