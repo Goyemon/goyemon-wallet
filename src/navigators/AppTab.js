@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 import { PersistGate } from 'redux-persist/integration/react';
-import '../firebase/FirebaseListener';
+import '../firebase/FcmListener';
 import '../firebase/FcmTokenMonitor';
 import EarnIcon from '../../assets/EarnIcon.js';
 import WalletIcon from '../../assets/WalletIcon.js';
