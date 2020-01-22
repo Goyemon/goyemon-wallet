@@ -24,7 +24,7 @@ class Ethereum extends Component {
   constructor(props) {
     super(props);
     this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance.toString());
-    this.ethBalance = parseFloat(this.ethBalance).toFixed(6);
+    this.ethBalance = parseFloat(this.ethBalance).toFixed(4);
   }
 
   getUsdBalance() {

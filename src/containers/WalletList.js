@@ -39,7 +39,7 @@ class WalletList extends Component {
     const { wallets, balance, navigation } = this.props;
     const daiBalance = new BigNumber(balance.daiBalance).div(10 ** 18).toFixed(2);
     let ethBalance = Web3.utils.fromWei(balance.weiBalance.toString());
-    ethBalance = parseFloat(ethBalance).toFixed(6);
+    ethBalance = parseFloat(ethBalance).toFixed(4);
 
     return (
       <RootContainer>
