@@ -400,10 +400,12 @@ const NetworkFeeContainer = styled.View`
   align-items: center;
   flex-direction: row;
   justify-content: center;
+  width: 100%;
 `;
 
 const NetworkFee = styled.View`
   margin: 0 8px;
+  width: 33.3%;
 `;
 
 const NetworkFeeInEther = styled.Text`

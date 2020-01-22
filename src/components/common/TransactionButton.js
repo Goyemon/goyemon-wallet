@@ -42,7 +42,7 @@ const ButtonText = styled.Text`
   color: ${props => props.textColor};
   font-family: 'HKGrotesk-Bold';
   font-size: 20;
-  padding: 12px 24px;
+  padding: 12px 16px;
   text-align: center;
 `;
 

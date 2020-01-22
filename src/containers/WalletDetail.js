@@ -98,7 +98,7 @@ const Container = styled.View`
 `;
 
 const CoinImageContainer = styled.View`
-  width: 12%;
+  width: 15%;
 `;
 
 const CoinImage = styled.Image`
@@ -108,7 +108,7 @@ const CoinImage = styled.Image`
 `;
 
 const PriceContainer = styled.View`
-  width: 44%;
+  width: 42.5%;
 `;
 
 const CoinText = styled.Text`
@@ -126,7 +126,7 @@ const PriceText = styled.Text`
 `;
 
 const BalanceContainer = styled.View`
-  width: 44%;
+  width: 42.5%;
 `;
 
 const BalanceText = styled.Text`
