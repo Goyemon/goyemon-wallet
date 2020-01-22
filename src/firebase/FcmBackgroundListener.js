@@ -29,6 +29,8 @@ export default async downstreamMessage => {
   const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
   const transactionsHistory = stateTree.ReducerTransactionHistory.transactions;
 
+  console.log('downstreamMessage ===>', downstreamMessage);
+
   if (downstreamMessage.data.type === 'balance') {
     const balanceMessage = JSON.parse(downstreamMessage.data.data);
     if (balanceMessage.hasOwnProperty('eth')) {
