@@ -13,7 +13,7 @@ class WalletDetail extends Component {
     super(props);
     this.daiBalance = new BigNumber(props.balance.daiBalance).div(10 ** 18).toFixed(2);
     this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance.toString());
-    this.ethBalance = parseFloat(this.ethBalance).toFixed(6);
+    this.ethBalance = parseFloat(this.ethBalance).toFixed(4);
   }
 
   renderIcon() {
