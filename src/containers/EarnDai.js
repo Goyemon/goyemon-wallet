@@ -79,7 +79,7 @@ class EarnDai extends Component {
   render() {
     const { balance, cDaiLendingInfo } = this.props;
     let lifetimeEarnedInDai = new BigNumber(cDaiLendingInfo.lifetimeEarned).div(10 ** 36);
-    lifetimeEarnedInDai = lifetimeEarnedInDai.toFixed(10);
+    lifetimeEarnedInDai = lifetimeEarnedInDai.toFixed(4);
     const daiSavingsBalance = new BigNumber(balance.daiSavingsBalance).div(10 ** 36).toFixed(4);
 
     return (

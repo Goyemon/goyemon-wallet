@@ -32,7 +32,7 @@ class EarnList extends Component {
     let currentInterestRate = new BigNumber(cDaiLendingInfo.currentInterestRate).div(10 ** 24);
     currentInterestRate = currentInterestRate.toFixed(2);
     let lifetimeEarnedInDai = new BigNumber(cDaiLendingInfo.lifetimeEarned).div(10 ** 36);
-    lifetimeEarnedInDai = lifetimeEarnedInDai.toFixed(10);
+    lifetimeEarnedInDai = lifetimeEarnedInDai.toFixed(4);
     const daiSavingsBalance = new BigNumber(balance.daiSavingsBalance).div(10 ** 36).toFixed(4);
 
     return (
