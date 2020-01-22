@@ -18,8 +18,10 @@ import { store } from '../store/store';
 
 firebase.messaging().onMessage(downstreamMessage => {
   const stateTree = store.getState();
-  const transactionsHistory = stateTree.ReducerTransactionHistory.transactions;
+  const balance = stateTree.ReducerBalance.balance;
+  const cDaiLendingInfo = stateTree.ReducerCDaiLendingInfo.cDaiLendingInfo;
   const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
+  const transactionsHistory = stateTree.ReducerTransactionHistory.transactions;
 
   if (downstreamMessage.data.type === 'balance') {
     const balanceMessage = JSON.parse(downstreamMessage.data.data);
