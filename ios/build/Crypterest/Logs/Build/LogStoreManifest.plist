@@ -6,7 +6,7 @@
 	<integer>10</integer>
 	<key>logs</key>
 	<dict>
-		<key>BF0F0BE1-127B-4DBF-B39F-C7BE2ECBBE87</key>
+		<key>2F029B06-0463-4453-9588-4BFC486C79E3</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -15,7 +15,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>BF0F0BE1-127B-4DBF-B39F-C7BE2ECBBE87.xcactivitylog</string>
+			<string>2F029B06-0463-4453-9588-4BFC486C79E3.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -32,47 +32,13 @@
 			<key>signature</key>
 			<string>Building workspace Crypterest with scheme Crypterest and configuration Debug</string>
 			<key>timeStartedRecording</key>
-			<real>601092385.19722903</real>
+			<real>601429428.21625805</real>
 			<key>timeStoppedRecording</key>
-			<real>601092387.680776</real>
+			<real>601429430.05659997</real>
 			<key>title</key>
 			<string>Building workspace Crypterest with scheme Crypterest and configuration Debug</string>
 			<key>uniqueIdentifier</key>
-			<string>BF0F0BE1-127B-4DBF-B39F-C7BE2ECBBE87</string>
-		</dict>
-		<key>E96D14B8-E7B5-44EC-B81B-0A635F99901A</key>
-		<dict>
-			<key>className</key>
-			<string>IDECommandLineBuildLog</string>
-			<key>documentTypeString</key>
-			<string>&lt;nil&gt;</string>
-			<key>domainType</key>
-			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
-			<key>fileName</key>
-			<string>E96D14B8-E7B5-44EC-B81B-0A635F99901A.xcactivitylog</string>
-			<key>hasPrimaryLog</key>
-			<true/>
-			<key>primaryObservable</key>
-			<dict>
-				<key>highLevelStatus</key>
-				<string>W</string>
-			</dict>
-			<key>schemeIdentifier-containerName</key>
-			<string>Crypterest project</string>
-			<key>schemeIdentifier-schemeName</key>
-			<string>Crypterest</string>
-			<key>schemeIdentifier-sharedScheme</key>
-			<integer>1</integer>
-			<key>signature</key>
-			<string>Building workspace Crypterest with scheme Crypterest and configuration Debug</string>
-			<key>timeStartedRecording</key>
-			<real>601098532.61588001</real>
-			<key>timeStoppedRecording</key>
-			<real>601098535.47070503</real>
-			<key>title</key>
-			<string>Building workspace Crypterest with scheme Crypterest and configuration Debug</string>
-			<key>uniqueIdentifier</key>
-			<string>E96D14B8-E7B5-44EC-B81B-0A635F99901A</string>
+			<string>2F029B06-0463-4453-9588-4BFC486C79E3</string>
 		</dict>
 	</dict>
 </dict>
