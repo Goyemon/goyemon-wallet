@@ -10,69 +10,73 @@ import { store } from '../store/store.js';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 export default class Initial extends Component {
+  stateTree = store.getState();
+  balance = this.stateTree.ReducerBalance.balance;
+  checksumAddress = this.stateTree.ReducerChecksumAddress.checksumAddress;
+  mnemonicWords = this.stateTree.ReducerMnemonic.mnemonicWords;
+  mnemonicWordsValidation = this.stateTree.ReducerMnemonicWordsValidation.mnemonicWordsValidation;
+  notificationEnabled = this.stateTree.ReducerNotificationPermission.notificationPermission;
+  price = this.stateTree.ReducerPrice.price;
+  transactionCount = this.stateTree.ReducerTransactionCount.transactionCount;
+  transactions = this.stateTree.ReducerTransactionHistory.transactions;
+
   async componentDidMount() {
     let mnemonicWordsStatePersisted;
-    const stateTree = store.getState();
-    const mnemonicWords = stateTree.ReducerMnemonic.mnemonicWords;
-    if (mnemonicWords === null) {
+    if (this.mnemonicWords === null) {
       mnemonicWordsStatePersisted = false;
-    } else if (mnemonicWords != null) {
+    } else if (this.mnemonicWords != null) {
       mnemonicWordsStatePersisted = true;
     }
-
-    const mnemonicWordsValidation =
-      stateTree.ReducerMnemonicWordsValidation.mnemonicWordsValidation;
 
     const hasPersistedState = this.hasPersistedState();
 
     const hasPrivateKeyInKeychain = await WalletUtilities.privateKeySaved();
 
-    let notificationEnabled = stateTree.ReducerNotificationPermission.notificationPermission;
     const enabled = await firebase.messaging().hasPermission();
     if (enabled === true) {
-      notificationEnabled = true;
+      this.notificationEnabled = true;
     }
 
     let mainPage = 'Welcome';
 
-    if (!mnemonicWordsStatePersisted && !notificationEnabled && !hasPrivateKeyInKeychain) {
-      mainPage = 'Welcome';
-    } else if (mnemonicWordsStatePersisted && !mnemonicWordsValidation && !notificationEnabled && !hasPrivateKeyInKeychain) {
-      mainPage = 'Welcome';
-    } else if (
-      mnemonicWordsStatePersisted &&
-      mnemonicWordsValidation &&
-      notificationEnabled &&
-      !hasPersistedState &&
-      !hasPrivateKeyInKeychain
+    if (
+      (!mnemonicWordsStatePersisted && !this.notificationEnabled && !hasPrivateKeyInKeychain) ||
+      (mnemonicWordsStatePersisted &&
+        !this.mnemonicWordsValidation &&
+        !this.notificationEnabled &&
+        !hasPrivateKeyInKeychain) ||
+      (mnemonicWordsStatePersisted &&
+        this.notificationEnabled === null &&
+        hasPrivateKeyInKeychain) ||
+      (!mnemonicWordsStatePersisted && this.notificationEnabled && !hasPrivateKeyInKeychain) ||
+      (!mnemonicWordsStatePersisted && !this.notificationEnabled && hasPrivateKeyInKeychain)
     ) {
-      mainPage = 'WalletCreation';
+      mainPage = 'Welcome';
     } else if (
       mnemonicWordsStatePersisted &&
-      notificationEnabled &&
-      !hasPersistedState &&
+      !this.notificationEnabled &&
       hasPrivateKeyInKeychain
     ) {
+      mainPage = 'NotificationPermissionNotGranted';
+    } else if (
+      (mnemonicWordsStatePersisted &&
+        this.mnemonicWordsValidation &&
+        this.notificationEnabled &&
+        !hasPersistedState &&
+        !hasPrivateKeyInKeychain) ||
+      (mnemonicWordsStatePersisted &&
+        this.notificationEnabled &&
+        !hasPersistedState &&
+        hasPrivateKeyInKeychain)
+    ) {
       mainPage = 'WalletCreation';
     } else if (
       mnemonicWordsStatePersisted &&
-      notificationEnabled &&
+      this.notificationEnabled &&
       hasPersistedState &&
       hasPrivateKeyInKeychain
     ) {
       mainPage = 'WalletList';
-    } else if (
-      mnemonicWordsStatePersisted &&
-      notificationEnabled === null &&
-      hasPrivateKeyInKeychain
-    ) {
-      mainPage = 'Welcome';
-    } else if (mnemonicWordsStatePersisted && !notificationEnabled && hasPrivateKeyInKeychain) {
-      mainPage = 'NotificationPermissionNotGranted';
-    } else if (!mnemonicWordsStatePersisted && notificationEnabled && !hasPrivateKeyInKeychain) {
-      mainPage = 'Welcome';
-    } else if (!mnemonicWordsStatePersisted && !notificationEnabled && hasPrivateKeyInKeychain) {
-      mainPage = 'Welcome';
     }
 
     HomeStack.navigationOptions = ({ navigation }) => {
@@ -108,42 +112,40 @@ export default class Initial extends Component {
     );
   }
 
-  hasTransactionHistory() {
-    const stateTree = store.getState();
-    const transactions = stateTree.ReducerTransactionHistory.transactions;
-    const transactionCount = stateTree.ReducerTransactionCount.transactionCount;
-    if (transactionCount != null) {
+  hasTransactionHistory = () => {
+    if (this.transactionCount != null) {
       return (
-        transactions != null &&
-        transactions.length != null &&
-        transactions.length.toString() === transactionCount.toString()
+        this.transactions != null &&
+        this.transactions.length != null &&
+        this.transactions.length.toString() === this.transactionCount.toString()
       );
-    } else if (transactionCount === null) {
+    } else if (this.transactionCount === null) {
       return false;
     }
   }
 
-  hasBalance() {
-    const stateTree = store.getState();
-    const balance = stateTree.ReducerBalance.balance;
+  hasBalance = () => {
     return (
-      balance.ethBalance >= 0 &&
-      balance.ethBalance.length != 0 &&
-      balance.daiBalance >= 0 &&
-      balance.daiBalance.length != 0
+      this.balance.cDaiBalance >= 0 &&
+      this.balance.cDaiBalance.length != 0 &&
+      this.balance.daiBalance >= 0 &&
+      this.balance.daiBalance.length != 0 &&
+      this.balance.weiBalance >= 0 &&
+      this.balance.weiBalance.length != 0
     );
   }
 
-  hasChecksumAddress() {
-    const stateTree = store.getState();
-    const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
-    return checksumAddress != null;
+  hasChecksumAddress = () => {
+    return this.checksumAddress != null;
   }
 
-  hasPrice() {
-    const stateTree = store.getState();
-    const price = stateTree.ReducerPrice.price;
-    return price.eth >= 0 && price.eth.length != 0 && price.dai >= 0 && price.dai.length != 0;
+  hasPrice = () => {
+    return (
+      this.price.eth >= 0 &&
+      this.price.eth.length != 0 &&
+      this.price.dai >= 0 &&
+      this.price.dai.length != 0
+    );
   }
 
   render() {
