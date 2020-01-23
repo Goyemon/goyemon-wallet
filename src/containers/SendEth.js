@@ -17,7 +17,6 @@ import {
   Button,
   UntouchableCardContainer,
   HeaderOne,
-  HeaderTwo,
   Form,
   FormHeader,
   CrypterestText
