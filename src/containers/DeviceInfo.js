@@ -52,7 +52,7 @@ class DeviceInfo extends Component {
       <HeaderOne marginTop="96">Device Info</HeaderOne>
         <Container>
           <HeaderThree color="#000" marginBottom="0" marginLeft="0" marginTop="24">
-            Fcm Token
+            Your Fcm Token
           </HeaderThree>
           <CrypterestText fontSize="14">
             {this.props.fcmToken}

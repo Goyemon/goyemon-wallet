@@ -10,7 +10,6 @@ import {
   HeaderOne,
   UntouchableCardContainer,
   Button,
-  HeaderTwo,
   Description,
   CrypterestText
 } from '../components/common';
@@ -45,9 +44,9 @@ class Settings extends Component {
             <ModalBackground>
               <MondalInner>
                 <ModalTextContainer>
-                  <HeaderTwo marginBottom="0" marginLeft="0" marginTop="40">
-                    Reset your Wallet?
-                  </HeaderTwo>
+                  <ResetWalletHeader>
+                    Are you sure?
+                  </ResetWalletHeader>
                   <Description marginBottom="8" marginLeft="0" marginTop="16">
                     Make sure you save your backup words before deletion. Otherwise, you will lose
                     your funds.
@@ -200,6 +199,7 @@ const MondalInner = styled.View`
 `;
 
 const ModalTextContainer = styled.View`
+  margin: 0 auto;
   width: 90%;
 `;
 
@@ -244,6 +244,14 @@ const SettingsListText = styled.Text`
   font-size: 20;
   margin-left: 16;
   width: 80%;
+`;
+
+const ResetWalletHeader = styled.Text`
+  color: #5f5f5f;
+  font-family: 'HKGrotesk-Bold';
+  font-size: 24;
+  text-align: center;
+  text-transform: uppercase;
 `;
 
 const ResetWalletText = styled.Text`
