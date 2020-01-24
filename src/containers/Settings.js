@@ -45,7 +45,7 @@ class Settings extends Component {
               <MondalInner>
                 <ModalTextContainer>
                   <ResetWalletHeader>
-                    Are you sure?
+                    Are you sure? 🤔
                   </ResetWalletHeader>
                   <Description marginBottom="8" marginLeft="0" marginTop="16">
                     Make sure you save your backup words before deletion. Otherwise, you will lose

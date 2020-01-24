@@ -54,7 +54,7 @@ class EarnList extends Component {
             <InterestEarnedText>
               ${this.getUsdValue(lifetimeEarnedInDai)}
             </InterestEarnedText>
-            <Text> earned!</Text>
+            <Text> earned! </Text>
           </InterestEarnedTextContainer>
         </UntouchableCardContainer>
         <HeaderThree color="#000" marginBottom="16" marginLeft="16" marginTop="16">

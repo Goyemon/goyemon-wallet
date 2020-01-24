@@ -54,7 +54,7 @@ class EarnDai extends Component {
         </ButtonContainer>
       );
     }
-      console.log('dai not approved yet');
+    console.log('dai not approved yet');
   }
 
   renderApproveButton() {
@@ -73,7 +73,7 @@ class EarnDai extends Component {
         />
       );
     }
-      console.log('dai already approved');
+    console.log('dai already approved');
   }
 
   render() {

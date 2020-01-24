@@ -137,16 +137,19 @@ class WalletCreation extends Component {
       >
         <Container>
           <HeaderTwo marginBottom="0" marginLeft="0" marginTop="40">
-            Setting up your wallet...
+            Creating your wallet 🏋️‍
           </HeaderTwo>
           <Description marginBottom="24" marginLeft="8" marginTop="16">
-            this shouldn't take long
+            this shouldn't take too long
+          </Description>
+          <Description marginBottom="24" marginLeft="8" marginTop="16">
+            pull down to refresh 👇
           </Description>
           <CreatingWalletImage source={require('../../assets/creating_wallet.png')} />
           <Modal animationType="fade" transparent visible={this.state.modalVisible}>
             <ModalBackground>
               <ModalInner>
-                <ModalText>Your wallet is created!</ModalText>
+                <ModalText>Your wallet is created! 👏</ModalText>
               </ModalInner>
               <Button
                 text="Go!"
