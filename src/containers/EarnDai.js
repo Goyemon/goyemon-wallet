@@ -18,7 +18,9 @@ import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 
 class EarnDai extends Component {
   async componentDidMount() {
-    this.props.saveDaiApprovalInfo(TransactionUtilities.daiApproved());
+    if (this.props.transactions != null && this.props.transactions.length != null) {
+      this.props.saveDaiApprovalInfo(TransactionUtilities.daiApproved(this.props.transactions));
+    }
   }
 
   renderTransactionButtons() {
@@ -138,7 +140,8 @@ const ButtonContainer = styled.View`
 function mapStateToProps(state) {
   return {
     balance: state.ReducerBalance.balance,
-    cDaiLendingInfo: state.ReducerCDaiLendingInfo.cDaiLendingInfo
+    cDaiLendingInfo: state.ReducerCDaiLendingInfo.cDaiLendingInfo,
+    transactions: state.ReducerTransactionHistory.transactions
   };
 }
 
