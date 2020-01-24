@@ -553,10 +553,7 @@ class TransactionUtilities {
     return { redeemTokens };
   }
 
-  daiApproved() {
-    const stateTree = store.getState();
-    const transactions = stateTree.ReducerTransactionHistory.transactions;
-
+  daiApproved(transactions) {
     const daiApproveTxes = transactions.filter(transaction => {
       if (
         transaction.hasOwnProperty('dai_appr') &&
