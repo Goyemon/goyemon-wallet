@@ -16,8 +16,8 @@ class WalletCreation extends Component {
     super(props);
     this.state = {
       refreshing: false,
-      hasPrivateKeyInKeychain: false,
-      modalVisible: false
+      modalVisible: false,
+      isWalletReady: false
     };
   }
 
@@ -28,6 +28,9 @@ class WalletCreation extends Component {
       },
       async () => {
         await this.createWallet();
+        await this.fetchTokenInfo();
+        await this.fetchPriceInfo();
+        await this.isWalletReady();
         this.setState({
           refreshing: false
         });
@@ -37,32 +40,44 @@ class WalletCreation extends Component {
 
   async componentDidMount() {
     await this.createWallet();
+    await this.fetchPriceInfo();
+    await this.fetchTokenInfo();
+    setTimeout(async () => {
+      await this.isWalletReady();
+    }, 4000);
   }
 
   async createWallet() {
     await WalletUtilities.generateWallet(this.props.mnemonicWords);
-    await this.savePrivateKey();
-    const privateKeyInKeychain = await WalletUtilities.privateKeySaved();
-    this.setState({ hasPrivateKeyInKeychain: privateKeyInKeychain });
+    await WalletUtilities.setPrivateKey(await WalletUtilities.createPrivateKey());
     await this.props.createChecksumAddress();
     await FcmUpstreamMsgs.registerEthereumAddress(this.props.checksumAddress);
-    await FcmUpstreamMsgs.requestCDaiLendingInfo(this.props.checksumAddress);
+  }
+
+  async fetchPriceInfo() {
     await this.props.getEthPrice();
     await this.props.getDaiPrice();
   }
 
-  async savePrivateKey() {
-    const privateKey = await WalletUtilities.createPrivateKey();
-    await WalletUtilities.setPrivateKey(privateKey);
+  async fetchTokenInfo() {
+    await FcmUpstreamMsgs.requestCDaiLendingInfo(this.props.checksumAddress);
   }
 
-  hasPersistedState() {
+  async isWalletReady() {
+    const hasWallet = await this.hasWallet();
+    const hasTokenInfo = this.hasTokenInfo();
+    const hasPriceInfo = this.hasPriceInfo();
+    const isWalletReady = hasWallet && hasTokenInfo && hasPriceInfo;
+    this.setState({ isWalletReady });
+  }
+
+  async hasWallet() {
     return (
       this.hasMnemonicWords() &&
-      this.hasTransactionHistory() &&
+      (await this.hasPrivateKey()) &&
+      this.hasTransactions() &&
       this.hasBalance() &&
-      this.hasChecksumAddress() &&
-      this.hasPrice()
+      this.hasChecksumAddress()
     );
   }
 
@@ -70,7 +85,11 @@ class WalletCreation extends Component {
     return this.props.mnemonicWords != null;
   }
 
-  hasTransactionHistory() {
+  async hasPrivateKey() {
+    return await WalletUtilities.privateKeySaved();
+  }
+
+  hasTransactions() {
     if (this.props.transactionCount != null && this.props.transactions != null) {
       return (
         this.props.transactions != null &&
@@ -97,12 +116,32 @@ class WalletCreation extends Component {
     return this.props.checksumAddress != null;
   }
 
+  hasPriceInfo() {
+    return this.hasPrice();
+  }
+
   hasPrice() {
     return (
       this.props.price.eth >= 0 &&
       this.props.price.eth.length != 0 &&
       this.props.price.dai >= 0 &&
       this.props.price.dai.length != 0
+    );
+  }
+
+  hasTokenInfo() {
+    return this.hasCDaiLendingInfo();
+  }
+
+  hasCDaiLendingInfo() {
+    return (
+      this.props.cDaiLendingInfo.daiApproval != null &&
+      this.props.cDaiLendingInfo.currentExchangeRate >= 0 &&
+      this.props.cDaiLendingInfo.currentExchangeRate.length != 0 &&
+      this.props.cDaiLendingInfo.currentInterestRate >= 0 &&
+      this.props.cDaiLendingInfo.currentInterestRate.length != 0 &&
+      this.props.cDaiLendingInfo.lifetimeEarned >= 0 &&
+      this.props.cDaiLendingInfo.lifetimeEarned.length != 0
     );
   }
 
@@ -119,7 +158,7 @@ class WalletCreation extends Component {
   }
 
   render() {
-    if (this.state.hasPrivateKeyInKeychain && this.hasPersistedState()) {
+    if (this.state.isWalletReady === true) {
       if (!this.state.modalVisible) {
         this.setState({ modalVisible: true });
       }
@@ -203,6 +242,7 @@ const CreatingWalletImage = styled.Image`
 function mapStateToProps(state) {
   return {
     balance: state.ReducerBalance.balance,
+    cDaiLendingInfo: state.ReducerCDaiLendingInfo.cDaiLendingInfo,
     transactionCount: state.ReducerTransactionCount.transactionCount,
     transactions: state.ReducerTransactionHistory.transactions,
     mnemonicWords: state.ReducerMnemonic.mnemonicWords,
