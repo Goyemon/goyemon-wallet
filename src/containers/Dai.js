@@ -21,14 +21,9 @@ import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionsDai from '../containers/TransactionsDai';
 
 class Dai extends Component {
-  constructor(props) {
-    super(props);
-    this.daiBalance = new BigNumber(this.props.balance.daiBalance).div(10 ** 18).toFixed(2);
-  }
-
-  getUsdBalance() {
+  getUsdBalance(daiBalance) {
     try {
-      return PriceUtilities.convertDaiToUsd(this.daiBalance);
+      return PriceUtilities.convertDaiToUsd(daiBalance);
     } catch (err) {
       console.error(err);
     }
@@ -36,6 +31,7 @@ class Dai extends Component {
 
   render() {
     const { balance, navigation } = this.props;
+    const daiBalance = new BigNumber(balance.daiBalance).div(10 ** 18).toFixed(2);
 
     return (
       <RootContainer>
@@ -51,8 +47,8 @@ class Dai extends Component {
           width="90%"
         >
           <HeaderFour marginTop="24">dai wallet balance</HeaderFour>
-          <UsdBalance>${this.getUsdBalance()}</UsdBalance>
-          <DaiBalance>{this.daiBalance} DAI</DaiBalance>
+          <UsdBalance>${this.getUsdBalance(daiBalance)}</UsdBalance>
+          <DaiBalance>{daiBalance} DAI</DaiBalance>
         </UntouchableCardContainer>
         <ButtonContainer>
           <TransactionButton

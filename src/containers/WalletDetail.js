@@ -9,13 +9,6 @@ import { CrypterestText } from '../components/common';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class WalletDetail extends Component {
-  constructor(props) {
-    super(props);
-    this.daiBalance = new BigNumber(props.balance.daiBalance).div(10 ** 18).toFixed(2);
-    this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance.toString());
-    this.ethBalance = parseFloat(this.ethBalance).toFixed(4);
-  }
-
   renderIcon() {
     if (this.props.wallet.id === 0) {
       return <CoinImage source={require('../../assets/ether_icon.png')} />;
@@ -24,10 +17,10 @@ class WalletDetail extends Component {
     }
   }
 
-  renderUsdBalance() {
-    let ethUsdBalance = PriceUtilities.convertEthToUsd(this.ethBalance);
+  renderUsdBalance(ethBalance, daiBalance) {
+    let ethUsdBalance = PriceUtilities.convertEthToUsd(ethBalance);
     ethUsdBalance = ethUsdBalance.toFixed(2);
-    let daiUsdBalance = PriceUtilities.convertDaiToUsd(this.daiBalance);
+    let daiUsdBalance = PriceUtilities.convertDaiToUsd(daiBalance);
     daiUsdBalance = daiUsdBalance.toFixed(2);
     if (this.props.wallet.id === 0) {
       try {
@@ -52,11 +45,11 @@ class WalletDetail extends Component {
     }
   }
 
-  renderBalance() {
+  renderBalance(ethBalance, daiBalance) {
     if (this.props.wallet.id === 0) {
-      return <CrypterestText fontSize="20">{this.ethBalance} ETH</CrypterestText>;
+      return <CrypterestText fontSize="20">{ethBalance} ETH</CrypterestText>;
     } else if (this.props.wallet.id === 1) {
-      return <CrypterestText fontSize="20">{this.daiBalance} DAI</CrypterestText>;
+      return <CrypterestText fontSize="20">{daiBalance} DAI</CrypterestText>;
     }
   }
 
@@ -70,6 +63,9 @@ class WalletDetail extends Component {
 
   render() {
     const { coin, notation } = this.props.wallet;
+    let ethBalance = Web3.utils.fromWei(this.props.balance.weiBalance.toString());
+    ethBalance = parseFloat(ethBalance).toFixed(4);
+    const daiBalance = new BigNumber(this.props.balance.daiBalance).div(10 ** 18).toFixed(2);
 
     return (
       <Container>
@@ -81,8 +77,8 @@ class WalletDetail extends Component {
           </PriceText>
         </PriceContainer>
         <BalanceContainer>
-          <UsdBalanceText>{this.renderUsdBalance()}</UsdBalanceText>
-          <BalanceText>{this.renderBalance()}</BalanceText>
+          <UsdBalanceText>{this.renderUsdBalance(ethBalance, daiBalance)}</UsdBalanceText>
+          <BalanceText>{this.renderBalance(ethBalance, daiBalance)}</BalanceText>
         </BalanceContainer>
       </Container>
     );

@@ -21,15 +21,9 @@ import PriceUtilities from '../utilities/PriceUtilities.js';
 import Transactions from '../containers/Transactions';
 
 class Ethereum extends Component {
-  constructor(props) {
-    super(props);
-    this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance.toString());
-    this.ethBalance = parseFloat(this.ethBalance).toFixed(4);
-  }
-
-  getUsdBalance() {
+  getUsdBalance(ethBalance) {
     try {
-      let ethUsdBalance = PriceUtilities.convertEthToUsd(this.ethBalance);
+      let ethUsdBalance = PriceUtilities.convertEthToUsd(ethBalance);
       ethUsdBalance = ethUsdBalance.toFixed(2);
       return ethUsdBalance;
     } catch (err) {
@@ -39,6 +33,8 @@ class Ethereum extends Component {
 
   render() {
     const { balance, navigation } = this.props;
+    let ethBalance = Web3.utils.fromWei(balance.weiBalance.toString());
+    ethBalance = parseFloat(ethBalance).toFixed(4);
 
     return (
       <RootContainer>
@@ -54,8 +50,8 @@ class Ethereum extends Component {
           width="90%"
         >
           <HeaderFour marginTop="24">eth wallet balance</HeaderFour>
-          <UsdBalance>${this.getUsdBalance()}</UsdBalance>
-          <EthBalance>{this.ethBalance} ETH</EthBalance>
+          <UsdBalance>${this.getUsdBalance(ethBalance)}</UsdBalance>
+          <EthBalance>{ethBalance} ETH</EthBalance>
         </UntouchableCardContainer>
         <ButtonContainer>
           <TransactionButton
