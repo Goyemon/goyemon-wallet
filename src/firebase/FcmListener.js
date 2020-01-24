@@ -63,6 +63,7 @@ firebase.messaging().onMessage(downstreamMessage => {
         );
         store.dispatch(saveExistingTransactions(parsedExistingTransactions));
         store.dispatch(saveTransactionCount(parsedExistingTransactions.length));
+        store.dispatch(saveDaiApprovalInfo(TransactionUtilities.daiApproved(parsedExistingTransactions)));
       }
     }
   } else if (downstreamMessage.data.type === 'txstate') {
