@@ -1,7 +1,8 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Linking, TouchableHighlight, Alert, Modal } from 'react-native';
+import { View, Text, Linking, TouchableHighlight, Alert, Modal } from 'react-native';
+import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import { clearState } from '../actions/ActionClearState';
@@ -23,6 +24,7 @@ class Settings extends Component {
     this.state = {
       modalVisible: false
     };
+    this.AnimationRef;
   }
 
   setModalVisible(visible) {
@@ -45,9 +47,7 @@ class Settings extends Component {
             <ModalBackground>
               <MondalInner>
                 <ModalTextContainer>
-                  <ResetWalletHeader>
-                    Are you sure? 🤔
-                  </ResetWalletHeader>
+                  <ResetWalletHeader>Are you sure? 🤔</ResetWalletHeader>
                   <Description marginBottom="8" marginLeft="0" marginTop="16">
                     Make sure you save your backup words before deletion. Otherwise, you will lose
                     your funds.
@@ -168,14 +168,18 @@ class Settings extends Component {
           <VersionText>v0.0.1</VersionText>
           <Icon name="heart-outline" color="#5f5f5f" size={24} />
           <LoveText>Made with love by Swarm</LoveText>
+          <Animatable.View ref={ref => (this.AnimationRef = ref)}>
             <Icon
               onPress={async () => {
+                this.AnimationRef.rotate();
                 await FcmUpstreamMsgs.resyncTransactions(this.props.checksumAddress);
               }}
               name="sync"
               color="#5f5f5f"
               size={32}
             />
+          </Animatable.View>
+          <Text>sync your transactions</Text>
         </BottomText>
       </RootContainer>
     );
@@ -291,6 +295,7 @@ const VersionText = styled.Text`
 const LoveText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
+  margin-bottom: 48;
 `;
 
 function mapStateToProps(state) {
