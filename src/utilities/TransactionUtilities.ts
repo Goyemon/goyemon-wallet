@@ -48,7 +48,7 @@ class TransactionUtilities {
           value: this.parseEthValue(transaction[1][4]),
           nonce: parseInt(transaction[1][5]),
           time: transaction[1][6],
-          state: 'confirmed'
+          state: this.returnState(transaction[1][7])
         };
       } else if (isContractTx) {
         const tokenObject = transaction[1][8];
@@ -68,7 +68,7 @@ class TransactionUtilities {
               value: this.parseEthValue(transaction[1][4]),
               nonce: parseInt(transaction[1][5]),
               time: transaction[1][6],
-              state: 'confirmed',
+              state: this.returnState(transaction[1][7]),
               ame_ropsten_tr: {
                 from: tokenObject.ame_ropsten.tr[0][0],
                 to: tokenObject.ame_ropsten.tr[0][1],
@@ -85,7 +85,7 @@ class TransactionUtilities {
               value: this.parseEthValue(transaction[1][4]),
               nonce: parseInt(transaction[1][5]),
               time: transaction[1][6],
-              state: 'confirmed',
+              state: this.returnState(transaction[1][7]),
               ame_ropsten_appr: {
                 owner: tokenObject.ame_ropsten.appr[0][0],
                 spender: tokenObject.ame_ropsten.appr[0][1],
@@ -107,7 +107,7 @@ class TransactionUtilities {
               value: this.parseEthValue(transaction[1][4]),
               nonce: parseInt(transaction[1][5]),
               time: transaction[1][6],
-              state: 'confirmed',
+              state: this.returnState(transaction[1][7]),
               dai_tr: {
                 from: tokenObject.dai.tr[0][0],
                 to: tokenObject.dai.tr[0][1],
@@ -124,7 +124,7 @@ class TransactionUtilities {
               value: this.parseEthValue(transaction[1][4]),
               nonce: parseInt(transaction[1][5]),
               time: transaction[1][6],
-              state: 'confirmed',
+              state: this.returnState(transaction[1][7]),
               dai_appr: {
                 owner: tokenObject.dai.appr[0][0],
                 spender: tokenObject.dai.appr[0][1],
@@ -146,7 +146,7 @@ class TransactionUtilities {
               value: this.parseEthValue(transaction[1][4]),
               nonce: parseInt(transaction[1][5]),
               time: transaction[1][6],
-              state: 'confirmed',
+              state: this.returnState(transaction[1][7]),
               cdai_mint: {
                 minter: tokenObject.cdai.mint[0][0],
                 daiSupplied: this.parseHexDaiValue(tokenObject.cdai.mint[0][1]),
@@ -163,7 +163,7 @@ class TransactionUtilities {
               value: this.parseEthValue(transaction[1][4]),
               nonce: parseInt(transaction[1][5]),
               time: transaction[1][6],
-              state: 'confirmed',
+              state: this.returnState(transaction[1][7]),
               cdai_redeem: {
                 redeemer: tokenObject.cdai.redeem[0][0],
                 daiWithdrawn: this.parseHexDaiValue(tokenObject.cdai.redeem[0][1]),
@@ -180,7 +180,7 @@ class TransactionUtilities {
             value: this.parseEthValue(transaction[1][4]),
             nonce: parseInt(transaction[1][5]),
             time: transaction[1][6],
-            state: 'confirmed'
+            state: this.returnState(transaction[1][7])
           };
         } else if (tokenName != ('dai' || 'cdai' || 'ame_ropsten')) {
           return {
@@ -192,7 +192,7 @@ class TransactionUtilities {
             value: this.parseEthValue(transaction[1][4]),
             nonce: parseInt(transaction[1][5]),
             time: transaction[1][6],
-            state: 'confirmed'
+            state: this.returnState(transaction[1][7])
           };
         }
       } else {
