@@ -5,6 +5,7 @@ import { View, Linking, TouchableHighlight, Alert, Modal } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import { clearState } from '../actions/ActionClearState';
+import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
 import {
   RootContainer,
   HeaderOne,
@@ -167,6 +168,14 @@ class Settings extends Component {
           <VersionText>v0.0.1</VersionText>
           <Icon name="heart-outline" color="#5f5f5f" size={24} />
           <LoveText>Made with love by Swarm</LoveText>
+            <Icon
+              onPress={async () => {
+                await FcmUpstreamMsgs.resyncTransactions(this.props.checksumAddress);
+              }}
+              name="sync"
+              color="#5f5f5f"
+              size={32}
+            />
         </BottomText>
       </RootContainer>
     );
@@ -284,11 +293,17 @@ const LoveText = styled.Text`
   font-family: 'HKGrotesk-Regular';
 `;
 
+function mapStateToProps(state) {
+  return {
+    checksumAddress: state.ReducerChecksumAddress.checksumAddress
+  };
+}
+
 const mapDispatchToProps = {
   clearState
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Settings);
