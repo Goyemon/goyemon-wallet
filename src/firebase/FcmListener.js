@@ -63,101 +63,106 @@ firebase.messaging().onMessage(downstreamMessage => {
         );
         store.dispatch(saveExistingTransactions(parsedExistingTransactions));
         store.dispatch(saveTransactionCount(parsedExistingTransactions.length));
-        store.dispatch(saveDaiApprovalInfo(TransactionUtilities.daiApproved(parsedExistingTransactions)));
+        store.dispatch(
+          saveDaiApprovalInfo(TransactionUtilities.daiApproved(parsedExistingTransactions))
+        );
       }
     }
   } else if (downstreamMessage.data.type === 'txstate') {
-    const txStateMessage = JSON.parse(downstreamMessage.data.data);
-    const isPendingState = txStateMessage[Object.keys(txStateMessage)[0]][7] === 1;
-    const isIncludedState = txStateMessage[Object.keys(txStateMessage)[0]][7] === 2;
-    const isConfirmedState = txStateMessage[Object.keys(txStateMessage)[0]][7] === 3;
-    if (isPendingState) {
-      const parsedTransaction = TransactionUtilities.parsePendingOrIncludedTransaction(
-        txStateMessage
-      );
-      const transactionsExist = Array.isArray(transactionsHistory);
-      if (transactionsExist) {
-        const txHashExist = transactionsHistory.some(
-          transaction => transaction.hash === parsedTransaction.hash
+    let txStateMessages = JSON.parse(downstreamMessage.data.data);
+    txStateMessages = Object.entries(txStateMessages).map(e => ({ [e[0]]: e[1] }));
+    txStateMessages.map(txStateMessage => {
+      const isPendingState = txStateMessage[Object.keys(txStateMessage)[0]][7] === 1;
+      const isIncludedState = txStateMessage[Object.keys(txStateMessage)[0]][7] === 2;
+      const isConfirmedState = txStateMessage[Object.keys(txStateMessage)[0]][7] === 3;
+      if (isPendingState) {
+        const parsedTransaction = TransactionUtilities.parsePendingOrIncludedTransaction(
+          txStateMessage
         );
-        const isIncomingEthTx =
-          checksumAddress === Web3.utils.toChecksumAddress(parsedTransaction.to);
-        const isDaiTransfer = parsedTransaction.hasOwnProperty('dai_tr');
-        let isIncomingDaiTx;
-        if (isDaiTransfer) {
-          const isIncomingDaiTx =
-            checksumAddress === Web3.utils.toChecksumAddress(parsedTransaction.dai_tr.to);
-        }
-        const isIncomingTx = isIncomingEthTx || isIncomingDaiTx;
-
-        if (!txHashExist && isIncomingTx) {
-          store.dispatch(addPendingOrIncludedTransaction(parsedTransaction));
-          store.dispatch(incrementTransactionCount());
-        }
-
-        transactionsHistory.map(transaction => {
-          const isOutgoingTx =
-            transaction.from === Web3.utils.toChecksumAddress(parsedTransaction.from);
-          const nonceExist = transaction.nonce === parsedTransaction.nonce;
-          if (
-            isOutgoingTx &&
-            nonceExist &&
-            !(transaction.state === 'included') &&
-            !(transaction.state === 'confirmed')
-          ) {
-            store.dispatch(updateWithPendingOrIncludedTransaction(parsedTransaction));
+        const transactionsExist = Array.isArray(transactionsHistory);
+        if (transactionsExist) {
+          const txHashExist = transactionsHistory.some(
+            transaction => transaction.hash === parsedTransaction.hash
+          );
+          const isIncomingEthTx =
+            checksumAddress === Web3.utils.toChecksumAddress(parsedTransaction.to);
+          const isDaiTransfer = parsedTransaction.hasOwnProperty('dai_tr');
+          let isIncomingDaiTx;
+          if (isDaiTransfer) {
+            const isIncomingDaiTx =
+              checksumAddress === Web3.utils.toChecksumAddress(parsedTransaction.dai_tr.to);
           }
-        });
-      }
-    } else if (isIncludedState) {
-      const parsedTransaction = TransactionUtilities.parsePendingOrIncludedTransaction(
-        txStateMessage
-      );
-      const transactionsExist = Array.isArray(transactionsHistory);
-      if (transactionsExist) {
-        const txHashExist = transactionsHistory.some(
-          transaction => transaction.hash === parsedTransaction.hash
+          const isIncomingTx = isIncomingEthTx || isIncomingDaiTx;
+
+          if (!txHashExist && isIncomingTx) {
+            store.dispatch(addPendingOrIncludedTransaction(parsedTransaction));
+            store.dispatch(incrementTransactionCount());
+          }
+
+          transactionsHistory.map(transaction => {
+            const isOutgoingTx =
+              transaction.from === Web3.utils.toChecksumAddress(parsedTransaction.from);
+            const nonceExist = transaction.nonce === parsedTransaction.nonce;
+            if (
+              isOutgoingTx &&
+              nonceExist &&
+              !(transaction.state === 'included') &&
+              !(transaction.state === 'confirmed')
+            ) {
+              store.dispatch(updateWithPendingOrIncludedTransaction(parsedTransaction));
+            }
+          });
+        }
+      } else if (isIncludedState) {
+        const parsedTransaction = TransactionUtilities.parsePendingOrIncludedTransaction(
+          txStateMessage
         );
-        const isIncomingEthTx =
-          checksumAddress === Web3.utils.toChecksumAddress(parsedTransaction.to);
-        const isDaiTransfer = parsedTransaction.hasOwnProperty('dai_tr');
-        let isIncomingDaiTx;
-        if (isDaiTransfer) {
-          isIncomingDaiTx =
-            checksumAddress === Web3.utils.toChecksumAddress(parsedTransaction.dai_tr.to);
-        }
-        const isIncomingTx = isIncomingEthTx || isIncomingDaiTx;
+        const transactionsExist = Array.isArray(transactionsHistory);
+        if (transactionsExist) {
+          const txHashExist = transactionsHistory.some(
+            transaction => transaction.hash === parsedTransaction.hash
+          );
+          const isIncomingEthTx =
+            checksumAddress === Web3.utils.toChecksumAddress(parsedTransaction.to);
+          const isDaiTransfer = parsedTransaction.hasOwnProperty('dai_tr');
+          let isIncomingDaiTx;
+          if (isDaiTransfer) {
+            isIncomingDaiTx =
+              checksumAddress === Web3.utils.toChecksumAddress(parsedTransaction.dai_tr.to);
+          }
+          const isIncomingTx = isIncomingEthTx || isIncomingDaiTx;
 
-        if (!txHashExist && isIncomingTx) {
-          store.dispatch(addPendingOrIncludedTransaction(parsedTransaction));
-          store.dispatch(incrementTransactionCount());
-        }
+          if (!txHashExist && isIncomingTx) {
+            store.dispatch(addPendingOrIncludedTransaction(parsedTransaction));
+            store.dispatch(incrementTransactionCount());
+          }
 
-        transactionsHistory.map(transaction => {
-          const isOutgoingTx =
-            transaction.from === Web3.utils.toChecksumAddress(parsedTransaction.from);
-          const nonceExist = transaction.nonce === parsedTransaction.nonce;
-          if (isOutgoingTx && nonceExist && !(transaction.state === 'confirmed')) {
-            store.dispatch(updateWithPendingOrIncludedTransaction(parsedTransaction));
-          }
-          const hashExist = transaction.hash === parsedTransaction.hash;
-          if (hashExist && !(transaction.state === 'confirmed')) {
-            store.dispatch(updateTransactionState(parsedTransaction));
-          }
-        });
+          transactionsHistory.map(transaction => {
+            const isOutgoingTx =
+              transaction.from === Web3.utils.toChecksumAddress(parsedTransaction.from);
+            const nonceExist = transaction.nonce === parsedTransaction.nonce;
+            if (isOutgoingTx && nonceExist && !(transaction.state === 'confirmed')) {
+              store.dispatch(updateWithPendingOrIncludedTransaction(parsedTransaction));
+            }
+            const hashExist = transaction.hash === parsedTransaction.hash;
+            if (hashExist && !(transaction.state === 'confirmed')) {
+              store.dispatch(updateTransactionState(parsedTransaction));
+            }
+          });
+        }
+      } else if (isConfirmedState) {
+        const parsedTransaction = TransactionUtilities.parseConfirmedTransaction(txStateMessage);
+        const transactionsExist = Array.isArray(transactionsHistory);
+        if (transactionsExist) {
+          transactionsHistory.map(transaction => {
+            const hashExist = transaction.hash === parsedTransaction.hash;
+            if (hashExist) {
+              store.dispatch(updateTransactionState(parsedTransaction));
+            }
+          });
+        }
       }
-    } else if (isConfirmedState) {
-      const parsedTransaction = TransactionUtilities.parseConfirmedTransaction(txStateMessage);
-      const transactionsExist = Array.isArray(transactionsHistory);
-      if (transactionsExist) {
-        transactionsHistory.map(transaction => {
-          const hashExist = transaction.hash === parsedTransaction.hash;
-          if (hashExist) {
-            store.dispatch(updateTransactionState(parsedTransaction));
-          }
-        });
-      }
-    }
+    });
   } else if (downstreamMessage.data.type === 'cDai_lending_info') {
     const cDaiLendingInfoMessage = JSON.parse(downstreamMessage.data.data);
     store.dispatch(saveCDaiLendingInfo(cDaiLendingInfoMessage));
