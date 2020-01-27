@@ -13,10 +13,6 @@ import WalletUtilities from './WalletUtilities.ts';
 import Web3ProviderUtilities from './Web3ProviderUtilities.js';
 
 class TransactionUtilities {
-  constructor() {
-    this.web3 = Web3ProviderUtilities.web3Provider();
-  }
-
   filterTransactions(transactions) {
     const filteredTransactions = Object.entries(transactions).filter(transaction => {
       if (transaction[0] != '_contracts') {
