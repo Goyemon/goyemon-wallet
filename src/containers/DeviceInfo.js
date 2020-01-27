@@ -15,12 +15,12 @@ class DeviceInfo extends Component {
   }
 
   async writeToClipboard() {
-    await Clipboard.setString(this.props.fcmToken);
-    this.setState({ clipboardContent: this.props.fcmToken });
+    await Clipboard.setString(this.props.debugInfo.fcmToken);
+    this.setState({ clipboardContent: this.props.debugInfo.fcmToken });
   }
 
   renderCopyText() {
-    if (this.state.clipboardContent === this.props.fcmToken) {
+    if (this.state.clipboardContent === this.props.debugInfo.fcmToken) {
       return (
         <CopiedAddressContainer>
           <TouchableWithoutFeedback
@@ -55,7 +55,7 @@ class DeviceInfo extends Component {
             Your Fcm Token
           </HeaderThree>
           <CrypterestText fontSize="14">
-            {this.props.fcmToken}
+            {this.props.debugInfo.fcmToken}
           </CrypterestText>
           {this.renderCopyText()}
         </Container>
@@ -92,7 +92,7 @@ const CopyAddressText = styled.Text`
 
 function mapStateToProps(state) {
   return {
-    fcmToken: state.ReducerFcmToken.fcmToken
+    debugInfo: state.ReducerDebugInfo.debugInfo
   };
 }
 
