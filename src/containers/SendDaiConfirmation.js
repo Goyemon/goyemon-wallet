@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { TouchableWithoutFeedback } from 'react-native';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
-import { saveOutgoingDaiTransactionAmount } from '../actions/ActionOutgoingDaiTransactionData';
+import { saveOutgoingDaiTransactionAmount, saveOutgoingDaiTransactionToAddress } from '../actions/ActionOutgoingDaiTransactionData';
 import {
   RootContainer,
   Button,
@@ -28,7 +28,8 @@ class SendDaiConfirmation extends Component {
       this.props.outgoingTransactionObjects.length - 1
     ];
     await TransactionUtilities.sendOutgoingTransactionToServer(outgoingTransactionObject);
-    this.props.saveOutgoingDaiTransactionAmount(this.props.outgoingDaiTransactionData.amount);
+    this.props.saveOutgoingDaiTransactionAmount(this.props.outgoingDaiTransactionData.toAddress);
+    this.props.saveOutgoingDaiTransactionToAddress(this.props.outgoingDaiTransactionData.amount);
   }
 
   toggleCurrencySymbol() {
@@ -73,7 +74,7 @@ class SendDaiConfirmation extends Component {
           <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
             To
           </FormHeader>
-          <To>{daiToAddress}</To>
+          <To>{outgoingDaiTransactionData.toAddress}</To>
           <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
             Amount
           </FormHeader>
@@ -176,12 +177,13 @@ function mapStateToProps(state) {
   return {
     outgoingTransactionObjects: state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
     transactionFeeEstimate: state.ReducerTransactionFeeEstimate.transactionFeeEstimate,
-    outgoingDaiTransactionData: state.ReducerOutgoingDaiTransactionData.outgoingDaiTransactionData,
+    outgoingDaiTransactionData: state.ReducerOutgoingDaiTransactionData.outgoingDaiTransactionData
   };
 }
 
 const mapDispatchToProps = {
-  saveOutgoingDaiTransactionAmount
+  saveOutgoingDaiTransactionAmount,
+  saveOutgoingDaiTransactionToAddress
 };
 
 export default connect(

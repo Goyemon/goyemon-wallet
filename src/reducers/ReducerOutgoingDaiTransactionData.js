@@ -1,5 +1,6 @@
 'use strict';
 import { SAVE_OUTGOING_DAI_TRANSACTION_AMOUNT } from '../constants/ActionTypes';
+import { SAVE_OUTGOING_DAI_TRANSACTION_TO_ADDRESS } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
   outgoingDaiTransactionData: {
@@ -12,7 +13,13 @@ const INITIAL_STATE = {
 const outgoingDaiTransactionData = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SAVE_OUTGOING_DAI_TRANSACTION_AMOUNT:
-      return { outgoingDaiTransactionData: {...state.outgoingDaiTransactionData, amount: action.payload }};
+      return {
+        outgoingDaiTransactionData: { ...state.outgoingDaiTransactionData, amount: action.payload }
+      };
+    case SAVE_OUTGOING_DAI_TRANSACTION_TO_ADDRESS:
+      return {
+        outgoingDaiTransactionData: { ...state.outgoingDaiTransactionData, toAddress: action.payload }
+      };
     default:
       return state || INITIAL_STATE;
   }

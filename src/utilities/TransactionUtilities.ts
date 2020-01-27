@@ -237,7 +237,7 @@ class TransactionUtilities {
       state: 'sent',
       dai_tr: {
         from: checksumAddress,
-        to: (await this.decodeDaiTransferTransactionData(transactionObject.data)).to,
+        to: outgoingDaiTransactionData.toAddress,
         value: outgoingDaiTransactionData.amount
       }
     };
