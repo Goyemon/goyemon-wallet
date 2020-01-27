@@ -271,6 +271,7 @@ class TransactionUtilities {
   async parseSentCDaiMintTransaction(transactionObject) {
     const stateTree = store.getState();
     const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
+    const outgoingDaiTransactionAmount = stateTree.ReducerOutgoingDaiTransactionAmount.outgoingDaiTransactionAmount
     const parsedTransaction = {
       hash: uuidv4(),
       from: checksumAddress,
@@ -283,9 +284,7 @@ class TransactionUtilities {
       state: 'sent',
       cdai_mint: {
         minter: checksumAddress,
-        daiSupplied: this.parseDecimalDaiValue(
-          (await this.decodeCDaiMintTransactionData(transactionObject.data)).mintTokens
-        )
+        daiSupplied: outgoingDaiTransactionAmount
       }
     };
     return parsedTransaction;
