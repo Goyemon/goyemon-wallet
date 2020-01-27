@@ -1,6 +1,6 @@
 'use strict';
 import firebase from 'react-native-firebase';
-import { saveFcmToken } from '../actions/ActionFcmToken';
+import { saveFcmToken } from '../actions/ActionDebugInfo';
 import { store } from '../store/store';
 
 firebase.messaging().onTokenRefresh(fcmToken => {
