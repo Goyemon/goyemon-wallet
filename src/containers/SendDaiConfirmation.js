@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { TouchableWithoutFeedback } from 'react-native';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
+import { saveOutgoingDaiTransactionAmount } from '../actions/ActionOutgoingDaiTransactionAmount';
 import {
   RootContainer,
   Button,
@@ -27,6 +28,7 @@ class SendDaiConfirmation extends Component {
       this.props.outgoingTransactionObjects.length - 1
     ];
     await TransactionUtilities.sendOutgoingTransactionToServer(outgoingTransactionObject);
+    this.props.saveOutgoingDaiTransactionAmount(this.props.outgoingDaiTransactionAmount);
   }
 
   toggleCurrencySymbol() {
@@ -179,4 +181,11 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(SendDaiConfirmation);
+const mapDispatchToProps = {
+  saveOutgoingDaiTransactionAmount
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SendDaiConfirmation);
