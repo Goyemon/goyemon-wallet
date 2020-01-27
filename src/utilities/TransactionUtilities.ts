@@ -533,15 +533,6 @@ class TransactionUtilities {
     return { spender, amount };
   }
 
-  async decodeCDaiMintTransactionData(transactionData) {
-    const decodedAbi = await this.web3.eth.abi.decodeParameters(
-      ['uint256'],
-      transactionData.substring(10, transactionData.length)
-    );
-    const mintTokens = decodedAbi[0];
-    return { mintTokens };
-  }
-
   async decodeCDaiRedeemUnderlyingTransactionData(transactionData) {
     const decodedAbi = await this.web3.eth.abi.decodeParameters(
       ['uint256'],
