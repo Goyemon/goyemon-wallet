@@ -58,6 +58,12 @@ class DeviceInfo extends Component {
             {this.props.debugInfo.fcmToken}
           </CrypterestText>
           {this.renderCopyText()}
+          <HeaderThree color="#000" marginBottom="0" marginLeft="0" marginTop="24">
+            Other Debug Info
+          </HeaderThree>
+          <CrypterestText fontSize="14">
+            {this.props.debugInfo.otherInfo}
+          </CrypterestText>
         </Container>
       </RootContainer>
     );
