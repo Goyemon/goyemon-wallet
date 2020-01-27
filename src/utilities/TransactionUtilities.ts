@@ -511,16 +511,6 @@ class TransactionUtilities {
     return `${time.getDate().toString()} ${months[time.getMonth()]}, ` + `\n${time.getFullYear()}`;
   }
 
-  async decodeDaiTransferTransactionData(transactionData) {
-    const decodedAbi = await this.web3.eth.abi.decodeParameters(
-      ['address', 'uint256'],
-      transactionData.substring(10, transactionData.length)
-    );
-    const to = decodedAbi[0];
-    const value = decodedAbi[1];
-    return { to, value };
-  }
-
   async decodeDaiApproveTransactionData(transactionData) {
     const decodedAbi = await this.web3.eth.abi.decodeParameters(
       ['address', 'uint256'],
