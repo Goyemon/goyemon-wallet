@@ -247,6 +247,7 @@ class TransactionUtilities {
   async parseSentDaiApproveTransaction(transactionObject) {
     const stateTree = store.getState();
     const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
+    const outgoingDaiTransactionData = stateTree.ReducerOutgoingDaiTransactionData.outgoingDaiTransactionData;
     const parsedTransaction = {
       hash: uuidv4(),
       from: checksumAddress,
@@ -259,10 +260,8 @@ class TransactionUtilities {
       state: 'sent',
       dai_appr: {
         owner: checksumAddress,
-        spender: (await this.decodeDaiApproveTransactionData(transactionObject.data)).spender,
-        amount: this.parseDecimalDaiValue(
-          (await this.decodeDaiApproveTransactionData(transactionObject.data)).amount
-        )
+        spender: checksumAddress,
+        amount: outgoingDaiTransactionData.approveAmount
       }
     };
     return parsedTransaction;
