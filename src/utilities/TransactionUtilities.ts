@@ -531,15 +531,6 @@ class TransactionUtilities {
     return { spender, amount };
   }
 
-  async decodeCDaiRedeemUnderlyingTransactionData(transactionData) {
-    const decodedAbi = await this.web3.eth.abi.decodeParameters(
-      ['uint256'],
-      transactionData.substring(10, transactionData.length)
-    );
-    const redeemTokens = decodedAbi[0];
-    return { redeemTokens };
-  }
-
   daiApproved(transactions) {
     const daiApproveTxes = transactions.filter(transaction => {
       if (
