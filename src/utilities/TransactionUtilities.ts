@@ -461,11 +461,6 @@ class TransactionUtilities {
     return parsedDaiValue;
   }
 
-  parseDecimalDaiValue(value) {
-    const parsedDaiValue = new BigNumber(parseInt(value)).div(10 ** 18).toFixed(4);
-    return parsedDaiValue;
-  }
-
   parseHexCDaiValue(value) {
     const parsedDaiValue = new BigNumber(parseInt(value, 16)).div(10 ** 8).toFixed(4);
     return parsedDaiValue;
