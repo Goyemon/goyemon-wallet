@@ -510,16 +510,6 @@ class TransactionUtilities {
     return `${time.getDate().toString()} ${months[time.getMonth()]}, ` + `\n${time.getFullYear()}`;
   }
 
-  async decodeDaiApproveTransactionData(transactionData) {
-    const decodedAbi = await this.web3.eth.abi.decodeParameters(
-      ['address', 'uint256'],
-      transactionData.substring(10, transactionData.length)
-    );
-    const spender = decodedAbi[0];
-    const amount = decodedAbi[1];
-    return { spender, amount };
-  }
-
   daiApproved(transactions) {
     const daiApproveTxes = transactions.filter(transaction => {
       if (
