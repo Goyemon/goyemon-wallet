@@ -1,6 +1,7 @@
 'use strict';
 import { SAVE_OUTGOING_DAI_TRANSACTION_AMOUNT } from '../constants/ActionTypes';
 import { SAVE_OUTGOING_DAI_TRANSACTION_TO_ADDRESS } from '../constants/ActionTypes';
+import { SAVE_OUTGOING_DAI_TRANSACTION_APPROVE_AMOUNT } from '../constants/ActionTypes';
 
 export function saveOutgoingDaiTransactionAmount(daiAmount) {
   return async function (dispatch) {
@@ -30,4 +31,19 @@ export function saveOutgoingDaiTransactionToAddress(toAddress) {
 const saveOutgoingDaiTransactionToAddressSuccess = (toAddress) => ({
   type: SAVE_OUTGOING_DAI_TRANSACTION_TO_ADDRESS,
   payload: toAddress
+})
+
+export function saveOutgoingDaiTransactionApproveAmount(approveAmount) {
+  return async function (dispatch) {
+    try {
+      dispatch(saveOutgoingDaiTransactionApproveAmountSuccess(approveAmount));
+    } catch(err) {
+      console.error(err);
+    }
+  }
+};
+
+const saveOutgoingDaiTransactionApproveAmountSuccess = (approveAmount) => ({
+  type: SAVE_OUTGOING_DAI_TRANSACTION_APPROVE_AMOUNT,
+  payload: approveAmount
 })
