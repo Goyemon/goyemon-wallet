@@ -6,6 +6,7 @@ import { View } from 'react-native';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
 import { getGasPriceAverage } from '../actions/ActionGasPrice';
+import { saveOutgoingDaiTransactionApproveAmount } from '../actions/ActionOutgoingDaiTransactionData';
 import { RootContainer, Button } from '../components/common';
 import cDaiContract from '../contracts/cDaiContract';
 import daiTokenContract from '../contracts/daiTokenContract';
@@ -96,6 +97,7 @@ class ApproveDai extends Component {
       console.log('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await TransactionUtilities.sendOutgoingTransactionToServer(transactionObject);
+      this.props.saveOutgoingDaiTransactionApproveAmount(this.web3.utils.toHex(-1));
       this.props.navigation.navigate('Dai');
     } else {
       console.log('validation failed!');
@@ -143,7 +145,8 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  getGasPriceAverage
+  getGasPriceAverage,
+  saveOutgoingDaiTransactionApproveAmount
 };
 
 export default connect(
