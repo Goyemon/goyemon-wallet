@@ -29,7 +29,7 @@ class WithdrawDaiConfirmation extends Component {
       this.props.outgoingTransactionObjects.length - 1
     ];
     await TransactionUtilities.sendOutgoingTransactionToServer(outgoingTransactionObject);
-    this.props.saveOutgoingDaiTransactionAmount(this.props.outgoingDaiTransactionAmount);
+    this.props.saveOutgoingDaiTransactionAmount(this.props.outgoingDaiTransactionData.amount);
     this.props.navigation.reset([NavigationActions.navigate({ routeName: 'EarnList' })], 0);
   }
 
@@ -51,7 +51,7 @@ class WithdrawDaiConfirmation extends Component {
   }
 
   render() {
-    const { outgoingTransactionObjects, outgoingDaiTransactionAmount } = this.props;
+    const { outgoingTransactionObjects, outgoingDaiTransactionData } = this.props;
 
     return (
       <RootContainer>
@@ -59,7 +59,7 @@ class WithdrawDaiConfirmation extends Component {
         <TotalContainer>
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <CrypterestText fontSize="16">You are about to withdraw</CrypterestText>
-          <TotalValue>{outgoingDaiTransactionAmount} DAI</TotalValue>
+          <TotalValue>{outgoingDaiTransactionData.amount} DAI</TotalValue>
         </TotalContainer>
         <UntouchableCardContainer
           alignItems="flex-start"
@@ -74,7 +74,7 @@ class WithdrawDaiConfirmation extends Component {
           <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
             Withdraw Amount
           </FormHeader>
-          <Amount>{outgoingDaiTransactionAmount} DAI</Amount>
+          <Amount>{outgoingDaiTransactionData.amount} DAI</Amount>
           <NetworkFeeContainer>
             <FormHeader marginBottom="0" marginLeft="8" marginTop="0">
               Network Fee
@@ -167,7 +167,7 @@ function mapStateToProps(state) {
   return {
     outgoingTransactionObjects: state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
     transactionFeeEstimate: state.ReducerTransactionFeeEstimate.transactionFeeEstimate,
-    outgoingDaiTransactionAmount: state.ReducerOutgoingDaiTransactionAmount.outgoingDaiTransactionAmount
+    outgoingDaiTransactionData: state.ReducerOutgoingDaiTransactionData.outgoingDaiTransactionData
   };
 }
 

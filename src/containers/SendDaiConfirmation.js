@@ -28,7 +28,7 @@ class SendDaiConfirmation extends Component {
       this.props.outgoingTransactionObjects.length - 1
     ];
     await TransactionUtilities.sendOutgoingTransactionToServer(outgoingTransactionObject);
-    this.props.saveOutgoingDaiTransactionAmount(this.props.outgoingDaiTransactionAmount);
+    this.props.saveOutgoingDaiTransactionAmount(this.props.outgoingDaiTransactionData.amount);
   }
 
   toggleCurrencySymbol() {
@@ -49,7 +49,7 @@ class SendDaiConfirmation extends Component {
   }
 
   render() {
-    const { outgoingTransactionObjects, outgoingDaiTransactionAmount, daiToAddress } = this.props;
+    const { outgoingTransactionObjects, outgoingDaiTransactionData, daiToAddress } = this.props;
 
     return (
       <RootContainer>
@@ -57,7 +57,7 @@ class SendDaiConfirmation extends Component {
         <TotalContainer>
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <CrypterestText fontSize="16">You are about to send</CrypterestText>
-          <TotalValueText>{outgoingDaiTransactionAmount} DAI</TotalValueText>
+          <TotalValueText>{outgoingDaiTransactionData.amount} DAI</TotalValueText>
           <CrypterestText fontSize="16">+ network fee</CrypterestText>
         </TotalContainer>
         <UntouchableCardContainer
@@ -77,7 +77,7 @@ class SendDaiConfirmation extends Component {
           <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
             Amount
           </FormHeader>
-          <Amount>{outgoingDaiTransactionAmount} DAI</Amount>
+          <Amount>{outgoingDaiTransactionData.amount} DAI</Amount>
           <NetworkFeeContainer>
             <FormHeader marginBottom="0" marginLeft="8" marginTop="0">
               Network Fee
@@ -176,7 +176,7 @@ function mapStateToProps(state) {
   return {
     outgoingTransactionObjects: state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
     transactionFeeEstimate: state.ReducerTransactionFeeEstimate.transactionFeeEstimate,
-    outgoingDaiTransactionAmount: state.ReducerOutgoingDaiTransactionAmount.outgoingDaiTransactionAmount,
+    outgoingDaiTransactionData: state.ReducerOutgoingDaiTransactionData.outgoingDaiTransactionData,
     daiToAddress: state.ReducerDaiToAddress.daiToAddress
   };
 }

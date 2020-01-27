@@ -224,7 +224,7 @@ class TransactionUtilities {
   async parseSentDaiTransaction(transactionObject) {
     const stateTree = store.getState();
     const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
-    const outgoingDaiTransactionAmount = stateTree.ReducerOutgoingDaiTransactionAmount.outgoingDaiTransactionAmount;
+    const outgoingDaiTransactionData = stateTree.ReducerOutgoingDaiTransactionData.outgoingDaiTransactionData;
     const parsedTransaction = {
       hash: uuidv4(),
       from: checksumAddress,
@@ -238,7 +238,7 @@ class TransactionUtilities {
       dai_tr: {
         from: checksumAddress,
         to: (await this.decodeDaiTransferTransactionData(transactionObject.data)).to,
-        value: outgoingDaiTransactionAmount
+        value: outgoingDaiTransactionData.amount
       }
     };
     return parsedTransaction;
@@ -271,7 +271,7 @@ class TransactionUtilities {
   async parseSentCDaiMintTransaction(transactionObject) {
     const stateTree = store.getState();
     const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
-    const outgoingDaiTransactionAmount = stateTree.ReducerOutgoingDaiTransactionAmount.outgoingDaiTransactionAmount
+    const outgoingDaiTransactionData = stateTree.ReducerOutgoingDaiTransactionData.outgoingDaiTransactionData
     const parsedTransaction = {
       hash: uuidv4(),
       from: checksumAddress,
@@ -284,7 +284,7 @@ class TransactionUtilities {
       state: 'sent',
       cdai_mint: {
         minter: checksumAddress,
-        daiSupplied: outgoingDaiTransactionAmount
+        daiSupplied: outgoingDaiTransactionData.amount
       }
     };
     return parsedTransaction;
@@ -293,7 +293,7 @@ class TransactionUtilities {
   async parseSentCDaiRedeemUnderlyingTransaction(transactionObject) {
     const stateTree = store.getState();
     const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
-    const outgoingDaiTransactionAmount = stateTree.ReducerOutgoingDaiTransactionAmount.outgoingDaiTransactionAmount;
+    const outgoingDaiTransactionData = stateTree.ReducerOutgoingDaiTransactionData.outgoingDaiTransactionData;
     const parsedTransaction = {
       hash: uuidv4(),
       from: checksumAddress,
@@ -306,7 +306,7 @@ class TransactionUtilities {
       state: 'sent',
       cdai_redeem: {
         redeemer: checksumAddress,
-        daiWithdrawn: outgoingDaiTransactionAmount
+        daiWithdrawn: outgoingDaiTransactionData.amount
       }
     };
     return parsedTransaction;
