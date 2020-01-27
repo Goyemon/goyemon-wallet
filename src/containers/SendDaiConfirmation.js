@@ -49,7 +49,7 @@ class SendDaiConfirmation extends Component {
   }
 
   render() {
-    const { outgoingTransactionObjects, outgoingDaiTransactionData, daiToAddress } = this.props;
+    const { outgoingTransactionObjects, outgoingDaiTransactionData } = this.props;
 
     return (
       <RootContainer>
@@ -177,7 +177,6 @@ function mapStateToProps(state) {
     outgoingTransactionObjects: state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
     transactionFeeEstimate: state.ReducerTransactionFeeEstimate.transactionFeeEstimate,
     outgoingDaiTransactionData: state.ReducerOutgoingDaiTransactionData.outgoingDaiTransactionData,
-    daiToAddress: state.ReducerDaiToAddress.daiToAddress
   };
 }
 

@@ -9,7 +9,6 @@ import styled from 'styled-components/native';
 import Web3 from 'web3';
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
 import { saveOutgoingDaiTransactionAmount } from '../actions/ActionOutgoingDaiTransactionData';
-import { saveDaiToAddress } from '../actions/ActionDaiToAddress';
 import { getGasPriceFast, getGasPriceAverage, getGasPriceSlow } from '../actions/ActionGasPrice';
 import {
   saveTransactionFeeEstimateUsd,
@@ -238,7 +237,6 @@ class SendDai extends Component {
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
       await this.props.saveOutgoingDaiTransactionAmount(amount);
-      await this.props.saveDaiToAddress(toAddress);
       this.props.navigation.navigate('SendDaiConfirmation');
     } else {
       console.log('form validation failed!');
@@ -513,7 +511,6 @@ const mapDispatchToProps = {
   saveTransactionFeeEstimateUsd,
   saveTransactionFeeEstimateEth,
   saveOutgoingDaiTransactionAmount,
-  saveDaiToAddress,
   getGasPriceFast,
   getGasPriceAverage,
   getGasPriceSlow

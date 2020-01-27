@@ -5,7 +5,6 @@ import { CLEAR_STATE } from '../constants/ActionTypes';
 import ReducerBalance from './ReducerBalance';
 import ReducerCDaiLendingInfo from './ReducerCDaiLendingInfo';
 import ReducerChecksumAddress from './ReducerChecksumAddress';
-import ReducerDaiToAddress from './ReducerDaiToAddress';
 import ReducerFcmMsgs from './ReducerFcmMsgs';
 import ReducerDebugInfo from './ReducerDebugInfo';
 import ReducerGasPrice from './ReducerGasPrice';
@@ -24,7 +23,6 @@ const appReducers = combineReducers({
   ReducerBalance,
   ReducerCDaiLendingInfo,
   ReducerChecksumAddress,
-  ReducerDaiToAddress,
   ReducerFcmMsgs,
   ReducerDebugInfo,
   ReducerGasPrice,
