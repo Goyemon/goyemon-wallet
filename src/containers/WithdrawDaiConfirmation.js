@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { TouchableWithoutFeedback } from 'react-native';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
+import { saveOutgoingDaiTransactionAmount } from '../actions/ActionOutgoingDaiTransactionAmount';
 import {
   RootContainer,
   Button,
@@ -28,6 +29,7 @@ class WithdrawDaiConfirmation extends Component {
       this.props.outgoingTransactionObjects.length - 1
     ];
     await TransactionUtilities.sendOutgoingTransactionToServer(outgoingTransactionObject);
+    this.props.saveOutgoingDaiTransactionAmount(this.props.outgoingDaiTransactionAmount);
     this.props.navigation.reset([NavigationActions.navigate({ routeName: 'EarnList' })], 0);
   }
 
@@ -169,4 +171,11 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(WithdrawDaiConfirmation);
+const mapDispatchToProps = {
+  saveOutgoingDaiTransactionAmount
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WithdrawDaiConfirmation);
