@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { TouchableWithoutFeedback } from 'react-native';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
-import { saveOutgoingDaiTransactionAmount } from '../actions/ActionOutgoingDaiTransactionAmount';
+import { saveOutgoingDaiTransactionAmount } from '../actions/ActionOutgoingDaiTransactionData';
 import {
   RootContainer,
   Button,

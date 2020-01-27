@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
-import { saveOutgoingDaiTransactionAmount } from '../actions/ActionOutgoingDaiTransactionAmount';
+import { saveOutgoingDaiTransactionAmount } from '../actions/ActionOutgoingDaiTransactionData';
 import { getGasPriceFast, getGasPriceAverage, getGasPriceSlow } from '../actions/ActionGasPrice';
 import {
   saveTransactionFeeEstimateUsd,
