@@ -143,10 +143,10 @@ firebase.messaging().onMessage(downstreamMessage => {
             const isOutgoingTx =
               transaction.from === Web3.utils.toChecksumAddress(parsedTxStateMessage.from);
             const nonceExist = transaction.nonce === parsedTxStateMessage.nonce;
+            const hashExist = transaction.hash === parsedTxStateMessage.hash;
             if (isOutgoingTx && nonceExist && !(transaction.state === 'confirmed')) {
               store.dispatch(updateWithPendingOrIncludedTransaction(parsedTxStateMessage));
             }
-            const hashExist = transaction.hash === parsedTransaction.hash;
             if (hashExist && !(transaction.state === 'confirmed')) {
               store.dispatch(updateTransactionState(parsedTxStateMessage));
             }
