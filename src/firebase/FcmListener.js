@@ -112,6 +112,8 @@ firebase.messaging().onMessage(downstreamMessage => {
               store.dispatch(updateWithPendingOrIncludedTransaction(parsedTransaction));
             }
           });
+        } else {
+          console.log("a transaction doesn't exist");
         }
       } else if (isIncludedState) {
         const parsedTransaction = TransactionUtilities.parsePendingOrIncludedTransaction(
@@ -149,6 +151,8 @@ firebase.messaging().onMessage(downstreamMessage => {
               store.dispatch(updateTransactionState(parsedTransaction));
             }
           });
+        } else {
+          console.log("a transaction doesn't exist");
         }
       } else if (isConfirmedState) {
         const parsedTransaction = TransactionUtilities.parseConfirmedTransaction(txStateMessage);
@@ -160,6 +164,8 @@ firebase.messaging().onMessage(downstreamMessage => {
               store.dispatch(updateTransactionState(parsedTransaction));
             }
           });
+        } else {
+          console.log("a transaction doesn't exist");
         }
       }
     });
