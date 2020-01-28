@@ -76,92 +76,92 @@ firebase.messaging().onMessage(downstreamMessage => {
       const isIncludedState = txStateMessage[Object.keys(txStateMessage)[0]][7] === 2;
       const isConfirmedState = txStateMessage[Object.keys(txStateMessage)[0]][7] === 3;
       if (isPendingState) {
-        const parsedTransaction = TransactionUtilities.parsePendingOrIncludedTransaction(
+        const parsedTxStateMessage = TransactionUtilities.parsePendingOrIncludedTransaction(
           txStateMessage
         );
         const transactionsExist = Array.isArray(transactionsHistory);
         if (transactionsExist) {
           const txHashExist = transactionsHistory.some(
-            transaction => transaction.hash === parsedTransaction.hash
+            transaction => transaction.hash === parsedTxStateMessage.hash
           );
           const isIncomingEthTx =
-            checksumAddress === Web3.utils.toChecksumAddress(parsedTransaction.to);
-          const isDaiTransfer = parsedTransaction.hasOwnProperty('dai_tr');
+            checksumAddress === Web3.utils.toChecksumAddress(parsedTxStateMessage.to);
+          const isDaiTransfer = parsedTxStateMessage.hasOwnProperty('dai_tr');
           let isIncomingDaiTx;
           if (isDaiTransfer) {
             const isIncomingDaiTx =
-              checksumAddress === Web3.utils.toChecksumAddress(parsedTransaction.dai_tr.to);
+              checksumAddress === Web3.utils.toChecksumAddress(parsedTxStateMessage.dai_tr.to);
           }
           const isIncomingTx = isIncomingEthTx || isIncomingDaiTx;
 
           if (!txHashExist && isIncomingTx) {
-            store.dispatch(addPendingOrIncludedTransaction(parsedTransaction));
+            store.dispatch(addPendingOrIncludedTransaction(parsedTxStateMessage));
             store.dispatch(incrementTransactionCount());
           }
 
           transactionsHistory.map(transaction => {
             const isOutgoingTx =
-              transaction.from === Web3.utils.toChecksumAddress(parsedTransaction.from);
-            const nonceExist = transaction.nonce === parsedTransaction.nonce;
+              transaction.from === Web3.utils.toChecksumAddress(parsedTxStateMessage.from);
+            const nonceExist = transaction.nonce === parsedTxStateMessage.nonce;
             if (
               isOutgoingTx &&
               nonceExist &&
               !(transaction.state === 'included') &&
               !(transaction.state === 'confirmed')
             ) {
-              store.dispatch(updateWithPendingOrIncludedTransaction(parsedTransaction));
+              store.dispatch(updateWithPendingOrIncludedTransaction(parsedTxStateMessage));
             }
           });
         } else {
           console.log("a transaction doesn't exist");
         }
       } else if (isIncludedState) {
-        const parsedTransaction = TransactionUtilities.parsePendingOrIncludedTransaction(
+        const parsedTxStateMessage = TransactionUtilities.parsePendingOrIncludedTransaction(
           txStateMessage
         );
         const transactionsExist = Array.isArray(transactionsHistory);
         if (transactionsExist) {
           const txHashExist = transactionsHistory.some(
-            transaction => transaction.hash === parsedTransaction.hash
+            transaction => transaction.hash === parsedTxStateMessage.hash
           );
           const isIncomingEthTx =
-            checksumAddress === Web3.utils.toChecksumAddress(parsedTransaction.to);
-          const isDaiTransfer = parsedTransaction.hasOwnProperty('dai_tr');
+            checksumAddress === Web3.utils.toChecksumAddress(parsedTxStateMessage.to);
+          const isDaiTransfer = parsedTxStateMessage.hasOwnProperty('dai_tr');
           let isIncomingDaiTx;
           if (isDaiTransfer) {
             isIncomingDaiTx =
-              checksumAddress === Web3.utils.toChecksumAddress(parsedTransaction.dai_tr.to);
+              checksumAddress === Web3.utils.toChecksumAddress(parsedTxStateMessage.dai_tr.to);
           }
           const isIncomingTx = isIncomingEthTx || isIncomingDaiTx;
 
           if (!txHashExist && isIncomingTx) {
-            store.dispatch(addPendingOrIncludedTransaction(parsedTransaction));
+            store.dispatch(addPendingOrIncludedTransaction(parsedTxStateMessage));
             store.dispatch(incrementTransactionCount());
           }
 
           transactionsHistory.map(transaction => {
             const isOutgoingTx =
-              transaction.from === Web3.utils.toChecksumAddress(parsedTransaction.from);
-            const nonceExist = transaction.nonce === parsedTransaction.nonce;
+              transaction.from === Web3.utils.toChecksumAddress(parsedTxStateMessage.from);
+            const nonceExist = transaction.nonce === parsedTxStateMessage.nonce;
             if (isOutgoingTx && nonceExist && !(transaction.state === 'confirmed')) {
-              store.dispatch(updateWithPendingOrIncludedTransaction(parsedTransaction));
+              store.dispatch(updateWithPendingOrIncludedTransaction(parsedTxStateMessage));
             }
             const hashExist = transaction.hash === parsedTransaction.hash;
             if (hashExist && !(transaction.state === 'confirmed')) {
-              store.dispatch(updateTransactionState(parsedTransaction));
+              store.dispatch(updateTransactionState(parsedTxStateMessage));
             }
           });
         } else {
           console.log("a transaction doesn't exist");
         }
       } else if (isConfirmedState) {
-        const parsedTransaction = TransactionUtilities.parseConfirmedTransaction(txStateMessage);
+        const parsedTxStateMessage = TransactionUtilities.parseConfirmedTransaction(txStateMessage);
         const transactionsExist = Array.isArray(transactionsHistory);
         if (transactionsExist) {
           transactionsHistory.map(transaction => {
-            const hashExist = transaction.hash === parsedTransaction.hash;
+            const hashExist = transaction.hash === parsedTxStateMessage.hash;
             if (hashExist) {
-              store.dispatch(updateTransactionState(parsedTransaction));
+              store.dispatch(updateTransactionState(parsedTxStateMessage));
             }
           });
         } else {
