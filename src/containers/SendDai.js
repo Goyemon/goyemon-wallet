@@ -100,7 +100,7 @@ class SendDai extends Component {
       daiTokenContract.daiTokenAddress
     );
 
-    const amountWithDecimals = new BigNumber(parseFloat(amount)).times(10 ** 18);
+    const amountWithDecimals = amount * 10 ** 18;
     const amountWithHex = Web3.utils.toHex(amountWithDecimals);
 
     const transferEncodedABI = daiTokenContractInstance.methods
