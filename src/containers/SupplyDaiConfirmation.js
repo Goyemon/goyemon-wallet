@@ -29,7 +29,7 @@ class SupplyDaiConfirmation extends Component {
       this.props.outgoingTransactionObjects.length - 1
     ];
     await TransactionUtilities.sendOutgoingTransactionToServer(outgoingTransactionObject);
-    this.props.saveOutgoingDaiTransactionAmount(this.props.outgoingDaiTransactionData);
+    this.props.saveOutgoingDaiTransactionAmount(this.props.outgoingDaiTransactionData.amount);
     this.props.navigation.reset([NavigationActions.navigate({ routeName: 'EarnList' })], 0);
   }
 
