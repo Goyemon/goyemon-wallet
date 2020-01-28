@@ -30,7 +30,7 @@ class WithdrawDaiConfirmation extends Component {
     ];
     await TransactionUtilities.sendOutgoingTransactionToServer(outgoingTransactionObject);
     this.props.saveOutgoingDaiTransactionAmount(this.props.outgoingDaiTransactionData.amount);
-    this.props.navigation.reset([NavigationActions.navigate({ routeName: 'EarnList' })], 0);
+    this.props.navigation.reset([NavigationActions.navigate({ routeName: 'EarnDai' })], 0);
   }
 
   toggleCurrencySymbol() {
