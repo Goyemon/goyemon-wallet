@@ -1,17 +1,17 @@
 'use strict';
 import { INCREMENT_TRANSACTION_COUNT, SAVE_TRANSACTION_COUNT } from '../constants/ActionTypes';
 
-export function incrementTransactionCount() {
+export function incrementTotalTransactions() {
   return async function (dispatch) {
     try {
-      dispatch(incrementTransactionCountSuccess());
+      dispatch(incrementTotalTransactionsSuccess());
     } catch(err) {
       console.error(err);
     }
   }
 };
 
-const incrementTransactionCountSuccess = () => ({
+const incrementTotalTransactionsSuccess = () => ({
   type: INCREMENT_TRANSACTION_COUNT,
   payload: 1
 })

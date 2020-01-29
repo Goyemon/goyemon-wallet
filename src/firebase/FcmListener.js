@@ -9,7 +9,10 @@ import {
   saveWeiBalance
 } from '../actions/ActionBalance';
 import { saveCDaiLendingInfo, saveDaiApprovalInfo } from '../actions/ActionCDaiLendingInfo';
-import { saveTransactionCount, incrementTransactionCount } from '../actions/ActionTransactionCount';
+import {
+  saveTransactionCount,
+  incrementTotalTransactions
+} from '../actions/ActionTransactionCount';
 import {
   saveExistingTransactions,
   saveEmptyTransaction,
@@ -96,7 +99,7 @@ firebase.messaging().onMessage(downstreamMessage => {
 
           if (!txHashExist && isIncomingTx) {
             store.dispatch(addPendingOrIncludedTransaction(parsedTxStateMessage));
-            store.dispatch(incrementTransactionCount());
+            store.dispatch(incrementTotalTransactions());
           }
 
           transactionsHistory.map(transaction => {
@@ -136,7 +139,7 @@ firebase.messaging().onMessage(downstreamMessage => {
 
           if (!txHashExist && isIncomingTx) {
             store.dispatch(addPendingOrIncludedTransaction(parsedTxStateMessage));
-            store.dispatch(incrementTransactionCount());
+            store.dispatch(incrementTotalTransactions());
           }
 
           transactionsHistory.map(transaction => {

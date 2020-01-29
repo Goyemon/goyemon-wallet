@@ -4,7 +4,7 @@ import ethTx from 'ethereumjs-tx';
 import firebase from 'react-native-firebase';
 import uuidv4 from 'uuid/v4';
 import Web3 from 'web3';
-import { incrementTransactionCount } from '../actions/ActionTransactionCount';
+import { incrementTotalTransactions } from '../actions/ActionTransactionCount';
 import { addSentTransaction } from '../actions/ActionTransactionHistory';
 import cDaiContract from '../contracts/cDaiContract';
 import daiTokenContract from '../contracts/daiTokenContract';
@@ -562,7 +562,7 @@ class TransactionUtilities {
     firebase.messaging().sendMessage(upstreamMessage);
 
     store.dispatch(addSentTransaction(outgoingTransactionObject));
-    store.dispatch(incrementTransactionCount());
+    store.dispatch(incrementTotalTransactions());
   }
 }
 
