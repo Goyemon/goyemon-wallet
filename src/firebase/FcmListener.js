@@ -87,34 +87,31 @@ firebase.messaging().onMessage(downstreamMessage => {
           const txHashExist = transactionsHistory.some(
             transaction => transaction.hash === parsedTxStateMessage.hash
           );
+          const nonceExistWhereStateIsNotIncludedOrConfirmed = transactionsHistory.some(
+            transaction =>
+              transaction.nonce === parsedTxStateMessage.nonce &&
+              !(transaction.state === 'included' || transaction.state === 'confirmed')
+          );
           const isIncomingEthTx =
             checksumAddress === Web3.utils.toChecksumAddress(parsedTxStateMessage.to);
           const isDaiTransfer = parsedTxStateMessage.hasOwnProperty('dai_tr');
           let isIncomingDaiTx;
           if (isDaiTransfer) {
-            const isIncomingDaiTx =
+            isIncomingDaiTx =
               checksumAddress === Web3.utils.toChecksumAddress(parsedTxStateMessage.dai_tr.to);
           }
           const isIncomingTx = isIncomingEthTx || isIncomingDaiTx;
+          const isOutgoingTx =
+            checksumAddress === Web3.utils.toChecksumAddress(parsedTxStateMessage.from);
 
-          if (!txHashExist && isIncomingTx) {
+          if (nonceExistWhereStateIsNotIncludedOrConfirmed && isOutgoingTx) {
+            store.dispatch(updateWithPendingOrIncludedTransaction(parsedTxStateMessage));
+          } else if (!txHashExist && isIncomingTx) {
             store.dispatch(addPendingOrIncludedTransaction(parsedTxStateMessage));
             store.dispatch(incrementTotalTransactions());
+          } else {
+            console.log('unknown transaction');
           }
-
-          transactionsHistory.map(transaction => {
-            const isOutgoingTx =
-              transaction.from === Web3.utils.toChecksumAddress(parsedTxStateMessage.from);
-            const nonceExist = transaction.nonce === parsedTxStateMessage.nonce;
-            if (
-              isOutgoingTx &&
-              nonceExist &&
-              !(transaction.state === 'included') &&
-              !(transaction.state === 'confirmed')
-            ) {
-              store.dispatch(updateWithPendingOrIncludedTransaction(parsedTxStateMessage));
-            }
-          });
         } else {
           console.log("a transaction doesn't exist");
         }
@@ -127,6 +124,15 @@ firebase.messaging().onMessage(downstreamMessage => {
           const txHashExist = transactionsHistory.some(
             transaction => transaction.hash === parsedTxStateMessage.hash
           );
+          const txHashExistWhereStateIsNotConfirmed = transactionsHistory.some(
+            transaction =>
+              transaction.hash === parsedTxStateMessage.hash && !(transaction.state === 'confirmed')
+          );
+          const nonceExistWhereStateIsNotConfirmed = transactionsHistory.some(
+            transaction =>
+              transaction.nonce === parsedTxStateMessage.nonce &&
+              !(transaction.state === 'confirmed')
+          );
           const isIncomingEthTx =
             checksumAddress === Web3.utils.toChecksumAddress(parsedTxStateMessage.to);
           const isDaiTransfer = parsedTxStateMessage.hasOwnProperty('dai_tr');
@@ -136,24 +142,19 @@ firebase.messaging().onMessage(downstreamMessage => {
               checksumAddress === Web3.utils.toChecksumAddress(parsedTxStateMessage.dai_tr.to);
           }
           const isIncomingTx = isIncomingEthTx || isIncomingDaiTx;
+          const isOutgoingTx =
+            checksumAddress === Web3.utils.toChecksumAddress(parsedTxStateMessage.from);
 
-          if (!txHashExist && isIncomingTx) {
+          if (nonceExistWhereStateIsNotConfirmed && isOutgoingTx) {
+            store.dispatch(updateWithPendingOrIncludedTransaction(parsedTxStateMessage));
+          } else if (!txHashExist && isIncomingTx) {
             store.dispatch(addPendingOrIncludedTransaction(parsedTxStateMessage));
             store.dispatch(incrementTotalTransactions());
+          } else if (txHashExistWhereStateIsNotConfirmed) {
+            store.dispatch(updateTransactionState(parsedTxStateMessage));
+          } else {
+            console.log('unknown transaction');
           }
-
-          transactionsHistory.map(transaction => {
-            const isOutgoingTx =
-              transaction.from === Web3.utils.toChecksumAddress(parsedTxStateMessage.from);
-            const nonceExist = transaction.nonce === parsedTxStateMessage.nonce;
-            const hashExist = transaction.hash === parsedTxStateMessage.hash;
-            if (isOutgoingTx && nonceExist && !(transaction.state === 'confirmed')) {
-              store.dispatch(updateWithPendingOrIncludedTransaction(parsedTxStateMessage));
-            }
-            if (hashExist && !(transaction.state === 'confirmed')) {
-              store.dispatch(updateTransactionState(parsedTxStateMessage));
-            }
-          });
         } else {
           console.log("a transaction doesn't exist");
         }
@@ -161,9 +162,11 @@ firebase.messaging().onMessage(downstreamMessage => {
         const parsedTxStateMessage = TransactionUtilities.parseConfirmedTransaction(txStateMessage);
         const transactionsExist = Array.isArray(transactionsHistory);
         if (transactionsExist) {
+          const txHashExist = transactionsHistory.some(
+            transaction => transaction.hash === parsedTxStateMessage.hash
+          );
           transactionsHistory.map(transaction => {
-            const hashExist = transaction.hash === parsedTxStateMessage.hash;
-            if (hashExist) {
+            if (txHashExist) {
               store.dispatch(updateTransactionState(parsedTxStateMessage));
             }
           });
