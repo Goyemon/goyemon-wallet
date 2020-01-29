@@ -47,6 +47,8 @@ class DeviceInfo extends Component {
   }
 
   render() {
+    const otherDebugInfo = JSON.stringify(this.props.debugInfo.others);
+
     return (
       <RootContainer>
       <HeaderOne marginTop="96">Device Info</HeaderOne>
@@ -62,7 +64,7 @@ class DeviceInfo extends Component {
             Other Debug Info
           </HeaderThree>
           <CrypterestText fontSize="14">
-            {this.props.debugInfo.otherInfo}
+            {otherDebugInfo}
           </CrypterestText>
         </Container>
       </RootContainer>
