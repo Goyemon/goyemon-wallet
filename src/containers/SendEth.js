@@ -92,9 +92,9 @@ class SendEth extends Component {
   }
 
   getTransactionFeeEstimateInUsd(gasPriceWei) {
-    let transactionFeeEstimateInEther = PriceUtilities.convertEthToUsd(GasUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 21000));
-    transactionFeeEstimateInEther = transactionFeeEstimateInEther.toFixed(3);
-    return transactionFeeEstimateInEther;
+    let transactionFeeEstimateInUsd = PriceUtilities.convertEthToUsd(GasUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 21000));
+    transactionFeeEstimateInUsd = transactionFeeEstimateInUsd.toFixed(3);
+    return transactionFeeEstimateInUsd;
   }
 
   async constructTransactionObject() {
