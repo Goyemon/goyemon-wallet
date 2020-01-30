@@ -1,5 +1,5 @@
 'use strict';
-import { INCREMENT_TRANSACTION_COUNT, SAVE_TOTAL_TRANSACTIONS } from '../constants/ActionTypes';
+import { INCREMENT_TOTAL_TRANSACTIONS, SAVE_TOTAL_TRANSACTIONS } from '../constants/ActionTypes';
 import DebugUtilities from '../utilities/DebugUtilities.js';
 
 export function incrementTotalTransactions() {
@@ -13,7 +13,7 @@ export function incrementTotalTransactions() {
 };
 
 const incrementTotalTransactionsSuccess = () => ({
-  type: INCREMENT_TRANSACTION_COUNT,
+  type: INCREMENT_TOTAL_TRANSACTIONS,
   payload: 1
 });
 
