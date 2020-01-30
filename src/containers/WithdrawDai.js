@@ -24,6 +24,7 @@ import {
   CrypterestText
 } from '../components/common';
 import cDaiContract from '../contracts/cDaiContract';
+import DebugUtilities from '../utilities/DebugUtilities.js';
 import GasUtilities from '../utilities/GasUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
@@ -130,11 +131,11 @@ class WithdrawDai extends Component {
       this.daiSavingsBalance.isGreaterThanOrEqualTo(daiWithdrawAmount) &&
       daiWithdrawAmount.isGreaterThanOrEqualTo(new BigNumber(0))
     ) {
-      WalletUtilities.logInfo('the dai savings amount validated!');
+      DebugUtilities.logInfo('the dai savings amount validated!');
       this.setState({ daiSavingsAmountValidation: true });
       return true;
     }
-    WalletUtilities.logInfo('wrong dai balance!');
+    DebugUtilities.logInfo('wrong dai balance!');
     this.setState({ daiSavingsAmountValidation: false });
     return false;
   }
@@ -146,11 +147,11 @@ class WithdrawDai extends Component {
     );
 
     if (parseFloat(this.ethBalance) > parseFloat(transactionFeeLimitInEther)) {
-      WalletUtilities.logInfo('the eth amount validated!');
+      DebugUtilities.logInfo('the eth amount validated!');
       this.setState({ ethAmountValidation: true });
       return true;
     }
-    WalletUtilities.logInfo('wrong eth balance!');
+    DebugUtilities.logInfo('wrong eth balance!');
     this.setState({ ethAmountValidation: false });
     return false;
   }
@@ -202,13 +203,13 @@ class WithdrawDai extends Component {
     const ethAmountValidation = this.validateEthAmount();
 
     if (daiSavingsAmountValidation && ethAmountValidation) {
-      WalletUtilities.logInfo('validation successful');
+      DebugUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
       await this.props.saveOutgoingDaiTransactionAmount(daiWithdrawAmount);
       this.props.navigation.navigate('WithdrawDaiConfirmation');
     } else {
-      WalletUtilities.logInfo('form validation failed!');
+      DebugUtilities.logInfo('form validation failed!');
     }
   };
 

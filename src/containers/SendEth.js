@@ -20,10 +20,10 @@ import {
   FormHeader,
   CrypterestText
 } from '../components/common';
+import DebugUtilities from '../utilities/DebugUtilities.js';
 import GasUtilities from '../utilities/GasUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
-import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class SendEth extends Component {
   constructor(props) {
@@ -69,7 +69,7 @@ class SendEth extends Component {
       ethUsdBalance = ethUsdBalance.toFixed(2);
       return ethUsdBalance;
     } catch (err) {
-      WalletUtilities.logError(err);
+      DebugUtilities.logError(err);
     }
   }
 
@@ -114,11 +114,11 @@ class SendEth extends Component {
 
   validateToAddress(toAddress) {
     if (Web3.utils.isAddress(toAddress)) {
-      WalletUtilities.logInfo('address validated!');
+      DebugUtilities.logInfo('address validated!');
       this.setState({ toAddressValidation: true });
       return true;
     } else if (!this.state.toAddressValidation) {
-      WalletUtilities.logInfo('invalid address');
+      DebugUtilities.logInfo('invalid address');
       this.setState({ toAddressValidation: false });
       return false;
     }
@@ -145,11 +145,11 @@ class SendEth extends Component {
       parseFloat(amount) >= 0 &&
       amount.length != 0
     ) {
-      WalletUtilities.logInfo('the amount validated!');
+      DebugUtilities.logInfo('the amount validated!');
       this.setState({ amountValidation: true });
       return true;
     }
-    WalletUtilities.logInfo('wrong balance!');
+    DebugUtilities.logInfo('wrong balance!');
     this.setState({ amountValidation: false });
     return false;
   }
@@ -185,12 +185,12 @@ class SendEth extends Component {
     const toAddressValidation = this.validateToAddress(toAddress);
     const amountValidation = this.validateAmount(amount);
     if (toAddressValidation && amountValidation) {
-      WalletUtilities.logInfo('validation successful');
+      DebugUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
       this.props.navigation.navigate('SendEthConfirmation');
     } else {
-      WalletUtilities.logInfo('form validation failed!');
+      DebugUtilities.logInfo('form validation failed!');
     }
   };
 

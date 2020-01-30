@@ -6,8 +6,8 @@ import { View } from 'react-native';
 import styled from 'styled-components';
 import Web3 from 'web3';
 import { CrypterestText } from '../components/common';
+import DebugUtilities from '../utilities/DebugUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
-import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class WalletDetail extends Component {
   renderIcon() {
@@ -31,7 +31,7 @@ class WalletDetail extends Component {
           </CrypterestText>
         );
       } catch (err) {
-        WalletUtilities.logError(err);
+        DebugUtilities.logError(err);
       }
     } else if (this.props.wallet.id === 1) {
       try {
@@ -41,7 +41,7 @@ class WalletDetail extends Component {
           </CrypterestText>
         );
       } catch (err) {
-        WalletUtilities.logError(err);
+        DebugUtilities.logError(err);
       }
     }
   }

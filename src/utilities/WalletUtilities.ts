@@ -23,14 +23,6 @@ class WalletUtilities {
     return this.mnemonic;
   }
 
-  public logInfo() {
-    console.log(...arguments);
-  }
-  
-  public logError() {
-    console.error(...arguments);
-  }
-
   // public async init() {
   //   this.mnemonic = await this.getMnemonic();
   //   if (!this.mnemonic || !this.mnemonic.length || !this.validateMnemonic(this.mnemonic)) {

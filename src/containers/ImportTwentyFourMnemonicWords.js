@@ -6,6 +6,7 @@ import styled from 'styled-components/native';
 import { saveMnemonicWords } from '../actions/ActionMnemonic';
 import { updateMnemonicWordsValidation } from '../actions/ActionMnemonicWordsValidation';
 import { RootContainer, ProgressBar, HeaderTwo, Button, Description } from '../components/common';
+import DebugUtilities from '../utilities/DebugUtilities.js';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class ImportTwentyFourMnemonicWords extends Component {
@@ -52,7 +53,7 @@ class ImportTwentyFourMnemonicWords extends Component {
       this.props.navigation.navigate('NotificationPermissionTutorial');
     } else {
       this.setState({ mnemonicWordsValidation: false });
-      WalletUtilities.logInfo('form validation failed!');
+      DebugUtilities.logInfo('form validation failed!');
     }
   }
 
@@ -111,7 +112,7 @@ class ImportTwentyFourMnemonicWords extends Component {
                       }}
                       onSubmitEditing={
                         id === 23
-                          ? WalletUtilities.logInfo('done')
+                          ? DebugUtilities.logInfo('done')
                           : () => this.focusNextInput((id + 1).toString())
                       }
                       returnKeyType={id === 23 ? 'done' : 'next'}

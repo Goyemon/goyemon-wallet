@@ -2,8 +2,8 @@
 import { SAVE_EMPTY_TRANSACTION, SAVE_EXISTING_TRANSACTIONS, ADD_SENT_TRANSACTION, ADD_PENDING_OR_INCLUDED_TRANSACTION, UPDATE_PENDING_OR_INCLUDED_TRANSACTION, UPDATE_TRANSACTION_STATE } from '../constants/ActionTypes';
 import cDaiContract from '../contracts/cDaiContract';
 import daiTokenContract from '../contracts/daiTokenContract';
+import DebugUtilities from '../utilities/DebugUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
-import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 export function saveEmptyTransaction(emptyTransaction) {
   return function (dispatch) {
@@ -11,7 +11,7 @@ export function saveEmptyTransaction(emptyTransaction) {
       const parsedEmptyTransaction = JSON.parse(emptyTransaction);
       dispatch(saveEmptyTransactionSuccess(parsedEmptyTransaction));
     } catch(err) {
-      WalletUtilities.logError(err);
+      DebugUtilities.logError(err);
     }
   }
 };
@@ -26,7 +26,7 @@ export function saveExistingTransactions(transactions) {
     try {
       dispatch(saveExistingTransactionsSuccess(transactions));
     } catch(err) {
-      WalletUtilities.logError(err);
+      DebugUtilities.logError(err);
     }
   }
 };
@@ -77,7 +77,7 @@ export function addSentTransaction(transactionObject) {
       }
       dispatch(addSentTransactionSuccess(parsedSentTransaction));
     } catch(err) {
-      WalletUtilities.logError(err);
+      DebugUtilities.logError(err);
     }
   }
 };
@@ -92,7 +92,7 @@ export function addPendingOrIncludedTransaction(transactionObject) {
     try {
       dispatch(addPendingOrIncludedTransactionSuccess(transactionObject));
     } catch(err) {
-      WalletUtilities.logError(err);
+      DebugUtilities.logError(err);
     }
   }
 };
@@ -107,7 +107,7 @@ export function updateWithPendingOrIncludedTransaction(transactionObject) {
     try {
       dispatch(updateWithPendingOrIncludedTransactionSuccess(transactionObject));
     } catch(err) {
-      WalletUtilities.logError(err);
+      DebugUtilities.logError(err);
     }
   }
 };
@@ -122,7 +122,7 @@ export function updateTransactionState(updatedTransaction) {
     try {
       dispatch(updateTransactionStateSuccess(updatedTransaction));
     } catch(err) {
-      WalletUtilities.logError(err);
+      DebugUtilities.logError(err);
     }
   }
 };

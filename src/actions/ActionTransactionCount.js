@@ -1,13 +1,13 @@
 'use strict';
 import { INCREMENT_TRANSACTION_COUNT, SAVE_TRANSACTION_COUNT } from '../constants/ActionTypes';
-import WalletUtilities from '../utilities/WalletUtilities.ts';
+import DebugUtilities from '../utilities/DebugUtilities.js';
 
 export function incrementTotalTransactions() {
   return async function (dispatch) {
     try {
       dispatch(incrementTotalTransactionsSuccess());
     } catch(err) {
-      WalletUtilities.logError(err);
+      DebugUtilities.logError(err);
     }
   }
 };
@@ -22,7 +22,7 @@ export function saveTransactionCount(transactionCount) {
     try {
       dispatch(saveTransactionCountSuccess(transactionCount));
     } catch(err) {
-      WalletUtilities.logError(err);
+      DebugUtilities.logError(err);
     }
   }
 };

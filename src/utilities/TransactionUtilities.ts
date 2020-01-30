@@ -9,6 +9,7 @@ import { addSentTransaction } from '../actions/ActionTransactionHistory';
 import cDaiContract from '../contracts/cDaiContract';
 import daiTokenContract from '../contracts/daiTokenContract';
 import { store } from '../store/store.js';
+import DebugUtilities from '../utilities/DebugUtilities.js';
 import WalletUtilities from './WalletUtilities.ts';
 import Web3ProviderUtilities from './Web3ProviderUtilities.js';
 
@@ -89,7 +90,7 @@ class TransactionUtilities {
               }
             };
           }
-          WalletUtilities.logInfo('transaction ===>', transaction);
+          DebugUtilities.logInfo('transaction ===>', transaction);
         } else if (tokenName === 'dai') {
           const isDaiTransferTx = Object.keys(tokenObject.dai)[0] === 'tr';
           const isDaiApproveTx = Object.keys(tokenObject.dai)[0] === 'appr';
@@ -128,7 +129,7 @@ class TransactionUtilities {
               }
             };
           }
-          WalletUtilities.logInfo('transaction ===>', transaction);
+          DebugUtilities.logInfo('transaction ===>', transaction);
         } else if (tokenName === 'cdai') {
           const isCDaiMintTx = Object.keys(tokenObject.cdai)[0] === 'mint';
           const isCDaiRedeemUnderlyingTx = Object.keys(tokenObject.cdai)[0] === 'redeem';
@@ -192,7 +193,7 @@ class TransactionUtilities {
           };
         }
       } else {
-        WalletUtilities.logInfo('transaction ===>', transaction);
+        DebugUtilities.logInfo('transaction ===>', transaction);
       }
     });
 

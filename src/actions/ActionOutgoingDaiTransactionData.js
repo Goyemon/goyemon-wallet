@@ -2,14 +2,14 @@
 import { SAVE_OUTGOING_DAI_TRANSACTION_AMOUNT } from '../constants/ActionTypes';
 import { SAVE_OUTGOING_DAI_TRANSACTION_TO_ADDRESS } from '../constants/ActionTypes';
 import { SAVE_OUTGOING_DAI_TRANSACTION_APPROVE_AMOUNT } from '../constants/ActionTypes';
-import WalletUtilities from '../utilities/WalletUtilities.ts';
+import DebugUtilities from '../utilities/DebugUtilities.js';
 
 export function saveOutgoingDaiTransactionAmount(daiAmount) {
   return async function (dispatch) {
     try {
       dispatch(saveOutgoingDaiTransactionAmountSuccess(daiAmount));
     } catch(err) {
-      WalletUtilities.logError(err);
+      DebugUtilities.logError(err);
     }
   }
 };
@@ -24,7 +24,7 @@ export function saveOutgoingDaiTransactionToAddress(toAddress) {
     try {
       dispatch(saveOutgoingDaiTransactionToAddressSuccess(toAddress));
     } catch(err) {
-      WalletUtilities.logError(err);
+      DebugUtilities.logError(err);
     }
   }
 };
@@ -39,7 +39,7 @@ export function saveOutgoingDaiTransactionApproveAmount(approveAmount) {
     try {
       dispatch(saveOutgoingDaiTransactionApproveAmountSuccess(approveAmount));
     } catch(err) {
-      WalletUtilities.logError(err);
+      DebugUtilities.logError(err);
     }
   }
 };

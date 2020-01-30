@@ -1,13 +1,13 @@
 'use strict';
 import { SAVE_OUTGOING_TRANSACTION_OBJECT } from '../constants/ActionTypes';
-import WalletUtilities from '../utilities/WalletUtilities.ts';
+import DebugUtilities from '../utilities/DebugUtilities.js';
 
 export function saveOutgoingTransactionObject(outgoingTransactionObject) {
   return async function (dispatch) {
     try {
       dispatch(saveOutgoingTransactionObjectSuccess(outgoingTransactionObject));
     } catch(err) {
-      WalletUtilities.logError(err);
+      DebugUtilities.logError(err);
     }
   }
 };

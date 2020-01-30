@@ -20,11 +20,11 @@ import {
   updateWithPendingOrIncludedTransaction,
   updateTransactionState
 } from '../actions/ActionTransactionHistory';
+import DebugUtilities from '../utilities/DebugUtilities.js';
 import EtherUtilities from '../utilities/EtherUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import FcmMsgsParser from './FcmMsgsParser.js';
 import { store } from '../store/store';
-import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 firebase.messaging().onMessage(downstreamMessage => {
   const stateTree = store.getState();
@@ -33,7 +33,7 @@ firebase.messaging().onMessage(downstreamMessage => {
   const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
   const transactionsHistory = stateTree.ReducerTransactionHistory.transactions;
 
-  WalletUtilities.logInfo('downstreamMessage ===>', downstreamMessage);
+  DebugUtilities.logInfo('downstreamMessage ===>', downstreamMessage);
 
   if (downstreamMessage.data.type === 'balance') {
     const balanceMessage = JSON.parse(downstreamMessage.data.data);
@@ -111,10 +111,10 @@ firebase.messaging().onMessage(downstreamMessage => {
             store.dispatch(addPendingOrIncludedTransaction(parsedTxStateMessage));
             store.dispatch(incrementTotalTransactions());
           } else {
-            WalletUtilities.logInfo('unknown transaction');
+            DebugUtilities.logInfo('unknown transaction');
           }
         } else {
-          WalletUtilities.logInfo("a transaction doesn't exist");
+          DebugUtilities.logInfo("a transaction doesn't exist");
         }
       } else if (isIncludedState) {
         const parsedTxStateMessage = TransactionUtilities.parsePendingOrIncludedTransaction(
@@ -154,10 +154,10 @@ firebase.messaging().onMessage(downstreamMessage => {
           } else if (txHashExistWhereStateIsNotConfirmed) {
             store.dispatch(updateTransactionState(parsedTxStateMessage));
           } else {
-            WalletUtilities.logInfo('unknown transaction');
+            DebugUtilities.logInfo('unknown transaction');
           }
         } else {
-          WalletUtilities.logInfo("a transaction doesn't exist");
+          DebugUtilities.logInfo("a transaction doesn't exist");
         }
       } else if (isConfirmedState) {
         const parsedTxStateMessage = TransactionUtilities.parseConfirmedTransaction(txStateMessage);
@@ -170,7 +170,7 @@ firebase.messaging().onMessage(downstreamMessage => {
             store.dispatch(updateTransactionState(parsedTxStateMessage));
           }
         } else {
-          WalletUtilities.logInfo("a transaction doesn't exist");
+          DebugUtilities.logInfo("a transaction doesn't exist");
         }
       }
     });

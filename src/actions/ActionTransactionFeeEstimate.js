@@ -1,13 +1,13 @@
 'use strict';
 import { SAVE_TRANSACTION_FEE_ESTIMATE_ETH, SAVE_TRANSACTION_FEE_ESTIMATE_USD } from '../constants/ActionTypes';
-import WalletUtilities from '../utilities/WalletUtilities.ts';
+import DebugUtilities from '../utilities/DebugUtilities.js';
 
 export function saveTransactionFeeEstimateEth(eth) {
   return async function (dispatch) {
     try {
       dispatch(saveTransactionFeeEstimateEthSuccess(eth));
     } catch(err) {
-      WalletUtilities.logError(err);
+      DebugUtilities.logError(err);
     }
   }
 };
@@ -22,7 +22,7 @@ export function saveTransactionFeeEstimateUsd(usd) {
     try {
       dispatch(saveTransactionFeeEstimateUsdSuccess(usd));
     } catch(err) {
-      WalletUtilities.logError(err);
+      DebugUtilities.logError(err);
     }
   }
 };

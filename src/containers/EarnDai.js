@@ -20,11 +20,11 @@ import {
 } from '../components/common/';
 import cDaiContract from '../contracts/cDaiContract';
 import daiTokenContract from '../contracts/daiTokenContract';
+import DebugUtilities from '../utilities/DebugUtilities.js';
 import GasUtilities from '../utilities/GasUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import Web3ProviderUtilities from '../utilities/Web3ProviderUtilities.js';
-import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class EarnDai extends Component {
   constructor(props) {
@@ -59,11 +59,11 @@ class EarnDai extends Component {
     );
 
     if (parseFloat(this.ethBalance) > parseFloat(transactionFeeLimitInEther)) {
-      WalletUtilities.logInfo('the eth amount validated!');
+      DebugUtilities.logInfo('the eth amount validated!');
       this.setState({ ethAmountValidation: true });
       return true;
     }
-    WalletUtilities.logInfo('wrong eth balance!');
+    DebugUtilities.logInfo('wrong eth balance!');
     this.setState({ ethAmountValidation: false });
     return false;
   }
@@ -110,14 +110,14 @@ class EarnDai extends Component {
     const ethAmountValidation = this.validateEthAmount();
 
     if (ethAmountValidation) {
-      WalletUtilities.logInfo('validation successful');
+      DebugUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await TransactionUtilities.sendOutgoingTransactionToServer(transactionObject);
       this.props.saveOutgoingDaiTransactionApproveAmount(this.web3.utils.toHex(-1));
       this.setModalVisible(false);
       this.props.navigation.navigate('Dai');
     } else {
-      WalletUtilities.logInfo('validation failed!');
+      DebugUtilities.logInfo('validation failed!');
     }
   };
 
@@ -158,7 +158,7 @@ class EarnDai extends Component {
         </TransactionButtonContainer>
       );
     }
-    WalletUtilities.logInfo('dai not approved yet');
+    DebugUtilities.logInfo('dai not approved yet');
   }
 
   renderApproveButton() {
@@ -177,7 +177,7 @@ class EarnDai extends Component {
         />
       );
     }
-    WalletUtilities.logInfo('dai already approved');
+    DebugUtilities.logInfo('dai already approved');
   }
 
   render() {

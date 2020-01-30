@@ -17,16 +17,16 @@ import {
   HeaderThree,
   HeaderFour
 } from '../components/common/';
+import DebugUtilities from '../utilities/DebugUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionsDai from '../containers/TransactionsDai';
-import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class Dai extends Component {
   getUsdBalance(daiBalance) {
     try {
       return PriceUtilities.convertDaiToUsd(daiBalance);
     } catch (err) {
-      WalletUtilities.logError(err);
+      DebugUtilities.logError(err);
     }
   }
 

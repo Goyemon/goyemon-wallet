@@ -16,6 +16,7 @@ import {
   CrypterestText
 } from '../components/common';
 import { persistor } from '../store/store.js';
+import DebugUtilities from '../utilities/DebugUtilities.js';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class Settings extends Component {
@@ -90,7 +91,7 @@ class Settings extends Component {
           <CommunityIcon>
             <Icon
               onPress={() => {
-                Linking.openURL('#').catch(err => WalletUtilities.logError('An error occurred', err));
+                Linking.openURL('#').catch(err => DebugUtilities.logError('An error occurred', err));
               }}
               name="twitter"
               color="#00aced"
@@ -100,7 +101,7 @@ class Settings extends Component {
           <CommunityIcon>
             <Icon
               onPress={() => {
-                Linking.openURL('#').catch(err => WalletUtilities.logError('An error occurred', err));
+                Linking.openURL('#').catch(err => DebugUtilities.logError('An error occurred', err));
               }}
               name="github-circle"
               color="#333"
@@ -111,7 +112,7 @@ class Settings extends Component {
             <Icon
               onPress={() => {
                 Linking.openURL('https://discord.gg/MXGfnJG').catch(err =>
-                  WalletUtilities.logError('An error occurred', err)
+                  DebugUtilities.logError('An error occurred', err)
                 );
               }}
               name="discord"

@@ -1,14 +1,14 @@
 'use strict';
 import BigNumber from "bignumber.js"
 import { SAVE_C_DAI_BALANCE, SAVE_DAI_BALANCE, SAVE_DAI_SAVINGS_BALANCE, SAVE_WEI_BALANCE } from '../constants/ActionTypes';
-import WalletUtilities from '../utilities/WalletUtilities.ts';
+import DebugUtilities from '../utilities/DebugUtilities.js';
 
 export function saveCDaiBalance(cDaiBalance) {
   return async function (dispatch) {
     try {
       dispatch(saveCDaiBalanceSuccess(cDaiBalance));
     } catch(err) {
-      WalletUtilities.logError(err);
+      DebugUtilities.logError(err);
     }
   }
 };
@@ -23,7 +23,7 @@ export function saveDaiBalance(daiBalance) {
     try {
       dispatch(saveDaiBalanceSuccess(daiBalance));
     } catch(err) {
-      WalletUtilities.logError(err);
+      DebugUtilities.logError(err);
     }
   }
 };
@@ -39,7 +39,7 @@ export function saveDaiSavingsBalance(cDaiBalance, currentExchangeRate) {
       const daiSavingsBalance = new BigNumber(cDaiBalance).times(currentExchangeRate);
       dispatch(saveDaiSavingsBalanceSuccess(daiSavingsBalance));
     } catch(err) {
-      WalletUtilities.logError(err);
+      DebugUtilities.logError(err);
     }
   }
 };
@@ -54,7 +54,7 @@ export function saveWeiBalance(weiBalance) {
     try {
       dispatch(saveWeiBalanceSuccess(weiBalance));
     } catch(err) {
-      WalletUtilities.logError(err);
+      DebugUtilities.logError(err);
     }
   }
 };
