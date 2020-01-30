@@ -1,7 +1,6 @@
 'use strict';
 import { CREATE_CHECKSUM_ADDRESS } from '../constants/ActionTypes';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
-import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 export function createChecksumAddress() {
   return async function (dispatch) {
