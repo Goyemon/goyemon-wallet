@@ -17,7 +17,7 @@ export default class Initial extends Component {
   mnemonicWordsValidation = this.stateTree.ReducerMnemonicWordsValidation.mnemonicWordsValidation;
   notificationEnabled = this.stateTree.ReducerNotificationPermission.notificationPermission;
   price = this.stateTree.ReducerPrice.price;
-  transactionCount = this.stateTree.ReducerTransactionCount.transactionCount;
+  transactionCount = this.stateTree.ReducerTotalTransactions.transactionCount;
   transactions = this.stateTree.ReducerTransactionHistory.transactions;
 
   async componentDidMount() {

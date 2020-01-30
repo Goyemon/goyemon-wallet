@@ -243,7 +243,7 @@ function mapStateToProps(state) {
   return {
     balance: state.ReducerBalance.balance,
     cDaiLendingInfo: state.ReducerCDaiLendingInfo.cDaiLendingInfo,
-    transactionCount: state.ReducerTransactionCount.transactionCount,
+    transactionCount: state.ReducerTotalTransactions.transactionCount,
     transactions: state.ReducerTransactionHistory.transactions,
     mnemonicWords: state.ReducerMnemonic.mnemonicWords,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
