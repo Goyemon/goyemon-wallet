@@ -166,11 +166,9 @@ firebase.messaging().onMessage(downstreamMessage => {
           const txHashExist = transactionsHistory.some(
             transaction => transaction.hash === parsedTxStateMessage.hash
           );
-          transactionsHistory.map(transaction => {
-            if (txHashExist) {
-              store.dispatch(updateTransactionState(parsedTxStateMessage));
-            }
-          });
+          if (txHashExist) {
+            store.dispatch(updateTransactionState(parsedTxStateMessage));
+          }
         } else {
           WalletUtilities.logInfo("a transaction doesn't exist");
         }
