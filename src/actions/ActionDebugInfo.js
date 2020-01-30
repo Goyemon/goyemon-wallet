@@ -1,13 +1,14 @@
 'use strict';
 import { SAVE_FCM_TOKEN } from '../constants/ActionTypes';
 import { SAVE_OTHER_DEBUG_INFO } from '../constants/ActionTypes';
+import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 export function saveFcmToken(fcmToken) {
   return async function (dispatch) {
     try {
       dispatch(saveFcmTokenSuccess(fcmToken));
     } catch(err) {
-      console.error(err);
+      WalletUtilities.logError(err);
     }
   }
 };
@@ -22,7 +23,7 @@ export function saveOtherDebugInfo(otherDebugInfo) {
     try {
       dispatch(saveOtherDebugInfoSuccess(otherDebugInfo));
     } catch(err) {
-      console.error(err);
+      WalletUtilities.logError(err);
     }
   }
 };
@@ -30,4 +31,4 @@ export function saveOtherDebugInfo(otherDebugInfo) {
 const saveOtherDebugInfoSuccess = (otherDebugInfo) => ({
   type: SAVE_OTHER_DEBUG_INFO,
   payload: otherDebugInfo
-})
+});

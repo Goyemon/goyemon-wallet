@@ -1,6 +1,7 @@
 'use strict';
 import { CREATE_CHECKSUM_ADDRESS } from '../constants/ActionTypes';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
+import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 export function createChecksumAddress() {
   return async function (dispatch) {
@@ -8,7 +9,7 @@ export function createChecksumAddress() {
       const checksumAddress = await WalletUtilities.createChecksumAddress();
       dispatch(createChecksumAddressSuccess(checksumAddress));
     } catch(err) {
-      console.error(err);
+      WalletUtilities.logError(err);
     }
   }
 };
@@ -16,4 +17,4 @@ export function createChecksumAddress() {
 const createChecksumAddressSuccess = (checksumAddress) => ({
   type: CREATE_CHECKSUM_ADDRESS,
   payload: checksumAddress
-})
+});

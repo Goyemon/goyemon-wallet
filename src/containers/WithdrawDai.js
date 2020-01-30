@@ -28,6 +28,7 @@ import GasUtilities from '../utilities/GasUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import Web3ProviderUtilities from '../utilities/Web3ProviderUtilities.js';
+import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class WithdrawDai extends Component {
   constructor(props) {
@@ -129,11 +130,11 @@ class WithdrawDai extends Component {
       this.daiSavingsBalance.isGreaterThanOrEqualTo(daiWithdrawAmount) &&
       daiWithdrawAmount.isGreaterThanOrEqualTo(new BigNumber(0))
     ) {
-      console.log('the dai savings amount validated!');
+      WalletUtilities.logInfo('the dai savings amount validated!');
       this.setState({ daiSavingsAmountValidation: true });
       return true;
     }
-    console.log('wrong dai balance!');
+    WalletUtilities.logInfo('wrong dai balance!');
     this.setState({ daiSavingsAmountValidation: false });
     return false;
   }
@@ -145,11 +146,11 @@ class WithdrawDai extends Component {
     );
 
     if (parseFloat(this.ethBalance) > parseFloat(transactionFeeLimitInEther)) {
-      console.log('the eth amount validated!');
+      WalletUtilities.logInfo('the eth amount validated!');
       this.setState({ ethAmountValidation: true });
       return true;
     }
-    console.log('wrong eth balance!');
+    WalletUtilities.logInfo('wrong eth balance!');
     this.setState({ ethAmountValidation: false });
     return false;
   }
@@ -201,13 +202,13 @@ class WithdrawDai extends Component {
     const ethAmountValidation = this.validateEthAmount();
 
     if (daiSavingsAmountValidation && ethAmountValidation) {
-      console.log('validation successful');
+      WalletUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
       await this.props.saveOutgoingDaiTransactionAmount(daiWithdrawAmount);
       this.props.navigation.navigate('WithdrawDaiConfirmation');
     } else {
-      console.log('form validation failed!');
+      WalletUtilities.logInfo('form validation failed!');
     }
   };
 

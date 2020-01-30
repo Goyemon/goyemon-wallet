@@ -3,6 +3,7 @@ import { SAVE_EMPTY_TRANSACTION, SAVE_EXISTING_TRANSACTIONS, ADD_SENT_TRANSACTIO
 import cDaiContract from '../contracts/cDaiContract';
 import daiTokenContract from '../contracts/daiTokenContract';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
+import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 export function saveEmptyTransaction(emptyTransaction) {
   return function (dispatch) {
@@ -10,7 +11,7 @@ export function saveEmptyTransaction(emptyTransaction) {
       const parsedEmptyTransaction = JSON.parse(emptyTransaction);
       dispatch(saveEmptyTransactionSuccess(parsedEmptyTransaction));
     } catch(err) {
-      console.error(err);
+      WalletUtilities.logError(err);
     }
   }
 };
@@ -18,14 +19,14 @@ export function saveEmptyTransaction(emptyTransaction) {
 const saveEmptyTransactionSuccess = (parsedEmptyTransaction) => ({
   type: SAVE_EMPTY_TRANSACTION,
   payload: parsedEmptyTransaction
-})
+});
 
 export function saveExistingTransactions(transactions) {
   return function (dispatch) {
     try {
       dispatch(saveExistingTransactionsSuccess(transactions));
     } catch(err) {
-      console.error(err);
+      WalletUtilities.logError(err);
     }
   }
 };
@@ -33,7 +34,7 @@ export function saveExistingTransactions(transactions) {
 const saveExistingTransactionsSuccess = (parsedExistingTransactions) => ({
   type: SAVE_EXISTING_TRANSACTIONS,
   payload: parsedExistingTransactions
-})
+});
 
 export function addSentTransaction(transactionObject) {
   return async function (dispatch) {
@@ -76,7 +77,7 @@ export function addSentTransaction(transactionObject) {
       }
       dispatch(addSentTransactionSuccess(parsedSentTransaction));
     } catch(err) {
-      console.error(err);
+      WalletUtilities.logError(err);
     }
   }
 };
@@ -84,14 +85,14 @@ export function addSentTransaction(transactionObject) {
 const addSentTransactionSuccess = (parsedSentTransaction) => ({
   type: ADD_SENT_TRANSACTION,
   payload: parsedSentTransaction
-})
+});
 
 export function addPendingOrIncludedTransaction(transactionObject) {
   return function (dispatch) {
     try {
       dispatch(addPendingOrIncludedTransactionSuccess(transactionObject));
     } catch(err) {
-      console.error(err);
+      WalletUtilities.logError(err);
     }
   }
 };
@@ -99,14 +100,14 @@ export function addPendingOrIncludedTransaction(transactionObject) {
 const addPendingOrIncludedTransactionSuccess = (parsedTransaction) => ({
   type: ADD_PENDING_OR_INCLUDED_TRANSACTION,
   payload: parsedTransaction
-})
+});
 
 export function updateWithPendingOrIncludedTransaction(transactionObject) {
   return function (dispatch) {
     try {
       dispatch(updateWithPendingOrIncludedTransactionSuccess(transactionObject));
     } catch(err) {
-      console.error(err);
+      WalletUtilities.logError(err);
     }
   }
 };
@@ -114,14 +115,14 @@ export function updateWithPendingOrIncludedTransaction(transactionObject) {
 const updateWithPendingOrIncludedTransactionSuccess = (parsedTransaction) => ({
   type: UPDATE_PENDING_OR_INCLUDED_TRANSACTION,
   payload: parsedTransaction
-})
+});
 
 export function updateTransactionState(updatedTransaction) {
   return function (dispatch) {
     try {
       dispatch(updateTransactionStateSuccess(updatedTransaction));
     } catch(err) {
-      console.error(err);
+      WalletUtilities.logError(err);
     }
   }
 };
@@ -129,4 +130,4 @@ export function updateTransactionState(updatedTransaction) {
 const updateTransactionStateSuccess = (updatedTransaction) => ({
   type: UPDATE_TRANSACTION_STATE,
   payload: updatedTransaction
-})
+});

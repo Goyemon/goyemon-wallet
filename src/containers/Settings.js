@@ -90,7 +90,7 @@ class Settings extends Component {
           <CommunityIcon>
             <Icon
               onPress={() => {
-                Linking.openURL('#').catch(err => console.error('An error occurred', err));
+                Linking.openURL('#').catch(err => WalletUtilities.logError('An error occurred', err));
               }}
               name="twitter"
               color="#00aced"
@@ -100,7 +100,7 @@ class Settings extends Component {
           <CommunityIcon>
             <Icon
               onPress={() => {
-                Linking.openURL('#').catch(err => console.error('An error occurred', err));
+                Linking.openURL('#').catch(err => WalletUtilities.logError('An error occurred', err));
               }}
               name="github-circle"
               color="#333"
@@ -111,7 +111,7 @@ class Settings extends Component {
             <Icon
               onPress={() => {
                 Linking.openURL('https://discord.gg/MXGfnJG').catch(err =>
-                  console.error('An error occurred', err)
+                  WalletUtilities.logError('An error occurred', err)
                 );
               }}
               name="discord"

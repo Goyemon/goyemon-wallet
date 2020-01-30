@@ -1,6 +1,7 @@
 'use strict';
 import { SAVE_MNEMONIC } from '../constants/ActionTypes';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
+import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 export function saveMnemonicWords() {
   return async function (dispatch) {
@@ -8,7 +9,7 @@ export function saveMnemonicWords() {
       const mnemonicWords = await WalletUtilities.getMnemonic();
       dispatch(saveMnemonicWordsSuccess(mnemonicWords));
     } catch(err) {
-      console.error(err);
+      WalletUtilities.logError(err);
     }
   }
 };
@@ -16,4 +17,4 @@ export function saveMnemonicWords() {
 const saveMnemonicWordsSuccess = (mnemonicWords) => ({
   type: SAVE_MNEMONIC,
   payload: mnemonicWords
-})
+});

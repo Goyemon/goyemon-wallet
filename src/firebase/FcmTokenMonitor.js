@@ -2,9 +2,10 @@
 import firebase from 'react-native-firebase';
 import { saveFcmToken } from '../actions/ActionDebugInfo';
 import { store } from '../store/store';
+import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 firebase.messaging().onTokenRefresh(fcmToken => {
-  console.log('a new fcmToken is generated ===>', fcmToken);
+  WalletUtilities.logInfo('a new fcmToken is generated ===>', fcmToken);
   store.dispatch(saveFcmToken(fcmToken));
 });
 
@@ -13,9 +14,9 @@ firebase
   .getToken()
   .then(fcmToken => {
     if (fcmToken) {
-      console.log('the current fcmToken ===>', fcmToken);
+      WalletUtilities.logInfo('the current fcmToken ===>', fcmToken);
       store.dispatch(saveFcmToken(fcmToken));
     } else {
-      console.log('no fcmToken ');
+      WalletUtilities.logInfo('no fcmToken ');
     }
   });

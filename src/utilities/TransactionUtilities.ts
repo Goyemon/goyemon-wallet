@@ -89,7 +89,7 @@ class TransactionUtilities {
               }
             };
           }
-          console.log('transaction ===>', transaction);
+          WalletUtilities.logInfo('transaction ===>', transaction);
         } else if (tokenName === 'dai') {
           const isDaiTransferTx = Object.keys(tokenObject.dai)[0] === 'tr';
           const isDaiApproveTx = Object.keys(tokenObject.dai)[0] === 'appr';
@@ -128,7 +128,7 @@ class TransactionUtilities {
               }
             };
           }
-          console.log('transaction ===>', transaction);
+          WalletUtilities.logInfo('transaction ===>', transaction);
         } else if (tokenName === 'cdai') {
           const isCDaiMintTx = Object.keys(tokenObject.cdai)[0] === 'mint';
           const isCDaiRedeemUnderlyingTx = Object.keys(tokenObject.cdai)[0] === 'redeem';
@@ -192,7 +192,7 @@ class TransactionUtilities {
           };
         }
       } else {
-        console.log('transaction ===>', transaction);
+        WalletUtilities.logInfo('transaction ===>', transaction);
       }
     });
 

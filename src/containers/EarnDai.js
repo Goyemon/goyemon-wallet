@@ -24,6 +24,7 @@ import GasUtilities from '../utilities/GasUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import Web3ProviderUtilities from '../utilities/Web3ProviderUtilities.js';
+import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class EarnDai extends Component {
   constructor(props) {
@@ -58,11 +59,11 @@ class EarnDai extends Component {
     );
 
     if (parseFloat(this.ethBalance) > parseFloat(transactionFeeLimitInEther)) {
-      console.log('the eth amount validated!');
+      WalletUtilities.logInfo('the eth amount validated!');
       this.setState({ ethAmountValidation: true });
       return true;
     }
-    console.log('wrong eth balance!');
+    WalletUtilities.logInfo('wrong eth balance!');
     this.setState({ ethAmountValidation: false });
     return false;
   }
@@ -109,14 +110,14 @@ class EarnDai extends Component {
     const ethAmountValidation = this.validateEthAmount();
 
     if (ethAmountValidation) {
-      console.log('validation successful');
+      WalletUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await TransactionUtilities.sendOutgoingTransactionToServer(transactionObject);
       this.props.saveOutgoingDaiTransactionApproveAmount(this.web3.utils.toHex(-1));
       this.setModalVisible(false);
       this.props.navigation.navigate('Dai');
     } else {
-      console.log('validation failed!');
+      WalletUtilities.logInfo('validation failed!');
     }
   };
 
@@ -157,7 +158,7 @@ class EarnDai extends Component {
         </TransactionButtonContainer>
       );
     }
-    console.log('dai not approved yet');
+    WalletUtilities.logInfo('dai not approved yet');
   }
 
   renderApproveButton() {
@@ -176,7 +177,7 @@ class EarnDai extends Component {
         />
       );
     }
-    console.log('dai already approved');
+    WalletUtilities.logInfo('dai already approved');
   }
 
   render() {

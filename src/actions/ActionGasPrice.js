@@ -2,6 +2,7 @@
 import axios from 'axios';
 import Web3 from 'web3';
 import { GET_GAS_PRICE_FAST, GET_GAS_PRICE_AVERAGE, GET_GAS_PRICE_SLOW } from '../constants/ActionTypes';
+import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 export function getGasPriceFast() {
   return async function (dispatch) {
@@ -11,7 +12,7 @@ export function getGasPriceFast() {
       const gasPriceFastWei = Web3.utils.toWei(gasPriceFastGwei, 'Gwei');
       dispatch(getGasPriceFastSuccess(gasPriceFastWei));
     } catch(err) {
-      console.error(err);
+      WalletUtilities.logError(err);
     }
   }
 };
@@ -29,7 +30,7 @@ export function getGasPriceAverage() {
       const gasPriceAverageWei = Web3.utils.toWei(gasPriceAverageGwei, 'Gwei');
       dispatch(getGasPriceAverageSuccess(gasPriceAverageWei));
     } catch(err) {
-      console.error(err);
+      WalletUtilities.logError(err);
     }
   }
 };
@@ -47,7 +48,7 @@ export function getGasPriceSlow() {
       const gasPriceSlowWei = Web3.utils.toWei(gasPriceSlowGwei, 'Gwei');
       dispatch(getGasPriceSlowSuccess(gasPriceSlowWei));
     } catch(err) {
-      console.error(err);
+      WalletUtilities.logError(err);
     }
   }
 };
@@ -55,4 +56,4 @@ export function getGasPriceSlow() {
 const getGasPriceSlowSuccess = (gasPriceSlowWei) => ({
   type: GET_GAS_PRICE_SLOW,
   payload: gasPriceSlowWei
-})
+});

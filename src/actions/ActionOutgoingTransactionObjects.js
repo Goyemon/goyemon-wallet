@@ -1,12 +1,13 @@
 'use strict';
 import { SAVE_OUTGOING_TRANSACTION_OBJECT } from '../constants/ActionTypes';
+import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 export function saveOutgoingTransactionObject(outgoingTransactionObject) {
   return async function (dispatch) {
     try {
       dispatch(saveOutgoingTransactionObjectSuccess(outgoingTransactionObject));
     } catch(err) {
-      console.error(err);
+      WalletUtilities.logError(err);
     }
   }
 };
@@ -14,4 +15,4 @@ export function saveOutgoingTransactionObject(outgoingTransactionObject) {
 const saveOutgoingTransactionObjectSuccess = (outgoingTransactionObject) => ({
   type: SAVE_OUTGOING_TRANSACTION_OBJECT,
   payload: outgoingTransactionObject
-})
+});

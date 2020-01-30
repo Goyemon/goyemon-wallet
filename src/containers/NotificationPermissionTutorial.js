@@ -4,11 +4,12 @@ import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { RootContainer, ProgressBar, Button, HeaderTwo, Description } from '../components/common';
 import FcmPermissions from '../firebase/FcmPermissions.js';
+import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class NotificationPermissionTutorial extends Component {
   notificationPermissionNavigation() {
     if (this.props.notificationPermission === null) {
-      console.log('notification permission is not set');
+      WalletUtilities.logInfo('notification permission is not set');
     } else if (this.props.notificationPermission === true) {
       this.props.navigation.navigate('WalletCreation');
     } else if (this.props.notificationPermission === false) {

@@ -28,6 +28,7 @@ import GasUtilities from '../utilities/GasUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import Web3ProviderUtilities from '../utilities/Web3ProviderUtilities.js';
+import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class SupplyDai extends Component {
   constructor(props) {
@@ -126,11 +127,11 @@ class SupplyDai extends Component {
       parseFloat(amount) >= 0 &&
       amount.length != 0
     ) {
-      console.log('the dai amount validated!');
+      WalletUtilities.logInfo('the dai amount validated!');
       this.setState({ daiAmountValidation: true });
       return true;
     }
-    console.log('wrong dai balance!');
+    WalletUtilities.logInfo('wrong dai balance!');
     this.setState({ daiAmountValidation: false });
     return false;
   }
@@ -142,11 +143,11 @@ class SupplyDai extends Component {
     );
 
     if (parseFloat(this.ethBalance) > parseFloat(transactionFeeLimitInEther)) {
-      console.log('the eth amount validated!');
+      WalletUtilities.logInfo('the eth amount validated!');
       this.setState({ ethAmountValidation: true });
       return true;
     }
-    console.log('wrong eth balance!');
+    WalletUtilities.logInfo('wrong eth balance!');
     this.setState({ ethAmountValidation: false });
     return false;
   }
@@ -198,13 +199,13 @@ class SupplyDai extends Component {
     const ethAmountValidation = this.validateEthAmount();
 
     if (daiAmountValidation && ethAmountValidation) {
-      console.log('validation successful');
+      WalletUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
       await this.props.saveOutgoingDaiTransactionAmount(amount);
       this.props.navigation.navigate('SupplyDaiConfirmation');
     } else {
-      console.log('form validation failed!');
+      WalletUtilities.logInfo('form validation failed!');
     }
   };
 

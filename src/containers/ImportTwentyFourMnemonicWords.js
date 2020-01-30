@@ -52,7 +52,7 @@ class ImportTwentyFourMnemonicWords extends Component {
       this.props.navigation.navigate('NotificationPermissionTutorial');
     } else {
       this.setState({ mnemonicWordsValidation: false });
-      console.log('form validation failed!');
+      WalletUtilities.logInfo('form validation failed!');
     }
   }
 
@@ -111,7 +111,7 @@ class ImportTwentyFourMnemonicWords extends Component {
                       }}
                       onSubmitEditing={
                         id === 23
-                          ? console.log('done')
+                          ? WalletUtilities.logInfo('done')
                           : () => this.focusNextInput((id + 1).toString())
                       }
                       returnKeyType={id === 23 ? 'done' : 'next'}

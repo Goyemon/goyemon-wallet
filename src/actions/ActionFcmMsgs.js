@@ -1,13 +1,14 @@
 'use strict';
 import { SAVE_FCM_MSG } from '../constants/ActionTypes';
 import { APPEND_FCM_MSG } from '../constants/ActionTypes';
+import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 export function saveFcmMsg(fcmMsg) {
   return async function (dispatch) {
     try {
       dispatch(saveFcmMsgSuccess(fcmMsg));
     } catch(err) {
-      console.error(err);
+      WalletUtilities.logError(err);
     }
   }
 };
@@ -22,7 +23,7 @@ export function appendFcmMsg(fcmMsg) {
     try {
       dispatch(appendFcmMsgSuccess(fcmMsg));
     } catch(err) {
-      console.error(err);
+      WalletUtilities.logError(err);
     }
   }
 };
@@ -30,4 +31,4 @@ export function appendFcmMsg(fcmMsg) {
 const appendFcmMsgSuccess = (fcmMsg) => ({
   type: APPEND_FCM_MSG,
   payload: fcmMsg
-})
+});

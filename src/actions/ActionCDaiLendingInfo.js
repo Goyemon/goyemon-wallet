@@ -1,12 +1,13 @@
 'use strict';
 import { SAVE_CDAI_LENDING_INFO, SAVE_DAI_APPROVAL_INFO } from '../constants/ActionTypes';
+import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 export function saveCDaiLendingInfo(cDaiLendingInfo) {
   return async function (dispatch) {
     try {
       dispatch(saveCDaiLendingInfoSuccess(cDaiLendingInfo));
     } catch(err) {
-      console.error(err);
+      WalletUtilities.logError(err);
     }
   }
 };
@@ -21,7 +22,7 @@ export function saveDaiApprovalInfo(daiApprovalInfo) {
     try {
       dispatch(saveDaiApprovalInfoSuccess(daiApprovalInfo));
     } catch(err) {
-      console.error(err);
+      WalletUtilities.logError(err);
     }
   }
 };
@@ -29,4 +30,4 @@ export function saveDaiApprovalInfo(daiApprovalInfo) {
 const saveDaiApprovalInfoSuccess = (daiApprovalInfo) => ({
   type: SAVE_DAI_APPROVAL_INFO,
   payload: daiApprovalInfo
-})
+});

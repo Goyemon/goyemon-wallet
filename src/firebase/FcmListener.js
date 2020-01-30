@@ -24,6 +24,7 @@ import EtherUtilities from '../utilities/EtherUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import FcmMsgsParser from './FcmMsgsParser.js';
 import { store } from '../store/store';
+import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 firebase.messaging().onMessage(downstreamMessage => {
   const stateTree = store.getState();
@@ -32,7 +33,7 @@ firebase.messaging().onMessage(downstreamMessage => {
   const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
   const transactionsHistory = stateTree.ReducerTransactionHistory.transactions;
 
-  console.log('downstreamMessage ===>', downstreamMessage);
+  WalletUtilities.logInfo('downstreamMessage ===>', downstreamMessage);
 
   if (downstreamMessage.data.type === 'balance') {
     const balanceMessage = JSON.parse(downstreamMessage.data.data);
@@ -110,10 +111,10 @@ firebase.messaging().onMessage(downstreamMessage => {
             store.dispatch(addPendingOrIncludedTransaction(parsedTxStateMessage));
             store.dispatch(incrementTotalTransactions());
           } else {
-            console.log('unknown transaction');
+            WalletUtilities.logInfo('unknown transaction');
           }
         } else {
-          console.log("a transaction doesn't exist");
+          WalletUtilities.logInfo("a transaction doesn't exist");
         }
       } else if (isIncludedState) {
         const parsedTxStateMessage = TransactionUtilities.parsePendingOrIncludedTransaction(
@@ -153,10 +154,10 @@ firebase.messaging().onMessage(downstreamMessage => {
           } else if (txHashExistWhereStateIsNotConfirmed) {
             store.dispatch(updateTransactionState(parsedTxStateMessage));
           } else {
-            console.log('unknown transaction');
+            WalletUtilities.logInfo('unknown transaction');
           }
         } else {
-          console.log("a transaction doesn't exist");
+          WalletUtilities.logInfo("a transaction doesn't exist");
         }
       } else if (isConfirmedState) {
         const parsedTxStateMessage = TransactionUtilities.parseConfirmedTransaction(txStateMessage);
@@ -171,7 +172,7 @@ firebase.messaging().onMessage(downstreamMessage => {
             }
           });
         } else {
-          console.log("a transaction doesn't exist");
+          WalletUtilities.logInfo("a transaction doesn't exist");
         }
       }
     });

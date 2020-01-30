@@ -1,6 +1,7 @@
 'use strict';
 import axios from 'axios';
 import { GET_DAI_PRICE, GET_ETH_PRICE } from '../constants/ActionTypes';
+import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 export function getDaiPrice() {
   return async function (dispatch) {
@@ -9,7 +10,7 @@ export function getDaiPrice() {
       const daiPrice = parseFloat(res.data.USD).toFixed(2);
       dispatch(getDaiPriceSuccess(daiPrice));
     } catch(err) {
-      console.error(err);
+      WalletUtilities.logError(err);
     }
   }
 };
@@ -17,7 +18,7 @@ export function getDaiPrice() {
 const getDaiPriceSuccess = (daiPrice) => ({
   type: GET_DAI_PRICE,
   payload: daiPrice
-})
+});
 
 export function getEthPrice() {
   return async function (dispatch) {
@@ -26,7 +27,7 @@ export function getEthPrice() {
       const ethPrice = parseFloat(res.data.USD).toFixed(2);
       dispatch(getEthPriceSuccess(ethPrice));
     } catch(err) {
-      console.error(err);
+      WalletUtilities.logError(err);
     }
   }
 };
@@ -34,4 +35,4 @@ export function getEthPrice() {
 const getEthPriceSuccess = (ethPrice) => ({
   type: GET_ETH_PRICE,
   payload: ethPrice
-})
+});

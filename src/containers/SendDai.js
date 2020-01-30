@@ -28,6 +28,7 @@ import GasUtilities from '../utilities/GasUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import Web3ProviderUtilities from '../utilities/Web3ProviderUtilities.js';
+import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class SendDai extends Component {
   constructor(props) {
@@ -125,11 +126,11 @@ class SendDai extends Component {
 
   validateToAddress(toAddress) {
     if (Web3.utils.isAddress(toAddress)) {
-      console.log('address validated!');
+      WalletUtilities.logInfo('address validated!');
       this.setState({ toAddressValidation: true });
       return true;
     } else if (!this.state.toAddressValidation) {
-      console.log('invalid address');
+      WalletUtilities.logInfo('invalid address');
       this.setState({ toAddressValidation: false });
       return false;
     }
@@ -150,11 +151,11 @@ class SendDai extends Component {
       parseFloat(amount) >= 0 &&
       amount.length != 0
     ) {
-      console.log('the dai amount validated!');
+      WalletUtilities.logInfo('the dai amount validated!');
       this.setState({ daiAmountValidation: true });
       return true;
     }
-    console.log('wrong dai balance!');
+    WalletUtilities.logInfo('wrong dai balance!');
     this.setState({ daiAmountValidation: false });
     return false;
   }
@@ -166,11 +167,11 @@ class SendDai extends Component {
     );
 
     if (parseFloat(this.ethBalance) > parseFloat(transactionFeeLimitInEther)) {
-      console.log('the eth amount validated!');
+      WalletUtilities.logInfo('the eth amount validated!');
       this.setState({ ethAmountValidation: true });
       return true;
     }
-    console.log('wrong eth balance!');
+    WalletUtilities.logInfo('wrong eth balance!');
     this.setState({ ethAmountValidation: false });
     return false;
   }
@@ -233,14 +234,14 @@ class SendDai extends Component {
     const ethAmountValidation = this.validateEthAmount();
 
     if (toAddressValidation && daiAmountValidation && ethAmountValidation) {
-      console.log('validation successful');
+      WalletUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
       await this.props.saveOutgoingDaiTransactionAmount(amount);
       await this.props.saveOutgoingDaiTransactionToAddress(toAddress);
       this.props.navigation.navigate('SendDaiConfirmation');
     } else {
-      console.log('form validation failed!');
+      WalletUtilities.logInfo('form validation failed!');
     }
   };
 
