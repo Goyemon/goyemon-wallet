@@ -90,13 +90,13 @@ class WalletCreation extends Component {
   }
 
   hasTransactions() {
-    if (this.props.transactionCount != null && this.props.transactions != null) {
+    if (this.props.totalTransactions != null && this.props.transactions != null) {
       return (
         this.props.transactions != null &&
         this.props.transactions.length != null &&
-        this.props.transactions.length.toString() === this.props.transactionCount.toString()
+        this.props.transactions.length.toString() === this.props.totalTransactions.toString()
       );
-    } else if (this.props.transactionCount === null) {
+    } else if (this.props.totalTransactions === null) {
       return false;
     }
   }
@@ -243,7 +243,7 @@ function mapStateToProps(state) {
   return {
     balance: state.ReducerBalance.balance,
     cDaiLendingInfo: state.ReducerCDaiLendingInfo.cDaiLendingInfo,
-    transactionCount: state.ReducerTotalTransactions.transactionCount,
+    totalTransactions: state.ReducerTotalTransactions.totalTransactions,
     transactions: state.ReducerTransactionHistory.transactions,
     mnemonicWords: state.ReducerMnemonic.mnemonicWords,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,

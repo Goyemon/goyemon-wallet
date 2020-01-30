@@ -17,7 +17,7 @@ export default class Initial extends Component {
   mnemonicWordsValidation = this.stateTree.ReducerMnemonicWordsValidation.mnemonicWordsValidation;
   notificationEnabled = this.stateTree.ReducerNotificationPermission.notificationPermission;
   price = this.stateTree.ReducerPrice.price;
-  transactionCount = this.stateTree.ReducerTotalTransactions.transactionCount;
+  totalTransactions = this.stateTree.ReducerTotalTransactions.totalTransactions;
   transactions = this.stateTree.ReducerTransactionHistory.transactions;
 
   async componentDidMount() {
@@ -113,13 +113,13 @@ export default class Initial extends Component {
   }
 
   hasTransactionHistory = () => {
-    if (this.transactionCount != null) {
+    if (this.totalTransactions != null) {
       return (
         this.transactions != null &&
         this.transactions.length != null &&
-        this.transactions.length.toString() === this.transactionCount.toString()
+        this.transactions.length.toString() === this.totalTransactions.toString()
       );
-    } else if (this.transactionCount === null) {
+    } else if (this.totalTransactions === null) {
       return false;
     }
   }
