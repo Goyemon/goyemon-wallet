@@ -104,7 +104,7 @@ class SendEth extends Component {
       nonce: `0x${transactionNonce.toString(16)}`,
       to: this.state.toAddress,
       value: `0x${amountWei.toString(16)}`,
-      gasPrice: `0x${this.state.gasPrice[this.state.checked].gasPriceWei.toString(16)}`,
+      gasPrice: `0x${parseFloat(this.state.gasPrice[this.state.checked].gasPriceWei).toString(16)}`,
       gasLimit: `0x${parseFloat(21000).toString(16)}`,
       chainId: 3
     };

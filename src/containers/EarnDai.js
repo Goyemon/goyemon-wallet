@@ -97,7 +97,7 @@ class EarnDai extends Component {
     const transactionObject = {
       nonce: `0x${transactionNonce.toString(16)}`,
       to: daiTokenContract.daiTokenAddress,
-      gasPrice: `0x${this.props.gasPrice.average.toString(16)}`,
+      gasPrice: `0x${parseFloat(this.props.gasPrice.average).toString(16)}`,
       gasLimit: `0x${parseFloat(50000).toString(16)}`,
       chainId: 3,
       data: approveEncodedABI
