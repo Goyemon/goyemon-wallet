@@ -17,17 +17,17 @@ const incrementTotalTransactionsSuccess = () => ({
   payload: 1
 });
 
-export function saveTransactionCount(transactionCount) {
+export function saveTotalTransactions(transactionCount) {
   return async function (dispatch) {
     try {
-      dispatch(saveTransactionCountSuccess(transactionCount));
+      dispatch(saveTotalTransactionsSuccess(transactionCount));
     } catch(err) {
       DebugUtilities.logError(err);
     }
   }
 };
 
-const saveTransactionCountSuccess = (transactionCount) => ({
+const saveTotalTransactionsSuccess = (transactionCount) => ({
   type: SAVE_TOTAL_TRANSACTIONS,
   payload: transactionCount
 });

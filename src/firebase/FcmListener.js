@@ -10,7 +10,7 @@ import {
 } from '../actions/ActionBalance';
 import { saveCDaiLendingInfo, saveDaiApprovalInfo } from '../actions/ActionCDaiLendingInfo';
 import {
-  saveTransactionCount,
+  saveTotalTransactions,
   incrementTotalTransactions
 } from '../actions/ActionTotalTransactions';
 import {
@@ -53,7 +53,7 @@ firebase.messaging().onMessage(downstreamMessage => {
   } else if (downstreamMessage.data.type === 'txhistory') {
     if (downstreamMessage.data.data === '{}') {
       store.dispatch(saveEmptyTransaction(downstreamMessage.data.data));
-      store.dispatch(saveTransactionCount(0));
+      store.dispatch(saveTotalTransactions(0));
     }
 
     FcmMsgsParser.fcmMsgsSaver(downstreamMessage.data);
@@ -66,7 +66,7 @@ firebase.messaging().onMessage(downstreamMessage => {
           transactions
         );
         store.dispatch(saveExistingTransactions(parsedExistingTransactions));
-        store.dispatch(saveTransactionCount(parsedExistingTransactions.length));
+        store.dispatch(saveTotalTransactions(parsedExistingTransactions.length));
         store.dispatch(
           saveDaiApprovalInfo(TransactionUtilities.daiApproved(parsedExistingTransactions))
         );
