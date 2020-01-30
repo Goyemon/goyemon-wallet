@@ -69,7 +69,7 @@ class EarnDai extends Component {
 
   renderInsufficientEthBalanceMessage() {
     if (this.state.ethAmountValidation || this.state.ethAmountValidation === undefined) {
-      <Text>{this.getTransactionFeeEstimateInUsd()}</Text>;
+      return;
     } else {
       return <ErrorMessage>you don't have enough ether 😟</ErrorMessage>;
     }
@@ -127,7 +127,7 @@ class EarnDai extends Component {
   renderTransactionButtons() {
     if (this.props.cDaiLendingInfo.daiApproval) {
       return (
-        <ButtonContainer>
+        <TransactionButtonContainer>
           <TransactionButton
             text="Withdraw"
             textColor="#000"
@@ -154,7 +154,7 @@ class EarnDai extends Component {
               this.props.navigation.navigate('SupplyDai');
             }}
           />
-        </ButtonContainer>
+        </TransactionButtonContainer>
       );
     }
     console.log('dai not approved yet');
@@ -201,7 +201,7 @@ class EarnDai extends Component {
               <MondalInner>
                 <ModalTextContainer>
                   <Description marginBottom="8" marginLeft="0" marginTop="16">
-                    There will be about $0.06 to unlock Dai.
+                    There will be about ${this.getTransactionFeeEstimateInUsd()} network fee to unlock Dai.
                   </Description>
                 </ModalTextContainer>
                 <ButtonContainer>
@@ -214,6 +214,7 @@ class EarnDai extends Component {
                     opacity="1"
                     onPress={() => {
                       this.setModalVisible(false);
+                      this.setState({ ethAmountValidation: undefined });
                     }}
                   />
                   <Button
@@ -269,8 +270,8 @@ const ModalBackground = styled.View`
   border-radius: 16px;
   border-top-width: 2;
   border-top-color: #e41b13;
-  height: 30%;
-  min-height: 280px;
+  height: 20%;
+  min-height: 200px;
   margin-top: 200;
   width: 90%;
 `;
@@ -312,12 +313,17 @@ const DaiInterestEarnedText = styled.Text`
   font-weight: bold;
 `;
 
-const ButtonContainer = styled.View`
+const TransactionButtonContainer = styled.View`
   align-items: center;
   flex-direction: row;
   justify-content: space-between;
   margin: 0 auto;
   width: 90%;
+`;
+
+const ButtonContainer = styled.View`
+  flex-direction: row;
+  margin: 0 auto;
 `;
 
 function mapStateToProps(state) {
