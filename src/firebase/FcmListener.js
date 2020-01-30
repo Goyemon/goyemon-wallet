@@ -12,7 +12,7 @@ import { saveCDaiLendingInfo, saveDaiApprovalInfo } from '../actions/ActionCDaiL
 import {
   saveTransactionCount,
   incrementTotalTransactions
-} from '../actions/ActionTransactionCount';
+} from '../actions/ActionTotalTransactions';
 import {
   saveExistingTransactions,
   saveEmptyTransaction,

@@ -4,7 +4,7 @@ import ethTx from 'ethereumjs-tx';
 import firebase from 'react-native-firebase';
 import uuidv4 from 'uuid/v4';
 import Web3 from 'web3';
-import { incrementTotalTransactions } from '../actions/ActionTransactionCount';
+import { incrementTotalTransactions } from '../actions/ActionTotalTransactions';
 import { addSentTransaction } from '../actions/ActionTransactionHistory';
 import cDaiContract from '../contracts/cDaiContract';
 import daiTokenContract from '../contracts/daiTokenContract';
