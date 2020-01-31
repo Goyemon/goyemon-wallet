@@ -10,7 +10,7 @@ class TransactionsDai extends Component {
     const { transactions } = this.props;
 
     let daiTransactions = null;
-    if (transactions != null) {
+    if (transactions != null && Object.keys(transactions).length != 0) {
       daiTransactions = transactions.filter(transaction => {
         if (
           transaction.hasOwnProperty('dai_tr') ||

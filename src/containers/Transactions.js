@@ -9,7 +9,7 @@ class Transactions extends Component {
   renderTransactions() {
     const { transactions } = this.props;
 
-    if (transactions === null || transactions.length === 0) {
+    if (transactions === null || Object.keys(transactions).length === 0) {
       return (
         <EmptyTransactionContainer>
           <EmptyTransactionEmoji>(°△°) b</EmptyTransactionEmoji>
