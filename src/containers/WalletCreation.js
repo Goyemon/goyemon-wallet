@@ -25,7 +25,7 @@ class WalletCreation extends Component {
 
   FadeInMessages() {
     return (
-      <View>
+      <FadeInMessageContainer>
         <FadeInMessageOne animation="fadeInDown" delay={500}>
           <FadeInMessageOneText>generating your keys...</FadeInMessageOneText>
         </FadeInMessageOne>
@@ -41,7 +41,7 @@ class WalletCreation extends Component {
         <FadeInMessageFive animation="fadeInDown" delay={8500}>
           <FadeInMessageFiveText>this shouldn't take too long...</FadeInMessageFiveText>
         </FadeInMessageFive>
-      </View>
+      </FadeInMessageContainer>
     );
   }
 
@@ -231,13 +231,23 @@ class WalletCreation extends Component {
   }
 }
 
+const Container = styled.View`
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+`;
+
 const ModalBackground = styled.View`
   background-color: rgba(0, 0, 0, 0.5);
   height: 100%;
 `;
 
+const FadeInMessageContainer = styled.View`
+  min-height: ${hp('50%')};
+`;
+
 const FadeInMessageOne = Animatable.createAnimatableComponent(styled.View`
-  top: ${hp('8%')};
+  top: ${hp('12%')};
 `);
 
 const FadeInMessageOneText = styled.Text`
@@ -247,7 +257,7 @@ const FadeInMessageOneText = styled.Text`
 `;
 
 const FadeInMessageTwo = Animatable.createAnimatableComponent(styled.View`
-  top: ${hp('9%')};
+  top: ${hp('13%')};
 `);
 
 const FadeInMessageTwoText = styled.Text`
@@ -257,7 +267,7 @@ const FadeInMessageTwoText = styled.Text`
 `;
 
 const FadeInMessageThree = Animatable.createAnimatableComponent(styled.View`
-  top: ${hp('10%')};
+  top: ${hp('14%')};
 `);
 
 const FadeInMessageThreeText = styled.Text`
@@ -267,7 +277,7 @@ const FadeInMessageThreeText = styled.Text`
 `;
 
 const FadeInMessageFour = Animatable.createAnimatableComponent(styled.View`
-  top: ${hp('11%')};
+  top: ${hp('15%')};
 `);
 
 const FadeInMessageFourText = styled.Text`
@@ -277,7 +287,7 @@ const FadeInMessageFourText = styled.Text`
 `;
 
 const FadeInMessageFive = Animatable.createAnimatableComponent(styled.View`
-  top: ${hp('12%')};
+  top: ${hp('16%')};
 `);
 
 const FadeInMessageFiveText = styled.Text`
@@ -287,7 +297,7 @@ const FadeInMessageFiveText = styled.Text`
 `;
 
 const FadeInMessageSix = Animatable.createAnimatableComponent(styled.View`
-  top: ${hp('2%')};
+  top: ${hp('6%')};
 `);
 
 const FadeInMessageSixText = styled.Text`
@@ -310,13 +320,6 @@ const ModalText = styled.Text`
   margin-top: 70%;
   padding: 8px 24px;
   text-align: center;
-`;
-
-const Container = styled.View`
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  margin-top: 120;
 `;
 
 function mapStateToProps(state) {
