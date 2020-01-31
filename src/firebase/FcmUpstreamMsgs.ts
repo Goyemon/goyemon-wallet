@@ -9,7 +9,7 @@ class FcmUpstreamMsgs {
     this.serverAddress = '255097673919@gcm.googleapis.com';
   }
 
-  async registerEthereumAddress(checksumAddress) {
+  registerEthereumAddress(checksumAddress) {
     const checksumAddressWithoutPrefix = EtherUtilities.stripHexPrefix(checksumAddress);
 
     const upstreamMessage = new firebase.messaging.RemoteMessage()
@@ -22,7 +22,7 @@ class FcmUpstreamMsgs {
     firebase.messaging().sendMessage(upstreamMessage);
   }
 
-  async resyncTransactions(checksumAddress) {
+  resyncTransactions(checksumAddress) {
     const checksumAddressWithoutPrefix = EtherUtilities.stripHexPrefix(checksumAddress);
 
     const upstreamMessage = new firebase.messaging.RemoteMessage()
