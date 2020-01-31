@@ -15,10 +15,10 @@ class CreateWalletTutorial extends Component {
             With Great Power Comes Great Responsibility
           </HeaderTwo>
           <Description marginBottom="8" marginLeft="0" marginTop="16">
-            - the backup words are the only way to restore your wallet
+            - backup words are the only way to restore your wallet
           </Description>
-          <Description marginBottom="16" marginLeft="0" marginTop="8">
-            - only you have access to backup words. We do NOT.
+          <Description marginBottom="16" marginLeft="0" marginTop="0">
+            - only you have access to them. We do NOT.
           </Description>
           <Button
             text="Write down backup words"
@@ -56,6 +56,8 @@ const Container = styled.View`
   align-items: center;
   flex-direction: column;
   justify-content: center;
+  margin: 0 auto;
+  width: 90%;
 `;
 
 const mapDispatchToProps = {

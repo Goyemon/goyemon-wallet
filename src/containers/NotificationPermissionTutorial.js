@@ -31,7 +31,6 @@ class NotificationPermissionTutorial extends Component {
           <HeaderTwo marginBottom="0" marginLeft="0" marginTop="0">
             Almost done!
           </HeaderTwo>
-          <NotificationPermissionImage source={require('../../assets/notification_tutorial.png')} />
           <Description marginBottom="8" marginLeft="0" marginTop="16">
             We use a notification system to process your transactions.
           </Description>
@@ -57,13 +56,9 @@ const Container = styled.View`
   align-items: center;
   flex: 1;
   justify-content: center;
+  margin: 0 auto;
   margin-top: 40;
-  text-align: center;
-`;
-
-const NotificationPermissionImage = styled.Image`
-  height: 320px;
-  width: 320px;
+  width: 90%;
 `;
 
 const mapStateToProps = state => ({

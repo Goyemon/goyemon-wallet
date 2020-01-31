@@ -19,7 +19,7 @@ export default class ImportOptions extends Component {
             Backup Words Option
           </HeaderTwo>
           <Description marginBottom="8" marginLeft="8" marginTop="16">
-            How many backup words do you have?
+            how many backup words do you have?
           </Description>
           <ButtonContainer>
             <Button

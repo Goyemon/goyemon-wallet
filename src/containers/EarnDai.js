@@ -202,7 +202,7 @@ class EarnDai extends Component {
               <MondalInner>
                 <ModalTextContainer>
                   <Description marginBottom="8" marginLeft="0" marginTop="16">
-                    There will be about ${this.getTransactionFeeEstimateInUsd()} network fee to unlock Dai.
+                    there will be about ${this.getTransactionFeeEstimateInUsd()} network fee to unlock Dai.
                   </Description>
                 </ModalTextContainer>
                 <ButtonContainer>
@@ -220,8 +220,8 @@ class EarnDai extends Component {
                   />
                   <Button
                     text="Confirm"
-                    textColor="#00A3E2"
-                    backgroundColor="#FFF"
+                    textColor="white"
+                    backgroundColor="#00A3E2"
                     borderColor="#00A3E2"
                     margin="8px"
                     opacity="1"
@@ -269,8 +269,6 @@ const ModalContainer = styled.View`
 const ModalBackground = styled.View`
   background-color: #fff;
   border-radius: 16px;
-  border-top-width: 2;
-  border-top-color: #e41b13;
   height: 20%;
   min-height: 200px;
   margin-top: 200;
@@ -324,7 +322,7 @@ const TransactionButtonContainer = styled.View`
 
 const ButtonContainer = styled.View`
   flex-direction: row;
-  margin: 0 auto;
+  margin: 12px auto;
 `;
 
 function mapStateToProps(state) {

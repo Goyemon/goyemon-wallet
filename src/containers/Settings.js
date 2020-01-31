@@ -2,11 +2,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Linking, TouchableHighlight, Alert, Modal } from 'react-native';
-import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import { clearState } from '../actions/ActionClearState';
-import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
 import {
   RootContainer,
   HeaderOne,
@@ -25,7 +23,6 @@ class Settings extends Component {
     this.state = {
       modalVisible: false
     };
-    this.AnimationRef;
   }
 
   setModalVisible(visible) {
@@ -48,7 +45,7 @@ class Settings extends Component {
             <ModalBackground>
               <MondalInner>
                 <ModalTextContainer>
-                  <ResetWalletHeader>Are you sure? 🤔</ResetWalletHeader>
+                  <ResetWalletHeader>Are you sure?</ResetWalletHeader>
                   <Description marginBottom="8" marginLeft="0" marginTop="16">
                     Make sure you save your backup words before deletion. Otherwise, you will lose
                     your funds.
@@ -137,11 +134,11 @@ class Settings extends Component {
           </TouchableHighlight>
           <TouchableHighlight
             underlayColor="#FFF"
-            onPress={() => this.props.navigation.navigate('DeviceInfo')}
+            onPress={() => this.props.navigation.navigate('Advanced')}
           >
             <SettingsList>
-              <Icon name="cellphone" color="#5F5F5F" size={28} />
-              <SettingsListText>Device Info</SettingsListText>
+              <Icon name="crosshairs" color="#5F5F5F" size={28} />
+              <SettingsListText>Advanced</SettingsListText>
               <Icon name="chevron-right" color="#5F5F5F" size={28} />
             </SettingsList>
           </TouchableHighlight>
@@ -169,18 +166,6 @@ class Settings extends Component {
           <VersionText>v0.0.1</VersionText>
           <Icon name="heart-outline" color="#5f5f5f" size={24} />
           <LoveText>Made with love by Swarm</LoveText>
-          <Animatable.View ref={ref => (this.AnimationRef = ref)}>
-            <Icon
-              onPress={async () => {
-                this.AnimationRef.rotate();
-                await FcmUpstreamMsgs.resyncTransactions(this.props.checksumAddress);
-              }}
-              name="sync"
-              color="#5f5f5f"
-              size={32}
-            />
-          </Animatable.View>
-          <Text>sync your transactions</Text>
         </BottomText>
       </RootContainer>
     );
@@ -299,17 +284,11 @@ const LoveText = styled.Text`
   margin-bottom: 48;
 `;
 
-function mapStateToProps(state) {
-  return {
-    checksumAddress: state.ReducerChecksumAddress.checksumAddress
-  };
-}
-
 const mapDispatchToProps = {
   clearState
 };
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(Settings);

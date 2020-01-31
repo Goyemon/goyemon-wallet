@@ -84,14 +84,13 @@ const QrCodeContainer = styled.View`
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  margin-top: 32;
   margin-bottom: 32;
 `;
 
 const QrCodeText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
-  font-size: 16;
+  font-size: 20;
   font-weight: bold;
   margin-bottom: 8;
 `;
@@ -105,14 +104,14 @@ const CopiedAddressContainer = styled.View`
 const CopiedAddressText = styled.Text`
   color: #00a3e2;
   font-family: 'HKGrotesk-Regular';
-  font-size: 20;
+  font-size: 16;
   margin-right: 4;
 `;
 
 const CopyAddressText = styled.Text`
   color: #00a3e2;
   font-family: 'HKGrotesk-Regular';
-  font-size: 20;
+  font-size: 16;
 `;
 
 function mapStateToProps(state) {

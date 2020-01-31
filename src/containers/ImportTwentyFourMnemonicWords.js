@@ -92,10 +92,10 @@ class ImportTwentyFourMnemonicWords extends Component {
           />
           <Container>
             <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
-              Import Backup Words
+              Import Your Wallet
             </HeaderTwo>
             <Description marginBottom="8" marginLeft="8" marginTop="16">
-              Enter the backup words to import your wallet.
+              enter your backup words
             </Description>
             <MnemonicWordsContainer style={styles.table}>
               {this.state.mnemonicWords.map((word, id) => (

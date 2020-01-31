@@ -1,7 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
@@ -75,20 +75,20 @@ class SendEth extends Component {
 
   toggleCurrencySymbol() {
     if (this.state.currency === 'ETH') {
-      return <CurrencySymbol>ETH</CurrencySymbol>;
+      return <CurrencySymbol><Text>ETH</Text><Icon name="swap-horizontal" size={16} color="#5f5f5f" /><CurrencySymbolTextChosen>USD</CurrencySymbolTextChosen></CurrencySymbol>;
     } else if (this.state.currency === 'USD') {
-      return <CurrencySymbol>$</CurrencySymbol>;
+      return <CurrencySymbol><CurrencySymbolTextChosen>ETH</CurrencySymbolTextChosen><Icon name="swap-horizontal" size={16} color="#5f5f5f" /><Text>USD</Text></CurrencySymbol>;
     }
   }
 
   toggleCurrency(gasPriceWei) {
     if (this.state.currency === 'ETH') {
       const usdValue = this.getTransactionFeeEstimateInUsd(gasPriceWei);
-      return <CrypterestText fontSize="16">${usdValue}</CrypterestText>;
+      return <NetworkFeeText>${usdValue}</NetworkFeeText>;
     } else if (this.state.currency === 'USD') {
       let ethValue = GasUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 21000);
       ethValue = parseFloat(ethValue).toFixed(5);
-      return <NetworkFeeInEther>{ethValue}ETH</NetworkFeeInEther>;
+      return <NetworkFeeText>{ethValue}ETH</NetworkFeeText>;
     }
   }
 
@@ -157,7 +157,7 @@ class SendEth extends Component {
   renderInsufficientBalanceMessage() {
     if (this.state.amountValidation || this.state.amountValidation === undefined) {
     } else {
-      return <ErrorMessage>C'mon, you know you don't own this much 😏</ErrorMessage>;
+      return <ErrorMessage>invalid amount!</ErrorMessage>;
     }
   }
 
@@ -411,19 +411,23 @@ const NetworkFeeContainer = styled.View`
 `;
 
 const NetworkFee = styled.View`
-  margin: 0 8px;
+  margin: 0 4px;
   width: 33.3%;
 `;
 
-const NetworkFeeInEther = styled.Text`
+const NetworkFeeText = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 12;
 `;
 
 const CurrencySymbol = styled.Text`
   font-family: 'HKGrotesk-Regular';
-  font-size: 20;
+  font-size: 16;
   margin-left: 8;
+`;
+
+const CurrencySymbolTextChosen = styled.Text`
+  color: #1ba548;
 `;
 
 const SpeedContainer = styled.TouchableOpacity`

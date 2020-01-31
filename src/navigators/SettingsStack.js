@@ -2,7 +2,7 @@
 import { createStackNavigator } from 'react-navigation';
 import Settings from '../containers/Settings';
 import BackupWords from '../containers/BackupWords';
-import DeviceInfo from '../containers/DeviceInfo';
+import Advanced from '../containers/Advanced';
 
 const SettingsStack = createStackNavigator(
   {
@@ -18,8 +18,8 @@ const SettingsStack = createStackNavigator(
         headerTransparent: true
       })
     },
-    DeviceInfo: {
-      screen: DeviceInfo,
+    Advanced: {
+      screen: Advanced,
       navigationOptions: () => ({
         headerTransparent: true
       })

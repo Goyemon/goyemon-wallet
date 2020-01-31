@@ -1,17 +1,20 @@
 'use strict';
 import React, { Component } from 'react';
 import { Clipboard, TouchableWithoutFeedback } from 'react-native';
+import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { RootContainer, HeaderOne, HeaderThree, CrypterestText } from '../components/common';
+import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
 
-class DeviceInfo extends Component {
+class Advanced extends Component {
   constructor(props) {
     super();
     this.state = {
       clipboardContent: null
     };
+    this.AnimationRef;
   }
 
   async writeToClipboard() {
@@ -51,7 +54,7 @@ class DeviceInfo extends Component {
 
     return (
       <RootContainer>
-      <HeaderOne marginTop="96">Device Info</HeaderOne>
+      <HeaderOne marginTop="96">Advanced</HeaderOne>
         <Container>
           <HeaderThree color="#000" marginBottom="0" marginLeft="0" marginTop="24">
             Your Fcm Token
@@ -66,6 +69,20 @@ class DeviceInfo extends Component {
           <CrypterestText fontSize="14">
             {otherDebugInfo}
           </CrypterestText>
+          <HeaderThree color="#000" marginBottom="0" marginLeft="0" marginTop="24">
+            Sync Your Transactions
+          </HeaderThree>
+          <Animatable.View ref={ref => (this.AnimationRef = ref)}>
+            <Icon
+              onPress={async () => {
+                this.AnimationRef.rotate();
+                await FcmUpstreamMsgs.resyncTransactions(this.props.checksumAddress);
+              }}
+              name="sync"
+              color="#5f5f5f"
+              size={28}
+            />
+          </Animatable.View>
         </Container>
       </RootContainer>
     );
@@ -100,8 +117,9 @@ const CopyAddressText = styled.Text`
 
 function mapStateToProps(state) {
   return {
+    checksumAddress: state.ReducerChecksumAddress.checksumAddress,
     debugInfo: state.ReducerDebugInfo.debugInfo
   };
 }
 
-export default connect(mapStateToProps)(DeviceInfo);
+export default connect(mapStateToProps)(Advanced);

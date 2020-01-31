@@ -1,7 +1,9 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Image, ScrollView, RefreshControl, Modal } from 'react-native';
+import { ScrollView, RefreshControl, Modal, View, Text } from 'react-native';
+import * as Animatable from 'react-native-animatable';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { StackActions, NavigationActions } from 'react-navigation';
 import styled from 'styled-components/native';
 import { createChecksumAddress } from '../actions/ActionChecksumAddress';
@@ -19,6 +21,38 @@ class WalletCreation extends Component {
       modalVisible: false,
       isWalletReady: false
     };
+  }
+
+  FadeInMessages() {
+    return (
+      <View>
+        <FadeInMessageOne animation="fadeInDown" delay={500}>
+          <FadeInMessageOneText>generating your keys...</FadeInMessageOneText>
+        </FadeInMessageOne>
+        <FadeInMessageTwo animation="fadeInDown" delay={2000}>
+          <FadeInMessageTwoText>generating your address...</FadeInMessageTwoText>
+        </FadeInMessageTwo>
+        <FadeInMessageThree animation="fadeInDown" delay={3500}>
+          <FadeInMessageThreeText>fetching data from a blockchain...</FadeInMessageThreeText>
+        </FadeInMessageThree>
+        <FadeInMessageFour animation="fadeInDown" delay={5000}>
+          <FadeInMessageFourText>getting the price information...</FadeInMessageFourText>
+        </FadeInMessageFour>
+        <FadeInMessageFive animation="fadeInDown" delay={8500}>
+          <FadeInMessageFiveText>this shouldn't take too long...</FadeInMessageFiveText>
+        </FadeInMessageFive>
+      </View>
+    );
+  }
+
+  PullDownToRefreshMessage() {
+    return (
+      <FadeInMessageSix animation="fadeIn" delay={10500}>
+        <FadeInMessageSixText>
+          pull down to refresh 👇
+        </FadeInMessageSixText>
+      </FadeInMessageSix>
+    );
   }
 
   handleRefresh = () => {
@@ -171,23 +205,15 @@ class WalletCreation extends Component {
         }
       >
         <Container>
-          <HeaderTwo marginBottom="0" marginLeft="0" marginTop="40">
-            Creating your wallet 🏋️‍
-          </HeaderTwo>
-          <Description marginBottom="24" marginLeft="8" marginTop="16">
-            this shouldn't take too long
-          </Description>
-          <Description marginBottom="24" marginLeft="8" marginTop="16">
-            pull down to refresh 👇
-          </Description>
-          <CreatingWalletImage source={require('../../assets/creating_wallet.png')} />
+          {this.PullDownToRefreshMessage()}
+          {this.FadeInMessages()}
           <Modal animationType="fade" transparent visible={this.state.modalVisible}>
             <ModalBackground>
               <ModalInner>
-                <ModalText>Your wallet is created! 👏</ModalText>
+                <ModalText>You are all set!</ModalText>
               </ModalInner>
               <Button
-                text="Go!"
+                text="High Five! 🙌"
                 textColor="#00A3E2"
                 backgroundColor="#FFF"
                 borderColor="#00A3E2"
@@ -210,6 +236,66 @@ const ModalBackground = styled.View`
   height: 100%;
 `;
 
+const FadeInMessageOne = Animatable.createAnimatableComponent(styled.View`
+  top: ${hp('8%')};
+`);
+
+const FadeInMessageOneText = styled.Text`
+  color: #5F5F5F;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 24;
+`;
+
+const FadeInMessageTwo = Animatable.createAnimatableComponent(styled.View`
+  top: ${hp('9%')};
+`);
+
+const FadeInMessageTwoText = styled.Text`
+  color: #5F5F5F;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 24;
+`;
+
+const FadeInMessageThree = Animatable.createAnimatableComponent(styled.View`
+  top: ${hp('10%')};
+`);
+
+const FadeInMessageThreeText = styled.Text`
+  color: #5F5F5F;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 24;
+`;
+
+const FadeInMessageFour = Animatable.createAnimatableComponent(styled.View`
+  top: ${hp('11%')};
+`);
+
+const FadeInMessageFourText = styled.Text`
+  color: #5F5F5F;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 24;
+`;
+
+const FadeInMessageFive = Animatable.createAnimatableComponent(styled.View`
+  top: ${hp('12%')};
+`);
+
+const FadeInMessageFiveText = styled.Text`
+  color: #5F5F5F;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 24;
+`;
+
+const FadeInMessageSix = Animatable.createAnimatableComponent(styled.View`
+  top: ${hp('2%')};
+`);
+
+const FadeInMessageSixText = styled.Text`
+  color: #000;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 24;
+`;
+
 const ModalInner = styled.View`
   align-items: center;
   flex-direction: column;
@@ -218,6 +304,9 @@ const ModalInner = styled.View`
 
 const ModalText = styled.Text`
   background-color: #fff;
+  border-radius: 8;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 18;
   margin-top: 70%;
   padding: 8px 24px;
   text-align: center;
@@ -228,11 +317,6 @@ const Container = styled.View`
   flex-direction: column;
   justify-content: center;
   margin-top: 120;
-`;
-
-const CreatingWalletImage = styled.Image`
-  height: 320px;
-  width: 320px;
 `;
 
 function mapStateToProps(state) {
