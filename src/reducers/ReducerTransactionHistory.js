@@ -31,9 +31,15 @@ const transactions = (state = INITIAL_STATE, action) => {
         transactions: [action.payload, ...state.transactions]
       };
     case ADD_PENDING_OR_INCLUDED_TRANSACTION:
-      return {
-        transactions: [action.payload, ...state.transactions]
-      };
+      if (state.transactions === null || Object.keys(state.transactions).length === 0) {
+        return {
+          transactions: [action.payload]
+        };
+      } else if (state.transactions.length > 0) {
+        return {
+          transactions: [action.payload, ...state.transactions]
+        };
+      }
     case UPDATE_PENDING_OR_INCLUDED_TRANSACTION:
       return {
         transactions: state.transactions.map((transaction, index) => {
