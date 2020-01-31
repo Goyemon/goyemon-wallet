@@ -235,6 +235,8 @@ const Container = styled.View`
   align-items: center;
   flex-direction: column;
   justify-content: center;
+  margin: 0 auto;
+  width: 90%;
 `;
 
 const ModalBackground = styled.View`
