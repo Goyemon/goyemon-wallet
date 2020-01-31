@@ -105,21 +105,17 @@ export default class Initial extends Component {
 
   hasPersistedState() {
     return (
-      this.hasTransactionHistory() &&
+      this.hasTransactions() &&
       this.hasBalance() &&
       this.hasChecksumAddress() &&
       this.hasPrice()
     );
   }
 
-  hasTransactionHistory = () => {
-    if (this.totalTransactions != null) {
-      return (
-        this.transactions != null &&
-        this.transactions.length != null &&
-        this.transactions.length.toString() === this.totalTransactions.toString()
-      );
-    } else if (this.totalTransactions === null) {
+  hasTransactions = () => {
+    if (this.totalTransactions != null && this.transactions != null) {
+      return true;
+    } else if (this.totalTransactions === null || this.transactions === null) {
       return false;
     }
   }

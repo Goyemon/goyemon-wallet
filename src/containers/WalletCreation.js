@@ -91,12 +91,8 @@ class WalletCreation extends Component {
 
   hasTransactions() {
     if (this.props.totalTransactions != null && this.props.transactions != null) {
-      return (
-        this.props.transactions != null &&
-        this.props.transactions.length != null &&
-        this.props.transactions.length.toString() === this.props.totalTransactions.toString()
-      );
-    } else if (this.props.totalTransactions === null) {
+      return true;
+    } else if (this.props.totalTransactions === null || this.props.transactions === null) {
       return false;
     }
   }
