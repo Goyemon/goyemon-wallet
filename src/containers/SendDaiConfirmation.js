@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { TouchableWithoutFeedback } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
 import { saveOutgoingDaiTransactionAmount, saveOutgoingDaiTransactionToAddress } from '../actions/ActionOutgoingDaiTransactionData';
@@ -106,8 +107,9 @@ class SendDaiConfirmation extends Component {
             margin="8px"
             opacity="1"
             onPress={async () => {
-              this.props.navigation.navigate('Dai');
               await this.sendSignedTx();
+              this.props.navigation.reset([NavigationActions.navigate({ routeName: 'WalletList' })], 0);
+              this.props.navigation.navigate('History');
             }}
           />
         </ButtonContainer>

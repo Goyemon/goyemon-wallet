@@ -115,7 +115,6 @@ class EarnDai extends Component {
       await TransactionUtilities.sendOutgoingTransactionToServer(transactionObject);
       this.props.saveOutgoingDaiTransactionApproveAmount(this.web3.utils.toHex(-1));
       this.setModalVisible(false);
-      this.props.navigation.navigate('Dai');
     } else {
       DebugUtilities.logInfo('validation failed!');
     }
@@ -227,6 +226,7 @@ class EarnDai extends Component {
                     opacity="1"
                     onPress={async () => {
                       await this.sendTransaction();
+                      this.props.navigation.navigate('History');
                     }}
                   />
                 </ButtonContainer>

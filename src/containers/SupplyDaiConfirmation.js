@@ -30,8 +30,6 @@ class SupplyDaiConfirmation extends Component {
     ];
     await TransactionUtilities.sendOutgoingTransactionToServer(outgoingTransactionObject);
     this.props.saveOutgoingDaiTransactionAmount(this.props.outgoingDaiTransactionData.amount);
-    this.props.navigation.reset([NavigationActions.navigate({ routeName: 'EarnList' })], 0);
-    this.props.navigation.navigate('EarnDai');
   }
 
   toggleCurrencySymbol() {
@@ -104,7 +102,8 @@ class SupplyDaiConfirmation extends Component {
             opacity="1"
             onPress={async () => {
               await this.sendSignedTx();
-              this.props.navigation.navigate('Dai');
+              this.props.navigation.reset([NavigationActions.navigate({ routeName: 'EarnList' })], 0);
+              this.props.navigation.navigate('History');
             }}
           />
         </ButtonContainer>
