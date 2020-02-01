@@ -19,7 +19,6 @@ import {
 } from '../components/common/';
 import DebugUtilities from '../utilities/DebugUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
-import TransactionsDai from '../containers/TransactionsDai';
 
 class Dai extends Component {
   getUsdBalance(daiBalance) {
@@ -79,12 +78,6 @@ class Dai extends Component {
             }}
           />
         </ButtonContainer>
-        <View>
-          <HeaderThree color="#000" marginBottom="16" marginLeft="16" marginTop="16">
-            TRANSACTION HISTORY
-          </HeaderThree>
-        </View>
-        <TransactionsDai />
       </RootContainer>
     );
   }

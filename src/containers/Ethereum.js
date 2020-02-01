@@ -14,12 +14,10 @@ import {
   UntouchableCardContainer,
   TransactionButton,
   HeaderOne,
-  HeaderThree,
   HeaderFour
 } from '../components/common/';
 import DebugUtilities from '../utilities/DebugUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
-import Transactions from '../containers/Transactions';
 
 class Ethereum extends Component {
   getUsdBalance(ethBalance) {
@@ -82,12 +80,6 @@ class Ethereum extends Component {
             }}
           />
         </ButtonContainer>
-        <View>
-          <HeaderThree color="#000" marginBottom="16" marginLeft="16" marginTop="16">
-            TRANSACTION HISTORY
-          </HeaderThree>
-        </View>
-        <Transactions />
       </RootContainer>
     );
   }
