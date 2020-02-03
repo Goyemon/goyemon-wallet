@@ -14,6 +14,8 @@ import VerifyMnemonic from '../containers/VerifyMnemonic';
 import WalletList from '../containers/WalletList';
 import Ethereum from '../containers/Ethereum';
 import SendEth from '../containers/SendEth';
+import QRCodeScan from '../components/QRCodeScan';
+import QRCodeData from '../components/QRCodeData';
 import SendEthConfirmation from '../containers/SendEthConfirmation';
 import Receive from '../containers/Receive';
 import Dai from '../containers/Dai';
@@ -111,6 +113,18 @@ const HomeStack = createStackNavigator(
       navigationOptions: () => ({
         headerTransparent: true,
         headerBackTitle: 'SendEth'
+      })
+    },
+    QRCodeScan: {
+      screen: QRCodeScan,
+      navigationOptions: () => ({
+        header: null
+      })
+    },
+    QRCodeData: {
+      screen: QRCodeData,
+      navigationOptions: () => ({
+        header: null
       })
     },
     SendEthConfirmation: {
