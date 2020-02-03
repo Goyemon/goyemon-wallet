@@ -279,6 +279,13 @@ class SendDai extends Component {
                   this.setState({ toAddress });
                 }}
               />
+              <TouchableOpacity
+                onPress={() => {
+                  this.props.navigation.navigate('QRCodeScan');
+                }}
+              >
+                <Icon name="qrcode-scan" size={16} color="#5f5f5f" />
+              </TouchableOpacity>
             </SendTextInputContainer>
           </Form>
           <View>{this.renderInvalidToAddressMessage()}</View>
