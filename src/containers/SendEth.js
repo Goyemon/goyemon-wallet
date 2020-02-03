@@ -75,9 +75,21 @@ class SendEth extends Component {
 
   toggleCurrencySymbol() {
     if (this.state.currency === 'ETH') {
-      return <CurrencySymbol><Text>ETH</Text><Icon name="swap-horizontal" size={16} color="#5f5f5f" /><CurrencySymbolTextChosen>USD</CurrencySymbolTextChosen></CurrencySymbol>;
+      return (
+        <CurrencySymbol>
+          <Text>ETH</Text>
+          <Icon name="swap-horizontal" size={16} color="#5f5f5f" />
+          <CurrencySymbolTextChosen>USD</CurrencySymbolTextChosen>
+        </CurrencySymbol>
+      );
     } else if (this.state.currency === 'USD') {
-      return <CurrencySymbol><CurrencySymbolTextChosen>ETH</CurrencySymbolTextChosen><Icon name="swap-horizontal" size={16} color="#5f5f5f" /><Text>USD</Text></CurrencySymbol>;
+      return (
+        <CurrencySymbol>
+          <CurrencySymbolTextChosen>ETH</CurrencySymbolTextChosen>
+          <Icon name="swap-horizontal" size={16} color="#5f5f5f" />
+          <Text>USD</Text>
+        </CurrencySymbol>
+      );
     }
   }
 
@@ -93,7 +105,9 @@ class SendEth extends Component {
   }
 
   getTransactionFeeEstimateInUsd(gasPriceWei) {
-    let transactionFeeEstimateInUsd = PriceUtilities.convertEthToUsd(GasUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 21000));
+    let transactionFeeEstimateInUsd = PriceUtilities.convertEthToUsd(
+      GasUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 21000)
+    );
     transactionFeeEstimateInUsd = transactionFeeEstimateInUsd.toFixed(3);
     return transactionFeeEstimateInUsd;
   }
@@ -140,8 +154,7 @@ class SendEth extends Component {
 
     if (
       parseFloat(this.ethBalance) > 0 &&
-      parseFloat(this.ethBalance) >=
-        parseFloat(amount) + parseFloat(transactionFeeLimitInEther) &&
+      parseFloat(this.ethBalance) >= parseFloat(amount) + parseFloat(transactionFeeLimitInEther) &&
       parseFloat(amount) >= 0 &&
       amount.length != 0
     ) {
