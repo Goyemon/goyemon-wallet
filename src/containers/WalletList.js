@@ -1,11 +1,13 @@
 'use strict';
-import BigNumber from "bignumber.js"
+import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { TouchableOpacity } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { withNavigation } from 'react-navigation';
 import styled from 'styled-components';
 import Web3 from 'web3';
@@ -56,6 +58,14 @@ class WalletList extends Component {
         >
           <HeaderFour marginTop="24">total wallet balance</HeaderFour>
           <UsdBalance>${this.getTotalBalance(ethBalance, daiBalance)}</UsdBalance>
+          <AddressContainer
+            onPress={() => {
+              this.props.navigation.navigate('Receive');
+            }}
+          >
+            <Address>{this.props.checksumAddress}</Address>
+            <Icon name="qrcode" size={16} color="#5f5f5f" />
+          </AddressContainer>
         </UntouchableCardContainer>
         <HeaderThree color="#000" marginBottom="16" marginLeft="16" marginTop="16">
           YOUR ACCOUNTS
@@ -89,7 +99,23 @@ const UsdBalance = styled.Text`
   font-size: 32;
 `;
 
+const Address = styled.Text`
+  color: #000;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 12;
+  margin-right: 8;
+`;
+
+const AddressContainer = styled.TouchableOpacity`
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  margin: 12px auto;
+  width: 80%
+`;
+
 const mapStateToProps = state => ({
+  checksumAddress: state.ReducerChecksumAddress.checksumAddress,
   wallets: state.ReducerWallets.wallets,
   balance: state.ReducerBalance.balance
 });
