@@ -9,6 +9,7 @@ import Web3 from 'web3';
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
 import { saveOutgoingDaiTransactionAmount, saveOutgoingDaiTransactionToAddress } from '../actions/ActionOutgoingDaiTransactionData';
 import { getGasPriceFast, getGasPriceAverage, getGasPriceSlow } from '../actions/ActionGasPrice';
+import { clearQRCodeData } from '../actions/ActionQRCodeData';
 import {
   saveTransactionFeeEstimateUsd,
   saveTransactionFeeEstimateEth
@@ -289,6 +290,7 @@ class SendDai extends Component {
               />
               <TouchableOpacity
                 onPress={() => {
+                  this.props.clearQRCodeData();
                   this.props.navigation.navigate('QRCodeScan');
                 }}
               >
@@ -518,7 +520,8 @@ const mapDispatchToProps = {
   saveOutgoingDaiTransactionToAddress,
   getGasPriceFast,
   getGasPriceAverage,
-  getGasPriceSlow
+  getGasPriceSlow,
+  clearQRCodeData
 };
 
 export default connect(

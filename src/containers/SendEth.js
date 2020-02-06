@@ -7,6 +7,7 @@ import styled from 'styled-components/native';
 import Web3 from 'web3';
 import { getGasPriceFast, getGasPriceAverage, getGasPriceSlow } from '../actions/ActionGasPrice';
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
+import { clearQRCodeData } from '../actions/ActionQRCodeData';
 import {
   saveTransactionFeeEstimateUsd,
   saveTransactionFeeEstimateEth
@@ -273,6 +274,7 @@ class SendEth extends Component {
               />
               <TouchableOpacity
                 onPress={() => {
+                  this.props.clearQRCodeData();
                   this.props.navigation.navigate('QRCodeScan');
                 }}
               >
@@ -500,7 +502,8 @@ const mapDispatchToProps = {
   saveTransactionFeeEstimateEth,
   getGasPriceFast,
   getGasPriceAverage,
-  getGasPriceSlow
+  getGasPriceSlow,
+  clearQRCodeData
 };
 
 export default connect(
