@@ -52,19 +52,6 @@ class Dai extends Component {
         </UntouchableCardContainer>
         <ButtonContainer>
           <TransactionButton
-            text="Receive"
-            textColor="#000"
-            backgroundColor="#FFF"
-            borderColor="#FFF"
-            iconColor="#1BA548"
-            iconName="call-received"
-            margin="8px 0"
-            opacity="1"
-            onPress={async () => {
-              navigation.navigate('Receive');
-            }}
-          />
-          <TransactionButton
             text="Send"
             textColor="#000"
             backgroundColor="#FFF"
@@ -73,7 +60,7 @@ class Dai extends Component {
             iconName="call-made"
             margin="8px 0"
             opacity="1"
-            onPress={async () => {
+            onPress={() => {
               navigation.navigate('SendDai');
             }}
           />
@@ -85,8 +72,6 @@ class Dai extends Component {
 
 const ButtonContainer = styled.View`
   align-items: center;
-  flex-direction: row;
-  justify-content: space-between;
   margin: 0 auto;
   width: 90%;
 `;
