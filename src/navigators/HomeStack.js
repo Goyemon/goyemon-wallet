@@ -117,6 +117,8 @@ const HomeStack = createStackNavigator(
     QRCodeScan: {
       screen: QRCodeScan,
       navigationOptions: () => ({
+        header: null,
+        gesturesEnabled: false
       })
     },
     SendEthConfirmation: {
