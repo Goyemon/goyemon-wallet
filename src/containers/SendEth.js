@@ -244,7 +244,7 @@ class SendEth extends Component {
             width="80%"
           >
             <CoinImage source={require('../../assets/ether_icon.png')} />
-            <Title>your eth wallet balance</Title>
+            <Title>eth wallet balance</Title>
             <BalanceContainer>
               <Value>{this.ethBalance} ETH</Value>
               <Value>${this.getUsdBalance()}</Value>

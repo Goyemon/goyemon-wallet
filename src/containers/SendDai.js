@@ -261,7 +261,7 @@ class SendDai extends Component {
             width="80%"
           >
             <CoinImage source={require('../../assets/dai_icon.png')} />
-            <Title>your dai wallet balance</Title>
+            <Title>dai wallet balance</Title>
             <BalanceContainer>
               <Value>{this.daiBalance} DAI</Value>
             </BalanceContainer>
