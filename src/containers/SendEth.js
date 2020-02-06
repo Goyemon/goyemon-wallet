@@ -63,6 +63,13 @@ class SendEth extends Component {
     this.props.getGasPriceSlow();
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.qrCodeData != prevProps.qrCodeData) {
+      this.setState({ toAddress: this.props.qrCodeData });
+      this.validateToAddress(this.props.qrCodeData);
+    }
+  }
+
   getUsdBalance() {
     try {
       let ethUsdBalance = PriceUtilities.convertEthToUsd(this.ethBalance);
@@ -262,6 +269,7 @@ class SendEth extends Component {
                   this.validateToAddress(toAddress);
                   this.setState({ toAddress });
                 }}
+                value={this.state.toAddress}
               />
               <TouchableOpacity
                 onPress={() => {
@@ -481,6 +489,7 @@ function mapStateToProps(state) {
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
     gasPrice: state.ReducerGasPrice.gasPrice,
     balance: state.ReducerBalance.balance,
+    qrCodeData: state.ReducerQRCodeData.qrCodeData,
     transactions: state.ReducerTransactionHistory.transactions
   };
 }

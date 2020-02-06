@@ -69,6 +69,13 @@ class SendDai extends Component {
     this.props.getGasPriceSlow();
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.qrCodeData != prevProps.qrCodeData) {
+      this.setState({ toAddress: this.props.qrCodeData });
+      this.validateToAddress(this.props.qrCodeData);
+    }
+  }
+
   toggleCurrencySymbol() {
     if (this.state.currency === 'ETH') {
       return <CurrencySymbol><Text>ETH</Text><Icon name="swap-horizontal" size={16} color="#5f5f5f" /><CurrencySymbolTextChosen>USD</CurrencySymbolTextChosen></CurrencySymbol>;
@@ -278,6 +285,7 @@ class SendDai extends Component {
                   this.validateToAddress(toAddress);
                   this.setState({ toAddress });
                 }}
+                value={this.state.toAddress}
               />
               <TouchableOpacity
                 onPress={() => {
@@ -497,6 +505,7 @@ function mapStateToProps(state) {
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
     gasPrice: state.ReducerGasPrice.gasPrice,
     balance: state.ReducerBalance.balance,
+    qrCodeData: state.ReducerQRCodeData.qrCodeData,
     transactions: state.ReducerTransactionHistory.transactions
   };
 }
