@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
@@ -21,6 +22,7 @@ import {
   FormHeader,
   CrypterestText
 } from '../components/common';
+import HomeStack from '../navigators/HomeStack';
 import DebugUtilities from '../utilities/DebugUtilities.js';
 import GasUtilities from '../utilities/GasUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
@@ -275,6 +277,12 @@ class SendEth extends Component {
               <TouchableOpacity
                 onPress={() => {
                   this.props.clearQRCodeData();
+                  HomeStack.navigationOptions = () => {
+                    const tabBarVisible = false;
+                    return {
+                      tabBarVisible
+                    };
+                  };
                   this.props.navigation.navigate('QRCodeScan');
                 }}
               >
