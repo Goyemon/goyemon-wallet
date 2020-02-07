@@ -62,7 +62,7 @@ class SendDai extends Component {
       currency: 'USD'
     };
     this.web3 = Web3ProviderUtilities.web3Provider();
-    this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance.toString());
+    this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance);
   }
 
   componentDidMount() {
@@ -172,12 +172,15 @@ class SendDai extends Component {
   }
 
   validateEthAmount() {
-    const transactionFeeLimitInEther = GasUtilities.getTransactionFeeEstimateInEther(
+    let transactionFeeLimitInEther = GasUtilities.getTransactionFeeEstimateInEther(
       this.state.gasPrice[this.state.checked].gasPriceWei,
       65000
     );
 
-    if (parseFloat(this.ethBalance) > parseFloat(transactionFeeLimitInEther)) {
+    const ethBalance = new BigNumber(this.ethBalance);
+    transactionFeeLimitInEther = new BigNumber(transactionFeeLimitInEther);
+
+    if (ethBalance.isGreaterThan(transactionFeeLimitInEther)) {
       DebugUtilities.logInfo('the eth amount validated!');
       this.setState({ ethAmountValidation: true });
       return true;
