@@ -38,15 +38,18 @@ firebase.messaging().onMessage(downstreamMessage => {
   if (downstreamMessage.data.type === 'balance') {
     const balanceMessage = JSON.parse(downstreamMessage.data.data);
     if (balanceMessage.hasOwnProperty('eth')) {
-      const weiBalance = parseInt(balanceMessage.eth, 16);
+      let weiBalance = new BigNumber(balanceMessage.eth);
+      weiBalance = weiBalance.toString(10);
       store.dispatch(saveWeiBalance(weiBalance));
     }
     if (balanceMessage.hasOwnProperty('dai')) {
-      const daiBalance = parseInt(balanceMessage.dai, 16);
+      let daiBalance = new BigNumber(balanceMessage.dai);
+      daiBalance = daiBalance.toString(10);
       store.dispatch(saveDaiBalance(daiBalance));
     }
     if (balanceMessage.hasOwnProperty('cdai')) {
-      const cDaiBalance = parseInt(balanceMessage.cdai, 16);
+      let cDaiBalance = new BigNumber(balanceMessage.cdai);
+      cDaiBalance = cDaiBalance.toString(10);
       store.dispatch(saveCDaiBalance(cDaiBalance));
       store.dispatch(saveDaiSavingsBalance(cDaiBalance, cDaiLendingInfo.currentExchangeRate));
     }
