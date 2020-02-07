@@ -39,9 +39,17 @@ class WalletList extends Component {
 
   render() {
     const { wallets, balance, navigation } = this.props;
-    const daiBalance = new BigNumber(balance.daiBalance).div(10 ** 18).toFixed(2);
-    let ethBalance = Web3.utils.fromWei(balance.weiBalance.toString());
-    ethBalance = parseFloat(ethBalance).toFixed(4);
+
+    const RoundDownBigNumber = BigNumber.clone({
+      DECIMAL_PLACES: 4,
+      ROUNDING_MODE: BigNumber.ROUND_DOWN
+    });
+    let ethBalance = Web3.utils.fromWei(balance.weiBalance);
+    ethBalance = RoundDownBigNumber(ethBalance).toFixed(4);
+
+    const daiBalance = RoundDownBigNumber(balance.daiBalance)
+      .div(10 ** 18)
+      .toString();
 
     return (
       <RootContainer>

@@ -1,4 +1,5 @@
 'use strict';
+import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
@@ -56,8 +57,7 @@ class SendEth extends Component {
       amountValidation: undefined,
       currency: 'USD'
     };
-    this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance.toString());
-    this.ethBalance = parseFloat(this.ethBalance).toFixed(6);
+    this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance);
   }
 
   componentDidMount() {
@@ -220,6 +220,12 @@ class SendEth extends Component {
   render() {
     const { balance } = this.props;
 
+    const RoundDownBigNumber = BigNumber.clone({
+      DECIMAL_PLACES: 4,
+      ROUNDING_MODE: BigNumber.ROUND_DOWN
+    });
+    const ethBalance = RoundDownBigNumber(this.ethBalance).toFixed(4);
+
     this.state.gasPrice[0].gasPriceWei = this.props.gasPrice.fast;
     this.state.gasPrice[1].gasPriceWei = this.props.gasPrice.average;
     this.state.gasPrice[2].gasPriceWei = this.props.gasPrice.slow;
@@ -256,7 +262,7 @@ class SendEth extends Component {
             <CoinImage source={require('../../assets/ether_icon.png')} />
             <Title>eth wallet balance</Title>
             <BalanceContainer>
-              <Value>{this.ethBalance} ETH</Value>
+              <Value>{ethBalance} ETH</Value>
               <Value>${this.getUsdBalance()}</Value>
             </BalanceContainer>
           </UntouchableCardContainer>

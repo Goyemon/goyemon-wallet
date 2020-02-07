@@ -57,7 +57,6 @@ class SupplyDai extends Component {
       currency: 'USD'
     };
     this.web3 = Web3ProviderUtilities.web3Provider();
-    this.daiBalance = new BigNumber(props.balance.daiBalance).div(10 ** 18).toFixed(2);
     this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance.toString());
   }
 
@@ -195,6 +194,14 @@ class SupplyDai extends Component {
     let currentInterestRate = new BigNumber(cDaiLendingInfo.currentInterestRate).div(10 ** 24);
     currentInterestRate = currentInterestRate.toFixed(2);
 
+    const RoundDownBigNumber = BigNumber.clone({
+      DECIMAL_PLACES: 4,
+      ROUNDING_MODE: BigNumber.ROUND_DOWN
+    });
+    const daiBalance = RoundDownBigNumber(this.props.balance.daiBalance)
+      .div(10 ** 18)
+      .toString();
+
     this.state.gasPrice[0].gasPriceWei = this.props.gasPrice.fast;
     this.state.gasPrice[1].gasPriceWei = this.props.gasPrice.average;
     this.state.gasPrice[2].gasPriceWei = this.props.gasPrice.slow;
@@ -230,7 +237,7 @@ class SupplyDai extends Component {
           >
             <CoinImage source={require('../../assets/dai_icon.png')} />
             <Title>your dai wallet balance</Title>
-            <Value>{this.daiBalance} DAI</Value>
+            <Value>{daiBalance} DAI</Value>
             <Title>interest rate</Title>
             <Value>{currentInterestRate} %</Value>
           </UntouchableCardContainer>

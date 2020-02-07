@@ -1,5 +1,5 @@
 'use strict';
-import BigNumber from "bignumber.js"
+import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
@@ -62,7 +62,6 @@ class SendDai extends Component {
       currency: 'USD'
     };
     this.web3 = Web3ProviderUtilities.web3Provider();
-    this.daiBalance = new BigNumber(props.balance.daiBalance).div(10 ** 18).toFixed(2);
     this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance.toString());
   }
 
@@ -237,6 +236,14 @@ class SendDai extends Component {
   };
 
   render() {
+    const RoundDownBigNumber = BigNumber.clone({
+      DECIMAL_PLACES: 4,
+      ROUNDING_MODE: BigNumber.ROUND_DOWN
+    });
+    const daiBalance = RoundDownBigNumber(this.props.balance.daiBalance)
+      .div(10 ** 18)
+      .toString();
+
     this.state.gasPrice[0].gasPriceWei = this.props.gasPrice.fast;
     this.state.gasPrice[1].gasPriceWei = this.props.gasPrice.average;
     this.state.gasPrice[2].gasPriceWei = this.props.gasPrice.slow;
@@ -273,7 +280,7 @@ class SendDai extends Component {
             <CoinImage source={require('../../assets/dai_icon.png')} />
             <Title>dai wallet balance</Title>
             <BalanceContainer>
-              <Value>{this.daiBalance} DAI</Value>
+              <Value>{daiBalance} DAI</Value>
             </BalanceContainer>
           </UntouchableCardContainer>
           <FormHeader marginBottom="4" marginLeft="0" marginTop="0">

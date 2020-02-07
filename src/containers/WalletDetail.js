@@ -64,9 +64,16 @@ class WalletDetail extends Component {
 
   render() {
     const { coin, notation } = this.props.wallet;
-    let ethBalance = Web3.utils.fromWei(this.props.balance.weiBalance.toString());
-    ethBalance = parseFloat(ethBalance).toFixed(4);
-    const daiBalance = new BigNumber(this.props.balance.daiBalance).div(10 ** 18).toFixed(2);
+
+    const RoundDownBigNumber = BigNumber.clone({
+      DECIMAL_PLACES: 4,
+      ROUNDING_MODE: BigNumber.ROUND_DOWN
+    });
+    let ethBalance = Web3.utils.fromWei(this.props.balance.weiBalance);
+    ethBalance = RoundDownBigNumber(ethBalance).toFixed(4);
+    const daiBalance = RoundDownBigNumber(this.props.balance.daiBalance)
+      .div(10 ** 18)
+      .toString();
 
     return (
       <Container>

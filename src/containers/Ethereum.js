@@ -1,4 +1,5 @@
 'use strict';
+import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Web3 from 'web3';
@@ -32,8 +33,13 @@ class Ethereum extends Component {
 
   render() {
     const { balance, navigation } = this.props;
-    let ethBalance = Web3.utils.fromWei(balance.weiBalance.toString());
-    ethBalance = parseFloat(ethBalance).toFixed(4);
+
+    const RoundDownBigNumber = BigNumber.clone({
+      DECIMAL_PLACES: 4,
+      ROUNDING_MODE: BigNumber.ROUND_DOWN
+    });
+    let ethBalance = Web3.utils.fromWei(balance.weiBalance);
+    ethBalance = RoundDownBigNumber(ethBalance).toFixed(4);
 
     return (
       <RootContainer>

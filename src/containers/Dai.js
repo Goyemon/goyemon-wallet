@@ -31,7 +31,14 @@ class Dai extends Component {
 
   render() {
     const { balance, navigation } = this.props;
-    const daiBalance = new BigNumber(balance.daiBalance).div(10 ** 18).toFixed(2);
+
+    const RoundDownBigNumber = BigNumber.clone({
+      DECIMAL_PLACES: 4,
+      ROUNDING_MODE: BigNumber.ROUND_DOWN
+    });
+    const daiBalance = RoundDownBigNumber(balance.daiBalance)
+      .div(10 ** 18)
+      .toString();
 
     return (
       <RootContainer>

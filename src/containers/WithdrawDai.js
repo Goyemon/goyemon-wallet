@@ -58,7 +58,6 @@ class WithdrawDai extends Component {
       currency: 'USD'
     };
     this.web3 = Web3ProviderUtilities.web3Provider();
-    this.daiSavingsBalance = new BigNumber(props.balance.daiSavingsBalance).div(10 ** 36);
     this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance.toString());
   }
 
@@ -196,7 +195,14 @@ class WithdrawDai extends Component {
 
   render() {
     const { balance } = this.props;
-    const daiSavingsBalance = new BigNumber(balance.daiSavingsBalance).div(10 ** 36).toFixed(4);
+
+    const RoundDownBigNumber = BigNumber.clone({
+      DECIMAL_PLACES: 4,
+      ROUNDING_MODE: BigNumber.ROUND_DOWN
+    });
+    const daiSavingsBalance = RoundDownBigNumber(balance.daiSavingsBalance)
+      .div(10 ** 36)
+      .toString();
 
     this.state.gasPrice[0].gasPriceWei = this.props.gasPrice.fast;
     this.state.gasPrice[1].gasPriceWei = this.props.gasPrice.average;
