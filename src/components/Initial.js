@@ -1,4 +1,5 @@
 'use strict';
+import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import * as Animatable from 'react-native-animatable';
 import firebase from 'react-native-firebase';
@@ -121,15 +122,15 @@ export default class Initial extends Component {
   }
 
   hasBalance = () => {
+    const cDaiBalance = new BigNumber(this.balance.cDaiBalance);
+    const daiBalance = new BigNumber(this.balance.daiBalance);
+    const weiBalance = new BigNumber(this.balance.weiBalance);
     return (
-      this.balance.cDaiBalance >= 0 &&
-      this.balance.cDaiBalance.length != 0 &&
-      this.balance.daiBalance >= 0 &&
-      this.balance.daiBalance.length != 0 &&
-      this.balance.weiBalance >= 0 &&
-      this.balance.weiBalance.length != 0
+      cDaiBalance.isGreaterThanOrEqualTo(0) &&
+      daiBalance.isGreaterThanOrEqualTo(0) &&
+      weiBalance.isGreaterThanOrEqualTo(0)
     );
-  }
+  };
 
   hasChecksumAddress = () => {
     return this.checksumAddress != null;

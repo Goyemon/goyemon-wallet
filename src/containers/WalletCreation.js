@@ -1,4 +1,5 @@
 'use strict';
+import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, RefreshControl, Modal, View, Text } from 'react-native';
@@ -132,13 +133,14 @@ class WalletCreation extends Component {
   }
 
   hasBalance() {
+    const cDaiBalance = new BigNumber(this.props.balance.cDaiBalance);
+    const daiBalance = new BigNumber(this.props.balance.daiBalance);
+    const weiBalance = new BigNumber(this.props.balance.weiBalance);
+
     return (
-      this.props.balance.cDaiBalance >= 0 &&
-      this.props.balance.cDaiBalance.length != 0 &&
-      this.props.balance.daiBalance >= 0 &&
-      this.props.balance.daiBalance.length != 0 &&
-      this.props.balance.weiBalance >= 0 &&
-      this.props.balance.weiBalance.length != 0
+      cDaiBalance.isGreaterThanOrEqualTo(0) &&
+      daiBalance.isGreaterThanOrEqualTo(0) &&
+      weiBalance.isGreaterThanOrEqualTo(0)
     );
   }
 
