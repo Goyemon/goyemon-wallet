@@ -123,11 +123,13 @@ class WithdrawDai extends Component {
 
   validateDaiSavingsAmount(daiWithdrawAmount) {
     daiWithdrawAmount = new BigNumber(daiWithdrawAmount);
+    daiWithdrawAmount = daiWithdrawAmount.times(10 ** 36);
+    const daiSavingsBalance = new BigNumber(this.props.balance.daiSavingsBalance);
 
     if (
-      this.daiSavingsBalance.isGreaterThan(new BigNumber(0)) &&
-      this.daiSavingsBalance.isGreaterThanOrEqualTo(daiWithdrawAmount) &&
-      daiWithdrawAmount.isGreaterThanOrEqualTo(new BigNumber(0))
+      daiSavingsBalance.isGreaterThan(0) &&
+      daiSavingsBalance.isGreaterThanOrEqualTo(daiWithdrawAmount) &&
+      daiWithdrawAmount.isGreaterThanOrEqualTo(0)
     ) {
       DebugUtilities.logInfo('the dai savings amount validated!');
       this.setState({ daiSavingsAmountValidation: true });
