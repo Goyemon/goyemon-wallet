@@ -14,7 +14,7 @@ import VerifyMnemonic from '../containers/VerifyMnemonic';
 import WalletList from '../containers/WalletList';
 import Ethereum from '../containers/Ethereum';
 import SendEth from '../containers/SendEth';
-import QRCodeScan from '../components/QRCodeScan';
+import QRCodeScan from '../containers/QRCodeScan';
 import SendEthConfirmation from '../containers/SendEthConfirmation';
 import Receive from '../containers/Receive';
 import Dai from '../containers/Dai';
