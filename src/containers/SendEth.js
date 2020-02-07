@@ -157,16 +157,20 @@ class SendEth extends Component {
   }
 
   validateAmount(amount) {
-    const transactionFeeLimitInEther = GasUtilities.getTransactionFeeEstimateInEther(
+    let transactionFeeLimitInEther = GasUtilities.getTransactionFeeEstimateInEther(
       this.state.gasPrice[this.state.checked].gasPriceWei,
       21000
     );
 
+    const ethBalance = new BigNumber(this.ethBalance);
+
+    amount = new BigNumber(amount);
+    transactionFeeLimitInEther = new BigNumber(transactionFeeLimitInEther);
+
     if (
-      parseFloat(this.ethBalance) > 0 &&
-      parseFloat(this.ethBalance) >= parseFloat(amount) + parseFloat(transactionFeeLimitInEther) &&
-      parseFloat(amount) >= 0 &&
-      amount.length != 0
+      ethBalance.isGreaterThan(0) &&
+      ethBalance.isGreaterThanOrEqualTo(amount.plus(transactionFeeLimitInEther)) &&
+      amount.isGreaterThanOrEqualTo(0)
     ) {
       DebugUtilities.logInfo('the amount validated!');
       this.setState({ amountValidation: true });
