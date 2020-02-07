@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Dimensions, TouchableOpacity, Text } from 'react-native';
+import { Dimensions, TouchableOpacity, Text, BackHandler } from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
@@ -8,6 +8,23 @@ import { saveQRCodeData } from '../actions/ActionQRCodeData';
 import HomeStack from '../navigators/HomeStack';
 
 class QRCodeScan extends Component {
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  handleBackButton() {
+    HomeStack.navigationOptions = () => {
+      const tabBarVisible = true;
+      return {
+        tabBarVisible
+      };
+    };
+  }
+
   onScanSuccess = e => {
     this.props.saveQRCodeData(e.data);
     this.props.navigation.pop();
