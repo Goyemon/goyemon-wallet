@@ -119,11 +119,14 @@ class SupplyDai extends Component {
   }
 
   validateDaiAmount(amount) {
+    amount = new BigNumber(amount);
+    amount = amount.times(10 ** 18);
+    const daiBalance = new BigNumber(this.props.balance.daiBalance);
+
     if (
-      parseFloat(this.daiBalance) > 0 &&
-      parseFloat(this.daiBalance) >= parseFloat(amount) &&
-      parseFloat(amount) >= 0 &&
-      amount.length != 0
+      daiBalance.isGreaterThan(0) &&
+      daiBalance.isGreaterThanOrEqualTo(amount) &&
+      amount.isGreaterThanOrEqualTo(0)
     ) {
       DebugUtilities.logInfo('the dai amount validated!');
       this.setState({ daiAmountValidation: true });
