@@ -119,7 +119,7 @@ const AddressContainer = styled.TouchableOpacity`
   flex-direction: row;
   justify-content: center;
   margin: 12px auto;
-  width: 80%
+  width: 80%;
 `;
 
 const mapStateToProps = state => ({

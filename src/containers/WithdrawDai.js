@@ -243,7 +243,7 @@ class WithdrawDai extends Component {
             width="80%"
           >
             <CoinImage source={require('../../assets/dai_icon.png')} />
-            <Title>your dai savings balance</Title>
+            <Title>dai savings</Title>
             <Value>{daiSavingsBalance} DAI</Value>
           </UntouchableCardContainer>
           <FormHeader marginBottom="4" marginLeft="0" marginTop="24">

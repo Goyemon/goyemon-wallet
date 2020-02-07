@@ -49,9 +49,7 @@ class WalletCreation extends Component {
   PullDownToRefreshMessage() {
     return (
       <FadeInMessageSix animation="fadeIn" delay={10500}>
-        <FadeInMessageSixText>
-          pull down to refresh 👇
-        </FadeInMessageSixText>
+        <FadeInMessageSixText>pull down to refresh 👇</FadeInMessageSixText>
       </FadeInMessageSix>
     );
   }
@@ -255,7 +253,7 @@ const FadeInMessageOne = Animatable.createAnimatableComponent(styled.View`
 `);
 
 const FadeInMessageOneText = styled.Text`
-  color: #5F5F5F;
+  color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
   font-size: 24;
 `;
@@ -265,7 +263,7 @@ const FadeInMessageTwo = Animatable.createAnimatableComponent(styled.View`
 `);
 
 const FadeInMessageTwoText = styled.Text`
-  color: #5F5F5F;
+  color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
   font-size: 24;
 `;
@@ -275,7 +273,7 @@ const FadeInMessageThree = Animatable.createAnimatableComponent(styled.View`
 `);
 
 const FadeInMessageThreeText = styled.Text`
-  color: #5F5F5F;
+  color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
   font-size: 24;
 `;
@@ -285,7 +283,7 @@ const FadeInMessageFour = Animatable.createAnimatableComponent(styled.View`
 `);
 
 const FadeInMessageFourText = styled.Text`
-  color: #5F5F5F;
+  color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
   font-size: 24;
 `;
@@ -295,7 +293,7 @@ const FadeInMessageFive = Animatable.createAnimatableComponent(styled.View`
 `);
 
 const FadeInMessageFiveText = styled.Text`
-  color: #5F5F5F;
+  color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
   font-size: 24;
 `;

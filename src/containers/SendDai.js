@@ -8,7 +8,10 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
-import { saveOutgoingDaiTransactionAmount, saveOutgoingDaiTransactionToAddress } from '../actions/ActionOutgoingDaiTransactionData';
+import {
+  saveOutgoingDaiTransactionAmount,
+  saveOutgoingDaiTransactionToAddress
+} from '../actions/ActionOutgoingDaiTransactionData';
 import { getGasPriceFast, getGasPriceAverage, getGasPriceSlow } from '../actions/ActionGasPrice';
 import { clearQRCodeData } from '../actions/ActionQRCodeData';
 import {
@@ -80,9 +83,21 @@ class SendDai extends Component {
 
   toggleCurrencySymbol() {
     if (this.state.currency === 'ETH') {
-      return <CurrencySymbol><Text>ETH</Text><Icon name="swap-horizontal" size={16} color="#5f5f5f" /><CurrencySymbolTextChosen>USD</CurrencySymbolTextChosen></CurrencySymbol>;
+      return (
+        <CurrencySymbol>
+          <Text>ETH</Text>
+          <Icon name="swap-horizontal" size={16} color="#5f5f5f" />
+          <CurrencySymbolTextChosen>USD</CurrencySymbolTextChosen>
+        </CurrencySymbol>
+      );
     } else if (this.state.currency === 'USD') {
-      return <CurrencySymbol><CurrencySymbolTextChosen>ETH</CurrencySymbolTextChosen><Icon name="swap-horizontal" size={16} color="#5f5f5f" /><Text>USD</Text></CurrencySymbol>;
+      return (
+        <CurrencySymbol>
+          <CurrencySymbolTextChosen>ETH</CurrencySymbolTextChosen>
+          <Icon name="swap-horizontal" size={16} color="#5f5f5f" />
+          <Text>USD</Text>
+        </CurrencySymbol>
+      );
     }
   }
 
@@ -98,7 +113,9 @@ class SendDai extends Component {
   }
 
   getTransactionFeeEstimateInUsd(gasPriceWei) {
-    let transactionFeeEstimateInUsd = PriceUtilities.convertEthToUsd(GasUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 65000));
+    let transactionFeeEstimateInUsd = PriceUtilities.convertEthToUsd(
+      GasUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 65000)
+    );
     transactionFeeEstimateInUsd = transactionFeeEstimateInUsd.toFixed(3);
     return transactionFeeEstimateInUsd;
   }
@@ -478,8 +495,8 @@ const NetworkFeeContainer = styled.View`
 `;
 
 const NetworkFee = styled.View`
-margin: 0 4px;
-width: 33.3%;
+  margin: 0 4px;
+  width: 33.3%;
 `;
 
 const NetworkFeeText = styled.Text`

@@ -1,5 +1,5 @@
 'use strict';
-import BigNumber from "bignumber.js"
+import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View } from 'react-native';
@@ -25,21 +25,13 @@ class WalletDetail extends Component {
     daiUsdBalance = daiUsdBalance.toFixed(2);
     if (this.props.wallet.id === 0) {
       try {
-        return (
-          <CrypterestText fontSize="20">
-            $ {ethUsdBalance}
-          </CrypterestText>
-        );
+        return <CrypterestText fontSize="20">$ {ethUsdBalance}</CrypterestText>;
       } catch (err) {
         DebugUtilities.logError(err);
       }
     } else if (this.props.wallet.id === 1) {
       try {
-        return (
-          <CrypterestText fontSize="20">
-            $ {daiUsdBalance}
-          </CrypterestText>
-        );
+        return <CrypterestText fontSize="20">$ {daiUsdBalance}</CrypterestText>;
       } catch (err) {
         DebugUtilities.logError(err);
       }

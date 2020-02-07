@@ -242,7 +242,7 @@ class SupplyDai extends Component {
             width="80%"
           >
             <CoinImage source={require('../../assets/dai_icon.png')} />
-            <Title>your dai wallet balance</Title>
+            <Title>dai wallet balance</Title>
             <Value>{daiBalance} DAI</Value>
             <Title>interest rate</Title>
             <Value>{currentInterestRate} %</Value>

@@ -106,10 +106,7 @@ export default class Initial extends Component {
 
   hasPersistedState() {
     return (
-      this.hasTransactions() &&
-      this.hasBalance() &&
-      this.hasChecksumAddress() &&
-      this.hasPrice()
+      this.hasTransactions() && this.hasBalance() && this.hasChecksumAddress() && this.hasPrice()
     );
   }
 
@@ -119,7 +116,7 @@ export default class Initial extends Component {
     } else if (this.totalTransactions === null || this.transactions === null) {
       return false;
     }
-  }
+  };
 
   hasBalance = () => {
     const cDaiBalance = new BigNumber(this.balance.cDaiBalance);
@@ -132,18 +129,14 @@ export default class Initial extends Component {
     );
   };
 
-  hasChecksumAddress = () => {
-    return this.checksumAddress != null;
-  }
+  hasChecksumAddress = () => this.checksumAddress != null;
 
-  hasPrice = () => {
-    return (
+  hasPrice = () => (
       this.price.eth >= 0 &&
       this.price.eth.length != 0 &&
       this.price.dai >= 0 &&
       this.price.dai.length != 0
     );
-  }
 
   render() {
     return (

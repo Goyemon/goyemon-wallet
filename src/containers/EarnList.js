@@ -55,7 +55,7 @@ class EarnList extends Component {
           textAlign="center"
           width="90%"
         >
-          <HeaderFour marginTop="24">total savings balance</HeaderFour>
+          <HeaderFour marginTop="24">total savings</HeaderFour>
           <BalanceText>${this.getUsdValue(daiSavingsBalance)}</BalanceText>
           <InterestEarnedTextContainer>
             <InterestEarnedText>
