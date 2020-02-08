@@ -8,15 +8,3 @@ firebase.messaging().onTokenRefresh(fcmToken => {
   DebugUtilities.logInfo('a new fcmToken is generated ===>', fcmToken);
   store.dispatch(saveFcmToken(fcmToken));
 });
-
-firebase
-  .messaging()
-  .getToken()
-  .then(fcmToken => {
-    if (fcmToken) {
-      DebugUtilities.logInfo('the current fcmToken ===>', fcmToken);
-      store.dispatch(saveFcmToken(fcmToken));
-    } else {
-      DebugUtilities.logInfo('no fcmToken ');
-    }
-  });

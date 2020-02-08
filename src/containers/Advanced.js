@@ -2,11 +2,14 @@
 import React, { Component } from 'react';
 import { Clipboard, TouchableWithoutFeedback } from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import firebase from 'react-native-firebase';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
+import { saveFcmToken } from '../actions/ActionDebugInfo';
 import { RootContainer, HeaderOne, HeaderThree, CrypterestText } from '../components/common';
 import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
+import DebugUtilities from '../utilities/DebugUtilities.js';
 
 class Advanced extends Component {
   constructor(props) {
@@ -15,6 +18,24 @@ class Advanced extends Component {
       clipboardContent: null
     };
     this.AnimationRef;
+  }
+
+  componentDidMount() {
+    this.getFcmToken();
+  }
+
+  getFcmToken() {
+    firebase
+      .messaging()
+      .getToken()
+      .then(fcmToken => {
+        if (fcmToken) {
+          DebugUtilities.logInfo('the current fcmToken ===>', fcmToken);
+          this.props.saveFcmToken(fcmToken);
+        } else {
+          DebugUtilities.logInfo('no fcmToken ');
+        }
+      });
   }
 
   async writeToClipboard() {
@@ -54,21 +75,17 @@ class Advanced extends Component {
 
     return (
       <RootContainer>
-      <HeaderOne marginTop="96">Advanced</HeaderOne>
+        <HeaderOne marginTop="96">Advanced</HeaderOne>
         <Container>
           <HeaderThree color="#000" marginBottom="0" marginLeft="0" marginTop="24">
             Your Fcm Token
           </HeaderThree>
-          <CrypterestText fontSize="14">
-            {this.props.debugInfo.fcmToken}
-          </CrypterestText>
+          <CrypterestText fontSize="14">{this.props.debugInfo.fcmToken}</CrypterestText>
           {this.renderCopyText()}
           <HeaderThree color="#000" marginBottom="0" marginLeft="0" marginTop="24">
             Other Debug Info
           </HeaderThree>
-          <CrypterestText fontSize="14">
-            {otherDebugInfo}
-          </CrypterestText>
+          <CrypterestText fontSize="14">{otherDebugInfo}</CrypterestText>
           <HeaderThree color="#000" marginBottom="0" marginLeft="0" marginTop="24">
             Sync Your Transactions
           </HeaderThree>
@@ -122,4 +139,11 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Advanced);
+const mapDispatchToProps = {
+  saveFcmToken
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Advanced);
