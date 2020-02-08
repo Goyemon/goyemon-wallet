@@ -204,7 +204,7 @@ class SupplyDai extends Component {
       ROUNDING_MODE: BigNumber.ROUND_DOWN
     });
     const daiBalance = RoundDownBigNumber(this.props.balance.daiBalance)
-      .div(10 ** 18)
+      .div(new BigNumber(10).pow(18))
       .toString();
 
     this.state.gasPrice[0].gasPriceWei = this.props.gasPrice.fast;

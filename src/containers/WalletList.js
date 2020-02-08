@@ -48,7 +48,7 @@ class WalletList extends Component {
     ethBalance = RoundDownBigNumber(ethBalance).toFixed(4);
 
     const daiBalance = RoundDownBigNumber(balance.daiBalance)
-      .div(10 ** 18)
+      .div(new BigNumber(10).pow(18))
       .toString();
 
     return (

@@ -37,7 +37,7 @@ class Dai extends Component {
       ROUNDING_MODE: BigNumber.ROUND_DOWN
     });
     const daiBalance = RoundDownBigNumber(balance.daiBalance)
-      .div(10 ** 18)
+      .div(new BigNumber(10).pow(18))
       .toString();
 
     return (
