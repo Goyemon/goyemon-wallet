@@ -455,12 +455,26 @@ class TransactionUtilities {
   }
 
   parseHexDaiValue(value) {
-    const parsedDaiValue = new BigNumber(parseInt(value, 16)).div(10 ** 18).toFixed(4);
+    const RoundDownBigNumber = BigNumber.clone({
+      DECIMAL_PLACES: 4,
+      ROUNDING_MODE: BigNumber.ROUND_DOWN
+    });
+
+    const parsedDaiValue = RoundDownBigNumber(value)
+      .div(new BigNumber(10).pow(18))
+      .toString();
     return parsedDaiValue;
   }
 
   parseHexCDaiValue(value) {
-    const parsedDaiValue = new BigNumber(parseInt(value, 16)).div(10 ** 8).toFixed(4);
+    const RoundDownBigNumber = BigNumber.clone({
+      DECIMAL_PLACES: 4,
+      ROUNDING_MODE: BigNumber.ROUND_DOWN
+    });
+
+    const parsedDaiValue = RoundDownBigNumber(value)
+      .div(new BigNumber(10).pow(8))
+      .toString();
     return parsedDaiValue;
   }
 
