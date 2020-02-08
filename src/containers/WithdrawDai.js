@@ -122,8 +122,7 @@ class WithdrawDai extends Component {
   }
 
   validateDaiSavingsAmount(daiWithdrawAmount) {
-    daiWithdrawAmount = new BigNumber(daiWithdrawAmount);
-    daiWithdrawAmount = daiWithdrawAmount.times(10 ** 36);
+    daiWithdrawAmount = new BigNumber(10).pow(36).times(daiWithdrawAmount);
     const daiSavingsBalance = new BigNumber(this.props.balance.daiSavingsBalance);
 
     if (
