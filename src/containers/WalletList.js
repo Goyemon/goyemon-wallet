@@ -51,6 +51,8 @@ class WalletList extends Component {
       .div(new BigNumber(10).pow(18))
       .toString();
 
+    const truncatedAdderss = this.props.checksumAddress.substring(0, 24) + '...';
+
     return (
       <RootContainer>
         <HeaderOne marginTop="64">Wallets</HeaderOne>
@@ -71,8 +73,8 @@ class WalletList extends Component {
               this.props.navigation.navigate('Receive');
             }}
           >
-            <Address>{this.props.checksumAddress}</Address>
-            <Icon name="qrcode" size={16} color="#5f5f5f" />
+            <Icon name="qrcode" size={20} color="#5f5f5f" />
+            <Address>{truncatedAdderss}</Address>
           </AddressContainer>
         </UntouchableCardContainer>
         <HeaderThree color="#000" marginBottom="16" marginLeft="16" marginTop="16">
@@ -111,7 +113,7 @@ const Address = styled.Text`
   color: #000;
   font-family: 'HKGrotesk-Regular';
   font-size: 12;
-  margin-right: 8;
+  margin-left: 8;
 `;
 
 const AddressContainer = styled.TouchableOpacity`
