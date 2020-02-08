@@ -119,8 +119,7 @@ class SupplyDai extends Component {
   }
 
   validateDaiAmount(amount) {
-    amount = new BigNumber(amount);
-    amount = amount.times(10 ** 18);
+    amount = new BigNumber(10).pow(18).times(amount);
     const daiBalance = new BigNumber(this.props.balance.daiBalance);
 
     if (
