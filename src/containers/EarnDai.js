@@ -236,7 +236,9 @@ class EarnDai extends Component {
                     opacity="1"
                     onPress={async () => {
                       await this.sendTransaction();
-                      this.props.navigation.navigate('History');
+                      if(this.validateEthAmount()){
+                        this.props.navigation.navigate('History');
+                      }
                     }}
                   />
                 </ButtonContainer>
