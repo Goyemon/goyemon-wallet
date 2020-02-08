@@ -50,6 +50,7 @@ const EmptyTransactionContainer = styled.View`
   align-items: center;
   flex-direction: column;
   justify-content: center;
+  margin-top: 120px;
 `;
 
 const EmptyTransactionEmoji = styled.Text`
