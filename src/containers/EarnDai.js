@@ -192,7 +192,8 @@ class EarnDai extends Component {
       ROUNDING_MODE: BigNumber.ROUND_DOWN
     });
     const daiSavingsBalance = RoundDownBigNumber(balance.daiSavingsBalance)
-      .div(10 ** 36)
+      .div(new BigNumber(10).pow(36))
+      .toString();
       .toString();
 
     return (
