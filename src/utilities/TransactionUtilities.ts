@@ -221,7 +221,8 @@ class TransactionUtilities {
   async parseSentDaiTransaction(transactionObject) {
     const stateTree = store.getState();
     const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
-    const outgoingDaiTransactionData = stateTree.ReducerOutgoingDaiTransactionData.outgoingDaiTransactionData;
+    const outgoingDaiTransactionData =
+      stateTree.ReducerOutgoingDaiTransactionData.outgoingDaiTransactionData;
     const parsedTransaction = {
       hash: uuidv4(),
       from: checksumAddress,
@@ -244,7 +245,8 @@ class TransactionUtilities {
   async parseSentDaiApproveTransaction(transactionObject) {
     const stateTree = store.getState();
     const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
-    const outgoingDaiTransactionData = stateTree.ReducerOutgoingDaiTransactionData.outgoingDaiTransactionData;
+    const outgoingDaiTransactionData =
+      stateTree.ReducerOutgoingDaiTransactionData.outgoingDaiTransactionData;
     const parsedTransaction = {
       hash: uuidv4(),
       from: checksumAddress,
@@ -267,7 +269,8 @@ class TransactionUtilities {
   async parseSentCDaiMintTransaction(transactionObject) {
     const stateTree = store.getState();
     const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
-    const outgoingDaiTransactionData = stateTree.ReducerOutgoingDaiTransactionData.outgoingDaiTransactionData
+    const outgoingDaiTransactionData =
+      stateTree.ReducerOutgoingDaiTransactionData.outgoingDaiTransactionData;
     const parsedTransaction = {
       hash: uuidv4(),
       from: checksumAddress,
@@ -289,7 +292,8 @@ class TransactionUtilities {
   async parseSentCDaiRedeemUnderlyingTransaction(transactionObject) {
     const stateTree = store.getState();
     const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
-    const outgoingDaiTransactionData = stateTree.ReducerOutgoingDaiTransactionData.outgoingDaiTransactionData;
+    const outgoingDaiTransactionData =
+      stateTree.ReducerOutgoingDaiTransactionData.outgoingDaiTransactionData;
     const parsedTransaction = {
       hash: uuidv4(),
       from: checksumAddress,
@@ -321,9 +325,7 @@ class TransactionUtilities {
   parsePendingOrIncludedTransaction(transactionObject) {
     let parsedTransaction;
     const txHashKey = Object.keys(transactionObject)[0];
-    const isContractTx = !(
-      typeof transactionObject[txHashKey][8] === 'undefined'
-    );
+    const isContractTx = !(typeof transactionObject[txHashKey][8] === 'undefined');
 
     if (!isContractTx) {
       parsedTransaction = {
