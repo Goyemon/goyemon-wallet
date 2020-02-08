@@ -1,5 +1,5 @@
 'use strict';
-import BigNumber from "bignumber.js"
+import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
@@ -68,9 +68,21 @@ class SupplyDai extends Component {
 
   toggleCurrencySymbol() {
     if (this.state.currency === 'ETH') {
-      return <CurrencySymbol><Text>ETH</Text><Icon name="swap-horizontal" size={16} color="#5f5f5f" /><CurrencySymbolTextChosen>USD</CurrencySymbolTextChosen></CurrencySymbol>;
+      return (
+        <CurrencySymbol>
+          <Text>ETH</Text>
+          <Icon name="swap-horizontal" size={16} color="#5f5f5f" />
+          <CurrencySymbolTextChosen>USD</CurrencySymbolTextChosen>
+        </CurrencySymbol>
+      );
     } else if (this.state.currency === 'USD') {
-      return <CurrencySymbol><CurrencySymbolTextChosen>ETH</CurrencySymbolTextChosen><Icon name="swap-horizontal" size={16} color="#5f5f5f" /><Text>USD</Text></CurrencySymbol>;
+      return (
+        <CurrencySymbol>
+          <CurrencySymbolTextChosen>ETH</CurrencySymbolTextChosen>
+          <Icon name="swap-horizontal" size={16} color="#5f5f5f" />
+          <Text>USD</Text>
+        </CurrencySymbol>
+      );
     }
   }
 
@@ -86,7 +98,9 @@ class SupplyDai extends Component {
   }
 
   getTransactionFeeEstimateInUsd(gasPriceWei) {
-    let transactionFeeEstimateInUsd = PriceUtilities.convertEthToUsd(GasUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 350000));
+    let transactionFeeEstimateInUsd = PriceUtilities.convertEthToUsd(
+      GasUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 350000)
+    );
     transactionFeeEstimateInUsd = transactionFeeEstimateInUsd.toFixed(3);
     return transactionFeeEstimateInUsd;
   }

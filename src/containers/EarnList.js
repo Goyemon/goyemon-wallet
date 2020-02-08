@@ -1,5 +1,5 @@
 'use strict';
-import BigNumber from "bignumber.js"
+import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Text } from 'react-native';
@@ -62,9 +62,7 @@ class EarnList extends Component {
           <HeaderFour marginTop="24">total savings</HeaderFour>
           <BalanceText>${this.getUsdValue(daiSavingsBalance)}</BalanceText>
           <InterestEarnedTextContainer>
-            <InterestEarnedText>
-              ${this.getUsdValue(lifetimeEarnedInDai)}
-            </InterestEarnedText>
+            <InterestEarnedText>${this.getUsdValue(lifetimeEarnedInDai)}</InterestEarnedText>
             <Text> earned! </Text>
           </InterestEarnedTextContainer>
         </UntouchableCardContainer>

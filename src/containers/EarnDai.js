@@ -74,9 +74,8 @@ class EarnDai extends Component {
   renderInsufficientEthBalanceMessage() {
     if (this.state.ethAmountValidation || this.state.ethAmountValidation === undefined) {
       return;
-    } else {
-      return <ErrorMessage>you don't have enough ether 😟</ErrorMessage>;
     }
+    return <ErrorMessage>you don't have enough ether 😟</ErrorMessage>;
   }
 
   getApproveEncodedABI() {
@@ -214,7 +213,8 @@ class EarnDai extends Component {
               <MondalInner>
                 <ModalTextContainer>
                   <Description marginBottom="8" marginLeft="0" marginTop="16">
-                    there will be about ${this.getTransactionFeeEstimateInUsd()} network fee to unlock Dai.
+                    there will be about ${this.getTransactionFeeEstimateInUsd()} network fee to
+                    unlock Dai.
                   </Description>
                 </ModalTextContainer>
                 <ButtonContainer>
@@ -239,7 +239,7 @@ class EarnDai extends Component {
                     opacity="1"
                     onPress={async () => {
                       await this.sendTransaction();
-                      if(this.validateEthAmount()){
+                      if (this.validateEthAmount()) {
                         this.props.navigation.navigate('History');
                       }
                     }}
