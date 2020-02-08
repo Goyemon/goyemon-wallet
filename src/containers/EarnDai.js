@@ -44,6 +44,14 @@ class EarnDai extends Component {
     this.props.getGasPriceAverage();
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.transactions != null && this.props.transactions.length != null) {
+      if (this.props.transactions != prevProps.transactions) {
+        this.props.saveDaiApprovalInfo(TransactionUtilities.daiApproved(this.props.transactions));
+      }
+    }
+  }
+
   getTransactionFeeEstimateInUsd() {
     let transactionFeeEstimateInUsd = PriceUtilities.convertEthToUsd(
       GasUtilities.getTransactionFeeEstimateInEther(this.props.gasPrice.average, 50000)
