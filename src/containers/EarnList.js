@@ -29,8 +29,9 @@ class EarnList extends Component {
 
   render() {
     const { balance, cDaiLendingInfo, navigation } = this.props;
-    let currentInterestRate = new BigNumber(cDaiLendingInfo.currentInterestRate).div(10 ** 24);
-    currentInterestRate = currentInterestRate.toFixed(2);
+    const currentInterestRate = new BigNumber(cDaiLendingInfo.currentInterestRate)
+      .div(new BigNumber(10).pow(24))
+      .toFixed(2);
 
     const RoundDownBigNumber = BigNumber.clone({
       DECIMAL_PLACES: 4,
