@@ -63,7 +63,7 @@ export default class History extends Component {
   }
 }
 
-const FilterChoiceContainer = styled.TouchableOpacity`
+const FilterChoiceContainer = styled.View`
   align-items: center;
   flex-direction: row;
   justify-content: flex-start;
