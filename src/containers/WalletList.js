@@ -51,7 +51,10 @@ class WalletList extends Component {
       .div(new BigNumber(10).pow(18))
       .toString();
 
-    const truncatedAdderss = this.props.checksumAddress.substring(0, 24) + '...';
+    let truncatedAdderss;
+    if(this.props.checksumAddress) {
+      truncatedAdderss = this.props.checksumAddress.substring(0, 24) + '...';
+    }
 
     return (
       <RootContainer>
