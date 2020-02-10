@@ -77,7 +77,7 @@ class WalletCreation extends Component {
     await this.fetchTokenInfo();
     setTimeout(async () => {
       await this.isWalletReady();
-    }, 4000);
+    }, 8000);
   }
 
   async createWallet() {
