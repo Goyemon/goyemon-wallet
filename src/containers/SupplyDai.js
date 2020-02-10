@@ -111,7 +111,7 @@ class SupplyDai extends Component {
       cDaiContract.cDaiAddress
     );
 
-    amount = new BigNumber(10).pow(18).times(amount);
+    amount = new BigNumber(10).pow(18).times(amount).toString();
     const hexMintAmount = Web3.utils.toHex(amount);
 
     const mintEncodedABI = cDaiContractInstance.methods.mint(hexMintAmount).encodeABI();
