@@ -32,8 +32,8 @@ class SendDaiConfirmation extends Component {
       this.props.outgoingTransactionObjects.length - 1
     ];
     await TransactionUtilities.sendOutgoingTransactionToServer(outgoingTransactionObject);
-    this.props.saveOutgoingDaiTransactionAmount(this.props.outgoingDaiTransactionData.toAddress);
-    this.props.saveOutgoingDaiTransactionToAddress(this.props.outgoingDaiTransactionData.amount);
+    this.props.saveOutgoingDaiTransactionAmount(this.props.outgoingDaiTransactionData.amount);
+    this.props.saveOutgoingDaiTransactionToAddress(this.props.outgoingDaiTransactionData.toAddress);
   }
 
   toggleCurrencySymbol() {
