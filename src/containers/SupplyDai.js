@@ -111,10 +111,10 @@ class SupplyDai extends Component {
       cDaiContract.cDaiAddress
     );
 
-    const mintAmountWithDecimals = new BigNumber(10).pow(18).times(amount);
-    const mintAmountWithHex = Web3.utils.toHex(mintAmountWithDecimals);
+    amount = new BigNumber(10).pow(18).times(amount);
+    const hexMintAmount = Web3.utils.toHex(amount);
 
-    const mintEncodedABI = cDaiContractInstance.methods.mint(mintAmountWithHex).encodeABI();
+    const mintEncodedABI = cDaiContractInstance.methods.mint(hexMintAmount).encodeABI();
     return mintEncodedABI;
   }
 

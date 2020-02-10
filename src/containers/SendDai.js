@@ -126,11 +126,11 @@ class SendDai extends Component {
       daiTokenContract.daiTokenAddress
     );
 
-    const amountWithDecimals = new BigNumber(10).pow(18).times(amount);
-    const amountWithHex = Web3.utils.toHex(amountWithDecimals);
+    amount = new BigNumber(10).pow(18).times(amount);
+    const hexAmount = Web3.utils.toHex(amount);
 
     const transferEncodedABI = daiTokenContractInstance.methods
-      .transfer(address, amountWithHex)
+      .transfer(address, hexAmount)
       .encodeABI();
     return transferEncodedABI;
   }
