@@ -6,6 +6,7 @@ import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 import { PersistGate } from 'redux-persist/integration/react';
 import '../firebase/FcmListener';
 import '../firebase/FcmTokenMonitor';
+import '../netinfo/NetInfoListener';
 import EarnIcon from '../../assets/EarnIcon.js';
 import HistoryIcon from '../../assets/HistoryIcon.js';
 import WalletIcon from '../../assets/WalletIcon.js';
