@@ -12,6 +12,7 @@
     "npmreinstall": "rm -rf node_modules/ package-lock.json && npm install"
   },
   "dependencies": {
+    "@react-native-community/netinfo": "^5.3.3",
     "@tradle/react-native-http": "^2.0.1",
     "assert": "^1.4.1",
     "axios": "^0.18.0",
