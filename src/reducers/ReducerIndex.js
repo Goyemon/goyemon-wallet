@@ -10,6 +10,7 @@ import ReducerDebugInfo from './ReducerDebugInfo';
 import ReducerGasPrice from './ReducerGasPrice';
 import ReducerMnemonic from './ReducerMnemonic';
 import ReducerMnemonicWordsValidation from './ReducerMnemonicWordsValidation';
+import ReducerNetInfo from './ReducerNetInfo';
 import ReducerNotificationPermission from './ReducerNotificationPermission';
 import ReducerQRCodeData from './ReducerQRCodeData';
 import ReducerOutgoingDaiTransactionData from './ReducerOutgoingDaiTransactionData';
@@ -29,6 +30,7 @@ const appReducers = combineReducers({
   ReducerGasPrice,
   ReducerMnemonic,
   ReducerMnemonicWordsValidation,
+  ReducerNetInfo,
   ReducerQRCodeData,
   ReducerNotificationPermission,
   ReducerOutgoingDaiTransactionData,
