@@ -196,8 +196,9 @@ class SupplyDai extends Component {
   validateForm = async amount => {
     const daiAmountValidation = this.validateDaiAmount(amount);
     const ethAmountValidation = this.validateEthAmount();
+    const isOnline = this.props.netInfo;
 
-    if (daiAmountValidation && ethAmountValidation) {
+    if (daiAmountValidation && ethAmountValidation && isOnline) {
       DebugUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
@@ -207,6 +208,13 @@ class SupplyDai extends Component {
       DebugUtilities.logInfo('form validation failed!');
     }
   };
+
+  renderIsOnlineMessage() {
+    if (this.props.netInfo) {
+      return;
+    }
+    return <ErrorMessage>you are offline 😟</ErrorMessage>;
+  }
 
   render() {
     const { balance, cDaiLendingInfo } = this.props;
@@ -346,6 +354,7 @@ class SupplyDai extends Component {
               }}
             />
           </ButtonWrapper>
+          <View>{this.renderIsOnlineMessage()}</View>
         </Container>
       </RootContainer>
     );
@@ -462,7 +471,8 @@ function mapStateToProps(state) {
   return {
     cDaiLendingInfo: state.ReducerCDaiLendingInfo.cDaiLendingInfo,
     gasPrice: state.ReducerGasPrice.gasPrice,
-    balance: state.ReducerBalance.balance
+    balance: state.ReducerBalance.balance,
+    netInfo: state.ReducerNetInfo.netInfo
   };
 }
 

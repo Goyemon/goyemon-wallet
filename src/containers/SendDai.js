@@ -244,8 +244,9 @@ class SendDai extends Component {
     const toAddressValidation = this.validateToAddress(toAddress);
     const daiAmountValidation = this.validateDaiAmount(amount);
     const ethAmountValidation = this.validateEthAmount();
+    const isOnline = this.props.netInfo;
 
-    if (toAddressValidation && daiAmountValidation && ethAmountValidation) {
+    if (toAddressValidation && daiAmountValidation && ethAmountValidation && isOnline) {
       DebugUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
@@ -256,6 +257,13 @@ class SendDai extends Component {
       DebugUtilities.logInfo('form validation failed!');
     }
   };
+
+  renderIsOnlineMessage() {
+    if (this.props.netInfo) {
+      return;
+    }
+    return <ErrorMessage>you are offline 😟</ErrorMessage>;
+  }
 
   render() {
     const RoundDownBigNumber = BigNumber.clone({
@@ -421,6 +429,7 @@ class SendDai extends Component {
               }}
             />
           </ButtonWrapper>
+          <View>{this.renderIsOnlineMessage()}</View>
         </Container>
       </RootContainer>
     );
@@ -544,6 +553,7 @@ function mapStateToProps(state) {
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
     gasPrice: state.ReducerGasPrice.gasPrice,
     balance: state.ReducerBalance.balance,
+    netInfo: state.ReducerNetInfo.netInfo,
     qrCodeData: state.ReducerQRCodeData.qrCodeData,
     transactions: state.ReducerTransactionHistory.transactions
   };

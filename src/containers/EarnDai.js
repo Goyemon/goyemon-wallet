@@ -118,8 +118,9 @@ class EarnDai extends Component {
 
   sendTransaction = async () => {
     const ethAmountValidation = this.validateEthAmount();
+    const isOnline = this.props.netInfo;
 
-    if (ethAmountValidation) {
+    if (ethAmountValidation && isOnline) {
       DebugUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await TransactionUtilities.sendOutgoingTransactionToServer(transactionObject);
@@ -189,6 +190,13 @@ class EarnDai extends Component {
     DebugUtilities.logInfo('dai already approved');
   }
 
+  renderIsOnlineMessage() {
+    if (this.props.netInfo) {
+      return;
+    }
+    return <ErrorMessage>you are offline 😟</ErrorMessage>;
+  }
+
   render() {
     const { balance, cDaiLendingInfo } = this.props;
 
@@ -246,14 +254,17 @@ class EarnDai extends Component {
                     margin="8px"
                     opacity="1"
                     onPress={async () => {
-                      await this.sendTransaction();
-                      if (this.validateEthAmount()) {
-                        this.props.navigation.navigate('History');
+                      if (this.props.netInfo) {
+                        await this.sendTransaction();
+                        if (this.validateEthAmount()) {
+                          this.props.navigation.navigate('History');
+                        }
                       }
                     }}
                   />
                 </ButtonContainer>
                 <View>{this.renderInsufficientEthBalanceMessage()}</View>
+                <View>{this.renderIsOnlineMessage()}</View>
               </MondalInner>
             </ModalBackground>
           </ModalContainer>
@@ -353,6 +364,7 @@ function mapStateToProps(state) {
     balance: state.ReducerBalance.balance,
     gasPrice: state.ReducerGasPrice.gasPrice,
     cDaiLendingInfo: state.ReducerCDaiLendingInfo.cDaiLendingInfo,
+    netInfo: state.ReducerNetInfo.netInfo,
     transactions: state.ReducerTransactionHistory.transactions
   };
 }

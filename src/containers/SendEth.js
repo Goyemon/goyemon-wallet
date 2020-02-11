@@ -211,7 +211,9 @@ class SendEth extends Component {
   validateForm = async (toAddress, amount) => {
     const toAddressValidation = this.validateToAddress(toAddress);
     const amountValidation = this.validateAmount(amount);
-    if (toAddressValidation && amountValidation) {
+    const isOnline = this.props.netInfo;
+
+    if (toAddressValidation && amountValidation && isOnline) {
       DebugUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
@@ -220,6 +222,13 @@ class SendEth extends Component {
       DebugUtilities.logInfo('form validation failed!');
     }
   };
+
+  renderIsOnlineMessage() {
+    if (this.props.netInfo) {
+      return;
+    }
+    return <ErrorMessage>you are offline 😟</ErrorMessage>;
+  }
 
   render() {
     const { balance } = this.props;
@@ -385,6 +394,7 @@ class SendEth extends Component {
               }}
             />
           </ButtonWrapper>
+          <View>{this.renderIsOnlineMessage()}</View>
         </Container>
       </RootContainer>
     );
@@ -509,6 +519,7 @@ function mapStateToProps(state) {
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
     gasPrice: state.ReducerGasPrice.gasPrice,
     balance: state.ReducerBalance.balance,
+    netInfo: state.ReducerNetInfo.netInfo,
     qrCodeData: state.ReducerQRCodeData.qrCodeData,
     transactions: state.ReducerTransactionHistory.transactions
   };

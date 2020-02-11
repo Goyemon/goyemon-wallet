@@ -202,8 +202,9 @@ class WithdrawDai extends Component {
   validateForm = async daiWithdrawAmount => {
     const daiSavingsAmountValidation = this.validateDaiSavingsAmount(daiWithdrawAmount);
     const ethAmountValidation = this.validateEthAmount();
+    const isOnline = this.props.netInfo;
 
-    if (daiSavingsAmountValidation && ethAmountValidation) {
+    if (daiSavingsAmountValidation && ethAmountValidation && isOnline) {
       DebugUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
@@ -213,6 +214,13 @@ class WithdrawDai extends Component {
       DebugUtilities.logInfo('form validation failed!');
     }
   };
+
+  renderIsOnlineMessage() {
+    if (this.props.netInfo) {
+      return;
+    }
+    return <ErrorMessage>you are offline 😟</ErrorMessage>;
+  }
 
   render() {
     const { balance } = this.props;
@@ -347,6 +355,7 @@ class WithdrawDai extends Component {
               }}
             />
           </ButtonWrapper>
+          <View>{this.renderIsOnlineMessage()}</View>
         </Container>
       </RootContainer>
     );
@@ -462,7 +471,8 @@ const ErrorMessage = styled.Text`
 function mapStateToProps(state) {
   return {
     balance: state.ReducerBalance.balance,
-    gasPrice: state.ReducerGasPrice.gasPrice
+    gasPrice: state.ReducerGasPrice.gasPrice,
+    netInfo: state.ReducerNetInfo.netInfo
   };
 }
 
