@@ -188,8 +188,7 @@ function mapStateToProps(state) {
     netInfo: state.ReducerNetInfo.netInfo,
     outgoingTransactionObjects: state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
     transactionFeeEstimate: state.ReducerTransactionFeeEstimate.transactionFeeEstimate,
-    outgoingDaiTransactionData:
-      state.ReducerOutgoingDaiTransactionData.outgoingDaiTransactionData
+    outgoingDaiTransactionData: state.ReducerOutgoingDaiTransactionData.outgoingDaiTransactionData
   };
 }
 

@@ -40,7 +40,7 @@ class SendEthConfirmation extends Component {
 
   toggleCurrency() {
     if (this.state.currency === 'ETH') {
-      let usdTransactionFeeEstimateValue = this.props.transactionFeeEstimate.usd.toFixed(3);
+      const usdTransactionFeeEstimateValue = this.props.transactionFeeEstimate.usd.toFixed(3);
       return <NetworkFee fontSize="16">${usdTransactionFeeEstimateValue}</NetworkFee>;
     } else if (this.state.currency === 'USD') {
       return <NetworkFee fontSize="16">{this.props.transactionFeeEstimate.eth}ETH</NetworkFee>;
