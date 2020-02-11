@@ -17,28 +17,40 @@ class Transaction extends Component {
     this.isDaiApproveTx = props.transaction.hasOwnProperty('dai_appr');
     this.isCDaiMintTx = props.transaction.hasOwnProperty('cdai_mint');
     this.isCDaiRedeemUnderlyingTx = props.transaction.hasOwnProperty('cdai_redeem');
-    this.isIncomingAmeTx;
     this.isOutgoingAmeTx;
+    this.isIncomingAmeTx;
     if (props.transaction.hasOwnProperty('ame_ropsten_tr')) {
-      this.isIncomingAmeTx =
-        Web3.utils.toChecksumAddress(props.transaction.ame_ropsten_tr.to) === props.checksumAddress;
       this.isOutgoingAmeTx =
         Web3.utils.toChecksumAddress(props.transaction.ame_ropsten_tr.from) ===
         props.checksumAddress;
+      this.isIncomingAmeTx =
+        Web3.utils.toChecksumAddress(props.transaction.ame_ropsten_tr.to) === props.checksumAddress;
     }
-    this.isIncomingDaiTx;
     this.isOutgoingDaiTx;
+    this.isIncomingDaiTx;
     if (props.transaction.hasOwnProperty('dai_tr')) {
-      this.isIncomingDaiTx =
-        Web3.utils.toChecksumAddress(props.transaction.dai_tr.to) === props.checksumAddress;
       this.isOutgoingDaiTx =
         Web3.utils.toChecksumAddress(props.transaction.dai_tr.from) === this.props.checksumAddress;
+      this.isIncomingDaiTx =
+        Web3.utils.toChecksumAddress(props.transaction.dai_tr.to) === props.checksumAddress;
+    }
+    if (this.props.transaction.from != null) {
+      this.isOutgoingEthTx =
+        Web3.utils.toChecksumAddress(props.transaction.from) === props.checksumAddress;
+      this.isIncomingEthTx =
+        Web3.utils.toChecksumAddress(props.transaction.to) === props.checksumAddress;
     }
   }
 
   renderInOrOutTransactionIcon() {
     if (this.isDaiTransferTx) {
-      if (this.isOutgoingDaiTx) {
+      if (this.isOutgoingDaiTx && this.isIncomingDaiTx) {
+        return (
+          <CrypterestText fontSize="16">
+            <Icon name="arrow-collapse" size={20} color="#5F5F5F" />
+          </CrypterestText>
+        );
+      } else if (this.isOutgoingDaiTx) {
         return (
           <CrypterestText fontSize="16">
             <Icon name="call-made" size={20} color="#F1860E" />
@@ -85,18 +97,19 @@ class Transaction extends Component {
       );
     }
 
-    if (
-      this.props.transaction.from === null ||
-      Web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress
-    ) {
+    if (this.isOutgoingEthTx && this.isIncomingEthTx) {
+      return (
+        <CrypterestText fontSize="16">
+          <Icon name="arrow-collapse" size={20} color="#5F5F5F" />
+        </CrypterestText>
+      );
+    } else if (this.props.transaction.from === null || this.isOutgoingEthTx) {
       return (
         <CrypterestText fontSize="16">
           <Icon name="call-made" size={20} color="#F1860E" />
         </CrypterestText>
       );
-    }
-
-    if (Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
+    } else if (this.isIncomingEthTx) {
       return (
         <CrypterestText fontSize="16">
           <Icon name="call-received" size={20} color="#1BA548" />
@@ -119,7 +132,9 @@ class Transaction extends Component {
 
   renderDirection() {
     if (this.isDaiTransferTx) {
-      if (this.isOutgoingDaiTx) {
+      if (this.isOutgoingDaiTx && this.isIncomingDaiTx) {
+        return <CrypterestText fontSize="16">Self</CrypterestText>;
+      } else if (this.isOutgoingDaiTx) {
         return <CrypterestText fontSize="16">Outgoing</CrypterestText>;
       } else if (this.isIncomingDaiTx) {
         return <CrypterestText fontSize="16">Incoming</CrypterestText>;
@@ -142,20 +157,20 @@ class Transaction extends Component {
       return <CrypterestText fontSize="16">Withdrawn</CrypterestText>;
     }
 
-    if (
-      this.props.transaction.from === null ||
-      Web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress
-    ) {
+    if (this.isOutgoingEthTx && this.isIncomingEthTx) {
+      return <CrypterestText fontSize="16">Self</CrypterestText>;
+    } else if (this.props.transaction.from === null || this.isOutgoingEthTx) {
       return <CrypterestText fontSize="16">Outgoing</CrypterestText>;
-    }
-    if (Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
+    } else if (this.isIncomingEthTx) {
       return <CrypterestText fontSize="16">Incoming</CrypterestText>;
     }
   }
 
   renderPlusOrMinusTransactionIcon() {
     if (this.isDaiTransferTx) {
-      if (this.isOutgoingDaiTx) {
+      if (this.isOutgoingDaiTx && this.isIncomingDaiTx) {
+        return <Icon name="plus-minus" size={16} color="#5F5F5F" />;
+      } else if (this.isOutgoingDaiTx) {
         return <Icon name="minus" size={16} color="#F1860E" />;
       } else if (this.isIncomingDaiTx) {
         return <Icon name="plus" size={16} color="#1BA548" />;
@@ -182,14 +197,11 @@ class Transaction extends Component {
       return <Icon name="plus" size={16} color="#1BA548" />;
     }
 
-    if (
-      this.props.transaction.from === null ||
-      Web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress
-    ) {
+    if (this.isOutgoingEthTx && this.isIncomingEthTx) {
+      return <Icon name="plus-minus" size={16} color="#5F5F5F" />;
+    } else if (this.props.transaction.from === null || this.isOutgoingEthTx) {
       return <Icon name="minus" size={16} color="#F1860E" />;
-    }
-
-    if (Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
+    } else if (this.isIncomingEthTx) {
       return <Icon name="plus" size={16} color="#1BA548" />;
     }
   }
@@ -278,14 +290,13 @@ class Transaction extends Component {
     }
 
     const roundedEthValue = parseFloat(this.props.transaction.value).toFixed(4);
-    if (Web3.utils.toChecksumAddress(this.props.transaction.from) === this.props.checksumAddress) {
+    if (this.isOutgoingEthTx) {
       return (
         <CrypterestText fontSize="16" style={styles.valueStyleRed}>
           {roundedEthValue} ETH
         </CrypterestText>
       );
-    }
-    if (Web3.utils.toChecksumAddress(this.props.transaction.to) === this.props.checksumAddress) {
+    } else if (this.isIncomingEthTx) {
       return (
         <CrypterestText fontSize="16" style={styles.valueStyleGreen}>
           {roundedEthValue} ETH

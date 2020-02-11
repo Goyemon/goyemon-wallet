@@ -16,19 +16,25 @@ class TransactionDai extends Component {
     this.isDaiApproveTx = props.daiTransaction.hasOwnProperty('dai_appr');
     this.isCDaiMintTx = props.daiTransaction.hasOwnProperty('cdai_mint');
     this.isCDaiRedeemUnderlyingTx = props.daiTransaction.hasOwnProperty('cdai_redeem');
-    this.isIncomingDaiTx;
     this.isOutgoingDaiTx;
+    this.isIncomingDaiTx;
     if (props.daiTransaction.hasOwnProperty('dai_tr')) {
-      this.isIncomingDaiTx =
-        Web3.utils.toChecksumAddress(props.daiTransaction.dai_tr.to) === props.checksumAddress;
       this.isOutgoingDaiTx =
         Web3.utils.toChecksumAddress(props.daiTransaction.dai_tr.from) === props.checksumAddress;
+      this.isIncomingDaiTx =
+        Web3.utils.toChecksumAddress(props.daiTransaction.dai_tr.to) === props.checksumAddress;
     }
   }
 
   renderInOrOutTransactionIcon() {
     if (this.isDaiTransferTx) {
-      if (this.isOutgoingDaiTx) {
+      if (this.isOutgoingDaiTx && this.isIncomingDaiTx) {
+        return (
+          <CrypterestText fontSize="16">
+            <Icon name="arrow-collapse" size={20} color="#5F5F5F" />
+          </CrypterestText>
+        );
+      } else if (this.isOutgoingDaiTx) {
         return (
           <CrypterestText fontSize="16">
             <Icon name="call-made" size={20} color="#F1860E" />
@@ -74,7 +80,9 @@ class TransactionDai extends Component {
 
   renderDirection() {
     if (this.isDaiTransferTx) {
-      if (this.isOutgoingDaiTx) {
+      if (this.isOutgoingDaiTx && this.isIncomingDaiTx) {
+        return <CrypterestText fontSize="16">Self</CrypterestText>;
+      } else if (this.isOutgoingDaiTx) {
         return <CrypterestText fontSize="16">Outgoing</CrypterestText>;
       } else if (this.isIncomingDaiTx) {
         return <CrypterestText fontSize="16">Incoming</CrypterestText>;
@@ -91,7 +99,9 @@ class TransactionDai extends Component {
 
   renderPlusOrMinusTransactionIcon() {
     if (this.isDaiTransferTx) {
-      if (this.isOutgoingDaiTx) {
+      if (this.isOutgoingDaiTx && this.isIncomingDaiTx) {
+        return <Icon name="plus-minus" size={16} color="#5F5F5F" />;
+      } else if (this.isOutgoingDaiTx) {
         return <Icon name="minus" size={16} color="#F1860E" />;
       } else if (this.isIncomingDaiTx) {
         return <Icon name="plus" size={16} color="#1BA548" />;
