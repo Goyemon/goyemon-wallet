@@ -26,7 +26,7 @@ const EarnStack = createStackNavigator(
       screen: DepositDai,
       navigationOptions: () => ({
         headerTransparent: true,
-        headerBackTitle: 'Supply'
+        headerBackTitle: 'Deposit'
       })
     },
     DepositDaiConfirmation: {

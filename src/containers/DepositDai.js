@@ -206,7 +206,7 @@ class DepositDai extends Component {
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
       await this.props.saveOutgoingDaiTransactionAmount(amount);
-      this.props.navigation.navigate('SupplyDaiConfirmation');
+      this.props.navigation.navigate('DepositDaiConfirmation');
     } else {
       DebugUtilities.logInfo('form validation failed!');
     }
