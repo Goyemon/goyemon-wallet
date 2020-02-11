@@ -64,7 +64,7 @@ class SupplyDaiConfirmation extends Component {
         <HeaderOne marginTop="96">Confirmation</HeaderOne>
         <TotalContainer>
           <CoinImage source={require('../../assets/dai_icon.png')} />
-          <CrypterestText fontSize="16">You are about to supply</CrypterestText>
+          <CrypterestText fontSize="16">You are about to deposit</CrypterestText>
           <TotalValue>{outgoingDaiTransactionData.amount} DAI</TotalValue>
         </TotalContainer>
         <UntouchableCardContainer
@@ -78,7 +78,7 @@ class SupplyDaiConfirmation extends Component {
           width="100%"
         >
           <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
-            Supply Amount
+            Deposit Amount
           </FormHeader>
           <Amount>{outgoingDaiTransactionData.amount} DAI</Amount>
           <NetworkFeeContainer>
@@ -101,7 +101,7 @@ class SupplyDaiConfirmation extends Component {
         </UntouchableCardContainer>
         <ButtonContainer>
           <Button
-            text="Supply"
+            text="Deposit"
             textColor="white"
             backgroundColor="#00A3E2"
             borderColor="#00A3E2"

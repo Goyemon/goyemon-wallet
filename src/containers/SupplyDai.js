@@ -254,7 +254,7 @@ class SupplyDai extends Component {
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="96">Supply</HeaderOne>
+        <HeaderOne marginTop="96">Deposit</HeaderOne>
         <Container>
           <UntouchableCardContainer
             alignItems="center"
@@ -273,7 +273,7 @@ class SupplyDai extends Component {
             <Value>{currentInterestRate} %</Value>
           </UntouchableCardContainer>
           <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
-            Supply Amount
+            Deposit Amount
           </FormHeader>
           <Form borderColor={this.getAmountBorderColor()} borderWidth={1} height="56px">
             <SendTextInputContainer>

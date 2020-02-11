@@ -153,7 +153,7 @@ class EarnDai extends Component {
             }}
           />
           <TransactionButton
-            text="Supply"
+            text="Deposit"
             textColor="#000"
             backgroundColor="#FFF"
             borderColor="#FFF"
