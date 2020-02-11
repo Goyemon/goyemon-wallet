@@ -29,7 +29,7 @@ import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import Web3ProviderUtilities from '../utilities/Web3ProviderUtilities.js';
 
-class SupplyDai extends Component {
+class DepositDai extends Component {
   constructor(props) {
     super();
     this.state = {
@@ -492,4 +492,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SupplyDai);
+)(DepositDai);

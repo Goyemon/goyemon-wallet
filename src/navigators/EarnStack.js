@@ -2,7 +2,7 @@
 import { createStackNavigator } from 'react-navigation';
 import EarnDai from '../containers/EarnDai';
 import EarnList from '../containers/EarnList';
-import SupplyDai from '../containers/SupplyDai';
+import DepositDai from '../containers/DepositDai';
 import SupplyDaiConfirmation from '../containers/SupplyDaiConfirmation';
 import WithdrawDai from '../containers/WithdrawDai';
 import WithdrawDaiConfirmation from '../containers/WithdrawDaiConfirmation';
@@ -22,8 +22,8 @@ const EarnStack = createStackNavigator(
         headerBackTitle: 'Earn'
       })
     },
-    SupplyDai: {
-      screen: SupplyDai,
+    DepositDai: {
+      screen: DepositDai,
       navigationOptions: () => ({
         headerTransparent: true,
         headerBackTitle: 'Supply'

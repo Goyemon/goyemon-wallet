@@ -162,7 +162,7 @@ class EarnDai extends Component {
             margin="8px 0"
             opacity="1"
             onPress={async () => {
-              this.props.navigation.navigate('SupplyDai');
+              this.props.navigation.navigate('DepositDai');
             }}
           />
         </TransactionButtonContainer>
