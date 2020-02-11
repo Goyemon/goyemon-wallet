@@ -16,7 +16,7 @@ import {
 } from '../components/common/';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 
-class SupplyDaiConfirmation extends Component {
+class DepositDaiConfirmation extends Component {
   constructor(props) {
     super();
     this.state = {
@@ -199,4 +199,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SupplyDaiConfirmation);
+)(DepositDaiConfirmation);
