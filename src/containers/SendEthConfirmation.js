@@ -1,7 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { TouchableWithoutFeedback } from 'react-native';
+import { TouchableWithoutFeedback, View } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
@@ -45,6 +45,13 @@ class SendEthConfirmation extends Component {
     } else if (this.state.currency === 'USD') {
       return <NetworkFee fontSize="16">{this.props.transactionFeeEstimate.eth}ETH</NetworkFee>;
     }
+  }
+
+  renderIsOnlineMessage() {
+    if (this.props.netInfo) {
+      return;
+    }
+    return <ErrorMessage>you are offline 😟</ErrorMessage>;
   }
 
   render() {
@@ -111,12 +118,18 @@ class SendEthConfirmation extends Component {
             margin="8px"
             opacity="1"
             onPress={async () => {
-              await this.sendSignedTx();
-              this.props.navigation.reset([NavigationActions.navigate({ routeName: 'WalletList' })], 0);
-              this.props.navigation.navigate('History');
+              if(this.props.netInfo) {
+                await this.sendSignedTx();
+                this.props.navigation.reset(
+                  [NavigationActions.navigate({ routeName: 'WalletList' })],
+                  0
+                );
+                this.props.navigation.navigate('History');
+              }
             }}
           />
         </ButtonContainer>
+        <View>{this.renderIsOnlineMessage()}</View>
       </RootContainer>
     );
   }
@@ -179,8 +192,16 @@ const ButtonContainer = styled.View`
   justify-content: center;
 `;
 
+const ErrorMessage = styled.Text`
+  color: #e41b13;
+  font-family: 'HKGrotesk-Regular';
+  text-align: center;
+  width: 100%;
+`;
+
 function mapStateToProps(state) {
   return {
+    netInfo: state.ReducerNetInfo.netInfo,
     outgoingTransactionObjects: state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
     transactionFeeEstimate: state.ReducerTransactionFeeEstimate.transactionFeeEstimate
   };
