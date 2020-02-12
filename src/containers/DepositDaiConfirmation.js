@@ -2,7 +2,8 @@
 import React, { Component } from 'react';
 import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
-import { TouchableWithoutFeedback, View } from 'react-native';
+import { TouchableWithoutFeedback, View, Text } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
 import { saveOutgoingDaiTransactionAmount } from '../actions/ActionOutgoingDaiTransactionData';
@@ -34,12 +35,23 @@ class DepositDaiConfirmation extends Component {
 
   toggleCurrencySymbol() {
     if (this.state.currency === 'ETH') {
-      return <CurrencySymbol>ETH</CurrencySymbol>;
+      return (
+        <CurrencySymbol>
+          <Text>ETH</Text>
+          <Icon name="swap-horizontal" size={16} color="#5f5f5f" />
+          <CurrencySymbolTextChosen>USD</CurrencySymbolTextChosen>
+        </CurrencySymbol>
+      );
     } else if (this.state.currency === 'USD') {
-      return <CurrencySymbol>$</CurrencySymbol>;
+      return (
+        <CurrencySymbol>
+          <CurrencySymbolTextChosen>ETH</CurrencySymbolTextChosen>
+          <Icon name="swap-horizontal" size={16} color="#5f5f5f" />
+          <Text>USD</Text>
+        </CurrencySymbol>
+      );
     }
   }
-
   toggleCurrency() {
     if (this.state.currency === 'ETH') {
       const usdTransactionFeeEstimateValue = this.props.transactionFeeEstimate.usd.toFixed(3);
@@ -161,8 +173,12 @@ const NetworkFee = styled.Text`
 
 const CurrencySymbol = styled.Text`
   font-family: 'HKGrotesk-Regular';
-  font-size: 20;
+  font-size: 16;
   margin-left: 8;
+`;
+
+const CurrencySymbolTextChosen = styled.Text`
+  color: #1ba548;
 `;
 
 const TotalValue = styled.Text`
