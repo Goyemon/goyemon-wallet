@@ -114,10 +114,9 @@ class DepositDai extends Component {
     amount = new BigNumber(10)
       .pow(18)
       .times(amount)
-      .toString();
-    const hexMintAmount = Web3.utils.toHex(amount);
+    const hexAmount = `0x${amount.toString(16)}`;
 
-    const mintEncodedABI = cDaiContractInstance.methods.mint(hexMintAmount).encodeABI();
+    const mintEncodedABI = cDaiContractInstance.methods.mint(hexAmount).encodeABI();
     return mintEncodedABI;
   }
 
