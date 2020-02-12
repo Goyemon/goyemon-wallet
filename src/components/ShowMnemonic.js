@@ -25,7 +25,7 @@ export default class ShowMnemonic extends Component {
           </Description>
           <ShowMnemonicWords />
           <Button
-            text="I’ve written them down"
+            text="I’ve Written Them Down"
             textColor="#00A3E2"
             backgroundColor="#FFF"
             borderColor="#00A3E2"

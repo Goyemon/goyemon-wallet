@@ -21,7 +21,7 @@ class CreateWalletTutorial extends Component {
             - only you have access to them. We do NOT.
           </Description>
           <Button
-            text="Write down backup words"
+            text="Write Down Backup Words"
             textColor="#00A3E2"
             backgroundColor="#FFF"
             borderColor="#00A3E2"
