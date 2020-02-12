@@ -152,7 +152,7 @@ class Transaction extends Component {
     if (this.isDaiApproveTx) {
       return <CrypterestText fontSize="16">Approved</CrypterestText>;
     } else if (this.isCDaiMintTx) {
-      return <CrypterestText fontSize="16">Supplied</CrypterestText>;
+      return <CrypterestText fontSize="16">Deposited</CrypterestText>;
     } else if (this.isCDaiRedeemUnderlyingTx) {
       return <CrypterestText fontSize="16">Withdrawn</CrypterestText>;
     }
@@ -255,10 +255,10 @@ class Transaction extends Component {
 
     if (this.isCDaiMintTx) {
       let mintDaiValue;
-      if (!this.props.transaction.cdai_mint.daiSupplied) {
+      if (!this.props.transaction.cdai_mint.daiDeposited) {
         mintDaiValue = 0;
       }
-      mintDaiValue = this.props.transaction.cdai_mint.daiSupplied;
+      mintDaiValue = this.props.transaction.cdai_mint.daiDeposited;
 
       return (
         <CrypterestText fontSize="16" style={styles.valueStyleRed}>

@@ -146,7 +146,7 @@ class TransactionUtilities {
               state: this.returnState(transaction[1][7]),
               cdai_mint: {
                 minter: tokenObject.cdai.mint[0][0],
-                daiSupplied: this.parseHexDaiValue(tokenObject.cdai.mint[0][1]),
+                daiDeposited: this.parseHexDaiValue(tokenObject.cdai.mint[0][1]),
                 cDaiMinted: this.parseHexCDaiValue(tokenObject.cdai.mint[0][2])
               }
             };
@@ -283,7 +283,7 @@ class TransactionUtilities {
       state: 'sent',
       cdai_mint: {
         minter: checksumAddress,
-        daiSupplied: outgoingDaiTransactionData.amount
+        daiDeposited: outgoingDaiTransactionData.amount
       }
     };
     return parsedTransaction;
@@ -398,7 +398,7 @@ class TransactionUtilities {
             state: this.returnState(transactionObject[txHashKey][7]),
             cdai_mint: {
               minter: tokenObject.cdai.mint[0][0],
-              daiSupplied: this.parseHexDaiValue(tokenObject.cdai.mint[0][1]),
+              daiDeposited: this.parseHexDaiValue(tokenObject.cdai.mint[0][1]),
               cDaiMinted: this.parseHexCDaiValue(tokenObject.cdai.mint[0][2])
             }
           };
