@@ -98,8 +98,7 @@ class VerifyMnemonic extends Component {
               Verify Backup Words
             </HeaderTwo>
             <Description marginBottom="8" marginLeft="8" marginTop="16">
-              Let us help you to protect your assets. Please type in your backup words to make sure
-              they are right!
+              type in your backup words in order
             </Description>
             <MnemonicWordsContainer style={styles.table}>
               {this.state.mnemonicWords.map((word, id) => (

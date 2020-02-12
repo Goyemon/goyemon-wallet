@@ -56,14 +56,13 @@ class Receive extends Component {
     const { checksumAddress } = this.props;
     return (
       <RootContainer>
-        <HeaderOne marginTop="96">Receive</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="0"
           flexDirection="column"
           height="360px"
           justifyContent="center"
-          marginTop="32px"
+          marginTop="128"
           textAlign="left"
           width="100%"
         >

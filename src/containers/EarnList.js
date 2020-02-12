@@ -80,20 +80,22 @@ class EarnList extends Component {
             navigation.navigate('EarnDai');
           }}
         >
-          <CoinImageContainer>
-            <CoinImage source={require('../../assets/dai_icon.png')} />
-            <Text>Dai</Text>
-          </CoinImageContainer>
-          <TitleContainer>
-            <TitleText>savings balance</TitleText>
-            <TitleText>yearly interest rate</TitleText>
-            <TitleText>interest earned</TitleText>
-          </TitleContainer>
-          <ValueContainer>
-            <ValueText>{daiSavingsBalance} DAI</ValueText>
-            <ValueText>{currentInterestRate}%</ValueText>
-            <DaiInterestEarnedText>{lifetimeEarnedInDai} DAI</DaiInterestEarnedText>
-          </ValueContainer>
+          <Container>
+            <CoinImageContainer>
+              <CoinImage source={require('../../assets/dai_icon.png')} />
+              <Text>Dai</Text>
+            </CoinImageContainer>
+            <TitleContainer>
+              <TitleText>dai savings</TitleText>
+              <TitleText>yearly rate</TitleText>
+              <TitleText>interest earned</TitleText>
+            </TitleContainer>
+            <ValueContainer>
+              <ValueText>{daiSavingsBalance}</ValueText>
+              <ValueText>{currentInterestRate}%</ValueText>
+              <DaiInterestEarnedText>{lifetimeEarnedInDai}</DaiInterestEarnedText>
+            </ValueContainer>
+          </Container>
         </TouchableCardContainer>
       </RootContainer>
     );
@@ -118,9 +120,17 @@ const InterestEarnedText = styled.Text`
   font-weight: bold;
 `;
 
+const Container = styled.View`
+  align-items: center;
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+`;
+
 const CoinImageContainer = styled.View`
   align-items: center;
-  width: 20%;
+  width: 15%;
 `;
 
 const CoinImage = styled.Image`
@@ -131,35 +141,33 @@ const CoinImage = styled.Image`
 `;
 
 const TitleContainer = styled.View`
-  margin-left: 8;
-  width: 50%;
+  margin-left: 16;
+  width: 42.5%;
 `;
 
 const TitleText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
-  font-size: 18;
-  font-weight: bold;
+  font-size: 20;
   margin-bottom: 8;
 `;
 
 const ValueContainer = styled.View`
   margin-left: 12;
-  width: 30%;
+  width: 42.5%;
 `;
 
 const ValueText = styled.Text`
-  color: #000;
+  color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
-  font-size: 18;
-  font-weight: bold;
-  margin-bottom: 4;
+  font-size: 20;
+  margin-bottom: 8;
 `;
 
 const DaiInterestEarnedText = styled.Text`
   color: #1ba548;
   font-family: 'HKGrotesk-Regular';
-  font-size: 18;
+  font-size: 20;
   font-weight: bold;
   margin-bottom: 4;
 `;

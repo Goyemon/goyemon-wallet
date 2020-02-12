@@ -29,10 +29,10 @@ class NotificationPermissionTutorial extends Component {
         />
         <Container>
           <HeaderTwo marginBottom="0" marginLeft="0" marginTop="0">
-            Almost done!
+            Almost Done!
           </HeaderTwo>
           <Description marginBottom="8" marginLeft="0" marginTop="16">
-            We use a notification system to process your transactions.
+            we use a notification system to process your transactions
           </Description>
           <Button
             text="Enable Now"

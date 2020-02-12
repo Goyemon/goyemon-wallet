@@ -21,7 +21,7 @@ export default class ShowMnemonic extends Component {
         </HeaderTwo>
         <Container>
           <Description marginBottom="8" marginLeft="8" marginTop="16">
-            The order of words matters. We will confirm these words on the next screen.
+            carefully save your backup words in order
           </Description>
           <ShowMnemonicWords />
           <Button

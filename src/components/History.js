@@ -67,10 +67,9 @@ const FilterChoiceContainer = styled.View`
   align-items: center;
   flex-direction: row;
   justify-content: flex-start;
-  margin: 0 auto;
   margin-top: 24;
   margin-bottom: 12;
-  width: 95%;
+  margin-left: 16;
 `;
 
 const FilterChoiceTextSelected = styled.Text`

@@ -104,6 +104,7 @@ const CoinImage = styled.Image`
 `;
 
 const PriceContainer = styled.View`
+  margin-left: 16;
   width: 42.5%;
 `;
 
@@ -111,14 +112,12 @@ const CoinText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
   font-size: 20;
-  margin-left: 16;
   margin-bottom: 4;
 `;
 
 const PriceText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
-  margin-left: 16;
 `;
 
 const BalanceContainer = styled.View`
@@ -132,6 +131,7 @@ const BalanceText = styled.Text`
 `;
 
 const UsdBalanceText = styled.Text`
+  color: #000;
   font-family: 'HKGrotesk-Regular';
   font-size: 22;
   margin-bottom: 4;
