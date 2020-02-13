@@ -25,7 +25,8 @@ import {
   HeaderOne,
   Form,
   FormHeader,
-  CrypterestText
+  CrypterestText,
+  Loader
 } from '../components/common';
 import HomeStack from '../navigators/HomeStack';
 import daiTokenContract from '../contracts/daiTokenContract';
@@ -62,7 +63,9 @@ class SendDai extends Component {
       toAddressValidation: undefined,
       daiAmountValidation: undefined,
       ethAmountValidation: undefined,
-      currency: 'USD'
+      currency: 'USD',
+      loading: false,
+      buttonDisabled: false
     };
     this.web3 = Web3ProviderUtilities.web3Provider();
     this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance);
@@ -249,6 +252,7 @@ class SendDai extends Component {
     const isOnline = this.props.netInfo;
 
     if (toAddressValidation && daiAmountValidation && ethAmountValidation && isOnline) {
+      this.setState({ loading: true, buttonDisabled: true });
       DebugUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
@@ -424,13 +428,16 @@ class SendDai extends Component {
               textColor="#00A3E2"
               backgroundColor="#FFF"
               borderColor="#00A3E2"
+              disabled={this.state.buttonDisabled}
               margin="40px auto"
               marginBottom="12px"
               opacity="1"
               onPress={async () => {
                 await this.validateForm(this.state.toAddress, this.state.amount);
+                this.setState({ loading: false, buttonDisabled: false });
               }}
             />
+            <Loader animating={this.state.loading} />
           </ButtonWrapper>
           <View>{this.renderIsOnlineMessage()}</View>
         </Container>

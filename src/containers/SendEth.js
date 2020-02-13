@@ -21,7 +21,8 @@ import {
   HeaderOne,
   Form,
   FormHeader,
-  CrypterestText
+  CrypterestText,
+  Loader
 } from '../components/common';
 import HomeStack from '../navigators/HomeStack';
 import DebugUtilities from '../utilities/DebugUtilities.js';
@@ -55,7 +56,9 @@ class SendEth extends Component {
       checked: 1,
       toAddressValidation: undefined,
       amountValidation: undefined,
-      currency: 'USD'
+      currency: 'USD',
+      loading: false,
+      buttonDisabled: false
     };
     this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance);
   }
@@ -214,6 +217,7 @@ class SendEth extends Component {
     const isOnline = this.props.netInfo;
 
     if (toAddressValidation && amountValidation && isOnline) {
+      this.setState({ loading: true, buttonDisabled: true });
       DebugUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
@@ -387,13 +391,16 @@ class SendEth extends Component {
               textColor="#00A3E2"
               backgroundColor="#FFF"
               borderColor="#00A3E2"
+              disabled={this.state.buttonDisabled}
               margin="40px auto"
               marginBottom="12px"
               opacity="1"
               onPress={async () => {
                 await this.validateForm(this.state.toAddress, this.state.amount);
+                this.setState({ loading: false, buttonDisabled: false });
               }}
             />
+            <Loader animating={this.state.loading} />
           </ButtonWrapper>
           <View>{this.renderIsOnlineMessage()}</View>
         </Container>
