@@ -3,10 +3,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { saveMnemonicWords } from '../actions/ActionMnemonic';
-import { RootContainer, Button, HeaderTwo, Description } from '../components/common';
+import { RootContainer, Button, HeaderTwo, Description, Loader } from '../components/common';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class CreateWalletTutorial extends Component {
+  constructor(props) {
+    super();
+    this.state = {
+      loading: false,
+      buttonDisabled: false
+    };
+  }
+
   render() {
     return (
       <RootContainer>
@@ -25,12 +33,15 @@ class CreateWalletTutorial extends Component {
             textColor="#00A3E2"
             backgroundColor="#FFF"
             borderColor="#00A3E2"
+            disabled={this.state.buttonDisabled}
             margin="24px auto"
             marginBottom="12px"
             opacity="1"
             onPress={async () => {
+              this.setState({ loading: true, buttonDisabled: true });
               await WalletUtilities.init();
               await this.props.saveMnemonicWords();
+              this.setState({ loading: false, buttonDisabled: false });
               this.props.navigation.navigate('ShowMnemonic');
             }}
           />
@@ -39,15 +50,19 @@ class CreateWalletTutorial extends Component {
             textColor="#00A3E2"
             backgroundColor="#F8F8F8"
             borderColor="#F8F8F8"
+            disabled={this.state.buttonDisabled}
             margin="0 auto"
             marginBottom="12px"
             opacity="1"
             onPress={async () => {
+              this.setState({ loading: true, buttonDisabled: true });
               await WalletUtilities.init();
               await this.props.saveMnemonicWords();
+              this.setState({ loading: false, buttonDisabled: false });
               this.props.navigation.navigate('NotificationPermissionTutorial');
             }}
           />
+          <Loader animating={this.state.loading} />
         </Container>
       </RootContainer>
     );
