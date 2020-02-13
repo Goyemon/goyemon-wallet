@@ -131,8 +131,8 @@ class TransactionUtilities {
           }
           DebugUtilities.logInfo('transaction ===>', transaction);
         } else if (tokenName === 'cdai') {
-          const isCDaiMintTx = Object.keys(tokenObject.cdai)[0] === 'mint';
-          const isCDaiRedeemUnderlyingTx = Object.keys(tokenObject.cdai)[0] === 'redeem';
+          const isCDaiMintTx = Object.keys(tokenObject.cdai)[0] === 'mint' || Object.keys(tokenObject.cdai)[1] === 'mint';
+          const isCDaiRedeemUnderlyingTx = Object.keys(tokenObject.cdai)[0] === 'redeem' || Object.keys(tokenObject.cdai)[1] === 'redeem';
           if (isCDaiMintTx) {
             return {
               hash: transaction[0],
