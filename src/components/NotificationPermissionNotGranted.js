@@ -32,6 +32,7 @@ export default class NotificationPermissionNotGranted extends Component {
               backgroundColor="#EEEEEE"
               borderColor="#EEEEEE"
               margin="16px auto"
+              marginBottom="12px"
               opacity="1"
               onPress={() => {
                 if (Platform.OS === 'ios') {

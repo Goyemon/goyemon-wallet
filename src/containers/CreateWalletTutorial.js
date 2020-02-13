@@ -26,6 +26,7 @@ class CreateWalletTutorial extends Component {
             backgroundColor="#FFF"
             borderColor="#00A3E2"
             margin="24px auto"
+            marginBottom="12px"
             opacity="1"
             onPress={async () => {
               await WalletUtilities.init();
@@ -39,6 +40,7 @@ class CreateWalletTutorial extends Component {
             backgroundColor="#F8F8F8"
             borderColor="#F8F8F8"
             margin="0 auto"
+            marginBottom="12px"
             opacity="1"
             onPress={async () => {
               await WalletUtilities.init();

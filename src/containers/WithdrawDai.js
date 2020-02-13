@@ -351,6 +351,7 @@ class WithdrawDai extends Component {
               backgroundColor="#FFF"
               borderColor="#00A3E2"
               margin="40px auto"
+              marginBottom="12px"
               opacity="1"
               onPress={async () => {
                 await this.validateForm(this.state.daiWithdrawAmount);

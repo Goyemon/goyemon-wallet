@@ -128,6 +128,7 @@ class SendDaiConfirmation extends Component {
             backgroundColor="#00A3E2"
             borderColor="#00A3E2"
             margin="8px"
+            marginBottom="12px"
             opacity="1"
             onPress={async () => {
               if (this.props.netInfo) {

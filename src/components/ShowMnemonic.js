@@ -30,6 +30,7 @@ export default class ShowMnemonic extends Component {
             backgroundColor="#FFF"
             borderColor="#00A3E2"
             margin="24px auto"
+            marginBottom="12px"
             opacity="1"
             onPress={() => this.props.navigation.navigate('VerifyMnemonic')}
           />

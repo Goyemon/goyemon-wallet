@@ -58,6 +58,7 @@ class Settings extends Component {
                     backgroundColor="#EEEEEE"
                     borderColor="#EEEEEE"
                     margin="8px"
+                    marginBottom="12px"
                     opacity="1"
                     onPress={() => {
                       this.setModalVisible(false);
@@ -69,6 +70,7 @@ class Settings extends Component {
                     backgroundColor="#E41B13"
                     borderColor="#E41B13"
                     margin="8px"
+                    marginBottom="12px"
                     opacity="1"
                     onPress={async () => {
                       await WalletUtilities.resetKeychainData();
