@@ -16,7 +16,8 @@ import {
   UntouchableCardContainer,
   HeaderOne,
   FormHeader,
-  CrypterestText
+  CrypterestText,
+  Loader
 } from '../components/common/';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 
@@ -24,7 +25,9 @@ class SendDaiConfirmation extends Component {
   constructor(props) {
     super();
     this.state = {
-      currency: 'USD'
+      currency: 'USD',
+      loading: false,
+      buttonDisabled: false
     };
   }
 
@@ -127,21 +130,25 @@ class SendDaiConfirmation extends Component {
             textColor="white"
             backgroundColor="#00A3E2"
             borderColor="#00A3E2"
+            disabled={this.state.buttonDisabled}
             margin="8px"
             marginBottom="12px"
             opacity="1"
             onPress={async () => {
               if (this.props.netInfo) {
+                this.setState({ loading: true, buttonDisabled: true });
                 await this.sendSignedTx();
                 this.props.navigation.reset(
                   [NavigationActions.navigate({ routeName: 'WalletList' })],
                   0
                 );
                 this.props.navigation.navigate('History');
+                this.setState({ loading: false, buttonDisabled: false });
               }
             }}
           />
         </ButtonContainer>
+        <Loader animating={this.state.loading} />
         <View>{this.renderIsOnlineMessage()}</View>
       </RootContainer>
     );
