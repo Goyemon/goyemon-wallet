@@ -38,38 +38,35 @@ const saveExistingTransactionsSuccess = (parsedExistingTransactions) => ({
 
 export function addSentTransaction(transactionObject) {
   return async function (dispatch) {
-    let parsedSentTransaction;
+    const isToDaiTokenContract = transactionObject.to === daiTokenContract.daiTokenAddress;
+    const isToCDaiContract = transactionObject.to === cDaiContract.cDaiAddress;
+
     let functionSignature;
     if (transactionObject.data) {
       functionSignature = transactionObject.data.substring(0, 10);
     }
-    const transferFunctionSignature = '0xa9059cbb';
-    const approveFunctionSignature = '0x095ea7b3';
-    const mintFunctionSignature = '0xa0712d68';
-    const redeemUnderlyingFunctionSignature = '0x852a12e3';
+    const isTransferFunctionSignature = functionSignature === '0xa9059cbb';
+    const isApproveFunctionSignature = functionSignature === '0x095ea7b3';
+    const isMintFunctionSignature = functionSignature === '0xa0712d68';
+    const isRedeemUnderlyingFunctionSignature = functionSignature === '0x852a12e3';
 
-    const isToDaiTokenContract = transactionObject.to === daiTokenContract.daiTokenAddress;
-    const isToCDaiContract = transactionObject.to === cDaiContract.cDaiAddress;
+    let parsedSentTransaction;
 
     try {
       if (
-        isToDaiTokenContract &&
-        functionSignature === transferFunctionSignature
+        isToDaiTokenContract && isTransferFunctionSignature
       ) {
         parsedSentTransaction = await TransactionUtilities.parseSentDaiTransaction(transactionObject);
       } else if (
-        isToDaiTokenContract &&
-        functionSignature === approveFunctionSignature
+        isToDaiTokenContract && isApproveFunctionSignature
       ) {
         parsedSentTransaction = await TransactionUtilities.parseSentDaiApproveTransaction(transactionObject);
       } else if (
-        isToCDaiContract &&
-        functionSignature === mintFunctionSignature
+        isToCDaiContract && isMintFunctionSignature
       ) {
         parsedSentTransaction = await TransactionUtilities.parseSentCDaiMintTransaction(transactionObject);
       } else if (
-        isToCDaiContract &&
-        functionSignature === redeemUnderlyingFunctionSignature
+        isToCDaiContract && isRedeemUnderlyingFunctionSignature
       ) {
         parsedSentTransaction = await TransactionUtilities.parseSentCDaiRedeemUnderlyingTransaction(transactionObject);
       } else {
