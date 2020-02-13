@@ -16,7 +16,8 @@ import {
   HeaderOne,
   HeaderFour,
   Button,
-  Description
+  Description,
+  Loader
 } from '../components/common/';
 import cDaiContract from '../contracts/cDaiContract';
 import daiTokenContract from '../contracts/daiTokenContract';
@@ -31,7 +32,9 @@ class EarnDai extends Component {
     super(props);
     this.state = {
       modalVisible: false,
-      ethAmountValidation: undefined
+      ethAmountValidation: undefined,
+      loading: false,
+      buttonDisabled: false
     };
     this.web3 = Web3ProviderUtilities.web3Provider();
     this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance);
@@ -121,6 +124,7 @@ class EarnDai extends Component {
     const isOnline = this.props.netInfo;
 
     if (ethAmountValidation && isOnline) {
+      this.setState({ loading: true, buttonDisabled: true });
       DebugUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await TransactionUtilities.sendOutgoingTransactionToServer(transactionObject);
@@ -253,6 +257,7 @@ class EarnDai extends Component {
                     textColor="white"
                     backgroundColor="#00A3E2"
                     borderColor="#00A3E2"
+                    disabled={this.state.buttonDisabled}
                     margin="8px"
                     marginBottom="12px"
                     opacity="1"
@@ -262,9 +267,11 @@ class EarnDai extends Component {
                         if (this.validateEthAmount()) {
                           this.props.navigation.navigate('History');
                         }
+                        this.setState({ loading: false, buttonDisabled: false });
                       }
                     }}
                   />
+                  <Loader animating={this.state.loading} />
                 </ButtonContainer>
                 <View>{this.renderInsufficientEthBalanceMessage()}</View>
                 <View>{this.renderIsOnlineMessage()}</View>
