@@ -130,39 +130,39 @@ class Transaction extends Component {
     }
   }
 
-  renderDirection() {
+  renderType() {
     if (this.isDaiTransferTx) {
       if (this.isOutgoingDaiTx && this.isIncomingDaiTx) {
-        return <CrypterestText fontSize="16">Self</CrypterestText>;
+        return <CrypterestText fontSize="18">Self</CrypterestText>;
       } else if (this.isOutgoingDaiTx) {
-        return <CrypterestText fontSize="16">Outgoing</CrypterestText>;
+        return <CrypterestText fontSize="18">Outgoing</CrypterestText>;
       } else if (this.isIncomingDaiTx) {
-        return <CrypterestText fontSize="16">Incoming</CrypterestText>;
+        return <CrypterestText fontSize="18">Incoming</CrypterestText>;
       }
     }
 
     if (this.isAmeTransferTx) {
       if (this.isOutgoingAmeTx) {
-        return <CrypterestText fontSize="16">Outgoing</CrypterestText>;
+        return <CrypterestText fontSize="18">Outgoing</CrypterestText>;
       } else if (this.isIncomingAmeTx) {
-        return <CrypterestText fontSize="16">Incoming</CrypterestText>;
+        return <CrypterestText fontSize="18">Incoming</CrypterestText>;
       }
     }
 
     if (this.isDaiApproveTx) {
-      return <CrypterestText fontSize="16">Approved</CrypterestText>;
+      return <CrypterestText fontSize="18">Unlocked</CrypterestText>;
     } else if (this.isCDaiMintTx) {
-      return <CrypterestText fontSize="16">Deposited</CrypterestText>;
+      return <CrypterestText fontSize="18">Deposited</CrypterestText>;
     } else if (this.isCDaiRedeemUnderlyingTx) {
-      return <CrypterestText fontSize="16">Withdrawn</CrypterestText>;
+      return <CrypterestText fontSize="18">Withdrawn</CrypterestText>;
     }
 
     if (this.isOutgoingEthTx && this.isIncomingEthTx) {
-      return <CrypterestText fontSize="16">Self</CrypterestText>;
+      return <CrypterestText fontSize="18">Self</CrypterestText>;
     } else if (this.props.transaction.from === null || this.isOutgoingEthTx) {
-      return <CrypterestText fontSize="16">Outgoing</CrypterestText>;
+      return <CrypterestText fontSize="18">Outgoing</CrypterestText>;
     } else if (this.isIncomingEthTx) {
-      return <CrypterestText fontSize="16">Incoming</CrypterestText>;
+      return <CrypterestText fontSize="18">Incoming</CrypterestText>;
     }
   }
 
@@ -250,7 +250,9 @@ class Transaction extends Component {
     }
 
     if (this.isDaiApproveTx) {
-      return <CrypterestText fontSize="16">Approve</CrypterestText>;
+      return null;
+    }
+
     }
 
     if (this.isCDaiMintTx) {
@@ -324,10 +326,10 @@ class Transaction extends Component {
           <InOrOutTransactionContainer>
             {this.renderInOrOutTransactionIcon()}
           </InOrOutTransactionContainer>
-          <DirectionTimeContainer>
-            <Direction>{this.renderDirection()}</Direction>
+          <TypeTimeContainer>
+            <Type>{this.renderType()}</Type>
             <Time>{time}</Time>
-          </DirectionTimeContainer>
+          </TypeTimeContainer>
           <StatusContainer>{this.renderStatus()}</StatusContainer>
           <ValueContainer>
             {this.renderPlusOrMinusTransactionIcon()}
@@ -360,13 +362,12 @@ const InOrOutTransactionContainer = styled.View`
   width: 10%;
 `;
 
-const DirectionTimeContainer = styled.View`
+const TypeTimeContainer = styled.View`
   width: 30%;
 `;
 
-const Direction = styled.Text`
+const Type = styled.Text`
   font-family: 'HKGrotesk-Regular';
-  font-size: 16;
   margin-bottom: 4;
 `;
 
@@ -376,13 +377,13 @@ const Time = styled.Text`
 `;
 
 const StatusContainer = styled.View`
-  width: 35%;
+  width: 32%;
 `;
 
 const ValueContainer = styled.View`
   align-items: center;
   flex-direction: row;
-  width: 25%;
+  width: 28%;
 `;
 
 const mapStateToProps = state => ({

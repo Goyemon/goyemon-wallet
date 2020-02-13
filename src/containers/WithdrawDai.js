@@ -115,9 +115,7 @@ class WithdrawDai extends Component {
       cDaiContract.cDaiAddress
     );
 
-    daiWithdrawAmount = new BigNumber(10)
-      .pow(18)
-      .times(daiWithdrawAmount)
+    daiWithdrawAmount = new BigNumber(10).pow(18).times(daiWithdrawAmount);
     const hexDaiWithdrawAmount = `0x${daiWithdrawAmount.toString(16)}`;
 
     const redeemUnderlyingEncodedABI = cDaiContractInstance.methods

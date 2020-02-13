@@ -312,16 +312,6 @@ class TransactionUtilities {
     return parsedTransaction;
   }
 
-  returnState(state) {
-    if (state === 1) {
-      return 'pending';
-    } else if (state === 2) {
-      return 'included';
-    } else if (state === 3) {
-      return 'confirmed';
-    }
-  }
-
   parsePendingOrIncludedTransaction(transactionObject) {
     let parsedTransaction;
     const txHashKey = Object.keys(transactionObject)[0];
@@ -445,6 +435,16 @@ class TransactionUtilities {
       state: this.returnState(transactionObject[Object.keys(transactionObject)[0]][7])
     };
     return parsedTransaction;
+  }
+
+  returnState(state) {
+    if (state === 1) {
+      return 'pending';
+    } else if (state === 2) {
+      return 'included';
+    } else if (state === 3) {
+      return 'confirmed';
+    }
   }
 
   parseEthValue(value) {
