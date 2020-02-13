@@ -8,9 +8,9 @@ const TransactionButton = props => (
     onPress={props.onPress}
     backgroundColor={props.backgroundColor}
     borderColor={props.borderColor}
+    disabled={props.disabled}
     margin={props.margin}
     opacity={props.opacity}
-    disabled={props.disabled}
   >
     <Icon
       name={props.iconName}
