@@ -2,11 +2,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-import { RootContainer, ProgressBar, Button, HeaderTwo, Description } from '../components/common';
+import {
+  RootContainer,
+  ProgressBar,
+  Button,
+  HeaderTwo,
+  Description,
+  Loader
+} from '../components/common';
 import FcmPermissions from '../firebase/FcmPermissions.js';
 import DebugUtilities from '../utilities/DebugUtilities.js';
 
 class NotificationPermissionTutorial extends Component {
+  constructor(props) {
+    super();
+    this.state = {
+      loading: false,
+      buttonDisabled: false
+    };
+  }
+
   notificationPermissionNavigation() {
     if (this.props.notificationPermission === null) {
       DebugUtilities.logInfo('notification permission is not set');
@@ -39,14 +54,18 @@ class NotificationPermissionTutorial extends Component {
             textColor="#00A3E2"
             backgroundColor="#FFF"
             borderColor="#00A3E2"
+            disabled={this.state.buttonDisabled}
             margin="16px auto"
             marginBottom="12px"
             opacity="1"
             onPress={async () => {
+              this.setState({ loading: true, buttonDisabled: true });
               await FcmPermissions.checkFcmPermissions();
               this.notificationPermissionNavigation();
+              this.setState({ loading: false, buttonDisabled: false });
             }}
           />
+          <Loader animating={this.state.loading} />
         </Container>
       </RootContainer>
     );
