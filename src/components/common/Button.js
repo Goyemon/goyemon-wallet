@@ -7,9 +7,10 @@ const Button = props => (
     onPress={props.onPress}
     backgroundColor={props.backgroundColor}
     borderColor={props.borderColor}
-    margin={props.margin}
-    opacity={props.opacity}
     disabled={props.disabled}
+    margin={props.margin}
+    marginBottom={props.marginBottom}
+    opacity={props.opacity}
   >
     <ButtonText textColor={props.textColor}>{props.text}</ButtonText>
   </ButtonContainer>
@@ -21,6 +22,7 @@ const ButtonContainer = styled.TouchableOpacity`
   border-radius: 16px;
   border-width: 1;
   margin: ${props => props.margin};
+  marginBottom: ${props => props.marginBottom};
   min-width: 120px;
   opacity: ${props => props.opacity};
 `;
