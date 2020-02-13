@@ -42,7 +42,7 @@ class EarnDai extends Component {
 
   async componentDidMount() {
     if (this.props.transactions != null && this.props.transactions.length != null) {
-      this.props.saveDaiApprovalInfo(TransactionUtilities.daiApproved(this.props.transactions));
+      this.props.saveDaiApprovalInfo(TransactionUtilities.isDaiApproved(this.props.transactions));
     }
     this.props.getGasPriceAverage();
   }
@@ -50,7 +50,7 @@ class EarnDai extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.transactions != null && this.props.transactions.length != null) {
       if (this.props.transactions != prevProps.transactions) {
-        this.props.saveDaiApprovalInfo(TransactionUtilities.daiApproved(this.props.transactions));
+        this.props.saveDaiApprovalInfo(TransactionUtilities.isDaiApproved(this.props.transactions));
       }
     }
   }

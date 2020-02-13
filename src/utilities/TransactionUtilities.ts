@@ -518,7 +518,7 @@ class TransactionUtilities {
     return `${time.getDate().toString()} ${months[time.getMonth()]}, ` + `\n${time.getFullYear()}`;
   }
 
-  daiApproved(transactions) {
+  isDaiApproved(transactions) {
     const daiApproveTxes = transactions.filter(transaction => {
       if (
         transaction.hasOwnProperty('dai_appr') &&
@@ -528,13 +528,13 @@ class TransactionUtilities {
       }
     });
 
-    const daiApproved = daiApproveTxes.some(
+    const isDaiApproved = daiApproveTxes.some(
       daiApproveTx =>
         daiApproveTx.dai_appr.amount ===
         'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
     );
 
-    return daiApproved;
+    return isDaiApproved;
   }
 
   getTransactionNonce() {

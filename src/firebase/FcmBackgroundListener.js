@@ -71,7 +71,7 @@ export default async downstreamMessage => {
         store.dispatch(saveExistingTransactions(parsedExistingTransactions));
         store.dispatch(saveTotalTransactions(parsedExistingTransactions.length));
         store.dispatch(
-          saveDaiApprovalInfo(TransactionUtilities.daiApproved(parsedExistingTransactions))
+          saveDaiApprovalInfo(TransactionUtilities.isDaiApproved(parsedExistingTransactions))
         );
       }
     }
