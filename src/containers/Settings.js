@@ -21,12 +21,26 @@ class Settings extends Component {
   constructor() {
     super();
     this.state = {
-      modalVisible: false
+      modalVisible: false,
+      deleteTextValidation: false,
+      buttonDisabled: true,
+      buttonOpacity: 0.5
     };
   }
 
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
+  }
+
+  validateDeleteText(deleteText) {
+    if (deleteText === 'delete') {
+      DebugUtilities.logInfo('the delete text validated!');
+      this.setState({ deleteTextValidation: true, buttonDisabled: false, buttonOpacity: 1 });
+      return true;
+    }
+    DebugUtilities.logInfo('wrong delete text!');
+    this.setState({ deleteTextValidation: false, buttonDisabled: true, buttonOpacity: 0.5 });
+    return false;
   }
 
   render() {
@@ -47,10 +61,21 @@ class Settings extends Component {
                 <ModalTextContainer>
                   <ResetWalletHeader>Are you sure?</ResetWalletHeader>
                   <Description marginBottom="8" marginLeft="0" marginTop="16">
-                    Make sure you save your backup words before deletion. Otherwise, you will lose
-                    your funds.
+                    Did you save your backup words? Otherwise, you will lose your funds.
                   </Description>
                 </ModalTextContainer>
+                <DeleteTextInputContainer>
+                  <Description marginBottom="8" marginLeft="0" marginTop="16">
+                    type "delete" to confirm
+                  </Description>
+                  <DeleteTextInput
+                    autoCapitalize="none"
+                    clearButtonMode="while-editing"
+                    onChangeText={deleteText => {
+                      this.validateDeleteText(deleteText);
+                    }}
+                  />
+                </DeleteTextInputContainer>
                 <ButtonContainer>
                   <Button
                     text="Cancel"
@@ -69,9 +94,10 @@ class Settings extends Component {
                     textColor="#FFF"
                     backgroundColor="#E41B13"
                     borderColor="#E41B13"
+                    disabled={this.state.buttonDisabled}
                     margin="8px"
                     marginBottom="12px"
-                    opacity="1"
+                    opacity={this.state.buttonOpacity}
                     onPress={async () => {
                       await WalletUtilities.resetKeychainData();
                       await persistor.purge();
@@ -90,7 +116,9 @@ class Settings extends Component {
           <CommunityIcon>
             <Icon
               onPress={() => {
-                Linking.openURL('#').catch(err => DebugUtilities.logError('An error occurred', err));
+                Linking.openURL('#').catch(err =>
+                  DebugUtilities.logError('An error occurred', err)
+                );
               }}
               name="twitter"
               color="#00aced"
@@ -100,7 +128,9 @@ class Settings extends Component {
           <CommunityIcon>
             <Icon
               onPress={() => {
-                Linking.openURL('#').catch(err => DebugUtilities.logError('An error occurred', err));
+                Linking.openURL('#').catch(err =>
+                  DebugUtilities.logError('An error occurred', err)
+                );
               }}
               name="github-circle"
               color="#333"
@@ -182,12 +212,12 @@ const ModalContainer = styled.View`
 `;
 
 const ModalBackground = styled.View`
-  background-color: #fff;
+  background-color: #f8f8f8;
   border-radius: 16px;
   border-top-width: 2;
   border-top-color: #e41b13;
   height: 30%;
-  min-height: 280px;
+  min-height: 320px;
   margin-top: 200;
   width: 90%;
 `;
@@ -251,6 +281,7 @@ const ResetWalletHeader = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Bold';
   font-size: 24;
+  margin-top: 16;
   text-align: center;
   text-transform: uppercase;
 `;
@@ -259,6 +290,23 @@ const ResetWalletText = styled.Text`
   color: #e41b13;
   font-family: 'HKGrotesk-Regular';
   font-size: 24;
+`;
+
+const DeleteTextInputContainer = styled.View`
+  align-items: center;
+  flex-direction: column;
+  margin: 0 auto;
+`;
+
+const DeleteTextInput = styled.TextInput`
+  background-color: #fff;
+  border-color: rgba(95, 95, 95, 0.3);
+  border-width: 1;
+  font-size: 16;
+  padding: 8px 12px;
+  text-align: left;
+  min-width: 120;
+  width: 100%;
 `;
 
 const ButtonContainer = styled.View`
