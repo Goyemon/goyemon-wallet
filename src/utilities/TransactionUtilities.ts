@@ -393,6 +393,8 @@ class TransactionUtilities {
       } else if (tokenName === 'cdai') {
         const isCDaiMintTx = Object.keys(tokenObject.cdai)[0] === 'mint';
         const isCDaiRedeemUnderlyingTx = Object.keys(tokenObject.cdai)[0] === 'redeem';
+        const isCDaiFailedTx = Object.keys(tokenObject.cdai)[0] === 'failure';
+
         if (isCDaiMintTx) {
           parsedTransaction = {
             hash: txHashKey,
@@ -425,6 +427,24 @@ class TransactionUtilities {
               redeemer: tokenObject.cdai.redeem[0][0],
               daiWithdrawn: this.parseHexDaiValue(tokenObject.cdai.redeem[0][1]),
               cDaiRepayed: this.parseHexCDaiValue(tokenObject.cdai.redeem[0][2])
+            }
+          };
+        } else if (isCDaiFailedTx) {
+          console.log("isCDaiFailedTx");
+          parsedTransaction = {
+            hash: txHashKey,
+            from: transactionObject[txHashKey][0],
+            to: transactionObject[txHashKey][1],
+            gasLimit: transactionObject[txHashKey][2],
+            gasPrice: transactionObject[txHashKey][3],
+            value: this.parseEthValue(transactionObject[txHashKey][4]),
+            nonce: parseInt(transactionObject[txHashKey][5], 16),
+            time: transactionObject[txHashKey][6],
+            state: this.returnState(transactionObject[txHashKey][7]),
+            cdai_failed: {
+              errorCodes: parseInt(tokenObject.cdai.failure[0][0], 16),
+              failureInfo: parseInt(tokenObject.cdai.failure[0][1], 16),
+              detail: parseInt(tokenObject.cdai.failure[0][2], 16)
             }
           };
         }
