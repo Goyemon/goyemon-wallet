@@ -17,6 +17,13 @@ class Transaction extends Component {
     this.isDaiApproveTx = props.transaction.hasOwnProperty('dai_appr');
     this.isCDaiMintTx = props.transaction.hasOwnProperty('cdai_mint');
     this.isCDaiRedeemUnderlyingTx = props.transaction.hasOwnProperty('cdai_redeem');
+    this.isCDaiFailedTx = props.transaction.hasOwnProperty('cdai_failed');
+    this.isCDaiMintFailedTx;
+    this.isCDaiRedeemUnderlyingFailedTx;
+    if(this.isCDaiFailedTx) {
+      this.isCDaiMintFailedTx = props.transaction.cdai_failed.failureInfo === 38;
+      this.isCDaiRedeemUnderlyingFailedTx = props.transaction.cdai_failed.failureInfo === 42 || 45;
+    }
     this.isOutgoingAmeTx;
     this.isIncomingAmeTx;
     if (props.transaction.hasOwnProperty('ame_ropsten_tr')) {
@@ -79,6 +86,14 @@ class Transaction extends Component {
           </CrypterestText>
         );
       }
+    }
+
+    if (this.isCDaiFailedTx) {
+      return (
+        <CrypterestText fontSize="16">
+          <Icon name="alert-circle-outline" size={20} color="#E41B13" />
+        </CrypterestText>
+      );
     }
 
     if (this.isDaiApproveTx || this.isCDaiMintTx) {
@@ -149,6 +164,12 @@ class Transaction extends Component {
       }
     }
 
+    if (this.isCDaiMintFailedTx) {
+      return <CrypterestText fontSize="14">Deposit Failed</CrypterestText>;
+    } else if (this.isCDaiRedeemUnderlyingFailedTx) {
+      return <CrypterestText fontSize="14">Withdraw Failed</CrypterestText>;
+    }
+
     if (this.isDaiApproveTx) {
       return <CrypterestText fontSize="18">Unlocked</CrypterestText>;
     } else if (this.isCDaiMintTx) {
@@ -187,6 +208,10 @@ class Transaction extends Component {
 
     if (this.isDaiApproveTx) {
       return;
+    }
+
+    if (this.isCDaiFailedTx) {
+      return null;
     }
 
     if (this.isCDaiMintTx) {
@@ -253,6 +278,8 @@ class Transaction extends Component {
       return null;
     }
 
+    if (this.isCDaiFailedTx) {
+      return <CrypterestText fontSize="16">0</CrypterestText>;
     }
 
     if (this.isCDaiMintTx) {
