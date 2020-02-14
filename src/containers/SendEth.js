@@ -58,7 +58,8 @@ class SendEth extends Component {
       amountValidation: undefined,
       currency: 'USD',
       loading: false,
-      buttonDisabled: false
+      buttonDisabled: true,
+      buttonOpacity: 0.5
     };
     this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance);
   }
@@ -143,10 +144,13 @@ class SendEth extends Component {
     if (Web3.utils.isAddress(toAddress)) {
       DebugUtilities.logInfo('address validated!');
       this.setState({ toAddressValidation: true });
+      if (this.state.amountValidation === true) {
+        this.setState({ buttonDisabled: false, buttonOpacity: 1 });
+      }
       return true;
     } else if (!this.state.toAddressValidation) {
       DebugUtilities.logInfo('invalid address');
-      this.setState({ toAddressValidation: false });
+      this.setState({ toAddressValidation: false, buttonDisabled: true, buttonOpacity: 0.5 });
       return false;
     }
   }
@@ -177,10 +181,13 @@ class SendEth extends Component {
     ) {
       DebugUtilities.logInfo('the amount validated!');
       this.setState({ amountValidation: true });
+      if (this.state.toAddressValidation === true) {
+        this.setState({ buttonDisabled: false, buttonOpacity: 1 });
+      }
       return true;
     }
     DebugUtilities.logInfo('wrong balance!');
-    this.setState({ amountValidation: false });
+    this.setState({ amountValidation: false, buttonDisabled: true, buttonOpacity: 0.5 });
     return false;
   }
 
@@ -394,7 +401,7 @@ class SendEth extends Component {
               disabled={this.state.buttonDisabled}
               margin="40px auto"
               marginBottom="12px"
-              opacity="1"
+              opacity={this.state.buttonOpacity}
               onPress={async () => {
                 await this.validateForm(this.state.toAddress, this.state.amount);
                 this.setState({ loading: false, buttonDisabled: false });

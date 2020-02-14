@@ -57,7 +57,8 @@ class DepositDai extends Component {
       ethAmountValidation: undefined,
       currency: 'USD',
       loading: false,
-      buttonDisabled: false
+      buttonDisabled: true,
+      buttonOpacity: 0.5
     };
     this.web3 = Web3ProviderUtilities.web3Provider();
     this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance);
@@ -145,11 +146,11 @@ class DepositDai extends Component {
       amount.isGreaterThanOrEqualTo(0)
     ) {
       DebugUtilities.logInfo('the dai amount validated!');
-      this.setState({ daiAmountValidation: true });
+      this.setState({ daiAmountValidation: true, buttonDisabled: false, buttonOpacity: 1 });
       return true;
     }
     DebugUtilities.logInfo('wrong dai balance!');
-    this.setState({ daiAmountValidation: false });
+    this.setState({ daiAmountValidation: false, buttonDisabled: true, buttonOpacity: 0.5 });
     return false;
   }
 
@@ -354,7 +355,7 @@ class DepositDai extends Component {
               disabled={this.state.buttonDisabled}
               margin="40px auto"
               marginBottom="12px"
-              opacity="1"
+              opacity={this.state.buttonOpacity}
               onPress={async () => {
                 await this.validateForm(this.state.amount);
                 this.setState({ loading: false, buttonDisabled: false });

@@ -65,7 +65,8 @@ class SendDai extends Component {
       ethAmountValidation: undefined,
       currency: 'USD',
       loading: false,
-      buttonDisabled: false
+      buttonDisabled: true,
+      buttonOpacity: 0.5
     };
     this.web3 = Web3ProviderUtilities.web3Provider();
     this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance);
@@ -156,10 +157,13 @@ class SendDai extends Component {
     if (Web3.utils.isAddress(toAddress)) {
       DebugUtilities.logInfo('address validated!');
       this.setState({ toAddressValidation: true });
+      if (this.state.daiAmountValidation === true) {
+        this.setState({ buttonDisabled: false, buttonOpacity: 1 });
+      }
       return true;
     } else if (!this.state.toAddressValidation) {
       DebugUtilities.logInfo('invalid address');
-      this.setState({ toAddressValidation: false });
+      this.setState({ toAddressValidation: false,  buttonDisabled: true, buttonOpacity: 0.5  });
       return false;
     }
   }
@@ -183,10 +187,13 @@ class SendDai extends Component {
     ) {
       DebugUtilities.logInfo('the dai amount validated!');
       this.setState({ daiAmountValidation: true });
+      if (this.state.toAddressValidation === true) {
+        this.setState({ buttonDisabled: false, buttonOpacity: 1 });
+      }
       return true;
     }
     DebugUtilities.logInfo('wrong dai balance!');
-    this.setState({ daiAmountValidation: false });
+    this.setState({ daiAmountValidation: false, buttonDisabled: true, buttonOpacity: 0.5 });
     return false;
   }
 
@@ -429,7 +436,7 @@ class SendDai extends Component {
               disabled={this.state.buttonDisabled}
               margin="40px auto"
               marginBottom="12px"
-              opacity="1"
+              opacity={this.state.buttonOpacity}
               onPress={async () => {
                 await this.validateForm(this.state.toAddress, this.state.amount);
                 this.setState({ loading: false, buttonDisabled: false });
