@@ -16,7 +16,8 @@ class TransactionsDai extends Component {
           transaction.hasOwnProperty('dai_tr') ||
           transaction.hasOwnProperty('dai_appr') ||
           transaction.hasOwnProperty('cdai_mint') ||
-          transaction.hasOwnProperty('cdai_redeem')
+          transaction.hasOwnProperty('cdai_redeem') ||
+          transaction.hasOwnProperty('cdai_failed')
         ) {
           return true;
         }
