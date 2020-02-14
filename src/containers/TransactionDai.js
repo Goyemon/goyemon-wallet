@@ -16,6 +16,13 @@ class TransactionDai extends Component {
     this.isDaiApproveTx = props.daiTransaction.hasOwnProperty('dai_appr');
     this.isCDaiMintTx = props.daiTransaction.hasOwnProperty('cdai_mint');
     this.isCDaiRedeemUnderlyingTx = props.daiTransaction.hasOwnProperty('cdai_redeem');
+    this.isCDaiFailedTx = props.daiTransaction.hasOwnProperty('cdai_failed');
+    this.isCDaiMintFailedTx;
+    this.isCDaiRedeemUnderlyingFailedTx;
+    if(this.isCDaiFailedTx) {
+      this.isCDaiMintFailedTx = props.daiTransaction.cdai_failed.failureInfo === 38;
+      this.isCDaiRedeemUnderlyingFailedTx = props.daiTransaction.cdai_failed.failureInfo === 42;
+    }
     this.isOutgoingDaiTx;
     this.isIncomingDaiTx;
     if (props.daiTransaction.hasOwnProperty('dai_tr')) {
@@ -47,6 +54,14 @@ class TransactionDai extends Component {
           </CrypterestText>
         );
       }
+    }
+
+    if (this.isCDaiFailedTx) {
+      return (
+        <CrypterestText fontSize="16">
+          <Icon name="alert-circle-outline" size={20} color="#E41B13" />
+        </CrypterestText>
+      );
     }
 
     if (this.isDaiApproveTx || this.isCDaiMintTx) {
@@ -88,6 +103,13 @@ class TransactionDai extends Component {
         return <CrypterestText fontSize="18">Incoming</CrypterestText>;
       }
     }
+
+    if (this.isCDaiMintFailedTx) {
+      return <CrypterestText fontSize="14">Deposit Failed</CrypterestText>;
+    } else if (this.isCDaiRedeemUnderlyingFailedTx) {
+      return <CrypterestText fontSize="14">Withdraw Failed</CrypterestText>;
+    }
+
     if (this.isDaiApproveTx) {
       return <CrypterestText fontSize="18">Approved</CrypterestText>;
     } else if (this.isCDaiMintTx) {
@@ -110,6 +132,10 @@ class TransactionDai extends Component {
 
     if (this.isDaiApproveTx) {
       return;
+    }
+
+    if (this.isCDaiFailedTx) {
+      return null;
     }
 
     if (this.isCDaiMintTx) {
@@ -147,6 +173,8 @@ class TransactionDai extends Component {
       return null;
     }
 
+    if (this.isCDaiFailedTx) {
+      return <CrypterestText fontSize="16">0</CrypterestText>;
     }
 
     if (this.isCDaiMintTx) {
