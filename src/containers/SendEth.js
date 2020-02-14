@@ -334,6 +334,7 @@ class SendEth extends Component {
                   this.validateAmount(amount);
                   this.setState({ amount });
                 }}
+                returnKeyType="done"
               />
               <CurrencySymbolText>ETH</CurrencySymbolText>
             </SendTextInputContainer>

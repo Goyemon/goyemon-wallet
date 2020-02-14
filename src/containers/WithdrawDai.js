@@ -288,6 +288,7 @@ class WithdrawDai extends Component {
                   this.validateDaiSavingsAmount(daiWithdrawAmount);
                   this.setState({ daiWithdrawAmount });
                 }}
+                returnKeyType="done"
               />
               <CurrencySymbolText>DAI</CurrencySymbolText>
             </SendTextInputContainer>

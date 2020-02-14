@@ -368,6 +368,7 @@ class SendDai extends Component {
                   this.validateDaiAmount(amount);
                   this.setState({ amount });
                 }}
+                returnKeyType="done"
               />
               <CurrencySymbolText>DAI</CurrencySymbolText>
             </SendTextInputContainer>
