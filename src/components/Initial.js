@@ -5,7 +5,6 @@ import * as Animatable from 'react-native-animatable';
 import firebase from 'react-native-firebase';
 import { StackActions, NavigationActions } from 'react-navigation';
 import styled from 'styled-components/native';
-import { RootContainer } from '../components/common';
 import HomeStack from '../navigators/HomeStack';
 import { store } from '../store/store.js';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
@@ -140,13 +139,11 @@ export default class Initial extends Component {
 
   render() {
     return (
-      <RootContainer>
-        <Container>
-          <Title animation="fadeIn" delay={2000}>
-            loading
-          </Title>
-        </Container>
-      </RootContainer>
+      <Container>
+        <Title animation="fadeIn" delay={2000}>
+          loading
+        </Title>
+      </Container>
     );
   }
 }
