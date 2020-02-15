@@ -17,8 +17,8 @@ import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class EarnList extends Component {
-  async componentDidMount() {
-    await FcmUpstreamMsgs.requestCDaiLendingInfo(this.props.checksumAddress);
+  componentDidMount() {
+    FcmUpstreamMsgs.requestCDaiLendingInfo(this.props.checksumAddress);
   }
 
   getUsdValue(daiValue) {

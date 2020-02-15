@@ -92,8 +92,8 @@ class WalletCreation extends Component {
     await this.props.getDaiPrice();
   }
 
-  async fetchTokenInfo() {
-    await FcmUpstreamMsgs.requestCDaiLendingInfo(this.props.checksumAddress);
+  fetchTokenInfo() {
+    FcmUpstreamMsgs.requestCDaiLendingInfo(this.props.checksumAddress);
   }
 
   async isWalletReady() {

@@ -35,7 +35,7 @@ class FcmUpstreamMsgs {
     firebase.messaging().sendMessage(upstreamMessage);
   }
 
-  async requestCDaiLendingInfo(checksumAddress) {
+  requestCDaiLendingInfo(checksumAddress) {
     const checksumAddressWithoutPrefix = EtherUtilities.stripHexPrefix(checksumAddress);
 
     const upstreamMessage = new firebase.messaging.RemoteMessage()
