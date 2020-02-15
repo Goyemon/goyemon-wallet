@@ -18,8 +18,8 @@ import DebugUtilities from '../utilities/DebugUtilities.js';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class Settings extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       modalVisible: false,
       deleteTextValidation: false,

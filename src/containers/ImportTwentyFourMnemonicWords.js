@@ -10,8 +10,8 @@ import DebugUtilities from '../utilities/DebugUtilities.js';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class ImportTwentyFourMnemonicWords extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       mnemonicWords: [
         '',
