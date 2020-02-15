@@ -36,7 +36,7 @@ const saveDaiBalanceSuccess = (daiBalance) => ({
 export function saveDaiSavingsBalance(cDaiBalance, currentExchangeRate) {
   return async function (dispatch) {
     try {
-      let daiSavingsBalance = new BigNumber(cDaiBalance).times(new BigNumber(currentExchangeRate));
+      let daiSavingsBalance = new BigNumber(cDaiBalance).times(currentExchangeRate);
       daiSavingsBalance = daiSavingsBalance.toString();
       dispatch(saveDaiSavingsBalanceSuccess(daiSavingsBalance));
     } catch(err) {
