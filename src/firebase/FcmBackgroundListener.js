@@ -49,7 +49,9 @@ export default async downstreamMessage => {
       store.dispatch(saveDaiBalance(daiBalance));
     }
     if (balanceMessage.hasOwnProperty('cdai')) {
-      FcmUpstreamMsgs.requestCDaiLendingInfo(checksumAddress);
+      setTimeout(() => {
+        FcmUpstreamMsgs.requestCDaiLendingInfo(checksumAddress);
+      }, 15000);
 
       let cDaiBalance = new BigNumber(balanceMessage.cdai);
       cDaiBalance = cDaiBalance.toString(10);
