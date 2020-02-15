@@ -12,7 +12,9 @@ class EtherUtilities {
   }
 
   stripHexPrefix(string) {
-    return string.startsWith('0x') ? string.slice(2) : string;
+    if (string != null) {
+      return string.startsWith('0x') ? string.slice(2) : string;
+    }
   }
 }
 
