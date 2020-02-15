@@ -20,6 +20,7 @@ import {
   updateWithPendingOrIncludedTransaction,
   updateTransactionState
 } from '../actions/ActionTransactionHistory';
+import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
 import DebugUtilities from '../utilities/DebugUtilities.js';
 import EtherUtilities from '../utilities/EtherUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
@@ -48,10 +49,11 @@ firebase.messaging().onMessage(downstreamMessage => {
       store.dispatch(saveDaiBalance(daiBalance));
     }
     if (balanceMessage.hasOwnProperty('cdai')) {
+      FcmUpstreamMsgs.requestCDaiLendingInfo(this.props.checksumAddress);
+
       let cDaiBalance = new BigNumber(balanceMessage.cdai);
       cDaiBalance = cDaiBalance.toString(10);
       store.dispatch(saveCDaiBalance(cDaiBalance));
-      store.dispatch(saveDaiSavingsBalance(cDaiBalance, cDaiLendingInfo.currentExchangeRate));
     }
   } else if (downstreamMessage.data.type === 'txhistory') {
     if (downstreamMessage.data.data === '{}') {
