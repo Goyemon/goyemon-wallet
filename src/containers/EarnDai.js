@@ -271,8 +271,8 @@ class EarnDai extends Component {
                       }
                     }}
                   />
-                  <Loader animating={this.state.loading} />
                 </ButtonContainer>
+                <Loader animating={this.state.loading} />
                 <View>{this.renderInsufficientEthBalanceMessage()}</View>
                 <View>{this.renderIsOnlineMessage()}</View>
               </MondalInner>
