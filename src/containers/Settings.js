@@ -29,7 +29,7 @@ class Settings extends Component {
   }
 
   setModalVisible(visible) {
-    this.setState({ modalVisible: visible, buttonDisabled: true });
+    this.setState({ modalVisible: visible, buttonDisabled: true, buttonOpacity: 0.5 });
   }
 
   validateDeleteText(deleteText) {
