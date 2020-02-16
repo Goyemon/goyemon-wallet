@@ -171,7 +171,7 @@ class Transaction extends Component {
     }
 
     if (this.isDaiApproveTx) {
-      return <CrypterestText fontSize="18">Unlocked</CrypterestText>;
+      return <CrypterestText fontSize="18">Initiated</CrypterestText>;
     } else if (this.isCDaiMintTx) {
       return <CrypterestText fontSize="18">Deposited</CrypterestText>;
     } else if (this.isCDaiRedeemUnderlyingTx) {

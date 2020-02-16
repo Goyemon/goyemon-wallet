@@ -179,7 +179,7 @@ class EarnDai extends Component {
     if (!this.props.cDaiLendingInfo.daiApproval) {
       return (
         <Button
-          text="Unlock Dai"
+          text="Initiate Dai"
           textColor="#00A3E2"
           backgroundColor="#FFF"
           borderColor="#00A3E2"
@@ -235,7 +235,7 @@ class EarnDai extends Component {
                 <ModalTextContainer>
                   <Description marginBottom="8" marginLeft="0" marginTop="16">
                     there will be about ${this.getTransactionFeeEstimateInUsd()} network fee to
-                    unlock Dai.
+                    initiate Dai.
                   </Description>
                 </ModalTextContainer>
                 <ButtonContainer>
