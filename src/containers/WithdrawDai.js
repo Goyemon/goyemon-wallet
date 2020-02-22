@@ -28,7 +28,7 @@ import DebugUtilities from '../utilities/DebugUtilities.js';
 import GasUtilities from '../utilities/GasUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
-import Web3ProviderUtilities from '../utilities/Web3ProviderUtilities.js';
+import RuERC20Encoder from '../lib/erc20';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class WithdrawDai extends Component {
@@ -61,7 +61,7 @@ class WithdrawDai extends Component {
       buttonDisabled: true,
       buttonOpacity: 0.5
     };
-    this.web3 = Web3ProviderUtilities.web3Provider();
+    this.abiencoder = new RuERC20Encoder.RuERC20Encoder(18); // 18 decimal places
     this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance);
   }
 
@@ -111,17 +111,8 @@ class WithdrawDai extends Component {
   }
 
   getRedeemEncodedAbi(daiWithdrawAmount) {
-    const cDaiContractInstance = new this.web3.eth.Contract(
-      JSON.parse(cDaiContract.cDaiAbi),
-      cDaiContract.cDaiAddress
-    );
+    const redeemUnderlyingEncodedABI = this.abiencoder.encodeCDAIRedeemUnderlying(daiWithdrawAmount);
 
-    daiWithdrawAmount = new BigNumber(10).pow(18).times(daiWithdrawAmount);
-    const hexDaiWithdrawAmount = `0x${daiWithdrawAmount.toString(16)}`;
-
-    const redeemUnderlyingEncodedABI = cDaiContractInstance.methods
-      .redeemUnderlying(hexDaiWithdrawAmount)
-      .encodeABI();
     return redeemUnderlyingEncodedABI;
   }
 

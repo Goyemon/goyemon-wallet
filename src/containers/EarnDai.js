@@ -25,7 +25,7 @@ import DebugUtilities from '../utilities/DebugUtilities.js';
 import GasUtilities from '../utilities/GasUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
-import Web3ProviderUtilities from '../utilities/Web3ProviderUtilities.js';
+import RuERC20Encoder from '../lib/erc20';
 
 class EarnDai extends Component {
   constructor(props) {
@@ -36,7 +36,7 @@ class EarnDai extends Component {
       loading: false,
       buttonDisabled: false
     };
-    this.web3 = Web3ProviderUtilities.web3Provider();
+    this.abiencoder = new RuERC20Encoder.RuERC20Encoder(18); // 18 decimal places
     this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance);
   }
 
@@ -90,17 +90,10 @@ class EarnDai extends Component {
   }
 
   getApproveEncodedABI() {
-    const daiTokenContractInstance = new this.web3.eth.Contract(
-      JSON.parse(daiTokenContract.daiTokenAbi),
-      daiTokenContract.daiTokenAddress
-    );
-
     const addressSpender = cDaiContract.cDaiAddress;
-    const amount = this.web3.utils.toHex(-1);
+    const amount = Web3.utils.toHex(-1);
 
-    const approveEncodedABI = daiTokenContractInstance.methods
-      .approve(addressSpender, amount)
-      .encodeABI();
+    const approveEncodedABI = this.abiencoder.encodeApprove(addressSpender, amount);
 
     return approveEncodedABI;
   }
@@ -128,7 +121,7 @@ class EarnDai extends Component {
       DebugUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await TransactionUtilities.sendOutgoingTransactionToServer(transactionObject);
-      this.props.saveOutgoingDaiTransactionApproveAmount(this.web3.utils.toHex(-1));
+      this.props.saveOutgoingDaiTransactionApproveAmount(Web3.utils.toHex(-1));
       this.setModalVisible(false);
     } else {
       DebugUtilities.logInfo('validation failed!');

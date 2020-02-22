@@ -11,7 +11,6 @@ import daiTokenContract from '../contracts/daiTokenContract';
 import { store } from '../store/store.js';
 import DebugUtilities from '../utilities/DebugUtilities.js';
 import WalletUtilities from './WalletUtilities.ts';
-import Web3ProviderUtilities from './Web3ProviderUtilities.js';
 
 class TransactionUtilities {
   filterTransactions(transactions) {

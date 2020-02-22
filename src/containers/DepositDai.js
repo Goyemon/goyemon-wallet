@@ -28,7 +28,7 @@ import DebugUtilities from '../utilities/DebugUtilities.js';
 import GasUtilities from '../utilities/GasUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
-import Web3ProviderUtilities from '../utilities/Web3ProviderUtilities.js';
+import RuERC20Encoder from '../lib/erc20';
 
 class DepositDai extends Component {
   constructor(props) {
@@ -60,7 +60,7 @@ class DepositDai extends Component {
       buttonDisabled: true,
       buttonOpacity: 0.5
     };
-    this.web3 = Web3ProviderUtilities.web3Provider();
+    this.abiencoder = new RuERC20Encoder.RuERC20Encoder(18); // 18 decimal places
     this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance);
   }
 
@@ -110,15 +110,8 @@ class DepositDai extends Component {
   }
 
   getMintEncodedABI(amount) {
-    const cDaiContractInstance = new this.web3.eth.Contract(
-      JSON.parse(cDaiContract.cDaiAbi),
-      cDaiContract.cDaiAddress
-    );
+    const mintEncodedABI = this.abiencoder.encodeCDAIMint(amount);
 
-    amount = new BigNumber(10).pow(18).times(amount);
-    const hexAmount = `0x${amount.toString(16)}`;
-
-    const mintEncodedABI = cDaiContractInstance.methods.mint(hexAmount).encodeABI();
     return mintEncodedABI;
   }
 
