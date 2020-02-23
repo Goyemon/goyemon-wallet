@@ -5,7 +5,7 @@ class EtherUtilities {
   }
 
   static stripHexPrefix(string) {
-    if (string instanceof String) {
+    if (string) {
       return string.startsWith('0x') ? string.slice(2) : string;
     }
   }
