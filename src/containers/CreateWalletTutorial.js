@@ -15,6 +15,20 @@ class CreateWalletTutorial extends Component {
     };
   }
 
+  navigateToShowMnemonic() {
+    if (this.props.mnemonicWords) {
+      this.setState({ loading: false, buttonDisabled: false });
+      this.props.navigation.navigate('ShowMnemonic');
+    }
+  }
+
+  navigateToNotificationPermissionTutorial() {
+    if (this.props.mnemonicWords) {
+      this.setState({ loading: false, buttonDisabled: false });
+      this.props.navigation.navigate('NotificationPermissionTutorial');
+    }
+  }
+
   render() {
     return (
       <RootContainer>
@@ -41,8 +55,7 @@ class CreateWalletTutorial extends Component {
               this.setState({ loading: true, buttonDisabled: true });
               await WalletUtilities.init();
               await this.props.saveMnemonicWords();
-              this.setState({ loading: false, buttonDisabled: false });
-              this.props.navigation.navigate('ShowMnemonic');
+              this.navigateToShowMnemonic();
             }}
           />
           <Button
@@ -58,8 +71,7 @@ class CreateWalletTutorial extends Component {
               this.setState({ loading: true, buttonDisabled: true });
               await WalletUtilities.init();
               await this.props.saveMnemonicWords();
-              this.setState({ loading: false, buttonDisabled: false });
-              this.props.navigation.navigate('NotificationPermissionTutorial');
+              this.navigateToNotificationPermissionTutorial();
             }}
           />
           <Loader animating={this.state.loading} />
@@ -77,11 +89,17 @@ const Container = styled.View`
   width: 90%;
 `;
 
+function mapStateToProps(state) {
+  return {
+    mnemonicWords: state.ReducerMnemonic.mnemonicWords
+  };
+}
+
 const mapDispatchToProps = {
   saveMnemonicWords
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(CreateWalletTutorial);
