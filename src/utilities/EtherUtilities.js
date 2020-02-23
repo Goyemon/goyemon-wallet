@@ -1,21 +1,14 @@
 'use strict';
 class EtherUtilities {
-  hexArrayToString(array) {
-    let result = '';
-    for (let i = 0; i < array.length; i++) {
-      const dec = array[i];
-      const hexString = Number(dec).toString(16);
-      const string = hexString.length == 1 ? `0${hexString}` : hexString;
-      result += string;
-    }
-    return result;
+  static hexArrayToString(array) {
+    return Buffer.from(array).toString('hex');
   }
 
-  stripHexPrefix(string) {
-    if (string != null) {
+  static stripHexPrefix(string) {
+    if (string instanceof String) {
       return string.startsWith('0x') ? string.slice(2) : string;
     }
   }
 }
 
-export default new EtherUtilities();
+export default EtherUtilities;

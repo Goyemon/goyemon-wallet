@@ -1,12 +1,12 @@
 'use strict';
 class DebugUtilities {
-  logInfo() {
+  static logInfo() {
     console.log(...arguments);
   }
 
-  logError() {
+  static logError() {
     console.error(...arguments);
   }
 }
 
-export default new DebugUtilities();
+export default DebugUtilities;
