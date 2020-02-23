@@ -34,7 +34,7 @@ import DebugUtilities from '../utilities/DebugUtilities.js';
 import GasUtilities from '../utilities/GasUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
-import RuABIEncoder from '../lib/abi';
+import RuABIEncoder from '../utilities/AbiUtilities';
 
 class SendDai extends Component {
   constructor(props) {
