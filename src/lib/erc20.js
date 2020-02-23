@@ -17,7 +17,7 @@ class RuERC20Encoder {
 		this.__addrToBuf(toAddr).copy(ret, 4);
 		this.__numToUint256Scaled(value).copy(ret, 4 + 32);
 
-		return ret;
+		return '0x' + ret.toString('hex');
 	}
 
 	encodeTransferFrom(fromaddr, toaddr, value) {
@@ -27,7 +27,7 @@ class RuERC20Encoder {
 		this.__addrToBuf(toaddr).copy(ret, 4 + 32);
 		this.__numToUint256Scaled(value).copy(ret, 4 + 32 + 32);
 
-		return ret;
+		return '0x' + ret.toString('hex');
 	}
 
 	encodeApprove(spenderAddr, value) {
@@ -36,7 +36,7 @@ class RuERC20Encoder {
 		this.__addrToBuf(spenderAddr).copy(ret, 4);
 		this.__numToUint256Scaled(value).copy(ret, 4 + 32);
 
-		return ret;
+		return '0x' + ret.toString('hex');
 	}
 
 	encodeCDAIMint(amount) {
@@ -44,7 +44,7 @@ class RuERC20Encoder {
 		Buffer.from([0xa0, 0x71, 0x2d, 0x68]).copy(ret);
 		this.__numToUint256Scaled(amount).copy(ret, 4);
 
-		return ret;
+		return '0x' + ret.toString('hex');
 	}
 
 	encodeCDAIRedeemUnderlying(amount) {
@@ -52,12 +52,12 @@ class RuERC20Encoder {
 		Buffer.from([0x85, 0x2a, 0x12, 0xe3]).copy(ret);
 		this.__numToUint256Scaled(amount).copy(ret, 4);
 
-		return ret;
+		return '0x' + ret.toString('hex');
 	}
 
 	__numToUint256Scaled(value) {
 		let ret = Buffer.alloc(32);
-		let val = new web3.utils.BN(value).mul(this.multiplier).toBuffer('le', 0);
+		let val = new web3.utils.BN(value).mul(this.multiplier).toBuffer('be', 0);
 		val.copy(ret, 32 - val.byteLength);
 
 		return ret;
@@ -96,13 +96,13 @@ class RuStupidDataBuilder {
 	}
 
 	get() {
-		return this.buf;
+		return `0x${this.buf.toString('hex')}`;
 	}
 
 
 	__numToUint256Scaled(value) {
 		let ret = Buffer.alloc(32);
-		let val = new web3.utils.BN(value).mul(this.multiplier).toBuffer('le', 0);
+		let val = new web3.utils.BN(value).mul(this.multiplier).toBuffer('be', 0);
 		val.copy(ret, 32 - val.byteLength);
 
 		return ret;
@@ -117,28 +117,24 @@ class RuStupidDataBuilder {
 }
 
 class RuBetterERC20Encoder {
-	constructor() {
-
+	static encodeTransfer(toAddr, value, decimals=18) {
+		return new RuStupidDataBuilder([0xa9, 0x05, 0x9c, 0xbb], 2, decimals).putAddress(toAddr).putUint256Scaled(value).get();
 	}
 
-	encodeTransfer(toAddr, value) {
-		return new RuStupidDataBuilder([0xa9, 0x05, 0x9c, 0xbb], 2, 18).putAddress(toAddr).putUint256Scaled(value).get();
+	static encodeTransferFrom(fromaddr, toaddr, value, decimals=18) {
+		return new RuStupidDataBuilder([0x23, 0xb8, 0x72, 0xdd], 3, decimals).putAddress(fromaddr).putAddress(toaddr).putUint256Scaled(value).get();
 	}
 
-	encodeTransferFrom(fromaddr, toaddr, value) {
-		return new RuStupidDataBuilder([0x23, 0xb8, 0x72, 0xdd], 3, 18).putAddress(fromaddr).putAddress(toaddr).putUint256Scaled(value).get();
+	static encodeApprove(spenderAddr, value, decimals=18) {
+		return new RuStupidDataBuilder([0x09, 0x5e, 0xa7, 0xb3], 2, decimals).putAddress(spenderAddr).putUint256Scaled(value).get();
 	}
 
-	encodeApprove(spenderAddr, value) {
-		return new RuStupidDataBuilder([0x09, 0x5e, 0xa7, 0xb3], 2, 18).putAddress(spenderAddr).putUint256Scaled(value).get();
+	static encodeCDAIMint(amount, decimals=18) {
+		return new RuStupidDataBuilder([0xa0, 0x71, 0x2d, 0x68], 1, decimals).putUint256Scaled(amount).get();
 	}
 
-	encodeCDAIMint(amount) {
-		return new RuStupidDataBuilder([0xa0, 0x71, 0x2d, 0x68], 1, 18).putUint256Scaled(amount).get();
-	}
-
-	encodeCDAIRedeemUnderlying(amount) {
-		return new RuStupidDataBuilder([0x85, 0x2a, 0x12, 0xe3], 1, 18).putUint256Scaled(amount).get();
+	static encodeCDAIRedeemUnderlying(amount, decimals=18) {
+		return new RuStupidDataBuilder([0x85, 0x2a, 0x12, 0xe3], 1, decimals).putUint256Scaled(amount).get();
 	}
 }
 
@@ -153,9 +149,9 @@ console.log(c.encodeTransferFrom('0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', '
 console.log(c.encodeCDAIMint(1024).toString('hex'));
 console.log(c.encodeCDAIRedeemUnderlying(1024).toString('hex'));
 const c1 = new RuBetterERC20Encoder();
-console.log(c1.encodeTransfer('0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', 1024).toString('hex'));
-console.log(c1.encodeApprove('0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', 1024).toString('hex'));
-console.log(c1.encodeTransferFrom('0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', '0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', 1024).toString('hex'));
-console.log(c1.encodeCDAIMint(1024).toString('hex'));
-console.log(c1.encodeCDAIRedeemUnderlying(1024).toString('hex'));
+console.log(RuBetterERC20Encoder.encodeTransfer('0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', 1024).toString('hex'));
+console.log(RuBetterERC20Encoder.encodeApprove('0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', 1024).toString('hex'));
+console.log(RuBetterERC20Encoder.encodeTransferFrom('0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', '0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', 1024).toString('hex'));
+console.log(RuBetterERC20Encoder.encodeCDAIMint(1024).toString('hex'));
+console.log(RuBetterERC20Encoder.encodeCDAIRedeemUnderlying(1024).toString('hex'));
 */
