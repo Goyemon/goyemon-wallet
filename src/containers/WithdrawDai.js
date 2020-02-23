@@ -28,7 +28,7 @@ import DebugUtilities from '../utilities/DebugUtilities.js';
 import GasUtilities from '../utilities/GasUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
-import RuABIEncoder from '../utilities/AbiUtilities';
+import ABIEncoder from '../utilities/AbiUtilities';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class WithdrawDai extends Component {
@@ -61,7 +61,6 @@ class WithdrawDai extends Component {
       buttonDisabled: true,
       buttonOpacity: 0.5
     };
-    this.abiencoder = new RuABIEncoder.RuABIEncoder(18); // 18 decimal places
     this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance);
   }
 
@@ -110,15 +109,9 @@ class WithdrawDai extends Component {
     return transactionFeeEstimateInUsd;
   }
 
-  getRedeemEncodedAbi(daiWithdrawAmount) {
-    const redeemUnderlyingEncodedABI = this.abiencoder.encodeCDAIRedeemUnderlying(daiWithdrawAmount);
-
-    return redeemUnderlyingEncodedABI;
-  }
-
   async constructTransactionObject() {
     const transactionNonce = parseInt(TransactionUtilities.getTransactionNonce());
-    const redeemUnderlyingEncodedABI = this.getRedeemEncodedAbi(this.state.daiWithdrawAmount);
+    const redeemUnderlyingEncodedABI = ABIEncoder.encodeCDAIRedeemUnderlying(this.state.daiWithdrawAmount);
     const transactionObject = {
       nonce: `0x${transactionNonce.toString(16)}`,
       to: cDaiContract.cDaiAddress,
