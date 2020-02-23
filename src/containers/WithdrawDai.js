@@ -28,7 +28,7 @@ import DebugUtilities from '../utilities/DebugUtilities.js';
 import GasUtilities from '../utilities/GasUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
-import RuERC20Encoder from '../lib/erc20';
+import RuERC20Encoder from '../lib/abi';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class WithdrawDai extends Component {
