@@ -34,7 +34,7 @@ import DebugUtilities from '../utilities/DebugUtilities.js';
 import GasUtilities from '../utilities/GasUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
-import Web3ProviderUtilities from '../utilities/Web3ProviderUtilities.js';
+import RuABIEncoder from '../utilities/AbiUtilities';
 
 class SendDai extends Component {
   constructor(props) {
@@ -68,7 +68,7 @@ class SendDai extends Component {
       buttonDisabled: true,
       buttonOpacity: 0.5
     };
-    this.web3 = Web3ProviderUtilities.web3Provider();
+    this.abiencoder = new RuABIEncoder.RuABIEncoder(18); // 18 decimal places
     this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance);
   }
 
@@ -125,17 +125,8 @@ class SendDai extends Component {
   }
 
   getTransferEncodedABI(address, amount) {
-    const daiTokenContractInstance = new this.web3.eth.Contract(
-      JSON.parse(daiTokenContract.daiTokenAbi),
-      daiTokenContract.daiTokenAddress
-    );
+    const transferEncodedABI = this.abiencoder.encodeTransfer(address, amount);
 
-    amount = new BigNumber(10).pow(18).times(amount);
-    const hexAmount = `0x${amount.toString(16)}`;
-
-    const transferEncodedABI = daiTokenContractInstance.methods
-      .transfer(address, hexAmount)
-      .encodeABI();
     return transferEncodedABI;
   }
 
