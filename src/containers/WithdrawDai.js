@@ -28,7 +28,7 @@ import DebugUtilities from '../utilities/DebugUtilities.js';
 import GasUtilities from '../utilities/GasUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
-import RuERC20Encoder from '../lib/abi';
+import RuABIEncoder from '../lib/abi';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class WithdrawDai extends Component {
@@ -61,7 +61,7 @@ class WithdrawDai extends Component {
       buttonDisabled: true,
       buttonOpacity: 0.5
     };
-    this.abiencoder = new RuERC20Encoder.RuERC20Encoder(18); // 18 decimal places
+    this.abiencoder = new RuABIEncoder.RuABIEncoder(18); // 18 decimal places
     this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance);
   }
 

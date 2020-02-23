@@ -25,7 +25,7 @@ import DebugUtilities from '../utilities/DebugUtilities.js';
 import GasUtilities from '../utilities/GasUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
-import RuERC20Encoder from '../lib/abi';
+import RuABIEncoder from '../lib/abi';
 
 class EarnDai extends Component {
   constructor(props) {
@@ -36,7 +36,7 @@ class EarnDai extends Component {
       loading: false,
       buttonDisabled: false
     };
-    this.abiencoder = new RuERC20Encoder.RuERC20Encoder(18); // 18 decimal places
+    this.abiencoder = new RuABIEncoder.RuABIEncoder(18); // 18 decimal places
     this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance);
   }
 

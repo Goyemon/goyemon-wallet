@@ -3,7 +3,7 @@ const web3 = require('web3');
 // https://web3js.readthedocs.io/en/v1.2.0/web3-utils.html
 // https://github.com/indutny/bn.js/blob/master/lib/bn.js
 
-class RuERC20Encoder {
+class RuABIEncoder {
 
 	constructor(decimalat=-1) {
 		this.decimal_places = decimalat >= 0 ? decimalat : 18;
@@ -116,7 +116,7 @@ class RuStupidDataBuilder {
 	}
 }
 
-class RuBetterERC20Encoder {
+class RuBetterABIEncoder {
 	static encodeTransfer(toAddr, value, decimals=18) {
 		return new RuStupidDataBuilder([0xa9, 0x05, 0x9c, 0xbb], 2, decimals).putAddress(toAddr).putUint256Scaled(value).get();
 	}
@@ -139,19 +139,19 @@ class RuBetterERC20Encoder {
 }
 
 
-exports.RuERC20Encoder = RuERC20Encoder;
+exports.RuABIEncoder = RuABIEncoder;
 
 /*
-const c = new RuERC20Encoder();
+const c = new RuABIEncoder();
 console.log(c.encodeTransfer('0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', 1024).toString('hex'));
 console.log(c.encodeApprove('0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', 1024).toString('hex'));
 console.log(c.encodeTransferFrom('0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', '0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', 1024).toString('hex'));
 console.log(c.encodeCDAIMint(1024).toString('hex'));
 console.log(c.encodeCDAIRedeemUnderlying(1024).toString('hex'));
-const c1 = new RuBetterERC20Encoder();
-console.log(RuBetterERC20Encoder.encodeTransfer('0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', 1024).toString('hex'));
-console.log(RuBetterERC20Encoder.encodeApprove('0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', 1024).toString('hex'));
-console.log(RuBetterERC20Encoder.encodeTransferFrom('0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', '0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', 1024).toString('hex'));
-console.log(RuBetterERC20Encoder.encodeCDAIMint(1024).toString('hex'));
-console.log(RuBetterERC20Encoder.encodeCDAIRedeemUnderlying(1024).toString('hex'));
+const c1 = new RuBetterABIEncoder();
+console.log(RuBetterABIEncoder.encodeTransfer('0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', 1024).toString('hex'));
+console.log(RuBetterABIEncoder.encodeApprove('0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', 1024).toString('hex'));
+console.log(RuBetterABIEncoder.encodeTransferFrom('0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', '0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', 1024).toString('hex'));
+console.log(RuBetterABIEncoder.encodeCDAIMint(1024).toString('hex'));
+console.log(RuBetterABIEncoder.encodeCDAIRedeemUnderlying(1024).toString('hex'));
 */
