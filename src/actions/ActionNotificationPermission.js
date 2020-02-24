@@ -1,5 +1,6 @@
 'use strict';
 import { SAVE_NOTIFICATION_PERMISSION } from '../constants/ActionTypes';
+import { SAVE_PHOTO_LIBRARY_PERMISSION } from '../constants/ActionTypes';
 import DebugUtilities from '../utilities/DebugUtilities.js';
 
 export function saveNotificationPermission(notificationPermission) {
