@@ -22,10 +22,10 @@ class CreateWalletTutorial extends Component {
     }
   }
 
-  navigateToNotificationPermissionTutorial() {
+  navigateToMnemonicWordsScreenshot() {
     if (this.props.mnemonicWords) {
       this.setState({ loading: false, buttonDisabled: false });
-      this.props.navigation.navigate('NotificationPermissionTutorial');
+      this.props.navigation.navigate('MnemonicWordsScreenshot');
     }
   }
 
@@ -71,7 +71,7 @@ class CreateWalletTutorial extends Component {
               this.setState({ loading: true, buttonDisabled: true });
               await WalletUtilities.init();
               await this.props.saveMnemonicWords();
-              this.navigateToNotificationPermissionTutorial();
+              this.navigateToMnemonicWordsScreenshot();
             }}
           />
           <Loader animating={this.state.loading} />
