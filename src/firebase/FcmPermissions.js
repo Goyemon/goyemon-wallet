@@ -1,6 +1,6 @@
 'use strict';
 import firebase from 'react-native-firebase';
-import { saveNotificationPermission } from '../actions/ActionNotificationPermission';
+import { saveNotificationPermission } from '../actions/ActionPermissions';
 import { store } from '../store/store';
 import DebugUtilities from '../utilities/DebugUtilities.js';
 
