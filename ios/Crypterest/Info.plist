@@ -56,6 +56,10 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Our app need your permission to use your camera phone</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Our app need your permission to use your photo library</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Our app need your permission to save to your photo library</string>
 	<key>NSMainNibFile</key>
 	<string>LaunchScreen</string>
 	<key>UIAppFonts</key>
