@@ -51,7 +51,11 @@ class VerifyMnemonic extends Component {
     ) {
       this.setState({ mnemonicWordsValidation: true });
       this.props.updateMnemonicWordsValidation(true);
-      this.props.navigation.navigate('NotificationPermissionTutorial');
+      if (Platform.OS === 'ios') {
+        this.props.navigation.navigate('NotificationPermissionTutorial');
+      } else if (Platform.OS === 'android') {
+        this.props.navigation.navigate('WalletCreation');
+      }
     } else {
       this.setState({ mnemonicWordsValidation: false });
       DebugUtilities.logInfo('form validation failed!');
