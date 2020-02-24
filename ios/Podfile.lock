@@ -263,6 +263,8 @@ PODS:
     - React
   - react-native-camera/RN (3.15.1):
     - React
+  - react-native-cameraroll (1.4.1):
+    - React
   - react-native-netinfo (5.3.3):
     - React
   - react-native-randombytes (3.5.3):
@@ -357,6 +359,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-camera (from `../node_modules/react-native-camera`)
+  - "react-native-cameraroll (from `../node_modules/@react-native-community/cameraroll`)"
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-randombytes (from `../node_modules/react-native-randombytes`)
   - react-native-webview (from `../node_modules/react-native-webview`)
@@ -435,6 +438,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-camera:
     :path: "../node_modules/react-native-camera"
+  react-native-cameraroll:
+    :path: "../node_modules/@react-native-community/cameraroll"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-randombytes:
@@ -519,6 +524,7 @@ SPEC CHECKSUMS:
   react-native-netinfo: 75711548b53a527515d9226e6370249f75083e63
   react-native-randombytes: 991545e6eaaf700b4ee384c291ef3d572e0b2ca8
   react-native-webview: 711cef318a554093b09a5b871894011435d87a8d
+  react-native-cameraroll: 875e31fc43d4a5d8694c85a71c53dcf42f72f608
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
   React-RCTAnimation: 791a87558389c80908ed06cc5dfc5e7920dfa360
   React-RCTBlob: d89293cc0236d9cb0933d85e430b0bbe81ad1d72

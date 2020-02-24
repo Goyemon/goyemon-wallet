@@ -45,6 +45,8 @@ target 'Crypterest' do
   pod 'Crashlytics', '~> 3.13.2'
 
 
+  pod 'react-native-cameraroll', :path => '../node_modules/@react-native-community/cameraroll'
+
   target 'CrypterestTests' do
     inherit! :search_paths
     # Pods for testing
