@@ -3,16 +3,21 @@ import { SAVE_NOTIFICATION_PERMISSION } from '../constants/ActionTypes';
 import { SAVE_PHOTO_LIBRARY_PERMISSION } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
-  notificationPermission: null
+  permissions: {
+    notification: null,
+    photoLibrary: ''
+  }
 };
 
-const notificationPermission = (state = INITIAL_STATE, action) => {
+const permissions = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SAVE_NOTIFICATION_PERMISSION:
-      return { ...state, notificationPermission: action.payload };
+      return { permissions: { ...state.permissions, notification: action.payload } };
+    case SAVE_PHOTO_LIBRARY_PERMISSION:
+      return { permissions: { ...state.permissions, photoLibrary: action.payload } };
     default:
       return state || INITIAL_STATE;
   }
 };
 
-export default notificationPermission;
+export default permissions;
