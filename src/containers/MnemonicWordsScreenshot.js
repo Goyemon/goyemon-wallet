@@ -259,7 +259,7 @@ const ScreenshotImage = styled.Image`
 
 function mapStateToProps(state) {
   return {
-    permissions: state.ReducerNotificationPermission.permissions
+    permissions: state.ReducerPermissions.permissions
   };
 }
 

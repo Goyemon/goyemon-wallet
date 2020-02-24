@@ -82,7 +82,7 @@ const Container = styled.View`
 `;
 
 const mapStateToProps = state => ({
-  permissions: state.ReducerNotificationPermission.permissions
+  permissions: state.ReducerPermissions.permissions
 });
 
 export default connect(mapStateToProps)(NotificationPermissionTutorial);

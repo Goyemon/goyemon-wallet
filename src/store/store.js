@@ -13,7 +13,7 @@ const persistConfig = {
     'ReducerCDaiLendingInfo',
     'ReducerChecksumAddress',
     'ReducerMnemonic',
-    'ReducerNotificationPermission',
+    'ReducerPermissions',
     'ReducerOutgoingTransactionObjects',
     'ReducerPrice',
     'ReducerTransactionHistory',
