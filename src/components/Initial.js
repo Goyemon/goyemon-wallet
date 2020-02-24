@@ -15,7 +15,7 @@ export default class Initial extends Component {
   checksumAddress = this.stateTree.ReducerChecksumAddress.checksumAddress;
   mnemonicWords = this.stateTree.ReducerMnemonic.mnemonicWords;
   mnemonicWordsValidation = this.stateTree.ReducerMnemonicWordsValidation.mnemonicWordsValidation;
-  notificationEnabled = this.stateTree.ReducerNotificationPermission.notificationPermission;
+  notificationEnabled = this.stateTree.ReducerNotificationPermission.permissions.notification;
   price = this.stateTree.ReducerPrice.price;
   totalTransactions = this.stateTree.ReducerTotalTransactions.totalTransactions;
   transactions = this.stateTree.ReducerTransactionHistory.transactions;

@@ -23,11 +23,11 @@ class NotificationPermissionTutorial extends Component {
   }
 
   notificationPermissionNavigation() {
-    if (this.props.notificationPermission === null) {
+    if (this.props.permissions.notification === null) {
       DebugUtilities.logInfo('notification permission is not set');
-    } else if (this.props.notificationPermission === true) {
+    } else if (this.props.permissions.notification === true) {
       this.props.navigation.navigate('WalletCreation');
-    } else if (this.props.notificationPermission === false) {
+    } else if (this.props.permissions.notification === false) {
       this.props.navigation.navigate('NotificationPermissionNotGranted');
     }
   }
@@ -82,7 +82,7 @@ const Container = styled.View`
 `;
 
 const mapStateToProps = state => ({
-  notificationPermission: state.ReducerNotificationPermission.notificationPermission
+  permissions: state.ReducerNotificationPermission.permissions
 });
 
 export default connect(mapStateToProps)(NotificationPermissionTutorial);
