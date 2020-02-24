@@ -11,20 +11,22 @@ class CreateWalletTutorial extends Component {
     super();
     this.state = {
       loading: false,
-      buttonDisabled: false
+      buttonDisabled: false,
+      navigationDestination: ''
     };
   }
 
-  navigateToShowMnemonic() {
-    if (this.props.mnemonicWords) {
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.mnemonicWords != null && this.props.mnemonicWords != prevProps.mnemonicWords) {
       this.setState({ loading: false, buttonDisabled: false });
-      this.props.navigation.navigate('ShowMnemonic');
+      this.navigateToNext();
     }
   }
 
-  navigateToMnemonicWordsScreenshot() {
-    if (this.props.mnemonicWords) {
-      this.setState({ loading: false, buttonDisabled: false });
+  navigateToNext() {
+    if (this.state.navigationDestination === 'ShowMnemonic') {
+      this.props.navigation.navigate('ShowMnemonic');
+    } else if (this.state.navigationDestination === 'MnemonicWordsScreenshot') {
       this.props.navigation.navigate('MnemonicWordsScreenshot');
     }
   }
@@ -52,10 +54,13 @@ class CreateWalletTutorial extends Component {
             marginBottom="12px"
             opacity="1"
             onPress={async () => {
-              this.setState({ loading: true, buttonDisabled: true });
+              this.setState({
+                loading: true,
+                buttonDisabled: true,
+                navigationDestination: 'ShowMnemonic'
+              });
               await WalletUtilities.init();
               await this.props.saveMnemonicWords();
-              this.navigateToShowMnemonic();
             }}
           />
           <Button
@@ -68,10 +73,13 @@ class CreateWalletTutorial extends Component {
             marginBottom="12px"
             opacity="1"
             onPress={async () => {
-              this.setState({ loading: true, buttonDisabled: true });
+              this.setState({
+                loading: true,
+                buttonDisabled: true,
+                navigationDestination: 'MnemonicWordsScreenshot'
+              });
               await WalletUtilities.init();
               await this.props.saveMnemonicWords();
-              this.navigateToMnemonicWordsScreenshot();
             }}
           />
           <Loader animating={this.state.loading} />
