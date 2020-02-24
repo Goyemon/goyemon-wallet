@@ -3,7 +3,6 @@ package com.swarm.crypterest;
 import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
-
 import com.facebook.react.ReactApplication;
 import com.airbnb.android.react.lottie.LottiePackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
@@ -19,6 +18,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.levelasquez.androidopensettings.AndroidOpenSettingsPackage;
+import com.reactnativecommunity.cameraroll.CameraRollPackage;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -51,6 +51,7 @@ public class MainApplication extends Application implements ReactApplication {
         new RandomBytesPackage();
         new KeychainPackage();
         new AndroidOpenSettingsPackage();
+        new CameraRollPackage();
         return packages;
       }
 
