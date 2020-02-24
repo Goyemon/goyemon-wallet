@@ -271,6 +271,8 @@ PODS:
     - React
   - react-native-randombytes (3.5.3):
     - React
+  - react-native-view-shot (3.1.2):
+    - React
   - react-native-webview (7.6.0):
     - React
   - React-RCTActionSheet (0.61.5):
@@ -365,6 +367,7 @@ DEPENDENCIES:
   - "react-native-cameraroll (from `../node_modules/@react-native-community/cameraroll`)"
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-randombytes (from `../node_modules/react-native-randombytes`)
+  - react-native-view-shot (from `../node_modules/react-native-view-shot`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -449,6 +452,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-randombytes:
     :path: "../node_modules/react-native-randombytes"
+  react-native-view-shot:
+    :path: "../node_modules/react-native-view-shot"
   react-native-webview:
     :path: "../node_modules/react-native-webview"
   React-RCTActionSheet:
@@ -531,6 +536,7 @@ SPEC CHECKSUMS:
   react-native-randombytes: 991545e6eaaf700b4ee384c291ef3d572e0b2ca8
   react-native-webview: 711cef318a554093b09a5b871894011435d87a8d
   react-native-cameraroll: 875e31fc43d4a5d8694c85a71c53dcf42f72f608
+  react-native-view-shot: 4475fde003fe8a210053d1f98fb9e06c1d834e1c
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
   React-RCTAnimation: 791a87558389c80908ed06cc5dfc5e7920dfa360
   React-RCTBlob: d89293cc0236d9cb0933d85e430b0bbe81ad1d72
