@@ -15,7 +15,7 @@ import {
   Description,
   CrypterestText
 } from '../components/common';
-import { savePhotoLibraryPermission } from '../actions/ActionNotificationPermission';
+import { savePhotoLibraryPermission } from '../actions/ActionPermissions';
 import ShowMnemonicWords from '../containers/ShowMnemonicWords';
 import DebugUtilities from '../utilities/DebugUtilities.js';
 
