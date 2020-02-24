@@ -29,11 +29,11 @@ PODS:
     - GoogleUtilities/Network (~> 6.0)
     - "GoogleUtilities/NSData+zlib (~> 6.0)"
     - nanopb (~> 0.3)
-  - FirebaseAnalyticsInterop (1.4.0)
+  - FirebaseAnalyticsInterop (1.5.0)
   - FirebaseCore (6.0.2):
     - GoogleUtilities/Environment (~> 6.0)
     - GoogleUtilities/Logger (~> 6.0)
-  - FirebaseInstanceID (4.2.6):
+  - FirebaseInstanceID (4.2.7):
     - FirebaseCore (~> 6.0)
     - GoogleUtilities/Environment (~> 6.0)
     - GoogleUtilities/UserDefaults (~> 6.0)
@@ -62,25 +62,25 @@ PODS:
     - GoogleUtilities/Network (~> 6.0)
     - "GoogleUtilities/NSData+zlib (~> 6.0)"
     - nanopb (~> 0.3)
-  - GoogleUtilities/AppDelegateSwizzler (6.3.1):
+  - GoogleUtilities/AppDelegateSwizzler (6.5.1):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (6.3.1)
-  - GoogleUtilities/Logger (6.3.1):
+  - GoogleUtilities/Environment (6.5.1)
+  - GoogleUtilities/Logger (6.5.1):
     - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (6.3.1):
+  - GoogleUtilities/MethodSwizzler (6.5.1):
     - GoogleUtilities/Logger
-  - GoogleUtilities/Network (6.3.1):
+  - GoogleUtilities/Network (6.5.1):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (6.3.1)"
-  - GoogleUtilities/Reachability (6.3.1):
+  - "GoogleUtilities/NSData+zlib (6.5.1)"
+  - GoogleUtilities/Reachability (6.5.1):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (6.3.1):
+  - GoogleUtilities/UserDefaults (6.5.1):
     - GoogleUtilities/Logger
-  - lottie-ios (3.1.3)
+  - lottie-ios (3.1.6)
   - lottie-react-native (3.3.2):
     - lottie-ios (~> 3.1.3)
     - React
@@ -91,9 +91,9 @@ PODS:
   - nanopb/encode (0.3.9011)
   - Permission-Camera (2.0.9):
     - RNPermissions
-  - Protobuf (3.10.0)
   - Permission-PhotoLibrary (2.0.9):
     - RNPermissions
+  - Protobuf (3.11.4)
   - RCTRequired (0.61.5)
   - RCTTypeSafety (0.61.5):
     - FBLazyVector (= 0.61.5)
@@ -508,20 +508,20 @@ SPEC CHECKSUMS:
   FBReactNativeSpec: 118d0d177724c2d67f08a59136eb29ef5943ec75
   Firebase: 5965bac23e7fcb5fa6d926ed429c9ecef8a2014e
   FirebaseAnalytics: 629301c2b9925f3537d4093a17a72751ae5b7084
-  FirebaseAnalyticsInterop: d48b6ab67bcf016a05e55b71fc39c61c0cb6b7f3
+  FirebaseAnalyticsInterop: 3f86269c38ae41f47afeb43ebf32a001f58fcdae
   FirebaseCore: b0f0262acebfa540e5f97b3832dbb13186980822
-  FirebaseInstanceID: d0eafcd8bdbd3447cd694594734078c3e3e77d8b
+  FirebaseInstanceID: ebd2ea79ee38db0cb5f5167b17a0d387e1cc7b6e
   FirebaseMessaging: 20b6626c41be7840aed7a3dd9a14003efae3d588
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
   GoogleAppMeasurement: 51d8d9ea48f0ca44484d29cfbdef976fbd4fc336
-  GoogleUtilities: f895fde57977df4e0233edda0dbeac490e3703b6
-  lottie-ios: 496ac5cea1bbf1a7bd1f1f472f3232eb1b8d744b
+  GoogleUtilities: 06eb53bb579efe7099152735900dd04bf09e7275
+  lottie-ios: 85ce835dd8c53e02509f20729fc7d6a4e6645a0a
   lottie-react-native: 2a1a82bb326ae51331a5520de0cf706733c6db69
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
-  Permission-Camera: b0fec577b27488314a885f9c74433e02f3585b9b
-  Protobuf: a4dc852ad69c027ca2166ed287b856697814375b
+  Permission-Camera: 8fe4753b02396489b11c5089e4f57bab7fe1ef42
   Permission-PhotoLibrary: 42d41b53adefcfa94f42fb628f143d97136120bd
+  Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
   RCTRequired: b153add4da6e7dbc44aebf93f3cf4fcae392ddf1
   RCTTypeSafety: 9aa1b91d7f9310fc6eadc3cf95126ffe818af320
   React: b6a59ef847b2b40bb6e0180a97d0ca716969ac78
@@ -531,12 +531,12 @@ SPEC CHECKSUMS:
   React-jsi: cb2cd74d7ccf4cffb071a46833613edc79cdf8f7
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
-  react-native-camera: d5b131588a2d1f0ad377a321793f58794dbdc768
-  react-native-netinfo: 75711548b53a527515d9226e6370249f75083e63
-  react-native-randombytes: 991545e6eaaf700b4ee384c291ef3d572e0b2ca8
-  react-native-webview: 711cef318a554093b09a5b871894011435d87a8d
+  react-native-camera: 1ba3e7f2375a6b44ae09ce9be70268e0b225bc10
   react-native-cameraroll: 875e31fc43d4a5d8694c85a71c53dcf42f72f608
+  react-native-netinfo: 8884d510fe67349940b4399c01db3e3591c922aa
+  react-native-randombytes: 3638d24759d67c68f6ccba60c52a7a8a8faa6a23
   react-native-view-shot: 4475fde003fe8a210053d1f98fb9e06c1d834e1c
+  react-native-webview: db4682f1698ab4b17a5e88f951031d203ff8aea8
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
   React-RCTAnimation: 791a87558389c80908ed06cc5dfc5e7920dfa360
   React-RCTBlob: d89293cc0236d9cb0933d85e430b0bbe81ad1d72
@@ -547,18 +547,18 @@ SPEC CHECKSUMS:
   React-RCTText: 9ccc88273e9a3aacff5094d2175a605efa854dbe
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
-  RNCAsyncStorage: 8539fc80a0075fcc9c8e2dff84cd22dc5bf1dacf
+  RNCAsyncStorage: 44395cb9c7c1523104c2b499eb426ef7aff82bca
   RNFirebase: 3c0d26909841ad3c72ca46d85aba333ef49903bc
   RNGestureHandler: 02905abe54e1f6e59c081a10b4bd689721e17aa6
   RNKeychain: c658833a9cb2cbcba6423bdd6e16cce59e27da0e
   RNOS: 6f2f9a70895bbbfbdad7196abd952e7b01d45027
-  RNPermissions: 6db7e0a4d94c9c02390d11020b1d3d187aaf77e5
+  RNPermissions: 2f74237e97b08beda01e914301e12524ddddf5b8
   RNReanimated: 031fe8d9ea93c2bd689a40f05320ef9d96f74d7f
   RNScreens: f28b48b8345f2f5f39ed6195518291515032a788
   RNSVG: 8ba35cbeb385a52fd960fd28db9d7d18b4c2974f
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: 5a896e4a87cbdb08b86be5a3d48052adc11214a6
+PODFILE CHECKSUM: ad18e01d5cc20533bce7a3269648517bcf446e55
 
 COCOAPODS: 1.7.5
