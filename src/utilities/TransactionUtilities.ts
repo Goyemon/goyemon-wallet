@@ -429,7 +429,7 @@ class TransactionUtilities {
             }
           };
         } else if (isCDaiFailedTx) {
-          console.log("isCDaiFailedTx");
+          DebugUtilities.logInfo("isCDaiFailedTx");
           parsedTransaction = {
             hash: txHashKey,
             from: transactionObject[txHashKey][0],
