@@ -19,12 +19,11 @@ import {
   Description,
   Loader
 } from '../components/common/';
-import cDaiContract from '../contracts/cDaiContract';
-import daiTokenContract from '../contracts/daiTokenContract';
 import DebugUtilities from '../utilities/DebugUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import ABIEncoder from '../utilities/AbiUtilities';
+const GlobalConfig = require('../config.json');
 
 class EarnDai extends Component {
   constructor(props) {
@@ -88,7 +87,7 @@ class EarnDai extends Component {
   }
 
   getApproveEncodedABI() {
-    const addressSpender = cDaiContract.cDaiAddress;
+    const addressSpender = GlobalConfig.cDAIcontract;
     const amount = Web3.utils.toHex(-1);
 
     const approveEncodedABI = ABIEncoder.encodeApprove(addressSpender, amount);
@@ -101,10 +100,10 @@ class EarnDai extends Component {
     const approveEncodedABI = this.getApproveEncodedABI();
     const transactionObject = {
       nonce: `0x${transactionNonce.toString(16)}`,
-      to: daiTokenContract.daiTokenAddress,
+      to: GlobalConfig.DAIcontract,
       gasPrice: `0x${parseFloat(this.props.gasPrice.average).toString(16)}`,
       gasLimit: `0x${parseFloat(50000).toString(16)}`,
-      chainId: 3,
+      chainId: GlobalConfig.network_id,
       data: approveEncodedABI
     };
     return transactionObject;

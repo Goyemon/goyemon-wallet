@@ -6,8 +6,7 @@ import uuidv4 from 'uuid/v4';
 import Web3 from 'web3';
 import { incrementTotalTransactions } from '../actions/ActionTotalTransactions';
 import { addSentTransaction } from '../actions/ActionTransactionHistory';
-import cDaiContract from '../contracts/cDaiContract';
-import daiTokenContract from '../contracts/daiTokenContract';
+const GlobalConfig = require('../config.json');
 import { store } from '../store/store.js';
 import DebugUtilities from '../utilities/DebugUtilities.js';
 import WalletUtilities from './WalletUtilities.ts';
@@ -243,7 +242,7 @@ class TransactionUtilities {
     const parsedTransaction = {
       hash: uuidv4(),
       from: checksumAddress,
-      to: daiTokenContract.daiTokenAddress,
+      to: GlobalConfig.DAIcontract,
       gasLimit: transactionObject.gasLimit,
       gasPrice: transactionObject.gasPrice,
       value: '0x',
@@ -267,7 +266,7 @@ class TransactionUtilities {
     const parsedTransaction = {
       hash: uuidv4(),
       from: checksumAddress,
-      to: daiTokenContract.daiTokenAddress,
+      to: GlobalConfig.DAIcontract,
       gasLimit: transactionObject.gasLimit,
       gasPrice: transactionObject.gasPrice,
       value: '0x',
@@ -291,7 +290,7 @@ class TransactionUtilities {
     const parsedTransaction = {
       hash: uuidv4(),
       from: checksumAddress,
-      to: cDaiContract.cDaiAddress,
+      to: GlobalConfig.cDAIcontract,
       gasLimit: transactionObject.gasLimit,
       gasPrice: transactionObject.gasPrice,
       value: '0x',
@@ -314,7 +313,7 @@ class TransactionUtilities {
     const parsedTransaction = {
       hash: uuidv4(),
       from: checksumAddress,
-      to: cDaiContract.cDaiAddress,
+      to: GlobalConfig.cDAIcontract,
       gasLimit: transactionObject.gasLimit,
       gasPrice: transactionObject.gasPrice,
       value: '0x',
@@ -601,7 +600,7 @@ class TransactionUtilities {
 
   async sendOutgoingTransactionToServer(outgoingTransactionObject) {
     const messageId = uuidv4();
-    const serverAddress = '255097673919@gcm.googleapis.com';
+    const serverAddress = GlobalConfig.FCM_server_address;
     const signedTransaction = await this.constructSignedOutgoingTransactionObject(
       outgoingTransactionObject
     );

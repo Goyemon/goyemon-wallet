@@ -23,11 +23,11 @@ import {
   CrypterestText,
   Loader
 } from '../components/common';
-import cDaiContract from '../contracts/cDaiContract';
 import DebugUtilities from '../utilities/DebugUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import ABIEncoder from '../utilities/AbiUtilities';
+const GlobalConfig = require('../config.json');
 
 class DepositDai extends Component {
   constructor(props) {
@@ -112,10 +112,10 @@ class DepositDai extends Component {
     const mintEncodedABI = ABIEncoder.encodeCDAIMint(this.state.amount);
     const transactionObject = {
       nonce: `0x${transactionNonce.toString(16)}`,
-      to: cDaiContract.cDaiAddress,
+      to: GlobalConfig.cDAIcontract,
       gasPrice: `0x${parseFloat(this.state.gasPrice[this.state.checked].gasPriceWei).toString(16)}`,
       gasLimit: `0x${parseFloat(350000).toString(16)}`,
-      chainId: 3,
+      chainId: GlobalConfig.network_id,
       data: mintEncodedABI
     };
     return transactionObject;
