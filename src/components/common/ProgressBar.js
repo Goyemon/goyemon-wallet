@@ -25,6 +25,8 @@ const ProgressBar = props => (
 
 const Container = styled.View`
   align-items: center;
+  flex:1;
+  justify-content: center;
   margin-top: 112;
 `;
 
