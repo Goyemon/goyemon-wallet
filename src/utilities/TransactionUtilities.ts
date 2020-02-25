@@ -618,6 +618,15 @@ class TransactionUtilities {
     store.dispatch(addSentTransaction(outgoingTransactionObject));
     store.dispatch(incrementTotalTransactions());
   }
+
+  static getTransactionFeeEstimateInEther(gasPriceWei, gasLimit) {
+    const transactionFeeEstimateWei = parseFloat(gasPriceWei) * gasLimit;
+    const transactionFeeEstimateInEther = Web3.utils.fromWei(
+      transactionFeeEstimateWei.toString(),
+      'Ether'
+    );
+    return transactionFeeEstimateInEther;
+  }
 }
 
 export default new TransactionUtilities();
