@@ -26,7 +26,6 @@ import {
 } from '../components/common';
 import HomeStack from '../navigators/HomeStack';
 import DebugUtilities from '../utilities/DebugUtilities.js';
-import GasUtilities from '../utilities/GasUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 
@@ -112,7 +111,7 @@ class SendEth extends Component {
       const usdValue = this.getTransactionFeeEstimateInUsd(gasPriceWei);
       return <NetworkFeeText>${usdValue}</NetworkFeeText>;
     } else if (this.state.currency === 'USD') {
-      let ethValue = GasUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 21000);
+      let ethValue = TransactionUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 21000);
       ethValue = parseFloat(ethValue).toFixed(5);
       return <NetworkFeeText>{ethValue}ETH</NetworkFeeText>;
     }
@@ -120,7 +119,7 @@ class SendEth extends Component {
 
   getTransactionFeeEstimateInUsd(gasPriceWei) {
     let transactionFeeEstimateInUsd = PriceUtilities.convertEthToUsd(
-      GasUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 21000)
+      TransactionUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 21000)
     );
     transactionFeeEstimateInUsd = transactionFeeEstimateInUsd.toFixed(3);
     return transactionFeeEstimateInUsd;
@@ -164,7 +163,7 @@ class SendEth extends Component {
   }
 
   validateAmount(amount) {
-    let transactionFeeLimitInEther = GasUtilities.getTransactionFeeEstimateInEther(
+    let transactionFeeLimitInEther = TransactionUtilities.getTransactionFeeEstimateInEther(
       this.state.gasPrice[this.state.checked].gasPriceWei,
       21000
     );
@@ -255,14 +254,14 @@ class SendEth extends Component {
     this.state.gasPrice[2].gasPriceWei = this.props.gasPrice.slow;
 
     this.props.saveTransactionFeeEstimateEth(
-      GasUtilities.getTransactionFeeEstimateInEther(
+      TransactionUtilities.getTransactionFeeEstimateInEther(
         this.state.gasPrice[this.state.checked].gasPriceWei,
         21000
       )
     );
     this.props.saveTransactionFeeEstimateUsd(
       PriceUtilities.convertEthToUsd(
-        GasUtilities.getTransactionFeeEstimateInEther(
+        TransactionUtilities.getTransactionFeeEstimateInEther(
           this.state.gasPrice[this.state.checked].gasPriceWei,
           21000
         )

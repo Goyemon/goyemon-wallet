@@ -22,7 +22,6 @@ import {
 import cDaiContract from '../contracts/cDaiContract';
 import daiTokenContract from '../contracts/daiTokenContract';
 import DebugUtilities from '../utilities/DebugUtilities.js';
-import GasUtilities from '../utilities/GasUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import ABIEncoder from '../utilities/AbiUtilities';
@@ -56,14 +55,14 @@ class EarnDai extends Component {
 
   getTransactionFeeEstimateInUsd() {
     let transactionFeeEstimateInUsd = PriceUtilities.convertEthToUsd(
-      GasUtilities.getTransactionFeeEstimateInEther(this.props.gasPrice.average, 50000)
+      TransactionUtilities.getTransactionFeeEstimateInEther(this.props.gasPrice.average, 50000)
     );
     transactionFeeEstimateInUsd = transactionFeeEstimateInUsd.toFixed(3);
     return transactionFeeEstimateInUsd;
   }
 
   validateEthAmount() {
-    let transactionFeeLimitInEther = GasUtilities.getTransactionFeeEstimateInEther(
+    let transactionFeeLimitInEther = TransactionUtilities.getTransactionFeeEstimateInEther(
       this.props.gasPrice.average,
       50000
     );
