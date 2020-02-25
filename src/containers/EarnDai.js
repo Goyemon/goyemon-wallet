@@ -84,7 +84,7 @@ class EarnDai extends Component {
     if (this.state.ethAmountValidation || this.state.ethAmountValidation === undefined) {
       return;
     }
-    return <ErrorMessage>you don't have enough ether 😟</ErrorMessage>;
+    return <ErrorMessage>you don't have enough ether 😑</ErrorMessage>;
   }
 
   getApproveEncodedABI() {
@@ -357,7 +357,7 @@ const TransactionButtonContainer = styled.View`
 
 const ButtonContainer = styled.View`
   flex-direction: row;
-  margin: 12px auto;
+  margin: 0 auto;
 `;
 
 function mapStateToProps(state) {

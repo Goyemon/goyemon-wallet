@@ -37,7 +37,7 @@ class WalletCreation extends Component {
           <FadeInMessageThreeText>fetching blockchain data...</FadeInMessageThreeText>
         </FadeInMessageThree>
         <FadeInMessageFour animation="fadeInDown" delay={5000}>
-          <FadeInMessageFourText>getting prices...</FadeInMessageFourText>
+          <FadeInMessageFourText>getting price data...</FadeInMessageFourText>
         </FadeInMessageFour>
         <FadeInMessageFive animation="fadeInDown" delay={8500}>
           <FadeInMessageFiveText>this shouldn't take too long...</FadeInMessageFiveText>
