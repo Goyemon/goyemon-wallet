@@ -129,7 +129,7 @@ const AddressContainer = styled.TouchableOpacity`
 
 const mapStateToProps = state => ({
   checksumAddress: state.ReducerChecksumAddress.checksumAddress,
-  currencies: state.ReducerWallets.currencies,
+  currencies: state.ReducerCurrencies.currencies,
   balance: state.ReducerBalance.balance
 });
 

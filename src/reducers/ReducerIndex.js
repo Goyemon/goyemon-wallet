@@ -19,7 +19,7 @@ import ReducerPrice from './ReducerPrice';
 import ReducerTotalTransactions from './ReducerTotalTransactions';
 import ReducerTransactionFeeEstimate from './ReducerTransactionFeeEstimate';
 import ReducerTransactionHistory from './ReducerTransactionHistory';
-import ReducerWallets from './ReducerWallets';
+import ReducerCurrencies from './ReducerCurrencies';
 
 const appReducers = combineReducers({
   ReducerBalance,
@@ -39,7 +39,7 @@ const appReducers = combineReducers({
   ReducerTotalTransactions,
   ReducerTransactionFeeEstimate,
   ReducerTransactionHistory,
-  ReducerWallets
+  ReducerCurrencies
 });
 
 const rootReducers = (state, action) => {
