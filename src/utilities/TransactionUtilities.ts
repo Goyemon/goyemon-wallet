@@ -619,7 +619,7 @@ class TransactionUtilities {
     store.dispatch(incrementTotalTransactions());
   }
 
-  static getTransactionFeeEstimateInEther(gasPriceWei, gasLimit) {
+  getTransactionFeeEstimateInEther(gasPriceWei, gasLimit) {
     const transactionFeeEstimateWei = parseFloat(gasPriceWei) * gasLimit;
     const transactionFeeEstimateInEther = Web3.utils.fromWei(
       transactionFeeEstimateWei.toString(),
