@@ -23,13 +23,13 @@ import {
   CrypterestText,
   Loader
 } from '../components/common';
-import cDaiContract from '../contracts/cDaiContract';
 import DebugUtilities from '../utilities/DebugUtilities.js';
 import GasUtilities from '../utilities/GasUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import ABIEncoder from '../utilities/AbiUtilities';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
+const GlobalConfig = require('../config.json');
 
 class WithdrawDai extends Component {
   constructor(props) {
@@ -114,10 +114,10 @@ class WithdrawDai extends Component {
     const redeemUnderlyingEncodedABI = ABIEncoder.encodeCDAIRedeemUnderlying(this.state.daiWithdrawAmount);
     const transactionObject = {
       nonce: `0x${transactionNonce.toString(16)}`,
-      to: cDaiContract.cDaiAddress,
+      to: GlobalConfig.cDAIcontract,
       gasPrice: `0x${parseFloat(this.state.gasPrice[this.state.checked].gasPriceWei).toString(16)}`,
       gasLimit: `0x${parseFloat(650000).toString(16)}`,
-      chainId: 3,
+      chainId: GlobalConfig.network_id,
       data: redeemUnderlyingEncodedABI
     };
     return transactionObject;

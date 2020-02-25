@@ -29,6 +29,7 @@ import DebugUtilities from '../utilities/DebugUtilities.js';
 import GasUtilities from '../utilities/GasUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
+const GlobalConfig = require('../config.json');
 
 class SendEth extends Component {
   constructor(props) {
@@ -135,7 +136,7 @@ class SendEth extends Component {
       value: `0x${amountWei.toString(16)}`,
       gasPrice: `0x${parseFloat(this.state.gasPrice[this.state.checked].gasPriceWei).toString(16)}`,
       gasLimit: `0x${parseFloat(21000).toString(16)}`,
-      chainId: 3
+      chainId: GlobalConfig.network_id
     };
     return transactionObject;
   }
