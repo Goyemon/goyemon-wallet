@@ -125,6 +125,7 @@ class ImportTwentyFourMnemonicWords extends Component {
                 </View>
               ))}
             </MnemonicWordsContainer>
+            <View>{this.renderInvalidMnemonicWordsMessage()}</View>
             <ButtonContainer>
               <Button
                 text="Next"
@@ -139,7 +140,6 @@ class ImportTwentyFourMnemonicWords extends Component {
                 }}
               />
             </ButtonContainer>
-            <View>{this.renderInvalidMnemonicWordsMessage()}</View>
           </Container>
         </RootContainer>
       </KeyboardAvoidingView>
