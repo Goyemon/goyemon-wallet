@@ -4,3 +4,5 @@
     "cDAIcontract": "0x2b536482a01e620ee111747f8334b395a42a555e",
     "DAIcontract": "0xb5e5d0f8c0cba267cd3d7035d6adc8eba7df7cdd"
 }
+
+// the usd price of currencies and the gasLimit are always the mainnet data
