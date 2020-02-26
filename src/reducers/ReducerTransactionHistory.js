@@ -1,10 +1,13 @@
 'use strict';
-import { SAVE_EMPTY_TRANSACTION } from '../constants/ActionTypes';
-import { SAVE_EXISTING_TRANSACTIONS } from '../constants/ActionTypes';
-import { ADD_SENT_TRANSACTION } from '../constants/ActionTypes';
-import { ADD_PENDING_OR_INCLUDED_TRANSACTION } from '../constants/ActionTypes';
-import { UPDATE_PENDING_OR_INCLUDED_TRANSACTION } from '../constants/ActionTypes';
-import { UPDATE_TRANSACTION_STATE } from '../constants/ActionTypes';
+import {
+  SAVE_EMPTY_TRANSACTION,
+  SAVE_EXISTING_TRANSACTIONS,
+  ADD_SENT_TRANSACTION,
+  ADD_PENDING_OR_INCLUDED_TRANSACTION,
+  UPDATE_PENDING_OR_INCLUDED_TRANSACTION,
+  UPDATE_TRANSACTION_STATE,
+  UPDATE_ERROR_SENT_TRANSACTION
+} from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
   transactions: null
