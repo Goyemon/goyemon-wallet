@@ -188,5 +188,14 @@ firebase.messaging().onMessage(downstreamMessage => {
     store.dispatch(
       saveDaiSavingsBalance(balance.cDaiBalance, cDaiLendingInfoMessage.current_exchange_rate)
     );
+  } else if (downstreamMessage.data.type === 'transactionError') {
+    const errorMessage = JSON.parse(downstreamMessage.data.error);
+    if(errorMessage.message === 'nonce too low') {
+      transactionsHistory.map((transaction) => {
+        if(parseInt(downstreamMessage.data.nonce) === transaction.nonce) {
+          store.dispatch(updateErrorSentTransaction(transaction.nonce));
+        }
+      })
+    }
   }
 });
