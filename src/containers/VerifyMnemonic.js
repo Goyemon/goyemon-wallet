@@ -5,7 +5,7 @@ import { KeyboardAvoidingView, Platform, StyleSheet, View, Text, TextInput } fro
 import styled from 'styled-components/native';
 import { updateMnemonicWordsValidation } from '../actions/ActionMnemonicWordsValidation';
 import { RootContainer, ProgressBar, HeaderTwo, Button, Description } from '../components/common';
-import DebugUtilities from '../utilities/DebugUtilities.js';
+import LogUtilities from '../utilities/LogUtilities.js';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class VerifyMnemonic extends Component {
@@ -58,7 +58,7 @@ class VerifyMnemonic extends Component {
       }
     } else {
       this.setState({ mnemonicWordsValidation: false });
-      DebugUtilities.logInfo('form validation failed!');
+      LogUtilities.logInfo('form validation failed!');
     }
   }
 
@@ -119,7 +119,7 @@ class VerifyMnemonic extends Component {
                       }}
                       onSubmitEditing={
                         id === 23
-                          ? DebugUtilities.logInfo('done')
+                          ? LogUtilities.logInfo('done')
                           : () => this.focusNextInput((id + 1).toString())
                       }
                       returnKeyType={id === 23 ? 'done' : 'next'}

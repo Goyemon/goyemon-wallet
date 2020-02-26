@@ -1,6 +1,6 @@
 'use strict';
 import { store } from '../store/store.js';
-import DebugUtilities from '../utilities/DebugUtilities.js';
+import LogUtilities from '../utilities/LogUtilities.js';
 
 class PriceUtilities {
   convertEthToUsd(ether) {
@@ -12,7 +12,7 @@ class PriceUtilities {
       const roundedEthUsdValue = usdValue;
       return roundedEthUsdValue;
     } catch (error) {
-      DebugUtilities.logError(error);
+      LogUtilities.logError(error);
     }
   }
 
@@ -25,7 +25,7 @@ class PriceUtilities {
       const roundedDaiUsdValue = parseFloat(usdValue);
       return roundedDaiUsdValue;
     } catch (error) {
-      DebugUtilities.logError(error);
+      LogUtilities.logError(error);
     }
   }
 }

@@ -23,7 +23,7 @@ import {
   CrypterestText,
   Loader
 } from '../components/common';
-import DebugUtilities from '../utilities/DebugUtilities.js';
+import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import ABIEncoder from '../utilities/AbiUtilities';
@@ -130,11 +130,11 @@ class WithdrawDai extends Component {
       daiSavingsBalance.isGreaterThanOrEqualTo(daiWithdrawAmount) &&
       daiWithdrawAmount.isGreaterThanOrEqualTo(0)
     ) {
-      DebugUtilities.logInfo('the dai savings amount validated!');
+      LogUtilities.logInfo('the dai savings amount validated!');
       this.setState({ daiSavingsAmountValidation: true, buttonDisabled: false, buttonOpacity: 1 });
       return true;
     }
-    DebugUtilities.logInfo('wrong dai balance!');
+    LogUtilities.logInfo('wrong dai balance!');
     this.setState({ daiSavingsAmountValidation: false, buttonDisabled: true, buttonOpacity: 0.5  });
     return false;
   }
@@ -149,11 +149,11 @@ class WithdrawDai extends Component {
     transactionFeeLimitInEther = new BigNumber(transactionFeeLimitInEther);
 
     if (ethBalance.isGreaterThan(transactionFeeLimitInEther)) {
-      DebugUtilities.logInfo('the eth amount validated!');
+      LogUtilities.logInfo('the eth amount validated!');
       this.setState({ ethAmountValidation: true });
       return true;
     }
-    DebugUtilities.logInfo('wrong eth balance!');
+    LogUtilities.logInfo('wrong eth balance!');
     this.setState({ ethAmountValidation: false });
     return false;
   }
@@ -192,13 +192,13 @@ class WithdrawDai extends Component {
 
     if (daiSavingsAmountValidation && ethAmountValidation && isOnline) {
       this.setState({ loading: true, buttonDisabled: true });
-      DebugUtilities.logInfo('validation successful');
+      LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
       await this.props.saveOutgoingDaiTransactionAmount(daiWithdrawAmount);
       this.props.navigation.navigate('WithdrawDaiConfirmation');
     } else {
-      DebugUtilities.logInfo('form validation failed!');
+      LogUtilities.logInfo('form validation failed!');
     }
   };
 

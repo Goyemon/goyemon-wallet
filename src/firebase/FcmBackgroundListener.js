@@ -22,7 +22,7 @@ import {
   updateErrorSentTransaction
 } from '../actions/ActionTransactionHistory';
 import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
-import DebugUtilities from '../utilities/DebugUtilities.js';
+import LogUtilities from '../utilities/LogUtilities.js';
 import EtherUtilities from '../utilities/EtherUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import FcmMsgsParser from './FcmMsgsParser.js';
@@ -35,7 +35,7 @@ export default async downstreamMessage => {
   const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
   const transactionsHistory = stateTree.ReducerTransactionHistory.transactions;
 
-  DebugUtilities.logInfo('downstreamMessage ===>', downstreamMessage);
+  LogUtilities.logInfo('downstreamMessage ===>', downstreamMessage);
 
   if (downstreamMessage.data.type === 'balance') {
     const balanceMessage = JSON.parse(downstreamMessage.data.data);
@@ -122,7 +122,7 @@ export default async downstreamMessage => {
           store.dispatch(addPendingOrIncludedTransaction(parsedTxStateMessage));
           store.dispatch(incrementTotalTransactions());
         } else {
-          DebugUtilities.logInfo('unknown transaction');
+          LogUtilities.logInfo('unknown transaction');
         }
       } else if (isIncludedState) {
         const parsedTxStateMessage = TransactionUtilities.parsePendingOrIncludedTransaction(
@@ -166,7 +166,7 @@ export default async downstreamMessage => {
         } else if (txHashExistWhereStateIsNotConfirmed) {
           store.dispatch(updateTransactionState(parsedTxStateMessage));
         } else {
-          DebugUtilities.logInfo('unknown transaction');
+          LogUtilities.logInfo('unknown transaction');
         }
       } else if (isConfirmedState) {
         const parsedTxStateMessage = TransactionUtilities.parseConfirmedTransaction(txStateMessage);
@@ -179,7 +179,7 @@ export default async downstreamMessage => {
             store.dispatch(updateTransactionState(parsedTxStateMessage));
           }
         } else {
-          DebugUtilities.logInfo("a transaction doesn't exist");
+          LogUtilities.logInfo("a transaction doesn't exist");
         }
       }
     });

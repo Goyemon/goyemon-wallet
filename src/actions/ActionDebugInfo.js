@@ -1,14 +1,14 @@
 'use strict';
 import { SAVE_FCM_TOKEN } from '../constants/ActionTypes';
 import { SAVE_OTHER_DEBUG_INFO } from '../constants/ActionTypes';
-import DebugUtilities from '../utilities/DebugUtilities.js';
+import LogUtilities from '../utilities/LogUtilities.js';
 
 export function saveFcmToken(fcmToken) {
   return async function (dispatch) {
     try {
       dispatch(saveFcmTokenSuccess(fcmToken));
     } catch(err) {
-      DebugUtilities.logError(err);
+      LogUtilities.logError(err);
     }
   }
 };
@@ -23,7 +23,7 @@ export function saveOtherDebugInfo(otherDebugInfo) {
     try {
       dispatch(saveOtherDebugInfoSuccess(otherDebugInfo));
     } catch(err) {
-      DebugUtilities.logError(err);
+      LogUtilities.logError(err);
     }
   }
 };

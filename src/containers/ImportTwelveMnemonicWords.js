@@ -6,7 +6,7 @@ import styled from 'styled-components/native';
 import { saveMnemonicWords } from '../actions/ActionMnemonic';
 import { updateMnemonicWordsValidation } from '../actions/ActionMnemonicWordsValidation';
 import { RootContainer, ProgressBar, HeaderTwo, Description, Button } from '../components/common';
-import DebugUtilities from '../utilities/DebugUtilities.js';
+import LogUtilities from '../utilities/LogUtilities.js';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class ImportTwelveMnemonicWords extends Component {
@@ -32,7 +32,7 @@ class ImportTwelveMnemonicWords extends Component {
       }
     } else {
       this.setState({ mnemonicWordsValidation: false });
-      DebugUtilities.logInfo('form validation failed!');
+      LogUtilities.logInfo('form validation failed!');
     }
   }
 
@@ -91,7 +91,7 @@ class ImportTwelveMnemonicWords extends Component {
                       }}
                       onSubmitEditing={
                         id === 11
-                          ? DebugUtilities.logInfo('done')
+                          ? LogUtilities.logInfo('done')
                           : () => this.focusNextInput((id + 1).toString())
                       }
                       returnKeyType={id === 11 ? 'done' : 'next'}

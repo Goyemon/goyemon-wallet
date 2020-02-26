@@ -1,14 +1,14 @@
 'use strict';
 import { SAVE_NOTIFICATION_PERMISSION } from '../constants/ActionTypes';
 import { SAVE_PHOTO_LIBRARY_PERMISSION } from '../constants/ActionTypes';
-import DebugUtilities from '../utilities/DebugUtilities.js';
+import LogUtilities from '../utilities/LogUtilities.js';
 
 export function saveNotificationPermission(notificationPermission) {
   return async function (dispatch) {
     try {
       dispatch(saveNotificationPermissionSuccess(notificationPermission));
     } catch(err) {
-      DebugUtilities.logError(err);
+      LogUtilities.logError(err);
     }
   }
 };
@@ -23,7 +23,7 @@ export function savePhotoLibraryPermission(photoLibraryPermission) {
     try {
       dispatch(savePhotoLibraryPermissionSuccess(photoLibraryPermission));
     } catch(err) {
-      DebugUtilities.logError(err);
+      LogUtilities.logError(err);
     }
   }
 };
