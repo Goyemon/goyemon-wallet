@@ -18,7 +18,8 @@ import {
   saveEmptyTransaction,
   addPendingOrIncludedTransaction,
   updateWithPendingOrIncludedTransaction,
-  updateTransactionState
+  updateTransactionState,
+  updateErrorSentTransaction
 } from '../actions/ActionTransactionHistory';
 import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
 import DebugUtilities from '../utilities/DebugUtilities.js';
