@@ -175,7 +175,6 @@ class SendEth extends Component {
     transactionFeeLimitInEther = new BigNumber(transactionFeeLimitInEther);
 
     if (
-      ethBalance.isGreaterThan(0) &&
       ethBalance.isGreaterThanOrEqualTo(amount.plus(transactionFeeLimitInEther)) &&
       amount.isGreaterThanOrEqualTo(0)
     ) {

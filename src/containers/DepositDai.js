@@ -126,7 +126,6 @@ class DepositDai extends Component {
     const daiBalance = new BigNumber(this.props.balance.daiBalance);
 
     if (
-      daiBalance.isGreaterThan(0) &&
       daiBalance.isGreaterThanOrEqualTo(amount) &&
       amount.isGreaterThanOrEqualTo(0)
     ) {
