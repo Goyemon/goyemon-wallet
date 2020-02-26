@@ -127,3 +127,18 @@ const updateTransactionStateSuccess = (updatedTransaction) => ({
   type: UPDATE_TRANSACTION_STATE,
   payload: updatedTransaction
 });
+
+export function updateErrorSentTransaction(nonce) {
+  return async function (dispatch) {
+    try {
+      dispatch(updateErrorSentTransactionSuccess(nonce));
+    } catch(err) {
+      DebugUtilities.logError(err);
+    }
+  }
+};
+
+const updateErrorSentTransactionSuccess = (nonce) => ({
+  type: UPDATE_ERROR_SENT_TRANSACTION,
+  payload: nonce
+});
