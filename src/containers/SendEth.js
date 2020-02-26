@@ -25,7 +25,7 @@ import {
   Loader
 } from '../components/common';
 import HomeStack from '../navigators/HomeStack';
-import DebugUtilities from '../utilities/DebugUtilities.js';
+import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 const GlobalConfig = require('../config.json');
@@ -83,7 +83,7 @@ class SendEth extends Component {
       ethUsdBalance = ethUsdBalance.toFixed(2);
       return ethUsdBalance;
     } catch (err) {
-      DebugUtilities.logError(err);
+      LogUtilities.logError(err);
     }
   }
 
@@ -142,14 +142,14 @@ class SendEth extends Component {
 
   validateToAddress(toAddress) {
     if (Web3.utils.isAddress(toAddress)) {
-      DebugUtilities.logInfo('address validated!');
+      LogUtilities.logInfo('address validated!');
       this.setState({ toAddressValidation: true });
       if (this.state.amountValidation === true) {
         this.setState({ buttonDisabled: false, buttonOpacity: 1 });
       }
       return true;
     } else if (!this.state.toAddressValidation) {
-      DebugUtilities.logInfo('invalid address');
+      LogUtilities.logInfo('invalid address');
       this.setState({ toAddressValidation: false, buttonDisabled: true, buttonOpacity: 0.5 });
       return false;
     }
@@ -178,14 +178,14 @@ class SendEth extends Component {
       ethBalance.isGreaterThanOrEqualTo(amount.plus(transactionFeeLimitInEther)) &&
       amount.isGreaterThanOrEqualTo(0)
     ) {
-      DebugUtilities.logInfo('the amount validated!');
+      LogUtilities.logInfo('the amount validated!');
       this.setState({ amountValidation: true });
       if (this.state.toAddressValidation === true) {
         this.setState({ buttonDisabled: false, buttonOpacity: 1 });
       }
       return true;
     }
-    DebugUtilities.logInfo('wrong balance!');
+    LogUtilities.logInfo('wrong balance!');
     this.setState({ amountValidation: false, buttonDisabled: true, buttonOpacity: 0.5 });
     return false;
   }
@@ -224,12 +224,12 @@ class SendEth extends Component {
 
     if (toAddressValidation && amountValidation && isOnline) {
       this.setState({ loading: true, buttonDisabled: true });
-      DebugUtilities.logInfo('validation successful');
+      LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
       this.props.navigation.navigate('SendEthConfirmation');
     } else {
-      DebugUtilities.logInfo('form validation failed!');
+      LogUtilities.logInfo('form validation failed!');
     }
   };
 

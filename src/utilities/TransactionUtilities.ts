@@ -8,7 +8,7 @@ import { incrementTotalTransactions } from '../actions/ActionTotalTransactions';
 import { addSentTransaction } from '../actions/ActionTransactionHistory';
 const GlobalConfig = require('../config.json');
 import { store } from '../store/store.js';
-import DebugUtilities from '../utilities/DebugUtilities.js';
+import LogUtilities from '../utilities/LogUtilities.js';
 import WalletUtilities from './WalletUtilities.ts';
 
 class TransactionUtilities {
@@ -88,7 +88,7 @@ class TransactionUtilities {
               }
             };
           }
-          DebugUtilities.logInfo('transaction ===>', transaction);
+          LogUtilities.logInfo('transaction ===>', transaction);
         } else if (tokenName === 'dai') {
           const isDaiTransferTx = Object.keys(tokenObject.dai)[0] === 'tr';
           const isDaiApproveTx = Object.keys(tokenObject.dai)[0] === 'appr';
@@ -127,7 +127,7 @@ class TransactionUtilities {
               }
             };
           }
-          DebugUtilities.logInfo('transaction ===>', transaction);
+          LogUtilities.logInfo('transaction ===>', transaction);
         } else if (tokenName === 'cdai') {
           const isCDaiMintTx = Object.keys(tokenObject.cdai)[0] === 'mint' || Object.keys(tokenObject.cdai)[1] === 'mint';
           const isCDaiRedeemUnderlyingTx = Object.keys(tokenObject.cdai)[0] === 'redeem' || Object.keys(tokenObject.cdai)[1] === 'redeem';
@@ -209,7 +209,7 @@ class TransactionUtilities {
           };
         }
       } else {
-        DebugUtilities.logInfo('transaction ===>', transaction);
+        LogUtilities.logInfo('transaction ===>', transaction);
       }
     });
 
@@ -428,7 +428,7 @@ class TransactionUtilities {
             }
           };
         } else if (isCDaiFailedTx) {
-          DebugUtilities.logInfo("isCDaiFailedTx");
+          LogUtilities.logInfo("isCDaiFailedTx");
           parsedTransaction = {
             hash: txHashKey,
             from: transactionObject[txHashKey][0],

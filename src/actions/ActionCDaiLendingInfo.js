@@ -1,13 +1,13 @@
 'use strict';
 import { SAVE_CDAI_LENDING_INFO, SAVE_DAI_APPROVAL_INFO } from '../constants/ActionTypes';
-import DebugUtilities from '../utilities/DebugUtilities.js';
+import LogUtilities from '../utilities/LogUtilities.js';
 
 export function saveCDaiLendingInfo(cDaiLendingInfo) {
   return async function (dispatch) {
     try {
       dispatch(saveCDaiLendingInfoSuccess(cDaiLendingInfo));
     } catch(err) {
-      DebugUtilities.logError(err);
+      LogUtilities.logError(err);
     }
   }
 };
@@ -22,7 +22,7 @@ export function saveDaiApprovalInfo(daiApprovalInfo) {
     try {
       dispatch(saveDaiApprovalInfoSuccess(daiApprovalInfo));
     } catch(err) {
-      DebugUtilities.logError(err);
+      LogUtilities.logError(err);
     }
   }
 };

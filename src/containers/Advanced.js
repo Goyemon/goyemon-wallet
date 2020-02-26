@@ -9,7 +9,7 @@ import styled from 'styled-components/native';
 import { saveFcmToken } from '../actions/ActionDebugInfo';
 import { RootContainer, HeaderOne, HeaderThree, CrypterestText } from '../components/common';
 import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
-import DebugUtilities from '../utilities/DebugUtilities.js';
+import LogUtilities from '../utilities/LogUtilities.js';
 
 class Advanced extends Component {
   constructor(props) {
@@ -30,10 +30,10 @@ class Advanced extends Component {
       .getToken()
       .then(fcmToken => {
         if (fcmToken) {
-          DebugUtilities.logInfo('the current fcmToken ===>', fcmToken);
+          LogUtilities.logInfo('the current fcmToken ===>', fcmToken);
           this.props.saveFcmToken(fcmToken);
         } else {
-          DebugUtilities.logInfo('no fcmToken ');
+          LogUtilities.logInfo('no fcmToken ');
         }
       });
   }

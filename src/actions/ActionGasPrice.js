@@ -2,7 +2,7 @@
 import axios from 'axios';
 import Web3 from 'web3';
 import { GET_GAS_PRICE_FAST, GET_GAS_PRICE_AVERAGE, GET_GAS_PRICE_SLOW } from '../constants/ActionTypes';
-import DebugUtilities from '../utilities/DebugUtilities.js';
+import LogUtilities from '../utilities/LogUtilities.js';
 
 export function getGasPriceFast() {
   return async function (dispatch) {
@@ -12,7 +12,7 @@ export function getGasPriceFast() {
       const gasPriceFastWei = Web3.utils.toWei(gasPriceFastGwei, 'Gwei');
       dispatch(getGasPriceFastSuccess(gasPriceFastWei));
     } catch(err) {
-      DebugUtilities.logError(err);
+      LogUtilities.logError(err);
     }
   }
 };
@@ -30,7 +30,7 @@ export function getGasPriceAverage() {
       const gasPriceAverageWei = Web3.utils.toWei(gasPriceAverageGwei, 'Gwei');
       dispatch(getGasPriceAverageSuccess(gasPriceAverageWei));
     } catch(err) {
-      DebugUtilities.logError(err);
+      LogUtilities.logError(err);
     }
   }
 };
@@ -48,7 +48,7 @@ export function getGasPriceSlow() {
       const gasPriceSlowWei = Web3.utils.toWei(gasPriceSlowGwei, 'Gwei');
       dispatch(getGasPriceSlowSuccess(gasPriceSlowWei));
     } catch(err) {
-      DebugUtilities.logError(err);
+      LogUtilities.logError(err);
     }
   }
 };

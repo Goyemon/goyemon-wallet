@@ -7,7 +7,7 @@ export function clearQRCodeData() {
     try {
       dispatch(clearQRCodeDataSuccess());
     } catch(err) {
-      DebugUtilities.logError(err);
+      LogUtilities.logError(err);
     }
   }
 };
@@ -21,7 +21,7 @@ export function saveQRCodeData(qrCodeData) {
     try {
       dispatch(saveQRCodeDataSuccess(qrCodeData));
     } catch(err) {
-      DebugUtilities.logError(err);
+      LogUtilities.logError(err);
     }
   }
 };

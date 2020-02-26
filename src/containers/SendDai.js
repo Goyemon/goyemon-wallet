@@ -29,7 +29,7 @@ import {
   Loader
 } from '../components/common';
 import HomeStack from '../navigators/HomeStack';
-import DebugUtilities from '../utilities/DebugUtilities.js';
+import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import ABIEncoder from '../utilities/AbiUtilities';
@@ -138,14 +138,14 @@ class SendDai extends Component {
 
   validateToAddress(toAddress) {
     if (Web3.utils.isAddress(toAddress)) {
-      DebugUtilities.logInfo('address validated!');
+      LogUtilities.logInfo('address validated!');
       this.setState({ toAddressValidation: true });
       if (this.state.daiAmountValidation === true) {
         this.setState({ buttonDisabled: false, buttonOpacity: 1 });
       }
       return true;
     } else if (!this.state.toAddressValidation) {
-      DebugUtilities.logInfo('invalid address');
+      LogUtilities.logInfo('invalid address');
       this.setState({ toAddressValidation: false,  buttonDisabled: true, buttonOpacity: 0.5  });
       return false;
     }
@@ -167,14 +167,14 @@ class SendDai extends Component {
       daiBalance.isGreaterThanOrEqualTo(amount) &&
       amount.isGreaterThanOrEqualTo(0)
     ) {
-      DebugUtilities.logInfo('the dai amount validated!');
+      LogUtilities.logInfo('the dai amount validated!');
       this.setState({ daiAmountValidation: true });
       if (this.state.toAddressValidation === true) {
         this.setState({ buttonDisabled: false, buttonOpacity: 1 });
       }
       return true;
     }
-    DebugUtilities.logInfo('wrong dai balance!');
+    LogUtilities.logInfo('wrong dai balance!');
     this.setState({ daiAmountValidation: false, buttonDisabled: true, buttonOpacity: 0.5 });
     return false;
   }
@@ -189,11 +189,11 @@ class SendDai extends Component {
     transactionFeeLimitInEther = new BigNumber(transactionFeeLimitInEther);
 
     if (ethBalance.isGreaterThan(transactionFeeLimitInEther)) {
-      DebugUtilities.logInfo('the eth amount validated!');
+      LogUtilities.logInfo('the eth amount validated!');
       this.setState({ ethAmountValidation: true });
       return true;
     }
-    DebugUtilities.logInfo('wrong eth balance!');
+    LogUtilities.logInfo('wrong eth balance!');
     this.setState({ ethAmountValidation: false });
     return false;
   }
@@ -240,14 +240,14 @@ class SendDai extends Component {
 
     if (toAddressValidation && daiAmountValidation && ethAmountValidation && isOnline) {
       this.setState({ loading: true, buttonDisabled: true });
-      DebugUtilities.logInfo('validation successful');
+      LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
       await this.props.saveOutgoingDaiTransactionAmount(amount);
       await this.props.saveOutgoingDaiTransactionToAddress(toAddress);
       this.props.navigation.navigate('SendDaiConfirmation');
     } else {
-      DebugUtilities.logInfo('form validation failed!');
+      LogUtilities.logInfo('form validation failed!');
     }
   };
 

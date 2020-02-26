@@ -1,13 +1,13 @@
 'use strict';
 import { INCREMENT_TOTAL_TRANSACTIONS, SAVE_TOTAL_TRANSACTIONS } from '../constants/ActionTypes';
-import DebugUtilities from '../utilities/DebugUtilities.js';
+import LogUtilities from '../utilities/LogUtilities.js';
 
 export function incrementTotalTransactions() {
   return async function (dispatch) {
     try {
       dispatch(incrementTotalTransactionsSuccess());
     } catch(err) {
-      DebugUtilities.logError(err);
+      LogUtilities.logError(err);
     }
   }
 };
@@ -22,7 +22,7 @@ export function saveTotalTransactions(totalTransactions) {
     try {
       dispatch(saveTotalTransactionsSuccess(totalTransactions));
     } catch(err) {
-      DebugUtilities.logError(err);
+      LogUtilities.logError(err);
     }
   }
 };

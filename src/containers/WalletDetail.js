@@ -6,7 +6,7 @@ import { View } from 'react-native';
 import styled from 'styled-components';
 import Web3 from 'web3';
 import { CrypterestText } from '../components/common';
-import DebugUtilities from '../utilities/DebugUtilities.js';
+import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class WalletDetail extends Component {
@@ -27,13 +27,13 @@ class WalletDetail extends Component {
       try {
         return <CrypterestText fontSize="20">${ethUsdBalance}</CrypterestText>;
       } catch (err) {
-        DebugUtilities.logError(err);
+        LogUtilities.logError(err);
       }
     } else if (this.props.currency.id === 1) {
       try {
         return <CrypterestText fontSize="20">${daiUsdBalance}</CrypterestText>;
       } catch (err) {
-        DebugUtilities.logError(err);
+        LogUtilities.logError(err);
       }
     }
   }

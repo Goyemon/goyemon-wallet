@@ -1,6 +1,6 @@
 'use strict';
 import { SAVE_EMPTY_TRANSACTION, SAVE_EXISTING_TRANSACTIONS, ADD_SENT_TRANSACTION, ADD_PENDING_OR_INCLUDED_TRANSACTION, UPDATE_PENDING_OR_INCLUDED_TRANSACTION, UPDATE_TRANSACTION_STATE, UPDATE_ERROR_SENT_TRANSACTION } from '../constants/ActionTypes';
-import DebugUtilities from '../utilities/DebugUtilities.js';
+import LogUtilities from '../utilities/LogUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 const GlobalConfig = require('../config.json');
 
@@ -10,7 +10,7 @@ export function saveEmptyTransaction(emptyTransaction) {
       const parsedEmptyTransaction = JSON.parse(emptyTransaction);
       dispatch(saveEmptyTransactionSuccess(parsedEmptyTransaction));
     } catch(err) {
-      DebugUtilities.logError(err);
+      LogUtilities.logError(err);
     }
   }
 };
@@ -25,7 +25,7 @@ export function saveExistingTransactions(transactions) {
     try {
       dispatch(saveExistingTransactionsSuccess(transactions));
     } catch(err) {
-      DebugUtilities.logError(err);
+      LogUtilities.logError(err);
     }
   }
 };
@@ -73,7 +73,7 @@ export function addSentTransaction(transactionObject) {
       }
       dispatch(addSentTransactionSuccess(parsedSentTransaction));
     } catch(err) {
-      DebugUtilities.logError(err);
+      LogUtilities.logError(err);
     }
   }
 };
@@ -88,7 +88,7 @@ export function addPendingOrIncludedTransaction(transactionObject) {
     try {
       dispatch(addPendingOrIncludedTransactionSuccess(transactionObject));
     } catch(err) {
-      DebugUtilities.logError(err);
+      LogUtilities.logError(err);
     }
   }
 };
@@ -103,7 +103,7 @@ export function updateWithPendingOrIncludedTransaction(transactionObject) {
     try {
       dispatch(updateWithPendingOrIncludedTransactionSuccess(transactionObject));
     } catch(err) {
-      DebugUtilities.logError(err);
+      LogUtilities.logError(err);
     }
   }
 };
@@ -118,7 +118,7 @@ export function updateTransactionState(updatedTransaction) {
     try {
       dispatch(updateTransactionStateSuccess(updatedTransaction));
     } catch(err) {
-      DebugUtilities.logError(err);
+      LogUtilities.logError(err);
     }
   }
 };
@@ -133,7 +133,7 @@ export function updateErrorSentTransaction(nonce) {
     try {
       dispatch(updateErrorSentTransactionSuccess(nonce));
     } catch(err) {
-      DebugUtilities.logError(err);
+      LogUtilities.logError(err);
     }
   }
 };

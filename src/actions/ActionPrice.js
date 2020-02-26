@@ -1,7 +1,7 @@
 'use strict';
 import axios from 'axios';
 import { GET_DAI_PRICE, GET_ETH_PRICE } from '../constants/ActionTypes';
-import DebugUtilities from '../utilities/DebugUtilities.js';
+import LogUtilities from '../utilities/LogUtilities.js';
 
 export function getDaiPrice() {
   return async function (dispatch) {
@@ -10,7 +10,7 @@ export function getDaiPrice() {
       const daiPrice = parseFloat(res.data.USD).toFixed(2);
       dispatch(getDaiPriceSuccess(daiPrice));
     } catch(err) {
-      DebugUtilities.logError(err);
+      LogUtilities.logError(err);
     }
   }
 };
@@ -27,7 +27,7 @@ export function getEthPrice() {
       const ethPrice = parseFloat(res.data.USD).toFixed(2);
       dispatch(getEthPriceSuccess(ethPrice));
     } catch(err) {
-      DebugUtilities.logError(err);
+      LogUtilities.logError(err);
     }
   }
 };
