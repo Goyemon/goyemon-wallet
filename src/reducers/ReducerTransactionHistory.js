@@ -63,6 +63,15 @@ const transactions = (state = INITIAL_STATE, action) => {
       };
     default:
       return state;
+    case UPDATE_ERROR_SENT_TRANSACTION:
+      return {
+        transactions: state.transactions.map((transaction, index) => {
+          if (transaction.nonce === action.payload && transaction.state === 'sent') {
+            return { ...transaction, state: 'error' };
+          }
+          return transaction;
+        })
+      };
   }
 };
 
