@@ -20,7 +20,7 @@ class Transaction extends Component {
     this.isCDaiFailedTx = props.transaction.hasOwnProperty('cdai_failed');
     this.isCDaiMintFailedTx;
     this.isCDaiRedeemUnderlyingFailedTx;
-    if(this.isCDaiFailedTx) {
+    if (this.isCDaiFailedTx) {
       this.isCDaiMintFailedTx = props.transaction.cdai_failed.failureInfo === 38;
       this.isCDaiRedeemUnderlyingFailedTx = props.transaction.cdai_failed.failureInfo === 42 || 45;
     }
@@ -142,6 +142,13 @@ class Transaction extends Component {
       return <CrypterestText fontSize="20">included</CrypterestText>;
     } else if (this.props.transaction.state === 'confirmed') {
       return <CrypterestText fontSize="20">confirmed</CrypterestText>;
+    } else if (this.props.transaction.state === 'error') {
+      return (
+        <View>
+          <FailedStatusText>failed</FailedStatusText>
+          <FailedStatusHintText>*try syncing in the advanced settings</FailedStatusHintText>
+        </View>
+      );
     }
   }
 
@@ -405,6 +412,18 @@ const Time = styled.Text`
 
 const StatusContainer = styled.View`
   width: 32%;
+`;
+
+const FailedStatusText = styled.Text`
+  color: #5f5f5f;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 20;
+`;
+
+const FailedStatusHintText = styled.Text`
+  color: #5f5f5f;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 12;
 `;
 
 const ValueContainer = styled.View`
