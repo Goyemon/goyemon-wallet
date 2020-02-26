@@ -98,6 +98,7 @@ class WalletUtilities {
         break;
       } else {
         let mnemonic = await bip39.generateMnemonic(256);
+        break;
       }
     }
     return mnemonic;
