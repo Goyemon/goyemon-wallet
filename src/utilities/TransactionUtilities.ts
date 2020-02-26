@@ -578,7 +578,7 @@ class TransactionUtilities {
     const transactions = stateTree.ReducerTransactionHistory.transactions;
     const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
     const outgoingTransactions = transactions.filter(transaction => {
-      if (!transaction.from) return false;
+      if (!transaction.from || transaction.state === 'error') return false;
       if (Web3.utils.toChecksumAddress(transaction.from) === checksumAddress) {
         return true;
       }
