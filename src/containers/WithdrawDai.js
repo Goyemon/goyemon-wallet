@@ -127,7 +127,6 @@ class WithdrawDai extends Component {
     const daiSavingsBalance = new BigNumber(this.props.balance.daiSavingsBalance);
 
     if (
-      daiSavingsBalance.isGreaterThan(0) &&
       daiSavingsBalance.isGreaterThanOrEqualTo(daiWithdrawAmount) &&
       daiWithdrawAmount.isGreaterThanOrEqualTo(0)
     ) {
