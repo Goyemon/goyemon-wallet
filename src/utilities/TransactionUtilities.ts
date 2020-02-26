@@ -604,12 +604,14 @@ class TransactionUtilities {
     const signedTransaction = await this.constructSignedOutgoingTransactionObject(
       outgoingTransactionObject
     );
+    const nonce = parseInt(outgoingTransactionObject.nonce, 16);
 
     const upstreamMessage = new firebase.messaging.RemoteMessage()
       .setMessageId(messageId)
       .setTo(serverAddress)
       .setData({
         type: 'outgoing_tx',
+        nonce: nonce,
         data: signedTransaction
       });
     firebase.messaging().sendMessage(upstreamMessage);
