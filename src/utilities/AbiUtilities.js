@@ -20,7 +20,14 @@ class RuDataBuilder {
 	}
 
 	putUint256Scaled(val) {
-		this.__numToUint256Scaled(val).copy(this.buf, this.current_offset);
+		this.__numToUint256(val, true).copy(this.buf, this.current_offset);
+		this.current_offset += 32;
+
+		return this;
+	}
+
+	putUint256Unscaled(val) {
+		this.__numToUint256(val, false).copy(this.buf, this.current_offset);
 		this.current_offset += 32;
 
 		return this;
@@ -31,9 +38,13 @@ class RuDataBuilder {
 	}
 
 
-	__numToUint256Scaled(value) {
+	__numToUint256(value, scaled=false) {
 		let ret = Buffer.alloc(32);
-		let val = new web3.utils.BN(value).mul(this.multiplier).toBuffer('be', 0);
+		let val;
+		if (scaled)
+			val = web3.utils.toBN(value).mul(this.multiplier).toBuffer('be', 0);
+		else
+			val = web3.utils.toBN(value).toBuffer('be', 0);
 		val.copy(ret, 32 - val.byteLength);
 
 		return ret;
@@ -57,7 +68,7 @@ class ABIEncoder {
 	}
 
 	static encodeApprove(spenderAddr, value, decimals=18) {
-		return new RuDataBuilder([0x09, 0x5e, 0xa7, 0xb3], 2, decimals).putAddress(spenderAddr).putUint256Scaled(value).get();
+		return new RuDataBuilder([0x09, 0x5e, 0xa7, 0xb3], 2, decimals).putAddress(spenderAddr).putUint256Unscaled(value).get();
 	}
 
 	static encodeCDAIMint(amount, decimals=18) {
@@ -71,18 +82,14 @@ class ABIEncoder {
 
 
 export default ABIEncoder;
-
 /*
-const c = new RuABIEncoder();
-console.log(c.encodeTransfer('0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', 1024).toString('hex'));
-console.log(c.encodeApprove('0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', 1024).toString('hex'));
-console.log(c.encodeTransferFrom('0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', '0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', 1024).toString('hex'));
-console.log(c.encodeCDAIMint(1024).toString('hex'));
-console.log(c.encodeCDAIRedeemUnderlying(1024).toString('hex'));
-const c1 = new RuBetterABIEncoder();
-console.log(RuBetterABIEncoder.encodeTransfer('0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', 1024).toString('hex'));
-console.log(RuBetterABIEncoder.encodeApprove('0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', 1024).toString('hex'));
-console.log(RuBetterABIEncoder.encodeTransferFrom('0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', '0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', 1024).toString('hex'));
-console.log(RuBetterABIEncoder.encodeCDAIMint(1024).toString('hex'));
-console.log(RuBetterABIEncoder.encodeCDAIRedeemUnderlying(1024).toString('hex'));
+const max = `0x${'ff'.repeat(256/8)}`;
+
+console.log(ABIEncoder.encodeApprove('0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', max).toString('hex'));
+
+console.log(ABIEncoder.encodeTransfer('0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', 1024).toString('hex'));
+console.log(ABIEncoder.encodeApprove('0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', 1024).toString('hex'));
+console.log(ABIEncoder.encodeTransferFrom('0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', '0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', 1024).toString('hex'));
+console.log(ABIEncoder.encodeCDAIMint(1024).toString('hex'));
+console.log(ABIEncoder.encodeCDAIRedeemUnderlying(1024).toString('hex'));
 */
