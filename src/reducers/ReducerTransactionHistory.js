@@ -61,8 +61,6 @@ const transactions = (state = INITIAL_STATE, action) => {
           return transaction;
         })
       };
-    default:
-      return state;
     case UPDATE_ERROR_SENT_TRANSACTION:
       return {
         transactions: state.transactions.map((transaction, index) => {
@@ -72,6 +70,8 @@ const transactions = (state = INITIAL_STATE, action) => {
           return transaction;
         })
       };
+    default:
+      return state;
   }
 };
 
