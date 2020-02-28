@@ -12,7 +12,6 @@ import {
   ProgressBar,
   Button,
   HeaderTwo,
-  Description,
   CrypterestText
 } from '../components/common';
 import { savePhotoLibraryPermission } from '../actions/ActionPermissions';
@@ -123,7 +122,7 @@ class MnemonicWordsScreenshot extends Component {
     ) {
       return (
         <Button
-          text="Take Screenshot"
+          text="Take a Screenshot"
           textColor="#00A3E2"
           backgroundColor="#F8F8F8"
           borderColor="#F8F8F8"
@@ -206,22 +205,19 @@ class MnemonicWordsScreenshot extends Component {
         <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
           Save Backup Words
         </HeaderTwo>
-        <Description marginBottom="8" marginLeft="8" marginTop="16">
-          do you want to take at least a screenshot?
-        </Description>
         <ShowMnemonicWords />
         <ScreenshotContainer>
+          {this.renderScreenshotButtons()}
           <ScreenshotImage source={{ uri: this.state.imageURI }} />
           {this.renderScreenshotSavedMessage()}
-          {this.renderScreenshotButtons()}
-        </ScreenshotContainer>
+       </ScreenshotContainer>
         <Button
           text="Next"
           textColor="#00A3E2"
           backgroundColor="#F8F8F8"
           borderColor="#00A3E2"
           disabled={this.state.nextButtonDisabled}
-          margin="0 auto"
+          margin="8px auto"
           marginBottom="12px"
           opacity={this.state.nextButtonOpacity}
           onPress={() => {
