@@ -30,9 +30,9 @@ export function saveExistingTransactions(transactions) {
   }
 };
 
-const saveExistingTransactionsSuccess = (parsedExistingTransactions) => ({
+const saveExistingTransactionsSuccess = (transactions) => ({
   type: SAVE_EXISTING_TRANSACTIONS,
-  payload: parsedExistingTransactions
+  payload: transactions
 });
 
 export function addSentTransaction(transactionObject) {
@@ -93,9 +93,9 @@ export function addPendingOrIncludedTransaction(transactionObject) {
   }
 };
 
-const addPendingOrIncludedTransactionSuccess = (parsedTransaction) => ({
+const addPendingOrIncludedTransactionSuccess = (transactionObject) => ({
   type: ADD_PENDING_OR_INCLUDED_TRANSACTION,
-  payload: parsedTransaction
+  payload: transactionObject
 });
 
 export function updateWithPendingOrIncludedTransaction(transactionObject) {
@@ -108,9 +108,9 @@ export function updateWithPendingOrIncludedTransaction(transactionObject) {
   }
 };
 
-const updateWithPendingOrIncludedTransactionSuccess = (parsedTransaction) => ({
+const updateWithPendingOrIncludedTransactionSuccess = (transactionObject) => ({
   type: UPDATE_PENDING_OR_INCLUDED_TRANSACTION,
-  payload: parsedTransaction
+  payload: transactionObject
 });
 
 export function updateTransactionState(updatedTransaction) {
