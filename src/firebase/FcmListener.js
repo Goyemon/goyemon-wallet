@@ -26,8 +26,11 @@ import EtherUtilities from '../utilities/EtherUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import FcmMsgsParser from './FcmMsgsParser.js';
 import { store } from '../store/store';
+import { saveOtherDebugInfo } from '../actions/ActionDebugInfo.js';
 
-firebase.messaging().onMessage(downstreamMessage => {
+import TxStorage from '../lib/tx.js';
+
+firebase.messaging().onMessage(async downstreamMessage => {
   const stateTree = store.getState();
   const balance = stateTree.ReducerBalance.balance;
   const cDaiLendingInfo = stateTree.ReducerCDaiLendingInfo.cDaiLendingInfo;
@@ -59,8 +62,11 @@ firebase.messaging().onMessage(downstreamMessage => {
     }
   } else if (downstreamMessage.data.type === 'txhistory') {
     if (downstreamMessage.data.data === '{}') {
+      store.dispatch(saveOtherDebugInfo('got empty txhistory'));
       store.dispatch(saveEmptyTransaction(downstreamMessage.data.data));
       store.dispatch(saveTotalTransactions(0));
+      TxStorage.storage.clear();
+      return;
     }
 
     FcmMsgsParser.fcmMsgsSaver(downstreamMessage.data);
@@ -77,6 +83,17 @@ firebase.messaging().onMessage(downstreamMessage => {
         store.dispatch(
           saveDaiApprovalInfo(TransactionUtilities.isDaiApproved(parsedExistingTransactions))
         );
+        try {
+          TxStorage.storage.setOwnAddress(checksumAddress);
+          store.dispatch(saveOtherDebugInfo('listener TxStorage clear'));
+          await TxStorage.storage.clear()
+          store.dispatch(saveOtherDebugInfo('listener TxStorage parse'));
+          await TxStorage.storage.parseTxHistory(transactions);
+          store.dispatch(saveOtherDebugInfo('listener TxStorage end parse'));
+        }
+        catch (e) {
+          store.dispatch(saveOtherDebugInfo(`exception: ${e.message} @ ${e.stack}`));
+        }
       }
     }
   } else if (downstreamMessage.data.type === 'txstate') {

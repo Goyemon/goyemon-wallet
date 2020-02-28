@@ -1,15 +1,22 @@
 'use strict';
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import { View, FlatList } from 'react-native';
 import styled from 'styled-components/native';
 import Transaction from './Transaction';
 
-class Transactions extends Component {
-  renderTransactions() {
-    const { transactions } = this.props;
+import TxStorage from '../lib/tx.js';
 
-    if (transactions === null || Object.keys(transactions).length === 0) {
+class Transactions extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  renderTransactions() {
+    const transactions = this.props.transactions ? this.props.transactions : [];
+    //const transactions = await TxStorage.storage.tempGetAllAsList();
+
+    if (transactions.length == 0)
       return (
         <EmptyTransactionContainer>
           <EmptyTransactionEmoji>(°△°) b</EmptyTransactionEmoji>
@@ -17,15 +24,14 @@ class Transactions extends Component {
           <EmptyTransactionText> you don’t have any transactions yet!</EmptyTransactionText>
         </EmptyTransactionContainer>
       );
-    } else if (transactions.length > 0) {
+    else
       return (
         <FlatList
           data={transactions}
           renderItem={({ item }) => <Transaction transaction={item} />}
-          keyExtractor={item => item.hash}
+          keyExtractor={item => item.getHash()}
         />
       );
-    }
   }
 
   render() {
@@ -53,8 +59,11 @@ const EmptyTransactionText = styled.Text`
   font-size: 16;
 `;
 
+/*
 const mapStateToProps = state => ({
   transactions: state.ReducerTransactionHistory.transactions
 });
 
 export default connect(mapStateToProps)(Transactions);
+*/
+export default TxStorage.storage.wrap(Transactions, 'transactions');
