@@ -88,7 +88,7 @@ class EarnDai extends Component {
 
   getApproveEncodedABI() {
     const addressSpender = GlobalConfig.cDAIcontract;
-    const amount = Web3.utils.toHex(-1);
+    const amount = 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff';
 
     const approveEncodedABI = ABIEncoder.encodeApprove(addressSpender, amount);
 
