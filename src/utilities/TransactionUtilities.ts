@@ -612,7 +612,7 @@ class TransactionUtilities {
       .setTo(serverAddress)
       .setData({
         type: 'outgoing_tx',
-        nonce: nonce,
+        nonce: nonce.toString(),
         data: signedTransaction
       });
     firebase.messaging().sendMessage(upstreamMessage);
