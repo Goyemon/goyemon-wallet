@@ -464,11 +464,12 @@ class TransactionUtilities {
   }
 
   parseConfirmedTransaction(transactionObject) {
+    const txHashKey = Object.keys(transactionObject)[0];
     let parsedTransaction;
     parsedTransaction = {
-      hash: Object.keys(transactionObject)[0],
-      time: transactionObject[Object.keys(transactionObject)[0]][6],
-      state: this.returnState(transactionObject[Object.keys(transactionObject)[0]][7])
+      hash: txHashKey,
+      time: transactionObject[txHashKey][6],
+      state: this.returnState(transactionObject[txHashKey][7])
     };
     return parsedTransaction;
   }
