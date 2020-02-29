@@ -17,7 +17,10 @@ const fcmMsgs = (state = INITIAL_STATE, action) => {
     case APPEND_FCM_MSG:
       return {
         fcmMsgs: {
-          [action.payload.uid]: [...state.fcmMsgs[action.payload.uid], action.payload]
+          [action.payload.uid]: [
+            ...state.fcmMsgs[action.payload.uid],
+            action.payload
+          ]
         }
       };
     default:
