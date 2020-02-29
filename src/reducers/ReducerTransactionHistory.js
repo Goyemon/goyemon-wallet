@@ -6,6 +6,9 @@ import {
   ADD_PENDING_OR_INCLUDED_TRANSACTION,
   UPDATE_PENDING_OR_INCLUDED_TRANSACTION,
   UPDATE_TRANSACTION_STATE,
+  ADD_CONFIRMED_TRANSACTION,
+  UPDATE_CONFIRMED_TRANSACTION_DATA,
+  REMOVE_EXISTING_TRANSACTION_OBJECT,
   UPDATE_ERROR_SENT_TRANSACTION
 } from '../constants/ActionTypes';
 
@@ -59,6 +62,30 @@ const transactions = (state = INITIAL_STATE, action) => {
             return { ...transaction, state: action.payload.state };
           }
           return transaction;
+        })
+      };
+    case ADD_CONFIRMED_TRANSACTION:
+      return {
+        transactions: [action.payload, ...state.transactions]
+      };
+    case UPDATE_CONFIRMED_TRANSACTION_DATA:
+      return {
+        transactions: state.transactions.map(transaction => {
+          if (action.payload.hash === transaction.hash) {
+            return { ...transaction, ...action.payload, state: 'confirmed' };
+          }
+          return transaction;
+        })
+      };
+    case REMOVE_EXISTING_TRANSACTION_OBJECT:
+      return {
+        transactions: state.transactions.filter(transaction => {
+          !(
+            (transaction.nonce === action.payload.nonce &&
+              transaction.state === 'sent') ||
+            (transaction.hash === action.payload.hash &&
+              transaction.state === 'pending')
+          );
         })
       };
     case UPDATE_ERROR_SENT_TRANSACTION:
