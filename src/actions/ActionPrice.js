@@ -4,35 +4,39 @@ import { GET_DAI_PRICE, GET_ETH_PRICE } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
 export function getDaiPrice() {
-  return async function (dispatch) {
+  return async function(dispatch) {
     try {
-      const res = await axios.get('https://min-api.cryptocompare.com/data/price?fsym=DAI&tsyms=USD');
+      const res = await axios.get(
+        'https://min-api.cryptocompare.com/data/price?fsym=DAI&tsyms=USD'
+      );
       const daiPrice = parseFloat(res.data.USD).toFixed(2);
       dispatch(getDaiPriceSuccess(daiPrice));
-    } catch(err) {
+    } catch (err) {
       LogUtilities.logError(err);
     }
-  }
-};
+  };
+}
 
-const getDaiPriceSuccess = (daiPrice) => ({
+const getDaiPriceSuccess = daiPrice => ({
   type: GET_DAI_PRICE,
   payload: daiPrice
 });
 
 export function getEthPrice() {
-  return async function (dispatch) {
+  return async function(dispatch) {
     try {
-      const res = await axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD');
+      const res = await axios.get(
+        'https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD'
+      );
       const ethPrice = parseFloat(res.data.USD).toFixed(2);
       dispatch(getEthPriceSuccess(ethPrice));
-    } catch(err) {
+    } catch (err) {
       LogUtilities.logError(err);
     }
-  }
-};
+  };
+}
 
-const getEthPriceSuccess = (ethPrice) => ({
+const getEthPriceSuccess = ethPrice => ({
   type: GET_ETH_PRICE,
   payload: ethPrice
 });

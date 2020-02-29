@@ -4,17 +4,17 @@ import LogUtilities from '../utilities/LogUtilities.js';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 export function saveMnemonicWords() {
-  return async function (dispatch) {
+  return async function(dispatch) {
     try {
       const mnemonicWords = await WalletUtilities.getMnemonic();
       dispatch(saveMnemonicWordsSuccess(mnemonicWords));
-    } catch(err) {
+    } catch (err) {
       LogUtilities.logError(err);
     }
-  }
-};
+  };
+}
 
-const saveMnemonicWordsSuccess = (mnemonicWords) => ({
+const saveMnemonicWordsSuccess = mnemonicWords => ({
   type: SAVE_MNEMONIC,
   payload: mnemonicWords
 });
