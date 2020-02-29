@@ -93,7 +93,9 @@ class WalletUtilities {
     let mnemonic = await bip39.generateMnemonic(256);
     while (true) {
       const words = mnemonic.split(' ');
-      const uniqueWords = words.filter((word, index) => words.indexOf(word) == index);
+      const uniqueWords = words.filter(
+        (word, index) => words.indexOf(word) == index
+      );
       if (words.length == uniqueWords.length) {
         break;
       } else {
@@ -109,7 +111,9 @@ class WalletUtilities {
       return false;
     }
     const words = mnemonic.split(' ');
-    const uniqueWords = words.filter((word, index) => words.indexOf(word) == index);
+    const uniqueWords = words.filter(
+      (word, index) => words.indexOf(word) == index
+    );
     return words.length === uniqueWords.length;
   }
 
@@ -127,7 +131,11 @@ class WalletUtilities {
   }
 
   private async setMnemonic(mnemonic) {
-    const result = await Keychain.setGenericPassword('MNEMONIC', mnemonic, KEY_WALLET_MNEMONIC);
+    const result = await Keychain.setGenericPassword(
+      'MNEMONIC',
+      mnemonic,
+      KEY_WALLET_MNEMONIC
+    );
     return result;
   }
 
