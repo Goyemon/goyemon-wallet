@@ -1,5 +1,16 @@
 'use strict';
-import { SAVE_EMPTY_TRANSACTION, SAVE_EXISTING_TRANSACTIONS, ADD_SENT_TRANSACTION, ADD_PENDING_OR_INCLUDED_TRANSACTION, UPDATE_PENDING_OR_INCLUDED_TRANSACTION, UPDATE_TRANSACTION_STATE, UPDATE_ERROR_SENT_TRANSACTION } from '../constants/ActionTypes';
+import {
+  SAVE_EMPTY_TRANSACTION,
+  SAVE_EXISTING_TRANSACTIONS,
+  ADD_SENT_TRANSACTION,
+  ADD_PENDING_OR_INCLUDED_TRANSACTION,
+  UPDATE_PENDING_OR_INCLUDED_TRANSACTION,
+  UPDATE_TRANSACTION_STATE,
+  ADD_CONFIRMED_TRANSACTION,
+  UPDATE_CONFIRMED_TRANSACTION_DATA,
+  REMOVE_EXISTING_TRANSACTION_OBJECT,
+  UPDATE_ERROR_SENT_TRANSACTION
+} from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 const GlobalConfig = require('../config.json');
@@ -126,6 +137,51 @@ export function updateTransactionState(updatedTransaction) {
 const updateTransactionStateSuccess = (updatedTransaction) => ({
   type: UPDATE_TRANSACTION_STATE,
   payload: updatedTransaction
+});
+
+export function addConfirmedTransaction(transactionObject) {
+  return function(dispatch) {
+    try {
+      dispatch(addConfirmedTransactionSuccess(transactionObject));
+    } catch (err) {
+      LogUtilities.logError(err);
+    }
+  };
+}
+
+const addConfirmedTransactionSuccess = transactionObject => ({
+  type: ADD_CONFIRMED_TRANSACTION,
+  payload: transactionObject
+});
+
+export function updateConfirmedTransactionData(transactionObject) {
+  return function(dispatch) {
+    try {
+      dispatch(updateConfirmedTransactionDataSuccess(transactionObject));
+    } catch (err) {
+      LogUtilities.logError(err);
+    }
+  };
+}
+
+const updateConfirmedTransactionDataSuccess = transactionObject => ({
+  type: UPDATE_CONFIRMED_TRANSACTION_DATA,
+  payload: transactionObject
+});
+
+export function removeExistingTransactionObject(transactionObject) {
+  return async function(dispatch) {
+    try {
+      dispatch(removeExistingTransactionObjectSuccess(transactionObject));
+    } catch (err) {
+      LogUtilities.logError(err);
+    }
+  };
+}
+
+const removeExistingTransactionObjectSuccess = transactionObject => ({
+  type: REMOVE_EXISTING_TRANSACTION_OBJECT,
+  payload: transactionObject
 });
 
 export function updateErrorSentTransaction(nonce) {
