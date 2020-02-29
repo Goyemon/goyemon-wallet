@@ -13,11 +13,13 @@ import WalletUtilities from './WalletUtilities.ts';
 
 class TransactionUtilities {
   filterTransactions(transactions) {
-    const filteredTransactions = Object.entries(transactions).filter(transaction => {
-      if (transaction[0] != '_contracts') {
-        return true;
+    const filteredTransactions = Object.entries(transactions).filter(
+      transaction => {
+        if (transaction[0] != '_contracts') {
+          return true;
+        }
       }
-    });
+    );
     return filteredTransactions;
   }
 
@@ -50,8 +52,10 @@ class TransactionUtilities {
         const tokenName = Object.keys(tokenObject)[0];
 
         if (tokenName === 'ame_ropsten') {
-          const isAmeTransferTx = Object.keys(tokenObject.ame_ropsten)[0] === 'tr';
-          const isAmeApproveTx = Object.keys(tokenObject.ame_ropsten)[0] === 'appr';
+          const isAmeTransferTx =
+            Object.keys(tokenObject.ame_ropsten)[0] === 'tr';
+          const isAmeApproveTx =
+            Object.keys(tokenObject.ame_ropsten)[0] === 'appr';
 
           if (isAmeTransferTx) {
             return {
@@ -84,7 +88,9 @@ class TransactionUtilities {
               ame_ropsten_appr: {
                 owner: tokenObject.ame_ropsten.appr[0][0],
                 spender: tokenObject.ame_ropsten.appr[0][1],
-                amount: this.parseHexDaiValue(tokenObject.ame_ropsten.appr[0][2])
+                amount: this.parseHexDaiValue(
+                  tokenObject.ame_ropsten.appr[0][2]
+                )
               }
             };
           }
@@ -129,8 +135,12 @@ class TransactionUtilities {
           }
           LogUtilities.logInfo('transaction ===>', transaction);
         } else if (tokenName === 'cdai') {
-          const isCDaiMintTx = Object.keys(tokenObject.cdai)[0] === 'mint' || Object.keys(tokenObject.cdai)[1] === 'mint';
-          const isCDaiRedeemUnderlyingTx = Object.keys(tokenObject.cdai)[0] === 'redeem' || Object.keys(tokenObject.cdai)[1] === 'redeem';
+          const isCDaiMintTx =
+            Object.keys(tokenObject.cdai)[0] === 'mint' ||
+            Object.keys(tokenObject.cdai)[1] === 'mint';
+          const isCDaiRedeemUnderlyingTx =
+            Object.keys(tokenObject.cdai)[0] === 'redeem' ||
+            Object.keys(tokenObject.cdai)[1] === 'redeem';
           const isCDaiFailedTx = Object.keys(tokenObject.cdai)[0] === 'failure';
           if (isCDaiMintTx) {
             return {
@@ -145,7 +155,9 @@ class TransactionUtilities {
               state: this.returnState(transaction[1][7]),
               cdai_mint: {
                 minter: tokenObject.cdai.mint[0][0],
-                daiDeposited: this.parseHexDaiValue(tokenObject.cdai.mint[0][1]),
+                daiDeposited: this.parseHexDaiValue(
+                  tokenObject.cdai.mint[0][1]
+                ),
                 cDaiMinted: this.parseHexCDaiValue(tokenObject.cdai.mint[0][2])
               }
             };
@@ -162,8 +174,12 @@ class TransactionUtilities {
               state: this.returnState(transaction[1][7]),
               cdai_redeem: {
                 redeemer: tokenObject.cdai.redeem[0][0],
-                daiWithdrawn: this.parseHexDaiValue(tokenObject.cdai.redeem[0][1]),
-                cDaiRepayed: this.parseHexCDaiValue(tokenObject.cdai.redeem[0][2])
+                daiWithdrawn: this.parseHexDaiValue(
+                  tokenObject.cdai.redeem[0][1]
+                ),
+                cDaiRepayed: this.parseHexCDaiValue(
+                  tokenObject.cdai.redeem[0][2]
+                )
               }
             };
           } else if (isCDaiFailedTx) {
@@ -331,7 +347,9 @@ class TransactionUtilities {
   parsePendingOrIncludedTransaction(transactionObject) {
     let parsedTransaction;
     const txHashKey = Object.keys(transactionObject)[0];
-    const isContractTx = !(typeof transactionObject[txHashKey][8] === 'undefined');
+    const isContractTx = !(
+      typeof transactionObject[txHashKey][8] === 'undefined'
+    );
 
     if (!isContractTx) {
       parsedTransaction = {
@@ -390,7 +408,8 @@ class TransactionUtilities {
         }
       } else if (tokenName === 'cdai') {
         const isCDaiMintTx = Object.keys(tokenObject.cdai)[0] === 'mint';
-        const isCDaiRedeemUnderlyingTx = Object.keys(tokenObject.cdai)[0] === 'redeem';
+        const isCDaiRedeemUnderlyingTx =
+          Object.keys(tokenObject.cdai)[0] === 'redeem';
         const isCDaiFailedTx = Object.keys(tokenObject.cdai)[0] === 'failure';
 
         if (isCDaiMintTx) {
@@ -423,12 +442,14 @@ class TransactionUtilities {
             state: this.returnState(transactionObject[txHashKey][7]),
             cdai_redeem: {
               redeemer: tokenObject.cdai.redeem[0][0],
-              daiWithdrawn: this.parseHexDaiValue(tokenObject.cdai.redeem[0][1]),
+              daiWithdrawn: this.parseHexDaiValue(
+                tokenObject.cdai.redeem[0][1]
+              ),
               cDaiRepayed: this.parseHexCDaiValue(tokenObject.cdai.redeem[0][2])
             }
           };
         } else if (isCDaiFailedTx) {
-          LogUtilities.logInfo("isCDaiFailedTx");
+          LogUtilities.logInfo('isCDaiFailedTx');
           parsedTransaction = {
             hash: txHashKey,
             from: transactionObject[txHashKey][0],
@@ -552,7 +573,10 @@ class TransactionUtilities {
       if (days > 1) return `${days} days ago`;
       return '1 day ago';
     }
-    return `${time.getDate().toString()} ${months[time.getMonth()]}, ` + `\n${time.getFullYear()}`;
+    return (
+      `${time.getDate().toString()} ${months[time.getMonth()]}, ` +
+      `\n${time.getFullYear()}`
+    );
   }
 
   isDaiApproved(transactions) {
