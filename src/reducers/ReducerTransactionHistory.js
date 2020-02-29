@@ -24,7 +24,9 @@ const transactions = (state = INITIAL_STATE, action) => {
       const transactions = [...action.payload];
 
       let removeSentTx;
-      removeSentTx = transactions.map(transaction => transaction.state).indexOf('sent');
+      removeSentTx = transactions
+        .map(transaction => transaction.state)
+        .indexOf('sent');
       if (removeSentTx === -1) {
         removeSentTx = 0;
       }
@@ -37,7 +39,10 @@ const transactions = (state = INITIAL_STATE, action) => {
         transactions: [action.payload, ...state.transactions]
       };
     case ADD_PENDING_OR_INCLUDED_TRANSACTION:
-      if (state.transactions === null || Object.keys(state.transactions).length === 0) {
+      if (
+        state.transactions === null ||
+        Object.keys(state.transactions).length === 0
+      ) {
         return {
           transactions: [action.payload]
         };
@@ -49,7 +54,10 @@ const transactions = (state = INITIAL_STATE, action) => {
     case UPDATE_PENDING_OR_INCLUDED_TRANSACTION:
       return {
         transactions: state.transactions.map((transaction, index) => {
-          if (transaction.nonce === action.payload.nonce && transaction.state === 'sent') {
+          if (
+            transaction.nonce === action.payload.nonce &&
+            transaction.state === 'sent'
+          ) {
             return { ...transaction, ...action.payload };
           }
           return transaction;
@@ -91,7 +99,10 @@ const transactions = (state = INITIAL_STATE, action) => {
     case UPDATE_ERROR_SENT_TRANSACTION:
       return {
         transactions: state.transactions.map((transaction, index) => {
-          if (transaction.nonce === action.payload && transaction.state === 'sent') {
+          if (
+            transaction.nonce === action.payload &&
+            transaction.state === 'sent'
+          ) {
             return { ...transaction, state: 'error' };
           }
           return transaction;

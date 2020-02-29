@@ -1,5 +1,10 @@
 'use strict';
-import { SAVE_C_DAI_BALANCE, SAVE_DAI_BALANCE, SAVE_DAI_SAVINGS_BALANCE, SAVE_WEI_BALANCE } from '../constants/ActionTypes';
+import {
+  SAVE_C_DAI_BALANCE,
+  SAVE_DAI_BALANCE,
+  SAVE_DAI_SAVINGS_BALANCE,
+  SAVE_WEI_BALANCE
+} from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
   balance: {
@@ -17,7 +22,9 @@ const balance = (state = INITIAL_STATE, action) => {
     case SAVE_DAI_BALANCE:
       return { balance: { ...state.balance, daiBalance: action.payload } };
     case SAVE_DAI_SAVINGS_BALANCE:
-      return { balance: { ...state.balance, daiSavingsBalance: action.payload } };
+      return {
+        balance: { ...state.balance, daiSavingsBalance: action.payload }
+      };
     case SAVE_WEI_BALANCE:
       return { balance: { ...state.balance, weiBalance: action.payload } };
     default:
