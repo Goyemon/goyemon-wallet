@@ -278,6 +278,10 @@ class Tx {
 		return this;
 	}
 
+	hasTokenOperations(token) {
+		return this.tokenData.hasOwnProperty(token);
+	}
+
 	hasTokenOperation(token, operation) { // TODO: retink. we shouldnt iterate, even though those aren't huge arrays.
 		if (!this.tokenData.hasOwnProperty(token))
 			return false;
