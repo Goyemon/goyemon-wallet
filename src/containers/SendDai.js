@@ -12,7 +12,12 @@ import {
   saveOutgoingDaiTransactionAmount,
   saveOutgoingDaiTransactionToAddress
 } from '../actions/ActionOutgoingDaiTransactionData';
-import { getGasPriceFast, getGasPriceAverage, getGasPriceSlow } from '../actions/ActionGasPrice';
+import {
+  getGasPriceFast,
+  getGasPriceAverage,
+  getGasPriceSlow,
+  updateGasPriceChosen
+} from '../actions/ActionGasPrice';
 import { clearQRCodeData } from '../actions/ActionQRCodeData';
 import {
   saveTransactionFeeEstimateUsd,
@@ -58,14 +63,15 @@ class SendDai extends Component {
       ],
       toAddress: '',
       amount: '',
-      checked: 1,
+      checked: props.gasPrice.chosen,
       toAddressValidation: undefined,
       daiAmountValidation: undefined,
       ethAmountValidation: undefined,
       currency: 'USD',
       loading: false,
       buttonDisabled: true,
-      buttonOpacity: 0.5
+      buttonOpacity: 0.5,
+      showNetworkFee: false
     };
     this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance);
   }
@@ -80,6 +86,9 @@ class SendDai extends Component {
     if (this.props.qrCodeData != prevProps.qrCodeData) {
       this.setState({ toAddress: this.props.qrCodeData });
       this.validateToAddress(this.props.qrCodeData);
+    }
+    if (this.props.gasPrice != prevProps.gasPrice) {
+      this.setState({ checked: this.props.gasPrice.chosen });
     }
   }
 
@@ -258,6 +267,98 @@ class SendDai extends Component {
     return <ErrorMessage>you are offline 😟</ErrorMessage>;
   }
 
+  renderNetworkFeeContainer() {
+    if (this.state.showNetworkFee) {
+      return (
+        <View>
+          <NetworkFeeHeaderContainer>
+            <FormHeader marginBottom="0" marginLeft="0" marginTop="0">
+              Network Fee
+            </FormHeader>
+            <NetworkFeeSymbolContainer
+              onPress={() => {
+                if (this.state.currency === 'ETH') {
+                  this.setState({ currency: 'USD' });
+                } else if (this.state.currency === 'USD') {
+                  this.setState({ currency: 'ETH' });
+                }
+              }}
+            >
+              {this.toggleCurrencySymbol()}
+            </NetworkFeeSymbolContainer>
+          </NetworkFeeHeaderContainer>
+          <UntouchableCardContainer
+            alignItems="center"
+            borderRadius="0"
+            flexDirection="column"
+            height="120px"
+            justifyContent="flex-start"
+            marginTop="16"
+            textAlign="left"
+            width="80%"
+          >
+            <NetworkFeeContainer>
+              {this.state.gasPrice.map((gasPrice, key) => (
+                <NetworkFee key={key}>
+                  {this.state.checked === key ? (
+                    <SpeedContainer>
+                      <SelectedButton>{gasPrice.speed}</SelectedButton>
+                      <Icon
+                        name={gasPrice.imageName}
+                        size={40}
+                        color="#1BA548"
+                      />
+                      <SelectedButton>
+                        {this.toggleCurrency(gasPrice.gasPriceWei)}
+                      </SelectedButton>
+                    </SpeedContainer>
+                  ) : (
+                    <SpeedContainer
+                      onPress={() => {
+                        this.setState({ checked: key });
+                        this.props.updateGasPriceChosen(key);
+                        this.validateEthAmount();
+                      }}
+                    >
+                      <UnselectedButton>{gasPrice.speed}</UnselectedButton>
+                      <Icon name={gasPrice.imageName} size={40} color="#000" />
+                      <UnselectedButton>
+                        {this.toggleCurrency(gasPrice.gasPriceWei)}
+                      </UnselectedButton>
+                    </SpeedContainer>
+                  )}
+                </NetworkFee>
+              ))}
+            </NetworkFeeContainer>
+          </UntouchableCardContainer>
+          <MenuUpContainer>
+            <Icon
+              name="menu-up"
+              color="#000"
+              onPress={() => {
+                this.setState({ showNetworkFee: false });
+              }}
+              size={32}
+            />
+          </MenuUpContainer>
+        </View>
+      );
+    } else if (!this.state.showNetworkFee) {
+      return (
+        <View>
+          <Icon
+            name="menu-down"
+            color="#000"
+            onPress={() => {
+              this.setState({ showNetworkFee: true });
+            }}
+            size={32}
+          />
+        </View>
+      );
+    }
+  }
+
   render() {
     const RoundDownBigNumber = BigNumber.clone({
       DECIMAL_PLACES: 4,
@@ -356,59 +457,7 @@ class SendDai extends Component {
             </SendTextInputContainer>
           </Form>
           <View>{this.renderInsufficientDaiBalanceMessage()}</View>
-          <NetworkFeeHeaderContainer>
-            <FormHeader marginBottom="0" marginLeft="0" marginTop="0">
-              Network Fee
-            </FormHeader>
-            <NetworkFeeSymbolContainer
-              onPress={() => {
-                if (this.state.currency === 'ETH') {
-                  this.setState({ currency: 'USD' });
-                } else if (this.state.currency === 'USD') {
-                  this.setState({ currency: 'ETH' });
-                }
-              }}
-            >
-              {this.toggleCurrencySymbol()}
-            </NetworkFeeSymbolContainer>
-          </NetworkFeeHeaderContainer>
-          <UntouchableCardContainer
-            alignItems="center"
-            borderRadius="0"
-            flexDirection="column"
-            height="120px"
-            justifyContent="flex-start"
-            marginTop="16"
-            textAlign="left"
-            width="80%"
-          >
-            <NetworkFeeContainer>
-              {this.state.gasPrice.map((gasPrice, key) => (
-                <NetworkFee key={key}>
-                  {this.state.checked === key ? (
-                    <SpeedContainer>
-                      <SelectedButton>{gasPrice.speed}</SelectedButton>
-                      <Icon name={gasPrice.imageName} size={40} color="#1BA548" />
-                      <SelectedButton>{this.toggleCurrency(gasPrice.gasPriceWei)}</SelectedButton>
-                    </SpeedContainer>
-                  ) : (
-                    <SpeedContainer
-                      onPress={() => {
-                        this.validateEthAmount();
-                        this.setState({ checked: key });
-                      }}
-                    >
-                      <UnselectedButton>{gasPrice.speed}</UnselectedButton>
-                      <Icon name={gasPrice.imageName} size={40} color="#000" />
-                      <UnselectedButton>
-                        {this.toggleCurrency(gasPrice.gasPriceWei)}
-                      </UnselectedButton>
-                    </SpeedContainer>
-                  )}
-                </NetworkFee>
-              ))}
-            </NetworkFeeContainer>
-          </UntouchableCardContainer>
+          {this.renderNetworkFeeContainer()}
           <View>{this.renderInsufficientEthBalanceMessage()}</View>
           <ButtonWrapper>
             <Button
@@ -483,6 +532,13 @@ const Value = styled.Text`
 
 const CurrencySymbolText = styled.Text`
   font-family: 'HKGrotesk-Regular';
+`;
+
+const MenuUpContainer = styled.View`
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 8px;
 `;
 
 const NetworkFeeHeaderContainer = styled.View`
@@ -566,6 +622,7 @@ const mapDispatchToProps = {
   getGasPriceFast,
   getGasPriceAverage,
   getGasPriceSlow,
+  updateGasPriceChosen,
   clearQRCodeData
 };
 
