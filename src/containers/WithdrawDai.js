@@ -2,7 +2,7 @@
 import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
@@ -25,19 +25,17 @@ import {
   HeaderOne,
   Form,
   FormHeader,
-  CrypterestText,
   Loader
 } from '../components/common';
 import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import ABIEncoder from '../utilities/AbiUtilities';
-import WalletUtilities from '../utilities/WalletUtilities.ts';
 const GlobalConfig = require('../config.json');
 
 class WithdrawDai extends Component {
   constructor(props) {
-    super();
+    super(props);
     this.state = {
       gasPrice: [
         {
@@ -106,7 +104,10 @@ class WithdrawDai extends Component {
       const usdValue = this.getTransactionFeeEstimateInUsd(gasPriceWei);
       return <NetworkFeeText>${usdValue}</NetworkFeeText>;
     } else if (this.state.currency === 'USD') {
-      let ethValue = TransactionUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 650000);
+      let ethValue = TransactionUtilities.getTransactionFeeEstimateInEther(
+        gasPriceWei,
+        650000
+      );
       ethValue = parseFloat(ethValue).toFixed(5);
       return <NetworkFeeText>{ethValue}ETH</NetworkFeeText>;
     }
@@ -121,12 +122,18 @@ class WithdrawDai extends Component {
   }
 
   async constructTransactionObject() {
-    const transactionNonce = parseInt(TransactionUtilities.getTransactionNonce());
-    const redeemUnderlyingEncodedABI = ABIEncoder.encodeCDAIRedeemUnderlying(this.state.daiWithdrawAmount);
+    const transactionNonce = parseInt(
+      TransactionUtilities.getTransactionNonce()
+    );
+    const redeemUnderlyingEncodedABI = ABIEncoder.encodeCDAIRedeemUnderlying(
+      this.state.daiWithdrawAmount
+    );
     const transactionObject = {
       nonce: `0x${transactionNonce.toString(16)}`,
       to: GlobalConfig.cDAIcontract,
-      gasPrice: `0x${parseFloat(this.state.gasPrice[this.state.checked].gasPriceWei).toString(16)}`,
+      gasPrice: `0x${parseFloat(
+        this.state.gasPrice[this.state.checked].gasPriceWei
+      ).toString(16)}`,
       gasLimit: `0x${parseFloat(650000).toString(16)}`,
       chainId: GlobalConfig.network_id,
       data: redeemUnderlyingEncodedABI
@@ -136,18 +143,28 @@ class WithdrawDai extends Component {
 
   validateDaiSavingsAmount(daiWithdrawAmount) {
     daiWithdrawAmount = new BigNumber(10).pow(36).times(daiWithdrawAmount);
-    const daiSavingsBalance = new BigNumber(this.props.balance.daiSavingsBalance);
+    const daiSavingsBalance = new BigNumber(
+      this.props.balance.daiSavingsBalance
+    );
 
     if (
       daiSavingsBalance.isGreaterThanOrEqualTo(daiWithdrawAmount) &&
       daiWithdrawAmount.isGreaterThanOrEqualTo(0)
     ) {
       LogUtilities.logInfo('the dai savings amount validated!');
-      this.setState({ daiSavingsAmountValidation: true, buttonDisabled: false, buttonOpacity: 1 });
+      this.setState({
+        daiSavingsAmountValidation: true,
+        buttonDisabled: false,
+        buttonOpacity: 1
+      });
       return true;
     }
     LogUtilities.logInfo('wrong dai balance!');
-    this.setState({ daiSavingsAmountValidation: false, buttonDisabled: true, buttonOpacity: 0.5  });
+    this.setState({
+      daiSavingsAmountValidation: false,
+      buttonDisabled: true,
+      buttonOpacity: 0.5
+    });
     return false;
   }
 
@@ -181,7 +198,10 @@ class WithdrawDai extends Component {
   }
 
   renderInsufficientEthBalanceMessage() {
-    if (this.state.ethAmountValidation || this.state.ethAmountValidation === undefined) {
+    if (
+      this.state.ethAmountValidation ||
+      this.state.ethAmountValidation === undefined
+    ) {
     } else {
       return <ErrorMessage>not enough ether!</ErrorMessage>;
     }
@@ -198,7 +218,9 @@ class WithdrawDai extends Component {
   }
 
   validateForm = async daiWithdrawAmount => {
-    const daiSavingsAmountValidation = this.validateDaiSavingsAmount(daiWithdrawAmount);
+    const daiSavingsAmountValidation = this.validateDaiSavingsAmount(
+      daiWithdrawAmount
+    );
     const ethAmountValidation = this.validateEthAmount();
     const isOnline = this.props.netInfo;
 
@@ -364,7 +386,11 @@ class WithdrawDai extends Component {
           <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
             Withdraw Amount
           </FormHeader>
-          <Form borderColor={this.getAmountBorderColor()} borderWidth={1} height="56px">
+          <Form
+            borderColor={this.getAmountBorderColor()}
+            borderWidth={1}
+            height="56px"
+          >
             <SendTextInputContainer>
               <SendTextInput
                 placeholder="amount"
@@ -538,7 +564,4 @@ const mapDispatchToProps = {
   updateGasPriceChosen
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(WithdrawDai);
+export default connect(mapStateToProps, mapDispatchToProps)(WithdrawDai);
