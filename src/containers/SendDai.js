@@ -2,8 +2,7 @@
 import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
-import { NavigationActions } from 'react-navigation';
+import { View, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
@@ -30,7 +29,6 @@ import {
   HeaderOne,
   Form,
   FormHeader,
-  CrypterestText,
   Loader
 } from '../components/common';
 import HomeStack from '../navigators/HomeStack';
@@ -42,7 +40,7 @@ const GlobalConfig = require('../config.json');
 
 class SendDai extends Component {
   constructor(props) {
-    super();
+    super(props);
     this.state = {
       gasPrice: [
         {
@@ -117,7 +115,10 @@ class SendDai extends Component {
       const usdValue = this.getTransactionFeeEstimateInUsd(gasPriceWei);
       return <NetworkFeeText>${usdValue}</NetworkFeeText>;
     } else if (this.state.currency === 'USD') {
-      let ethValue = TransactionUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 65000);
+      let ethValue = TransactionUtilities.getTransactionFeeEstimateInEther(
+        gasPriceWei,
+        65000
+      );
       ethValue = parseFloat(ethValue).toFixed(5);
       return <NetworkFeeText>{ethValue}ETH</NetworkFeeText>;
     }
@@ -132,12 +133,19 @@ class SendDai extends Component {
   }
 
   async constructTransactionObject() {
-    const transactionNonce = parseInt(TransactionUtilities.getTransactionNonce());
-    const transferEncodedABI = ABIEncoder.encodeTransfer(this.state.toAddress, this.state.amount);
+    const transactionNonce = parseInt(
+      TransactionUtilities.getTransactionNonce()
+    );
+    const transferEncodedABI = ABIEncoder.encodeTransfer(
+      this.state.toAddress,
+      this.state.amount
+    );
     const transactionObject = {
       nonce: `0x${transactionNonce.toString(16)}`,
       to: GlobalConfig.DAIcontract,
-      gasPrice: `0x${parseFloat(this.state.gasPrice[this.state.checked].gasPriceWei).toString(16)}`,
+      gasPrice: `0x${parseFloat(
+        this.state.gasPrice[this.state.checked].gasPriceWei
+      ).toString(16)}`,
       gasLimit: `0x${parseFloat(65000).toString(16)}`,
       chainId: GlobalConfig.network_id,
       data: transferEncodedABI
@@ -155,13 +163,20 @@ class SendDai extends Component {
       return true;
     } else if (!this.state.toAddressValidation) {
       LogUtilities.logInfo('invalid address');
-      this.setState({ toAddressValidation: false,  buttonDisabled: true, buttonOpacity: 0.5  });
+      this.setState({
+        toAddressValidation: false,
+        buttonDisabled: true,
+        buttonOpacity: 0.5
+      });
       return false;
     }
   }
 
   renderInvalidToAddressMessage() {
-    if (this.state.toAddressValidation || this.state.toAddressValidation === undefined) {
+    if (
+      this.state.toAddressValidation ||
+      this.state.toAddressValidation === undefined
+    ) {
       return;
     } else if (!this.state.toAddressValidation) {
       return <ErrorMessage>invalid address!</ErrorMessage>;
@@ -184,7 +199,11 @@ class SendDai extends Component {
       return true;
     }
     LogUtilities.logInfo('wrong dai balance!');
-    this.setState({ daiAmountValidation: false, buttonDisabled: true, buttonOpacity: 0.5 });
+    this.setState({
+      daiAmountValidation: false,
+      buttonDisabled: true,
+      buttonOpacity: 0.5
+    });
     return false;
   }
 
@@ -208,14 +227,20 @@ class SendDai extends Component {
   }
 
   renderInsufficientDaiBalanceMessage() {
-    if (this.state.daiAmountValidation || this.state.daiAmountValidation === undefined) {
+    if (
+      this.state.daiAmountValidation ||
+      this.state.daiAmountValidation === undefined
+    ) {
     } else {
       return <ErrorMessage>invalid amount!</ErrorMessage>;
     }
   }
 
   renderInsufficientEthBalanceMessage() {
-    if (this.state.ethAmountValidation || this.state.ethAmountValidation === undefined) {
+    if (
+      this.state.ethAmountValidation ||
+      this.state.ethAmountValidation === undefined
+    ) {
     } else {
       return <ErrorMessage>not enough ether!</ErrorMessage>;
     }
@@ -247,7 +272,12 @@ class SendDai extends Component {
     const ethAmountValidation = this.validateEthAmount();
     const isOnline = this.props.netInfo;
 
-    if (toAddressValidation && daiAmountValidation && ethAmountValidation && isOnline) {
+    if (
+      toAddressValidation &&
+      daiAmountValidation &&
+      ethAmountValidation &&
+      isOnline
+    ) {
       this.setState({ loading: true, buttonDisabled: true });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
@@ -410,7 +440,11 @@ class SendDai extends Component {
           <FormHeader marginBottom="4" marginLeft="0" marginTop="0">
             To
           </FormHeader>
-          <Form borderColor={this.getToAddressBorderColor()} borderWidth={1} height="56px">
+          <Form
+            borderColor={this.getToAddressBorderColor()}
+            borderWidth={1}
+            height="56px"
+          >
             <SendTextInputContainer>
               <SendTextInput
                 placeholder="address"
@@ -441,7 +475,11 @@ class SendDai extends Component {
           <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
             Amount
           </FormHeader>
-          <Form borderColor={this.getAmountBorderColor()} borderWidth={1} height="56px">
+          <Form
+            borderColor={this.getAmountBorderColor()}
+            borderWidth={1}
+            height="56px"
+          >
             <SendTextInputContainer>
               <SendTextInput
                 placeholder="amount"
@@ -470,7 +508,10 @@ class SendDai extends Component {
               marginBottom="12px"
               opacity={this.state.buttonOpacity}
               onPress={async () => {
-                await this.validateForm(this.state.toAddress, this.state.amount);
+                await this.validateForm(
+                  this.state.toAddress,
+                  this.state.amount
+                );
                 this.setState({ loading: false, buttonDisabled: false });
               }}
             />
@@ -626,7 +667,4 @@ const mapDispatchToProps = {
   clearQRCodeData
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SendDai);
+export default connect(mapStateToProps, mapDispatchToProps)(SendDai);
