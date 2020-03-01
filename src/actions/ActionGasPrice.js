@@ -4,7 +4,8 @@ import Web3 from 'web3';
 import {
   GET_GAS_PRICE_FAST,
   GET_GAS_PRICE_AVERAGE,
-  GET_GAS_PRICE_SLOW
+  GET_GAS_PRICE_SLOW,
+  UPDATE_GAS_PRICE_CHOSEN
 } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
@@ -66,4 +67,19 @@ export function getGasPriceSlow() {
 const getGasPriceSlowSuccess = gasPriceSlowWei => ({
   type: GET_GAS_PRICE_SLOW,
   payload: gasPriceSlowWei
+});
+
+export function updateGasPriceChosen(key) {
+  return async function(dispatch) {
+    try {
+      dispatch(updateGasPriceChosenSuccess(key));
+    } catch (err) {
+      LogUtilities.logError(err);
+    }
+  };
+}
+
+const updateGasPriceChosenSuccess = key => ({
+  type: UPDATE_GAS_PRICE_CHOSEN,
+  payload: key
 });
