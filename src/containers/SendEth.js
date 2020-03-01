@@ -2,8 +2,7 @@
 import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
-import { NavigationActions } from 'react-navigation';
+import { View, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
@@ -26,7 +25,6 @@ import {
   HeaderOne,
   Form,
   FormHeader,
-  CrypterestText,
   Loader
 } from '../components/common';
 import HomeStack from '../navigators/HomeStack';
@@ -37,7 +35,7 @@ const GlobalConfig = require('../config.json');
 
 class SendEth extends Component {
   constructor(props) {
-    super();
+    super(props);
     this.state = {
       gasPrice: [
         {
@@ -121,7 +119,10 @@ class SendEth extends Component {
       const usdValue = this.getTransactionFeeEstimateInUsd(gasPriceWei);
       return <NetworkFeeText>${usdValue}</NetworkFeeText>;
     } else if (this.state.currency === 'USD') {
-      let ethValue = TransactionUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 21000);
+      let ethValue = TransactionUtilities.getTransactionFeeEstimateInEther(
+        gasPriceWei,
+        21000
+      );
       ethValue = parseFloat(ethValue).toFixed(5);
       return <NetworkFeeText>{ethValue}ETH</NetworkFeeText>;
     }
@@ -136,13 +137,17 @@ class SendEth extends Component {
   }
 
   async constructTransactionObject() {
-    const transactionNonce = parseInt(TransactionUtilities.getTransactionNonce());
+    const transactionNonce = parseInt(
+      TransactionUtilities.getTransactionNonce()
+    );
     const amountWei = parseFloat(Web3.utils.toWei(this.state.amount, 'Ether'));
     const transactionObject = {
       nonce: `0x${transactionNonce.toString(16)}`,
       to: this.state.toAddress,
       value: `0x${amountWei.toString(16)}`,
-      gasPrice: `0x${parseFloat(this.state.gasPrice[this.state.checked].gasPriceWei).toString(16)}`,
+      gasPrice: `0x${parseFloat(
+        this.state.gasPrice[this.state.checked].gasPriceWei
+      ).toString(16)}`,
       gasLimit: `0x${parseFloat(21000).toString(16)}`,
       chainId: GlobalConfig.network_id
     };
@@ -159,13 +164,20 @@ class SendEth extends Component {
       return true;
     } else if (!this.state.toAddressValidation) {
       LogUtilities.logInfo('invalid address');
-      this.setState({ toAddressValidation: false, buttonDisabled: true, buttonOpacity: 0.5 });
+      this.setState({
+        toAddressValidation: false,
+        buttonDisabled: true,
+        buttonOpacity: 0.5
+      });
       return false;
     }
   }
 
   renderInvalidToAddressMessage() {
-    if (this.state.toAddressValidation || this.state.toAddressValidation === undefined) {
+    if (
+      this.state.toAddressValidation ||
+      this.state.toAddressValidation === undefined
+    ) {
       return;
     } else if (!this.state.toAddressValidation) {
       return <ErrorMessage>invalid address!</ErrorMessage>;
@@ -184,7 +196,9 @@ class SendEth extends Component {
     transactionFeeLimitInEther = new BigNumber(transactionFeeLimitInEther);
 
     if (
-      ethBalance.isGreaterThanOrEqualTo(amount.plus(transactionFeeLimitInEther)) &&
+      ethBalance.isGreaterThanOrEqualTo(
+        amount.plus(transactionFeeLimitInEther)
+      ) &&
       amount.isGreaterThanOrEqualTo(0)
     ) {
       LogUtilities.logInfo('the amount validated!');
@@ -195,12 +209,19 @@ class SendEth extends Component {
       return true;
     }
     LogUtilities.logInfo('wrong balance!');
-    this.setState({ amountValidation: false, buttonDisabled: true, buttonOpacity: 0.5 });
+    this.setState({
+      amountValidation: false,
+      buttonDisabled: true,
+      buttonOpacity: 0.5
+    });
     return false;
   }
 
   renderInsufficientBalanceMessage() {
-    if (this.state.amountValidation || this.state.amountValidation === undefined) {
+    if (
+      this.state.amountValidation ||
+      this.state.amountValidation === undefined
+    ) {
     } else {
       return <ErrorMessage>invalid amount!</ErrorMessage>;
     }
@@ -393,7 +414,11 @@ class SendEth extends Component {
           <FormHeader marginBottom="4" marginLeft="0" marginTop="0">
             To
           </FormHeader>
-          <Form borderColor={this.getToAddressBorderColor()} borderWidth={1} height="56px">
+          <Form
+            borderColor={this.getToAddressBorderColor()}
+            borderWidth={1}
+            height="56px"
+          >
             <SendTextInputContainer>
               <SendTextInput
                 placeholder="address"
@@ -424,7 +449,11 @@ class SendEth extends Component {
           <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
             Amount
           </FormHeader>
-          <Form borderColor={this.getAmountBorderColor()} borderWidth={1} height="56px">
+          <Form
+            borderColor={this.getAmountBorderColor()}
+            borderWidth={1}
+            height="56px"
+          >
             <SendTextInputContainer>
               <SendTextInput
                 placeholder="0"
@@ -452,7 +481,10 @@ class SendEth extends Component {
               marginBottom="12px"
               opacity={this.state.buttonOpacity}
               onPress={async () => {
-                await this.validateForm(this.state.toAddress, this.state.amount);
+                await this.validateForm(
+                  this.state.toAddress,
+                  this.state.amount
+                );
                 this.setState({ loading: false, buttonDisabled: false });
               }}
             />
@@ -607,7 +639,4 @@ const mapDispatchToProps = {
   clearQRCodeData
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SendEth);
+export default connect(mapStateToProps, mapDispatchToProps)(SendEth);
