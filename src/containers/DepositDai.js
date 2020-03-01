@@ -2,7 +2,7 @@
 import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
@@ -25,7 +25,6 @@ import {
   HeaderOne,
   Form,
   FormHeader,
-  CrypterestText,
   Loader
 } from '../components/common';
 import LogUtilities from '../utilities/LogUtilities.js';
@@ -36,7 +35,7 @@ const GlobalConfig = require('../config.json');
 
 class DepositDai extends Component {
   constructor(props) {
-    super();
+    super(props);
     this.state = {
       gasPrice: [
         {
@@ -105,7 +104,10 @@ class DepositDai extends Component {
       const usdValue = this.getTransactionFeeEstimateInUsd(gasPriceWei);
       return <NetworkFeeText>${usdValue}</NetworkFeeText>;
     } else if (this.state.currency === 'USD') {
-      let ethValue = TransactionUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 350000);
+      let ethValue = TransactionUtilities.getTransactionFeeEstimateInEther(
+        gasPriceWei,
+        350000
+      );
       ethValue = parseFloat(ethValue).toFixed(5);
       return <NetworkFeeText>{ethValue}ETH</NetworkFeeText>;
     }
@@ -120,12 +122,16 @@ class DepositDai extends Component {
   }
 
   async constructTransactionObject() {
-    const transactionNonce = parseInt(TransactionUtilities.getTransactionNonce());
+    const transactionNonce = parseInt(
+      TransactionUtilities.getTransactionNonce()
+    );
     const mintEncodedABI = ABIEncoder.encodeCDAIMint(this.state.amount);
     const transactionObject = {
       nonce: `0x${transactionNonce.toString(16)}`,
       to: GlobalConfig.cDAIcontract,
-      gasPrice: `0x${parseFloat(this.state.gasPrice[this.state.checked].gasPriceWei).toString(16)}`,
+      gasPrice: `0x${parseFloat(
+        this.state.gasPrice[this.state.checked].gasPriceWei
+      ).toString(16)}`,
       gasLimit: `0x${parseFloat(350000).toString(16)}`,
       chainId: GlobalConfig.network_id,
       data: mintEncodedABI
@@ -142,11 +148,19 @@ class DepositDai extends Component {
       amount.isGreaterThanOrEqualTo(0)
     ) {
       LogUtilities.logInfo('the dai amount validated!');
-      this.setState({ daiAmountValidation: true, buttonDisabled: false, buttonOpacity: 1 });
+      this.setState({
+        daiAmountValidation: true,
+        buttonDisabled: false,
+        buttonOpacity: 1
+      });
       return true;
     }
     LogUtilities.logInfo('wrong dai balance!');
-    this.setState({ daiAmountValidation: false, buttonDisabled: true, buttonOpacity: 0.5 });
+    this.setState({
+      daiAmountValidation: false,
+      buttonDisabled: true,
+      buttonOpacity: 0.5
+    });
     return false;
   }
 
@@ -170,14 +184,20 @@ class DepositDai extends Component {
   }
 
   renderInsufficientDaiBalanceMessage() {
-    if (this.state.daiAmountValidation || this.state.daiAmountValidation === undefined) {
+    if (
+      this.state.daiAmountValidation ||
+      this.state.daiAmountValidation === undefined
+    ) {
     } else {
       return <ErrorMessage>invalid amount!</ErrorMessage>;
     }
   }
 
   renderInsufficientEthBalanceMessage() {
-    if (this.state.ethAmountValidation || this.state.ethAmountValidation === undefined) {
+    if (
+      this.state.ethAmountValidation ||
+      this.state.ethAmountValidation === undefined
+    ) {
     } else {
       return <ErrorMessage>not enough ether!</ErrorMessage>;
     }
@@ -311,7 +331,9 @@ class DepositDai extends Component {
 
   render() {
     const { balance, cDaiLendingInfo } = this.props;
-    const currentInterestRate = new BigNumber(cDaiLendingInfo.currentInterestRate)
+    const currentInterestRate = new BigNumber(
+      cDaiLendingInfo.currentInterestRate
+    )
       .div(new BigNumber(10).pow(24))
       .toFixed(2);
 
@@ -365,7 +387,11 @@ class DepositDai extends Component {
           <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
             Deposit Amount
           </FormHeader>
-          <Form borderColor={this.getAmountBorderColor()} borderWidth={1} height="56px">
+          <Form
+            borderColor={this.getAmountBorderColor()}
+            borderWidth={1}
+            height="56px"
+          >
             <SendTextInputContainer>
               <SendTextInput
                 placeholder="amount"
@@ -540,7 +566,4 @@ const mapDispatchToProps = {
   updateGasPriceChosen
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DepositDai);
+export default connect(mapStateToProps, mapDispatchToProps)(DepositDai);
