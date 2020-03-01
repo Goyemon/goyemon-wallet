@@ -3,27 +3,25 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, FlatList } from 'react-native';
 import styled from 'styled-components/native';
-import TransactionDai from './TransactionDai';
+import Transaction from './Transaction';
+import TxStorage from '../lib/tx.js';
+
 
 class TransactionsDai extends Component {
   renderTransactions() {
     const { transactions } = this.props;
 
-    let daiTransactions = null;
-    if (transactions != null && Object.keys(transactions).length != 0) {
-      daiTransactions = transactions.filter(transaction => {
-        if (
-          transaction.hasOwnProperty('dai_tr') ||
-          transaction.hasOwnProperty('dai_appr') ||
-          transaction.hasOwnProperty('cdai_mint') ||
-          transaction.hasOwnProperty('cdai_redeem') ||
-          transaction.hasOwnProperty('cdai_failed')
-        ) {
+    const daiTransactions = transactions? transactions.filter(tx => {
+        if (tx.hasTokenOperations('dai'))
           return true;
-        }
-      });
-    }
-    if (daiTransactions === null || daiTransactions.length === 0) {
+
+        if (tx.hasTokenOperations('cdai'))
+          return tx.hasTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.mint) ||
+            tx.hasTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.redeem) ||
+            tx.hasTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.failure);
+    }) : [];
+
+    if (daiTransactions.length == 0)
       return (
         <EmptyTransactionContainer>
           <EmptyTransactionEmoji>(°△°) b</EmptyTransactionEmoji>
@@ -31,15 +29,15 @@ class TransactionsDai extends Component {
           <EmptyTransactionText> you don’t have any transactions yet!</EmptyTransactionText>
         </EmptyTransactionContainer>
       );
-    } else if (daiTransactions.length > 0) {
-      return (
-        <FlatList
-          data={daiTransactions}
-          renderItem={({ item }) => <TransactionDai daiTransaction={item} />}
-          keyExtractor={item => item.hash}
-        />
-      );
-    }
+
+    return (
+      <FlatList
+        data={daiTransactions}
+        renderItem={({ item }) => <Transaction transaction={item} />}
+        keyExtractor={item => item.getHash()}
+      />
+    );
+
   }
 
   render() {
@@ -67,8 +65,9 @@ const EmptyTransactionText = styled.Text`
   font-size: 16;
 `;
 
-const mapStateToProps = state => ({
-  transactions: state.ReducerTransactionHistory.transactions
-});
+// const mapStateToProps = state => ({
+//   transactions: state.ReducerTransactionHistory.transactions
+// });
 
-export default connect(mapStateToProps)(TransactionsDai);
+// export default connect(mapStateToProps)(TransactionsDai);
+export default TxStorage.storage.wrap(TransactionsDai, 'transactions');
