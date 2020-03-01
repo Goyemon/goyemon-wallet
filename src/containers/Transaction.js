@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
 import Web3 from 'web3';
 import { UntouchableCardContainer, CrypterestText } from '../components/common';
+import { TouchableCardContainer } from '../components/common';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 
 import TxStorage from '../lib/tx.js';
@@ -14,36 +15,35 @@ import TxStorage from '../lib/tx.js';
 class Transaction extends Component {
   constructor(props) {
     super(props);
+    const tx = props.transaction;
 
     try {
-      const tx = props.transaction;
-
       this.isDaiApproveTx = tx.hasTokenOperation('dai', TxStorage.TxTokenOpTypeToName.approval);
 
       const cDaiMints = tx.getTokenOperations('cdai', TxStorage.TxTokenOpTypeToName.mint);
       this.isCDaiMintTx = cDaiMints.length > 0;
       this.cDaiMintValue;
       if (this.isCDaiMintTx)
-        this.cDaiMintValue = cDaiMints[0].mintUnderlying;
+        this.cDaiMintValue = TransactionUtilities.parseHexCDaiValue(cDaiMints[0].mintUnderlying);
 
       const cDaiRedeems = tx.getTokenOperations('cdai', TxStorage.TxTokenOpTypeToName.redeem);
       this.isCDaiRedeemUnderlyingTx = cDaiRedeems.length > 0;
       this.cDaiRedeemValue;
       if (this.isCDaiRedeemUnderlyingTx)
-        this.cDaiRedeemValue = cDaiRedeems[0].redeemUnderlying;
+        this.cDaiRedeemValue = TransactionUtilities.parseHexCDaiValue(cDaiRedeems[0].redeemUnderlying);
 
       const cDaiFails = tx.getTokenOperations('cdai', TxStorage.TxTokenOpTypeToName.failure);
       this.isCDaiFailedTx = cDaiFails.length > 0;
       this.isCDaiMintFailedTx;
       cDaiFails.forEach((tokenOp) => {
-        this.isCDaiMintFailedTx = this.isCDaiMintFailedTx || (tokenOp.error === 38);
+        this.isCDaiMintFailedTx = this.isCDaiMintFailedTx || (parseInt(tokenOp.error, 16) === 38);
       });
 
       this.isCDaiRedeemUnderlyingFailedTx = false;
       cDaiFails.forEach((tokenOp) => {
-        this.isCDaiRedeemUnderlyingFailedTx = this.isCDaiRedeemUnderlyingFailedTx || tokenOp.error == 42 || tokenOp.error == 45;
+        const errNum = parseInt(tokenOp.error, 16);
+        this.isCDaiRedeemUnderlyingFailedTx = this.isCDaiRedeemUnderlyingFailedTx || errNum == 42 || errNum == 45;
       });
-
 
       const ameTrs = tx.getTokenOperations('ame_ropsten', TxStorage.TxTokenOpTypeToName.transfer);
       this.isAmeTransferTx = ameTrs.length > 0;
@@ -51,7 +51,7 @@ class Transaction extends Component {
       this.isIncomingAmeTx;
       this.ameTransferValue;
       if (this.isAmeTransferTx) {
-        this.ameTransferValue = ameTrs[0].value;
+        this.ameTransferValue = TransactionUtilities.parseHexDaiValue(ameTrs[0].amount);
         this.isOutgoingAmeTx = ameTrs.some((x) => Web3.utils.toChecksumAddress(x.from_addr) === props.checksumAddress);
         this.isIncomingAmeTx = ameTrs.some((x) => Web3.utils.toChecksumAddress(x.to_addr) === props.checksumAddress);
       }
@@ -62,12 +62,12 @@ class Transaction extends Component {
       this.isIncomingDaiTx;
       this.daiTransferValue;
       if (this.isDaiTransferTx) {
-        this.daiTransferValue = daiTrs[0].value;
+        this.daiTransferValue = TransactionUtilities.parseHexDaiValue(daiTrs[0].amount);
         this.isOutgoingDaiTx = daiTrs.some((x) => Web3.utils.toChecksumAddress(x.from_addr) === props.checksumAddress);
         this.isIncomingDaiTx = daiTrs.some((x) => Web3.utils.toChecksumAddress(x.to_addr) === props.checksumAddress);
       }
 
-      if (this.props.transaction.from != null) {
+      if (this.props.transaction.getFrom() != null) {
         this.isOutgoingEthTx =
           Web3.utils.toChecksumAddress(tx.getFrom()) === props.checksumAddress;
         this.isIncomingEthTx =
@@ -75,7 +75,7 @@ class Transaction extends Component {
       }
     }
     catch (e) {
-      this.derpbugexception = `Transaction() exception: ${e.message} @ ${e.stack}`;
+      this.derpbugexception = `Transaction() exception: ${e.message} @ ${e.stack} || ${JSON.stringify(props.transaction)}`;
     }
   }
 
@@ -83,19 +83,19 @@ class Transaction extends Component {
     if (this.isDaiTransferTx) {
       if (this.isOutgoingDaiTx && this.isIncomingDaiTx) {
         return (
-          <CrypterestText fontSize="16">
+          <CrypterestText fontSize={16}>
             <Icon name="arrow-collapse" size={20} color="#5F5F5F" />
           </CrypterestText>
         );
       } else if (this.isOutgoingDaiTx) {
         return (
-          <CrypterestText fontSize="16">
+          <CrypterestText fontSize={16}>
             <Icon name="call-made" size={20} color="#F1860E" />
           </CrypterestText>
         );
       } else if (this.isIncomingDaiTx) {
         return (
-          <CrypterestText fontSize="16">
+          <CrypterestText fontSize={16}>
             <Icon name="call-received" size={20} color="#1BA548" />
           </CrypterestText>
         );
@@ -105,13 +105,13 @@ class Transaction extends Component {
     if (this.isAmeTransferTx) {
       if (this.isOutgoingAmeTx) {
         return (
-          <CrypterestText fontSize="16">
+          <CrypterestText fontSize={16}>
             <Icon name="call-made" size={20} color="#F1860E" />
           </CrypterestText>
         );
       } else if (this.isIncomingAmeTx) {
         return (
-          <CrypterestText fontSize="16">
+          <CrypterestText fontSize={16}>
             <Icon name="call-received" size={20} color="#1BA548" />
           </CrypterestText>
         );
@@ -120,7 +120,7 @@ class Transaction extends Component {
 
     if (this.isCDaiFailedTx) {
       return (
-        <CrypterestText fontSize="16">
+        <CrypterestText fontSize={16}>
           <Icon name="alert-circle-outline" size={20} color="#E41B13" />
         </CrypterestText>
       );
@@ -128,7 +128,7 @@ class Transaction extends Component {
 
     if (this.isDaiApproveTx || this.isCDaiMintTx) {
       return (
-        <CrypterestText fontSize="16">
+        <CrypterestText fontSize={16}>
           <Icon name="call-made" size={20} color="#F1860E" />
         </CrypterestText>
       );
@@ -136,42 +136,44 @@ class Transaction extends Component {
 
     if (this.isCDaiRedeemUnderlyingTx) {
       return (
-        <CrypterestText fontSize="16">
+        <CrypterestText fontSize={16}>
           <Icon name="call-received" size={20} color="#1BA548" />
         </CrypterestText>
       );
     }
 
-    if (this.isOutgoingEthTx && this.isIncomingEthTx) {
+    if (this.isOutgoingEthTx && this.isIncomingEthTx)
       return (
-        <CrypterestText fontSize="16">
+        <CrypterestText fontSize={16}>
           <Icon name="arrow-collapse" size={20} color="#5F5F5F" />
         </CrypterestText>
       );
-    } else if (this.props.transaction.getFrom() === null || this.isOutgoingEthTx) {
+
+    if (this.props.transaction.getFrom() == null || this.isOutgoingEthTx)
       return (
-        <CrypterestText fontSize="16">
+        <CrypterestText fontSize={16}>
           <Icon name="call-made" size={20} color="#F1860E" />
         </CrypterestText>
       );
-    } else if (this.isIncomingEthTx) {
+
+    if (this.isIncomingEthTx)
       return (
-        <CrypterestText fontSize="16">
+        <CrypterestText fontSize={16}>
           <Icon name="call-received" size={20} color="#1BA548" />
         </CrypterestText>
       );
-    }
+
   }
 
   renderStatus() {
     if (this.props.transaction.getState() === TxStorage.TxStates.STATE_NEW) {
-      return <CrypterestText fontSize="20">sent...</CrypterestText>;
+      return <CrypterestText fontSize={20}>sent...</CrypterestText>;
     } else if (this.props.transaction.state === TxStorage.TxStates.STATE_PENDING) {
-      return <CrypterestText fontSize="20">pending...</CrypterestText>;
+      return <CrypterestText fontSize={20}>pending...</CrypterestText>;
     } else if (this.props.transaction.state === TxStorage.TxStates.STATE_INCLUDED) {
-      return <CrypterestText fontSize="20">included</CrypterestText>;
+      return <CrypterestText fontSize={20}>included</CrypterestText>;
     } else if (this.props.transaction.state === TxStorage.TxStates.STATE_CONFIRMED) {
-      return <CrypterestText fontSize="20">confirmed</CrypterestText>;
+      return <CrypterestText fontSize={20}>confirmed</CrypterestText>;
     }
   }
 
@@ -185,7 +187,7 @@ class Transaction extends Component {
       else if (this.isIncomingDaiTx)
         txType = 'Incoming';
 
-      return <CrypterestText fontSize="18">{txType}</CrypterestText>;
+      return <CrypterestText fontSize={18}>{txType}</CrypterestText>;
     }
 
     if (this.isAmeTransferTx) {
@@ -194,7 +196,7 @@ class Transaction extends Component {
       else if (this.isIncomingAmeTx)
         txType = 'Incoming';
 
-      return <CrypterestText fontSize="18">{txType}</CrypterestText>;
+      return <CrypterestText fontSize={18}>{txType}</CrypterestText>;
     }
 
     if (this.isCDaiMintFailedTx)
@@ -213,7 +215,7 @@ class Transaction extends Component {
       txType = 'Withdrawn';
 
     if (txType)
-      return <CrypterestText fontSize="18">{txType}</CrypterestText>;
+      return <CrypterestText fontSize={18}>{txType}</CrypterestText>;
 
     if (this.isOutgoingEthTx && this.isIncomingEthTx)
       txType = 'Self';
@@ -223,24 +225,24 @@ class Transaction extends Component {
       txType = 'Incoming';
 
     if (txType)
-      return <CrypterestText fontSize="18">{txType}</CrypterestText>;
+      return <CrypterestText fontSize={18}>{txType}</CrypterestText>;
   }
 
   renderPlusOrMinusTransactionIcon() {
     if (this.isDaiTransferTx) {
       if (this.isOutgoingDaiTx && this.isIncomingDaiTx)
-        return <Icon name="plus-minus" size="16" color="#5F5F5F" />;
+        return <Icon name="plus-minus" size={16} color="#5F5F5F" />;
       else if (this.isOutgoingDaiTx)
-        return <Icon name="minus" size="16" color="#F1860E" />;
+        return <Icon name="minus" size={16} color="#F1860E" />;
       else if (this.isIncomingDaiTx)
-        return <Icon name="plus" size="16" color="#1BA548" />;
+        return <Icon name="plus" size={16} color="#1BA548" />;
     }
 
     if (this.isAmeTransferTx) {
       if (this.isOutgoingAmeTx)
-        return <Icon name="minus" size="16" color="#F1860E" />;
+        return <Icon name="minus" size={16} color="#F1860E" />;
       else if (this.isIncomingAmeTx)
-        return <Icon name="plus" size="16" color="#1BA548" />;
+        return <Icon name="plus" size={16} color="#1BA548" />;
     }
 
     if (this.isDaiApproveTx)
@@ -250,18 +252,18 @@ class Transaction extends Component {
       return null;
 
     if (this.isCDaiMintTx)
-      return <Icon name="minus" size="16" color="#F1860E" />;
+      return <Icon name="minus" size={16} color="#F1860E" />;
 
     if (this.isCDaiRedeemUnderlyingTx)
-      return <Icon name="plus" size="16" color="#1BA548" />;
+      return <Icon name="plus" size={16} color="#1BA548" />;
 
 
     if (this.isOutgoingEthTx && this.isIncomingEthTx)
-      return <Icon name="plus-minus" size="16" color="#5F5F5F" />;
-    else if (this.props.transaction.from === null || this.isOutgoingEthTx)
-      return <Icon name="minus" size="16" color="#F1860E" />;
+      return <Icon name="plus-minus" size={16} color="#5F5F5F" />;
+    else if (this.props.transaction.getFrom() == null || this.isOutgoingEthTx)
+      return <Icon name="minus" size={16} color="#F1860E" />;
     else if (this.isIncomingEthTx)
-      return <Icon name="plus" size="16" color="#1BA548" />;
+      return <Icon name="plus" size={16} color="#1BA548" />;
   }
 
   renderValue() {
@@ -274,7 +276,7 @@ class Transaction extends Component {
         style = styles.valueStyleGreen;
 
       return (
-        <CrypterestText fontSize="16" style={style}>
+        <CrypterestText fontSize={16} style={style}>
           {this.daiTransferValue} DAI
         </CrypterestText>
       );
@@ -289,7 +291,7 @@ class Transaction extends Component {
           style = styles.valueStyleGreen;
 
       return (
-        <CrypterestText fontSize="16" style={style}>
+        <CrypterestText fontSize={16} style={style}>
           {this.ameTransferValue} AME
         </CrypterestText>
       );
@@ -299,52 +301,54 @@ class Transaction extends Component {
       return null;
 
     if (this.isCDaiFailedTx)
-      return <CrypterestText fontSize="16">0</CrypterestText>;
+      return <CrypterestText fontSize={16}>0</CrypterestText>;
 
     if (this.isCDaiMintTx)
       return (
-        <CrypterestText fontSize="16" style={styles.valueStyleRed}>
+        <CrypterestText fontSize={16} style={styles.valueStyleRed}>
           {this.cDaiMintValue} DAI
         </CrypterestText>
       );
 
     if (this.isCDaiRedeemUnderlyingTx)
       return (
-        <CrypterestText fontSize="16" style={styles.valueStyleGreen}>
+        <CrypterestText fontSize={16} style={styles.valueStyleGreen}>
           {this.cDaiRedeemValue} DAI
         </CrypterestText>
       );
 
     if (this.props.transaction.getFrom() === null)
-      return <CrypterestText fontSize="16">Token Transfer</CrypterestText>;
+      return <CrypterestText fontSize={16}>Token Transfer</CrypterestText>;
 
     if (this.props.transaction.getTo() === null)
-      return <CrypterestText fontSize="16">Contract Creation</CrypterestText>;
+      return <CrypterestText fontSize={16}>Contract Creation</CrypterestText>;
 
 
-    const roundedEthValue = parseFloat(this.props.transaction.getValue()).toFixed(4);
+    const roundedEthValue = parseFloat(TransactionUtilities.parseEthValue(this.props.transaction.getValue())).toFixed(4);
     if (this.isOutgoingEthTx)
       return (
-        <CrypterestText fontSize="16" style={styles.valueStyleRed}>
+        <CrypterestText fontSize={16} style={styles.valueStyleRed}>
           {roundedEthValue} ETH
         </CrypterestText>
       );
     else if (this.isIncomingEthTx)
       return (
-        <CrypterestText fontSize="16" style={styles.valueStyleGreen}>
+        <CrypterestText fontSize={16} style={styles.valueStyleGreen}>
           {roundedEthValue} ETH
         </CrypterestText>
       );
   }
 
+
+
   render() {
     if (this.derpbugexception)
-      return <CrypterestText fontSize="12">{this.derpbugexception}</CrypterestText>;
+      return <CrypterestText fontSize={12}>{this.derpbugexception}</CrypterestText>;
 
     const time = TransactionUtilities.parseTransactionTime(this.props.transaction.getTimestamp());
 
     return (
-      <UntouchableCardContainer
+      <TouchableCardContainer
         alignItems="center"
         borderRadius="0"
         flexDirection="row"
@@ -352,7 +356,8 @@ class Transaction extends Component {
         justifyContent="center"
         marginTop="0"
         textAlign="left"
-        width="95%">
+        width="95%"
+        onPress={() => TxStorage.storage.__addDebug(JSON.stringify(this.props.transaction)).__addDebug(JSON.stringify(Object.entries(this).map(a => a[1] instanceof Object ? [a[0], "Obj"] : a))) }>
         <TransactionList>
           <InOrOutTransactionContainer>
             {this.renderInOrOutTransactionIcon()}
@@ -364,10 +369,10 @@ class Transaction extends Component {
           <StatusContainer>{this.renderStatus()}</StatusContainer>
           <ValueContainer>
             {this.renderPlusOrMinusTransactionIcon()}
-            <CrypterestText fontSize="16">{this.renderValue()}</CrypterestText>
+            <CrypterestText fontSize={16}>{this.renderValue()}</CrypterestText>
           </ValueContainer>
         </TransactionList>
-      </UntouchableCardContainer>
+      </TouchableCardContainer>
     );
   }
 }

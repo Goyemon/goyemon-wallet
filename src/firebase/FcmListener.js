@@ -85,7 +85,6 @@ firebase.messaging().onMessage(async downstreamMessage => {
         );
         try {
           TxStorage.storage.setOwnAddress(checksumAddress);
-          store.dispatch(saveOtherDebugInfo('listener TxStorage clear'));
           await TxStorage.storage.clear()
           store.dispatch(saveOtherDebugInfo('listener TxStorage parse'));
           await TxStorage.storage.parseTxHistory(transactions);

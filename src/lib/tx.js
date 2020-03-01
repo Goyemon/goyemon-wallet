@@ -45,12 +45,14 @@ class StorageAbstraction {
 	}
 
 	async getItem(key) {
+		// return await AsyncStorage.getItem(`${this.prefix}${key}`);
 		return this.storage[key];
 	}
 
 	async setItem(key, value) {
 		// if (this.keyCache !== null)this.keyCache[key] = null;
 		this.storage[key] = value;
+		// return await AsyncStorage.setItem(`${this.prefix}${key}`, value);
 	}
 
 	async removeItem(key) {
@@ -102,6 +104,7 @@ class TxTokenMintOp extends TxTokenOp {
 	constructor (arr) {
 		super();
 		[this.minter, this.mintAmount, this.mintUnderlying] = arr;
+		// this.minter = arr[0]; this.mintAmount = arr[1]; this.mintUnderlying = arr[2];
 	}
 
 	toJSON() {
@@ -112,6 +115,7 @@ class TxTokenRedeemOp extends TxTokenOp {
 	constructor (arr) {
 		super();
 		[this.redeemer, this.redeemAmount, this.redeemUnderlying] = arr;
+		// this.redeemer = arr[0]; this.redeemAmount = arr[1]; this.redeemUnderlying = arr[2];
 	}
 
 	toJSON() {
@@ -122,6 +126,7 @@ class TxTokenTransferOp extends TxTokenOp {
 	constructor (arr) {
 		super();
 		[this.from_addr, this.to_addr, this.amount] = arr;
+		// this.from_addr = arr[0]; this.to_addr = arr[1]; this.amount = arr[2];
 	}
 
 	toJSON() {
@@ -132,6 +137,7 @@ class TxTokenApproveOp extends TxTokenOp {
 	constructor (arr) {
 		super();
 		[this.approver, this.spender, this.amount] = arr;
+		// this.approver = arr[0]; this.spender = arr[1]; this.amount = arr[2];
 	}
 
 	toJSON() {
@@ -142,6 +148,7 @@ class TxTokenFailureOp extends TxTokenOp {
 	constructor (arr) {
 		super();
 		[this.error, this.info, this.detail] = arr;
+		// this.error = arr[0]; this.info = arr[1]; this.detail = arr[2];
 	}
 
 	toJSON() {
@@ -152,6 +159,7 @@ class TxTokenEth2TokOp extends TxTokenOp {
 	constructor (arr) {
 		super();
 		[this.from_addr, this.eth_sold, this.tok_bought] = arr;
+		// this.from_addr = arr[0]; this.eth_sold = arr[1]; this.tok_bought = arr[2];
 	}
 
 	toJSON() {
@@ -162,13 +170,34 @@ class TxTokenTok2EthOp extends TxTokenOp {
 	constructor (arr) {
 		super();
 		[this.from_addr, this.tok_sold, this.eth_bought] = arr;
+		// this.from_addr = arr[0]; this.tok_sold = arr[1]; this.eth_bought = arr[2];
 	}
 
 	toJSON() {
 		return { [TxTokenOpTypeToName.tok2eth]: [this.from_addr, this.tok_sold, this.eth_bought] };
 	}
 }
+/*
+function createTxOpClass(fieldlist) {
+	let cls = function(arr) {
+		super();
 
+	}
+	return class extends TxTokenOp {
+		constructor(arr) {
+			super();
+			let i = 0;
+			fieldlist.forEach(x => {
+				this[x] = arr[i++];
+			});
+		}
+
+		toJSON() {
+			return
+		}
+	}
+}
+*/
 
 // ========== actual transaction data storage class ==========
 const TxTokenOpNameToClass = { // name -> tokenop storage class
@@ -266,11 +295,11 @@ class Tx {
 	}
 
 	getFrom() {
-		return this.from_addr ? this.from_addr.toString('hex') : null;
+		return this.from_addr ? `0x${this.from_addr.toString('hex')}` : null;
 	}
 
 	getTo() {
-		return this.to_addr ? this.to_addr.toString('hex') : null;
+		return this.to_addr ? `0x${this.to_addr.toString('hex')}` : null;
 	}
 
 	getHash() {
@@ -287,11 +316,11 @@ class Tx {
 	}
 
 	getTimestamp() {
-		return this.tstamp;
+		return this.timestamp;
 	}
 
 	toJSON() {
-		return [this.getFrom(), this.getTo(), this.gas, this.gasPrice, this.value, this.nonce, this.tstamp, this.state, this.tokenData];
+		return [this.getFrom(), this.getTo(), this.gas, this.gasPrice, this.value, this.nonce, this.timestamp, this.state, this.tokenData];
 	}
 }
 
@@ -325,6 +354,7 @@ class TxStorage {
 				this.storagepropname = storagepropname;
 				this.wrapped = wrapped;
 				this.storage = __storage;
+				this.__mounted = false;
 
 				this.state = {
 					txstorage: null
@@ -332,22 +362,24 @@ class TxStorage {
 			}
 
 			subNewTransactions(tx) {
-				if (tx !== this.state.txstorage)
+				if (this.__mounted && tx !== this.state.txstorage)
 					this.setState({
 						txstorage: tx
 					});
 			}
 
 			componentDidMount() {
+				this.__mounted = true;
 				this.unsub = this.storage.subscribe(this);
+				this.storage.tempGetAllAsList().then(this.subNewTransactions.bind(this));
 			}
 
 			componentWillUnmount() {
+				this.__mounted = false;
 				this.unsub();
 			}
 
 			render() {
-				//return new this.wrapped({ ...this.props, [this.storagepropname]: this.state.storage });
 				return React.createElement(this.wrapped, { ...this.props, [this.storagepropname]: this.state.txstorage });
 			}
 
@@ -394,6 +426,7 @@ class TxStorage {
 	__onUpdate() {
 		this.__addDebug('TxStorage __onUpdate() called');
 		this.included_txes.getAllValues().then((t) => {
+			t.sort((a, b) => b.getTimestamp() - a.getTimestamp());
 			try {
 				this.__addDebug(`TxStorage __executeUpdateCallbacks() called, t: ${t.length}`);
 				this.on_update.forEach((x) => x.subNewTransactions(t));
@@ -492,6 +525,7 @@ class TxStorage {
 			Object.entries(histObj).map(([txhash, data]) => {
 				if (txhash == "_contracts")
 					return;
+
 				let tx = new Tx(data[7])
 					.setFrom(data[0])
 					.setTo(data[1])
@@ -505,7 +539,9 @@ class TxStorage {
 				if (data.length > 8) { // we have token data.
 					Object.entries(data[8]).forEach(([token, ops]) => {
 						Object.entries(ops).forEach(([op, opdata]) => {
-							tx.addTokenOperation(token, op, opdata);
+							opdata.forEach((opdata) => {
+								tx.addTokenOperation(token, op, opdata);
+							});
 						});
 					});
 				}
@@ -547,7 +583,10 @@ class TxStorage {
 
 	async tempGetAllAsList() {
 		this.__addDebug('TxStorage tempGetAllAsList() called');
-		return await this.included_txes.getAllValues();
+		let ret = await this.included_txes.getAllValues();
+		ret.sort((a, b) => b.getTimestamp() - a.getTimestamp());
+
+		return ret;
 	}
 }
 
