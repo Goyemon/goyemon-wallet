@@ -14,6 +14,7 @@ import {
   HeaderThree,
   TouchableCardContainer
 } from '../components/common';
+import WalletUtilities from '../utilities/WalletUtilities';
 
 export default class Welcome extends Component {
   constructor(props) {
@@ -21,6 +22,13 @@ export default class Welcome extends Component {
     this.state = {
       timePassed: false
     };
+  }
+
+  async componentDidMount() {
+    const privateKeySaved = await WalletUtilities.privateKeySaved();
+    if (privateKeySaved) {
+      await WalletUtilities.resetKeychainData();
+    }
   }
 
   hollaFadeInOut() {
