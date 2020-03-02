@@ -2,11 +2,6 @@
 import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { TouchableOpacity } from 'react-native';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp
-} from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { withNavigation } from 'react-navigation';
 import styled from 'styled-components';
@@ -14,7 +9,6 @@ import Web3 from 'web3';
 import {
   RootContainer,
   UntouchableCardContainer,
-  QRCodeIcon,
   TouchableCardContainer,
   HeaderOne,
   HeaderThree,

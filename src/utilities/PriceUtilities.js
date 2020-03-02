@@ -1,6 +1,6 @@
 'use strict';
 import { store } from '../store/store.js';
-import LogUtilities from '../utilities/LogUtilities.js';
+import LogUtilities from './LogUtilities';
 
 class PriceUtilities {
   convertEthToUsd(ether) {

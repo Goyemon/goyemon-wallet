@@ -2,11 +2,6 @@
 import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View } from 'react-native';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp
-} from 'react-native-responsive-screen';
 import { withNavigation } from 'react-navigation';
 import styled from 'styled-components';
 import {
@@ -14,7 +9,6 @@ import {
   UntouchableCardContainer,
   TransactionButton,
   HeaderOne,
-  HeaderThree,
   HeaderFour
 } from '../components/common/';
 import PriceUtilities from '../utilities/PriceUtilities.js';
