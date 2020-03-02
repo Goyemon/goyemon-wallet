@@ -204,44 +204,44 @@ export default async downstreamMessage => {
           }
         } else if (isIncludedState) {
           if (isOutgoingTx) {
-            if (!sentTxExist && !pendingTxExist && !confirmedTxExist) {
-              store.dispatch(
-                addPendingOrIncludedTransaction(parsedPendingOrIncludedTx)
-              );
-              store.dispatch(incrementTotalTransactions());
-            } else if (sentTxExist || pendingTxExist) {
-              store.dispatch(
-                updateWithPendingOrIncludedTransaction(
-                  parsedPendingOrIncludedTx
-                )
-              );
-            } else if (confirmedTxExist) {
+            if (confirmedTxExist) {
               store.dispatch(
                 updateConfirmedTransactionData(parsedPendingOrIncludedTx)
               );
               store.dispatch(
                 removeExistingTransactionObject(parsedPendingOrIncludedTx)
               );
+            } else if ((sentTxExist || pendingTxExist) && !confirmedTxExist) {
+              store.dispatch(
+                updateWithPendingOrIncludedTransaction(
+                  parsedPendingOrIncludedTx
+                )
+              );
+            } else if (!sentTxExist && !pendingTxExist && !confirmedTxExist) {
+              store.dispatch(
+                addPendingOrIncludedTransaction(parsedPendingOrIncludedTx)
+              );
+              store.dispatch(incrementTotalTransactions());
             }
           } else if (isIncomingTx) {
-            if (!pendingTxExist && !confirmedTxExist) {
-              store.dispatch(
-                addPendingOrIncludedTransaction(parsedPendingOrIncludedTx)
-              );
-              store.dispatch(incrementTotalTransactions());
-            } else if (pendingTxExist) {
-              store.dispatch(
-                updateWithPendingOrIncludedTransaction(
-                  parsedPendingOrIncludedTx
-                )
-              );
-            } else if (confirmedTxExist) {
+            if (confirmedTxExist) {
               store.dispatch(
                 updateConfirmedTransactionData(parsedPendingOrIncludedTx)
               );
               store.dispatch(
                 removeExistingTransactionObject(parsedPendingOrIncludedTx)
               );
+            } else if (pendingTxExist && !confirmedTxExist) {
+              store.dispatch(
+                updateWithPendingOrIncludedTransaction(
+                  parsedPendingOrIncludedTx
+                )
+              );
+            } else if (!pendingTxExist && !confirmedTxExist) {
+              store.dispatch(
+                addPendingOrIncludedTransaction(parsedPendingOrIncludedTx)
+              );
+              store.dispatch(incrementTotalTransactions());
             }
           } else {
             LogUtilities.logInfo(
