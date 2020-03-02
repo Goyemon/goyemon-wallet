@@ -254,16 +254,10 @@ firebase.messaging().onMessage(downstreamMessage => {
         const parsedConfirmedTx = TransactionUtilities.parseConfirmedTransaction(
           txStateMessage
         );
-        let sentTxExist;
         let pendingTxExist;
         let includedTxExist;
         let txExist;
         if (transactionsExist) {
-          sentTxExist = transactionsHistory.some(
-            transaction =>
-              transaction.nonce === parsedConfirmedTx.nonce &&
-              transaction.state === 'sent'
-          );
           pendingTxExist = transactionsHistory.some(
             transaction =>
               transaction.hash === parsedConfirmedTx.hash &&
@@ -274,7 +268,7 @@ firebase.messaging().onMessage(downstreamMessage => {
               transaction.hash === parsedConfirmedTx.hash &&
               transaction.state === 'included'
           );
-          txExist = sentTxExist || pendingTxExist || includedTxExist;
+          txExist = pendingTxExist || includedTxExist;
         }
         if (txExist) {
           store.dispatch(updateTransactionState(parsedConfirmedTx));
