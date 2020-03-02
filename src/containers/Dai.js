@@ -17,18 +17,9 @@ import {
   HeaderThree,
   HeaderFour
 } from '../components/common/';
-import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class Dai extends Component {
-  getUsdBalance(daiBalance) {
-    try {
-      return PriceUtilities.convertDaiToUsd(daiBalance);
-    } catch (err) {
-      LogUtilities.logError(err);
-    }
-  }
-
   render() {
     const { balance, navigation } = this.props;
 
@@ -54,7 +45,7 @@ class Dai extends Component {
           width="90%"
         >
           <HeaderFour marginTop="24">dai wallet balance</HeaderFour>
-          <UsdBalance>${this.getUsdBalance(daiBalance)}</UsdBalance>
+          <UsdBalance>${PriceUtilities.getDaiUsdBalance(daiBalance)}</UsdBalance>
           <DaiBalance>{daiBalance} DAI</DaiBalance>
         </UntouchableCardContainer>
         <ButtonContainer>

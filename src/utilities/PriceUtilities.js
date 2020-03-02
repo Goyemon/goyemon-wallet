@@ -28,6 +28,15 @@ class PriceUtilities {
       LogUtilities.logError(error);
     }
   }
+
+  getDaiUsdBalance(daiBalance) {
+    try {
+      return this.convertDaiToUsd(daiBalance);
+    } catch (err) {
+      LogUtilities.logError(err);
+    }
+  }
+
   getTotalBalance(ethBalance, daiBalance) {
     let totalUsdBalance =
       parseFloat(this.convertEthToUsd(ethBalance)) +
