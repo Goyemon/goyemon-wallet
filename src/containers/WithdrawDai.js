@@ -168,9 +168,9 @@ class WithdrawDai extends Component {
     return false;
   }
 
-  validateEthAmount() {
+  validateEthAmount(gasPriceWei) {
     let transactionFeeLimitInEther = TransactionUtilities.getTransactionFeeEstimateInEther(
-      this.state.gasPrice[this.state.checked].gasPriceWei,
+      gasPriceWei,
       650000
     );
 
@@ -221,7 +221,7 @@ class WithdrawDai extends Component {
     const daiSavingsAmountValidation = this.validateDaiSavingsAmount(
       daiWithdrawAmount
     );
-    const ethAmountValidation = this.validateEthAmount();
+    const ethAmountValidation = this.validateEthAmount(this.state.gasPrice[this.state.checked].gasPriceWei);
     const isOnline = this.props.netInfo;
 
     if (daiSavingsAmountValidation && ethAmountValidation && isOnline) {
@@ -293,7 +293,7 @@ class WithdrawDai extends Component {
                       onPress={() => {
                         this.setState({ checked: key });
                         this.props.updateGasPriceChosen(key);
-                        this.validateEthAmount();
+                        this.validateEthAmount(gasPrice.gasPriceWei);
                       }}
                     >
                       <UnselectedButton>{gasPrice.speed}</UnselectedButton>

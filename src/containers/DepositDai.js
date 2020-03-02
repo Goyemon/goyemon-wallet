@@ -164,9 +164,9 @@ class DepositDai extends Component {
     return false;
   }
 
-  validateEthAmount() {
+  validateEthAmount(gasPriceWei) {
     let transactionFeeLimitInEther = TransactionUtilities.getTransactionFeeEstimateInEther(
-      this.state.gasPrice[this.state.checked].gasPriceWei,
+      gasPriceWei,
       350000
     );
 
@@ -215,7 +215,7 @@ class DepositDai extends Component {
 
   validateForm = async amount => {
     const daiAmountValidation = this.validateDaiAmount(amount);
-    const ethAmountValidation = this.validateEthAmount();
+    const ethAmountValidation = this.validateEthAmount(this.state.gasPrice[this.state.checked].gasPriceWei);
     const isOnline = this.props.netInfo;
 
     if (daiAmountValidation && ethAmountValidation && isOnline) {
@@ -287,7 +287,7 @@ class DepositDai extends Component {
                       onPress={() => {
                         this.setState({ checked: key });
                         this.props.updateGasPriceChosen(key);
-                        this.validateEthAmount();
+                        this.validateEthAmount(gasPrice.gasPriceWei);
                       }}
                     >
                       <UnselectedButton>{gasPrice.speed}</UnselectedButton>
