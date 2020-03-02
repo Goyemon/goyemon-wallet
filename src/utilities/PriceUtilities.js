@@ -28,6 +28,13 @@ class PriceUtilities {
       LogUtilities.logError(error);
     }
   }
+  getTotalBalance(ethBalance, daiBalance) {
+    let totalUsdBalance =
+      parseFloat(this.convertEthToUsd(ethBalance)) +
+      parseFloat(this.convertDaiToUsd(daiBalance));
+    totalUsdBalance = parseFloat(totalUsdBalance).toFixed(2);
+    return totalUsdBalance;
+  }
 }
 
 export default new PriceUtilities();
