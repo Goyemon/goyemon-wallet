@@ -3,8 +3,10 @@ import React, { Component } from 'react';
 import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
 import { RootContainer, HeaderOne, HeaderThree } from '../components/common/';
-import Transactions from '../containers/Transactions';
-import TransactionsDai from '../containers/TransactionsDai';
+// TODO: git rm those two:
+//import Transactions from '../containers/Transactions';
+//import TransactionsDai from '../containers/TransactionsDai';
+import TransactionList from '../containers/TransactionList';
 
 export default class History extends Component {
   constructor(props) {
@@ -12,14 +14,6 @@ export default class History extends Component {
     this.state = {
       filter: 'All'
     };
-  }
-
-  filterTransactions() {
-    if (this.state.filter === 'All') {
-      return <Transactions />;
-    } else if (this.state.filter === 'Dai') {
-      return <TransactionsDai />;
-    }
   }
 
   toggleFilterChoiceText() {
@@ -57,7 +51,7 @@ export default class History extends Component {
       <RootContainer>
         <HeaderOne marginTop="64">History</HeaderOne>
         {this.toggleFilterChoiceText()}
-        {this.filterTransactions()}
+        <TransactionList tokenFilter={this.state.filter} key={`TransactionList_${this.state.filter}`} />
       </RootContainer>
     );
   }
