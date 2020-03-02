@@ -1,10 +1,16 @@
 'use strict';
-import { SAVE_EMPTY_TRANSACTION } from '../constants/ActionTypes';
-import { SAVE_EXISTING_TRANSACTIONS } from '../constants/ActionTypes';
-import { ADD_SENT_TRANSACTION } from '../constants/ActionTypes';
-import { ADD_PENDING_OR_INCLUDED_TRANSACTION } from '../constants/ActionTypes';
-import { UPDATE_PENDING_OR_INCLUDED_TRANSACTION } from '../constants/ActionTypes';
-import { UPDATE_TRANSACTION_STATE } from '../constants/ActionTypes';
+import {
+  SAVE_EMPTY_TRANSACTION,
+  SAVE_EXISTING_TRANSACTIONS,
+  ADD_SENT_TRANSACTION,
+  ADD_PENDING_OR_INCLUDED_TRANSACTION,
+  UPDATE_PENDING_OR_INCLUDED_TRANSACTION,
+  UPDATE_TRANSACTION_STATE,
+  ADD_CONFIRMED_TRANSACTION,
+  UPDATE_CONFIRMED_TRANSACTION_DATA,
+  REMOVE_EXISTING_TRANSACTION_OBJECT,
+  UPDATE_ERROR_SENT_TRANSACTION
+} from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
   transactions: null
@@ -18,7 +24,9 @@ const transactions = (state = INITIAL_STATE, action) => {
       const transactions = [...action.payload];
 
       let removeSentTx;
-      removeSentTx = transactions.map(transaction => transaction.state).indexOf('sent');
+      removeSentTx = transactions
+        .map(transaction => transaction.state)
+        .indexOf('sent');
       if (removeSentTx === -1) {
         removeSentTx = 0;
       }
@@ -31,7 +39,10 @@ const transactions = (state = INITIAL_STATE, action) => {
         transactions: [action.payload, ...state.transactions]
       };
     case ADD_PENDING_OR_INCLUDED_TRANSACTION:
-      if (state.transactions === null || Object.keys(state.transactions).length === 0) {
+      if (
+        state.transactions === null ||
+        Object.keys(state.transactions).length === 0
+      ) {
         return {
           transactions: [action.payload]
         };
@@ -43,7 +54,10 @@ const transactions = (state = INITIAL_STATE, action) => {
     case UPDATE_PENDING_OR_INCLUDED_TRANSACTION:
       return {
         transactions: state.transactions.map((transaction, index) => {
-          if (transaction.nonce === action.payload.nonce && transaction.state === 'sent') {
+          if (
+            transaction.nonce === action.payload.nonce &&
+            transaction.state === 'sent'
+          ) {
             return { ...transaction, ...action.payload };
           }
           return transaction;
@@ -54,6 +68,42 @@ const transactions = (state = INITIAL_STATE, action) => {
         transactions: state.transactions.map((transaction, index) => {
           if (action.payload.hash === transaction.hash) {
             return { ...transaction, state: action.payload.state };
+          }
+          return transaction;
+        })
+      };
+    case ADD_CONFIRMED_TRANSACTION:
+      return {
+        transactions: [action.payload, ...state.transactions]
+      };
+    case UPDATE_CONFIRMED_TRANSACTION_DATA:
+      return {
+        transactions: state.transactions.map(transaction => {
+          if (action.payload.hash === transaction.hash) {
+            return { ...transaction, ...action.payload, state: 'confirmed' };
+          }
+          return transaction;
+        })
+      };
+    case REMOVE_EXISTING_TRANSACTION_OBJECT:
+      return {
+        transactions: state.transactions.filter(transaction => {
+          !(
+            (transaction.nonce === action.payload.nonce &&
+              transaction.state === 'sent') ||
+            (transaction.hash === action.payload.hash &&
+              transaction.state === 'pending')
+          );
+        })
+      };
+    case UPDATE_ERROR_SENT_TRANSACTION:
+      return {
+        transactions: state.transactions.map((transaction, index) => {
+          if (
+            transaction.nonce === action.payload &&
+            transaction.state === 'sent'
+          ) {
+            return { ...transaction, state: 'error' };
           }
           return transaction;
         })

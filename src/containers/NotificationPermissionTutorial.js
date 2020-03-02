@@ -11,7 +11,7 @@ import {
   Loader
 } from '../components/common';
 import FcmPermissions from '../firebase/FcmPermissions.js';
-import DebugUtilities from '../utilities/DebugUtilities.js';
+import LogUtilities from '../utilities/LogUtilities.js';
 
 class NotificationPermissionTutorial extends Component {
   constructor(props) {
@@ -24,7 +24,7 @@ class NotificationPermissionTutorial extends Component {
 
   notificationPermissionNavigation() {
     if (this.props.permissions.notification === null) {
-      DebugUtilities.logInfo('notification permission is not set');
+      LogUtilities.logInfo('notification permission is not set');
     } else if (this.props.permissions.notification === true) {
       this.props.navigation.navigate('WalletCreation');
     } else if (this.props.permissions.notification === false) {

@@ -166,14 +166,21 @@ class Transaction extends Component {
   }
 
   renderStatus() {
-    if (this.props.transaction.getState() === TxStorage.TxStates.STATE_NEW) {
+    if (this.props.transaction.getState() === TxStorage.TxStates.STATE_NEW)
       return <CrypterestText fontSize={20}>sent...</CrypterestText>;
-    } else if (this.props.transaction.state === TxStorage.TxStates.STATE_PENDING) {
+    else if (this.props.transaction.state === TxStorage.TxStates.STATE_PENDING)
       return <CrypterestText fontSize={20}>pending...</CrypterestText>;
-    } else if (this.props.transaction.state === TxStorage.TxStates.STATE_INCLUDED) {
+    else if (this.props.transaction.state === TxStorage.TxStates.STATE_INCLUDED)
       return <CrypterestText fontSize={20}>included</CrypterestText>;
-    } else if (this.props.transaction.state === TxStorage.TxStates.STATE_CONFIRMED) {
+    else if (this.props.transaction.state === TxStorage.TxStates.STATE_CONFIRMED)
       return <CrypterestText fontSize={20}>confirmed</CrypterestText>;
+    else if (this.props.transaction.state === TxStorage.TxStates.STATE_ERROR)
+      return (
+        <View>
+          <FailedStatusText>failed</FailedStatusText>
+          <FailedStatusHintText>*try syncing in the advanced settings</FailedStatusHintText>
+        </View>
+      );
     }
   }
 
@@ -414,6 +421,18 @@ const Time = styled.Text`
 
 const StatusContainer = styled.View`
   width: 32%;
+`;
+
+const FailedStatusText = styled.Text`
+  color: #5f5f5f;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 20;
+`;
+
+const FailedStatusHintText = styled.Text`
+  color: #5f5f5f;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 12;
 `;
 
 const ValueContainer = styled.View`

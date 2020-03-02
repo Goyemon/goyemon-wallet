@@ -17,7 +17,7 @@ import {
   HeaderThree,
   HeaderFour
 } from '../components/common/';
-import DebugUtilities from '../utilities/DebugUtilities.js';
+import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class Dai extends Component {
@@ -25,7 +25,7 @@ class Dai extends Component {
     try {
       return PriceUtilities.convertDaiToUsd(daiBalance);
     } catch (err) {
-      DebugUtilities.logError(err);
+      LogUtilities.logError(err);
     }
   }
 

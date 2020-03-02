@@ -1,18 +1,18 @@
 'use strict';
 import { SAVE_NET_INFO } from '../constants/ActionTypes';
-import DebugUtilities from '../utilities/DebugUtilities.js';
+import LogUtilities from '../utilities/LogUtilities.js';
 
 export function saveNetInfo(netInfo) {
-  return async function (dispatch) {
+  return async function(dispatch) {
     try {
       dispatch(saveNetInfoSuccess(netInfo));
-    } catch(err) {
-      DebugUtilities.logError(err);
+    } catch (err) {
+      LogUtilities.logError(err);
     }
-  }
-};
+  };
+}
 
-const saveNetInfoSuccess = (netInfo) => ({
+const saveNetInfoSuccess = netInfo => ({
   type: SAVE_NET_INFO,
   payload: netInfo
 });

@@ -14,7 +14,7 @@ import {
   CrypterestText
 } from '../components/common';
 import { persistor } from '../store/store.js';
-import DebugUtilities from '../utilities/DebugUtilities.js';
+import LogUtilities from '../utilities/LogUtilities.js';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class Settings extends Component {
@@ -34,11 +34,11 @@ class Settings extends Component {
 
   validateDeleteText(deleteText) {
     if (deleteText === 'delete') {
-      DebugUtilities.logInfo('the delete text validated!');
+      LogUtilities.logInfo('the delete text validated!');
       this.setState({ deleteTextValidation: true, buttonDisabled: false, buttonOpacity: 1 });
       return true;
     }
-    DebugUtilities.logInfo('wrong delete text!');
+    LogUtilities.logInfo('wrong delete text!');
     this.setState({ deleteTextValidation: false, buttonDisabled: true, buttonOpacity: 0.5 });
     return false;
   }
@@ -117,7 +117,7 @@ class Settings extends Component {
             <Icon
               onPress={() => {
                 Linking.openURL('#').catch(err =>
-                  DebugUtilities.logError('An error occurred', err)
+                  LogUtilities.logError('An error occurred', err)
                 );
               }}
               name="twitter"
@@ -129,7 +129,7 @@ class Settings extends Component {
             <Icon
               onPress={() => {
                 Linking.openURL('#').catch(err =>
-                  DebugUtilities.logError('An error occurred', err)
+                  LogUtilities.logError('An error occurred', err)
                 );
               }}
               name="github-circle"
@@ -141,7 +141,7 @@ class Settings extends Component {
             <Icon
               onPress={() => {
                 Linking.openURL('https://discord.gg/MXGfnJG').catch(err =>
-                  DebugUtilities.logError('An error occurred', err)
+                  LogUtilities.logError('An error occurred', err)
                 );
               }}
               name="discord"

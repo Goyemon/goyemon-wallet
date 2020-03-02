@@ -38,7 +38,7 @@ class WalletList extends Component {
   }
 
   render() {
-    const { wallets, balance, navigation } = this.props;
+    const { currencies, balance, navigation } = this.props;
 
     const RoundDownBigNumber = BigNumber.clone({
       DECIMAL_PLACES: 4,
@@ -83,7 +83,7 @@ class WalletList extends Component {
         <HeaderThree color="#000" marginBottom="16" marginLeft="16" marginTop="16">
           YOUR ACCOUNTS
         </HeaderThree>
-        {wallets.map(wallet => (
+        {currencies.map(currency => (
           <TouchableCardContainer
             alignItems="center"
             flexDirection="row"
@@ -91,14 +91,14 @@ class WalletList extends Component {
             justifyContent="flex-start"
             textAlign="left"
             width="90%"
-            key={wallet.id}
+            key={currency.id}
             onPress={
-              wallet.coin === 'Ether'
+              currency.name === 'Ether'
                 ? () => navigation.navigate('Ethereum')
                 : () => navigation.navigate('Dai')
             }
           >
-            <WalletDetail key={wallet.id} wallet={wallet} />
+            <WalletDetail key={currency.id} currency={currency} />
           </TouchableCardContainer>
         ))}
       </RootContainer>
@@ -129,7 +129,7 @@ const AddressContainer = styled.TouchableOpacity`
 
 const mapStateToProps = state => ({
   checksumAddress: state.ReducerChecksumAddress.checksumAddress,
-  wallets: state.ReducerWallets.wallets,
+  currencies: state.ReducerCurrencies.currencies,
   balance: state.ReducerBalance.balance
 });
 
