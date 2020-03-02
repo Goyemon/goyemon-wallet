@@ -108,7 +108,10 @@ firebase.messaging().onMessage(async downstreamMessage => {
       }
     }
   } else if (downstreamMessage.data.type === 'txstate') {
+    // TODO: this doesnt support msgs batches spread across multiple fcm messages yet.
     let txStateMessages = JSON.parse(downstreamMessage.data.data);
+    await Promise.all(Object.entries(txStateMessages).map(([hash, data]) => TxStorage.storage.processTxState(hash, data)));
+
     txStateMessages = Object.entries(txStateMessages).map(e => ({
       [e[0]]: e[1]
     }));

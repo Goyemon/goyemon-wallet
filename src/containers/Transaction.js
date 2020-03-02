@@ -381,7 +381,7 @@ class Transaction extends Component {
         marginTop="0"
         textAlign="left"
         width="95%"
-        onPress={() => TxStorage.storage.__addDebug(JSON.stringify(this.props.transaction)).__addDebug(JSON.stringify(Object.entries(this).map(a => a[1] instanceof Object ? [a[0], "Obj"] : a))) }>
+        onPress={() => TxStorage.storage.__addDebug(JSON.stringify(this.props.transaction)).__addDebug(JSON.stringify(Object.entries(this).map(a => a[1] instanceof Object ? [a[0], "Obj"] : a)))}>
         <TransactionList>
           <InOrOutTransactionContainer>
             {this.renderInOrOutTransactionIcon()}
