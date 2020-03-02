@@ -17,20 +17,9 @@ import {
   HeaderOne,
   HeaderFour
 } from '../components/common/';
-import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class Ethereum extends Component {
-  getUsdBalance(ethBalance) {
-    try {
-      let ethUsdBalance = PriceUtilities.convertEthToUsd(ethBalance);
-      ethUsdBalance = ethUsdBalance.toFixed(2);
-      return ethUsdBalance;
-    } catch (err) {
-      LogUtilities.logError(err);
-    }
-  }
-
   render() {
     const { balance, navigation } = this.props;
 
@@ -55,7 +44,7 @@ class Ethereum extends Component {
           width="90%"
         >
           <HeaderFour marginTop="24">eth wallet balance</HeaderFour>
-          <UsdBalance>${this.getUsdBalance(ethBalance)}</UsdBalance>
+          <UsdBalance>${PriceUtilities.getEthUsdBalance(ethBalance)}</UsdBalance>
           <EthBalance>{ethBalance} ETH</EthBalance>
         </UntouchableCardContainer>
         <ButtonContainer>
