@@ -29,14 +29,6 @@ class WalletList extends Component {
     await FcmPermissions.checkFcmPermissions();
   }
 
-  getTotalBalance(ethBalance, daiBalance) {
-    let totalUsdBalance =
-      parseFloat(PriceUtilities.convertEthToUsd(ethBalance)) +
-      parseFloat(PriceUtilities.convertDaiToUsd(daiBalance));
-    totalUsdBalance = parseFloat(totalUsdBalance).toFixed(2);
-    return totalUsdBalance;
-  }
-
   render() {
     const { currencies, balance, navigation } = this.props;
 
@@ -70,7 +62,7 @@ class WalletList extends Component {
           width="90%"
         >
           <HeaderFour marginTop="24">total wallet balance</HeaderFour>
-          <UsdBalance>${this.getTotalBalance(ethBalance, daiBalance)}</UsdBalance>
+          <UsdBalance>${PriceUtilities.getTotalBalance(ethBalance, daiBalance)}</UsdBalance>
           <AddressContainer
             onPress={() => {
               this.props.navigation.navigate('Receive');
