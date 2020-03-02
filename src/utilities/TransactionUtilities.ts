@@ -9,6 +9,7 @@ import { addSentTransaction } from '../actions/ActionTransactionHistory';
 const GlobalConfig = require('../config.json');
 import { store } from '../store/store.js';
 import LogUtilities from '../utilities/LogUtilities.js';
+import PriceUtilities from '../utilities/PriceUtilities.js';
 import WalletUtilities from './WalletUtilities.ts';
 
 class TransactionUtilities {
@@ -652,6 +653,14 @@ class TransactionUtilities {
       'Ether'
     );
     return transactionFeeEstimateInEther;
+  }
+
+  getTransactionFeeEstimateInUsd(gasPriceWei, gasLimit) {
+    let transactionFeeEstimateInUsd = PriceUtilities.convertEthToUsd(
+      this.getTransactionFeeEstimateInEther(gasPriceWei, gasLimit)
+    );
+    transactionFeeEstimateInUsd = transactionFeeEstimateInUsd.toFixed(3);
+    return transactionFeeEstimateInUsd;
   }
 }
 

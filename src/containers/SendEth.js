@@ -119,7 +119,7 @@ class SendEth extends Component {
 
   toggleCurrency(gasPriceWei) {
     if (this.state.currency === 'ETH') {
-      const usdValue = this.getTransactionFeeEstimateInUsd(gasPriceWei);
+      const usdValue = TransactionUtilities.getTransactionFeeEstimateInUsd(gasPriceWei, 21000);
       return <NetworkFeeText>${usdValue}</NetworkFeeText>;
     } else if (this.state.currency === 'USD') {
       let ethValue = TransactionUtilities.getTransactionFeeEstimateInEther(
@@ -129,14 +129,6 @@ class SendEth extends Component {
       ethValue = parseFloat(ethValue).toFixed(5);
       return <NetworkFeeText>{ethValue}ETH</NetworkFeeText>;
     }
-  }
-
-  getTransactionFeeEstimateInUsd(gasPriceWei) {
-    let transactionFeeEstimateInUsd = PriceUtilities.convertEthToUsd(
-      TransactionUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 21000)
-    );
-    transactionFeeEstimateInUsd = transactionFeeEstimateInUsd.toFixed(3);
-    return transactionFeeEstimateInUsd;
   }
 
   async constructTransactionObject() {
