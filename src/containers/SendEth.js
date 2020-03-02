@@ -87,16 +87,6 @@ class SendEth extends Component {
     }
   }
 
-  getUsdBalance() {
-    try {
-      let ethUsdBalance = PriceUtilities.convertEthToUsd(this.state.ethBalance);
-      ethUsdBalance = ethUsdBalance.toFixed(2);
-      return ethUsdBalance;
-    } catch (err) {
-      LogUtilities.logError(err);
-    }
-  }
-
   toggleCurrencySymbol() {
     if (this.state.currency === 'ETH') {
       return (
@@ -403,7 +393,7 @@ class SendEth extends Component {
             <Title>eth wallet balance</Title>
             <BalanceContainer>
               <Value>{ethBalance} ETH</Value>
-              <Value>${this.getUsdBalance()}</Value>
+              <Value>${PriceUtilities.getEthUsdBalance(this.state.ethBalance)}</Value>
             </BalanceContainer>
           </UntouchableCardContainer>
           <FormHeader marginBottom="4" marginLeft="0" marginTop="0">
