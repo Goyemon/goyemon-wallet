@@ -12,6 +12,12 @@ import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 
 import TxStorage from '../lib/tx.js';
 
+/*	=======================================================
+  2020-03-02 13:19:12
+  TODO: this needs a lot of simplification. A litany of if()elseif()s is not easy to follow. There are much simplified logical conditions which can do that.
+  Additionally, a lot of stuff just ends without returning any value potentially (no default case when none of if()s matches).
+  ======================================================= */
+
 class Transaction extends Component {
   constructor(props) {
     super(props);
@@ -81,66 +87,61 @@ class Transaction extends Component {
 
   renderInOrOutTransactionIcon() {
     if (this.isDaiTransferTx) {
-      if (this.isOutgoingDaiTx && this.isIncomingDaiTx) {
+      if (this.isOutgoingDaiTx && this.isIncomingDaiTx)
         return (
           <CrypterestText fontSize={16}>
             <Icon name="arrow-collapse" size={20} color="#5F5F5F" />
           </CrypterestText>
         );
-      } else if (this.isOutgoingDaiTx) {
+      else if (this.isOutgoingDaiTx)
         return (
           <CrypterestText fontSize={16}>
             <Icon name="call-made" size={20} color="#F1860E" />
           </CrypterestText>
         );
-      } else if (this.isIncomingDaiTx) {
+      else if (this.isIncomingDaiTx)
         return (
           <CrypterestText fontSize={16}>
             <Icon name="call-received" size={20} color="#1BA548" />
           </CrypterestText>
         );
-      }
     }
 
     if (this.isAmeTransferTx) {
-      if (this.isOutgoingAmeTx) {
+      if (this.isOutgoingAmeTx)
         return (
           <CrypterestText fontSize={16}>
             <Icon name="call-made" size={20} color="#F1860E" />
           </CrypterestText>
         );
-      } else if (this.isIncomingAmeTx) {
+      else if (this.isIncomingAmeTx)
         return (
           <CrypterestText fontSize={16}>
             <Icon name="call-received" size={20} color="#1BA548" />
           </CrypterestText>
         );
-      }
     }
 
-    if (this.isCDaiFailedTx) {
+    if (this.isCDaiFailedTx)
       return (
         <CrypterestText fontSize={16}>
           <Icon name="alert-circle-outline" size={20} color="#E41B13" />
         </CrypterestText>
       );
-    }
 
-    if (this.isDaiApproveTx || this.isCDaiMintTx) {
+    if (this.isDaiApproveTx || this.isCDaiMintTx)
       return (
         <CrypterestText fontSize={16}>
           <Icon name="call-made" size={20} color="#F1860E" />
         </CrypterestText>
       );
-    }
 
-    if (this.isCDaiRedeemUnderlyingTx) {
+    if (this.isCDaiRedeemUnderlyingTx)
       return (
         <CrypterestText fontSize={16}>
           <Icon name="call-received" size={20} color="#1BA548" />
         </CrypterestText>
       );
-    }
 
     if (this.isOutgoingEthTx && this.isIncomingEthTx)
       return (
@@ -166,22 +167,38 @@ class Transaction extends Component {
   }
 
   renderStatus() {
-    if (this.props.transaction.getState() === TxStorage.TxStates.STATE_NEW)
-      return <CrypterestText fontSize={20}>sent...</CrypterestText>;
-    else if (this.props.transaction.state === TxStorage.TxStates.STATE_PENDING)
-      return <CrypterestText fontSize={20}>pending...</CrypterestText>;
-    else if (this.props.transaction.state === TxStorage.TxStates.STATE_INCLUDED)
-      return <CrypterestText fontSize={20}>included</CrypterestText>;
-    else if (this.props.transaction.state === TxStorage.TxStates.STATE_CONFIRMED)
-      return <CrypterestText fontSize={20}>confirmed</CrypterestText>;
-    else if (this.props.transaction.state === TxStorage.TxStates.STATE_ERROR)
-      return (
-        <View>
-          <FailedStatusText>failed</FailedStatusText>
-          <FailedStatusHintText>*try syncing in the advanced settings</FailedStatusHintText>
-        </View>
-      );
+    let text;
+
+    switch (this.props.transaction.getState()) {
+      case TxStorage.TxStates.STATE_NEW:
+        text = 'sent...';
+        break;
+
+      case TxStorage.TxStates.STATE_PENDING:
+        text = 'pending...';
+        break;
+
+      case TxStorage.TxStates.STATE_INCLUDED:
+        text = 'included';
+        break;
+
+      case TxStorage.TxStates.STATE_CONFIRMED:
+        text = 'confirmed';
+        break;
+
+      case TxStorage.TxStates.STATE_ERROR:
+        return (
+          <View>
+            <FailedStatusText>failed</FailedStatusText>
+            <FailedStatusHintText>*try syncing in the advanced settings</FailedStatusHintText>
+          </View>
+        );
+
+      default:
+        // TODO: exception?
     }
+
+    return <CrypterestText fontSize={20}>{text}</CrypterestText>;
   }
 
   renderType() {
