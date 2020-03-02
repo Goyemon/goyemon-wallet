@@ -7,6 +7,7 @@ import LogUtilities from '../utilities/LogUtilities.js';
 export function saveOutgoingDaiTransactionAmount(daiAmount) {
   return async function(dispatch) {
     try {
+      LogUtilities.logInfo(`${daiAmount} saved`);
       dispatch(saveOutgoingDaiTransactionAmountSuccess(daiAmount));
     } catch (err) {
       LogUtilities.logError(err);
