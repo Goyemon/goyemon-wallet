@@ -71,6 +71,7 @@ class DepositDai extends Component {
     this.props.getGasPriceFast();
     this.props.getGasPriceAverage();
     this.props.getGasPriceSlow();
+    this.validateEthAmount(this.state.gasPrice[this.state.checked].gasPriceWei);
   }
 
   componentDidUpdate(prevProps, prevState) {
