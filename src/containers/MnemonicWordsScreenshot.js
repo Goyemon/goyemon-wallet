@@ -12,12 +12,11 @@ import {
   ProgressBar,
   Button,
   HeaderTwo,
-  Description,
   CrypterestText
 } from '../components/common';
 import { savePhotoLibraryPermission } from '../actions/ActionPermissions';
 import ShowMnemonicWords from '../containers/ShowMnemonicWords';
-import DebugUtilities from '../utilities/DebugUtilities.js';
+import LogUtilities from '../utilities/LogUtilities.js';
 
 class MnemonicWordsScreenshot extends Component {
   constructor() {
@@ -38,12 +37,12 @@ class MnemonicWordsScreenshot extends Component {
     if (Platform.OS === 'ios') {
       request(PERMISSIONS.IOS.PHOTO_LIBRARY).then(result => {
         this.checkPhotoLibraryPermission();
-        DebugUtilities.logInfo('result ===>', result);
+        LogUtilities.logInfo('result ===>', result);
       });
     } else if (Platform.OS === 'android') {
       request(PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE).then(result => {
         this.checkPhotoLibraryPermission();
-        DebugUtilities.logInfo('result ===>', result);
+        LogUtilities.logInfo('result ===>', result);
       });
     }
   }
@@ -55,28 +54,28 @@ class MnemonicWordsScreenshot extends Component {
           switch (result) {
             case RESULTS.UNAVAILABLE:
               this.props.savePhotoLibraryPermission('unavailable');
-              DebugUtilities.logInfo(
+              LogUtilities.logInfo(
                 'This feature is not available (on this device / in this context)'
               );
               break;
             case RESULTS.DENIED:
               this.props.savePhotoLibraryPermission('denied');
-              DebugUtilities.logInfo(
+              LogUtilities.logInfo(
                 'The permission has not been requested / is denied but requestable'
               );
               break;
             case RESULTS.GRANTED:
               this.props.savePhotoLibraryPermission('granted');
-              DebugUtilities.logInfo('The permission is granted');
+              LogUtilities.logInfo('The permission is granted');
               break;
             case RESULTS.BLOCKED:
               this.props.savePhotoLibraryPermission('blocked');
-              DebugUtilities.logInfo('The permission is denied and not requestable anymore');
+              LogUtilities.logInfo('The permission is denied and not requestable anymore');
               break;
           }
         })
         .catch(error => {
-          DebugUtilities.logInfo('error ===>', error);
+          LogUtilities.logInfo('error ===>', error);
         });
     } else if (Platform.OS === 'android') {
       check(PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE)
@@ -84,28 +83,28 @@ class MnemonicWordsScreenshot extends Component {
           switch (result) {
             case RESULTS.UNAVAILABLE:
               this.props.savePhotoLibraryPermission('unavailable');
-              DebugUtilities.logInfo(
+              LogUtilities.logInfo(
                 'This feature is not available (on this device / in this context)'
               );
               break;
             case RESULTS.DENIED:
               this.props.savePhotoLibraryPermission('denied');
-              DebugUtilities.logInfo(
+              LogUtilities.logInfo(
                 'The permission has not been requested / is denied but requestable'
               );
               break;
             case RESULTS.GRANTED:
               this.props.savePhotoLibraryPermission('granted');
-              DebugUtilities.logInfo('The permission is granted');
+              LogUtilities.logInfo('The permission is granted');
               break;
             case RESULTS.BLOCKED:
               this.props.savePhotoLibraryPermission('blocked');
-              DebugUtilities.logInfo('The permission is denied and not requestable anymore');
+              LogUtilities.logInfo('The permission is denied and not requestable anymore');
               break;
           }
         })
         .catch(error => {
-          DebugUtilities.logInfo('error ===>', error);
+          LogUtilities.logInfo('error ===>', error);
         });
     }
   }
@@ -123,7 +122,7 @@ class MnemonicWordsScreenshot extends Component {
     ) {
       return (
         <Button
-          text="Take Screenshot"
+          text="Take a Screenshot"
           textColor="#00A3E2"
           backgroundColor="#F8F8F8"
           borderColor="#F8F8F8"
@@ -189,7 +188,7 @@ class MnemonicWordsScreenshot extends Component {
         });
         CameraRoll.saveToCameraRoll(uri);
       },
-      error => DebugUtilities.logError('Oops, Something Went Wrong', error)
+      error => LogUtilities.logError('Oops, Something Went Wrong', error)
     );
   }
 
@@ -206,22 +205,19 @@ class MnemonicWordsScreenshot extends Component {
         <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
           Save Backup Words
         </HeaderTwo>
-        <Description marginBottom="8" marginLeft="8" marginTop="16">
-          do you want to take at least a screenshot?
-        </Description>
         <ShowMnemonicWords />
         <ScreenshotContainer>
+          {this.renderScreenshotButtons()}
           <ScreenshotImage source={{ uri: this.state.imageURI }} />
           {this.renderScreenshotSavedMessage()}
-          {this.renderScreenshotButtons()}
-        </ScreenshotContainer>
+       </ScreenshotContainer>
         <Button
           text="Next"
           textColor="#00A3E2"
           backgroundColor="#F8F8F8"
           borderColor="#00A3E2"
           disabled={this.state.nextButtonDisabled}
-          margin="0 auto"
+          margin="8px auto"
           marginBottom="12px"
           opacity={this.state.nextButtonOpacity}
           onPress={() => {

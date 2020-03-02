@@ -6,14 +6,14 @@ import { View } from 'react-native';
 import styled from 'styled-components';
 import Web3 from 'web3';
 import { CrypterestText } from '../components/common';
-import DebugUtilities from '../utilities/DebugUtilities.js';
+import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class WalletDetail extends Component {
   renderIcon() {
-    if (this.props.wallet.id === 0) {
+    if (this.props.currency.id === 0) {
       return <CoinImage source={require('../../assets/ether_icon.png')} />;
-    } else if (this.props.wallet.id === 1) {
+    } else if (this.props.currency.id === 1) {
       return <CoinImage source={require('../../assets/dai_icon.png')} />;
     }
   }
@@ -23,39 +23,39 @@ class WalletDetail extends Component {
     ethUsdBalance = ethUsdBalance.toFixed(2);
     let daiUsdBalance = PriceUtilities.convertDaiToUsd(daiBalance);
     daiUsdBalance = daiUsdBalance.toFixed(2);
-    if (this.props.wallet.id === 0) {
+    if (this.props.currency.id === 0) {
       try {
         return <CrypterestText fontSize="20">${ethUsdBalance}</CrypterestText>;
       } catch (err) {
-        DebugUtilities.logError(err);
+        LogUtilities.logError(err);
       }
-    } else if (this.props.wallet.id === 1) {
+    } else if (this.props.currency.id === 1) {
       try {
         return <CrypterestText fontSize="20">${daiUsdBalance}</CrypterestText>;
       } catch (err) {
-        DebugUtilities.logError(err);
+        LogUtilities.logError(err);
       }
     }
   }
 
   renderBalance(ethBalance, daiBalance) {
-    if (this.props.wallet.id === 0) {
+    if (this.props.currency.id === 0) {
       return <CrypterestText fontSize="20">{ethBalance} ETH</CrypterestText>;
-    } else if (this.props.wallet.id === 1) {
+    } else if (this.props.currency.id === 1) {
       return <CrypterestText fontSize="20">{daiBalance} DAI</CrypterestText>;
     }
   }
 
   renderPrice() {
-    if (this.props.wallet.id === 0) {
+    if (this.props.currency.id === 0) {
       return <CrypterestText fontSize="16">{this.props.price.eth}</CrypterestText>;
-    } else if (this.props.wallet.id === 1) {
+    } else if (this.props.currency.id === 1) {
       return <CrypterestText fontSize="16">{this.props.price.dai}</CrypterestText>;
     }
   }
 
   render() {
-    const { coin, notation } = this.props.wallet;
+    const { name, notation } = this.props.currency;
 
     const RoundDownBigNumber = BigNumber.clone({
       DECIMAL_PLACES: 4,
@@ -71,7 +71,7 @@ class WalletDetail extends Component {
       <Container>
         <CoinImageContainer>{this.renderIcon()}</CoinImageContainer>
         <PriceContainer>
-          <CoinText>{coin}</CoinText>
+          <CoinText>{name}</CoinText>
           <PriceText>
             1 {notation} = ${this.renderPrice()}
           </PriceText>

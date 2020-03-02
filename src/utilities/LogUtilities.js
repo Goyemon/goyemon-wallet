@@ -1,5 +1,5 @@
 'use strict';
-class DebugUtilities {
+class LogUtilities {
   static logInfo() {
     console.log(...arguments);
   }
@@ -9,4 +9,4 @@ class DebugUtilities {
   }
 }
 
-export default DebugUtilities;
+export default LogUtilities;

@@ -2,13 +2,18 @@
 import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
 import { saveOutgoingDaiTransactionAmount } from '../actions/ActionOutgoingDaiTransactionData';
-import { getGasPriceFast, getGasPriceAverage, getGasPriceSlow } from '../actions/ActionGasPrice';
+import {
+  getGasPriceFast,
+  getGasPriceAverage,
+  getGasPriceSlow,
+  updateGasPriceChosen
+} from '../actions/ActionGasPrice';
 import {
   saveTransactionFeeEstimateUsd,
   saveTransactionFeeEstimateEth
@@ -20,10 +25,9 @@ import {
   HeaderOne,
   Form,
   FormHeader,
-  CrypterestText,
   Loader
 } from '../components/common';
-import DebugUtilities from '../utilities/DebugUtilities.js';
+import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import ABIEncoder from '../utilities/AbiUtilities';
@@ -31,7 +35,7 @@ const GlobalConfig = require('../config.json');
 
 class DepositDai extends Component {
   constructor(props) {
-    super();
+    super(props);
     this.state = {
       gasPrice: [
         {
@@ -51,13 +55,14 @@ class DepositDai extends Component {
         }
       ],
       amount: '',
-      checked: 1,
+      checked: props.gasPrice.chosen,
       daiAmountValidation: undefined,
       ethAmountValidation: undefined,
       currency: 'USD',
       loading: false,
       buttonDisabled: true,
-      buttonOpacity: 0.5
+      buttonOpacity: 0.5,
+      showNetworkFee: false
     };
     this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance);
   }
@@ -66,6 +71,12 @@ class DepositDai extends Component {
     this.props.getGasPriceFast();
     this.props.getGasPriceAverage();
     this.props.getGasPriceSlow();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.gasPrice != prevProps.gasPrice) {
+      this.setState({ checked: this.props.gasPrice.chosen });
+    }
   }
 
   toggleCurrencySymbol() {
@@ -93,7 +104,10 @@ class DepositDai extends Component {
       const usdValue = this.getTransactionFeeEstimateInUsd(gasPriceWei);
       return <NetworkFeeText>${usdValue}</NetworkFeeText>;
     } else if (this.state.currency === 'USD') {
-      let ethValue = TransactionUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 350000);
+      let ethValue = TransactionUtilities.getTransactionFeeEstimateInEther(
+        gasPriceWei,
+        350000
+      );
       ethValue = parseFloat(ethValue).toFixed(5);
       return <NetworkFeeText>{ethValue}ETH</NetworkFeeText>;
     }
@@ -108,12 +122,16 @@ class DepositDai extends Component {
   }
 
   async constructTransactionObject() {
-    const transactionNonce = parseInt(TransactionUtilities.getTransactionNonce());
+    const transactionNonce = parseInt(
+      TransactionUtilities.getTransactionNonce()
+    );
     const mintEncodedABI = ABIEncoder.encodeCDAIMint(this.state.amount);
     const transactionObject = {
       nonce: `0x${transactionNonce.toString(16)}`,
       to: GlobalConfig.cDAIcontract,
-      gasPrice: `0x${parseFloat(this.state.gasPrice[this.state.checked].gasPriceWei).toString(16)}`,
+      gasPrice: `0x${parseFloat(
+        this.state.gasPrice[this.state.checked].gasPriceWei
+      ).toString(16)}`,
       gasLimit: `0x${parseFloat(350000).toString(16)}`,
       chainId: GlobalConfig.network_id,
       data: mintEncodedABI
@@ -126,16 +144,23 @@ class DepositDai extends Component {
     const daiBalance = new BigNumber(this.props.balance.daiBalance);
 
     if (
-      daiBalance.isGreaterThan(0) &&
       daiBalance.isGreaterThanOrEqualTo(amount) &&
       amount.isGreaterThanOrEqualTo(0)
     ) {
-      DebugUtilities.logInfo('the dai amount validated!');
-      this.setState({ daiAmountValidation: true, buttonDisabled: false, buttonOpacity: 1 });
+      LogUtilities.logInfo('the dai amount validated!');
+      this.setState({
+        daiAmountValidation: true,
+        buttonDisabled: false,
+        buttonOpacity: 1
+      });
       return true;
     }
-    DebugUtilities.logInfo('wrong dai balance!');
-    this.setState({ daiAmountValidation: false, buttonDisabled: true, buttonOpacity: 0.5 });
+    LogUtilities.logInfo('wrong dai balance!');
+    this.setState({
+      daiAmountValidation: false,
+      buttonDisabled: true,
+      buttonOpacity: 0.5
+    });
     return false;
   }
 
@@ -149,24 +174,30 @@ class DepositDai extends Component {
     transactionFeeLimitInEther = new BigNumber(transactionFeeLimitInEther);
 
     if (ethBalance.isGreaterThan(transactionFeeLimitInEther)) {
-      DebugUtilities.logInfo('the eth amount validated!');
+      LogUtilities.logInfo('the eth amount validated!');
       this.setState({ ethAmountValidation: true });
       return true;
     }
-    DebugUtilities.logInfo('wrong eth balance!');
+    LogUtilities.logInfo('wrong eth balance!');
     this.setState({ ethAmountValidation: false });
     return false;
   }
 
   renderInsufficientDaiBalanceMessage() {
-    if (this.state.daiAmountValidation || this.state.daiAmountValidation === undefined) {
+    if (
+      this.state.daiAmountValidation ||
+      this.state.daiAmountValidation === undefined
+    ) {
     } else {
       return <ErrorMessage>invalid amount!</ErrorMessage>;
     }
   }
 
   renderInsufficientEthBalanceMessage() {
-    if (this.state.ethAmountValidation || this.state.ethAmountValidation === undefined) {
+    if (
+      this.state.ethAmountValidation ||
+      this.state.ethAmountValidation === undefined
+    ) {
     } else {
       return <ErrorMessage>not enough ether!</ErrorMessage>;
     }
@@ -189,13 +220,13 @@ class DepositDai extends Component {
 
     if (daiAmountValidation && ethAmountValidation && isOnline) {
       this.setState({ loading: true, buttonDisabled: true });
-      DebugUtilities.logInfo('validation successful');
+      LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
       await this.props.saveOutgoingDaiTransactionAmount(amount);
       this.props.navigation.navigate('DepositDaiConfirmation');
     } else {
-      DebugUtilities.logInfo('form validation failed!');
+      LogUtilities.logInfo('form validation failed!');
     }
   };
 
@@ -206,9 +237,103 @@ class DepositDai extends Component {
     return <ErrorMessage>you are offline 😟</ErrorMessage>;
   }
 
+  renderNetworkFeeContainer() {
+    if (this.state.showNetworkFee) {
+      return (
+        <View>
+          <NetworkFeeHeaderContainer>
+            <FormHeader marginBottom="0" marginLeft="0" marginTop="0">
+              Network Fee
+            </FormHeader>
+            <NetworkFeeSymbolContainer
+              onPress={() => {
+                if (this.state.currency === 'ETH') {
+                  this.setState({ currency: 'USD' });
+                } else if (this.state.currency === 'USD') {
+                  this.setState({ currency: 'ETH' });
+                }
+              }}
+            >
+              {this.toggleCurrencySymbol()}
+            </NetworkFeeSymbolContainer>
+          </NetworkFeeHeaderContainer>
+          <UntouchableCardContainer
+            alignItems="center"
+            borderRadius="0"
+            flexDirection="column"
+            height="120px"
+            justifyContent="flex-start"
+            marginTop="16"
+            textAlign="left"
+            width="80%"
+          >
+            <NetworkFeeContainer>
+              {this.state.gasPrice.map((gasPrice, key) => (
+                <NetworkFee key={key}>
+                  {this.state.checked === key ? (
+                    <SpeedContainer>
+                      <SelectedButton>{gasPrice.speed}</SelectedButton>
+                      <Icon
+                        name={gasPrice.imageName}
+                        size={40}
+                        color="#1BA548"
+                      />
+                      <SelectedButton>
+                        {this.toggleCurrency(gasPrice.gasPriceWei)}
+                      </SelectedButton>
+                    </SpeedContainer>
+                  ) : (
+                    <SpeedContainer
+                      onPress={() => {
+                        this.setState({ checked: key });
+                        this.props.updateGasPriceChosen(key);
+                        this.validateEthAmount();
+                      }}
+                    >
+                      <UnselectedButton>{gasPrice.speed}</UnselectedButton>
+                      <Icon name={gasPrice.imageName} size={40} color="#000" />
+                      <UnselectedButton>
+                        {this.toggleCurrency(gasPrice.gasPriceWei)}
+                      </UnselectedButton>
+                    </SpeedContainer>
+                  )}
+                </NetworkFee>
+              ))}
+            </NetworkFeeContainer>
+          </UntouchableCardContainer>
+          <MenuUpContainer>
+            <Icon
+              name="menu-up"
+              color="#000"
+              onPress={() => {
+                this.setState({ showNetworkFee: false });
+              }}
+              size={32}
+            />
+          </MenuUpContainer>
+        </View>
+      );
+    } else if (!this.state.showNetworkFee) {
+      return (
+        <View>
+          <Icon
+            name="menu-down"
+            color="#000"
+            onPress={() => {
+              this.setState({ showNetworkFee: true });
+            }}
+            size={32}
+          />
+        </View>
+      );
+    }
+  }
+
   render() {
     const { balance, cDaiLendingInfo } = this.props;
-    const currentInterestRate = new BigNumber(cDaiLendingInfo.currentInterestRate)
+    const currentInterestRate = new BigNumber(
+      cDaiLendingInfo.currentInterestRate
+    )
       .div(new BigNumber(10).pow(24))
       .toFixed(2);
 
@@ -262,7 +387,11 @@ class DepositDai extends Component {
           <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
             Deposit Amount
           </FormHeader>
-          <Form borderColor={this.getAmountBorderColor()} borderWidth={1} height="56px">
+          <Form
+            borderColor={this.getAmountBorderColor()}
+            borderWidth={1}
+            height="56px"
+          >
             <SendTextInputContainer>
               <SendTextInput
                 placeholder="amount"
@@ -278,59 +407,7 @@ class DepositDai extends Component {
             </SendTextInputContainer>
           </Form>
           <View>{this.renderInsufficientDaiBalanceMessage()}</View>
-          <NetworkFeeHeaderContainer>
-            <FormHeader marginBottom="0" marginLeft="0" marginTop="0">
-              Network Fee
-            </FormHeader>
-            <NetworkFeeSymbolContainer
-              onPress={() => {
-                if (this.state.currency === 'ETH') {
-                  this.setState({ currency: 'USD' });
-                } else if (this.state.currency === 'USD') {
-                  this.setState({ currency: 'ETH' });
-                }
-              }}
-            >
-              {this.toggleCurrencySymbol()}
-            </NetworkFeeSymbolContainer>
-          </NetworkFeeHeaderContainer>
-          <UntouchableCardContainer
-            alignItems="center"
-            borderRadius="0"
-            flexDirection="column"
-            height="120px"
-            justifyContent="flex-start"
-            marginTop="16"
-            textAlign="left"
-            width="80%"
-          >
-            <NetworkFeeContainer>
-              {this.state.gasPrice.map((gasPrice, key) => (
-                <NetworkFee key={key}>
-                  {this.state.checked === key ? (
-                    <SpeedContainer>
-                      <SelectedButton>{gasPrice.speed}</SelectedButton>
-                      <Icon name={gasPrice.imageName} size={40} color="#1BA548" />
-                      <SelectedButton>{this.toggleCurrency(gasPrice.gasPriceWei)}</SelectedButton>
-                    </SpeedContainer>
-                  ) : (
-                    <SpeedContainer
-                      onPress={() => {
-                        this.validateEthAmount();
-                        this.setState({ checked: key });
-                      }}
-                    >
-                      <UnselectedButton>{gasPrice.speed}</UnselectedButton>
-                      <Icon name={gasPrice.imageName} size={40} color="#000" />
-                      <UnselectedButton>
-                        {this.toggleCurrency(gasPrice.gasPriceWei)}
-                      </UnselectedButton>
-                    </SpeedContainer>
-                  )}
-                </NetworkFee>
-              ))}
-            </NetworkFeeContainer>
-          </UntouchableCardContainer>
+          {this.renderNetworkFeeContainer()}
           <View>{this.renderInsufficientEthBalanceMessage()}</View>
           <ButtonWrapper>
             <Button
@@ -398,6 +475,13 @@ const Value = styled.Text`
 
 const CurrencySymbolText = styled.Text`
   font-family: 'HKGrotesk-Regular';
+`;
+
+const MenuUpContainer = styled.View`
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 8px;
 `;
 
 const NetworkFeeHeaderContainer = styled.View`
@@ -478,10 +562,8 @@ const mapDispatchToProps = {
   saveOutgoingDaiTransactionAmount,
   getGasPriceFast,
   getGasPriceAverage,
-  getGasPriceSlow
+  getGasPriceSlow,
+  updateGasPriceChosen
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DepositDai);
+export default connect(mapStateToProps, mapDispatchToProps)(DepositDai);

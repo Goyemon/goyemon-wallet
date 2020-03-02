@@ -17,7 +17,7 @@ import {
   HeaderOne,
   HeaderFour
 } from '../components/common/';
-import DebugUtilities from '../utilities/DebugUtilities.js';
+import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class Ethereum extends Component {
@@ -27,7 +27,7 @@ class Ethereum extends Component {
       ethUsdBalance = ethUsdBalance.toFixed(2);
       return ethUsdBalance;
     } catch (err) {
-      DebugUtilities.logError(err);
+      LogUtilities.logError(err);
     }
   }
 

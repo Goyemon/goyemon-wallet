@@ -14,7 +14,6 @@ class Transactions extends Component {
 
   renderTransactions() {
     const transactions = this.props.transactions ? this.props.transactions : [];
-    //const transactions = await TxStorage.storage.tempGetAllAsList();
 
     if (transactions.length == 0)
       return (

@@ -27,19 +27,19 @@ class WalletCreation extends Component {
   FadeInMessages() {
     return (
       <FadeInMessageContainer>
-        <FadeInMessageOne animation="fadeInDown" delay={500}>
+        <FadeInMessageOne animation="fadeInDown" delay={1000}>
           <FadeInMessageOneText>generating your keys...</FadeInMessageOneText>
         </FadeInMessageOne>
-        <FadeInMessageTwo animation="fadeInDown" delay={2000}>
+        <FadeInMessageTwo animation="fadeInDown" delay={2500}>
           <FadeInMessageTwoText>generating your address...</FadeInMessageTwoText>
         </FadeInMessageTwo>
-        <FadeInMessageThree animation="fadeInDown" delay={3500}>
+        <FadeInMessageThree animation="fadeInDown" delay={4000}>
           <FadeInMessageThreeText>fetching blockchain data...</FadeInMessageThreeText>
         </FadeInMessageThree>
-        <FadeInMessageFour animation="fadeInDown" delay={5000}>
+        <FadeInMessageFour animation="fadeInDown" delay={5500}>
           <FadeInMessageFourText>getting price data...</FadeInMessageFourText>
         </FadeInMessageFour>
-        <FadeInMessageFive animation="fadeInDown" delay={8500}>
+        <FadeInMessageFive animation="fadeInDown" delay={8000}>
           <FadeInMessageFiveText>this shouldn't take too long...</FadeInMessageFiveText>
         </FadeInMessageFive>
       </FadeInMessageContainer>
@@ -48,7 +48,7 @@ class WalletCreation extends Component {
 
   PullDownToRefreshMessage() {
     return (
-      <FadeInMessageSix animation="fadeIn" delay={10500}>
+      <FadeInMessageSix animation="fadeIn" delay={10000}>
         <FadeInMessageSixText>pull down to refresh 👇</FadeInMessageSixText>
       </FadeInMessageSix>
     );

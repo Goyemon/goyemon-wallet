@@ -19,7 +19,7 @@ import {
   Description,
   Loader
 } from '../components/common/';
-import DebugUtilities from '../utilities/DebugUtilities.js';
+import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import ABIEncoder from '../utilities/AbiUtilities';
@@ -70,11 +70,11 @@ class EarnDai extends Component {
     transactionFeeLimitInEther = new BigNumber(transactionFeeLimitInEther);
 
     if (ethBalance.isGreaterThan(transactionFeeLimitInEther)) {
-      DebugUtilities.logInfo('the eth amount validated!');
+      LogUtilities.logInfo('the eth amount validated!');
       this.setState({ ethAmountValidation: true });
       return true;
     }
-    DebugUtilities.logInfo('wrong eth balance!');
+    LogUtilities.logInfo('wrong eth balance!');
     this.setState({ ethAmountValidation: false });
     return false;
   }
@@ -88,7 +88,7 @@ class EarnDai extends Component {
 
   getApproveEncodedABI() {
     const addressSpender = GlobalConfig.cDAIcontract;
-    const amount = Web3.utils.toHex(-1);
+    const amount = 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff';
 
     const approveEncodedABI = ABIEncoder.encodeApprove(addressSpender, amount);
 
@@ -115,13 +115,13 @@ class EarnDai extends Component {
 
     if (ethAmountValidation && isOnline) {
       this.setState({ loading: true, buttonDisabled: true });
-      DebugUtilities.logInfo('validation successful');
+      LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await TransactionUtilities.sendOutgoingTransactionToServer(transactionObject);
       this.props.saveOutgoingDaiTransactionApproveAmount(Web3.utils.toHex(-1));
       this.setModalVisible(false);
     } else {
-      DebugUtilities.logInfo('validation failed!');
+      LogUtilities.logInfo('validation failed!');
     }
   };
 
@@ -162,7 +162,7 @@ class EarnDai extends Component {
         </TransactionButtonContainer>
       );
     }
-    DebugUtilities.logInfo('dai not approved yet');
+    LogUtilities.logInfo('dai not approved yet');
   }
 
   renderApproveButton() {
@@ -182,7 +182,7 @@ class EarnDai extends Component {
         />
       );
     }
-    DebugUtilities.logInfo('dai already approved');
+    LogUtilities.logInfo('dai already approved');
   }
 
   renderIsOnlineMessage() {

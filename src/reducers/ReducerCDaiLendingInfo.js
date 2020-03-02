@@ -1,5 +1,8 @@
 'use strict';
-import { SAVE_CDAI_LENDING_INFO, SAVE_DAI_APPROVAL_INFO } from '../constants/ActionTypes';
+import {
+  SAVE_CDAI_LENDING_INFO,
+  SAVE_DAI_APPROVAL_INFO
+} from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
   cDaiLendingInfo: {

@@ -2,12 +2,16 @@
 import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
-import { NavigationActions } from 'react-navigation';
+import { View, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
-import { getGasPriceFast, getGasPriceAverage, getGasPriceSlow } from '../actions/ActionGasPrice';
+import {
+  getGasPriceFast,
+  getGasPriceAverage,
+  getGasPriceSlow,
+  updateGasPriceChosen
+} from '../actions/ActionGasPrice';
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
 import { clearQRCodeData } from '../actions/ActionQRCodeData';
 import {
@@ -21,18 +25,17 @@ import {
   HeaderOne,
   Form,
   FormHeader,
-  CrypterestText,
   Loader
 } from '../components/common';
 import HomeStack from '../navigators/HomeStack';
-import DebugUtilities from '../utilities/DebugUtilities.js';
+import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 const GlobalConfig = require('../config.json');
 
 class SendEth extends Component {
   constructor(props) {
-    super();
+    super(props);
     this.state = {
       gasPrice: [
         {
@@ -53,13 +56,14 @@ class SendEth extends Component {
       ],
       toAddress: '',
       amount: '',
-      checked: 1,
+      checked: props.gasPrice.chosen,
       toAddressValidation: undefined,
       amountValidation: undefined,
       currency: 'USD',
       loading: false,
       buttonDisabled: true,
-      buttonOpacity: 0.5
+      buttonOpacity: 0.5,
+      showNetworkFee: false
     };
     this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance);
   }
@@ -75,6 +79,9 @@ class SendEth extends Component {
       this.setState({ toAddress: this.props.qrCodeData });
       this.validateToAddress(this.props.qrCodeData);
     }
+    if (this.props.gasPrice != prevProps.gasPrice) {
+      this.setState({ checked: this.props.gasPrice.chosen });
+    }
   }
 
   getUsdBalance() {
@@ -83,7 +90,7 @@ class SendEth extends Component {
       ethUsdBalance = ethUsdBalance.toFixed(2);
       return ethUsdBalance;
     } catch (err) {
-      DebugUtilities.logError(err);
+      LogUtilities.logError(err);
     }
   }
 
@@ -112,7 +119,10 @@ class SendEth extends Component {
       const usdValue = this.getTransactionFeeEstimateInUsd(gasPriceWei);
       return <NetworkFeeText>${usdValue}</NetworkFeeText>;
     } else if (this.state.currency === 'USD') {
-      let ethValue = TransactionUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 21000);
+      let ethValue = TransactionUtilities.getTransactionFeeEstimateInEther(
+        gasPriceWei,
+        21000
+      );
       ethValue = parseFloat(ethValue).toFixed(5);
       return <NetworkFeeText>{ethValue}ETH</NetworkFeeText>;
     }
@@ -127,13 +137,17 @@ class SendEth extends Component {
   }
 
   async constructTransactionObject() {
-    const transactionNonce = parseInt(TransactionUtilities.getTransactionNonce());
+    const transactionNonce = parseInt(
+      TransactionUtilities.getTransactionNonce()
+    );
     const amountWei = parseFloat(Web3.utils.toWei(this.state.amount, 'Ether'));
     const transactionObject = {
       nonce: `0x${transactionNonce.toString(16)}`,
       to: this.state.toAddress,
       value: `0x${amountWei.toString(16)}`,
-      gasPrice: `0x${parseFloat(this.state.gasPrice[this.state.checked].gasPriceWei).toString(16)}`,
+      gasPrice: `0x${parseFloat(
+        this.state.gasPrice[this.state.checked].gasPriceWei
+      ).toString(16)}`,
       gasLimit: `0x${parseFloat(21000).toString(16)}`,
       chainId: GlobalConfig.network_id
     };
@@ -142,21 +156,28 @@ class SendEth extends Component {
 
   validateToAddress(toAddress) {
     if (Web3.utils.isAddress(toAddress)) {
-      DebugUtilities.logInfo('address validated!');
+      LogUtilities.logInfo('address validated!');
       this.setState({ toAddressValidation: true });
       if (this.state.amountValidation === true) {
         this.setState({ buttonDisabled: false, buttonOpacity: 1 });
       }
       return true;
     } else if (!this.state.toAddressValidation) {
-      DebugUtilities.logInfo('invalid address');
-      this.setState({ toAddressValidation: false, buttonDisabled: true, buttonOpacity: 0.5 });
+      LogUtilities.logInfo('invalid address');
+      this.setState({
+        toAddressValidation: false,
+        buttonDisabled: true,
+        buttonOpacity: 0.5
+      });
       return false;
     }
   }
 
   renderInvalidToAddressMessage() {
-    if (this.state.toAddressValidation || this.state.toAddressValidation === undefined) {
+    if (
+      this.state.toAddressValidation ||
+      this.state.toAddressValidation === undefined
+    ) {
       return;
     } else if (!this.state.toAddressValidation) {
       return <ErrorMessage>invalid address!</ErrorMessage>;
@@ -175,24 +196,32 @@ class SendEth extends Component {
     transactionFeeLimitInEther = new BigNumber(transactionFeeLimitInEther);
 
     if (
-      ethBalance.isGreaterThan(0) &&
-      ethBalance.isGreaterThanOrEqualTo(amount.plus(transactionFeeLimitInEther)) &&
+      ethBalance.isGreaterThanOrEqualTo(
+        amount.plus(transactionFeeLimitInEther)
+      ) &&
       amount.isGreaterThanOrEqualTo(0)
     ) {
-      DebugUtilities.logInfo('the amount validated!');
+      LogUtilities.logInfo('the amount validated!');
       this.setState({ amountValidation: true });
       if (this.state.toAddressValidation === true) {
         this.setState({ buttonDisabled: false, buttonOpacity: 1 });
       }
       return true;
     }
-    DebugUtilities.logInfo('wrong balance!');
-    this.setState({ amountValidation: false, buttonDisabled: true, buttonOpacity: 0.5 });
+    LogUtilities.logInfo('wrong balance!');
+    this.setState({
+      amountValidation: false,
+      buttonDisabled: true,
+      buttonOpacity: 0.5
+    });
     return false;
   }
 
   renderInsufficientBalanceMessage() {
-    if (this.state.amountValidation || this.state.amountValidation === undefined) {
+    if (
+      this.state.amountValidation ||
+      this.state.amountValidation === undefined
+    ) {
     } else {
       return <ErrorMessage>invalid amount!</ErrorMessage>;
     }
@@ -225,12 +254,12 @@ class SendEth extends Component {
 
     if (toAddressValidation && amountValidation && isOnline) {
       this.setState({ loading: true, buttonDisabled: true });
-      DebugUtilities.logInfo('validation successful');
+      LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
       this.props.navigation.navigate('SendEthConfirmation');
     } else {
-      DebugUtilities.logInfo('form validation failed!');
+      LogUtilities.logInfo('form validation failed!');
     }
   };
 
@@ -239,6 +268,98 @@ class SendEth extends Component {
       return;
     }
     return <ErrorMessage>you are offline 😟</ErrorMessage>;
+  }
+
+  renderNetworkFeeContainer() {
+    if (this.state.showNetworkFee) {
+      return (
+        <View>
+          <NetworkFeeHeaderContainer>
+            <FormHeader marginBottom="0" marginLeft="0" marginTop="0">
+              Network Fee
+            </FormHeader>
+            <NetworkFeeSymbolContainer
+              onPress={() => {
+                if (this.state.currency === 'ETH') {
+                  this.setState({ currency: 'USD' });
+                } else if (this.state.currency === 'USD') {
+                  this.setState({ currency: 'ETH' });
+                }
+              }}
+            >
+              {this.toggleCurrencySymbol()}
+            </NetworkFeeSymbolContainer>
+          </NetworkFeeHeaderContainer>
+          <UntouchableCardContainer
+            alignItems="center"
+            borderRadius="0"
+            flexDirection="column"
+            height="120px"
+            justifyContent="center"
+            marginTop="16"
+            textAlign="center"
+            width="80%"
+          >
+            <NetworkFeeContainer>
+              {this.state.gasPrice.map((gasPrice, key) => (
+                <NetworkFee key={key}>
+                  {this.state.checked === key ? (
+                    <SpeedContainer>
+                      <SelectedButton>{gasPrice.speed}</SelectedButton>
+                      <Icon
+                        name={gasPrice.imageName}
+                        size={40}
+                        color="#1BA548"
+                      />
+                      <SelectedButton>
+                        {this.toggleCurrency(gasPrice.gasPriceWei)}
+                      </SelectedButton>
+                    </SpeedContainer>
+                  ) : (
+                    <SpeedContainer
+                      onPress={() => {
+                        this.setState({ checked: key });
+                        this.props.updateGasPriceChosen(key);
+                        this.validateAmount(this.state.amount);
+                      }}
+                    >
+                      <UnselectedButton>{gasPrice.speed}</UnselectedButton>
+                      <Icon name={gasPrice.imageName} size={40} color="#000" />
+                      <UnselectedButton>
+                        {this.toggleCurrency(gasPrice.gasPriceWei)}
+                      </UnselectedButton>
+                    </SpeedContainer>
+                  )}
+                </NetworkFee>
+              ))}
+            </NetworkFeeContainer>
+          </UntouchableCardContainer>
+          <MenuUpContainer>
+            <Icon
+              name="menu-up"
+              color="#000"
+              onPress={() => {
+                this.setState({ showNetworkFee: false });
+              }}
+              size={32}
+            />
+          </MenuUpContainer>
+        </View>
+      );
+    } else if (!this.state.showNetworkFee) {
+      return (
+        <View>
+          <Icon
+            name="menu-down"
+            color="#000"
+            onPress={() => {
+              this.setState({ showNetworkFee: true });
+            }}
+            size={32}
+          />
+        </View>
+      );
+    }
   }
 
   render() {
@@ -293,7 +414,11 @@ class SendEth extends Component {
           <FormHeader marginBottom="4" marginLeft="0" marginTop="0">
             To
           </FormHeader>
-          <Form borderColor={this.getToAddressBorderColor()} borderWidth={1} height="56px">
+          <Form
+            borderColor={this.getToAddressBorderColor()}
+            borderWidth={1}
+            height="56px"
+          >
             <SendTextInputContainer>
               <SendTextInput
                 placeholder="address"
@@ -324,7 +449,11 @@ class SendEth extends Component {
           <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
             Amount
           </FormHeader>
-          <Form borderColor={this.getAmountBorderColor()} borderWidth={1} height="56px">
+          <Form
+            borderColor={this.getAmountBorderColor()}
+            borderWidth={1}
+            height="56px"
+          >
             <SendTextInputContainer>
               <SendTextInput
                 placeholder="0"
@@ -340,59 +469,7 @@ class SendEth extends Component {
             </SendTextInputContainer>
           </Form>
           <View>{this.renderInsufficientBalanceMessage()}</View>
-          <NetworkFeeHeaderContainer>
-            <FormHeader marginBottom="0" marginLeft="0" marginTop="0">
-              Network Fee
-            </FormHeader>
-            <NetworkFeeSymbolContainer
-              onPress={() => {
-                if (this.state.currency === 'ETH') {
-                  this.setState({ currency: 'USD' });
-                } else if (this.state.currency === 'USD') {
-                  this.setState({ currency: 'ETH' });
-                }
-              }}
-            >
-              {this.toggleCurrencySymbol()}
-            </NetworkFeeSymbolContainer>
-          </NetworkFeeHeaderContainer>
-          <UntouchableCardContainer
-            alignItems="center"
-            borderRadius="0"
-            flexDirection="column"
-            height="120px"
-            justifyContent="center"
-            marginTop="16"
-            textAlign="center"
-            width="80%"
-          >
-            <NetworkFeeContainer>
-              {this.state.gasPrice.map((gasPrice, key) => (
-                <NetworkFee key={key}>
-                  {this.state.checked === key ? (
-                    <SpeedContainer>
-                      <SelectedButton>{gasPrice.speed}</SelectedButton>
-                      <Icon name={gasPrice.imageName} size={40} color="#1BA548" />
-                      <SelectedButton>{this.toggleCurrency(gasPrice.gasPriceWei)}</SelectedButton>
-                    </SpeedContainer>
-                  ) : (
-                    <SpeedContainer
-                      onPress={() => {
-                        this.setState({ checked: key });
-                        this.validateAmount(this.state.amount);
-                      }}
-                    >
-                      <UnselectedButton>{gasPrice.speed}</UnselectedButton>
-                      <Icon name={gasPrice.imageName} size={40} color="#000" />
-                      <UnselectedButton>
-                        {this.toggleCurrency(gasPrice.gasPriceWei)}
-                      </UnselectedButton>
-                    </SpeedContainer>
-                  )}
-                </NetworkFee>
-              ))}
-            </NetworkFeeContainer>
-          </UntouchableCardContainer>
+          {this.renderNetworkFeeContainer()}
           <ButtonWrapper>
             <Button
               text="Next"
@@ -404,7 +481,10 @@ class SendEth extends Component {
               marginBottom="12px"
               opacity={this.state.buttonOpacity}
               onPress={async () => {
-                await this.validateForm(this.state.toAddress, this.state.amount);
+                await this.validateForm(
+                  this.state.toAddress,
+                  this.state.amount
+                );
                 this.setState({ loading: false, buttonDisabled: false });
               }}
             />
@@ -466,6 +546,13 @@ const Value = styled.Text`
 
 const CurrencySymbolText = styled.Text`
   font-family: 'HKGrotesk-Regular';
+`;
+
+const MenuUpContainer = styled.View`
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 8px;
 `;
 
 const NetworkFeeHeaderContainer = styled.View`
@@ -548,10 +635,8 @@ const mapDispatchToProps = {
   getGasPriceFast,
   getGasPriceAverage,
   getGasPriceSlow,
+  updateGasPriceChosen,
   clearQRCodeData
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SendEth);
+export default connect(mapStateToProps, mapDispatchToProps)(SendEth);
