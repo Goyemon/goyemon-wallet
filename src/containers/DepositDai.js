@@ -54,6 +54,7 @@ class DepositDai extends Component {
           gasPriceWei: '0'
         }
       ],
+      ethBalance: Web3.utils.fromWei(props.balance.weiBalance),
       amount: '',
       checked: props.gasPrice.chosen,
       daiAmountValidation: undefined,
@@ -64,7 +65,6 @@ class DepositDai extends Component {
       buttonOpacity: 0.5,
       showNetworkFee: false
     };
-    this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance);
   }
 
   componentDidMount() {
@@ -76,6 +76,9 @@ class DepositDai extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.gasPrice != prevProps.gasPrice) {
       this.setState({ checked: this.props.gasPrice.chosen });
+    }
+    if (this.props.balance != prevProps.balance) {
+      this.setState({ ethBalance: Web3.utils.fromWei(this.props.balance.weiBalance) });
     }
   }
 
@@ -170,7 +173,7 @@ class DepositDai extends Component {
       350000
     );
 
-    const ethBalance = new BigNumber(this.ethBalance);
+    const ethBalance = new BigNumber(this.state.ethBalance);
     transactionFeeLimitInEther = new BigNumber(transactionFeeLimitInEther);
 
     if (ethBalance.isGreaterThan(transactionFeeLimitInEther)) {

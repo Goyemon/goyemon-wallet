@@ -59,6 +59,7 @@ class SendDai extends Component {
           gasPriceWei: '0'
         }
       ],
+      ethBalance: Web3.utils.fromWei(props.balance.weiBalance),
       toAddress: '',
       amount: '',
       checked: props.gasPrice.chosen,
@@ -71,7 +72,6 @@ class SendDai extends Component {
       buttonOpacity: 0.5,
       showNetworkFee: false
     };
-    this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance);
   }
 
   componentDidMount() {
@@ -87,6 +87,9 @@ class SendDai extends Component {
     }
     if (this.props.gasPrice != prevProps.gasPrice) {
       this.setState({ checked: this.props.gasPrice.chosen });
+    }
+    if (this.props.balance != prevProps.balance) {
+      this.setState({ ethBalance: Web3.utils.fromWei(this.props.balance.weiBalance) });
     }
   }
 
@@ -213,7 +216,7 @@ class SendDai extends Component {
       65000
     );
 
-    const ethBalance = new BigNumber(this.ethBalance);
+    const ethBalance = new BigNumber(this.state.ethBalance);
     transactionFeeLimitInEther = new BigNumber(transactionFeeLimitInEther);
 
     if (ethBalance.isGreaterThan(transactionFeeLimitInEther)) {

@@ -54,6 +54,7 @@ class SendEth extends Component {
           gasPriceWei: '0'
         }
       ],
+      ethBalance: Web3.utils.fromWei(props.balance.weiBalance),
       toAddress: '',
       amount: '',
       checked: props.gasPrice.chosen,
@@ -65,7 +66,6 @@ class SendEth extends Component {
       buttonOpacity: 0.5,
       showNetworkFee: false
     };
-    this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance);
   }
 
   componentDidMount() {
@@ -82,11 +82,14 @@ class SendEth extends Component {
     if (this.props.gasPrice != prevProps.gasPrice) {
       this.setState({ checked: this.props.gasPrice.chosen });
     }
+    if (this.props.balance != prevProps.balance) {
+      this.setState({ ethBalance: Web3.utils.fromWei(this.props.balance.weiBalance) });
+    }
   }
 
   getUsdBalance() {
     try {
-      let ethUsdBalance = PriceUtilities.convertEthToUsd(this.ethBalance);
+      let ethUsdBalance = PriceUtilities.convertEthToUsd(this.state.ethBalance);
       ethUsdBalance = ethUsdBalance.toFixed(2);
       return ethUsdBalance;
     } catch (err) {
@@ -190,7 +193,7 @@ class SendEth extends Component {
       21000
     );
 
-    const ethBalance = new BigNumber(this.ethBalance);
+    const ethBalance = new BigNumber(this.state.ethBalance);
 
     amount = new BigNumber(amount);
     transactionFeeLimitInEther = new BigNumber(transactionFeeLimitInEther);
@@ -369,7 +372,7 @@ class SendEth extends Component {
       DECIMAL_PLACES: 4,
       ROUNDING_MODE: BigNumber.ROUND_DOWN
     });
-    const ethBalance = RoundDownBigNumber(this.ethBalance).toFixed(4);
+    const ethBalance = RoundDownBigNumber(this.state.ethBalance).toFixed(4);
 
     this.state.gasPrice[0].gasPriceWei = this.props.gasPrice.fast;
     this.state.gasPrice[1].gasPriceWei = this.props.gasPrice.average;
