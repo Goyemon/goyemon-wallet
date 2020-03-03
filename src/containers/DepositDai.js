@@ -117,7 +117,7 @@ class DepositDai extends Component {
     }
   }
 
-  async constructTransactionObject() {
+  constructTransactionObject() {
     const transactionNonce = parseInt(
       TransactionUtilities.getTransactionNonce()
     );

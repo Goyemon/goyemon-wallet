@@ -128,7 +128,7 @@ class SendDai extends Component {
     }
   }
 
-  async constructTransactionObject() {
+  constructTransactionObject() {
     const transactionNonce = parseInt(
       TransactionUtilities.getTransactionNonce()
     );
