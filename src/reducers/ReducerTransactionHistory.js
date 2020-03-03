@@ -88,12 +88,16 @@ const transactions = (state = INITIAL_STATE, action) => {
     case REMOVE_EXISTING_TRANSACTION_OBJECT:
       return {
         transactions: state.transactions.filter(transaction => {
-          !(
+          if (
             (transaction.nonce === action.payload.nonce &&
               transaction.state === 'sent') ||
             (transaction.hash === action.payload.hash &&
               transaction.state === 'pending')
-          );
+          ) {
+            return false;
+          } else {
+            return true;
+          }
         })
       };
     case UPDATE_ERROR_SENT_TRANSACTION:
