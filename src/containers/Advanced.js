@@ -78,12 +78,12 @@ class Advanced extends Component {
         <HeaderOne marginTop="96">Advanced</HeaderOne>
         <Container>
           <HeaderThree color="#000" marginBottom="0" marginLeft="0" marginTop="24">
-            Your Fcm Token
+            Your Device Info
           </HeaderThree>
           <CrypterestText fontSize="14">{this.props.debugInfo.fcmToken}</CrypterestText>
           {this.renderCopyText()}
           <HeaderThree color="#000" marginBottom="0" marginLeft="0" marginTop="24">
-            Other Debug Info
+            Other Device Info
           </HeaderThree>
           <CrypterestText fontSize="14">{otherDebugInfo}</CrypterestText>
           <HeaderThree color="#000" marginBottom="0" marginLeft="0" marginTop="24">
