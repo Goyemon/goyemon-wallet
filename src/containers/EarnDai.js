@@ -500,7 +500,7 @@ class EarnDai extends Component {
                 </BalanceContainer>
               </UntouchableCardContainer>
               <Description marginBottom="8" marginLeft="8" marginTop="32">
-              How Much Do You Want to Deposit?
+              how much do you want to deposit?
               </Description>
               <Form
                 borderColor={this.getAmountBorderColor()}
@@ -596,10 +596,10 @@ const ModalContainer = styled.View`
   height: 100%;
 `;
 
-const ModalBackground = styled.View`
+const ModalBackground = styled.ScrollView`
   background-color: #f8f8f8;
   border-radius: 16px;
-  height: 80%;
+  height: 90%;
   min-height: 400px;
   margin-top: 40;
   width: 90%;
@@ -609,6 +609,7 @@ const MondalInner = styled.View`
   justify-content: center;
   flex: 1;
   flex-direction: column;
+  margin-top: 40;
   width: 100%;
 `;
 
