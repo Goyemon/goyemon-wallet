@@ -211,37 +211,48 @@ export default async downstreamMessage => {
               store.dispatch(
                 removeExistingTransactionObject(parsedPendingOrIncludedTx)
               );
-            } else if ((sentTxExist || pendingTxExist) && !confirmedTxExist) {
-              store.dispatch(
-                updateWithPendingOrIncludedTransaction(
-                  parsedPendingOrIncludedTx
-                )
+            } else if (!confirmedTxExist) {
+              if (sentTxExist || pendingTxExist) {
+                store.dispatch(
+                  updateWithPendingOrIncludedTransaction(
+                    parsedPendingOrIncludedTx
+                  )
+                );
+              } else if (!sentTxExist && !pendingTxExist) {
+                store.dispatch(
+                  addPendingOrIncludedTransaction(parsedPendingOrIncludedTx)
+                );
+                store.dispatch(incrementTotalTransactions());
+              }
+            } else {
+              LogUtilities.logInfo(
+                'unknown included transaction ===>',
+                parsedPendingOrIncludedTx
               );
-            } else if (!sentTxExist && !pendingTxExist && !confirmedTxExist) {
-              store.dispatch(
-                addPendingOrIncludedTransaction(parsedPendingOrIncludedTx)
-              );
-              store.dispatch(incrementTotalTransactions());
             }
           } else if (isIncomingTx) {
             if (confirmedTxExist) {
               store.dispatch(
                 updateConfirmedTransactionData(parsedPendingOrIncludedTx)
               );
-              store.dispatch(
-                removeExistingTransactionObject(parsedPendingOrIncludedTx)
+            } else if (!confirmedTxExist) {
+              if (pendingTxExist) {
+                store.dispatch(
+                  updateWithPendingOrIncludedTransaction(
+                    parsedPendingOrIncludedTx
+                  )
+                );
+              } else if (!pendingTxExist) {
+                store.dispatch(
+                  addPendingOrIncludedTransaction(parsedPendingOrIncludedTx)
+                );
+                store.dispatch(incrementTotalTransactions());
+              }
+            } else {
+              LogUtilities.logInfo(
+                'unknown included transaction ===>',
+                parsedPendingOrIncludedTx
               );
-            } else if (pendingTxExist && !confirmedTxExist) {
-              store.dispatch(
-                updateWithPendingOrIncludedTransaction(
-                  parsedPendingOrIncludedTx
-                )
-              );
-            } else if (!pendingTxExist && !confirmedTxExist) {
-              store.dispatch(
-                addPendingOrIncludedTransaction(parsedPendingOrIncludedTx)
-              );
-              store.dispatch(incrementTotalTransactions());
             }
           } else {
             LogUtilities.logInfo(
@@ -301,6 +312,5 @@ export default async downstreamMessage => {
       });
     }
   }
-
   return Promise.resolve();
 };
