@@ -121,7 +121,12 @@ class DepositDai extends Component {
     const transactionNonce = parseInt(
       TransactionUtilities.getTransactionNonce()
     );
-    const mintEncodedABI = ABIEncoder.encodeCDAIMint(this.state.daiAmount);
+
+    const daiAmount = this.state.daiAmount.split('.').join("");
+    const decimalPlaces = TransactionUtilities.decimalPlaces(this.state.daiAmount);
+    const decimals = 18 - parseInt(decimalPlaces); 
+
+    const mintEncodedABI = ABIEncoder.encodeCDAIMint(daiAmount, decimals);
     const transactionObject = {
       nonce: `0x${transactionNonce.toString(16)}`,
       to: GlobalConfig.cDAIcontract,

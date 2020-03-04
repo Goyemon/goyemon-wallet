@@ -599,6 +599,17 @@ class TransactionUtilities {
     return isDaiApproved;
   }
 
+  decimalPlaces(number) {
+    var match = ('' + number).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
+    if (!match) {
+      return 0;
+    }
+    return Math.max(
+      0,
+      (match[1] ? match[1].length : 0) - (match[2] ? +match[2] : 0)
+    );
+  }
+
   getTransactionNonce() {
     const stateTree = store.getState();
     const transactions = stateTree.ReducerTransactionHistory.transactions;
