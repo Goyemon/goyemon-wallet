@@ -20,15 +20,7 @@ class TransactionList extends Component {
 		let transactionlist;
 
 		if (this.props.tokenFilter && this.props.tokenFilter == 'Dai')
-			transactionlist = txes ? txes.filter(tx => {
-				if (tx.hasTokenOperations('dai'))
-					return true;
-
-				if (tx.hasTokenOperations('cdai'))
-					return tx.hasTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.mint) ||
-						tx.hasTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.redeem) ||
-						tx.hasTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.failure);
-			}) : [];
+			transactionlist = txes ? txes.filter(TxStorage.storage.txfilter_isRelevantToDai) : [];
 
 		else
 			transactionlist = txes;

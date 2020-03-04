@@ -53,20 +53,26 @@ function hexToBuf(addr) {
 	_TXidx_Dai[num]: could be like above but for txes that match the dai filter criteria, etc.
 
 */
-class PersistStorageAbstraction {
-	constructor(prefix='') {
+class PersistTxStorageAbstraction {
+	constructor(prefix='', onTxLoadCallback) {
 		this.storage = null;
 		this.prefix = prefix; // `${this.prefix}${key}`
 
 		this._tempwritetimer = null;
 		AsyncStorage.getItem(`${this.prefix}_temp`).then(x => {
 			this.storage = {};
-			if (x == null)
-				return;
 
-			Object.entries(JSON.parse(x)).forEach(([hash, data]) => {
-				this.storage[hash] = new Tx(data[7]).setHash(hash).fromDataArray(data, false);
-			});
+			if (x != null) {
+				Object.entries(JSON.parse(x)).forEach(([hash, data]) => {
+					const tx = new Tx(data[7]).setHash(hash).fromDataArray(data, false);
+					this.storage[hash] = tx;
+					if (onTxLoadCallback)
+						onTxLoadCallback(tx);
+				});
+			}
+
+			if (onTxLoadCallback)
+				onTxLoadCallback();
 		});
 	}
 
@@ -112,15 +118,22 @@ class PersistStorageAbstraction {
 		return Object.values(this.storage);
 	}
 
+	async getAllTxes() { // only returns TXes, not other stored values.
+		return Object.values(this.storage).filter(x => x instanceof Tx);
+	}
+
 	async hasItem(key) {
 		return this.storage.hasOwnProperty(key);
 	}
 }
 class StorageAbstraction {
-	constructor(prefix='') {
+	constructor(prefix='', onFinishLoadingCallback) {
 		this.storage = {};
 		this.prefix = prefix; // `${this.prefix}${key}`
 		this.keyCache = null;
+
+		if (onFinishLoadingCallback)
+			onFinishLoadingCallback();
 	}
 
 	async getItem(key) {
@@ -328,19 +341,23 @@ class Tx {
 		this.gas = value;
 		return this;
 	}
+
 	setGasPrice(value) {
 		this.gasPrice = value;
 		return this;
 	}
+
 	setTimestamp(tstamp) {
 		this.timestamp = tstamp;
 		return this;
 	}
+
 	setState(state) {
 		this.state = state;
 		return this;
 	}
-	upgradeState(new_state, new_timestamp) {
+
+	upgradeState(new_state, new_timestamp) { // updates state and timestamp ONLY if the new state is a later state (so, we cant go back from confirmed to included, for example)
 		if (new_state >= this.state) {
 			this.state = new_state;
 			this.timestamp = new_timestamp;
@@ -442,14 +459,17 @@ class Tx {
 // ========== storage class for all transactions ==========
 // this is the one we instantiate (once) to use the TX data in storage.
 // import React, { Component } from 'react'; - not needed without the wrapper.
+const maxNonceKey = '_tx[maxnonce]';
 class TxStorage {
 	constructor (ourAddress) {
 		this.__addDebug('TxStorage constructor called');
-		this.included_txes = new PersistStorageAbstraction('_tx_'); // hash -> tx map
 		this.included_max_nonce = 0; // for our txes
-
-		this.not_included_txes = new StorageAbstraction('_ntx_'); // only for new things we send, it's a nonce -> tx map.
 		this.not_included_max_nonce = 0;
+
+		AsyncStorage.getItem(maxNonceKey).then(x => { this.included_max_nonce = parseInt(x); });
+
+		this.included_txes = new PersistTxStorageAbstraction('_tx_'); // hash -> tx map
+		this.not_included_txes = new StorageAbstraction('_ntx_'); // only for new things we send, it's a nonce -> tx map.
 
 		if (ourAddress)
 			this.our_address = hexToBuf(ourAddress);
@@ -504,6 +524,7 @@ class TxStorage {
 
 	// 	}
 	// }
+
 	subscribe(func) {
 		// try {
 			this.on_update.push(func);
@@ -527,15 +548,34 @@ class TxStorage {
 		this.our_address = hexToBuf(ourAddress);
 	}
 
-	newTx(state) {
-		return new Tx(state);
+	newTx(state=TxStates.STATE_NEW) {
+		return new Tx(state).setTimestamp(int(Date.now() / 1000));
 	}
 
 	__onUpdate() {
 		// this.__addDebug('TxStorage __onUpdate() called');
 		// TODO: promise.all also not_included
-		this.included_txes.getAllValues().then((t) => {
-			t.sort((a, b) => b.getTimestamp() - a.getTimestamp());
+		this.included_txes.getAllTxes().then((t) => {
+			// t.forEach(x => {
+			// 	try {
+			// 		x.getTimestamp();
+			// 	}
+			// 	catch (e) {
+			// 		let out = [];
+			// 		for (i in x)
+			// 			out.push(`${i}: ${x[i]}`);
+			// 		this.__addDebug(`herpderp exc: ${e.message} x:${x}       || ${out.join('; ')}`);
+			// 		throw e;
+			// 	}
+			// });
+
+			try {
+				t.sort((a, b) => b.getTimestamp() - a.getTimestamp());
+			}
+			catch (e) {
+				this.__addDebug(`TxStorage __onUpdate() sort() exc: ${e.message} @ ${e.stack}\nt:${t}`);
+				throw e;
+			}
 			try {
 				// this.__addDebug(`TxStorage __executeUpdateCallbacks() called, t: ${t.length}`);
 				this.on_update.forEach(x => x(t));
@@ -545,7 +585,7 @@ class TxStorage {
 				this.__addDebug(`__executeUpdateCallbacks exception: ${e.message} @ ${e.stack}`);
 			}
 		}).catch((e) => {
-			this.__addDebug(`TxStorage __onUpdate() getAllValues() exc: ${e.message} @ ${e.stack}`);
+			this.__addDebug(`TxStorage __onUpdate() getAllTxes() exc: ${e.message} @ ${e.stack}`);
 		});
 		// this.__addDebug('TxStorage __onUpdate() finishing');
 		return this;
@@ -565,8 +605,9 @@ class TxStorage {
 				throw new InvalidStateTxException(`tx state is INCLUDED or later, but no hash set.`)
 
 			await this.included_txes.setItem(tx.hash, tx);
-			if (tx.from_addr && tx.nonce > this.included_max_nonce && this.our_address.equals(tx.from_addr)) // not using getFrom() cause we actually want the Buffer, not a string.
-				this.included_max_nonce = tx.nonce;
+
+			if (this.txfilter_checkMaxNonce(tx) && !batch)
+				await AsyncStorage.setItem(maxNonceKey, this.included_max_nonce.toString());
 
 			if (!batch)
 				this.__onUpdate();
@@ -626,6 +667,29 @@ class TxStorage {
 		}
 	}
 
+
+	txfilter_checkMaxNonce(tx) { // not a real filter, but updates our max nonce.
+		if (tx.from_addr && tx.nonce > this.included_max_nonce && this.our_address.equals(tx.from_addr)) {
+			this.included_max_nonce = tx.nonce;
+			return true;
+		}
+
+		return false;
+	}
+
+	txfilter_isRelevantToDai(tx) {
+		if (tx.hasTokenOperations('dai'))
+			return true;
+
+		if (tx.hasTokenOperations('cdai'))
+			return tx.hasTokenOperation('cdai', TxTokenOpTypeToName.mint) ||
+				tx.hasTokenOperation('cdai', TxTokenOpTypeToName.redeem) ||
+				tx.hasTokenOperation('cdai', TxTokenOpTypeToName.failure);
+
+		return false;
+	}
+
+
 	async parseTxHistory(histObj) {
 		// this.__addDebug('TxStorage parseTxHistory() called');
 		await Promise.all(
@@ -640,13 +704,11 @@ class TxStorage {
 				return this.saveTx(tx, true);
 			})
 		);
-		this.__addDebug(`TxStorage parseTxHistory() end, entries: ${(await this.included_txes.getAllValues()).length}`);
-		this.__onUpdate();
-	}
 
-	checkMaxNonce(tx) {
-		if (tx.from_addr && tx.nonce > this.included_max_nonce && this.our_address.equals(tx.from_addr))
-			this.included_max_nonce = tx.nonce;
+		await AsyncStorage.setItem(maxNonceKey, this.included_max_nonce.toString());
+
+		this.__addDebug(`TxStorage parseTxHistory() end, entries: ${(await this.included_txes.getAllTxes()).length}`);
+		this.__onUpdate();
 	}
 
 	async processTxState(hash, data) {
@@ -659,7 +721,8 @@ class TxStorage {
 
 			await this.included_txes.setItem(hash, tx);
 
-			this.checkMaxNonce(tx);
+			if (this.txfilter_checkMaxNonce(tx))
+				await AsyncStorage.setItem(maxNonceKey, this.included_max_nonce.toString());
 
 			this.__onUpdate();
 			return;
@@ -677,7 +740,8 @@ class TxStorage {
 
 				await this.saveTx(tx);
 
-				this.checkMaxNonce(tx);
+				if (this.txfilter_checkMaxNonce(tx))
+					await AsyncStorage.setItem(maxNonceKey, this.included_max_nonce.toString());
 
 				this.__onUpdate();
 
@@ -691,7 +755,8 @@ class TxStorage {
 			if (tx.state >= TxStates.STATE_INCLUDED) {
 				await Promise.all([this.not_included_txes.removeItem(nonce), this.included_txes.setItem(tx.hash, tx)]);
 
-				this.checkMaxNonce(tx);
+				if (this.txfilter_checkMaxNonce(tx))
+					await AsyncStorage.setItem(maxNonceKey, this.included_max_nonce.toString());
 			}
 			else
 				await this.not_included_txes.setItem(nonce, tx);
@@ -705,11 +770,24 @@ class TxStorage {
 			await this.saveTx(
 				new Tx(data[7])
 					.setHash(hash)
-					.upgradeState(data[7], data[6])
+					.setTimestamp(data[6])
 			);
 
 			this.__onUpdate();
 		}
+	}
+
+	async markSentTxAsErrorByNonce(nonce) {
+		let tx = await this.not_included_txes.getItem(nonce);
+		if (tx) {
+			tx.setState(TxStates.STATE_ERROR);
+
+			await this.not_included_txes.setItem(nonce, tx);
+
+			this.__onUpdate();
+		}
+		else
+			throw new NoSuchTxException(`unknown txnonce: ${nonce}`)
 	}
 
 	async getNextNonce() {
@@ -727,19 +805,21 @@ class TxStorage {
 
 	async clear() {
 		let [t1, t2] = await Promise.all([this.included_txes.getAllKeys(), this.not_included_txes.getAllKeys()]);
+
 		let tasks = t1.map((x) => this.included_txes.removeItem(x));
 		t2.forEach(x => tasks.push(this.not_included_txes.removeItem(x)));
-		// tasks.splice(-1, 0, ...(t2.map((x) => this.not_included_txes.removeItem(x)))); -- apparently bad idea if we have many items in t2 (unlikely for us, but let's be safe)
+		tasks.push(AsyncStorage.setItem(maxNonceKey, '0'));
 		await Promise.all(tasks);
+
 		this.included_max_nonce = 0;
 
-		this.__onUpdate();
+		// this.__onUpdate();
 		return this;
 	}
 
 	async tempGetAllAsList() {
 		this.__addDebug('TxStorage tempGetAllAsList() called');
-		let ret = await this.included_txes.getAllValues();
+		let ret = await this.included_txes.getAllTxes();
 		ret.sort((a, b) => b.getTimestamp() - a.getTimestamp());
 
 		return ret;
@@ -749,7 +829,7 @@ class TxStorage {
 		if (this._isDAIApprovedForCDAI_cached === undefined) { // TODO: cache needs to be reset in onUpdate, unless it's true (it wont be more true after new transactions come)... although we may want to check the latest DAI approval only, what if we approve 0 after the MAX?
 			const our_hex_address = this.our_address.toString('hex');
 			const cdai_address = GlobalConfig.cDAIcontract.startsWith('0x') ? GlobalConfig.cDAIcontract.substr(2).toLowerCase() : GlobalConfig.cDAIcontract.toLowerCase();
-			this._isDAIApprovedForCDAI_cached = (await this.included_txes.getAllValues()).some(
+			this._isDAIApprovedForCDAI_cached = (await this.included_txes.getAllTxes()).some(
 				tx => tx.getTokenOperations('dai', TxTokenOpTypeToName.approval).some(
 					x => (x.spender == cdai_address && x.approver == our_hex_address)
 				)
@@ -767,7 +847,7 @@ class TxStorage {
 
 
 
-module.exports = {
+module.exports =  {
 	Tx: Tx,
 	// TxStorage: TxStorage, // nope, one instance to rule them all, let's not allow people to instantiate this.
 	TxStates: TxStates,
