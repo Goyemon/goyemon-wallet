@@ -30,13 +30,13 @@ class Transaction extends Component {
       this.isCDaiMintTx = cDaiMints.length > 0;
       this.cDaiMintValue;
       if (this.isCDaiMintTx)
-        this.cDaiMintValue = TransactionUtilities.parseHexCDaiValue(cDaiMints[0].mintUnderlying);
+        this.cDaiMintValue = TransactionUtilities.parseHexCDaiValue(`0x${cDaiMints[0].mintUnderlying}`);
 
       const cDaiRedeems = tx.getTokenOperations('cdai', TxStorage.TxTokenOpTypeToName.redeem);
       this.isCDaiRedeemUnderlyingTx = cDaiRedeems.length > 0;
       this.cDaiRedeemValue;
       if (this.isCDaiRedeemUnderlyingTx)
-        this.cDaiRedeemValue = TransactionUtilities.parseHexCDaiValue(cDaiRedeems[0].redeemUnderlying);
+        this.cDaiRedeemValue = TransactionUtilities.parseHexCDaiValue(`0x${cDaiRedeems[0].redeemUnderlying}`);
 
       const cDaiFails = tx.getTokenOperations('cdai', TxStorage.TxTokenOpTypeToName.failure);
       this.isCDaiFailedTx = cDaiFails.length > 0;
@@ -57,7 +57,7 @@ class Transaction extends Component {
       this.isIncomingAmeTx;
       this.ameTransferValue;
       if (this.isAmeTransferTx) {
-        this.ameTransferValue = TransactionUtilities.parseHexDaiValue(ameTrs[0].amount);
+        this.ameTransferValue = TransactionUtilities.parseHexDaiValue(`0x${ameTrs[0].amount}`);
         this.isOutgoingAmeTx = ameTrs.some((x) => Web3.utils.toChecksumAddress(x.from_addr) === props.checksumAddress);
         this.isIncomingAmeTx = ameTrs.some((x) => Web3.utils.toChecksumAddress(x.to_addr) === props.checksumAddress);
       }
@@ -68,7 +68,7 @@ class Transaction extends Component {
       this.isIncomingDaiTx;
       this.daiTransferValue;
       if (this.isDaiTransferTx) {
-        this.daiTransferValue = TransactionUtilities.parseHexDaiValue(daiTrs[0].amount);
+        this.daiTransferValue = TransactionUtilities.parseHexDaiValue(`0x${daiTrs[0].amount}`);
         this.isOutgoingDaiTx = daiTrs.some((x) => Web3.utils.toChecksumAddress(x.from_addr) === props.checksumAddress);
         this.isIncomingDaiTx = daiTrs.some((x) => Web3.utils.toChecksumAddress(x.to_addr) === props.checksumAddress);
       }
@@ -93,12 +93,14 @@ class Transaction extends Component {
             <Icon name="arrow-collapse" size={20} color="#5F5F5F" />
           </CrypterestText>
         );
+
       else if (this.isOutgoingDaiTx)
         return (
           <CrypterestText fontSize={16}>
             <Icon name="call-made" size={20} color="#F1860E" />
           </CrypterestText>
         );
+
       else if (this.isIncomingDaiTx)
         return (
           <CrypterestText fontSize={16}>
@@ -114,6 +116,7 @@ class Transaction extends Component {
             <Icon name="call-made" size={20} color="#F1860E" />
           </CrypterestText>
         );
+
       else if (this.isIncomingAmeTx)
         return (
           <CrypterestText fontSize={16}>
@@ -348,7 +351,7 @@ class Transaction extends Component {
       return <CrypterestText fontSize={16}>Contract Creation</CrypterestText>;
 
 
-    const roundedEthValue = parseFloat(TransactionUtilities.parseEthValue(this.props.transaction.getValue())).toFixed(4);
+    const roundedEthValue = parseFloat(TransactionUtilities.parseEthValue(`0x${this.props.transaction.getValue()}`)).toFixed(4);
     if (this.isOutgoingEthTx)
       return (
         <CrypterestText fontSize={16} style={styles.valueStyleRed}>
@@ -369,35 +372,42 @@ class Transaction extends Component {
     if (this.derpbugexception)
       return <CrypterestText fontSize={12}>{this.derpbugexception}</CrypterestText>;
 
-    const time = TransactionUtilities.parseTransactionTime(this.props.transaction.getTimestamp());
+    try {
 
-    return (
-      <TouchableCardContainer
-        alignItems="center"
-        borderRadius="0"
-        flexDirection="row"
-        height="96px"
-        justifyContent="center"
-        marginTop="0"
-        textAlign="left"
-        width="95%"
-        onPress={() => TxStorage.storage.__addDebug(JSON.stringify(this.props.transaction)).__addDebug(JSON.stringify(Object.entries(this).map(a => a[1] instanceof Object ? [a[0], "Obj"] : a)))}>
-        <TransactionList>
-          <InOrOutTransactionContainer>
-            {this.renderInOrOutTransactionIcon()}
-          </InOrOutTransactionContainer>
-          <TypeTimeContainer>
-            <Type>{this.renderType()}</Type>
-            <Time>{time}</Time>
-          </TypeTimeContainer>
-          <StatusContainer>{this.renderStatus()}</StatusContainer>
-          <ValueContainer>
-            {this.renderPlusOrMinusTransactionIcon()}
-            <CrypterestText fontSize={16}>{this.renderValue()}</CrypterestText>
-          </ValueContainer>
-        </TransactionList>
-      </TouchableCardContainer>
-    );
+      const time = TransactionUtilities.parseTransactionTime(this.props.transaction.getTimestamp());
+
+      return (
+        <TouchableCardContainer
+          alignItems="center"
+          borderRadius="0"
+          flexDirection="row"
+          height="96px"
+          justifyContent="center"
+          marginTop="0"
+          textAlign="left"
+          width="95%"
+          onPress={() => TxStorage.storage.__addDebug(JSON.stringify(this.props.transaction)).__addDebug(JSON.stringify(Object.entries(this).map(a => a[1] instanceof Object ? [a[0], "Obj"] : a)))}>
+          <TransactionList>
+            <InOrOutTransactionContainer>
+              {this.renderInOrOutTransactionIcon()}
+            </InOrOutTransactionContainer>
+            <TypeTimeContainer>
+              <Type>{this.renderType()}</Type>
+              <Time>{time}</Time>
+            </TypeTimeContainer>
+            <StatusContainer>{this.renderStatus()}</StatusContainer>
+            <ValueContainer>
+              {this.renderPlusOrMinusTransactionIcon()}
+              <CrypterestText fontSize={16}>{this.renderValue()}</CrypterestText>
+            </ValueContainer>
+          </TransactionList>
+        </TouchableCardContainer>
+      );
+    }
+    catch (e) {
+      const exc = `Transaction render() exception: ${e.message} @ ${e.stack} || ${JSON.stringify(this.props.transaction)}`;
+      return <CrypterestText fontSize={12}>{exc}</CrypterestText>;
+    }
   }
 }
 

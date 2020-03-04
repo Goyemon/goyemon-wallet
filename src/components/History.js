@@ -16,34 +16,18 @@ export default class History extends Component {
     };
   }
 
+
   toggleFilterChoiceText() {
-    if (this.state.filter === 'All') {
-      return (
-        <FilterChoiceContainer>
-          <FilterChoiceTextSelected>All</FilterChoiceTextSelected>
-          <TouchableOpacity
-            onPress={() => {
-              this.setState({ filter: 'Dai' });
-            }}
-          >
-            <FilterChoiceTextUnelected>Dai</FilterChoiceTextUnelected>
-          </TouchableOpacity>
-        </FilterChoiceContainer>
-      );
-    } else if (this.state.filter === 'Dai') {
-      return (
-        <FilterChoiceContainer>
-          <TouchableOpacity
-            onPress={() => {
-              this.setState({ filter: 'All' });
-            }}
-          >
-            <FilterChoiceTextUnelected>All</FilterChoiceTextUnelected>
-          </TouchableOpacity>
-          <FilterChoiceTextSelected>Dai</FilterChoiceTextSelected>
-        </FilterChoiceContainer>
-      );
-    }
+    const choices = ['All', 'Dai'].map(filter => {
+        if (filter == this.state.filter)
+          return <FilterChoiceTextSelected>{filter}</FilterChoiceTextSelected>;
+
+        return  <TouchableOpacity onPress={() => this.setState({ filter: filter })}>
+                  <FilterChoiceTextUnelected>{filter}</FilterChoiceTextUnelected>
+                </TouchableOpacity>;
+    });
+
+    return <FilterChoiceContainer>{choices}</FilterChoiceContainer>;
   }
 
   render() {

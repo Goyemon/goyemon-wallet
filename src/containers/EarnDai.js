@@ -23,6 +23,7 @@ import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import ABIEncoder from '../utilities/AbiUtilities';
+import TxStorage from '../lib/tx.js';
 const GlobalConfig = require('../config.json');
 
 class EarnDai extends Component {
@@ -38,8 +39,8 @@ class EarnDai extends Component {
   }
 
   async componentDidMount() {
-    if (this.props.transactions != null && this.props.transactions.length != null) {
-      this.props.saveDaiApprovalInfo(TransactionUtilities.isDaiApproved(this.props.transactions));
+    if (this.props.transactions != null && this.props.transactions.length != null) { // why is this checked every time? why not remember it once?
+      this.props.saveDaiApprovalInfo(TxStorage.isDAIApprovedForCDAI());
     }
     this.props.getGasPriceAverage();
   }
@@ -47,7 +48,7 @@ class EarnDai extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.transactions != null && this.props.transactions.length != null) {
       if (this.props.transactions != prevProps.transactions) {
-        this.props.saveDaiApprovalInfo(TransactionUtilities.isDaiApproved(this.props.transactions));
+        this.props.saveDaiApprovalInfo(TxStorage.storage.isDAIApprovedForCDAI());
       }
     }
   }
@@ -96,7 +97,7 @@ class EarnDai extends Component {
   }
 
   async constructTransactionObject() {
-    const transactionNonce = parseInt(TransactionUtilities.getTransactionNonce());
+    const transactionNonce = TxStorage.storage.getNextNonce();
     const approveEncodedABI = this.getApproveEncodedABI();
     const transactionObject = {
       nonce: `0x${transactionNonce.toString(16)}`,

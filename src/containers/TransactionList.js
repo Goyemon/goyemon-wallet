@@ -10,24 +10,14 @@ class TransactionList extends Component {
 	constructor(props) {
 		super(props);
 
-		TxStorage.storage.__addDebug('constructor tokenFilter: ' + props.tokenFilter);
-
 		this.state = {
 			'transactions': null,
 			'transactionsLoaded': false
 		}
-
-		TxStorage.storage.tempGetAllAsList().then(this.updateTxListState.bind(this)); // initial load
-	}
-
-	subNewTransactions(txes) { // temporary just because too lazy to change the behaviour in tx.js. for now it calls this method after sub.
-		this.updateTxListState(txes);
 	}
 
 	updateTxListState(txes) {
 		let transactionlist;
-
-		TxStorage.storage.__addDebug('tokenFilter: ' + this.props.tokenFilter);
 
 		if (this.props.tokenFilter && this.props.tokenFilter == 'Dai')
 			transactionlist = txes ? txes.filter(tx => {
@@ -43,7 +33,7 @@ class TransactionList extends Component {
 		else
 			transactionlist = txes;
 
-		transactionlist.sort((a, b) => b.getTimestamp() - a.getTimestamp());
+		// transactionlist.sort((a, b) => b.getTimestamp() - a.getTimestamp());
 
 		this.setState({
 			transactions: transactionlist,
@@ -74,6 +64,8 @@ class TransactionList extends Component {
 
 			return (
 				<VirtualizedList
+					initialNumToRender={32}
+					maxToRenderPerBatch={32}
 					data={transactions}
 					getItem={this.getItem}
 					getItemCount={this.getItemCount}
@@ -85,8 +77,8 @@ class TransactionList extends Component {
 		else {
 			return (
 				<EmptyTransactionContainer>
-					<EmptyTransactionEmoji>Loadink...</EmptyTransactionEmoji>
-					<EmptyTransactionText>(ノ°Д°）ノ︵ ┻━┻</EmptyTransactionText>
+					<EmptyTransactionText>Loadink...</EmptyTransactionText>
+					<EmptyTransactionEmoji>(ノ°Д°）ノ︵ ┻━┻</EmptyTransactionEmoji>
 				</EmptyTransactionContainer>
 			);
 		}
@@ -98,8 +90,8 @@ class TransactionList extends Component {
 
 	componentDidMount() {
 		// this.__mounted = true;
-		this.unsub = TxStorage.storage.subscribe(this);
-		// this.storage.tempGetAllAsList().then(this.subNewTransactions.bind(this));
+		this.unsub = TxStorage.storage.subscribe(this.updateTxListState.bind(this));
+		TxStorage.storage.tempGetAllAsList().then(this.updateTxListState.bind(this)); // initial load
 	}
 
 	componentWillUnmount() {
