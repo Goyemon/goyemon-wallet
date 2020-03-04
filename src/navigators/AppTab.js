@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 import { PersistGate } from 'redux-persist/integration/react';
-import '../firebase/FcmListener';
+import FcmListener from '../firebase/FcmListener';
 import '../firebase/FcmTokenMonitor';
 import '../netinfo/NetInfoListener';
 import EarnIcon from '../../assets/EarnIcon.js';
@@ -70,6 +70,7 @@ const AppTab = createBottomTabNavigator(
 );
 
 const App = createAppContainer(AppTab);
+FcmListener.registerHandler();
 
 export default () => (
   <Provider store={store}>
