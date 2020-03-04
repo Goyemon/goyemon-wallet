@@ -121,8 +121,13 @@ class WithdrawDai extends Component {
     const transactionNonce = parseInt(
       TransactionUtilities.getTransactionNonce()
     );
+
+    const daiWithdrawAmount = this.state.daiWithdrawAmount.split('.').join("");
+    const decimalPlaces = TransactionUtilities.decimalPlaces(this.state.daiWithdrawAmount);
+    const decimals = 18 - parseInt(decimalPlaces); 
+
     const redeemUnderlyingEncodedABI = ABIEncoder.encodeCDAIRedeemUnderlying(
-      this.state.daiWithdrawAmount
+      daiWithdrawAmount, decimals
     );
     const transactionObject = {
       nonce: `0x${transactionNonce.toString(16)}`,

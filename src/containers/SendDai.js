@@ -132,9 +132,15 @@ class SendDai extends Component {
     const transactionNonce = parseInt(
       TransactionUtilities.getTransactionNonce()
     );
+
+    const amount = this.state.amount.split('.').join("");
+    const decimalPlaces = TransactionUtilities.decimalPlaces(this.state.amount);
+    const decimals = 18 - parseInt(decimalPlaces); 
+
     const transferEncodedABI = ABIEncoder.encodeTransfer(
       this.state.toAddress,
-      this.state.amount
+      amount,
+      decimals
     );
     const transactionObject = {
       nonce: `0x${transactionNonce.toString(16)}`,
