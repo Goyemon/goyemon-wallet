@@ -40,7 +40,6 @@ async function downstreamMessageHandler(downstreamMessage) {
   const stateTree = store.getState();
   const balance = stateTree.ReducerBalance.balance;
   const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
-  const transactionsHistory = stateTree.ReducerTransactionHistory.transactions;
 
   LogUtilities.logInfo('downstreamMessage ===>', downstreamMessage);
 
@@ -120,12 +119,8 @@ async function downstreamMessageHandler(downstreamMessage) {
     );
   } else if (downstreamMessage.data.type === 'transactionError') {
     const errorMessage = JSON.parse(downstreamMessage.data.error);
-    if (errorMessage.message === 'nonce too low') {
-      transactionsHistory.map(transaction => {
-        if (parseInt(downstreamMessage.data.nonce) === transaction.nonce) {
-          store.dispatch(updateErrorSentTransaction(transaction.nonce));
-        }
-      });
+    if (errorMessage.message === 'nonce too low') { // why only this if that transaction is guaranteed not to be propagated?
+      TxStorage.storage.markSentTxAsErrorByNonce(parseInt(downstreamMessage.data.nonce));
     }
   }
 }

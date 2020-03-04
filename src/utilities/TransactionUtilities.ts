@@ -86,42 +86,7 @@ class TransactionUtilities {
       `\n${time.getFullYear()}`
     );
   }
-/*
-  isDaiApproved(transactions) {
-    const daiApproveTxes = transactions.filter(transaction => {
-      if (
-        transaction.hasOwnProperty('dai_appr') &&
-        (transaction.state === 'included' || transaction.state === 'confirmed')
-      ) {
-        return true;
-      }
-    });
 
-    const isDaiApproved = daiApproveTxes.some(
-      daiApproveTx =>
-        daiApproveTx.dai_appr.amount ===
-        'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
-    );
-
-    return isDaiApproved;
-  }
-*/
-/*
-  getTransactionNonce() {
-    const stateTree = store.getState();
-    const transactions = stateTree.ReducerTransactionHistory.transactions;
-    const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
-    const outgoingTransactions = transactions.filter(transaction => {
-      if (!transaction.from || transaction.state === 'error') return false;
-      if (Web3.utils.toChecksumAddress(transaction.from) === checksumAddress) {
-        return true;
-      }
-    });
-    const transactionNonce = outgoingTransactions.length;
-
-    return transactionNonce;
-  }
-*/
   async constructSignedOutgoingTransactionObject(outgoingTransactionObject) {
     outgoingTransactionObject = new ethTx(outgoingTransactionObject);
     let privateKey = await WalletUtilities.retrievePrivateKey();
