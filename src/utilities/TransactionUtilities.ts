@@ -11,6 +11,7 @@ import { store } from '../store/store.js';
 import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import WalletUtilities from './WalletUtilities.ts';
+import TxStorage from '../lib/tx.js';
 
 class TransactionUtilities {
 
@@ -100,7 +101,7 @@ class TransactionUtilities {
   }
 
   async constructSignedOutgoingTransactionObject(outgoingTransactionObject) {
-    outgoingTransactionObject = new ethTx(outgoingTransactionObject);
+    outgoingTransactionObject = new ethTx(outgoingTransactionObject.toTransactionDict());
     let privateKey = await WalletUtilities.retrievePrivateKey();
     privateKey = Buffer.from(privateKey, 'hex');
     outgoingTransactionObject.sign(privateKey);
@@ -115,7 +116,7 @@ class TransactionUtilities {
     const signedTransaction = await this.constructSignedOutgoingTransactionObject(
       outgoingTransactionObject
     );
-    const nonce = parseInt(outgoingTransactionObject.nonce, 16);
+    const nonce = outgoingTransactionObject.getNonce();
 
     const upstreamMessage = new firebase.messaging.RemoteMessage()
       .setMessageId(messageId)
@@ -127,8 +128,9 @@ class TransactionUtilities {
       });
     firebase.messaging().sendMessage(upstreamMessage);
 
-    store.dispatch(addSentTransaction(outgoingTransactionObject));
-    store.dispatch(incrementTotalTransactions());
+    TxStorage.storage.saveTx(outgoingTransactionObject);
+
+
   }
 
   getTransactionFeeEstimateInEther(gasPriceWei, gasLimit) {
