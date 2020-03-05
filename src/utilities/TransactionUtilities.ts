@@ -9,6 +9,7 @@ import { addSentTransaction } from '../actions/ActionTransactionHistory';
 const GlobalConfig = require('../config.json');
 import { store } from '../store/store.js';
 import LogUtilities from '../utilities/LogUtilities.js';
+import PriceUtilities from '../utilities/PriceUtilities.js';
 import WalletUtilities from './WalletUtilities.ts';
 
 class TransactionUtilities {
@@ -87,6 +88,17 @@ class TransactionUtilities {
     );
   }
 
+  decimalPlaces(number) {
+    var match = ('' + number).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
+    if (!match) {
+      return 0;
+    }
+    return Math.max(
+      0,
+      (match[1] ? match[1].length : 0) - (match[2] ? +match[2] : 0)
+    );
+  }
+
   async constructSignedOutgoingTransactionObject(outgoingTransactionObject) {
     outgoingTransactionObject = new ethTx(outgoingTransactionObject);
     let privateKey = await WalletUtilities.retrievePrivateKey();
@@ -126,6 +138,14 @@ class TransactionUtilities {
       'Ether'
     );
     return transactionFeeEstimateInEther;
+  }
+
+  getTransactionFeeEstimateInUsd(gasPriceWei, gasLimit) {
+    let transactionFeeEstimateInUsd = PriceUtilities.convertEthToUsd(
+      this.getTransactionFeeEstimateInEther(gasPriceWei, gasLimit)
+    );
+    transactionFeeEstimateInUsd = transactionFeeEstimateInUsd.toFixed(3);
+    return transactionFeeEstimateInUsd;
   }
 }
 

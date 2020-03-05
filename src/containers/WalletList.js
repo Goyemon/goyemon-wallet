@@ -2,11 +2,6 @@
 import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { TouchableOpacity } from 'react-native';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp
-} from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { withNavigation } from 'react-navigation';
 import styled from 'styled-components';
@@ -14,7 +9,6 @@ import Web3 from 'web3';
 import {
   RootContainer,
   UntouchableCardContainer,
-  QRCodeIcon,
   TouchableCardContainer,
   HeaderOne,
   HeaderThree,
@@ -27,14 +21,6 @@ import WalletDetail from '../containers/WalletDetail';
 class WalletList extends Component {
   async componentDidMount() {
     await FcmPermissions.checkFcmPermissions();
-  }
-
-  getTotalBalance(ethBalance, daiBalance) {
-    let totalUsdBalance =
-      parseFloat(PriceUtilities.convertEthToUsd(ethBalance)) +
-      parseFloat(PriceUtilities.convertDaiToUsd(daiBalance));
-    totalUsdBalance = parseFloat(totalUsdBalance).toFixed(2);
-    return totalUsdBalance;
   }
 
   render() {
@@ -70,7 +56,7 @@ class WalletList extends Component {
           width="90%"
         >
           <HeaderFour marginTop="24">total wallet balance</HeaderFour>
-          <UsdBalance>${this.getTotalBalance(ethBalance, daiBalance)}</UsdBalance>
+          <UsdBalance>${PriceUtilities.getTotalBalance(ethBalance, daiBalance)}</UsdBalance>
           <AddressContainer
             onPress={() => {
               this.props.navigation.navigate('Receive');

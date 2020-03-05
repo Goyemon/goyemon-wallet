@@ -108,7 +108,7 @@ class SendDaiConfirmation extends Component {
           <Amount>{outgoingDaiTransactionData.amount} DAI</Amount>
           <NetworkFeeContainer>
             <FormHeader marginBottom="0" marginLeft="8" marginTop="0">
-              Network Fee
+              Max Network Fee
             </FormHeader>
             <TouchableWithoutFeedback
               onPress={() => {
