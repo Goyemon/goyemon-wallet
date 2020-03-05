@@ -34,8 +34,11 @@ const TxTokenOpTypeToName = { // names inside txhistory object
 
 
 // ========== helper functions ==========
-function hexToBuf(addr) {
-	return typeof addr === 'string' ? Buffer.from(addr.startsWith('0x') ? addr.substr(2) : addr, 'hex') : null;
+function dropHexPrefix(hex) {
+	return typeof hex === 'string' ? (hex.startsWith('0x') ? hex.substr(2) : hex) : hex;
+}
+function hexToBuf(hex) {
+	return typeof hex === 'string' ? Buffer.from(hex.startsWith('0x') ? hex.substr(2) : hex, 'hex') : null;
 }
 
 
@@ -379,7 +382,7 @@ class Tx {
 				Object.entries(data[8]).forEach(
 					([token, ops]) => Object.entries(ops).forEach(
 						([op, opdata]) => opdata.forEach(
-							(opdata) => this.addTokenOperation(token, op, opdata)
+							(opdata) => this.addTokenOperation(token, op, opdata.map(x => dropHexPrefix(x)))
 						)
 					)
 				);
@@ -387,7 +390,7 @@ class Tx {
 				Object.entries(data[8]).forEach(
 					([token, ops]) => ops.forEach(
 						opdescr => Object.entries(opdescr).forEach(
-							([op, opdata]) => this.addTokenOperation(token, op, opdata)
+							([op, opdata]) => this.addTokenOperation(token, op, opdata.map(x => dropHexPrefix(x)))
 						)
 					)
 				);
@@ -395,9 +398,9 @@ class Tx {
 
 		return this.setFrom(data[0])
 			.setTo(data[1])
-			.setGas(data[2])
-			.setGasPrice(data[3])
-			.setValue(data[4])
+			.setGas(dropHexPrefix(data[2]))
+			.setGasPrice(dropHexPrefix(data[3]))
+			.setValue(dropHexPrefix(data[4]))
 			.setNonce(typeof data[5] === 'string' ? parseInt(data[5]) : data[5])
 			.upgradeState(data[7], data[6]);
 	}
