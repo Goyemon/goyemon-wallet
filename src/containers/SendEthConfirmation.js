@@ -19,7 +19,7 @@ import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 
 class SendEthConfirmation extends Component {
   constructor(props) {
-    super();
+    super(props);
     this.state = {
       currency: 'USD',
       loading: false,

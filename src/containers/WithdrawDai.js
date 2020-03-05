@@ -31,6 +31,7 @@ import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import ABIEncoder from '../utilities/AbiUtilities';
+import TxStorage from '../lib/tx.js';
 const GlobalConfig = require('../config.json');
 
 class WithdrawDai extends Component {
@@ -122,9 +123,7 @@ class WithdrawDai extends Component {
   }
 
   async constructTransactionObject() {
-    const transactionNonce = parseInt(
-      TransactionUtilities.getTransactionNonce()
-    );
+    const transactionNonce = TxStorage.storage.getNextNonce();
     const redeemUnderlyingEncodedABI = ABIEncoder.encodeCDAIRedeemUnderlying(
       this.state.daiWithdrawAmount
     );
