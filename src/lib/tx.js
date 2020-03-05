@@ -230,12 +230,12 @@ class TxTokenTransferOp extends TxTokenOp {
 class TxTokenApproveOp extends TxTokenOp {
 	constructor (arr) {
 		super();
-		[this.approver, this.spender, this.amount] = arr;
+		[this.spender, this.approver, this.amount] = arr;
 		// this.approver = arr[0]; this.spender = arr[1]; this.amount = arr[2];
 	}
 
 	toJSON() {
-		return { [TxTokenOpTypeToName.approval]: [this.approver, this.spender, this.amount] };
+		return { [TxTokenOpTypeToName.approval]: [this.spender, this.approver, this.amount] };
 	}
 }
 class TxTokenFailureOp extends TxTokenOp {
@@ -357,6 +357,10 @@ class Tx {
 		return this;
 	}
 
+	tempSetData(data) {
+		this.data = data;
+	}
+
 	upgradeState(new_state, new_timestamp) { // updates state and timestamp ONLY if the new state is a later state (so, we cant go back from confirmed to included, for example)
 		if (new_state >= this.state) {
 			this.state = new_state;
@@ -443,22 +447,26 @@ class Tx {
 	}
 
 	getValue() {
-		return this.value;
+		return this.value ? this.value : 0;
 	}
 
 	getTimestamp() {
 		return this.timestamp;
 	}
 
+	getNonce() {
+		return this.nonce;
+	}
+
 	toTransactionDict() {
-		throw Error("not implemented yet, data is not encoded");
 		return {
 			nonce: `0x${this.nonce.toString(16)}`,
 			to: this.getTo(),
-			gasPrice: `0x${this.gasPrice.toString(16)}`,
-			gasLimit: `0x${this.gas.toString(16)}`,
+			gasPrice: `0x${this.gasPrice}`,
+			gasLimit: `0x${this.gas}`,
+			value: `0x${this.getValue()}`,
 			chainId: GlobalConfig.network_id,
-			data: ''
+			data: this.data
 		  };
 	}
 
@@ -561,7 +569,7 @@ class TxStorage {
 	}
 
 	newTx(state=TxStates.STATE_NEW) {
-		return new Tx(state).setTimestamp(int(Date.now() / 1000));
+		return new Tx(state).setTimestamp(Math.trunc(Date.now() / 1000));
 	}
 
 	__onUpdate() {

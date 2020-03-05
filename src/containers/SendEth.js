@@ -125,16 +125,14 @@ class SendEth extends Component {
   constructTransactionObject() {
     const transactionNonce = TxStorage.storage.getNextNonce();
     const amountWei = parseFloat(Web3.utils.toWei(this.state.amount, 'Ether'));
-    const transactionObject = {
-      nonce: `0x${transactionNonce.toString(16)}`,
-      to: this.state.toAddress,
-      value: `0x${amountWei.toString(16)}`,
-      gasPrice: `0x${parseFloat(
-        this.state.gasPrice[this.state.checked].gasPriceWei
-      ).toString(16)}`,
-      gasLimit: `0x${parseFloat(21000).toString(16)}`,
-      chainId: GlobalConfig.network_id
-    };
+
+    const transactionObject = TxStorage.storage.newTx()
+      .setNonce(transactionNonce)
+      .setTo(this.state.toAddress)
+      .setValue(amountWei.toString(16))
+      .setGasPrice(this.state.gasPrice[this.state.checked].gasPriceWei.toString(16))
+      .setGas(parseInt(21000).toString(16));
+
     return transactionObject;
   }
 
@@ -239,7 +237,7 @@ class SendEth extends Component {
     if (toAddressValidation && amountValidation && isOnline) {
       this.setState({ loading: true, buttonDisabled: true });
       LogUtilities.logInfo('validation successful');
-      const transactionObject = await this.constructTransactionObject();
+      const transactionObject = this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
       this.props.navigation.navigate('SendEthConfirmation');
     } else {

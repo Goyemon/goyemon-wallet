@@ -75,7 +75,7 @@ class SendEthConfirmation extends Component {
 
     const valueInEther = parseFloat(
       Web3.utils.fromWei(
-        outgoingTransactionObjects[outgoingTransactionObjects.length - 1].value,
+        outgoingTransactionObjects[outgoingTransactionObjects.length - 1].getValue(),
         'Ether'
       )
     );
