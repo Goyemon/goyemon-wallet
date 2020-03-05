@@ -830,7 +830,7 @@ class TxStorage {
 		return this.included_max_nonce + 1;
 	}
 
-	async clear() {
+	async clear(batch=false) {
 		let [t1, t2] = await Promise.all([this.included_txes.getAllKeys(), this.not_included_txes.getAllKeys()]);
 
 		let tasks = t1.map((x) => this.included_txes.removeItem(x));
@@ -840,7 +840,9 @@ class TxStorage {
 
 		this.included_max_nonce = 0;
 
-		// this.__onUpdate();
+		if (!batch)
+			this.__onUpdate();
+
 		return this;
 	}
 

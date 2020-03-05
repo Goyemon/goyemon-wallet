@@ -92,7 +92,7 @@ async function downstreamMessageHandler(downstreamMessage) {
 
         try {
           TxStorage.storage.setOwnAddress(checksumAddress);
-          await TxStorage.storage.clear();
+          await TxStorage.storage.clear(true);
           await TxStorage.storage.parseTxHistory(transactions);
         }
         catch (e) {
