@@ -7,371 +7,407 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
 import Web3 from 'web3';
 import { UntouchableCardContainer, CrypterestText } from '../components/common';
+import { TouchableCardContainer } from '../components/common';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
+
+import TxStorage from '../lib/tx.js';
+
+/*	=======================================================
+  2020-03-02 13:19:12
+  TODO: this needs a lot of simplification. A litany of if()elseif()s is not easy to follow. There are much simplified logical conditions which can do that.
+  Additionally, a lot of stuff just ends without returning any value potentially (no default case when none of if()s matches).
+  ======================================================= */
 
 class Transaction extends Component {
   constructor(props) {
     super(props);
-    this.isAmeTransferTx = props.transaction.hasOwnProperty('ame_ropsten_tr');
-    this.isDaiTransferTx = props.transaction.hasOwnProperty('dai_tr');
-    this.isDaiApproveTx = props.transaction.hasOwnProperty('dai_appr');
-    this.isCDaiMintTx = props.transaction.hasOwnProperty('cdai_mint');
-    this.isCDaiRedeemUnderlyingTx = props.transaction.hasOwnProperty('cdai_redeem');
-    this.isCDaiFailedTx = props.transaction.hasOwnProperty('cdai_failed');
-    this.isCDaiMintFailedTx;
-    this.isCDaiRedeemUnderlyingFailedTx;
-    if (this.isCDaiFailedTx) {
-      this.isCDaiMintFailedTx = props.transaction.cdai_failed.failureInfo === 38;
-      this.isCDaiRedeemUnderlyingFailedTx = props.transaction.cdai_failed.failureInfo === 42 || 45;
+    const tx = props.transaction;
+
+    try {
+      this.isDaiApproveTx = tx.hasTokenOperation('dai', TxStorage.TxTokenOpTypeToName.approval);
+
+      const cDaiMints = tx.getTokenOperations('cdai', TxStorage.TxTokenOpTypeToName.mint);
+      this.isCDaiMintTx = cDaiMints.length > 0;
+      this.cDaiMintValue;
+      if (this.isCDaiMintTx)
+        this.cDaiMintValue = TransactionUtilities.parseHexCDaiValue(`0x${cDaiMints[0].mintUnderlying}`);
+
+      const cDaiRedeems = tx.getTokenOperations('cdai', TxStorage.TxTokenOpTypeToName.redeem);
+      this.isCDaiRedeemUnderlyingTx = cDaiRedeems.length > 0;
+      this.cDaiRedeemValue;
+      if (this.isCDaiRedeemUnderlyingTx)
+        this.cDaiRedeemValue = TransactionUtilities.parseHexCDaiValue(`0x${cDaiRedeems[0].redeemUnderlying}`);
+
+      const cDaiFails = tx.getTokenOperations('cdai', TxStorage.TxTokenOpTypeToName.failure);
+      this.isCDaiFailedTx = cDaiFails.length > 0;
+      this.isCDaiMintFailedTx;
+      cDaiFails.forEach((tokenOp) => {
+        this.isCDaiMintFailedTx = this.isCDaiMintFailedTx || (parseInt(tokenOp.error, 16) === 38);
+      });
+
+      this.isCDaiRedeemUnderlyingFailedTx = false;
+      cDaiFails.forEach((tokenOp) => {
+        const errNum = parseInt(tokenOp.error, 16);
+        this.isCDaiRedeemUnderlyingFailedTx = this.isCDaiRedeemUnderlyingFailedTx || errNum == 42 || errNum == 45;
+      });
+
+      const ameTrs = tx.getTokenOperations('ame_ropsten', TxStorage.TxTokenOpTypeToName.transfer);
+      this.isAmeTransferTx = ameTrs.length > 0;
+      this.isOutgoingAmeTx;
+      this.isIncomingAmeTx;
+      this.ameTransferValue;
+      if (this.isAmeTransferTx) {
+        this.ameTransferValue = TransactionUtilities.parseHexDaiValue(`0x${ameTrs[0].amount}`);
+        this.isOutgoingAmeTx = ameTrs.some((x) => Web3.utils.toChecksumAddress(x.from_addr) === props.checksumAddress);
+        this.isIncomingAmeTx = ameTrs.some((x) => Web3.utils.toChecksumAddress(x.to_addr) === props.checksumAddress);
+      }
+
+      const daiTrs = tx.getTokenOperations('dai', TxStorage.TxTokenOpTypeToName.transfer);
+      this.isDaiTransferTx = daiTrs.length > 0;
+      this.isOutgoingDaiTx;
+      this.isIncomingDaiTx;
+      this.daiTransferValue;
+      if (this.isDaiTransferTx) {
+        this.daiTransferValue = TransactionUtilities.parseHexDaiValue(`0x${daiTrs[0].amount}`);
+        this.isOutgoingDaiTx = daiTrs.some((x) => Web3.utils.toChecksumAddress(x.from_addr) === props.checksumAddress);
+        this.isIncomingDaiTx = daiTrs.some((x) => Web3.utils.toChecksumAddress(x.to_addr) === props.checksumAddress);
+      }
+
+      if (this.props.transaction.getFrom() != null) {
+        this.isOutgoingEthTx =
+          Web3.utils.toChecksumAddress(tx.getFrom()) === props.checksumAddress;
+        this.isIncomingEthTx =
+          Web3.utils.toChecksumAddress(tx.getTo()) === props.checksumAddress;
+      }
     }
-    this.isOutgoingAmeTx;
-    this.isIncomingAmeTx;
-    if (props.transaction.hasOwnProperty('ame_ropsten_tr')) {
-      this.isOutgoingAmeTx =
-        Web3.utils.toChecksumAddress(props.transaction.ame_ropsten_tr.from) ===
-        props.checksumAddress;
-      this.isIncomingAmeTx =
-        Web3.utils.toChecksumAddress(props.transaction.ame_ropsten_tr.to) === props.checksumAddress;
-    }
-    this.isOutgoingDaiTx;
-    this.isIncomingDaiTx;
-    if (props.transaction.hasOwnProperty('dai_tr')) {
-      this.isOutgoingDaiTx =
-        Web3.utils.toChecksumAddress(props.transaction.dai_tr.from) === this.props.checksumAddress;
-      this.isIncomingDaiTx =
-        Web3.utils.toChecksumAddress(props.transaction.dai_tr.to) === props.checksumAddress;
-    }
-    if (this.props.transaction.from != null) {
-      this.isOutgoingEthTx =
-        Web3.utils.toChecksumAddress(props.transaction.from) === props.checksumAddress;
-      this.isIncomingEthTx =
-        Web3.utils.toChecksumAddress(props.transaction.to) === props.checksumAddress;
+    catch (e) {
+      this.derpbugexception = `Transaction() exception: ${e.message} @ ${e.stack} || ${JSON.stringify(props.transaction)}`;
     }
   }
 
   renderInOrOutTransactionIcon() {
     if (this.isDaiTransferTx) {
-      if (this.isOutgoingDaiTx && this.isIncomingDaiTx) {
+      if (this.isOutgoingDaiTx && this.isIncomingDaiTx)
         return (
-          <CrypterestText fontSize="16">
+          <CrypterestText fontSize={16}>
             <Icon name="arrow-collapse" size={20} color="#5F5F5F" />
           </CrypterestText>
         );
-      } else if (this.isOutgoingDaiTx) {
+
+      else if (this.isOutgoingDaiTx)
         return (
-          <CrypterestText fontSize="16">
+          <CrypterestText fontSize={16}>
             <Icon name="call-made" size={20} color="#F1860E" />
           </CrypterestText>
         );
-      } else if (this.isIncomingDaiTx) {
+
+      else if (this.isIncomingDaiTx)
         return (
-          <CrypterestText fontSize="16">
+          <CrypterestText fontSize={16}>
             <Icon name="call-received" size={20} color="#1BA548" />
           </CrypterestText>
         );
-      }
     }
 
     if (this.isAmeTransferTx) {
-      if (this.isOutgoingAmeTx) {
+      if (this.isOutgoingAmeTx)
         return (
-          <CrypterestText fontSize="16">
+          <CrypterestText fontSize={16}>
             <Icon name="call-made" size={20} color="#F1860E" />
           </CrypterestText>
         );
-      } else if (this.isIncomingAmeTx) {
+
+      else if (this.isIncomingAmeTx)
         return (
-          <CrypterestText fontSize="16">
+          <CrypterestText fontSize={16}>
             <Icon name="call-received" size={20} color="#1BA548" />
           </CrypterestText>
         );
-      }
     }
 
-    if (this.isCDaiFailedTx) {
+    if (this.isCDaiFailedTx)
       return (
-        <CrypterestText fontSize="16">
+        <CrypterestText fontSize={16}>
           <Icon name="alert-circle-outline" size={20} color="#E41B13" />
         </CrypterestText>
       );
-    }
 
-    if (this.isDaiApproveTx || this.isCDaiMintTx) {
+    if (this.isDaiApproveTx || this.isCDaiMintTx)
       return (
-        <CrypterestText fontSize="16">
+        <CrypterestText fontSize={16}>
           <Icon name="call-made" size={20} color="#F1860E" />
         </CrypterestText>
       );
-    }
 
-    if (this.isCDaiRedeemUnderlyingTx) {
+    if (this.isCDaiRedeemUnderlyingTx)
       return (
-        <CrypterestText fontSize="16">
+        <CrypterestText fontSize={16}>
           <Icon name="call-received" size={20} color="#1BA548" />
         </CrypterestText>
       );
-    }
 
-    if (this.isOutgoingEthTx && this.isIncomingEthTx) {
+    if (this.isOutgoingEthTx && this.isIncomingEthTx)
       return (
-        <CrypterestText fontSize="16">
+        <CrypterestText fontSize={16}>
           <Icon name="arrow-collapse" size={20} color="#5F5F5F" />
         </CrypterestText>
       );
-    } else if (this.props.transaction.from === null || this.isOutgoingEthTx) {
+
+    if (this.props.transaction.getFrom() == null || this.isOutgoingEthTx)
       return (
-        <CrypterestText fontSize="16">
+        <CrypterestText fontSize={16}>
           <Icon name="call-made" size={20} color="#F1860E" />
         </CrypterestText>
       );
-    } else if (this.isIncomingEthTx) {
+
+    if (this.isIncomingEthTx)
       return (
-        <CrypterestText fontSize="16">
+        <CrypterestText fontSize={16}>
           <Icon name="call-received" size={20} color="#1BA548" />
         </CrypterestText>
       );
-    }
+
   }
 
   renderStatus() {
-    if (this.props.transaction.state === 'sent') {
-      return <CrypterestText fontSize="20">sent...</CrypterestText>;
-    } else if (this.props.transaction.state === 'pending') {
-      return <CrypterestText fontSize="20">pending...</CrypterestText>;
-    } else if (this.props.transaction.state === 'included') {
-      return <CrypterestText fontSize="20">included</CrypterestText>;
-    } else if (this.props.transaction.state === 'confirmed') {
-      return <CrypterestText fontSize="20">confirmed</CrypterestText>;
-    } else if (this.props.transaction.state === 'error') {
-      return (
-        <View>
-          <FailedStatusText>failed</FailedStatusText>
-          <FailedStatusHintText>*try syncing in the advanced settings</FailedStatusHintText>
-        </View>
-      );
+    let text;
+
+    switch (this.props.transaction.getState()) {
+      case TxStorage.TxStates.STATE_NEW:
+        text = 'sent...';
+        break;
+
+      case TxStorage.TxStates.STATE_PENDING:
+        text = 'pending...';
+        break;
+
+      case TxStorage.TxStates.STATE_INCLUDED:
+        text = 'included';
+        break;
+
+      case TxStorage.TxStates.STATE_CONFIRMED:
+        text = 'confirmed';
+        break;
+
+      case TxStorage.TxStates.STATE_ERROR:
+        return (
+          <View>
+            <FailedStatusText>failed</FailedStatusText>
+            <FailedStatusHintText>*try syncing in the advanced settings</FailedStatusHintText>
+          </View>
+        );
+
+      default:
+        // TODO: exception?
     }
+
+    return <CrypterestText fontSize={20}>{text}</CrypterestText>;
   }
 
   renderType() {
+    let txType;
     if (this.isDaiTransferTx) {
-      if (this.isOutgoingDaiTx && this.isIncomingDaiTx) {
-        return <CrypterestText fontSize="18">Self</CrypterestText>;
-      } else if (this.isOutgoingDaiTx) {
-        return <CrypterestText fontSize="18">Outgoing</CrypterestText>;
-      } else if (this.isIncomingDaiTx) {
-        return <CrypterestText fontSize="18">Incoming</CrypterestText>;
-      }
+      if (this.isOutgoingDaiTx && this.isIncomingDaiTx)
+        txType = 'Self';
+      else if (this.isOutgoingDaiTx)
+        txType = 'Outgoing';
+      else if (this.isIncomingDaiTx)
+        txType = 'Incoming';
+
+      return <CrypterestText fontSize={18}>{txType}</CrypterestText>;
     }
 
     if (this.isAmeTransferTx) {
-      if (this.isOutgoingAmeTx) {
-        return <CrypterestText fontSize="18">Outgoing</CrypterestText>;
-      } else if (this.isIncomingAmeTx) {
-        return <CrypterestText fontSize="18">Incoming</CrypterestText>;
-      }
+      if (this.isOutgoingAmeTx)
+        txType = 'Outgoing';
+      else if (this.isIncomingAmeTx)
+        txType = 'Incoming';
+
+      return <CrypterestText fontSize={18}>{txType}</CrypterestText>;
     }
 
-    if (this.isCDaiMintFailedTx) {
-      return <CrypterestText fontSize="14">Deposit Failed</CrypterestText>;
-    } else if (this.isCDaiRedeemUnderlyingFailedTx) {
-      return <CrypterestText fontSize="14">Withdraw Failed</CrypterestText>;
-    }
+    if (this.isCDaiMintFailedTx)
+      txType = 'Deposit Failed';
+    else if (this.isCDaiRedeemUnderlyingFailedTx)
+      txType = 'Withdraw Failed';
 
-    if (this.isDaiApproveTx) {
-      return <CrypterestText fontSize="18">Initiated</CrypterestText>;
-    } else if (this.isCDaiMintTx) {
-      return <CrypterestText fontSize="18">Deposited</CrypterestText>;
-    } else if (this.isCDaiRedeemUnderlyingTx) {
-      return <CrypterestText fontSize="18">Withdrawn</CrypterestText>;
-    }
+    if (txType)
+      return <CrypterestText fontSize="14">{txType}</CrypterestText>;
 
-    if (this.isOutgoingEthTx && this.isIncomingEthTx) {
-      return <CrypterestText fontSize="18">Self</CrypterestText>;
-    } else if (this.props.transaction.from === null || this.isOutgoingEthTx) {
-      return <CrypterestText fontSize="18">Outgoing</CrypterestText>;
-    } else if (this.isIncomingEthTx) {
-      return <CrypterestText fontSize="18">Incoming</CrypterestText>;
-    }
+    if (this.isDaiApproveTx)
+      txType = 'Initiated';
+    else if (this.isCDaiMintTx)
+      txType = 'Deposited';
+    else if (this.isCDaiRedeemUnderlyingTx)
+      txType = 'Withdrawn';
+
+    if (txType)
+      return <CrypterestText fontSize={18}>{txType}</CrypterestText>;
+
+    if (this.isOutgoingEthTx && this.isIncomingEthTx)
+      txType = 'Self';
+    else if (this.props.transaction.getFrom() === null || this.isOutgoingEthTx)
+      txType = 'Outgoing';
+    else if (this.isIncomingEthTx)
+      txType = 'Incoming';
+
+    if (txType)
+      return <CrypterestText fontSize={18}>{txType}</CrypterestText>;
   }
 
   renderPlusOrMinusTransactionIcon() {
     if (this.isDaiTransferTx) {
-      if (this.isOutgoingDaiTx && this.isIncomingDaiTx) {
+      if (this.isOutgoingDaiTx && this.isIncomingDaiTx)
         return <Icon name="plus-minus" size={16} color="#5F5F5F" />;
-      } else if (this.isOutgoingDaiTx) {
+      else if (this.isOutgoingDaiTx)
         return <Icon name="minus" size={16} color="#F1860E" />;
-      } else if (this.isIncomingDaiTx) {
+      else if (this.isIncomingDaiTx)
         return <Icon name="plus" size={16} color="#1BA548" />;
-      }
     }
 
     if (this.isAmeTransferTx) {
-      if (this.isOutgoingAmeTx) {
+      if (this.isOutgoingAmeTx)
         return <Icon name="minus" size={16} color="#F1860E" />;
-      } else if (this.isIncomingAmeTx) {
+      else if (this.isIncomingAmeTx)
         return <Icon name="plus" size={16} color="#1BA548" />;
-      }
     }
 
-    if (this.isDaiApproveTx) {
+    if (this.isDaiApproveTx)
       return;
-    }
 
-    if (this.isCDaiFailedTx) {
+    if (this.isCDaiFailedTx)
       return null;
-    }
 
-    if (this.isCDaiMintTx) {
+    if (this.isCDaiMintTx)
       return <Icon name="minus" size={16} color="#F1860E" />;
-    }
 
-    if (this.isCDaiRedeemUnderlyingTx) {
+    if (this.isCDaiRedeemUnderlyingTx)
       return <Icon name="plus" size={16} color="#1BA548" />;
-    }
 
-    if (this.isOutgoingEthTx && this.isIncomingEthTx) {
+
+    if (this.isOutgoingEthTx && this.isIncomingEthTx)
       return <Icon name="plus-minus" size={16} color="#5F5F5F" />;
-    } else if (this.props.transaction.from === null || this.isOutgoingEthTx) {
+    else if (this.props.transaction.getFrom() == null || this.isOutgoingEthTx)
       return <Icon name="minus" size={16} color="#F1860E" />;
-    } else if (this.isIncomingEthTx) {
+    else if (this.isIncomingEthTx)
       return <Icon name="plus" size={16} color="#1BA548" />;
-    }
   }
 
   renderValue() {
     if (this.isDaiTransferTx) {
-      let daiValue;
-      if (!this.props.transaction.dai_tr.value) {
-        daiValue = 0;
-      }
-      daiValue = this.props.transaction.dai_tr.value;
-      if (this.isOutgoingDaiTx) {
-        return (
-          <CrypterestText fontSize="16" style={styles.valueStyleRed}>
-            {daiValue} DAI
-          </CrypterestText>
-        );
-      } else if (this.isIncomingDaiTx) {
-        return (
-          <CrypterestText fontSize="16" style={styles.valueStyleGreen}>
-            {daiValue} DAI
-          </CrypterestText>
-        );
-      }
+      let style;
+
+      if (this.isOutgoingDaiTx)
+        style = styles.valueStyleRed;
+      else if (this.isIncomingDaiTx)
+        style = styles.valueStyleGreen;
+
+      return (
+        <CrypterestText fontSize={16} style={style}>
+          {this.daiTransferValue} DAI
+        </CrypterestText>
+      );
     }
 
     if (this.isAmeTransferTx) {
-      let ameValue;
-      if (!this.props.transaction.ame_ropsten_tr.value) {
-        ameValue = 0;
-      }
-      ameValue = this.props.transaction.ame_ropsten_tr.value;
-      if (this.isOutgoingAmeTx) {
-        return (
-          <CrypterestText fontSize="16" style={styles.valueStyleRed}>
-            {ameValue} AME
-          </CrypterestText>
-        );
-      } else if (this.isIncomingAmeTx) {
-        return (
-          <CrypterestText fontSize="16" style={styles.valueStyleGreen}>
-            {ameValue} AME
-          </CrypterestText>
-        );
-      }
+      let style;
+
+      if (this.isOutgoingAmeTx) // is it possible that they're neither? both in here and for DAI this code uses else if, but should be just else imo.
+        style = styles.valueStyleRed
+      else if (this.isIncomingAmeTx)
+          style = styles.valueStyleGreen;
+
+      return (
+        <CrypterestText fontSize={16} style={style}>
+          {this.ameTransferValue} AME
+        </CrypterestText>
+      );
     }
 
-    if (this.isDaiApproveTx) {
+    if (this.isDaiApproveTx)
       return null;
-    }
 
-    if (this.isCDaiFailedTx) {
-      return <CrypterestText fontSize="16">0</CrypterestText>;
-    }
+    if (this.isCDaiFailedTx)
+      return <CrypterestText fontSize={16}>0</CrypterestText>;
 
-    if (this.isCDaiMintTx) {
-      let mintDaiValue;
-      if (!this.props.transaction.cdai_mint.daiDeposited) {
-        mintDaiValue = 0;
-      }
-      mintDaiValue = this.props.transaction.cdai_mint.daiDeposited;
-
+    if (this.isCDaiMintTx)
       return (
-        <CrypterestText fontSize="16" style={styles.valueStyleRed}>
-          {mintDaiValue} DAI
+        <CrypterestText fontSize={16} style={styles.valueStyleRed}>
+          {this.cDaiMintValue} DAI
         </CrypterestText>
       );
-    }
 
-    if (this.isCDaiRedeemUnderlyingTx) {
-      let daiRedeemValue;
-      if (!this.props.transaction.cdai_redeem.daiWithdrawn) {
-        daiRedeemValue = 0;
-      }
-      daiRedeemValue = this.props.transaction.cdai_redeem.daiWithdrawn;
-
+    if (this.isCDaiRedeemUnderlyingTx)
       return (
-        <CrypterestText fontSize="16" style={styles.valueStyleGreen}>
-          {daiRedeemValue} DAI
+        <CrypterestText fontSize={16} style={styles.valueStyleGreen}>
+          {this.cDaiRedeemValue} DAI
         </CrypterestText>
       );
-    }
 
-    if (this.props.transaction.from === null) {
-      return <CrypterestText fontSize="16">Token Transfer</CrypterestText>;
-    }
+    if (this.props.transaction.getFrom() === null)
+      return <CrypterestText fontSize={16}>Token Transfer</CrypterestText>;
 
-    if (this.props.transaction.to === null) {
-      return <CrypterestText fontSize="16">Contract Creation</CrypterestText>;
-    }
+    if (this.props.transaction.getTo() === null)
+      return <CrypterestText fontSize={16}>Contract Creation</CrypterestText>;
 
-    const roundedEthValue = parseFloat(this.props.transaction.value).toFixed(4);
-    if (this.isOutgoingEthTx) {
+
+    const roundedEthValue = parseFloat(TransactionUtilities.parseEthValue(`0x${this.props.transaction.getValue()}`)).toFixed(4);
+    if (this.isOutgoingEthTx)
       return (
-        <CrypterestText fontSize="16" style={styles.valueStyleRed}>
+        <CrypterestText fontSize={16} style={styles.valueStyleRed}>
           {roundedEthValue} ETH
         </CrypterestText>
       );
-    } else if (this.isIncomingEthTx) {
+    else if (this.isIncomingEthTx)
       return (
-        <CrypterestText fontSize="16" style={styles.valueStyleGreen}>
+        <CrypterestText fontSize={16} style={styles.valueStyleGreen}>
           {roundedEthValue} ETH
         </CrypterestText>
       );
-    }
   }
 
-  render() {
-    let { time } = this.props.transaction;
-    time = TransactionUtilities.parseTransactionTime(time);
 
-    return (
-      <UntouchableCardContainer
-        alignItems="center"
-        borderRadius="0"
-        flexDirection="row"
-        height="96px"
-        justifyContent="center"
-        marginTop="0"
-        textAlign="left"
-        width="95%"
-      >
-        <TransactionList>
-          <InOrOutTransactionContainer>
-            {this.renderInOrOutTransactionIcon()}
-          </InOrOutTransactionContainer>
-          <TypeTimeContainer>
-            <Type>{this.renderType()}</Type>
-            <Time>{time}</Time>
-          </TypeTimeContainer>
-          <StatusContainer>{this.renderStatus()}</StatusContainer>
-          <ValueContainer>
-            {this.renderPlusOrMinusTransactionIcon()}
-            <CrypterestText fontSize="16">{this.renderValue()}</CrypterestText>
-          </ValueContainer>
-        </TransactionList>
-      </UntouchableCardContainer>
-    );
+
+  render() {
+    if (this.derpbugexception)
+      return <CrypterestText fontSize={12}>{this.derpbugexception}</CrypterestText>;
+
+    try {
+
+      const time = TransactionUtilities.parseTransactionTime(this.props.transaction.getTimestamp());
+
+      return (
+        <TouchableCardContainer
+          alignItems="center"
+          borderRadius="0"
+          flexDirection="row"
+          height="96px"
+          justifyContent="center"
+          marginTop="0"
+          textAlign="left"
+          width="95%"
+          onPress={() => TxStorage.storage.__addDebug(JSON.stringify(this.props.transaction)).__addDebug(JSON.stringify(Object.entries(this).map(a => a[1] instanceof Object ? [a[0], "Obj"] : a)))}>
+          <TransactionList>
+            <InOrOutTransactionContainer>
+              {this.renderInOrOutTransactionIcon()}
+            </InOrOutTransactionContainer>
+            <TypeTimeContainer>
+              <Type>{this.renderType()}</Type>
+              <Time>{time}</Time>
+            </TypeTimeContainer>
+            <StatusContainer>{this.renderStatus()}</StatusContainer>
+            <ValueContainer>
+              {this.renderPlusOrMinusTransactionIcon()}
+              <CrypterestText fontSize={16}>{this.renderValue()}</CrypterestText>
+            </ValueContainer>
+          </TransactionList>
+        </TouchableCardContainer>
+      );
+    }
+    catch (e) {
+      const exc = `Transaction render() exception: ${e.message} @ ${e.stack} || ${JSON.stringify(this.props.transaction)}`;
+      return <CrypterestText fontSize={12}>{exc}</CrypterestText>;
+    }
   }
 }
 

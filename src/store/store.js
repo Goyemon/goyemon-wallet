@@ -17,8 +17,8 @@ const persistConfig = {
     'ReducerPermissions',
     'ReducerOutgoingTransactionObjects',
     'ReducerPrice',
-    'ReducerTransactionHistory',
-    'ReducerTotalTransactions',
+    // 'ReducerTransactionHistory',
+    // 'ReducerTotalTransactions',
     'ReducerCurrencies'
   ]
 };

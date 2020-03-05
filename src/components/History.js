@@ -3,8 +3,10 @@ import React, { Component } from 'react';
 import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
 import { RootContainer, HeaderOne, HeaderThree } from '../components/common/';
-import Transactions from '../containers/Transactions';
-import TransactionsDai from '../containers/TransactionsDai';
+// TODO: git rm those two:
+//import Transactions from '../containers/Transactions';
+//import TransactionsDai from '../containers/TransactionsDai';
+import TransactionList from '../containers/TransactionList';
 
 export default class History extends Component {
   constructor(props) {
@@ -14,42 +16,18 @@ export default class History extends Component {
     };
   }
 
-  filterTransactions() {
-    if (this.state.filter === 'All') {
-      return <Transactions />;
-    } else if (this.state.filter === 'Dai') {
-      return <TransactionsDai />;
-    }
-  }
 
   toggleFilterChoiceText() {
-    if (this.state.filter === 'All') {
-      return (
-        <FilterChoiceContainer>
-          <FilterChoiceTextSelected>All</FilterChoiceTextSelected>
-          <TouchableOpacity
-            onPress={() => {
-              this.setState({ filter: 'Dai' });
-            }}
-          >
-            <FilterChoiceTextUnelected>Dai</FilterChoiceTextUnelected>
-          </TouchableOpacity>
-        </FilterChoiceContainer>
-      );
-    } else if (this.state.filter === 'Dai') {
-      return (
-        <FilterChoiceContainer>
-          <TouchableOpacity
-            onPress={() => {
-              this.setState({ filter: 'All' });
-            }}
-          >
-            <FilterChoiceTextUnelected>All</FilterChoiceTextUnelected>
-          </TouchableOpacity>
-          <FilterChoiceTextSelected>Dai</FilterChoiceTextSelected>
-        </FilterChoiceContainer>
-      );
-    }
+    const choices = ['All', 'Dai'].map(filter => {
+        if (filter == this.state.filter)
+          return <FilterChoiceTextSelected>{filter}</FilterChoiceTextSelected>;
+
+        return  <TouchableOpacity onPress={() => this.setState({ filter: filter })}>
+                  <FilterChoiceTextUnelected>{filter}</FilterChoiceTextUnelected>
+                </TouchableOpacity>;
+    });
+
+    return <FilterChoiceContainer>{choices}</FilterChoiceContainer>;
   }
 
   render() {
@@ -57,7 +35,7 @@ export default class History extends Component {
       <RootContainer>
         <HeaderOne marginTop="64">History</HeaderOne>
         {this.toggleFilterChoiceText()}
-        {this.filterTransactions()}
+        <TransactionList tokenFilter={this.state.filter} key={`TransactionList_${this.state.filter}`} />
       </RootContainer>
     );
   }

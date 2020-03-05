@@ -31,6 +31,7 @@ import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import ABIEncoder from '../utilities/AbiUtilities';
+import TxStorage from '../lib/tx.js';
 const GlobalConfig = require('../config.json');
 
 class EarnDai extends Component {
@@ -72,17 +73,17 @@ class EarnDai extends Component {
     this.props.getGasPriceFast();
     this.props.getGasPriceAverage();
     this.props.getGasPriceSlow();
-    if (this.props.transactions != null && this.props.transactions.length != null) {
-      this.props.saveDaiApprovalInfo(TransactionUtilities.isDaiApproved(this.props.transactions));
-    }
+    //if (this.props.transactions != null && this.props.transactions.length != null) {
+    //  this.props.saveDaiApprovalInfo(TransactionUtilities.isDaiApproved(this.props.transactions));
+    //}
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.transactions != null && this.props.transactions.length != null) {
-      if (this.props.transactions != prevProps.transactions) {
-        this.props.saveDaiApprovalInfo(TransactionUtilities.isDaiApproved(this.props.transactions));
-      }
-    }
+    //if (this.props.transactions != null && this.props.transactions.length != null) {
+    //  if (this.props.transactions != prevProps.transactions) {
+    //    this.props.saveDaiApprovalInfo(TransactionUtilities.isDaiApproved(this.props.transactions));
+    //  }
+    //}
     if (this.props.gasPrice != prevProps.gasPrice) {
       this.setState({ checked: this.props.gasPrice.chosen });
     }
@@ -145,7 +146,7 @@ class EarnDai extends Component {
     transactionFeeEstimateInUsd = transactionFeeEstimateInUsd.toFixed(4);
     return transactionFeeEstimateInUsd;
   }
-
+  
   validateDaiAmount(daiAmount) {
     daiAmount = new BigNumber(10).pow(18).times(daiAmount);
     const daiBalance = new BigNumber(this.props.balance.daiBalance);
@@ -225,15 +226,15 @@ class EarnDai extends Component {
 
   getApproveEncodedABI() {
     const addressSpender = GlobalConfig.cDAIcontract;
-    const amount = 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff';
+    const amount = `0x${"ff".repeat(256/8)}`; // TODO: this needs to be a const somewhere, likely uint256max_hex.
 
     const approveEncodedABI = ABIEncoder.encodeApprove(addressSpender, amount);
 
     return approveEncodedABI;
   }
 
-  async constructApproveTransactionObject() {
-    const transactionNonce = parseInt(TransactionUtilities.getTransactionNonce());
+  async constructApproveTransactionObject() { // TODO: this has to be in TransactionUtilities. it's common code for the most part anyway. chainid, nonce, those are always set the same way. we just need to specify to/gas/data/value and that's across ALL txes sent
+    const transactionNonce = TxStorage.storage.getNextNonce();
     const approveEncodedABI = this.getApproveEncodedABI();
     const transactionObject = {
       nonce: `0x${transactionNonce.toString(16)}`,
@@ -763,7 +764,6 @@ function mapStateToProps(state) {
     gasPrice: state.ReducerGasPrice.gasPrice,
     cDaiLendingInfo: state.ReducerCDaiLendingInfo.cDaiLendingInfo,
     netInfo: state.ReducerNetInfo.netInfo,
-    transactions: state.ReducerTransactionHistory.transactions
   };
 }
 
