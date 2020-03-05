@@ -31,6 +31,7 @@ import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import ABIEncoder from '../utilities/AbiUtilities';
+import TxStorage from '../lib/tx.js';
 const GlobalConfig = require('../config.json');
 
 class DepositDai extends Component {
@@ -118,10 +119,7 @@ class DepositDai extends Component {
   }
 
   constructTransactionObject() {
-    const transactionNonce = parseInt(
-      TransactionUtilities.getTransactionNonce()
-    );
-
+    const transactionNonce = TxStorage.storage.getNextNonce();
     const daiAmount = this.state.daiAmount.split('.').join("");
     const decimalPlaces = TransactionUtilities.decimalPlaces(this.state.daiAmount);
     const decimals = 18 - parseInt(decimalPlaces); 
