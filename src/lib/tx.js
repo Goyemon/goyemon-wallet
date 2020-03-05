@@ -450,6 +450,18 @@ class Tx {
 		return this.timestamp;
 	}
 
+	toTransactionDict() {
+		throw Error("not implemented yet, data is not encoded");
+		return {
+			nonce: `0x${this.nonce.toString(16)}`,
+			to: this.getTo(),
+			gasPrice: `0x${this.gasPrice.toString(16)}`,
+			gasLimit: `0x${this.gas.toString(16)}`,
+			chainId: GlobalConfig.network_id,
+			data: ''
+		  };
+	}
+
 	toJSON() {
 		return [this.getFrom(), this.getTo(), this.gas, this.gasPrice, this.value, this.nonce, this.timestamp, this.state, this.tokenData];
 	}

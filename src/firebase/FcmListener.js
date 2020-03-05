@@ -93,9 +93,7 @@ async function downstreamMessageHandler(downstreamMessage) {
         try {
           TxStorage.storage.setOwnAddress(checksumAddress);
           await TxStorage.storage.clear();
-          store.dispatch(saveOtherDebugInfo('listener TxStorage parse'));
           await TxStorage.storage.parseTxHistory(transactions);
-          store.dispatch(saveOtherDebugInfo('listener TxStorage end parse'));
         }
         catch (e) {
           store.dispatch(saveOtherDebugInfo(`exception: ${e.message} @ ${e.stack}`));
