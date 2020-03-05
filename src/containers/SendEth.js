@@ -125,7 +125,7 @@ class SendEth extends Component {
   async constructTransactionObject() {
     const amountWei = parseFloat(Web3.utils.toWei(this.state.amount, 'Ether'));// TODO: why is it here?
 
-    const transactionObject = await TxStorage.storage.newTx()
+    const transactionObject = (await TxStorage.storage.newTx())
       .setTo(this.state.toAddress)
       .setValue(amountWei.toString(16))
       .setGasPrice(this.state.gasPrice[this.state.checked].gasPriceWei.toString(16))

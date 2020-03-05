@@ -125,7 +125,7 @@ class DepositDai extends Component {
 
     const mintEncodedABI = ABIEncoder.encodeCDAIMint(daiAmount, decimals);
 
-    const transactionObject = await TxStorage.storage.newTx()
+    const transactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.cDAIcontract)
       .setGasPrice(this.state.gasPrice[this.state.checked].gasPriceWei.toString(16))
       .setGas((350000).toString(16))
