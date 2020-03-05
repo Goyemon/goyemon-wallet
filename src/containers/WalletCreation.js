@@ -110,7 +110,7 @@ class WalletCreation extends Component {
     return (
       this.hasMnemonicWords() &&
       (await this.hasPrivateKey()) &&
-      // this.hasTransactions() &&
+      this.hasTransactions() &&
       this.hasBalance() &&
       this.hasChecksumAddress()
     );
@@ -124,6 +124,10 @@ class WalletCreation extends Component {
     return await WalletUtilities.privateKeySaved();
   }
 
+  hasTransactions() {
+    return this.props.transactionsLoaded != null;
+  }
+    
   hasBalance() {
     const cDaiBalance = new BigNumber(this.props.balance.cDaiBalance);
     const daiBalance = new BigNumber(this.props.balance.daiBalance);
@@ -324,7 +328,8 @@ function mapStateToProps(state) {
     cDaiLendingInfo: state.ReducerCDaiLendingInfo.cDaiLendingInfo,
     mnemonicWords: state.ReducerMnemonic.mnemonicWords,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
-    price: state.ReducerPrice.price
+    price: state.ReducerPrice.price,
+    transactionsLoaded: state.ReducerTransactionsLoaded.transactionsLoaded
   };
 }
 

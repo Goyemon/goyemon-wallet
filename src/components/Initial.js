@@ -19,6 +19,7 @@ export default class Initial extends Component {
   mnemonicWordsValidation = this.stateTree.ReducerMnemonicWordsValidation.mnemonicWordsValidation;
   notificationEnabled = this.stateTree.ReducerPermissions.permissions.notification;
   price = this.stateTree.ReducerPrice.price;
+  transactionsLoaded = this.stateTree.ReducerTransactionsLoaded.transactionLoaded
 
   async componentDidMount() {
     TxStorage.storage.setOwnAddress(this.checksumAddress); 
@@ -107,9 +108,13 @@ export default class Initial extends Component {
 
   hasPersistedState() {
     return (
-      // this.hasTransactions() &&
+      this.hasTransactions() &&
       this.hasBalance() && this.hasChecksumAddress() && this.hasPrice()
     );
+  }
+
+  hasTransactions() {
+    return this.transactionsLoaded != null;
   }
 
   hasBalance = () => {
