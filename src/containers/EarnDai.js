@@ -124,10 +124,10 @@ class EarnDai extends Component {
   }
 
   getTransactionFeeEstimateInEth(gasPriceWei) {
-    const approveTransactionFeeEstimateInEth = 
+    const approveTransactionFeeEstimateInEth =
       TransactionUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 50000)
     ;
-    const mintTransactionFeeEstimateInEth = 
+    const mintTransactionFeeEstimateInEth =
       TransactionUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 350000)
     ;
     let transactionFeeEstimateInEth = parseFloat(approveTransactionFeeEstimateInEth) + parseFloat(mintTransactionFeeEstimateInEth);
@@ -146,7 +146,7 @@ class EarnDai extends Component {
     transactionFeeEstimateInUsd = transactionFeeEstimateInUsd.toFixed(4);
     return transactionFeeEstimateInUsd;
   }
-  
+
   validateDaiAmount(daiAmount) {
     daiAmount = new BigNumber(10).pow(18).times(daiAmount);
     const daiBalance = new BigNumber(this.props.balance.daiBalance);
@@ -234,34 +234,26 @@ class EarnDai extends Component {
   }
 
   async constructApproveTransactionObject() { // TODO: this has to be in TransactionUtilities. it's common code for the most part anyway. chainid, nonce, those are always set the same way. we just need to specify to/gas/data/value and that's across ALL txes sent
-    const transactionNonce = TxStorage.storage.getNextNonce();
     const approveEncodedABI = this.getApproveEncodedABI();
-    const transactionObject = {
-      nonce: `0x${transactionNonce.toString(16)}`,
-      to: GlobalConfig.DAIcontract,
-      gasPrice: `0x${parseFloat(this.props.gasPrice.average).toString(16)}`,
-      gasLimit: `0x${parseFloat(50000).toString(16)}`,
-      chainId: GlobalConfig.network_id,
-      data: approveEncodedABI
-    };
+    const transactionObject = await TxStorage.storage.newTx()
+      .setTo(GlobalConfig.DAIcontract)
+      .setGasPrice(this.props.gasPrice.average.toString(16))
+      .setGas((50000).toString(16))
+      .tempSetData(approveEncodedABI)
+      .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.approve, [GlobalConfig.cDAIcontract, this.state.checksumAddress, "ff".repeat(256/8)]);
+
     return transactionObject;
   }
 
   async constructMintTransactionObject() {
-    const transactionNonce = parseInt(
-      TransactionUtilities.getTransactionNonce()
-    );
     const mintEncodedABI = ABIEncoder.encodeCDAIMint(this.state.daiAmount);
-    const transactionObject = {
-      nonce: `0x${transactionNonce.toString(16)}`,
-      to: GlobalConfig.cDAIcontract,
-      gasPrice: `0x${parseFloat(
-        this.state.gasPrice[this.state.checked].gasPriceWei
-      ).toString(16)}`,
-      gasLimit: `0x${parseFloat(350000).toString(16)}`,
-      chainId: GlobalConfig.network_id,
-      data: mintEncodedABI
-    };
+    const transactionObject = await TxStorage.storage.newTx()
+      .setTo(GlobalConfig.cDAIcontract)
+      .setGasPrice(this.state.gasPrice[this.state.checked].gasPriceWei.toString(16))
+      .setGas((350000).toString(16))
+      .tempSetData(mintEncodedABI)
+      .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.mint, [this.state.checksumAddress, 0, this.state.daiAmount]);
+
     return transactionObject;
   }
 
@@ -465,11 +457,11 @@ class EarnDai extends Component {
     const daiBalance = RoundDownBigNumber(this.props.balance.daiBalance)
       .div(new BigNumber(10).pow(18))
       .toString();
-  
+
     this.state.gasPrice[0].gasPriceWei = this.props.gasPrice.fast;
     this.state.gasPrice[1].gasPriceWei = this.props.gasPrice.average;
     this.state.gasPrice[2].gasPriceWei = this.props.gasPrice.slow;
-  
+
     return (
       <RootContainer>
         <HeaderOne marginTop="96">Dai</HeaderOne>
@@ -549,7 +541,7 @@ class EarnDai extends Component {
                     marginBottom="12px"
                     opacity={this.state.buttonOpacity}
                     onPress={async () => {
-                      await this.sendTransactions(this.state.daiAmount);                        
+                      await this.sendTransactions(this.state.daiAmount);
                       this.setState({ loading: false, buttonDisabled: false });
                     }}
                   />

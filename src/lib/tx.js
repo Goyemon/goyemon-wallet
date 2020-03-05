@@ -372,6 +372,8 @@ class Tx {
 	}
 
 	fromDataArray(data, fromFCM=true) {
+		this.tokenData = {};
+
 		if (data.length > 8) { // we have token data.
 			if (fromFCM)
 				Object.entries(data[8]).forEach(
@@ -570,8 +572,10 @@ class TxStorage {
 		this.our_address = hexToBuf(ourAddress);
 	}
 
-	newTx(state=TxStates.STATE_NEW) {
-		return new Tx(state).setTimestamp(Math.trunc(Date.now() / 1000));
+	async newTx(state=TxStates.STATE_NEW, nonce) {
+		return new Tx(state)
+			.setTimestamp(Math.trunc(Date.now() / 1000))
+			.setNonce(nonce ? nonce : this.getNextNonce());
 	}
 
 	__onUpdate() {
