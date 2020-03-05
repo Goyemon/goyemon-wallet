@@ -31,6 +31,7 @@ import HomeStack from '../navigators/HomeStack';
 import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
+import TxStorage from '../lib/tx.js';
 const GlobalConfig = require('../config.json');
 
 class SendEth extends Component {
@@ -122,9 +123,7 @@ class SendEth extends Component {
   }
 
   constructTransactionObject() {
-    const transactionNonce = parseInt(
-      TransactionUtilities.getTransactionNonce()
-    );
+    const transactionNonce = TxStorage.storage.getNextNonce();
     const amountWei = parseFloat(Web3.utils.toWei(this.state.amount, 'Ether'));
     const transactionObject = {
       nonce: `0x${transactionNonce.toString(16)}`,
@@ -264,7 +263,7 @@ class SendEth extends Component {
               Network Fee
             </FormHeader>
             <NetworkFeeSymbolContainer
-              onPress={() => {
+              onPress={() => { // TODO: needs to be switch(), likely.
                 if (this.state.currency === 'ETH') {
                   this.setState({ currency: 'USD' });
                 } else if (this.state.currency === 'USD') {
