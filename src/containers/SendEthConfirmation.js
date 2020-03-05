@@ -109,7 +109,7 @@ class SendEthConfirmation extends Component {
           <AmountText>{valueInEther} ETH</AmountText>
           <NetworkFeeContainer>
             <FormHeader marginBottom="0" marginLeft="8" marginTop="0">
-              Network Fee
+              Max Network Fee
             </FormHeader>
             <TouchableWithoutFeedback
               onPress={() => {

@@ -59,6 +59,7 @@ class SendDai extends Component {
           gasPriceWei: '0'
         }
       ],
+      ethBalance: Web3.utils.fromWei(props.balance.weiBalance),
       toAddress: '',
       amount: '',
       checked: props.gasPrice.chosen,
@@ -71,13 +72,13 @@ class SendDai extends Component {
       buttonOpacity: 0.5,
       showNetworkFee: false
     };
-    this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance);
   }
 
   componentDidMount() {
     this.props.getGasPriceFast();
     this.props.getGasPriceAverage();
     this.props.getGasPriceSlow();
+    this.validateEthAmount(this.state.gasPrice[this.state.checked].gasPriceWei);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -87,6 +88,9 @@ class SendDai extends Component {
     }
     if (this.props.gasPrice != prevProps.gasPrice) {
       this.setState({ checked: this.props.gasPrice.chosen });
+    }
+    if (this.props.balance != prevProps.balance) {
+      this.setState({ ethBalance: Web3.utils.fromWei(this.props.balance.weiBalance) });
     }
   }
 
@@ -112,7 +116,7 @@ class SendDai extends Component {
 
   toggleCurrency(gasPriceWei) {
     if (this.state.currency === 'ETH') {
-      const usdValue = this.getTransactionFeeEstimateInUsd(gasPriceWei);
+      const usdValue = TransactionUtilities.getTransactionFeeEstimateInUsd(gasPriceWei, 65000);
       return <NetworkFeeText>${usdValue}</NetworkFeeText>;
     } else if (this.state.currency === 'USD') {
       let ethValue = TransactionUtilities.getTransactionFeeEstimateInEther(
@@ -124,21 +128,19 @@ class SendDai extends Component {
     }
   }
 
-  getTransactionFeeEstimateInUsd(gasPriceWei) {
-    let transactionFeeEstimateInUsd = PriceUtilities.convertEthToUsd(
-      TransactionUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 65000)
-    );
-    transactionFeeEstimateInUsd = transactionFeeEstimateInUsd.toFixed(3);
-    return transactionFeeEstimateInUsd;
-  }
-
-  async constructTransactionObject() {
+  constructTransactionObject() {
     const transactionNonce = parseInt(
       TransactionUtilities.getTransactionNonce()
     );
+
+    const amount = this.state.amount.split('.').join("");
+    const decimalPlaces = TransactionUtilities.decimalPlaces(this.state.amount);
+    const decimals = 18 - parseInt(decimalPlaces); 
+
     const transferEncodedABI = ABIEncoder.encodeTransfer(
       this.state.toAddress,
-      this.state.amount
+      amount,
+      decimals
     );
     const transactionObject = {
       nonce: `0x${transactionNonce.toString(16)}`,
@@ -207,13 +209,13 @@ class SendDai extends Component {
     return false;
   }
 
-  validateEthAmount() {
+  validateEthAmount(gasPriceWei) {
     let transactionFeeLimitInEther = TransactionUtilities.getTransactionFeeEstimateInEther(
-      this.state.gasPrice[this.state.checked].gasPriceWei,
+      gasPriceWei,
       65000
     );
 
-    const ethBalance = new BigNumber(this.ethBalance);
+    const ethBalance = new BigNumber(this.state.ethBalance);
     transactionFeeLimitInEther = new BigNumber(transactionFeeLimitInEther);
 
     if (ethBalance.isGreaterThan(transactionFeeLimitInEther)) {
@@ -269,7 +271,7 @@ class SendDai extends Component {
   validateForm = async (toAddress, amount) => {
     const toAddressValidation = this.validateToAddress(toAddress);
     const daiAmountValidation = this.validateDaiAmount(amount);
-    const ethAmountValidation = this.validateEthAmount();
+    const ethAmountValidation = this.validateEthAmount(this.state.gasPrice[this.state.checked].gasPriceWei);
     const isOnline = this.props.netInfo;
 
     if (
@@ -347,7 +349,7 @@ class SendDai extends Component {
                       onPress={() => {
                         this.setState({ checked: key });
                         this.props.updateGasPriceChosen(key);
-                        this.validateEthAmount();
+                        this.validateEthAmount(gasPrice.gasPriceWei);
                       }}
                     >
                       <UnselectedButton>{gasPrice.speed}</UnselectedButton>

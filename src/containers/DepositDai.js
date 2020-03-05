@@ -54,7 +54,8 @@ class DepositDai extends Component {
           gasPriceWei: '0'
         }
       ],
-      amount: '',
+      ethBalance: Web3.utils.fromWei(props.balance.weiBalance),
+      daiAmount: '',
       checked: props.gasPrice.chosen,
       daiAmountValidation: undefined,
       ethAmountValidation: undefined,
@@ -64,18 +65,21 @@ class DepositDai extends Component {
       buttonOpacity: 0.5,
       showNetworkFee: false
     };
-    this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance);
   }
 
   componentDidMount() {
     this.props.getGasPriceFast();
     this.props.getGasPriceAverage();
     this.props.getGasPriceSlow();
+    this.validateEthAmount(this.state.gasPrice[this.state.checked].gasPriceWei);
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.gasPrice != prevProps.gasPrice) {
       this.setState({ checked: this.props.gasPrice.chosen });
+    }
+    if (this.props.balance != prevProps.balance) {
+      this.setState({ ethBalance: Web3.utils.fromWei(this.props.balance.weiBalance) });
     }
   }
 
@@ -101,7 +105,7 @@ class DepositDai extends Component {
 
   toggleCurrency(gasPriceWei) {
     if (this.state.currency === 'ETH') {
-      const usdValue = this.getTransactionFeeEstimateInUsd(gasPriceWei);
+      const usdValue = TransactionUtilities.getTransactionFeeEstimateInUsd(gasPriceWei, 350000);
       return <NetworkFeeText>${usdValue}</NetworkFeeText>;
     } else if (this.state.currency === 'USD') {
       let ethValue = TransactionUtilities.getTransactionFeeEstimateInEther(
@@ -113,19 +117,16 @@ class DepositDai extends Component {
     }
   }
 
-  getTransactionFeeEstimateInUsd(gasPriceWei) {
-    let transactionFeeEstimateInUsd = PriceUtilities.convertEthToUsd(
-      TransactionUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 350000)
-    );
-    transactionFeeEstimateInUsd = transactionFeeEstimateInUsd.toFixed(3);
-    return transactionFeeEstimateInUsd;
-  }
-
-  async constructTransactionObject() {
+  constructTransactionObject() {
     const transactionNonce = parseInt(
       TransactionUtilities.getTransactionNonce()
     );
-    const mintEncodedABI = ABIEncoder.encodeCDAIMint(this.state.amount);
+
+    const daiAmount = this.state.daiAmount.split('.').join("");
+    const decimalPlaces = TransactionUtilities.decimalPlaces(this.state.daiAmount);
+    const decimals = 18 - parseInt(decimalPlaces); 
+
+    const mintEncodedABI = ABIEncoder.encodeCDAIMint(daiAmount, decimals);
     const transactionObject = {
       nonce: `0x${transactionNonce.toString(16)}`,
       to: GlobalConfig.cDAIcontract,
@@ -139,13 +140,13 @@ class DepositDai extends Component {
     return transactionObject;
   }
 
-  validateDaiAmount(amount) {
-    amount = new BigNumber(10).pow(18).times(amount);
+  validateDaiAmount(daiAmount) {
+    daiAmount = new BigNumber(10).pow(18).times(daiAmount);
     const daiBalance = new BigNumber(this.props.balance.daiBalance);
 
     if (
-      daiBalance.isGreaterThanOrEqualTo(amount) &&
-      amount.isGreaterThanOrEqualTo(0)
+      daiBalance.isGreaterThanOrEqualTo(daiAmount) &&
+      daiAmount.isGreaterThanOrEqualTo(0)
     ) {
       LogUtilities.logInfo('the dai amount validated!');
       this.setState({
@@ -164,13 +165,13 @@ class DepositDai extends Component {
     return false;
   }
 
-  validateEthAmount() {
+  validateEthAmount(gasPriceWei) {
     let transactionFeeLimitInEther = TransactionUtilities.getTransactionFeeEstimateInEther(
-      this.state.gasPrice[this.state.checked].gasPriceWei,
+      gasPriceWei,
       350000
     );
 
-    const ethBalance = new BigNumber(this.ethBalance);
+    const ethBalance = new BigNumber(this.state.ethBalance);
     transactionFeeLimitInEther = new BigNumber(transactionFeeLimitInEther);
 
     if (ethBalance.isGreaterThan(transactionFeeLimitInEther)) {
@@ -213,9 +214,9 @@ class DepositDai extends Component {
     }
   }
 
-  validateForm = async amount => {
-    const daiAmountValidation = this.validateDaiAmount(amount);
-    const ethAmountValidation = this.validateEthAmount();
+  validateForm = async daiAmount => {
+    const daiAmountValidation = this.validateDaiAmount(daiAmount);
+    const ethAmountValidation = this.validateEthAmount(this.state.gasPrice[this.state.checked].gasPriceWei);
     const isOnline = this.props.netInfo;
 
     if (daiAmountValidation && ethAmountValidation && isOnline) {
@@ -223,7 +224,7 @@ class DepositDai extends Component {
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
-      await this.props.saveOutgoingDaiTransactionAmount(amount);
+      await this.props.saveOutgoingDaiTransactionAmount(daiAmount);
       this.props.navigation.navigate('DepositDaiConfirmation');
     } else {
       LogUtilities.logInfo('form validation failed!');
@@ -287,7 +288,7 @@ class DepositDai extends Component {
                       onPress={() => {
                         this.setState({ checked: key });
                         this.props.updateGasPriceChosen(key);
-                        this.validateEthAmount();
+                        this.validateEthAmount(gasPrice.gasPriceWei);
                       }}
                     >
                       <UnselectedButton>{gasPrice.speed}</UnselectedButton>
@@ -397,9 +398,9 @@ class DepositDai extends Component {
                 placeholder="amount"
                 keyboardType="numeric"
                 clearButtonMode="while-editing"
-                onChangeText={amount => {
-                  this.validateDaiAmount(amount);
-                  this.setState({ amount });
+                onChangeText={daiAmount => {
+                  this.validateDaiAmount(daiAmount);
+                  this.setState({ daiAmount });
                 }}
                 returnKeyType="done"
               />
@@ -420,7 +421,7 @@ class DepositDai extends Component {
               marginBottom="12px"
               opacity={this.state.buttonOpacity}
               onPress={async () => {
-                await this.validateForm(this.state.amount);
+                await this.validateForm(this.state.daiAmount);
                 this.setState({ loading: false, buttonDisabled: false });
               }}
             />

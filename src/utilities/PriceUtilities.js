@@ -1,6 +1,6 @@
 'use strict';
 import { store } from '../store/store.js';
-import LogUtilities from '../utilities/LogUtilities.js';
+import LogUtilities from './LogUtilities';
 
 class PriceUtilities {
   convertEthToUsd(ether) {
@@ -27,6 +27,32 @@ class PriceUtilities {
     } catch (error) {
       LogUtilities.logError(error);
     }
+  }
+
+  getDaiUsdBalance(daiBalance) {
+    try {
+      return this.convertDaiToUsd(daiBalance);
+    } catch (err) {
+      LogUtilities.logError(err);
+    }
+  }
+
+  getEthUsdBalance(ethBalance) {
+    try {
+      let ethUsdBalance = this.convertEthToUsd(ethBalance);
+      ethUsdBalance = ethUsdBalance.toFixed(2);
+      return ethUsdBalance;
+    } catch (err) {
+      LogUtilities.logError(err);
+    }
+  }
+
+  getTotalBalance(ethBalance, daiBalance) {
+    let totalUsdBalance =
+      parseFloat(this.convertEthToUsd(ethBalance)) +
+      parseFloat(this.convertDaiToUsd(daiBalance));
+    totalUsdBalance = parseFloat(totalUsdBalance).toFixed(2);
+    return totalUsdBalance;
   }
 }
 
