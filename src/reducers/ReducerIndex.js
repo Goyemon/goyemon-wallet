@@ -16,7 +16,7 @@ import ReducerQRCodeData from './ReducerQRCodeData';
 import ReducerOutgoingDaiTransactionData from './ReducerOutgoingDaiTransactionData';
 import ReducerOutgoingTransactionObjects from './ReducerOutgoingTransactionObjects';
 import ReducerPrice from './ReducerPrice';
-import ReducerTotalTransactions from './ReducerTotalTransactions';
+import ReducerTransactionsLoaded from './ReducerTransactionsLoaded';
 import ReducerTransactionFeeEstimate from './ReducerTransactionFeeEstimate';
 import ReducerTransactionHistory from './ReducerTransactionHistory';
 import ReducerCurrencies from './ReducerCurrencies';
@@ -36,7 +36,7 @@ const appReducers = combineReducers({
   ReducerOutgoingDaiTransactionData,
   ReducerOutgoingTransactionObjects,
   ReducerPrice,
-  ReducerTotalTransactions,
+  ReducerTransactionsLoaded,
   ReducerTransactionFeeEstimate,
   ReducerTransactionHistory,
   ReducerCurrencies

@@ -18,7 +18,7 @@ const persistConfig = {
     'ReducerOutgoingTransactionObjects',
     'ReducerPrice',
     // 'ReducerTransactionHistory',
-    // 'ReducerTotalTransactions',
+    'ReducerTransactionsLoaded',
     'ReducerCurrencies'
   ]
 };

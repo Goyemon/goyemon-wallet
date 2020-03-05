@@ -13,9 +13,8 @@ import {
   saveDaiApprovalInfo
 } from '../actions/ActionCDaiLendingInfo';
 import {
-  saveTotalTransactions,
-  incrementTotalTransactions
-} from '../actions/ActionTotalTransactions';
+  saveTransactionsLoaded
+} from '../actions/ActionTransactionsLoaded';
 import {
   saveExistingTransactions,
   saveEmptyTransaction,
@@ -69,7 +68,7 @@ async function downstreamMessageHandler(downstreamMessage) {
     if (downstreamMessage.data.data === '{}') {
       store.dispatch(saveOtherDebugInfo('got empty txhistory'));
       store.dispatch(saveEmptyTransaction(downstreamMessage.data.data));
-      store.dispatch(saveTotalTransactions(0));
+      store.dispatch(saveTransactionsLoaded(true));
       await TxStorage.storage.clear();
       return;
     }
@@ -88,7 +87,7 @@ async function downstreamMessageHandler(downstreamMessage) {
 
         // TODO: remove this temp cleanup:
         store.dispatch(saveEmptyTransaction('{}'));
-        store.dispatch(saveTotalTransactions(0));
+        store.dispatch(saveTransactionsLoaded(true));
 
         try {
           TxStorage.storage.setOwnAddress(checksumAddress);
