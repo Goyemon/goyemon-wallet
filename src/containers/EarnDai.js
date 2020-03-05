@@ -240,7 +240,7 @@ class EarnDai extends Component {
       .setGasPrice(this.props.gasPrice.average.toString(16))
       .setGas((50000).toString(16))
       .tempSetData(approveEncodedABI)
-      .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.approve, [GlobalConfig.cDAIcontract, this.state.checksumAddress, "ff".repeat(256/8)]);
+      .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.approval, [GlobalConfig.cDAIcontract, this.state.checksumAddress, "ff".repeat(256/8)]);
 
     return transactionObject;
   }
