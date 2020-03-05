@@ -650,7 +650,6 @@ function mapStateToProps(state) {
     balance: state.ReducerBalance.balance,
     netInfo: state.ReducerNetInfo.netInfo,
     qrCodeData: state.ReducerQRCodeData.qrCodeData,
-    transactions: state.ReducerTransactionHistory.transactions
   };
 }
 

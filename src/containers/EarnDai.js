@@ -39,18 +39,7 @@ class EarnDai extends Component {
   }
 
   async componentDidMount() {
-    if (this.props.transactions != null && this.props.transactions.length != null) { // why is this checked every time? why not remember it once?
-      this.props.saveDaiApprovalInfo(TxStorage.isDAIApprovedForCDAI());
-    }
     this.props.getGasPriceAverage();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.transactions != null && this.props.transactions.length != null) {
-      if (this.props.transactions != prevProps.transactions) {
-        this.props.saveDaiApprovalInfo(TxStorage.storage.isDAIApprovedForCDAI());
-      }
-    }
   }
 
   getTransactionFeeEstimateInUsd() {
@@ -89,14 +78,14 @@ class EarnDai extends Component {
 
   getApproveEncodedABI() {
     const addressSpender = GlobalConfig.cDAIcontract;
-    const amount = 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff';
+    const amount = `0x${"ff".repeat(256/8)}`; // TODO: this needs to be a const somewhere, likely uint256max_hex.
 
     const approveEncodedABI = ABIEncoder.encodeApprove(addressSpender, amount);
 
     return approveEncodedABI;
   }
 
-  async constructTransactionObject() {
+  async constructTransactionObject() { // TODO: this has to be in TransactionUtilities. it's common code for the most part anyway. chainid, nonce, those are always set the same way. we just need to specify to/gas/data/value and that's across ALL txes sent
     const transactionNonce = TxStorage.storage.getNextNonce();
     const approveEncodedABI = this.getApproveEncodedABI();
     const transactionObject = {
@@ -366,13 +355,11 @@ function mapStateToProps(state) {
     gasPrice: state.ReducerGasPrice.gasPrice,
     cDaiLendingInfo: state.ReducerCDaiLendingInfo.cDaiLendingInfo,
     netInfo: state.ReducerNetInfo.netInfo,
-    transactions: state.ReducerTransactionHistory.transactions
   };
 }
 
 const mapDispatchToProps = {
   getGasPriceAverage,
-  saveDaiApprovalInfo,
   saveOutgoingDaiTransactionApproveAmount
 };
 
