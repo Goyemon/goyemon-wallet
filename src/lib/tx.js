@@ -579,7 +579,7 @@ class TxStorage {
 	async newTx(state=TxStates.STATE_NEW, nonce) {
 		return new Tx(state)
 			.setTimestamp(Math.trunc(Date.now() / 1000))
-			.setNonce(nonce ? nonce : this.getNextNonce());
+			.setNonce(nonce ? nonce : await this.getNextNonce());
 	}
 
 	__onUpdate() {
