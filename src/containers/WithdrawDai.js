@@ -118,25 +118,22 @@ class WithdrawDai extends Component {
     }
   }
 
-  constructTransactionObject() {
-    const transactionNonce = TxStorage.storage.getNextNonce();
+  async constructTransactionObject() {
     const daiWithdrawAmount = this.state.daiWithdrawAmount.split('.').join("");
     const decimalPlaces = TransactionUtilities.decimalPlaces(this.state.daiWithdrawAmount);
-    const decimals = 18 - parseInt(decimalPlaces); 
+    const decimals = 18 - parseInt(decimalPlaces);
 
     const redeemUnderlyingEncodedABI = ABIEncoder.encodeCDAIRedeemUnderlying(
       daiWithdrawAmount, decimals
     );
-    const transactionObject = {
-      nonce: `0x${transactionNonce.toString(16)}`,
-      to: GlobalConfig.cDAIcontract,
-      gasPrice: `0x${parseFloat(
-        this.state.gasPrice[this.state.checked].gasPriceWei
-      ).toString(16)}`,
-      gasLimit: `0x${parseFloat(650000).toString(16)}`,
-      chainId: GlobalConfig.network_id,
-      data: redeemUnderlyingEncodedABI
-    };
+
+    const transactionObject = await TxStorage.storage.newTx()
+      .setTo(GlobalConfig.cDAIcontract)
+      .setGasPrice(this.state.gasPrice[this.state.checked].gasPriceWei.toString(16))
+      .setGas((650000).toString(16))
+      .tempSetData(redeemUnderlyingEncodedABI)
+      .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.redeem, [this.state.checksumAddress, 0, daiWithdrawAmount]);
+
     return transactionObject;
   }
 

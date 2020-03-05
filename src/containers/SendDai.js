@@ -129,27 +129,23 @@ class SendDai extends Component {
     }
   }
 
-  constructTransactionObject() {
-    const transactionNonce = TxStorage.storage.getNextNonce();
-
+  async constructTransactionObject() {
     const amount = this.state.amount.split('.').join("");
     const decimalPlaces = TransactionUtilities.decimalPlaces(this.state.amount);
-    const decimals = 18 - parseInt(decimalPlaces); 
+    const decimals = 18 - parseInt(decimalPlaces);
     const transferEncodedABI = ABIEncoder.encodeTransfer(
       this.state.toAddress,
       amount,
       decimals
     );
-    const transactionObject = {
-      nonce: `0x${transactionNonce.toString(16)}`,
-      to: GlobalConfig.DAIcontract,
-      gasPrice: `0x${parseFloat(
-        this.state.gasPrice[this.state.checked].gasPriceWei
-      ).toString(16)}`,
-      gasLimit: `0x${parseFloat(65000).toString(16)}`,
-      chainId: GlobalConfig.network_id,
-      data: transferEncodedABI
-    };
+
+    const transactionObject = await TxStorage.storage.newTx()
+      .setTo(GlobalConfig.DAIcontract)
+      .setGasPrice(this.state.gasPrice[this.state.checked].gasPriceWei.toString(16))
+      .setGas((65000).toString(16))
+      .tempSetData(transferEncodedABI)
+      .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.transfer, [this.state.checksumAddress, GlobalConfig.DAIcontract, amount]);
+
     return transactionObject;
   }
 

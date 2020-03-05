@@ -123,11 +123,9 @@ class SendEth extends Component {
   }
 
   async constructTransactionObject() {
-    const transactionNonce = await TxStorage.storage.getNextNonce(); // TODO: likely move that nonce-setting logic to TxStorage.storage.newTx() (if state is NEW then we set up the nonce; careful about multiple txes at the same time though)
-    const amountWei = parseFloat(Web3.utils.toWei(this.state.amount, 'Ether'));
+    const amountWei = parseFloat(Web3.utils.toWei(this.state.amount, 'Ether'));// TODO: why is it here?
 
-    const transactionObject = TxStorage.storage.newTx()
-      .setNonce(transactionNonce)
+    const transactionObject = await TxStorage.storage.newTx()
       .setTo(this.state.toAddress)
       .setValue(amountWei.toString(16))
       .setGasPrice(this.state.gasPrice[this.state.checked].gasPriceWei.toString(16))
