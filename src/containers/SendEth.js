@@ -55,6 +55,7 @@ class SendEth extends Component {
           gasPriceWei: '0'
         }
       ],
+      ethBalance: Web3.utils.fromWei(props.balance.weiBalance),
       toAddress: '',
       amount: '',
       checked: props.gasPrice.chosen,
@@ -66,7 +67,6 @@ class SendEth extends Component {
       buttonOpacity: 0.5,
       showNetworkFee: false
     };
-    this.ethBalance = Web3.utils.fromWei(props.balance.weiBalance);
   }
 
   componentDidMount() {
@@ -83,15 +83,8 @@ class SendEth extends Component {
     if (this.props.gasPrice != prevProps.gasPrice) {
       this.setState({ checked: this.props.gasPrice.chosen });
     }
-  }
-
-  getUsdBalance() {
-    try {
-      let ethUsdBalance = PriceUtilities.convertEthToUsd(this.ethBalance);
-      ethUsdBalance = ethUsdBalance.toFixed(2);
-      return ethUsdBalance;
-    } catch (err) {
-      LogUtilities.logError(err);
+    if (this.props.balance != prevProps.balance) {
+      this.setState({ ethBalance: Web3.utils.fromWei(this.props.balance.weiBalance) });
     }
   }
 
@@ -117,7 +110,7 @@ class SendEth extends Component {
 
   toggleCurrency(gasPriceWei) {
     if (this.state.currency === 'ETH') {
-      const usdValue = this.getTransactionFeeEstimateInUsd(gasPriceWei);
+      const usdValue = TransactionUtilities.getTransactionFeeEstimateInUsd(gasPriceWei, 21000);
       return <NetworkFeeText>${usdValue}</NetworkFeeText>;
     } else if (this.state.currency === 'USD') {
       let ethValue = TransactionUtilities.getTransactionFeeEstimateInEther(
@@ -129,15 +122,7 @@ class SendEth extends Component {
     }
   }
 
-  getTransactionFeeEstimateInUsd(gasPriceWei) {
-    let transactionFeeEstimateInUsd = PriceUtilities.convertEthToUsd(
-      TransactionUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 21000)
-    );
-    transactionFeeEstimateInUsd = transactionFeeEstimateInUsd.toFixed(3);
-    return transactionFeeEstimateInUsd;
-  }
-
-  async constructTransactionObject() {
+  constructTransactionObject() {
     const transactionNonce = TxStorage.storage.getNextNonce();
     const amountWei = parseFloat(Web3.utils.toWei(this.state.amount, 'Ether'));
     const transactionObject = {
@@ -189,7 +174,7 @@ class SendEth extends Component {
       21000
     );
 
-    const ethBalance = new BigNumber(this.ethBalance);
+    const ethBalance = new BigNumber(this.state.ethBalance);
 
     amount = new BigNumber(amount);
     transactionFeeLimitInEther = new BigNumber(transactionFeeLimitInEther);
@@ -368,7 +353,7 @@ class SendEth extends Component {
       DECIMAL_PLACES: 4,
       ROUNDING_MODE: BigNumber.ROUND_DOWN
     });
-    const ethBalance = RoundDownBigNumber(this.ethBalance).toFixed(4);
+    const ethBalance = RoundDownBigNumber(this.state.ethBalance).toFixed(4);
 
     this.state.gasPrice[0].gasPriceWei = this.props.gasPrice.fast;
     this.state.gasPrice[1].gasPriceWei = this.props.gasPrice.average;
@@ -407,7 +392,7 @@ class SendEth extends Component {
             <Title>eth wallet balance</Title>
             <BalanceContainer>
               <Value>{ethBalance} ETH</Value>
-              <Value>${this.getUsdBalance()}</Value>
+              <Value>${PriceUtilities.getEthUsdBalance(this.state.ethBalance)}</Value>
             </BalanceContainer>
           </UntouchableCardContainer>
           <FormHeader marginBottom="4" marginLeft="0" marginTop="0">
