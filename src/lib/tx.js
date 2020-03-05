@@ -362,6 +362,7 @@ class Tx {
 
 	tempSetData(data) {
 		this.data = data;
+		return this;
 	}
 
 	upgradeState(new_state, new_timestamp) { // updates state and timestamp ONLY if the new state is a later state (so, we cant go back from confirmed to included, for example)
