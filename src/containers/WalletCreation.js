@@ -11,6 +11,7 @@ import { createChecksumAddress } from '../actions/ActionChecksumAddress';
 import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
 import { HeaderTwo, Description, Button } from '../components/common';
 import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
+import TxStorage from '../lib/tx';
 import HomeStack from '../navigators/HomeStack';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
@@ -84,6 +85,7 @@ class WalletCreation extends Component {
     await WalletUtilities.generateWallet(this.props.mnemonicWords);
     await WalletUtilities.setPrivateKey(await WalletUtilities.createPrivateKey());
     await this.props.createChecksumAddress();
+    TxStorage.storage.setOwnAddress(this.props.checksumAddress); 
     await FcmUpstreamMsgs.registerEthereumAddress(this.props.checksumAddress);
   }
 
