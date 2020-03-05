@@ -73,9 +73,7 @@ class EarnDai extends Component {
     this.props.getGasPriceFast();
     this.props.getGasPriceAverage();
     this.props.getGasPriceSlow();
-    //if (this.props.transactions != null && this.props.transactions.length != null) {
-    //  this.props.saveDaiApprovalInfo(TransactionUtilities.isDaiApproved(this.props.transactions));
-    //}
+    this.props.saveDaiApprovalInfo( await TxStorage.storage.isDAIApprovedForCDAI())
   }
 
   componentDidUpdate(prevProps) {
