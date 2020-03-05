@@ -127,7 +127,7 @@ class WithdrawDai extends Component {
       daiWithdrawAmount, decimals
     );
 
-    const transactionObject = await TxStorage.storage.newTx()
+    const transactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.cDAIcontract)
       .setGasPrice(this.state.gasPrice[this.state.checked].gasPriceWei.toString(16))
       .setGas((650000).toString(16))

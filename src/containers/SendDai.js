@@ -139,7 +139,7 @@ class SendDai extends Component {
       decimals
     );
 
-    const transactionObject = await TxStorage.storage.newTx()
+    const transactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.DAIcontract)
       .setGasPrice(this.state.gasPrice[this.state.checked].gasPriceWei.toString(16))
       .setGas((65000).toString(16))
