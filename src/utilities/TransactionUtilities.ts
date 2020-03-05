@@ -128,9 +128,7 @@ class TransactionUtilities {
       });
     firebase.messaging().sendMessage(upstreamMessage);
 
-    TxStorage.storage.saveTx(outgoingTransactionObject);
-
-
+    await TxStorage.storage.saveTx(outgoingTransactionObject);
   }
 
   getTransactionFeeEstimateInEther(gasPriceWei, gasLimit) {
