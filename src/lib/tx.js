@@ -840,7 +840,7 @@ class TxStorage {
 
 		this.included_max_nonce = 0;
 
-		// this.__onUpdate();
+		this.__onUpdate();
 		return this;
 	}
 
