@@ -157,7 +157,6 @@ class WalletCreation extends Component {
 
   hasCDaiLendingInfo() {
     return (
-      this.props.cDaiLendingInfo.daiApproval != null &&
       this.props.cDaiLendingInfo.currentExchangeRate >= 0 &&
       this.props.cDaiLendingInfo.currentExchangeRate.length != 0 &&
       this.props.cDaiLendingInfo.currentInterestRate >= 0 &&
