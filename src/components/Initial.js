@@ -9,6 +9,8 @@ import HomeStack from '../navigators/HomeStack';
 import { store } from '../store/store.js';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
+import TxStorage from '../lib/tx.js';
+
 export default class Initial extends Component {
   stateTree = store.getState();
   balance = this.stateTree.ReducerBalance.balance;
@@ -17,8 +19,6 @@ export default class Initial extends Component {
   mnemonicWordsValidation = this.stateTree.ReducerMnemonicWordsValidation.mnemonicWordsValidation;
   notificationEnabled = this.stateTree.ReducerPermissions.permissions.notification;
   price = this.stateTree.ReducerPrice.price;
-  totalTransactions = this.stateTree.ReducerTotalTransactions.totalTransactions;
-  transactions = this.stateTree.ReducerTransactionHistory.transactions;
 
   async componentDidMount() {
     let mnemonicWordsStatePersisted;
@@ -105,17 +105,10 @@ export default class Initial extends Component {
 
   hasPersistedState() {
     return (
-      this.hasTransactions() && this.hasBalance() && this.hasChecksumAddress() && this.hasPrice()
+      // this.hasTransactions() &&
+      this.hasBalance() && this.hasChecksumAddress() && this.hasPrice()
     );
   }
-
-  hasTransactions = () => {
-    if (this.totalTransactions != null && this.transactions != null) {
-      return true;
-    } else if (this.totalTransactions === null || this.transactions === null) {
-      return false;
-    }
-  };
 
   hasBalance = () => {
     const cDaiBalance = new BigNumber(this.balance.cDaiBalance);
