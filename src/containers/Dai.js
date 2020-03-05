@@ -2,11 +2,6 @@
 import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View } from 'react-native';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp
-} from 'react-native-responsive-screen';
 import { withNavigation } from 'react-navigation';
 import styled from 'styled-components';
 import {
@@ -14,21 +9,11 @@ import {
   UntouchableCardContainer,
   TransactionButton,
   HeaderOne,
-  HeaderThree,
   HeaderFour
 } from '../components/common/';
-import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class Dai extends Component {
-  getUsdBalance(daiBalance) {
-    try {
-      return PriceUtilities.convertDaiToUsd(daiBalance);
-    } catch (err) {
-      LogUtilities.logError(err);
-    }
-  }
-
   render() {
     const { balance, navigation } = this.props;
 
@@ -54,7 +39,7 @@ class Dai extends Component {
           width="90%"
         >
           <HeaderFour marginTop="24">dai wallet balance</HeaderFour>
-          <UsdBalance>${this.getUsdBalance(daiBalance)}</UsdBalance>
+          <UsdBalance>${PriceUtilities.getDaiUsdBalance(daiBalance)}</UsdBalance>
           <DaiBalance>{daiBalance} DAI</DaiBalance>
         </UntouchableCardContainer>
         <ButtonContainer>

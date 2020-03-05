@@ -21,10 +21,10 @@ export default class NotificationPermissionNotGranted extends Component {
               source={require('../../assets/notification_not_granted.png')}
             />
             <Description marginBottom="0" marginLeft="0" marginTop="16">
-              - We use a notification system to update your transactions in the background.
+              we use notifications to update your transactions
             </Description>
             <Description marginBottom="0" marginLeft="0" marginTop="0">
-              - We respect your attention. We will never annoy you with a pop-up.
+              we respect your attention, no pop-ups
             </Description>
             <Button
               text="Go To Device Settings"
@@ -54,7 +54,7 @@ const Container = styled.View`
   align-items: center;
   flex-direction: column;
   margin-top: 120;
-  width: 95%;
+  width: 90%;
 `;
 
 const NoPermissionContainer = styled.View`

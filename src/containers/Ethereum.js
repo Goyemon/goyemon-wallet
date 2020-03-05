@@ -3,11 +3,6 @@ import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Web3 from 'web3';
-import { View } from 'react-native';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp
-} from 'react-native-responsive-screen';
 import { withNavigation } from 'react-navigation';
 import styled from 'styled-components';
 import {
@@ -17,20 +12,9 @@ import {
   HeaderOne,
   HeaderFour
 } from '../components/common/';
-import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class Ethereum extends Component {
-  getUsdBalance(ethBalance) {
-    try {
-      let ethUsdBalance = PriceUtilities.convertEthToUsd(ethBalance);
-      ethUsdBalance = ethUsdBalance.toFixed(2);
-      return ethUsdBalance;
-    } catch (err) {
-      LogUtilities.logError(err);
-    }
-  }
-
   render() {
     const { balance, navigation } = this.props;
 
@@ -55,7 +39,7 @@ class Ethereum extends Component {
           width="90%"
         >
           <HeaderFour marginTop="24">eth wallet balance</HeaderFour>
-          <UsdBalance>${this.getUsdBalance(ethBalance)}</UsdBalance>
+          <UsdBalance>${PriceUtilities.getEthUsdBalance(ethBalance)}</UsdBalance>
           <EthBalance>{ethBalance} ETH</EthBalance>
         </UntouchableCardContainer>
         <ButtonContainer>
