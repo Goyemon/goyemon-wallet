@@ -484,7 +484,7 @@ class TxStorage {
 	constructor (ourAddress) {
 		this.__addDebug('TxStorage constructor called');
 		this.included_max_nonce = 0; // for our txes
-		this.not_included_max_nonce = 0;
+		// this.not_included_max_nonce = 0; // TODO
 
 		AsyncStorage.getItem(maxNonceKey).then(x => { this.included_max_nonce = parseInt(x); });
 
@@ -501,6 +501,8 @@ class TxStorage {
 		AsyncStorage.getAllKeys().then(x => {
 			this.__addDebug(`AStor keys: ${x}`);
 		});
+
+		AsyncStorage.getItem(maxNonceKey).then(x => this.__addDebug(`MaxNonce: ${x}`));
 	}
 
 	// wrap(wrapped, storagepropname) {
@@ -812,10 +814,11 @@ class TxStorage {
 
 	async getNextNonce() {
 		let max = 0;
-		const incmax = this.getIncludedNextNonce();
+		const incmax = await this.getIncludedNextNonce();
 
 		(await this.not_included_txes.getAllKeys()).forEach(x => { if (x >= max) max = x + 1; });
 
+		this.__addDebug(`next nonce: max:${max} incmax:${incmax} not included keys:${(await this.not_included_txes.getAllKeys()).join("  ||  ")}`);
 		return incmax > max ? incmax : max;
 	}
 
