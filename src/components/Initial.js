@@ -21,6 +21,8 @@ export default class Initial extends Component {
   price = this.stateTree.ReducerPrice.price;
 
   async componentDidMount() {
+    TxStorage.storage.setOwnAddress(this.checksumAddress); 
+
     let mnemonicWordsStatePersisted;
     if (this.mnemonicWords === null) {
       mnemonicWordsStatePersisted = false;
