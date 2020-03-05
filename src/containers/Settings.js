@@ -13,6 +13,7 @@ import {
   Description,
   CrypterestText
 } from '../components/common';
+import TxStorage from '../lib/tx';
 import { persistor } from '../store/store.js';
 import LogUtilities from '../utilities/LogUtilities.js';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
@@ -101,6 +102,7 @@ class Settings extends Component {
                     onPress={async () => {
                       await WalletUtilities.resetKeychainData();
                       await persistor.purge();
+                      await TxStorage.storage.clear();
                       this.props.clearState();
                       // reset notification settings using https://github.com/zo0r/react-native-push-notification
                       this.setModalVisible(false);
