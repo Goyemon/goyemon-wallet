@@ -1,8 +1,8 @@
 'use strict';
 import React, { Component } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import styled from 'styled-components';
-import { RootContainer, HeaderOne, HeaderThree } from '../components/common/';
+import { HeaderOne } from '../components/common/';
 // TODO: git rm those two:
 //import Transactions from '../containers/Transactions';
 //import TransactionsDai from '../containers/TransactionsDai';
@@ -32,11 +32,11 @@ export default class History extends Component {
 
   render() {
     return (
-      <RootContainer>
+      <View>
         <HeaderOne marginTop="64">History</HeaderOne>
         {this.toggleFilterChoiceText()}
         <TransactionList tokenFilter={this.state.filter} key={`TransactionList_${this.state.filter}`} />
-      </RootContainer>
+      </View>
     );
   }
 }
