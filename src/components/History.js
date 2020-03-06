@@ -20,11 +20,11 @@ export default class History extends Component {
   toggleFilterChoiceText() {
     const choices = ['All', 'Dai'].map(filter => {
         if (filter == this.state.filter)
-          return <FilterChoiceTextSelected>{filter}</FilterChoiceTextSelected>;
+          return <FilterChoiceTextSelected key={filter}>{filter}</FilterChoiceTextSelected>;
 
-        return  <TouchableOpacity onPress={() => this.setState({ filter: filter })}>
+        return  <TouchableOpacity key={filter} onPress={() => this.setState({ filter: filter })}>
                   <FilterChoiceTextUnelected>{filter}</FilterChoiceTextUnelected>
-                </TouchableOpacity>;
+                </TouchableOpacity>
     });
 
     return <FilterChoiceContainer>{choices}</FilterChoiceContainer>;
