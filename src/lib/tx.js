@@ -850,6 +850,13 @@ class TxStorage {
 
 	async tempGetAllAsList() {
 		this.__addDebug('TxStorage tempGetAllAsList() called');
+		if (!this.included_txes || !this.not_included_txes) {
+			let x = '(this) -> '; for (id in this) x += ` ${id}: ${this[id]}`;
+			const err = `tempGetAllAsList() called and our properties are undef. ${x}`;
+			store.dispatch(saveOtherDebugInfo(err));
+			console.error(err);
+			return;
+		}
 		let ret = await this.included_txes.getAllTxes();
 		(await this.not_included_txes.getAllValues()).forEach(ret.push);
 		ret.sort((a, b) => b.getTimestamp() - a.getTimestamp());
