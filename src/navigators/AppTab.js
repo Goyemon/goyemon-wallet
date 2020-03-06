@@ -14,6 +14,7 @@ import EarnStack from './EarnStack';
 import HistoryStack from './HistoryStack';
 import HomeStack from './HomeStack';
 import SettingsStack from './SettingsStack';
+import SwapStack from './SwapStack';
 import { store, persistor } from '../store/store.js';
 
 const AppTab = createBottomTabNavigator(
@@ -23,6 +24,13 @@ const AppTab = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: 'Wallets',
         tabBarIcon: ({ tintColor }) => <WalletIcon fill={tintColor} />
+      }
+    },
+    Swap: {
+      screen: SwapStack,
+      navigationOptions: {
+        tabBarLabel: 'Swap',
+        tabBarIcon: ({ tintColor }) => <Icon name="swap" size={28} color={tintColor} />
       }
     },
     Earn: {
