@@ -226,6 +226,20 @@ class WithdrawDai extends Component {
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
       await this.props.saveOutgoingDaiTransactionAmount(daiWithdrawAmount);
+      this.props.saveTransactionFeeEstimateEth(
+        TransactionUtilities.getTransactionFeeEstimateInEther(
+          this.state.gasPrice[this.state.checked].gasPriceWei,
+          650000
+        )
+      );
+      this.props.saveTransactionFeeEstimateUsd(
+        PriceUtilities.convertEthToUsd(
+          TransactionUtilities.getTransactionFeeEstimateInEther(
+            this.state.gasPrice[this.state.checked].gasPriceWei,
+            650000
+          )
+        )
+      );  
       this.props.navigation.navigate('WithdrawDaiConfirmation');
     } else {
       LogUtilities.logInfo('form validation failed!');
@@ -341,21 +355,6 @@ class WithdrawDai extends Component {
     const daiSavingsBalance = RoundDownBigNumber(balance.daiSavingsBalance)
       .div(new BigNumber(10).pow(36))
       .toString();
-
-    this.props.saveTransactionFeeEstimateEth(
-      TransactionUtilities.getTransactionFeeEstimateInEther(
-        this.state.gasPrice[this.state.checked].gasPriceWei,
-        650000
-      )
-    );
-    this.props.saveTransactionFeeEstimateUsd(
-      PriceUtilities.convertEthToUsd(
-        TransactionUtilities.getTransactionFeeEstimateInEther(
-          this.state.gasPrice[this.state.checked].gasPriceWei,
-          650000
-        )
-      )
-    );
 
     return (
       <RootContainer>

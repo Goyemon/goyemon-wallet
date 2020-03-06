@@ -237,6 +237,20 @@ class SendEth extends Component {
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
+      this.props.saveTransactionFeeEstimateEth(
+        TransactionUtilities.getTransactionFeeEstimateInEther(
+          this.state.gasPrice[this.state.checked].gasPriceWei,
+          21000
+        )
+      );
+      this.props.saveTransactionFeeEstimateUsd(
+        PriceUtilities.convertEthToUsd(
+          TransactionUtilities.getTransactionFeeEstimateInEther(
+            this.state.gasPrice[this.state.checked].gasPriceWei,
+            21000
+          )
+        )
+      );
       this.props.navigation.navigate('SendEthConfirmation');
     } else {
       LogUtilities.logInfo('form validation failed!');
@@ -350,21 +364,6 @@ class SendEth extends Component {
       ROUNDING_MODE: BigNumber.ROUND_DOWN
     });
     const ethBalance = RoundDownBigNumber(this.state.ethBalance).toFixed(4);
-
-    this.props.saveTransactionFeeEstimateEth(
-      TransactionUtilities.getTransactionFeeEstimateInEther(
-        this.state.gasPrice[this.state.checked].gasPriceWei,
-        21000
-      )
-    );
-    this.props.saveTransactionFeeEstimateUsd(
-      PriceUtilities.convertEthToUsd(
-        TransactionUtilities.getTransactionFeeEstimateInEther(
-          this.state.gasPrice[this.state.checked].gasPriceWei,
-          21000
-        )
-      )
-    );
 
     return (
       <RootContainer>
