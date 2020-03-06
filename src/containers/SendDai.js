@@ -280,6 +280,21 @@ class SendDai extends Component {
       await this.props.saveOutgoingTransactionObject(transactionObject);
       await this.props.saveOutgoingDaiTransactionAmount(amount);
       await this.props.saveOutgoingDaiTransactionToAddress(toAddress);
+      this.props.saveTransactionFeeEstimateEth(
+        TransactionUtilities.getTransactionFeeEstimateInEther(
+          this.state.gasPrice[this.state.checked].gasPriceWei,
+          65000
+        )
+      );
+      this.props.saveTransactionFeeEstimateUsd(
+        PriceUtilities.convertEthToUsd(
+          TransactionUtilities.getTransactionFeeEstimateInEther(
+            this.state.gasPrice[this.state.checked].gasPriceWei,
+            65000
+          )
+        )
+      );
+  
       this.props.navigation.navigate('SendDaiConfirmation');
     } else {
       LogUtilities.logInfo('form validation failed!');
@@ -393,21 +408,6 @@ class SendDai extends Component {
     const daiBalance = RoundDownBigNumber(this.props.balance.daiBalance)
       .div(new BigNumber(10).pow(18))
       .toString();
-
-    this.props.saveTransactionFeeEstimateEth(
-      TransactionUtilities.getTransactionFeeEstimateInEther(
-        this.state.gasPrice[this.state.checked].gasPriceWei,
-        65000
-      )
-    );
-    this.props.saveTransactionFeeEstimateUsd(
-      PriceUtilities.convertEthToUsd(
-        TransactionUtilities.getTransactionFeeEstimateInEther(
-          this.state.gasPrice[this.state.checked].gasPriceWei,
-          65000
-        )
-      )
-    );
 
     return (
       <RootContainer>
