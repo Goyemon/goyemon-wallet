@@ -42,17 +42,17 @@ class WithdrawDai extends Component {
         {
           speed: 'fast',
           imageName: 'run-fast',
-          gasPriceWei: '0'
+          gasPriceWei: props.gasPrice.fast
         },
         {
           speed: 'average',
           imageName: 'run',
-          gasPriceWei: '0'
+          gasPriceWei: props.gasPrice.average
         },
         {
           speed: 'slow',
           imageName: 'walk',
-          gasPriceWei: '0'
+          gasPriceWei: props.gasPrice.slow
         }
       ],
       ethBalance: Web3.utils.fromWei(props.balance.weiBalance),
@@ -341,10 +341,6 @@ class WithdrawDai extends Component {
     const daiSavingsBalance = RoundDownBigNumber(balance.daiSavingsBalance)
       .div(new BigNumber(10).pow(36))
       .toString();
-
-    this.state.gasPrice[0].gasPriceWei = this.props.gasPrice.fast;
-    this.state.gasPrice[1].gasPriceWei = this.props.gasPrice.average;
-    this.state.gasPrice[2].gasPriceWei = this.props.gasPrice.slow;
 
     this.props.saveTransactionFeeEstimateEth(
       TransactionUtilities.getTransactionFeeEstimateInEther(
