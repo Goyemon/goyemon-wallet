@@ -200,23 +200,23 @@ class TxTokenOp {
 class TxTokenMintOp extends TxTokenOp {
 	constructor (arr) {
 		super();
-		[this.minter, this.mintAmount, this.mintUnderlying] = arr;
+		[this.minter, this.mintUnderlying, this.mintAmount] = arr;
 		// this.minter = arr[0]; this.mintAmount = arr[1]; this.mintUnderlying = arr[2];
 	}
 
 	toJSON() {
-		return { [TxTokenOpTypeToName.mint]: [this.minter, this.mintAmount, this.mintUnderlying] };
+		return { [TxTokenOpTypeToName.mint]: [this.minter, this.mintUnderlying, this.mintAmount] };
 	}
 }
 class TxTokenRedeemOp extends TxTokenOp {
 	constructor (arr) {
 		super();
-		[this.redeemer, this.redeemAmount, this.redeemUnderlying] = arr;
+		[this.redeemer, this.redeemUnderlying, this.redeemAmount] = arr;
 		// this.redeemer = arr[0]; this.redeemAmount = arr[1]; this.redeemUnderlying = arr[2];
 	}
 
 	toJSON() {
-		return { [TxTokenOpTypeToName.redeem]: [this.redeemer, this.redeemAmount, this.redeemUnderlying] };
+		return { [TxTokenOpTypeToName.redeem]: [this.redeemer, this.redeemUnderlying, this.redeemAmount] };
 	}
 }
 class TxTokenTransferOp extends TxTokenOp {

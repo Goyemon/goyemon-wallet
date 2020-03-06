@@ -250,7 +250,7 @@ class EarnDai extends Component {
       .setGasPrice(this.state.gasPrice[this.state.checked].gasPriceWei.toString(16))
       .setGas((350000).toString(16))
       .tempSetData(mintEncodedABI)
-      .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.mint, [this.state.checksumAddress, 0, this.state.daiAmount]);
+      .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.mint, [this.state.checksumAddress, this.state.daiAmount, 0]);
 
     return transactionObject;
   }
