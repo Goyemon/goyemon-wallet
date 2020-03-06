@@ -73,7 +73,7 @@ class Transaction extends Component {
         this.isIncomingDaiTx = daiTrs.some((x) => Web3.utils.toChecksumAddress(x.to_addr) === props.checksumAddress);
       }
 
-      if (this.props.transaction.getFrom() != null) {
+      if (this.props.transaction.getFrom() != null && this.props.transaction.getTo() != null) {
         this.isOutgoingEthTx =
           Web3.utils.toChecksumAddress(tx.getFrom()) === props.checksumAddress;
         this.isIncomingEthTx =
