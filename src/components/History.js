@@ -6,6 +6,7 @@ import { HeaderOne } from '../components/common/';
 // TODO: git rm those two:
 //import Transactions from '../containers/Transactions';
 //import TransactionsDai from '../containers/TransactionsDai';
+import OfflineNotice from '../containers/OfflineNotice';
 import TransactionList from '../containers/TransactionList';
 
 export default class History extends Component {
@@ -33,6 +34,7 @@ export default class History extends Component {
   render() {
     return (
       <View>
+        <OfflineNotice />
         <HeaderOne marginTop="64">History</HeaderOne>
         {this.toggleFilterChoiceText()}
         <TransactionList tokenFilter={this.state.filter} key={`TransactionList_${this.state.filter}`} />
