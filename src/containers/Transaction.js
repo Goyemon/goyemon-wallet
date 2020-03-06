@@ -387,7 +387,7 @@ class Transaction extends Component {
           marginTop="0"
           textAlign="left"
           width="95%"
-          onPress={() => LogUtilities.dumpObject('tx', item)}>
+          onPress={() => LogUtilities.dumpObject('tx', this.props.transaction)}>
           <TransactionList>
             <InOrOutTransactionContainer>
               {this.renderInOrOutTransactionIcon()}
