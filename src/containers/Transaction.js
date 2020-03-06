@@ -42,13 +42,13 @@ class Transaction extends Component {
       this.isCDaiFailedTx = cDaiFails.length > 0;
       this.isCDaiMintFailedTx;
       cDaiFails.forEach((tokenOp) => {
-        this.isCDaiMintFailedTx = this.isCDaiMintFailedTx || (parseInt(tokenOp.error, 16) === 38);
+        this.isCDaiMintFailedTx = this.isCDaiMintFailedTx || (parseInt(tokenOp.info, 16) === 38);
       });
 
       this.isCDaiRedeemUnderlyingFailedTx = false;
       cDaiFails.forEach((tokenOp) => {
-        const errNum = parseInt(tokenOp.error, 16);
-        this.isCDaiRedeemUnderlyingFailedTx = this.isCDaiRedeemUnderlyingFailedTx || errNum == 42 || errNum == 45;
+        const failInfo = parseInt(tokenOp.info, 16);
+        this.isCDaiRedeemUnderlyingFailedTx = this.isCDaiRedeemUnderlyingFailedTx || failInfo == 42 || failInfo == 45 || failInfo == 46;
       });
 
       const ameTrs = tx.getTokenOperations('ame_ropsten', TxStorage.TxTokenOpTypeToName.transfer);
