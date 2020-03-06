@@ -1,9 +1,6 @@
 'use strict';
 
-// temp:
-import { store } from '../store/store.js';
-import { saveOtherDebugInfo } from '../actions/ActionDebugInfo.js';
-
+import LogUtilities from '../utilities/LogUtilities';
 import AsyncStorage from '@react-native-community/async-storage';
 
 const GlobalConfig = require('../config.json');
@@ -488,7 +485,7 @@ class Tx {
 const maxNonceKey = '_tx[maxnonce]';
 class TxStorage {
 	constructor (ourAddress) {
-		this.__addDebug('TxStorage constructor called');
+		LogUtilities.toDebugScreen('TxStorage constructor called');
 		this.included_max_nonce = 0; // for our txes
 		// this.not_included_max_nonce = 0; // TODO
 
@@ -505,10 +502,10 @@ class TxStorage {
 		this.on_update = [];
 
 		AsyncStorage.getAllKeys().then(x => {
-			this.__addDebug(`AStor keys: ${x}`);
+			LogUtilities.toDebugScreen(`AStor keys: ${x}`);
 		});
 
-		AsyncStorage.getItem(maxNonceKey).then(x => this.__addDebug(`MaxNonce: ${x}`));
+		AsyncStorage.getItem(maxNonceKey).then(x => LogUtilities.toDebugScreen(`MaxNonce: ${x}`));
 	}
 
 	// wrap(wrapped, storagepropname) {
@@ -558,11 +555,11 @@ class TxStorage {
 			this.on_update.push(func);
 		// }
 		// catch (e) {
-		// 	this.__addDebug(`addOnUpdate exception: ${e.message} @ ${e.stack}`);
+		// 	LogUtilities.toDebugScreen(`addOnUpdate exception: ${e.message} @ ${e.stack}`);
 		// 	let x = [];
 		// 	for (i in func)
 		// 		x.push(`${i}: ${func[i]}`);
-		// 	this.__addDebug(x.join('; '));
+		// 	LogUtilities.toDebugScreen(x.join('; '));
 		// }
 		return () => { this.unsubscribe(func); };
 	}
@@ -584,7 +581,7 @@ class TxStorage {
 
 	__onUpdate() {
 		const startTime = Date.now();
-		this.__addDebug('TxStorage __onUpdate() called');
+		LogUtilities.toDebugScreen('TxStorage __onUpdate() called');
 		// TODO: promise.all also not_included
 		this.included_txes.getAllTxes().then((t) => {
 			// t.forEach(x => {
@@ -595,7 +592,7 @@ class TxStorage {
 			// 		let out = [];
 			// 		for (i in x)
 			// 			out.push(`${i}: ${x[i]}`);
-			// 		this.__addDebug(`herpderp exc: ${e.message} x:${x}       || ${out.join('; ')}`);
+			// 		LogUtilities.toDebugScreen(`herpderp exc: ${e.message} x:${x}       || ${out.join('; ')}`);
 			// 		throw e;
 			// 	}
 			// });
@@ -604,26 +601,21 @@ class TxStorage {
 				t.sort((a, b) => b.getTimestamp() - a.getTimestamp());
 			}
 			catch (e) {
-				this.__addDebug(`TxStorage __onUpdate() sort() exc: ${e.message} @ ${e.stack}\nt:${t}`);
+				LogUtilities.toDebugScreen(`TxStorage __onUpdate() sort() exc: ${e.message} @ ${e.stack}\nt:${t}`);
 				throw e;
 			}
 			try {
-				// this.__addDebug(`TxStorage __executeUpdateCallbacks() called, t: ${t.length}`);
+				// LogUtilities.toDebugScreen(`TxStorage __executeUpdateCallbacks() called, t: ${t.length}`);
 				this.on_update.forEach(x => x(t));
-				// this.__addDebug('TxStorage __executeUpdateCallbacks() finishing');
+				// LogUtilities.toDebugScreen('TxStorage __executeUpdateCallbacks() finishing');
 			}
 			catch (e) {
-				this.__addDebug(`__executeUpdateCallbacks exception: ${e.message} @ ${e.stack}`);
+				LogUtilities.toDebugScreen(`__executeUpdateCallbacks exception: ${e.message} @ ${e.stack}`);
 			}
 		}).catch((e) => {
-			this.__addDebug(`TxStorage __onUpdate() getAllTxes() exc: ${e.message} @ ${e.stack}`);
+			LogUtilities.toDebugScreen(`TxStorage __onUpdate() getAllTxes() exc: ${e.message} @ ${e.stack}`);
 		});
-		this.__addDebug(`${Date.now() - startTime}ms: TxStorage __onUpdate() finishing`);
-		return this;
-	}
-
-	__addDebug(t) {
-		store.dispatch(saveOtherDebugInfo(t));
+		LogUtilities.toDebugScreen(`${Date.now() - startTime}ms: TxStorage __onUpdate() finishing`);
 		return this;
 	}
 
@@ -719,7 +711,7 @@ class TxStorage {
 
 
 	async parseTxHistory(histObj) {
-		// this.__addDebug('TxStorage parseTxHistory() called');
+		// LogUtilities.toDebugScreen('TxStorage parseTxHistory() called');
 		await Promise.all(
 			Object.entries(histObj).map(([txhash, data]) => {
 				if (txhash == "_contracts")
@@ -735,7 +727,7 @@ class TxStorage {
 
 		await AsyncStorage.setItem(maxNonceKey, this.included_max_nonce.toString());
 
-		this.__addDebug(`TxStorage parseTxHistory() end, entries: ${(await this.included_txes.getAllTxes()).length}`);
+		LogUtilities.toDebugScreen(`TxStorage parseTxHistory() end, entries: ${(await this.included_txes.getAllTxes()).length}`);
 		this.__onUpdate();
 	}
 
@@ -795,6 +787,7 @@ class TxStorage {
 		}
 		else {
 			// we have no nonce, only hash, and it's not in included. remember hash -> state and update it when promoting
+			// TODO: when pendings come, it's possible that saveTx() will fail since state is not-yet-include and there is no nonce. for that lower state we need to store it separately. we know hash, but nothing else. the rest should come next.
 			await this.saveTx(
 				new Tx(data[7])
 					.setHash(hash)
@@ -824,7 +817,7 @@ class TxStorage {
 
 		(await this.not_included_txes.getAllKeys()).forEach(x => { const intx = parseInt(x); if (intx >= max) max = intx + 1; });
 
-		this.__addDebug(`next nonce: max:${max} incmax:${incmax} not included keys:${(await this.not_included_txes.getAllKeys()).join("  ||  ")}`);
+		LogUtilities.toDebugScreen(`next nonce: max:${max} incmax:${incmax} not included keys:${(await this.not_included_txes.getAllKeys()).join("  ||  ")}`);
 		return incmax > max ? incmax : max;
 	}
 
@@ -849,14 +842,13 @@ class TxStorage {
 	}
 
 	async tempGetAllAsList() {
-		this.__addDebug('TxStorage tempGetAllAsList() called');
+		LogUtilities.toDebugScreen('TxStorage tempGetAllAsList() called');
 		if (!this.included_txes || !this.not_included_txes) {
-			let x = '(this) -> '; for (id in this) x += ` ${id}: ${this[id]}`;
-			const err = `tempGetAllAsList() called and our properties are undef. ${x}`;
-			store.dispatch(saveOtherDebugInfo(err));
-			console.error(err);
+			LogUtilities.toDebugScreen('tempGetAllAsList() called and our properties are undef.');
+			LogUtilities.dumpObject('this', this);
 			return;
 		}
+
 		let ret = await this.included_txes.getAllTxes();
 		(await this.not_included_txes.getAllValues()).forEach(ret.push);
 		ret.sort((a, b) => b.getTimestamp() - a.getTimestamp());
