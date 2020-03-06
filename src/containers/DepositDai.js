@@ -130,7 +130,7 @@ class DepositDai extends Component {
       .setGasPrice(this.state.gasPrice[this.state.checked].gasPriceWei.toString(16))
       .setGas((350000).toString(16))
       .tempSetData(mintEncodedABI)
-      .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.mint, [this.state.checksumAddress, 0, daiAmount]);
+      .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.mint, [this.state.checksumAddress, daiAmount, 0]);
 
       return transactionObject;
   }

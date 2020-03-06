@@ -132,7 +132,7 @@ class WithdrawDai extends Component {
       .setGasPrice(this.state.gasPrice[this.state.checked].gasPriceWei.toString(16))
       .setGas((650000).toString(16))
       .tempSetData(redeemUnderlyingEncodedABI)
-      .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.redeem, [this.state.checksumAddress, 0, daiWithdrawAmount]);
+      .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.redeem, [this.state.checksumAddress, daiWithdrawAmount, 0]);
 
     return transactionObject;
   }
