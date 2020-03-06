@@ -30,13 +30,13 @@ class Transaction extends Component {
       this.isCDaiMintTx = cDaiMints.length > 0;
       this.cDaiMintValue;
       if (this.isCDaiMintTx)
-        this.cDaiMintValue = TransactionUtilities.parseHexCDaiValue(`0x${cDaiMints[0].mintUnderlying}`);
+        this.cDaiMintValue = TransactionUtilities.parseHexDaiValue(`0x${cDaiMints[0].mintUnderlying}`);
 
       const cDaiRedeems = tx.getTokenOperations('cdai', TxStorage.TxTokenOpTypeToName.redeem);
       this.isCDaiRedeemUnderlyingTx = cDaiRedeems.length > 0;
       this.cDaiRedeemValue;
       if (this.isCDaiRedeemUnderlyingTx)
-        this.cDaiRedeemValue = TransactionUtilities.parseHexCDaiValue(`0x${cDaiRedeems[0].redeemUnderlying}`);
+        this.cDaiRedeemValue = TransactionUtilities.parseHexDaiValue(`0x${cDaiRedeems[0].redeemUnderlying}`);
 
       const cDaiFails = tx.getTokenOperations('cdai', TxStorage.TxTokenOpTypeToName.failure);
       this.isCDaiFailedTx = cDaiFails.length > 0;
