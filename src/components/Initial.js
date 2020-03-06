@@ -19,7 +19,7 @@ export default class Initial extends Component {
   mnemonicWordsValidation = this.stateTree.ReducerMnemonicWordsValidation.mnemonicWordsValidation;
   notificationEnabled = this.stateTree.ReducerPermissions.permissions.notification;
   price = this.stateTree.ReducerPrice.price;
-  transactionsLoaded = this.stateTree.ReducerTransactionsLoaded.transactionLoaded
+  transactionsLoaded = this.stateTree.ReducerTransactionsLoaded.transactionsLoaded;
 
   async componentDidMount() {
     TxStorage.storage.setOwnAddress(this.checksumAddress); 
