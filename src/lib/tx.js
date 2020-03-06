@@ -822,7 +822,7 @@ class TxStorage {
 		let max = 0;
 		const incmax = await this.getIncludedNextNonce();
 
-		(await this.not_included_txes.getAllKeys()).forEach(x => { if (x >= max) max = x + 1; });
+		(await this.not_included_txes.getAllKeys()).forEach(x => { const intx = parseInt(x); if (intx >= max) max = intx + 1; });
 
 		this.__addDebug(`next nonce: max:${max} incmax:${incmax} not included keys:${(await this.not_included_txes.getAllKeys()).join("  ||  ")}`);
 		return incmax > max ? incmax : max;
