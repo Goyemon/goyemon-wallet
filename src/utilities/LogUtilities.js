@@ -29,8 +29,8 @@ class LogUtilities {
       const x = arguments[i];
 
       out += `[${typeof x}]`;
-      for (id in x)
-        out += `|| ${id}: x[id]`
+      for (let id in x)
+        out += `|| ${id}: ${x[id]}`;
     }
 
     LogUtilities.toDebugScreen(out);
