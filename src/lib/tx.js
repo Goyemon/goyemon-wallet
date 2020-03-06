@@ -690,11 +690,8 @@ class TxStorage {
 	}
 	*/
 
-	async getTxes(token) {
+	async getTxes(id, filterid) {
 		throw new Error('not implemented yet');
-		if (token) {
-
-		}
 	}
 
 
@@ -853,6 +850,7 @@ class TxStorage {
 	async tempGetAllAsList() {
 		this.__addDebug('TxStorage tempGetAllAsList() called');
 		let ret = await this.included_txes.getAllTxes();
+		(await this.not_included_txes.getAllValues()).forEach(ret.push);
 		ret.sort((a, b) => b.getTimestamp() - a.getTimestamp());
 
 		return ret;

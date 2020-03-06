@@ -125,6 +125,7 @@ class TransactionUtilities {
         nonce: nonce.toString(),
         data: signedTransaction
       });
+
     firebase.messaging().sendMessage(upstreamMessage);
 
     await TxStorage.storage.saveTx(outgoingTransactionObject);
