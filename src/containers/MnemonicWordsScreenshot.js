@@ -22,7 +22,7 @@ class MnemonicWordsScreenshot extends Component {
   constructor() {
     super();
     this.state = {
-      imageURI: '',
+      imageURI: undefined,
       screenshotTaken: false,
       nextButtonDisabled: true,
       nextButtonOpacity: 0.5
