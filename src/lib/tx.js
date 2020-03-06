@@ -583,7 +583,8 @@ class TxStorage {
 	}
 
 	__onUpdate() {
-		// this.__addDebug('TxStorage __onUpdate() called');
+		const startTime = Date.now();
+		this.__addDebug('TxStorage __onUpdate() called');
 		// TODO: promise.all also not_included
 		this.included_txes.getAllTxes().then((t) => {
 			// t.forEach(x => {
@@ -617,7 +618,7 @@ class TxStorage {
 		}).catch((e) => {
 			this.__addDebug(`TxStorage __onUpdate() getAllTxes() exc: ${e.message} @ ${e.stack}`);
 		});
-		// this.__addDebug('TxStorage __onUpdate() finishing');
+		this.__addDebug(`${Date.now() - startTime}ms: TxStorage __onUpdate() finishing`);
 		return this;
 	}
 
