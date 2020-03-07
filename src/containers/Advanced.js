@@ -71,7 +71,8 @@ class Advanced extends Component {
   }
 
   render() {
-    const otherDebugInfo = JSON.stringify(this.props.debugInfo.others);
+	// const otherDebugInfo = JSON.stringify(this.props.debugInfo.others);
+	const otherDebugInfo = this.props.debugInfo.others instanceof Array ? this.props.debugInfo.others.join("\n") : JSON.stringify(this.props.debugInfo.others);
 
     return (
       <RootContainer>
