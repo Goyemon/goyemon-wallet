@@ -127,11 +127,11 @@ class SendDai extends Component {
     );
 
     const transactionObject = (await TxStorage.storage.newTx())
-      .setTo(GlobalConfig.DAIcontract)
+      .setTo(GlobalConfig.DAITokenContract)
       .setGasPrice(this.state.gasPrice[this.state.checked].gasPriceWei.toString(16))
       .setGas((65000).toString(16))
       .tempSetData(transferEncodedABI)
-      .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.transfer, [this.state.checksumAddress, GlobalConfig.DAIcontract, amount]);
+      .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.transfer, [this.state.checksumAddress, GlobalConfig.DAITokenContract, amount]);
 
     return transactionObject;
   }

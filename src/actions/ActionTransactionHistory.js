@@ -49,7 +49,7 @@ const saveExistingTransactionsSuccess = transactions => ({
 export function addSentTransaction(transactionObject) {
   return async function(dispatch) {
     const isToDaiTokenContract =
-      transactionObject.to === GlobalConfig.DAIcontract;
+      transactionObject.to === GlobalConfig.DAITokenContract;
     const isToCDaiContract = transactionObject.to === GlobalConfig.cDAIcontract;
 
     let functionSignature;
