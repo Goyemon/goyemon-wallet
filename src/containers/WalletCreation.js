@@ -8,6 +8,11 @@ import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { StackActions, NavigationActions } from 'react-navigation';
 import styled from 'styled-components/native';
 import { createChecksumAddress } from '../actions/ActionChecksumAddress';
+import {
+  getGasPriceFast,
+  getGasPriceAverage,
+  getGasPriceSlow
+} from '../actions/ActionGasPrice';
 import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
 import { Container, Button } from '../components/common';
 import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
@@ -73,6 +78,9 @@ class WalletCreation extends Component {
   };
 
   async componentDidMount() {
+    this.props.getGasPriceFast();
+    this.props.getGasPriceAverage();
+    this.props.getGasPriceSlow();
     await this.createWallet();
     await this.fetchPriceInfo();
     await this.fetchTokenInfo();
@@ -328,7 +336,10 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   createChecksumAddress,
   getEthPrice,
-  getDaiPrice
+  getDaiPrice,
+  getGasPriceFast,
+  getGasPriceAverage,
+  getGasPriceSlow,
 };
 
 export default connect(
