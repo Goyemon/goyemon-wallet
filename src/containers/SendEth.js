@@ -25,7 +25,8 @@ import {
   HeaderOne,
   Form,
   FormHeader,
-  Loader
+  Loader,
+  ToggleCurrencySymbol
 } from '../components/common';
 import HomeStack from '../navigators/HomeStack';
 import LogUtilities from '../utilities/LogUtilities.js';
@@ -85,26 +86,6 @@ class SendEth extends Component {
     }
     if (this.props.balance != prevProps.balance) {
       this.setState({ ethBalance: Web3.utils.fromWei(this.props.balance.weiBalance) });
-    }
-  }
-
-  toggleCurrencySymbol() {
-    if (this.state.currency === 'ETH') {
-      return (
-        <CurrencySymbol>
-          <Text>ETH</Text>
-          <Icon name="swap-horizontal" size={16} color="#5f5f5f" />
-          <CurrencySymbolTextChosen>USD</CurrencySymbolTextChosen>
-        </CurrencySymbol>
-      );
-    } else if (this.state.currency === 'USD') {
-      return (
-        <CurrencySymbol>
-          <CurrencySymbolTextChosen>ETH</CurrencySymbolTextChosen>
-          <Icon name="swap-horizontal" size={16} color="#5f5f5f" />
-          <Text>USD</Text>
-        </CurrencySymbol>
-      );
     }
   }
 
@@ -281,7 +262,9 @@ class SendEth extends Component {
                 }
               }}
             >
-              {this.toggleCurrencySymbol()}
+              <View>
+                <ToggleCurrencySymbol currency={this.state.currency} />
+              </View>
             </NetworkFeeSymbolContainer>
           </NetworkFeeHeaderContainer>
           <UntouchableCardContainer
@@ -554,16 +537,6 @@ const NetworkFee = styled.View`
 const NetworkFeeText = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 12;
-`;
-
-const CurrencySymbol = styled.Text`
-  font-family: 'HKGrotesk-Regular';
-  font-size: 16;
-  margin-left: 8;
-`;
-
-const CurrencySymbolTextChosen = styled.Text`
-  color: #1ba548;
 `;
 
 const SpeedContainer = styled.TouchableOpacity`
