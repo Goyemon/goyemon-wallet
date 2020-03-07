@@ -33,7 +33,8 @@ import {
   ToggleCurrencySymbol,
   IsOnlineMessage,
   InsufficientEthBalanceMessage,
-  InvalidToAddressMessage
+  InvalidToAddressMessage,
+  ErrorMessage
 } from '../components/common';
 import HomeStack from '../navigators/HomeStack';
 import LogUtilities from '../utilities/LogUtilities.js';
@@ -576,11 +577,6 @@ const UnselectedButton = styled.Text`
 
 const ButtonWrapper = styled.View`
   align-items: center;
-`;
-
-const ErrorMessage = styled.Text`
-  color: #e41b13;
-  font-family: 'HKGrotesk-Regular';
 `;
 
 function mapStateToProps(state) {

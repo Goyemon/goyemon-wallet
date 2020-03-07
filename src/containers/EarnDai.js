@@ -28,7 +28,8 @@ import {
   Loader,
   ToggleCurrencySymbol,
   IsOnlineMessage,
-  InsufficientEthBalanceMessage
+  InsufficientEthBalanceMessage,
+  ErrorMessage
 } from '../components/common/';
 import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
@@ -665,14 +666,6 @@ const SelectedButton = styled.Text`
 const UnselectedButton = styled.Text`
   color: #000;
   font-family: 'HKGrotesk-Regular';
-`;
-
-
-const ErrorMessage = styled.Text`
-  color: #e41b13;
-  font-family: 'HKGrotesk-Regular';
-  text-align: center;
-  width: 100%;
 `;
 
 const BalanceText = styled.Text`

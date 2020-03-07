@@ -5,7 +5,7 @@ import { KeyboardAvoidingView, Platform, View, TextInput } from 'react-native';
 import styled from 'styled-components/native';
 import { saveMnemonicWords } from '../actions/ActionMnemonic';
 import { updateMnemonicWordsValidation } from '../actions/ActionMnemonicWordsValidation';
-import { RootContainer, ProgressBar, HeaderTwo, Description, Button } from '../components/common';
+import { RootContainer, ProgressBar, HeaderTwo, Description, Button, ErrorMessage } from '../components/common';
 import LogUtilities from '../utilities/LogUtilities.js';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
@@ -163,11 +163,6 @@ const ButtonContainer = styled.View`
   align-items: center;
   flex-direction: row;
   justify-content: center;
-`;
-
-const ErrorMessage = styled.Text`
-  color: #e41b13;
-  font-family: 'HKGrotesk-Regular';
 `;
 
 const mapDispatchToProps = {

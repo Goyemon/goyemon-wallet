@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { KeyboardAvoidingView, Platform, StyleSheet, View, Text, TextInput } from 'react-native';
 import styled from 'styled-components/native';
 import { updateMnemonicWordsValidation } from '../actions/ActionMnemonicWordsValidation';
-import { RootContainer, ProgressBar, HeaderTwo, Button, Description } from '../components/common';
+import { RootContainer, ProgressBar, HeaderTwo, Button, Description, ErrorMessage } from '../components/common';
 import LogUtilities from '../utilities/LogUtilities.js';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
@@ -183,11 +183,6 @@ const MnemonicWordWrapper = styled.View`
   border-radius: 16px;
   border-width: 4px;
   text-align: center;
-`;
-
-const ErrorMessage = styled.Text`
-  color: #e41b13;
-  font-family: 'HKGrotesk-Regular';
 `;
 
 function mapStateToProps(state) {
