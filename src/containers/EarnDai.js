@@ -26,7 +26,8 @@ import {
   Button,
   Description,
   Loader,
-  ToggleCurrencySymbol
+  ToggleCurrencySymbol,
+  IsOnlineMessage
 } from '../components/common/';
 import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
@@ -318,13 +319,6 @@ class EarnDai extends Component {
     LogUtilities.logInfo('dai already approved');
   }
 
-  renderIsOnlineMessage() {
-    if (this.props.netInfo) {
-      return;
-    }
-    return <ErrorMessage>you are offline 😟</ErrorMessage>;
-  }
-
   renderNetworkFeeContainer() {
     if (this.state.showNetworkFee) {
       return (
@@ -524,7 +518,7 @@ class EarnDai extends Component {
                   />
                 </ButtonContainer>
                 <Loader animating={this.state.loading} />
-                <View>{this.renderIsOnlineMessage()}</View>
+                <IsOnlineMessage netInfo={this.props.netInfo} />
               </MondalInner>
             </ModalBackground>
           </ModalContainer>

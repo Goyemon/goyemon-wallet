@@ -30,7 +30,8 @@ import {
   Form,
   FormHeader,
   Loader,
-  ToggleCurrencySymbol
+  ToggleCurrencySymbol,
+  IsOnlineMessage
 } from '../components/common';
 import HomeStack from '../navigators/HomeStack';
 import LogUtilities from '../utilities/LogUtilities.js';
@@ -282,13 +283,6 @@ class SendDai extends Component {
     }
   };
 
-  renderIsOnlineMessage() {
-    if (this.props.netInfo) {
-      return;
-    }
-    return <ErrorMessage>you are offline 😟</ErrorMessage>;
-  }
-
   renderNetworkFeeContainer() {
     if (this.state.showNetworkFee) {
       return (
@@ -492,7 +486,7 @@ class SendDai extends Component {
             />
             <Loader animating={this.state.loading} />
           </ButtonWrapper>
-          <View>{this.renderIsOnlineMessage()}</View>
+          <IsOnlineMessage netInfo={this.props.netInfo} />
         </Container>
       </RootContainer>
     );

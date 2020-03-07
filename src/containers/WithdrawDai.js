@@ -26,7 +26,8 @@ import {
   Form,
   FormHeader,
   Loader,
-  ToggleCurrencySymbol
+  ToggleCurrencySymbol,
+  IsOnlineMessage
 } from '../components/common';
 import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
@@ -227,13 +228,6 @@ class WithdrawDai extends Component {
     }
   };
 
-  renderIsOnlineMessage() {
-    if (this.props.netInfo) {
-      return;
-    }
-    return <ErrorMessage>you are offline 😟</ErrorMessage>;
-  }
-
   renderNetworkFeeContainer() {
     if (this.state.showNetworkFee) {
       return (
@@ -399,7 +393,7 @@ class WithdrawDai extends Component {
             />
             <Loader animating={this.state.loading} />
           </ButtonWrapper>
-          <View>{this.renderIsOnlineMessage()}</View>
+          <IsOnlineMessage netInfo={this.props.netInfo} />
         </Container>
       </RootContainer>
     );
