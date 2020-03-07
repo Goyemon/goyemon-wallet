@@ -29,6 +29,7 @@ import {
   ToggleCurrencySymbol,
   IsOnlineMessage,
   InsufficientEthBalanceMessage,
+  InsufficientDaiBalanceMessage,
   ErrorMessage
 } from '../components/common';
 import LogUtilities from '../utilities/LogUtilities.js';
@@ -165,16 +166,6 @@ class WithdrawDai extends Component {
     LogUtilities.logInfo('wrong eth balance!');
     this.setState({ ethAmountValidation: false });
     return false;
-  }
-
-  renderInsufficientDaiBalanceMessage() {
-    if (
-      this.state.daiSavingsAmountValidation ||
-      this.state.daiSavingsAmountValidation === undefined
-    ) {
-    } else {
-      return <ErrorMessage>invalid amount!</ErrorMessage>;
-    }
   }
 
   getAmountBorderColor() {
@@ -365,7 +356,7 @@ class WithdrawDai extends Component {
               <CurrencySymbolText>DAI</CurrencySymbolText>
             </SendTextInputContainer>
           </Form>
-          <View>{this.renderInsufficientDaiBalanceMessage()}</View>
+          <InsufficientDaiBalanceMessage daiAmountValidation={this.state.daiAmountValidation} />
           {this.renderNetworkFeeContainer()}
           <InsufficientEthBalanceMessage ethAmountValidation={this.state.ethAmountValidation} />
           <ButtonWrapper>

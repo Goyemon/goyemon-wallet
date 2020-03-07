@@ -34,6 +34,7 @@ import {
   IsOnlineMessage,
   InsufficientEthBalanceMessage,
   InvalidToAddressMessage,
+  InsufficientDaiBalanceMessage,
   ErrorMessage
 } from '../components/common';
 import HomeStack from '../navigators/HomeStack';
@@ -194,16 +195,6 @@ class SendDai extends Component {
     LogUtilities.logInfo('wrong eth balance!');
     this.setState({ ethAmountValidation: false });
     return false;
-  }
-
-  renderInsufficientDaiBalanceMessage() {
-    if (
-      this.state.daiAmountValidation ||
-      this.state.daiAmountValidation === undefined
-    ) {
-    } else {
-      return <ErrorMessage>invalid amount!</ErrorMessage>;
-    }
   }
 
   getAmountBorderColor() {
@@ -445,7 +436,7 @@ class SendDai extends Component {
               <CurrencySymbolText>DAI</CurrencySymbolText>
             </SendTextInputContainer>
           </Form>
-          <View>{this.renderInsufficientDaiBalanceMessage()}</View>
+          <InsufficientDaiBalanceMessage daiAmountValidation={this.state.daiAmountValidation} />
           {this.renderNetworkFeeContainer()}
           <InsufficientEthBalanceMessage ethAmountValidation={this.state.ethAmountValidation} />
           <ButtonWrapper>

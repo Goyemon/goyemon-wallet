@@ -9,6 +9,7 @@ export * from './HeaderOne';
 export * from './HeaderTwo';
 export * from './HeaderThree';
 export * from './HeaderFour';
+export * from './InsufficientDaiBalanceMessage';
 export * from './InsufficientEthBalanceMessage';
 export * from './InvalidToAddressMessage';
 export * from './IsOnlineMessage';
