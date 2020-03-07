@@ -10,7 +10,7 @@ import '../netinfo/NetInfoListener';
 import SaveIcon from '../../assets/SaveIcon.js';
 import HistoryIcon from '../../assets/HistoryIcon.js';
 import WalletIcon from '../../assets/WalletIcon.js';
-import EarnStack from './EarnStack';
+import SaveStack from './SaveStack';
 import HistoryStack from './HistoryStack';
 import HomeStack from './HomeStack';
 import SettingsStack from './SettingsStack';
@@ -34,7 +34,7 @@ const AppTab = createBottomTabNavigator(
       }
     },
     Earn: {
-      screen: EarnStack,
+      screen: SaveStack,
       navigationOptions: {
         tabBarLabel: 'Earn',
         tabBarIcon: ({ tintColor }) => <SaveIcon fill={tintColor} />
