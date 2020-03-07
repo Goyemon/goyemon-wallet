@@ -7,7 +7,7 @@ import DepositDaiConfirmation from '../containers/DepositDaiConfirmation';
 import WithdrawDai from '../containers/WithdrawDai';
 import WithdrawDaiConfirmation from '../containers/WithdrawDaiConfirmation';
 
-const EarnStack = createStackNavigator(
+const SaveStack = createStackNavigator(
   {
     SaveDai: {
       screen: SaveDai,
@@ -54,4 +54,4 @@ const EarnStack = createStackNavigator(
   }
 );
 
-export default EarnStack;
+export default SaveStack;
