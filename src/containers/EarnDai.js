@@ -29,6 +29,7 @@ import {
   ToggleCurrencySymbol,
   IsOnlineMessage,
   InsufficientEthBalanceMessage,
+  InsufficientDaiBalanceMessage,
   ErrorMessage
 } from '../components/common/';
 import LogUtilities from '../utilities/LogUtilities.js';
@@ -152,16 +153,6 @@ class EarnDai extends Component {
       buttonOpacity: 0.5
     });
     return false;
-  }
-
-  renderInsufficientDaiBalanceMessage() {
-    if (
-      this.state.daiAmountValidation ||
-      this.state.daiAmountValidation === undefined
-    ) {
-    } else {
-      return <ErrorMessage>invalid amount!</ErrorMessage>;
-    }
   }
 
   validateEthAmount(gasPriceWei) {
@@ -480,7 +471,7 @@ class EarnDai extends Component {
                   <CurrencySymbolText>DAI</CurrencySymbolText>
                 </SendTextInputContainer>
               </Form>
-              <View>{this.renderInsufficientDaiBalanceMessage()}</View>
+              <InsufficientDaiBalanceMessage daiAmountValidation={this.state.daiAmountValidation} />
               {this.renderNetworkFeeContainer()}
               <InsufficientEthBalanceMessage ethAmountValidation={this.state.ethAmountValidation} />
                 <ButtonContainer>
