@@ -49,7 +49,7 @@ class SaveList extends Component {
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="64">Earn</HeaderOne>
+        <HeaderOne marginTop="64">Save</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8"
