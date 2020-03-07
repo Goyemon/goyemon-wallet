@@ -846,6 +846,7 @@ class TxStorage {
 		if (!this.included_txes || !this.not_included_txes) {
 			LogUtilities.toDebugScreen('tempGetAllAsList() called and our properties are undef.');
 			LogUtilities.dumpObject('this', this);
+			console.error('tempGetAllAsList() called and our properties are undef.');
 			return;
 		}
 
@@ -853,6 +854,8 @@ class TxStorage {
 		if (!ret) {
 			LogUtilities.toDebugScreen('tempGetAllAsList() await this.included_txes.getAllTxes() returned:');
 			LogUtilities.dumpObject('ret', ret);
+			LogUtilities.dumpObject('this.included_txes', this.included_txes);
+			console.error('tempGetAllAsList() await this.included_txes.getAllTxes() returned null?');
 			return;
 		}
 
