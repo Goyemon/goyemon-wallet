@@ -850,6 +850,12 @@ class TxStorage {
 		}
 
 		let ret = await this.included_txes.getAllTxes();
+		if (!ret) {
+			LogUtilities.toDebugScreen('tempGetAllAsList() await this.included_txes.getAllTxes() returned:');
+			LogUtilities.dumpObject('ret', ret);
+			return;
+		}
+
 		(await this.not_included_txes.getAllValues()).forEach(ret.push);
 		ret.sort((a, b) => b.getTimestamp() - a.getTimestamp());
 
