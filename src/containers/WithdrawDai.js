@@ -26,6 +26,7 @@ import {
   Form,
   FormHeader,
   Loader,
+  MenuContainer,
   ToggleCurrencySymbol,
   IsOnlineMessage,
   InsufficientEthBalanceMessage,
@@ -268,7 +269,7 @@ class WithdrawDai extends Component {
               ))}
             </NetworkFeeContainer>
           </UntouchableCardContainer>
-          <MenuUpContainer>
+          <MenuContainer>
             <Icon
               name="menu-up"
               color="#000"
@@ -277,12 +278,12 @@ class WithdrawDai extends Component {
               }}
               size={32}
             />
-          </MenuUpContainer>
+          </MenuContainer>
         </View>
       );
     } else if (!this.state.showNetworkFee) {
       return (
-        <View>
+        <MenuContainer>
           <Icon
             name="menu-down"
             color="#000"
@@ -291,7 +292,7 @@ class WithdrawDai extends Component {
             }}
             size={32}
           />
-        </View>
+        </MenuContainer>
       );
     }
   }
@@ -416,13 +417,6 @@ const Value = styled.Text`
 
 const CurrencySymbolText = styled.Text`
   font-family: 'HKGrotesk-Regular';
-`;
-
-const MenuUpContainer = styled.View`
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0 8px;
 `;
 
 const NetworkFeeHeaderContainer = styled.View`
