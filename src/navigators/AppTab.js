@@ -7,7 +7,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import FcmListener from '../firebase/FcmListener';
 import '../firebase/FcmTokenMonitor';
 import '../netinfo/NetInfoListener';
-import EarnIcon from '../../assets/EarnIcon.js';
+import SaveIcon from '../../assets/SaveIcon.js';
 import HistoryIcon from '../../assets/HistoryIcon.js';
 import WalletIcon from '../../assets/WalletIcon.js';
 import EarnStack from './EarnStack';
@@ -37,7 +37,7 @@ const AppTab = createBottomTabNavigator(
       screen: EarnStack,
       navigationOptions: {
         tabBarLabel: 'Earn',
-        tabBarIcon: ({ tintColor }) => <EarnIcon fill={tintColor} />
+        tabBarIcon: ({ tintColor }) => <SaveIcon fill={tintColor} />
       }
     },
     History: {
