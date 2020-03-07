@@ -55,6 +55,7 @@ function hexToBuf(hex) {
 */
 class PersistTxStorageAbstraction {
 	constructor(prefix='', onTxLoadCallback) {
+		LogUtilities.toDebugScreen('PersistTxStorageAbstraction constructor called');
 		this.storage = null;
 		this.prefix = prefix; // `${this.prefix}${key}`
 
@@ -128,6 +129,7 @@ class PersistTxStorageAbstraction {
 }
 class StorageAbstraction {
 	constructor(prefix='', onFinishLoadingCallback) {
+		LogUtilities.toDebugScreen('StorageAbstraction constructor called');
 		this.storage = {};
 		this.prefix = prefix; // `${this.prefix}${key}`
 		this.keyCache = null;
