@@ -125,7 +125,7 @@ class SendEth extends Component {
         this.setState({ buttonDisabled: false, buttonOpacity: 1 });
       }
       return true;
-    } else if (!this.state.toAddressValidation) {
+    } else if (!Web3.utils.isAddress(toAddress)) {
       LogUtilities.logInfo('invalid address');
       this.setState({
         toAddressValidation: false,
