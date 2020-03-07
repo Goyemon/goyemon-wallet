@@ -193,7 +193,7 @@ class EarnDai extends Component {
   async constructApproveTransactionObject() { // TODO: this has to be in TransactionUtilities. it's common code for the most part anyway. chainid, nonce, those are always set the same way. we just need to specify to/gas/data/value and that's across ALL txes sent
     const approveEncodedABI = this.getApproveEncodedABI();
     const transactionObject = (await TxStorage.storage.newTx())
-      .setTo(GlobalConfig.DAIcontract)
+      .setTo(GlobalConfig.DAITokenContract)
       .setGasPrice(this.props.gasPrice.average.toString(16))
       .setGas((50000).toString(16))
       .tempSetData(approveEncodedABI)
