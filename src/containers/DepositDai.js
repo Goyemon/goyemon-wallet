@@ -27,7 +27,8 @@ import {
   FormHeader,
   Loader,
   ToggleCurrencySymbol,
-  IsOnlineMessage
+  IsOnlineMessage,
+  InsufficientEthBalanceMessage
 } from '../components/common';
 import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
@@ -168,16 +169,6 @@ class DepositDai extends Component {
     ) {
     } else {
       return <ErrorMessage>invalid amount!</ErrorMessage>;
-    }
-  }
-
-  renderInsufficientEthBalanceMessage() {
-    if (
-      this.state.ethAmountValidation ||
-      this.state.ethAmountValidation === undefined
-    ) {
-    } else {
-      return <ErrorMessage>not enough ether!</ErrorMessage>;
     }
   }
 
@@ -376,7 +367,7 @@ class DepositDai extends Component {
           </Form>
           <View>{this.renderInsufficientDaiBalanceMessage()}</View>
           {this.renderNetworkFeeContainer()}
-          <View>{this.renderInsufficientEthBalanceMessage()}</View>
+          <InsufficientEthBalanceMessage ethAmountValidation={this.state.ethAmountValidation} />
           <ButtonWrapper>
             <Button
               text="Next"

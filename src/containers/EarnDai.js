@@ -27,7 +27,8 @@ import {
   Description,
   Loader,
   ToggleCurrencySymbol,
-  IsOnlineMessage
+  IsOnlineMessage,
+  InsufficientEthBalanceMessage
 } from '../components/common/';
 import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
@@ -185,13 +186,6 @@ class EarnDai extends Component {
     LogUtilities.logInfo('wrong eth balance!');
     this.setState({ ethAmountValidation: false });
     return false;
-  }
-
-  renderInsufficientEthBalanceMessage() {
-    if (this.state.ethAmountValidation || this.state.ethAmountValidation === undefined) {
-      return;
-    }
-    return <ErrorMessage>you don't have enough ether 😑</ErrorMessage>;
   }
 
   getAmountBorderColor() {
@@ -487,7 +481,7 @@ class EarnDai extends Component {
               </Form>
               <View>{this.renderInsufficientDaiBalanceMessage()}</View>
               {this.renderNetworkFeeContainer()}
-              <View>{this.renderInsufficientEthBalanceMessage()}</View>
+              <InsufficientEthBalanceMessage ethAmountValidation={this.state.ethAmountValidation} />
                 <ButtonContainer>
                   <Button
                     text="Cancel"
@@ -570,6 +564,7 @@ const ModalBackground = styled.ScrollView`
 `;
 
 const MondalInner = styled.View`
+  align-items: center;
   justify-content: center;
   flex: 1;
   flex-direction: column;
