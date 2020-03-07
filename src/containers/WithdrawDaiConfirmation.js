@@ -168,13 +168,6 @@ const ButtonContainer = styled.View`
   justify-content: center;
 `;
 
-const ErrorMessage = styled.Text`
-  color: #e41b13;
-  font-family: 'HKGrotesk-Regular';
-  text-align: center;
-  width: 100%;
-`;
-
 function mapStateToProps(state) {
   return {
     netInfo: state.ReducerNetInfo.netInfo,

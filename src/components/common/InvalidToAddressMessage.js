@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react';
 import { View } from 'react-native';
-import styled from 'styled-components';
+import { ErrorMessage } from '../common';
 
 const InvalidToAddressMessage = props => {
   if (
@@ -13,10 +13,5 @@ const InvalidToAddressMessage = props => {
     return <ErrorMessage>invalid address!</ErrorMessage>;
   }
 };
-
-const ErrorMessage = styled.Text`
-  color: #e41b13;
-  font-family: 'HKGrotesk-Regular';
-`;
 
 export { InvalidToAddressMessage };

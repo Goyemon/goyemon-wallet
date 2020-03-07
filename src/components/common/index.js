@@ -2,6 +2,7 @@
 export * from './Button';
 export * from './CrypterestText';
 export * from './Description';
+export * from './ErrorMessage';
 export * from './Form';
 export * from './FormHeader';
 export * from './HeaderOne';
