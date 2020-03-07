@@ -78,7 +78,7 @@ class SaveList extends Component {
           textAlign="center"
           width="90%"
           onPress={() => {
-            navigation.navigate('EarnDai');
+            navigation.navigate('SaveDai');
           }}
         >
           <Container alignItems="center" flexDirection="row" justifyContent="space-between" marginTop={0} width="100%">
