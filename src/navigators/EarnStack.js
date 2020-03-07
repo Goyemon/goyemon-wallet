@@ -1,7 +1,7 @@
 'use strict';
 import { createStackNavigator } from 'react-navigation';
 import EarnDai from '../containers/EarnDai';
-import EarnList from '../containers/EarnList';
+import SaveList from '../containers/SaveList';
 import DepositDai from '../containers/DepositDai';
 import DepositDaiConfirmation from '../containers/DepositDaiConfirmation';
 import WithdrawDai from '../containers/WithdrawDai';
@@ -15,8 +15,8 @@ const EarnStack = createStackNavigator(
         headerTransparent: true,
       })
     },
-    EarnList: {
-      screen: EarnList,
+    SaveList: {
+      screen: SaveList,
       navigationOptions: () => ({
         headerTransparent: true,
         headerBackTitle: 'Earn'
@@ -50,7 +50,7 @@ const EarnStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: 'EarnList'
+    initialRouteName: 'SaveList'
   }
 );
 

@@ -107,7 +107,7 @@ class DepositDaiConfirmation extends Component {
                 this.setState({ loading: true, buttonDisabled: true });
                 await this.sendSignedTx();
                 this.props.navigation.reset(
-                  [NavigationActions.navigate({ routeName: 'EarnList' })],
+                  [NavigationActions.navigate({ routeName: 'SaveList' })],
                   0
                 );
                 this.props.navigation.navigate('History');
