@@ -18,7 +18,8 @@ import {
   FormHeader,
   CrypterestText,
   Loader,
-  ToggleCurrencySymbol
+  ToggleCurrencySymbol,
+  IsOnlineMessage
 } from '../components/common/';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 
@@ -48,13 +49,6 @@ class SendDaiConfirmation extends Component {
     } else if (this.state.currency === 'USD') {
       return <NetworkFee fontSize="16">{this.props.transactionFeeEstimate.eth}ETH</NetworkFee>;
     }
-  }
-
-  renderIsOnlineMessage() {
-    if (this.props.netInfo) {
-      return;
-    }
-    return <ErrorMessage>you are offline 😟</ErrorMessage>;
   }
 
   render() {
@@ -132,7 +126,7 @@ class SendDaiConfirmation extends Component {
           />
         </ButtonContainer>
         <Loader animating={this.state.loading} />
-        <View>{this.renderIsOnlineMessage()}</View>
+        <IsOnlineMessage netInfo={this.props.netInfo} />
       </RootContainer>
     );
   }
