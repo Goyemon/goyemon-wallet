@@ -14,6 +14,7 @@ export * from './InsufficientEthBalanceMessage';
 export * from './InvalidToAddressMessage';
 export * from './IsOnlineMessage';
 export * from './Loader';
+export * from './MenuContainer';
 export * from './ProgressBar';
 export * from './QRCodeIcon';
 export * from './RootContainer';
