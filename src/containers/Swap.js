@@ -1,19 +1,19 @@
 'use strict';
 import React, { Component } from 'react';
-import styled from 'styled-components/native';
-import { RootContainer, HeaderTwo } from '../components/common';
+import { RootContainer, Container, HeaderOne, HeaderTwo } from '../components/common';
 
-export default class Welcome extends Component {
+export default class Swap extends Component {
   render() {
     return (
       <RootContainer>
-        <Container>
+        <HeaderOne marginTop="64">Swap</HeaderOne>
+        <Container alignItems="center" flexDirection="row"  justifyContent="center" marginTop={0} width="100%">
           <HeaderTwo
             fontSize="24"
             fontWeight="bold"
             marginBottom="16"
             marginLeft="0"
-            marginTop="400"
+            marginTop="240"
           >
             coming soon!
           </HeaderTwo>
@@ -22,8 +22,3 @@ export default class Welcome extends Component {
     );
   }
 }
-
-const Container = styled.View`
-  flex: 1;
-  text-align: center;
-`;

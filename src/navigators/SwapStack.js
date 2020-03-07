@@ -1,19 +1,19 @@
 'use strict';
 import { createStackNavigator } from 'react-navigation';
-import SwapHome from '../containers/SwapHome';
+import Swap from '../containers/Swap';
 
 const SwapStack = createStackNavigator(
   {
-    SwapHome: {
-      screen: SwapHome,
+    Swap: {
+      screen: Swap,
       navigationOptions: () => ({
         headerTransparent: true,
-        headerBackTitle: 'SwapHome'
+        headerBackTitle: 'Swap'
       })
     }
   },
   {
-    initialRouteName: 'SwapHome'
+    initialRouteName: 'Swap'
   }
 );
 
