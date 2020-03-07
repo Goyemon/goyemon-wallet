@@ -26,20 +26,22 @@ class LogUtilities {
 			return;
 		let out = `${arguments[0]} --> `;
 		for (let i = 1; i < arguments.length; ++i)
-			out += LogUtilities.__dumpObjectRecursively(arguments[i]);
+			out += `${i > 1 ? " " : ""}${LogUtilities.__dumpObjectRecursively(arguments[i])}`;
 
 		LogUtilities.toDebugScreen(out);
 	}
 
 	static __dumpObjectRecursively(x, level=0, maxlevel=2) {
-		let out = '';
+		let out = `(${typeof x})`;
 
 		for (let id in x) {
 			if (level <= maxlevel) {
 				if (x[id] instanceof Buffer)
-					out += ` ${id}: [Buffer][${x[id].toString("hex")}]`;
+					out += ` ${id}: (Buffer)[${x[id].toString("hex")}]`;
+				else if (x[id] instanceof Array)
+					out += ` ${id}: (Array)[${x[id].join(", ")}]`;
 				else if (x[id] instanceof Object)
-					out += ` ${id}[Object]: ${LogUtilities.__dumpObjectRecursively(x[id], level + 1, maxlevel)}`;
+					out += ` ${id}(Object): { ${LogUtilities.__dumpObjectRecursively(x[id], level + 1, maxlevel)} }`;
 				else
 					out += ` ${id}: ${x[id]}`;
 
