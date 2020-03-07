@@ -17,7 +17,7 @@ import {
 import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
-class EarnList extends Component {
+class SaveList extends Component {
   componentDidMount() {
     FcmUpstreamMsgs.requestCDaiLendingInfo(this.props.checksumAddress);
   }
@@ -173,4 +173,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default withNavigation(connect(mapStateToProps)(EarnList));
+export default withNavigation(connect(mapStateToProps)(SaveList));
