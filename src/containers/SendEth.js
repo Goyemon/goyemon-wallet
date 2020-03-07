@@ -27,7 +27,8 @@ import {
   FormHeader,
   Loader,
   ToggleCurrencySymbol,
-  IsOnlineMessage
+  IsOnlineMessage,
+  InvalidToAddressMessage
 } from '../components/common';
 import HomeStack from '../navigators/HomeStack';
 import LogUtilities from '../utilities/LogUtilities.js';
@@ -132,17 +133,6 @@ class SendEth extends Component {
         buttonOpacity: 0.5
       });
       return false;
-    }
-  }
-
-  renderInvalidToAddressMessage() {
-    if (
-      this.state.toAddressValidation ||
-      this.state.toAddressValidation === undefined
-    ) {
-      return;
-    } else if (!this.state.toAddressValidation) {
-      return <ErrorMessage>invalid address!</ErrorMessage>;
     }
   }
 
@@ -397,7 +387,7 @@ class SendEth extends Component {
               </TouchableOpacity>
             </SendTextInputContainer>
           </Form>
-          <View>{this.renderInvalidToAddressMessage()}</View>
+          <InvalidToAddressMessage toAddressValidation={this.state.toAddressValidation} />
           <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
             Amount
           </FormHeader>
