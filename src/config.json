@@ -3,6 +3,7 @@
     "network_id": 3,
     "cDAIcontract": "0x2b536482a01e620ee111747f8334b395a42a555e",
     "DAITokenContract": "0xb5e5d0f8c0cba267cd3d7035d6adc8eba7df7cdd",
+    "DAIUniswapContract": "0x2a1530C4C41db0B0b2bB646CB5Eb1A67b7158667"    
 }
 
 // the usd price of currencies and the gasLimit are always the mainnet data
