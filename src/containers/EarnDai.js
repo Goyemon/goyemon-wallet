@@ -17,6 +17,7 @@ import {
 import { saveOutgoingDaiTransactionAmount, saveOutgoingDaiTransactionApproveAmount } from '../actions/ActionOutgoingDaiTransactionData';
 import {
   RootContainer,
+  Container,
   UntouchableCardContainer,
   TransactionButton,
   HeaderOne,
@@ -29,8 +30,7 @@ import {
   ToggleCurrencySymbol,
   IsOnlineMessage,
   InsufficientEthBalanceMessage,
-  InsufficientDaiBalanceMessage,
-  ErrorMessage
+  InsufficientDaiBalanceMessage
 } from '../components/common/';
 import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
@@ -299,8 +299,8 @@ class EarnDai extends Component {
   renderNetworkFeeContainer() {
     if (this.state.showNetworkFee) {
       return (
-        <Container>
-          <NetworkFeeHeaderContainer>
+        <Container alignItems="center" flexDirection="row"  justifyContent="center" marginTop={0} width="100%">
+        <NetworkFeeHeaderContainer>
             <FormHeader marginBottom="0" marginLeft="0" marginTop="0">
               Network Fee
             </FormHeader>
@@ -523,12 +523,6 @@ class EarnDai extends Component {
     );
   }
 }
-
-const Container = styled.View`
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-`;
 
 const ModalContainer = styled.View`
   background-color: rgba(0, 0, 0, 0.5);

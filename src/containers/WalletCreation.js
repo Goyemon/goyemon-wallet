@@ -9,7 +9,7 @@ import { StackActions, NavigationActions } from 'react-navigation';
 import styled from 'styled-components/native';
 import { createChecksumAddress } from '../actions/ActionChecksumAddress';
 import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
-import { HeaderTwo, Description, Button } from '../components/common';
+import { Container, Button } from '../components/common';
 import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
 import TxStorage from '../lib/tx';
 import HomeStack from '../navigators/HomeStack';
@@ -201,7 +201,7 @@ class WalletCreation extends Component {
           />
         }
       >
-        <Container>
+        <Container alignItems="center" flexDirection="column"  justifyContent="center" marginTop={0} width="100%">
           {this.PullDownToRefreshMessage()}
           {this.FadeInMessages()}
           <Modal animationType="fade" transparent visible={this.state.modalVisible}>
@@ -228,14 +228,6 @@ class WalletCreation extends Component {
     );
   }
 }
-
-const Container = styled.View`
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0 auto;
-  width: 90%;
-`;
 
 const ModalBackground = styled.View`
   background-color: rgba(0, 0, 0, 0.5);

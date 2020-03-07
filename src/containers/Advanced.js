@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { saveFcmToken } from '../actions/ActionDebugInfo';
-import { RootContainer, HeaderOne, HeaderThree, CrypterestText } from '../components/common';
+import { RootContainer, Container, HeaderOne, HeaderThree, CrypterestText } from '../components/common';
 import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
 import LogUtilities from '../utilities/LogUtilities.js';
 
@@ -77,7 +77,7 @@ class Advanced extends Component {
     return (
       <RootContainer>
         <HeaderOne marginTop="96">Advanced</HeaderOne>
-        <Container>
+        <Container alignItems="flex-start" flexDirection="column" justifyContent="center" marginTop={0} width="90%">
           <HeaderThree color="#000" marginBottom="0" marginLeft="0" marginTop="24">
             Your Device Info
           </HeaderThree>
@@ -107,13 +107,6 @@ class Advanced extends Component {
   }
 }
 
-const Container = styled.View`
-  align-items: flex-start;
-  margin: 0 auto;
-  flex-direction: column;
-  justify-content: center;
-  width: 90%;
-`;
 const CopiedAddressContainer = styled.View`
   align-items: center;
   flex-direction: row;

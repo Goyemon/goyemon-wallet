@@ -2,10 +2,9 @@
 import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View } from 'react-native';
 import styled from 'styled-components';
 import Web3 from 'web3';
-import { CrypterestText } from '../components/common';
+import { Container, CrypterestText } from '../components/common';
 import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
@@ -68,8 +67,8 @@ class WalletDetail extends Component {
       .toString();
 
     return (
-      <Container>
-        <CoinImageContainer>{this.renderIcon()}</CoinImageContainer>
+      <Container alignItems="center" flexDirection="column"  flexDirection="row" justifyContent="space-between" marginTop={0} width="100%">
+      <CoinImageContainer>{this.renderIcon()}</CoinImageContainer>
         <PriceContainer>
           <CoinText>{name}</CoinText>
           <PriceText>
@@ -84,14 +83,6 @@ class WalletDetail extends Component {
     );
   }
 }
-
-const Container = styled.View`
-  align-items: center;
-  flex: 1;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-`;
 
 const CoinImageContainer = styled.View`
   width: 15%;

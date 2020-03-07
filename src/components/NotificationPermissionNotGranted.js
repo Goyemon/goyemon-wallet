@@ -9,7 +9,6 @@ export default class NotificationPermissionNotGranted extends Component {
   render() {
     return (
       <RootContainer>
-        <Container>
           <NoPermissionContainer>
             <HeaderTwo marginBottom="0" marginLeft="0" marginTop="0">
               oops!
@@ -44,18 +43,10 @@ export default class NotificationPermissionNotGranted extends Component {
             />
             <Text>*relaunch your app once you enable them</Text>
           </NoPermissionContainer>
-        </Container>
       </RootContainer>
     );
   }
 }
-
-const Container = styled.View`
-  align-items: center;
-  flex-direction: column;
-  margin-top: 120;
-  width: 90%;
-`;
 
 const NoPermissionContainer = styled.View`
   align-items: center;

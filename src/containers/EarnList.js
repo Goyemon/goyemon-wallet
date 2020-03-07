@@ -7,6 +7,7 @@ import { withNavigation } from 'react-navigation';
 import styled from 'styled-components';
 import {
   RootContainer,
+  Container,
   UntouchableCardContainer,
   HeaderOne,
   HeaderThree,
@@ -80,7 +81,7 @@ class EarnList extends Component {
             navigation.navigate('EarnDai');
           }}
         >
-          <Container>
+          <Container alignItems="center" flexDirection="row" justifyContent="space-between" marginTop={0} width="100%">
             <CoinImageContainer>
               <CoinImage source={require('../../assets/dai_icon.png')} />
               <Text>Dai</Text>
@@ -118,14 +119,6 @@ const InterestEarnedText = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 18;
   font-weight: bold;
-`;
-
-const Container = styled.View`
-  align-items: center;
-  flex: 1;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
 `;
 
 const CoinImageContainer = styled.View`
