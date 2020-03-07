@@ -12,6 +12,7 @@ export * from './Loader';
 export * from './ProgressBar';
 export * from './QRCodeIcon';
 export * from './RootContainer';
+export * from './ToggleCurrencySymbol';
 export * from './TouchableCardContainer';
 export * from './TransactionButton';
 export * from './UntouchableCardContainer';
