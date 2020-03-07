@@ -8,6 +8,7 @@ export * from './HeaderOne';
 export * from './HeaderTwo';
 export * from './HeaderThree';
 export * from './HeaderFour';
+export * from './InsufficientEthBalanceMessage';
 export * from './IsOnlineMessage';
 export * from './Loader';
 export * from './ProgressBar';
