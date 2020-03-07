@@ -3,6 +3,8 @@
 import { saveOtherDebugInfo } from '../actions/ActionDebugInfo';
 import { store } from '../store/store';
 
+const DUMPOBJECT_DEFAULT_DEPTH = 4;
+
 class LogUtilities {
 	static logInfo() {
 		console.log(...arguments);
@@ -31,15 +33,16 @@ class LogUtilities {
 		LogUtilities.toDebugScreen(out);
 	}
 
-	static __dumpObjectRecursively(x, level=0, maxlevel=2) {
+	static __dumpObjectRecursively(x, level=0, maxlevel=DUMPOBJECT_DEFAULT_DEPTH) {
 		let out = `(${typeof x})`;
 
 		for (let id in x) {
 			if (level <= maxlevel) {
 				if (x[id] instanceof Buffer)
 					out += ` ${id}: (Buffer)[${x[id].toString("hex")}]`;
-				else if (x[id] instanceof Array)
-					out += ` ${id}: (Array)[${x[id].join(", ")}]`;
+				else if (x[id] instanceof Array) {
+					out += ` ${id}: (Array)[${x[id].map(x => LogUtilities.__dumpObjectRecursively(x)).join(", ")}]`;
+				}
 				else if (x[id] instanceof Object)
 					out += ` ${id}(Object): { ${LogUtilities.__dumpObjectRecursively(x[id], level + 1, maxlevel)} }`;
 				else
