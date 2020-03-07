@@ -40,7 +40,7 @@ import ABIEncoder from '../utilities/AbiUtilities';
 import TxStorage from '../lib/tx.js';
 const GlobalConfig = require('../config.json');
 
-class EarnDai extends Component {
+class SaveDai extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -699,5 +699,5 @@ export default withNavigation(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(EarnDai)
+  )(SaveDai)
 );
