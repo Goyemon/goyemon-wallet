@@ -33,10 +33,10 @@ const AppTab = createBottomTabNavigator(
         tabBarIcon: ({ tintColor }) => <Icon name="swap" size={28} color={tintColor} />
       }
     },
-    Earn: {
+    Save: {
       screen: SaveStack,
       navigationOptions: {
-        tabBarLabel: 'Earn',
+        tabBarLabel: 'Save',
         tabBarIcon: ({ tintColor }) => <SaveIcon fill={tintColor} />
       }
     },

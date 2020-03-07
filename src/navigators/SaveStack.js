@@ -19,7 +19,7 @@ const SaveStack = createStackNavigator(
       screen: SaveList,
       navigationOptions: () => ({
         headerTransparent: true,
-        headerBackTitle: 'Earn'
+        headerBackTitle: 'Save'
       })
     },
     DepositDai: {
