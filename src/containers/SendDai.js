@@ -40,6 +40,7 @@ import {
 import HomeStack from '../navigators/HomeStack';
 import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
+import StyleUtilities from '../utilities/StyleUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import ABIEncoder from '../utilities/AbiUtilities';
 import TxStorage from '../lib/tx.js';
@@ -195,26 +196,6 @@ class SendDai extends Component {
     LogUtilities.logInfo('wrong eth balance!');
     this.setState({ ethAmountValidation: false });
     return false;
-  }
-
-  getAmountBorderColor() {
-    if (this.state.daiAmountValidation === undefined) {
-      return '#FFF';
-    } else if (this.state.daiAmountValidation) {
-      return '#1BA548';
-    } else if (!this.state.daiAmountValidation) {
-      return '#E41B13';
-    }
-  }
-
-  getToAddressBorderColor() {
-    if (this.state.toAddressValidation === undefined) {
-      return '#FFF';
-    } else if (this.state.toAddressValidation) {
-      return '#1BA548';
-    } else if (!this.state.toAddressValidation) {
-      return '#E41B13';
-    }
   }
 
   validateForm = async (toAddress, amount) => {
@@ -383,7 +364,7 @@ class SendDai extends Component {
             To
           </FormHeader>
           <Form
-            borderColor={this.getToAddressBorderColor()}
+            borderColor={StyleUtilities.getBorderColor(this.state.toAddressValidation)}
             borderWidth={1}
             height="56px"
           >
@@ -418,7 +399,7 @@ class SendDai extends Component {
             Amount
           </FormHeader>
           <Form
-            borderColor={this.getAmountBorderColor()}
+            borderColor={StyleUtilities.getBorderColor(this.state.daiAmountValidation)}
             borderWidth={1}
             height="56px"
           >

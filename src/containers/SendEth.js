@@ -34,6 +34,7 @@ import {
 import HomeStack from '../navigators/HomeStack';
 import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
+import StyleUtilities from '../utilities/StyleUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import TxStorage from '../lib/tx.js';
 const GlobalConfig = require('../config.json');
@@ -177,26 +178,6 @@ class SendEth extends Component {
     ) {
     } else {
       return <ErrorMessage>invalid amount!</ErrorMessage>;
-    }
-  }
-
-  getAmountBorderColor() {
-    if (this.state.amountValidation === undefined) {
-      return '#FFF';
-    } else if (this.state.amountValidation) {
-      return '#1BA548';
-    } else if (!this.state.amountValidation) {
-      return '#E41B13';
-    }
-  }
-
-  getToAddressBorderColor() {
-    if (this.state.toAddressValidation === undefined) {
-      return '#FFF';
-    } else if (this.state.toAddressValidation) {
-      return '#1BA548';
-    } else if (!this.state.toAddressValidation) {
-      return '#E41B13';
     }
   }
 
@@ -358,7 +339,7 @@ class SendEth extends Component {
             To
           </FormHeader>
           <Form
-            borderColor={this.getToAddressBorderColor()}
+            borderColor={StyleUtilities.getBorderColor(this.state.toAddressValidation)}
             borderWidth={1}
             height="56px"
           >
@@ -393,7 +374,7 @@ class SendEth extends Component {
             Amount
           </FormHeader>
           <Form
-            borderColor={this.getAmountBorderColor()}
+            borderColor={StyleUtilities.getBorderColor(this.state.amountValidation)}
             borderWidth={1}
             height="56px"
           >
