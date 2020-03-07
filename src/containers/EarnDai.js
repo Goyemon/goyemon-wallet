@@ -34,6 +34,7 @@ import {
 } from '../components/common/';
 import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
+import StyleUtilities from '../utilities/StyleUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import ABIEncoder from '../utilities/AbiUtilities';
 import TxStorage from '../lib/tx.js';
@@ -178,16 +179,6 @@ class EarnDai extends Component {
     LogUtilities.logInfo('wrong eth balance!');
     this.setState({ ethAmountValidation: false });
     return false;
-  }
-
-  getAmountBorderColor() {
-    if (this.state.daiAmountValidation === undefined) {
-      return '#FFF';
-    } else if (this.state.daiAmountValidation) {
-      return '#1BA548';
-    } else if (!this.state.daiAmountValidation) {
-      return '#E41B13';
-    }
   }
 
   getApproveEncodedABI() {
@@ -453,7 +444,7 @@ class EarnDai extends Component {
               how much do you want to deposit?
               </Description>
               <Form
-                borderColor={this.getAmountBorderColor()}
+                borderColor={StyleUtilities.getBorderColor(this.state.daiAmountValidation)}
                 borderWidth={1}
                 height="56px"
               >
