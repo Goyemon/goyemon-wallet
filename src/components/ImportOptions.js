@@ -14,7 +14,6 @@ export default class ImportOptions extends Component {
           marginRight="40%"
           width="0%"
         />
-        <Container>
           <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
             Backup Words Option
           </HeaderTwo>
@@ -47,19 +46,10 @@ export default class ImportOptions extends Component {
               }}
             />
           </ButtonContainer>
-        </Container>
       </RootContainer>
     );
   }
 }
-
-const Container = styled.ScrollView.attrs(props => ({
-  contentContainerStyle: props => ({
-    alignItems: 'center',
-    flexDirection: 'column',
-    justifyContent: 'center'
-  })
-}))``;
 
 const ButtonContainer = styled.View`
   marginTop: 40;

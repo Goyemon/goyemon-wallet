@@ -35,8 +35,7 @@ import {
   IsOnlineMessage,
   InsufficientEthBalanceMessage,
   InvalidToAddressMessage,
-  InsufficientDaiBalanceMessage,
-  ErrorMessage
+  InsufficientDaiBalanceMessage
 } from '../components/common';
 import HomeStack from '../navigators/HomeStack';
 import LogUtilities from '../utilities/LogUtilities.js';
@@ -344,7 +343,6 @@ class SendDai extends Component {
     return (
       <RootContainer>
         <HeaderOne marginTop="96">Send</HeaderOne>
-        <Container>
           <UntouchableCardContainer
             alignItems="center"
             borderRadius="8px"
@@ -442,17 +440,10 @@ class SendDai extends Component {
             <Loader animating={this.state.loading} />
           </ButtonWrapper>
           <IsOnlineMessage netInfo={this.props.netInfo} />
-        </Container>
       </RootContainer>
     );
   }
 }
-
-const Container = styled.View`
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-`;
 
 const SendTextInputContainer = styled.View`
   align-items: center;

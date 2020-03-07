@@ -9,7 +9,6 @@ import {
 import styled from 'styled-components/native';
 import {
   RootContainer,
-  Button,
   HeaderTwo,
   HeaderThree,
   TouchableCardContainer
@@ -65,7 +64,6 @@ export default class Welcome extends Component {
   render() {
     return (
       <RootContainer>
-        <Container>
           {this.hollaFadeInOut()}
           <WelcomeContainer animation="fadeIn" delay={4000}>
             <Logo>Crypterest</Logo>
@@ -124,16 +122,10 @@ export default class Welcome extends Component {
               <CardImage source={require('../../assets/import_wallet_icon.png')} />
             </TouchableCardContainer>
           </WelcomeContainer>
-        </Container>
       </RootContainer>
     );
   }
 }
-
-const Container = styled.View`
-  flex: 1;
-  text-align: center;
-`;
 
 const HollaContainer = Animatable.createAnimatableComponent(styled.View`
   margin-top: ${hp('40%')};

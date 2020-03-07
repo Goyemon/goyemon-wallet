@@ -139,21 +139,12 @@ export default class Initial extends Component {
 
   render() {
     return (
-      <Container>
         <Title animation="fadeIn" delay={2000}>
           loading
         </Title>
-      </Container>
     );
   }
 }
-
-const Container = styled.View`
-  flex: 1;
-  justify-content: center;
-  margin-top: 240;
-  text-align: center;
-`;
 
 const Title = Animatable.createAnimatableComponent(styled.Text`
   font-family: 'HKGrotesk-Regular';

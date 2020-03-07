@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Dimensions, TouchableOpacity, Text, BackHandler } from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { saveQRCodeData } from '../actions/ActionQRCodeData';
+import { Container } from '../components/common';
 import HomeStack from '../navigators/HomeStack';
 
 class QRCodeScan extends Component {
@@ -39,8 +39,8 @@ class QRCodeScan extends Component {
 
   render() {
     return (
-      <Container>
-        <QRCodeScanner
+      <Container alignItems="center" flexDirection="row" justifyContent="center" marginTop={0} width="100%">
+      <QRCodeScanner
           onRead={this.onScanSuccess}
           showMarker
           checkAndroid6Permissions
@@ -65,12 +65,6 @@ class QRCodeScan extends Component {
     );
   }
 }
-
-const Container = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`;
 
 const GoBackContainer = styled.TouchableOpacity`
   align-items: center;

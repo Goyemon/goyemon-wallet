@@ -69,7 +69,6 @@ class ImportTwelveMnemonicWords extends Component {
             marginRight="40%"
             width="40%"
           />
-          <Container>
             <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
               Import Your Wallet
             </HeaderTwo>
@@ -115,7 +114,6 @@ class ImportTwelveMnemonicWords extends Component {
                 }}
               />
             </ButtonContainer>
-          </Container>
         </RootContainer>
       </KeyboardAvoidingView>
     );
@@ -138,12 +136,6 @@ const styles = {
     justifyContent: 'center'
   }
 };
-
-const Container = styled.View`
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-`;
 
 const MnemonicWordsContainer = styled.View`
   margin-bottom: 24;

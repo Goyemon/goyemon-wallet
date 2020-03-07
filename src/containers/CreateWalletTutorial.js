@@ -1,9 +1,8 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styled from 'styled-components/native';
 import { saveMnemonicWords } from '../actions/ActionMnemonic';
-import { RootContainer, Button, HeaderTwo, Description, Loader } from '../components/common';
+import { RootContainer, Container, Button, HeaderTwo, Description, Loader } from '../components/common';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class CreateWalletTutorial extends Component {
@@ -34,7 +33,7 @@ class CreateWalletTutorial extends Component {
   render() {
     return (
       <RootContainer>
-        <Container>
+        <Container alignItems="center" flexDirection="column" justifyContent="center" marginTop={0} width="90%">
           <HeaderTwo marginBottom="24" marginLeft="0" marginTop="144">
             With Great Power Comes Great Responsibility
           </HeaderTwo>
@@ -88,14 +87,6 @@ class CreateWalletTutorial extends Component {
     );
   }
 }
-
-const Container = styled.View`
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0 auto;
-  width: 90%;
-`;
 
 function mapStateToProps(state) {
   return {

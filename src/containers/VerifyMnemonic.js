@@ -97,7 +97,6 @@ class VerifyMnemonic extends Component {
             marginRight="40%"
             width="40%"
           />
-          <Container>
             <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
               Verify Backup Words
             </HeaderTwo>
@@ -141,7 +140,6 @@ class VerifyMnemonic extends Component {
                 await this.validateForm();
               }}
             />
-          </Container>
         </RootContainer>
       </KeyboardAvoidingView>
     );
@@ -164,12 +162,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   }
 });
-
-const Container = styled.View`
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-`;
 
 const MnemonicWordsContainer = styled.View`
   margin-bottom: 24;

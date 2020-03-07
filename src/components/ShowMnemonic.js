@@ -1,7 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import styled from 'styled-components/native';
 import { RootContainer, ProgressBar, Button, HeaderTwo, Description } from '../components/common';
 import ShowMnemonicWords from '../containers/ShowMnemonicWords';
 
@@ -19,7 +18,6 @@ export default class ShowMnemonic extends Component {
         <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
           Save Backup Words
         </HeaderTwo>
-        <Container>
           <Description marginBottom="8" marginLeft="8" marginTop="16">
             carefully save your backup words in order
           </Description>
@@ -34,14 +32,7 @@ export default class ShowMnemonic extends Component {
             opacity="1"
             onPress={() => this.props.navigation.navigate('VerifyMnemonic')}
           />
-        </Container>
       </RootContainer>
     );
   }
 }
-
-const Container = styled.View`
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-`;

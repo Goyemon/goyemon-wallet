@@ -1,5 +1,6 @@
 'use strict';
 export * from './Button';
+export * from './Container';
 export * from './CrypterestText';
 export * from './Description';
 export * from './ErrorMessage';

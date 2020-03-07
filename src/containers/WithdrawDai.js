@@ -30,8 +30,7 @@ import {
   ToggleCurrencySymbol,
   IsOnlineMessage,
   InsufficientEthBalanceMessage,
-  InsufficientDaiBalanceMessage,
-  ErrorMessage
+  InsufficientDaiBalanceMessage
 } from '../components/common';
 import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
@@ -311,7 +310,6 @@ class WithdrawDai extends Component {
     return (
       <RootContainer>
         <HeaderOne marginTop="96">Withdraw</HeaderOne>
-        <Container>
           <UntouchableCardContainer
             alignItems="center"
             borderRadius="8px"
@@ -369,17 +367,10 @@ class WithdrawDai extends Component {
             <Loader animating={this.state.loading} />
           </ButtonWrapper>
           <IsOnlineMessage netInfo={this.props.netInfo} />
-        </Container>
       </RootContainer>
     );
   }
 }
-
-const Container = styled.View`
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-`;
 
 const SendTextInputContainer = styled.View`
   align-items: center;

@@ -1,9 +1,8 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Text } from 'react-native';
 import styled from 'styled-components/native';
-import { RootContainer, HeaderOne, Description } from '../components/common';
+import { RootContainer, Container, HeaderOne, Description } from '../components/common';
 
 class BackupWords extends Component {
   render() {
@@ -12,7 +11,7 @@ class BackupWords extends Component {
     return (
       <RootContainer>
         <HeaderOne marginTop="96">Backup Words</HeaderOne>
-        <Container>
+        <Container alignItems="center" flexDirection="column" justifyContent="center" marginTop={16} width="90%">
           <Description marginBottom="16" marginLeft="8" marginTop="16">
             carefully write down these backup words in order
           </Description>
@@ -39,12 +38,6 @@ const styles = {
     flex: 1
   }
 };
-
-const Container = styled.View`
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-`;
 
 const MnemonicWordsContainer = styled.View`
   margin-top: 24;
