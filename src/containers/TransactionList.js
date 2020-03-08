@@ -14,7 +14,19 @@ class TransactionList extends Component {
 			'transactions': null,
 			'transactionsLoaded': false
 		}
+
+		this.forceUpdate = false;
 	}
+
+	shouldComponentUpdate(nextProps, nextState) {
+		if (this.forceUpdate) {
+			this.forceUpdate = false;
+			return true;
+		}
+
+		return super.shouldComponentUpdate(nextProps, nextState);
+	}
+
 
 	updateTxListState(txes) {
 		let transactionlist;
@@ -31,6 +43,8 @@ class TransactionList extends Component {
 			transactions: transactionlist,
 			transactionsLoaded: true
 		});
+
+		this.forceUpdate = true;
 	}
 
 	getItem(data, index) {
