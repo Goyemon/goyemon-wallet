@@ -24,7 +24,15 @@ class TransactionList extends Component {
 			return true;
 		}
 
-		return false;
+		let upd;
+
+		if (nextProps && this.props)
+			upd = Object.entries(nextProps).some(([k, v]) => this.props[k] !== v);
+
+		if (!upd && nextState && this.state)
+			upd = Object.entries(nextState).some(([k, v]) => this.state[k] !== v);
+
+		return upd;
 	}
 
 
