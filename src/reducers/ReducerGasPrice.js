@@ -8,9 +8,9 @@ import {
 
 const INITIAL_STATE = {
   gasPrice: {
-    fast: '0',
-    average: '0',
-    slow: '0',
+    fast: 0,
+    average: 0,
+    slow: 0,
     chosen: 1
   }
 };
