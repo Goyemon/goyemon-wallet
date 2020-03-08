@@ -24,7 +24,7 @@ class TransactionList extends Component {
 			return true;
 		}
 
-		return super.shouldComponentUpdate(nextProps, nextState);
+		return false;
 	}
 
 
