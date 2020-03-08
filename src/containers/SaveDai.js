@@ -3,83 +3,54 @@ import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Modal, Alert, View, Text } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { withNavigation } from 'react-navigation';
 import styled from 'styled-components';
 import Web3 from 'web3';
 import { saveDaiApprovalInfo } from '../actions/ActionCDaiLendingInfo';
 import {
-  getGasPriceFast,
-  getGasPriceAverage,
-  getGasPriceSlow,
   updateGasPriceChosen
 } from '../actions/ActionGasPrice';
 import { saveOutgoingDaiTransactionAmount, saveOutgoingDaiTransactionApproveAmount } from '../actions/ActionOutgoingDaiTransactionData';
 import {
   RootContainer,
-  Container,
   UntouchableCardContainer,
   TransactionButton,
   HeaderOne,
   HeaderFour,
   Form,
-  FormHeader,
   Button,
   Description,
   Loader,
-  ToggleCurrencySymbol,
   IsOnlineMessage,
   InsufficientEthBalanceMessage,
   InsufficientDaiBalanceMessage
 } from '../components/common/';
+import NetworkFeeContainer from '../containers/NetworkFeeContainer';
 import LogUtilities from '../utilities/LogUtilities.js';
-import PriceUtilities from '../utilities/PriceUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import ABIEncoder from '../utilities/AbiUtilities';
 import TxStorage from '../lib/tx.js';
-const GlobalConfig = require('../config.json');
+import GlobalConfig from '../config.json';
 
 class SaveDai extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      gasPrice: [
-        {
-          speed: 'fast',
-          imageName: 'run-fast',
-          gasPriceWei: props.gasPrice.fast
-        },
-        {
-          speed: 'average',
-          imageName: 'run',
-          gasPriceWei: props.gasPrice.average
-        },
-        {
-          speed: 'slow',
-          imageName: 'walk',
-          gasPriceWei: props.gasPrice.slow
-        }
-      ],
       ethBalance: Web3.utils.fromWei(props.balance.weiBalance),
       daiAmount: '',
-      checked: props.gasPrice.chosen,
       modalVisible: false,
       daiAmountValidation: undefined,
       ethAmountValidation: undefined,
-      currency: 'USD',
       loading: false,
       buttonDisabled: true,
       buttonOpacity: 0.5,
-      showNetworkFee: false
     };
   }
 
   async componentDidMount() {
-    this.props.getGasPriceFast();
-    this.props.getGasPriceAverage();
-    this.props.getGasPriceSlow();
-    this.props.saveDaiApprovalInfo( await TxStorage.storage.isDAIApprovedForCDAI())
+    this.props.saveDaiApprovalInfo( await TxStorage.storage.isDAIApprovedForCDAI());
+    this.validateEthAmount(this.returnTransactionSpeed(this.props.gasPrice.chosen));
   }
 
   componentDidUpdate(prevProps) {
@@ -88,47 +59,21 @@ class SaveDai extends Component {
     //    this.props.saveDaiApprovalInfo(TransactionUtilities.isDaiApproved(this.props.transactions));
     //  }
     //}
-    if (this.props.gasPrice != prevProps.gasPrice) {
-      this.setState({ checked: this.props.gasPrice.chosen });
-    }
     if (this.props.balance != prevProps.balance) {
       this.setState({ ethBalance: Web3.utils.fromWei(this.props.balance.weiBalance) });
     }
   }
 
-  toggleCurrency(gasPriceWei) {
-    if (this.state.currency === 'ETH') {
-      const usdValue = this.getTransactionFeeEstimateInUsd(gasPriceWei);
-      return <NetworkFeeText>${usdValue}</NetworkFeeText>;
-    } else if (this.state.currency === 'USD') {
-      let ethValue = this.getTransactionFeeEstimateInEth(gasPriceWei);
-      ethValue = parseFloat(ethValue).toFixed(5);
-      return <NetworkFeeText>{ethValue}ETH</NetworkFeeText>;
+  returnTransactionSpeed(chosenSpeed) {
+    if(chosenSpeed === 0) {
+      return this.props.gasPrice.fast;
+    } else if (chosenSpeed === 1) {
+      return this.props.gasPrice.average;
+    } else if (chosenSpeed === 2) {
+      return this.props.gasPrice.slow;
+    } else {
+      LogUtilities.logInfo('invalid transaction speed');
     }
-  }
-
-  getTransactionFeeEstimateInEth(gasPriceWei) {
-    const approveTransactionFeeEstimateInEth =
-      TransactionUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 50000)
-    ;
-    const mintTransactionFeeEstimateInEth =
-      TransactionUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 350000)
-    ;
-    let transactionFeeEstimateInEth = parseFloat(approveTransactionFeeEstimateInEth) + parseFloat(mintTransactionFeeEstimateInEth);
-    transactionFeeEstimateInEth = transactionFeeEstimateInEth.toFixed(4);
-    return transactionFeeEstimateInEth;
-  }
-
-  getTransactionFeeEstimateInUsd(gasPriceWei) {
-    const approveTransactionFeeEstimateInUsd = PriceUtilities.convertEthToUsd(
-      TransactionUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 50000)
-    );
-    const mintTransactionFeeEstimateInUsd = PriceUtilities.convertEthToUsd(
-      TransactionUtilities.getTransactionFeeEstimateInEther(gasPriceWei, 350000)
-    );
-    let transactionFeeEstimateInUsd = parseFloat(approveTransactionFeeEstimateInUsd) + parseFloat(mintTransactionFeeEstimateInUsd);
-    transactionFeeEstimateInUsd = transactionFeeEstimateInUsd.toFixed(4);
-    return transactionFeeEstimateInUsd;
   }
 
   validateDaiAmount(daiAmount) {
@@ -159,11 +104,11 @@ class SaveDai extends Component {
   validateEthAmount(gasPriceWei) {
     let approveTransactionFeeLimitInEther = TransactionUtilities.getTransactionFeeEstimateInEther(
       gasPriceWei,
-      50000
+      GlobalConfig.ERC20ApproveGasLimit
     );
     let mintTransactionFeeLimitInEther = TransactionUtilities.getTransactionFeeEstimateInEther(
       gasPriceWei,
-      350000
+      GlobalConfig.cTokenMintGasLimit
     );
 
     const ethBalance = new BigNumber(this.state.ethBalance);
@@ -195,9 +140,9 @@ class SaveDai extends Component {
     const transactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.DAITokenContract)
       .setGasPrice(this.props.gasPrice.average.toString(16))
-      .setGas((50000).toString(16))
+      .setGas((GlobalConfig.ERC20ApproveGasLimit).toString(16))
       .tempSetData(approveEncodedABI)
-      .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.approval, [GlobalConfig.cDAIcontract, this.state.checksumAddress, "ff".repeat(256/8)]);
+      .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.approval, [GlobalConfig.cDAIcontract, this.props.checksumAddress, "ff".repeat(256/8)]);
 
     return transactionObject;
   }
@@ -206,17 +151,17 @@ class SaveDai extends Component {
     const mintEncodedABI = ABIEncoder.encodeCDAIMint(this.state.daiAmount);
     const transactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.cDAIcontract)
-      .setGasPrice(this.state.gasPrice[this.state.checked].gasPriceWei.toString(16))
-      .setGas((350000).toString(16))
+      .setGasPrice(this.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16))
+      .setGas((GlobalConfig.cTokenMintGasLimit).toString(16))
       .tempSetData(mintEncodedABI)
-      .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.mint, [this.state.checksumAddress, this.state.daiAmount, 0]);
+      .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.mint, [this.props.checksumAddress, this.state.daiAmount, 0]);
 
     return transactionObject;
   }
 
   sendTransactions = async daiAmount => {
     const daiAmountValidation = this.validateDaiAmount(daiAmount);
-    const ethAmountValidation = this.validateEthAmount(this.state.gasPrice[this.state.checked].gasPriceWei);
+    const ethAmountValidation = this.validateEthAmount(this.returnTransactionSpeed(this.props.gasPrice.chosen));
     const isOnline = this.props.netInfo;
 
     if (daiAmountValidation && ethAmountValidation && isOnline) {
@@ -288,106 +233,12 @@ class SaveDai extends Component {
           opacity="1"
           onPress={async () => {
             this.setModalVisible(true);
-            this.validateEthAmount(this.state.gasPrice[this.state.checked].gasPriceWei);
+            this.validateEthAmount(this.returnTransactionSpeed(this.props.gasPrice.chosen));
           }}
         />
       );
     }
     LogUtilities.logInfo('dai already approved');
-  }
-
-  renderNetworkFeeContainer() {
-    if (this.state.showNetworkFee) {
-      return (
-        <Container alignItems="center" flexDirection="row"  justifyContent="center" marginTop={0} width="100%">
-        <NetworkFeeHeaderContainer>
-            <FormHeader marginBottom="0" marginLeft="0" marginTop="0">
-              Network Fee
-            </FormHeader>
-            <NetworkFeeSymbolContainer
-              onPress={() => {
-                if (this.state.currency === 'ETH') {
-                  this.setState({ currency: 'USD' });
-                } else if (this.state.currency === 'USD') {
-                  this.setState({ currency: 'ETH' });
-                }
-              }}
-            >
-              <View>
-                <ToggleCurrencySymbol currency={this.state.currency} />
-              </View>
-            </NetworkFeeSymbolContainer>
-          </NetworkFeeHeaderContainer>
-          <UntouchableCardContainer
-            alignItems="center"
-            borderRadius="0"
-            flexDirection="column"
-            height="120px"
-            justifyContent="flex-start"
-            marginTop="16"
-            textAlign="left"
-            width="80%"
-          >
-            <NetworkFeeContainer>
-              {this.state.gasPrice.map((gasPrice, key) => (
-                <NetworkFee key={key}>
-                  {this.state.checked === key ? (
-                    <SpeedContainer>
-                      <SelectedButton>{gasPrice.speed}</SelectedButton>
-                      <Icon
-                        name={gasPrice.imageName}
-                        size={40}
-                        color="#1BA548"
-                      />
-                      <SelectedButton>
-                        {this.toggleCurrency(gasPrice.gasPriceWei)}
-                      </SelectedButton>
-                    </SpeedContainer>
-                  ) : (
-                    <SpeedContainer
-                      onPress={() => {
-                        this.setState({ checked: key });
-                        this.props.updateGasPriceChosen(key);
-                        this.validateEthAmount(gasPrice.gasPriceWei);
-                      }}
-                    >
-                      <UnselectedButton>{gasPrice.speed}</UnselectedButton>
-                      <Icon name={gasPrice.imageName} size={40} color="#000" />
-                      <UnselectedButton>
-                        {this.toggleCurrency(gasPrice.gasPriceWei)}
-                      </UnselectedButton>
-                    </SpeedContainer>
-                  )}
-                </NetworkFee>
-              ))}
-            </NetworkFeeContainer>
-          </UntouchableCardContainer>
-          <MenuUpContainer>
-            <Icon
-              name="menu-up"
-              color="#000"
-              onPress={() => {
-                this.setState({ showNetworkFee: false });
-              }}
-              size={32}
-            />
-          </MenuUpContainer>
-        </Container>
-      );
-    } else if (!this.state.showNetworkFee) {
-      return (
-        <MenuUpContainer>
-          <Icon
-            name="menu-down"
-            color="#000"
-            onPress={() => {
-              this.setState({ showNetworkFee: true });
-            }}
-            size={32}
-          />
-        </MenuUpContainer>
-      );
-    }
   }
 
   render() {
@@ -463,7 +314,7 @@ class SaveDai extends Component {
                 </SendTextInputContainer>
               </Form>
               <InsufficientDaiBalanceMessage daiAmountValidation={this.state.daiAmountValidation} />
-              {this.renderNetworkFeeContainer()}
+              <NetworkFeeContainer gasLimit={GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit} />
               <InsufficientEthBalanceMessage ethAmountValidation={this.state.ethAmountValidation} />
                 <ButtonContainer>
                   <Button
@@ -594,56 +445,6 @@ const CurrencySymbolText = styled.Text`
   font-family: 'HKGrotesk-Regular';
 `;
 
-const MenuUpContainer = styled.View`
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0 8px;
-`;
-
-const NetworkFeeHeaderContainer = styled.View`
-  align-items: center;
-  flex-direction: row;
-  justify-content: center;
-  margin-top: 24;
-`;
-
-const NetworkFeeSymbolContainer = styled.TouchableWithoutFeedback``;
-
-const NetworkFeeContainer = styled.View`
-  align-items: center;
-  flex-direction: row;
-  justify-content: center;
-  width: 100%;
-`;
-
-const NetworkFee = styled.View`
-  margin: 0 4px;
-  width: 33.3%;
-`;
-
-const NetworkFeeText = styled.Text`
-  font-family: 'HKGrotesk-Regular';
-  font-size: 12;
-`;
-
-const SpeedContainer = styled.TouchableOpacity`
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0 8px;
-`;
-
-const SelectedButton = styled.Text`
-  color: #1ba548;
-  font-family: 'HKGrotesk-Regular';
-`;
-
-const UnselectedButton = styled.Text`
-  color: #000;
-  font-family: 'HKGrotesk-Regular';
-`;
-
 const BalanceText = styled.Text`
   color: #000;
   font-family: 'HKGrotesk-Regular';
@@ -685,13 +486,9 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  getGasPriceAverage,
   saveDaiApprovalInfo,
   saveOutgoingDaiTransactionAmount,
   saveOutgoingDaiTransactionApproveAmount,
-  getGasPriceFast,
-  getGasPriceAverage,
-  getGasPriceSlow,
   updateGasPriceChosen
 };
 
