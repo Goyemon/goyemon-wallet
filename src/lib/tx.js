@@ -576,9 +576,12 @@ class TxStorage {
 	}
 
 	async newTx(state=TxStates.STATE_NEW, nonce) {
-		return new Tx(state)
+		let tx = new Tx(state)			
 			.setTimestamp(Math.trunc(Date.now() / 1000))
 			.setNonce(nonce ? nonce : await this.getNextNonce());
+		tx.from_addr = this.our_address;
+
+		return tx;
 	}
 
 	__onUpdate() {
