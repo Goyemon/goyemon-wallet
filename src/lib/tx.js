@@ -588,7 +588,7 @@ class TxStorage {
 		const startTime = Date.now();
 		LogUtilities.toDebugScreen('TxStorage __onUpdate() called');
 		// TODO: promise.all also not_included
-		this.included_txes.getAllTxes().then((t) => {
+		this.tempGetAllAsList().then((t) => {
 			// t.forEach(x => {
 			// 	try {
 			// 		x.getTimestamp();
