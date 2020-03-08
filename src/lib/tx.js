@@ -861,7 +861,7 @@ class TxStorage {
 			return;
 		}
 
-		(await this.not_included_txes.getAllValues()).forEach(ret.push);
+		(await this.not_included_txes.getAllValues()).forEach((x) => ret.push(x));
 		ret.sort((a, b) => b.getTimestamp() - a.getTimestamp());
 
 		return ret;
