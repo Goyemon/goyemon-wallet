@@ -2,16 +2,10 @@
 import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
-import {
-  getGasPriceFast,
-  getGasPriceAverage,
-  getGasPriceSlow,
-  updateGasPriceChosen
-} from '../actions/ActionGasPrice';
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
 import { clearQRCodeData } from '../actions/ActionQRCodeData';
 import {
@@ -26,85 +20,53 @@ import {
   Form,
   FormHeader,
   Loader,
-  MenuContainer,
-  ToggleCurrencySymbol,
   IsOnlineMessage,
   InvalidToAddressMessage,
   ErrorMessage
 } from '../components/common';
+import NetworkFeeContainer from '../containers/NetworkFeeContainer';
 import HomeStack from '../navigators/HomeStack';
 import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import TxStorage from '../lib/tx.js';
-const GlobalConfig = require('../config.json');
+import GlobalConfig from '../config.json';
 
 class SendEth extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      gasPrice: [
-        {
-          speed: 'fast',
-          imageName: 'run-fast',
-          gasPriceWei: props.gasPrice.fast
-        },
-        {
-          speed: 'average',
-          imageName: 'run',
-          gasPriceWei: props.gasPrice.average
-        },
-        {
-          speed: 'slow',
-          imageName: 'walk',
-          gasPriceWei: props.gasPrice.slow
-        }
-      ],
       ethBalance: Web3.utils.fromWei(props.balance.weiBalance),
       toAddress: '',
       amount: '',
-      checked: props.gasPrice.chosen,
       toAddressValidation: undefined,
       amountValidation: undefined,
-      currency: 'USD',
       loading: false,
       buttonDisabled: true,
       buttonOpacity: 0.5,
-      showNetworkFee: false
     };
   }
 
-  componentDidMount() {
-    this.props.getGasPriceFast();
-    this.props.getGasPriceAverage();
-    this.props.getGasPriceSlow();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (this.props.qrCodeData != prevProps.qrCodeData) {
       this.setState({ toAddress: this.props.qrCodeData });
       this.validateToAddress(this.props.qrCodeData);
-    }
-    if (this.props.gasPrice != prevProps.gasPrice) {
-      this.setState({ checked: this.props.gasPrice.chosen });
     }
     if (this.props.balance != prevProps.balance) {
       this.setState({ ethBalance: Web3.utils.fromWei(this.props.balance.weiBalance) });
     }
   }
 
-  toggleCurrency(gasPriceWei) {
-    if (this.state.currency === 'ETH') {
-      const usdValue = TransactionUtilities.getTransactionFeeEstimateInUsd(gasPriceWei, 21000);
-      return <NetworkFeeText>${usdValue}</NetworkFeeText>;
-    } else if (this.state.currency === 'USD') {
-      let ethValue = TransactionUtilities.getTransactionFeeEstimateInEther(
-        gasPriceWei,
-        21000
-      );
-      ethValue = parseFloat(ethValue).toFixed(5);
-      return <NetworkFeeText>{ethValue}ETH</NetworkFeeText>;
+  returnTransactionSpeed(chosenSpeed) {
+    if(chosenSpeed === 0) {
+      return this.props.gasPrice.fast;
+    } else if (chosenSpeed === 1) {
+      return this.props.gasPrice.average;
+    } else if (chosenSpeed === 2) {
+      return this.props.gasPrice.slow;
+    } else {
+      LogUtilities.logInfo('invalid transaction speed');
     }
   }
 
@@ -114,8 +76,8 @@ class SendEth extends Component {
     const transactionObject = (await TxStorage.storage.newTx())
       .setTo(this.state.toAddress)
       .setValue(amountWei.toString(16))
-      .setGasPrice(this.state.gasPrice[this.state.checked].gasPriceWei.toString(16))
-      .setGas((21000).toString(16));
+      .setGasPrice(this.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16))
+      .setGas((GlobalConfig.ETHTxGasLimit).toString(16));
 
     return transactionObject;
   }
@@ -141,8 +103,8 @@ class SendEth extends Component {
 
   validateAmount(amount) {
     let transactionFeeLimitInEther = TransactionUtilities.getTransactionFeeEstimateInEther(
-      this.state.gasPrice[this.state.checked].gasPriceWei,
-      21000
+      this.returnTransactionSpeed(this.props.gasPrice.chosen),
+      GlobalConfig.ETHTxGasLimit
     );
 
     const ethBalance = new BigNumber(this.state.ethBalance);
@@ -194,15 +156,15 @@ class SendEth extends Component {
       await this.props.saveOutgoingTransactionObject(transactionObject);
       this.props.saveTransactionFeeEstimateEth(
         TransactionUtilities.getTransactionFeeEstimateInEther(
-          this.state.gasPrice[this.state.checked].gasPriceWei,
-          21000
+          this.returnTransactionSpeed(this.props.gasPrice.chosen),
+          GlobalConfig.ETHTxGasLimit
         )
       );
       this.props.saveTransactionFeeEstimateUsd(
         PriceUtilities.convertEthToUsd(
           TransactionUtilities.getTransactionFeeEstimateInEther(
-            this.state.gasPrice[this.state.checked].gasPriceWei,
-            21000
+            this.returnTransactionSpeed(this.props.gasPrice.chosen),
+            GlobalConfig.ETHTxGasLimit
           )
         )
       );
@@ -212,103 +174,7 @@ class SendEth extends Component {
     }
   };
 
-  renderNetworkFeeContainer() {
-    if (this.state.showNetworkFee) {
-      return (
-        <View>
-          <NetworkFeeHeaderContainer>
-            <FormHeader marginBottom="0" marginLeft="0" marginTop="0">
-              Network Fee
-            </FormHeader>
-            <NetworkFeeSymbolContainer
-              onPress={() => { // TODO: needs to be switch(), likely.
-                if (this.state.currency === 'ETH') {
-                  this.setState({ currency: 'USD' });
-                } else if (this.state.currency === 'USD') {
-                  this.setState({ currency: 'ETH' });
-                }
-              }}
-            >
-              <View>
-                <ToggleCurrencySymbol currency={this.state.currency} />
-              </View>
-            </NetworkFeeSymbolContainer>
-          </NetworkFeeHeaderContainer>
-          <UntouchableCardContainer
-            alignItems="center"
-            borderRadius="0"
-            flexDirection="column"
-            height="120px"
-            justifyContent="center"
-            marginTop="16"
-            textAlign="center"
-            width="80%"
-          >
-            <NetworkFeeContainer>
-              {this.state.gasPrice.map((gasPrice, key) => (
-                <NetworkFee key={key}>
-                  {this.state.checked === key ? (
-                    <SpeedContainer>
-                      <SelectedButton>{gasPrice.speed}</SelectedButton>
-                      <Icon
-                        name={gasPrice.imageName}
-                        size={40}
-                        color="#1BA548"
-                      />
-                      <SelectedButton>
-                        {this.toggleCurrency(gasPrice.gasPriceWei)}
-                      </SelectedButton>
-                    </SpeedContainer>
-                  ) : (
-                    <SpeedContainer
-                      onPress={() => {
-                        this.setState({ checked: key });
-                        this.props.updateGasPriceChosen(key);
-                        this.validateAmount(this.state.amount);
-                      }}
-                    >
-                      <UnselectedButton>{gasPrice.speed}</UnselectedButton>
-                      <Icon name={gasPrice.imageName} size={40} color="#000" />
-                      <UnselectedButton>
-                        {this.toggleCurrency(gasPrice.gasPriceWei)}
-                      </UnselectedButton>
-                    </SpeedContainer>
-                  )}
-                </NetworkFee>
-              ))}
-            </NetworkFeeContainer>
-          </UntouchableCardContainer>
-          <MenuContainer>
-            <Icon
-              name="menu-up"
-              color="#000"
-              onPress={() => {
-                this.setState({ showNetworkFee: false });
-              }}
-              size={32}
-            />
-          </MenuContainer>
-        </View>
-      );
-    } else if (!this.state.showNetworkFee) {
-      return (
-        <MenuContainer>
-          <Icon
-            name="menu-down"
-            color="#000"
-            onPress={() => {
-              this.setState({ showNetworkFee: true });
-            }}
-            size={32}
-          />
-        </MenuContainer>
-      );
-    }
-  }
-
   render() {
-    const { balance } = this.props;
-
     const RoundDownBigNumber = BigNumber.clone({
       DECIMAL_PLACES: 4,
       ROUNDING_MODE: BigNumber.ROUND_DOWN
@@ -393,7 +259,7 @@ class SendEth extends Component {
             </SendTextInputContainer>
           </Form>
           <View>{this.renderInsufficientBalanceMessage()}</View>
-          {this.renderNetworkFeeContainer()}
+          <NetworkFeeContainer gasLimit={GlobalConfig.ETHTxGasLimit}/>
           <ButtonWrapper>
             <Button
               text="Next"
@@ -465,56 +331,12 @@ const CurrencySymbolText = styled.Text`
   font-family: 'HKGrotesk-Regular';
 `;
 
-const NetworkFeeHeaderContainer = styled.View`
-  align-items: center;
-  flex-direction: row;
-  justify-content: center;
-  margin-top: 24;
-`;
-
-const NetworkFeeSymbolContainer = styled.TouchableWithoutFeedback``;
-
-const NetworkFeeContainer = styled.View`
-  align-items: center;
-  flex-direction: row;
-  justify-content: center;
-  width: 100%;
-`;
-
-const NetworkFee = styled.View`
-  margin: 0 4px;
-  width: 33.3%;
-`;
-
-const NetworkFeeText = styled.Text`
-  font-family: 'HKGrotesk-Regular';
-  font-size: 12;
-`;
-
-const SpeedContainer = styled.TouchableOpacity`
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0 8px;
-`;
-
-const SelectedButton = styled.Text`
-  color: #1ba548;
-  font-family: 'HKGrotesk-Regular';
-`;
-
-const UnselectedButton = styled.Text`
-  color: #000;
-  font-family: 'HKGrotesk-Regular';
-`;
-
 const ButtonWrapper = styled.View`
   align-items: center;
 `;
 
 function mapStateToProps(state) {
   return {
-    checksumAddress: state.ReducerChecksumAddress.checksumAddress,
     gasPrice: state.ReducerGasPrice.gasPrice,
     balance: state.ReducerBalance.balance,
     netInfo: state.ReducerNetInfo.netInfo,
@@ -526,10 +348,6 @@ const mapDispatchToProps = {
   saveOutgoingTransactionObject,
   saveTransactionFeeEstimateUsd,
   saveTransactionFeeEstimateEth,
-  getGasPriceFast,
-  getGasPriceAverage,
-  getGasPriceSlow,
-  updateGasPriceChosen,
   clearQRCodeData
 };
 
