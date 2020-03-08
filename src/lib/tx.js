@@ -478,6 +478,13 @@ class Tx {
 	toJSON() {
 		return [this.getFrom(), this.getTo(), this.gas, this.gasPrice, this.value, this.nonce, this.timestamp, this.state, this.tokenData];
 	}
+
+	shallowClone() {
+		/*let newtx = new Tx(this.state);
+		Object.entries(this).forEach(([k, v]) => if (typeof v !== 'function') newtx[k] = v; );
+		return newtx;*/
+		return Object.assign(new Tx(), this);
+	}
 }
 
 
@@ -736,7 +743,7 @@ class TxStorage {
 
 			console.log(`parseTxState(hash: ${hash}) known included+ tx updated: `, tx);
 
-			await this.included_txes.setItem(hash, tx);
+			await this.included_txes.setItem(hash, tx.shallowClone());
 
 			if (this.txfilter_checkMaxNonce(tx))
 				await AsyncStorage.setItem(maxNonceKey, this.included_max_nonce.toString());
@@ -776,13 +783,13 @@ class TxStorage {
 
 			if (tx.state >= TxStates.STATE_INCLUDED) {
 				console.log(`parseTxState(hash: ${hash}) moving to persistent storage since state is now ${tx.state}`);
-				await Promise.all([this.not_included_txes.removeItem(nonce), this.included_txes.setItem(tx.hash, tx)]);
+				await Promise.all([this.not_included_txes.removeItem(nonce), this.included_txes.setItem(tx.hash, tx.shallowClone())]);
 
 				if (this.txfilter_checkMaxNonce(tx))
 					await AsyncStorage.setItem(maxNonceKey, this.included_max_nonce.toString());
 			}
 			else
-				await this.not_included_txes.setItem(nonce, tx);
+				await this.not_included_txes.setItem(nonce, tx.shallowClone());
 
 			this.__onUpdate();
 
