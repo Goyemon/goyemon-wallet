@@ -619,7 +619,7 @@ class TxStorage {
 	}
 
 	async saveTx(tx, batch=false) {
-		console.log(`saveTx(batch:${batch}): `, tx);
+		LogUtilities.logInfo(`saveTx(batch:${batch}): `, tx);
 		if (tx.state >= TxStates.STATE_INCLUDED) { // those already have known hash
 			if (await this.included_txes.hasItem(tx.hash))
 				throw new DuplicateHashTxException(`tx hash ${tx.hash} already known`);
@@ -732,16 +732,16 @@ class TxStorage {
 	}
 
 	async processTxState(hash, data) {
-		console.log(`parseTxState(hash: ${hash}) + `, data);
+		LogUtilities.logInfo(`parseTxState(hash: ${hash}) + `, data);
 		let tx = await this.included_txes.getItem(hash);
 		if (tx) { // known included tx, likely just updating state
-			console.log(`parseTxState(hash: ${hash}) known included+ tx: `, tx);
+			LogUtilities.logInfo(`parseTxState(hash: ${hash}) known included+ tx: `, tx);
 			if (data[0] !== null) // or maybe more ;-)
 				tx.fromDataArray(data);
 			else
 				tx.upgradeState(data[7], data[6]);
 
-			console.log(`parseTxState(hash: ${hash}) known included+ tx updated: `, tx);
+			LogUtilities.logInfo(`parseTxState(hash: ${hash}) known included+ tx updated: `, tx);
 
 			await this.included_txes.setItem(hash, tx.shallowClone());
 
@@ -762,7 +762,7 @@ class TxStorage {
 					.setHash(hash)
 					.fromDataArray(data);
 
-				console.log(`parseTxState(hash: ${hash}) not known tx, saved: `, tx);
+				LogUtilities.logInfo(`parseTxState(hash: ${hash}) not known tx, saved: `, tx);
 
 				await this.saveTx(tx);
 
@@ -774,15 +774,15 @@ class TxStorage {
 				return;
 			}
 
-			console.log(`parseTxState(hash: ${hash}) known NOT included tx: `, tx);
+			LogUtilities.logInfo(`parseTxState(hash: ${hash}) known NOT included tx: `, tx);
 
 			tx.setHash(hash)
 				.fromDataArray(data);
 
-			console.log(`parseTxState(hash: ${hash}) known NOT included tx updated: `, tx);
+			LogUtilities.logInfo(`parseTxState(hash: ${hash}) known NOT included tx updated: `, tx);
 
 			if (tx.state >= TxStates.STATE_INCLUDED) {
-				console.log(`parseTxState(hash: ${hash}) moving to persistent storage since state is now ${tx.state}`);
+				LogUtilities.logInfo(`parseTxState(hash: ${hash}) moving to persistent storage since state is now ${tx.state}`);
 				await Promise.all([this.not_included_txes.removeItem(nonce), this.included_txes.setItem(tx.hash, tx.shallowClone())]);
 
 				if (this.txfilter_checkMaxNonce(tx))
@@ -802,7 +802,7 @@ class TxStorage {
 				.setHash(hash)
 				.setTimestamp(data[6]);
 
-			console.log(`parseTxState(hash: ${hash}) not known tx WITH NO DATA (OOPS...), saved: `, tx);
+			LogUtilities.logInfo(`parseTxState(hash: ${hash}) not known tx WITH NO DATA (OOPS...), saved: `, tx);
 			await this.saveTx(tx);
 
 			this.__onUpdate();
@@ -857,7 +857,7 @@ class TxStorage {
 		if (!this.included_txes || !this.not_included_txes) {
 			LogUtilities.toDebugScreen('tempGetAllAsList() called and our properties are undef.');
 			LogUtilities.dumpObject('this', this);
-			console.error('tempGetAllAsList() called and our properties are undef.');
+			LogUtilities.logError('tempGetAllAsList() called and our properties are undef.');
 			return;
 		}
 
@@ -866,12 +866,12 @@ class TxStorage {
 			LogUtilities.toDebugScreen('tempGetAllAsList() await this.included_txes.getAllTxes() returned:');
 			LogUtilities.dumpObject('ret', ret);
 			LogUtilities.dumpObject('this.included_txes', this.included_txes);
-			console.error('tempGetAllAsList() await this.included_txes.getAllTxes() returned null?');
+			LogUtilities.logError('tempGetAllAsList() await this.included_txes.getAllTxes() returned null?');
 			return;
 		}
 
 		const nit = (await this.not_included_txes.getAllValues());
-		console.log(`tempGetAllAsList() not included txes: `, nit);
+		LogUtilities.logInfo(`tempGetAllAsList() not included txes: `, nit);
 		nit.forEach((x) => ret.push(x));
 
 		ret.sort((a, b) => b.getTimestamp() - a.getTimestamp());
