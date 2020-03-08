@@ -576,7 +576,7 @@ class TxStorage {
 	}
 
 	async newTx(state=TxStates.STATE_NEW, nonce) {
-		let tx = new Tx(state)			
+		let tx = new Tx(state)
 			.setTimestamp(Math.trunc(Date.now() / 1000))
 			.setNonce(nonce ? nonce : await this.getNextNonce());
 		tx.from_addr = this.our_address;
@@ -589,26 +589,13 @@ class TxStorage {
 		LogUtilities.toDebugScreen('TxStorage __onUpdate() called');
 		// TODO: promise.all also not_included
 		this.tempGetAllAsList().then((t) => {
-			// t.forEach(x => {
-			// 	try {
-			// 		x.getTimestamp();
-			// 	}
-			// 	catch (e) {
-			// 		let out = [];
-			// 		for (i in x)
-			// 			out.push(`${i}: ${x[i]}`);
-			// 		LogUtilities.toDebugScreen(`herpderp exc: ${e.message} x:${x}       || ${out.join('; ')}`);
-			// 		throw e;
-			// 	}
-			// });
-
-			try {
-				t.sort((a, b) => b.getTimestamp() - a.getTimestamp());
-			}
-			catch (e) {
-				LogUtilities.toDebugScreen(`TxStorage __onUpdate() sort() exc: ${e.message} @ ${e.stack}\nt:${t}`);
-				throw e;
-			}
+			// try {
+			// 	t.sort((a, b) => b.getTimestamp() - a.getTimestamp());
+			// }
+			// catch (e) {
+			// 	LogUtilities.toDebugScreen(`TxStorage __onUpdate() sort() exc: ${e.message} @ ${e.stack}\nt:${t}`);
+			// 	throw e;
+			// }
 			try {
 				// LogUtilities.toDebugScreen(`TxStorage __executeUpdateCallbacks() called, t: ${t.length}`);
 				this.on_update.forEach(x => x(t));
@@ -625,6 +612,7 @@ class TxStorage {
 	}
 
 	async saveTx(tx, batch=false) {
+		console.log(`saveTx(batch:${batch}): `, tx);
 		if (tx.state >= TxStates.STATE_INCLUDED) { // those already have known hash
 			if (await this.included_txes.hasItem(tx.hash))
 				throw new DuplicateHashTxException(`tx hash ${tx.hash} already known`);
@@ -737,12 +725,16 @@ class TxStorage {
 	}
 
 	async processTxState(hash, data) {
+		console.log(`parseTxState(hash: ${hash}) + `, data);
 		let tx = await this.included_txes.getItem(hash);
 		if (tx) { // known included tx, likely just updating state
+			console.log(`parseTxState(hash: ${hash}) known included+ tx: `, tx);
 			if (data[0] !== null) // or maybe more ;-)
 				tx.fromDataArray(data);
 			else
 				tx.upgradeState(data[7], data[6]);
+
+			console.log(`parseTxState(hash: ${hash}) known included+ tx updated: `, tx);
 
 			await this.included_txes.setItem(hash, tx);
 
@@ -763,6 +755,8 @@ class TxStorage {
 					.setHash(hash)
 					.fromDataArray(data);
 
+				console.log(`parseTxState(hash: ${hash}) not known tx, saved: `, tx);
+
 				await this.saveTx(tx);
 
 				if (this.txfilter_checkMaxNonce(tx))
@@ -773,11 +767,15 @@ class TxStorage {
 				return;
 			}
 
+			console.log(`parseTxState(hash: ${hash}) known NOT included tx: `, tx);
+
 			tx.setHash(hash)
 				.fromDataArray(data);
 
+			console.log(`parseTxState(hash: ${hash}) known NOT included tx updated: `, tx);
 
 			if (tx.state >= TxStates.STATE_INCLUDED) {
+				console.log(`parseTxState(hash: ${hash}) moving to persistent storage since state is now ${tx.state}`);
 				await Promise.all([this.not_included_txes.removeItem(nonce), this.included_txes.setItem(tx.hash, tx)]);
 
 				if (this.txfilter_checkMaxNonce(tx))
@@ -793,11 +791,12 @@ class TxStorage {
 		else {
 			// we have no nonce, only hash, and it's not in included. remember hash -> state and update it when promoting
 			// TODO: when pendings come, it's possible that saveTx() will fail since state is not-yet-include and there is no nonce. for that lower state we need to store it separately. we know hash, but nothing else. the rest should come next.
-			await this.saveTx(
-				new Tx(data[7])
-					.setHash(hash)
-					.setTimestamp(data[6])
-			);
+			tx = new Tx(data[7])
+				.setHash(hash)
+				.setTimestamp(data[6]);
+
+			console.log(`parseTxState(hash: ${hash}) not known tx WITH NO DATA (OOPS...), saved: `, tx);
+			await this.saveTx(tx);
 
 			this.__onUpdate();
 		}
@@ -864,7 +863,10 @@ class TxStorage {
 			return;
 		}
 
-		(await this.not_included_txes.getAllValues()).forEach((x) => ret.push(x));
+		const nit = (await this.not_included_txes.getAllValues());
+		console.log(`tempGetAllAsList() not included txes: `, nit);
+		nit.forEach((x) => ret.push(x));
+
 		ret.sort((a, b) => b.getTimestamp() - a.getTimestamp());
 
 		return ret;
