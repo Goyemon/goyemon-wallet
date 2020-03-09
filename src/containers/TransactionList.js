@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { View, VirtualizedList } from 'react-native';
 import styled from 'styled-components/native';
 import Transaction from './Transaction';
+import LogUtilities from '../utilities/LogUtilities';
 
 import TxStorage from '../lib/tx.js';
 
@@ -17,6 +18,7 @@ class TransactionList extends Component {
 	}
 
 	updateTxListState(txes) {
+		LogUtilities.toDebugScreen('TransactionList updateTxListState() called');
 		let transactionlist;
 
 		if (this.props.tokenFilter && this.props.tokenFilter == 'Dai')
@@ -42,6 +44,7 @@ class TransactionList extends Component {
 	}
 
 	renderTransactions() {
+		LogUtilities.toDebugScreen('TransactionList renderTransactions() called');
 		if (this.state.transactionsLoaded) {
 			const transactions = this.state.transactions ? this.state.transactions : [];
 
@@ -81,12 +84,14 @@ class TransactionList extends Component {
 	}
 
 	componentDidMount() {
+		LogUtilities.toDebugScreen('TransactionList componentDidMount() called');
 		// this.__mounted = true;
 		this.unsub = TxStorage.storage.subscribe(this.updateTxListState.bind(this));
 		TxStorage.storage.tempGetAllAsList().then(this.updateTxListState.bind(this)); // initial load
 	}
 
 	componentWillUnmount() {
+		LogUtilities.toDebugScreen('TransactionList componentWillUnmount() called');
 		// this.__mounted = false;
 		this.unsub();
 	}

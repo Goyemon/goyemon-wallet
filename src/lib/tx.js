@@ -494,14 +494,21 @@ class Tx {
 const maxNonceKey = '_tx[maxnonce]';
 class TxStorage {
 	constructor (ourAddress) {
+		const load_promises = [new Promise(), new Promise(), new Promise()];
+		this.onload_promise = Promise.all(load_promises);
+
 		LogUtilities.toDebugScreen('TxStorage constructor called');
 		this.included_max_nonce = 0; // for our txes
 		// this.not_included_max_nonce = 0; // TODO
 
-		AsyncStorage.getItem(maxNonceKey).then(x => { this.included_max_nonce = parseInt(x); });
+		AsyncStorage.getItem(maxNonceKey).then(x => {
+				this.included_max_nonce = parseInt(x);
+				load_promises[2].resolve();
+				LogUtilities.toDebugScreen(`MaxNonce: ${this.included_max_nonce}`);
+		});
 
-		this.included_txes = new PersistTxStorageAbstraction('_tx_'); // hash -> tx map
-		this.not_included_txes = new StorageAbstraction('_ntx_'); // only for new things we send, it's a nonce -> tx map.
+		this.included_txes = new PersistTxStorageAbstraction('_tx_', (x) => { if (x === undefined) load_promises[0].resolve(); }); // hash -> tx map
+		this.not_included_txes = new StorageAbstraction('_ntx_', (x) => { if (x === undefined) load_promises[1].resolve(); }); // only for new things we send, it's a nonce -> tx map.
 
 		if (ourAddress)
 			this.our_address = hexToBuf(ourAddress);
@@ -513,8 +520,10 @@ class TxStorage {
 		AsyncStorage.getAllKeys().then(x => {
 			LogUtilities.toDebugScreen(`AStor keys: ${x}`);
 		});
+	}
 
-		AsyncStorage.getItem(maxNonceKey).then(x => LogUtilities.toDebugScreen(`MaxNonce: ${x}`));
+	isStorageReady() {
+		return this.onload_promise;
 	}
 
 	// wrap(wrapped, storagepropname) {
@@ -619,7 +628,7 @@ class TxStorage {
 	}
 
 	async saveTx(tx, batch=false) {
-		LogUtilities.logInfo(`saveTx(batch:${batch}): `, tx);
+		LogUtilities.toDebugScreen(`saveTx(batch:${batch}): `, tx);
 		if (tx.state >= TxStates.STATE_INCLUDED) { // those already have known hash
 			if (await this.included_txes.hasItem(tx.hash))
 				throw new DuplicateHashTxException(`tx hash ${tx.hash} already known`);
@@ -732,16 +741,16 @@ class TxStorage {
 	}
 
 	async processTxState(hash, data) {
-		LogUtilities.logInfo(`parseTxState(hash: ${hash}) + `, data);
+		LogUtilities.toDebugScreen(`parseTxState(hash: ${hash}) + `, data);
 		let tx = await this.included_txes.getItem(hash);
 		if (tx) { // known included tx, likely just updating state
-			LogUtilities.logInfo(`parseTxState(hash: ${hash}) known included+ tx: `, tx);
+			LogUtilities.toDebugScreen(`parseTxState(hash: ${hash}) known included+ tx: `, tx);
 			if (data[0] !== null) // or maybe more ;-)
 				tx.fromDataArray(data);
 			else
 				tx.upgradeState(data[7], data[6]);
 
-			LogUtilities.logInfo(`parseTxState(hash: ${hash}) known included+ tx updated: `, tx);
+			LogUtilities.toDebugScreen(`parseTxState(hash: ${hash}) known included+ tx updated: `, tx);
 
 			await this.included_txes.setItem(hash, tx.shallowClone());
 
@@ -762,7 +771,7 @@ class TxStorage {
 					.setHash(hash)
 					.fromDataArray(data);
 
-				LogUtilities.logInfo(`parseTxState(hash: ${hash}) not known tx, saved: `, tx);
+				LogUtilities.toDebugScreen(`parseTxState(hash: ${hash}) not known tx, saved: `, tx);
 
 				await this.saveTx(tx);
 
@@ -774,15 +783,15 @@ class TxStorage {
 				return;
 			}
 
-			LogUtilities.logInfo(`parseTxState(hash: ${hash}) known NOT included tx: `, tx);
+			LogUtilities.toDebugScreen(`parseTxState(hash: ${hash}) known NOT included tx: `, tx);
 
 			tx.setHash(hash)
 				.fromDataArray(data);
 
-			LogUtilities.logInfo(`parseTxState(hash: ${hash}) known NOT included tx updated: `, tx);
+			LogUtilities.toDebugScreen(`parseTxState(hash: ${hash}) known NOT included tx updated: `, tx);
 
 			if (tx.state >= TxStates.STATE_INCLUDED) {
-				LogUtilities.logInfo(`parseTxState(hash: ${hash}) moving to persistent storage since state is now ${tx.state}`);
+				LogUtilities.toDebugScreen(`parseTxState(hash: ${hash}) moving to persistent storage since state is now ${tx.state}`);
 				await Promise.all([this.not_included_txes.removeItem(nonce), this.included_txes.setItem(tx.hash, tx.shallowClone())]);
 
 				if (this.txfilter_checkMaxNonce(tx))
@@ -802,7 +811,7 @@ class TxStorage {
 				.setHash(hash)
 				.setTimestamp(data[6]);
 
-			LogUtilities.logInfo(`parseTxState(hash: ${hash}) not known tx WITH NO DATA (OOPS...), saved: `, tx);
+			LogUtilities.toDebugScreen(`parseTxState(hash: ${hash}) not known tx WITH NO DATA (OOPS...), saved: `, tx);
 			await this.saveTx(tx);
 
 			this.__onUpdate();
@@ -871,7 +880,7 @@ class TxStorage {
 		}
 
 		const nit = (await this.not_included_txes.getAllValues());
-		LogUtilities.logInfo(`tempGetAllAsList() not included txes: `, nit);
+		LogUtilities.toDebugScreen(`tempGetAllAsList() not included txes: `, nit);
 		nit.forEach((x) => ret.push(x));
 
 		ret.sort((a, b) => b.getTimestamp() - a.getTimestamp());
