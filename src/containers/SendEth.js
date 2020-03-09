@@ -278,7 +278,7 @@ class SendEth extends Component {
                 this.setState({ loading: false, buttonDisabled: false });
               }}
             />
-            <Loader animating={this.state.loading} />
+            <Loader animating={this.state.loading} size="small"/>
           </ButtonWrapper>
           <IsOnlineMessage netInfo={this.props.netInfo} />
       </RootContainer>

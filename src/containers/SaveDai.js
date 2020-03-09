@@ -345,7 +345,7 @@ class SaveDai extends Component {
                     }}
                   />
                 </ButtonContainer>
-                <Loader animating={this.state.loading} />
+                <Loader animating={this.state.loading} size="small"/>
                 <IsOnlineMessage netInfo={this.props.netInfo} />
               </MondalInner>
             </ModalBackground>
