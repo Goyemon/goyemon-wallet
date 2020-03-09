@@ -116,7 +116,7 @@ class WithdrawDaiConfirmation extends Component {
             }}
           />
         </ButtonContainer>
-        <Loader animating={this.state.loading} />
+        <Loader animating={this.state.loading} size="small"/>
         <IsOnlineMessage netInfo={this.props.netInfo} />
       </RootContainer>
     );

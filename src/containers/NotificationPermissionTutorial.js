@@ -65,7 +65,7 @@ class NotificationPermissionTutorial extends Component {
               this.setState({ loading: false, buttonDisabled: false });
             }}
           />
-          <Loader animating={this.state.loading} />
+          <Loader animating={this.state.loading} size="small"/>
         </Container>
       </RootContainer>
     );

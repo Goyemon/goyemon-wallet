@@ -81,7 +81,7 @@ class CreateWalletTutorial extends Component {
               await this.props.saveMnemonicWords();
             }}
           />
-          <Loader animating={this.state.loading} />
+          <Loader animating={this.state.loading} size="small"/>
         </Container>
       </RootContainer>
     );
