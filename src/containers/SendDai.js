@@ -97,7 +97,7 @@ class SendDai extends Component {
       .setGasPrice(this.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16))
       .setGas((GlobalConfig.ERC20TransferGasLimit).toString(16))
       .tempSetData(transferEncodedABI)
-      .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.transfer, [this.props.checksumAddress, GlobalConfig.DAITokenContract, amount]);
+      .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.transfer, [TxStorage.storage.getOwnAddress(), GlobalConfig.DAITokenContract, amount]);
 
     return transactionObject;
   }
@@ -196,7 +196,7 @@ class SendDai extends Component {
           )
         )
       );
-  
+
       this.props.navigation.navigate('SendDaiConfirmation');
     } else {
       LogUtilities.logInfo('form validation failed!');

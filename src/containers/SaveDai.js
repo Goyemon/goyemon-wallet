@@ -142,7 +142,7 @@ class SaveDai extends Component {
       .setGasPrice(this.props.gasPrice.average.toString(16))
       .setGas((GlobalConfig.ERC20ApproveGasLimit).toString(16))
       .tempSetData(approveEncodedABI)
-      .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.approval, [GlobalConfig.cDAIcontract, this.props.checksumAddress, "ff".repeat(256/8)]);
+      .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.approval, [GlobalConfig.cDAIcontract, TxStorage.storage.getOwnAddress(), "ff".repeat(256/8)]);
 
     return transactionObject;
   }
@@ -154,7 +154,7 @@ class SaveDai extends Component {
       .setGasPrice(this.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16))
       .setGas((GlobalConfig.cTokenMintGasLimit).toString(16))
       .tempSetData(mintEncodedABI)
-      .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.mint, [this.props.checksumAddress, this.state.daiAmount, 0]);
+      .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.mint, [TxStorage.storage.getOwnAddress(), this.state.daiAmount, 0]);
 
     return transactionObject;
   }

@@ -81,7 +81,7 @@ class WithdrawDai extends Component {
       .setGasPrice(this.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16))
       .setGas((GlobalConfig.cTokenRedeemUnderlyingGasLimit).toString(16))
       .tempSetData(redeemUnderlyingEncodedABI)
-      .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.redeem, [this.props.checksumAddress, daiWithdrawAmount, 0]);
+      .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.redeem, [TxStorage.storage.getOwnAddress(), daiWithdrawAmount, 0]); // Web3.utils.toBN(daiWithdrawAmount).mul(new web3.utils.BN(10).pow(new web3.utils.BN(18))).toString(16)
 
     return transactionObject;
   }
@@ -158,7 +158,7 @@ class WithdrawDai extends Component {
             GlobalConfig.cTokenRedeemUnderlyingGasLimit
           )
         )
-      );  
+      );
       this.props.navigation.navigate('WithdrawDaiConfirmation');
     } else {
       LogUtilities.logInfo('form validation failed!');

@@ -591,6 +591,10 @@ class TxStorage {
 		this.our_address = hexToBuf(ourAddress);
 	}
 
+	getOwnAddress() {
+		return this.our_address.toString('hex');
+	}
+
 	async newTx(state=TxStates.STATE_NEW, nonce) {
 		let tx = new Tx(state)
 			.setTimestamp(Math.trunc(Date.now() / 1000))
