@@ -75,14 +75,29 @@ class PersistTxStorageAbstraction {
 			if (onTxLoadCallback)
 				onTxLoadCallback();
 		});
+
+		this.last_write_promise = new Promise((res, rej) => {
+			res();
+		});
 	}
 
 	__tempbatchupds() {
-		if (!this._tempwritetimer)
+		if (!this._tempwritetimer) {
+			this.last_write_promise = new Promise((res, rej) => {
+				this.last_write_resolve = res;
+			});
+
 			this._tempwritetimer  = setTimeout((() => {
 				this._tempwritetimer = null;
 				AsyncStorage.setItem(`${this.prefix}_temp`, JSON.stringify(this.storage));
-			}).bind(this), 3000);
+
+				this.last_write_resolve();
+			}).bind(this), 250);
+		}
+	}
+
+	__tempstoragewritten() {
+		return this.last_write_promise;
 	}
 
 	async getItem(key) {
@@ -534,6 +549,10 @@ class TxStorage {
 
 	isStorageReady() {
 		return this.onload_promise;
+	}
+
+	__tempstoragewritten() {
+		return this.included_txes.__tempstoragewritten();
 	}
 
 	// wrap(wrapped, storagepropname) {
