@@ -5,6 +5,7 @@ import { View, Text, Linking, TouchableHighlight, Alert, Modal } from 'react-nat
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import { clearState } from '../actions/ActionClearState';
+import { rehydrationComplete } from '../actions/ActionRehydration';
 import {
   RootContainer,
   HeaderOne,
@@ -14,7 +15,7 @@ import {
   CrypterestText
 } from '../components/common';
 import TxStorage from '../lib/tx';
-import { persistor } from '../store/store.js';
+import { persistor, store } from '../store/store.js';
 import LogUtilities from '../utilities/LogUtilities.js';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
@@ -107,6 +108,7 @@ class Settings extends Component {
                       // reset notification settings using https://github.com/zo0r/react-native-push-notification
                       this.setModalVisible(false);
                       this.props.navigation.navigate('Initial');
+                      store.dispatch(rehydrationComplete(true));
                     }}
                   />
                 </ButtonContainer>
