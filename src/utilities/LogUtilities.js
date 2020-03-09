@@ -6,20 +6,27 @@ import { store } from '../store/store';
 const DUMPOBJECT_DEFAULT_DEPTH = 4;
 
 class LogUtilities {
+	static __getFormattedDate() {
+		let d = new Date();
+		return `${d.getHours() < 10 ? 0 : ""}${d.getHours()}${d.getMinutes() < 10 ? 0 : ""}${d.getMinutes()}${d.getSeconds() < 10 ? 0 : ""}${d.getSeconds()}`;
+	}
+
 	static logInfo() {
-		console.log(...arguments);
+		console.log(LogUtilities.__getFormattedDate(), ' ', ...arguments);
 	}
 
 	static logError() {
-		console.error(...arguments);
+		console.error(LogUtilities.__getFormattedDate(), ' ', ...arguments);
 	}
 
 	static toDebugScreen() {
 		if (arguments.length < 1)
 			return;
-		let out = arguments[0];
-		for (let i = 1; i < arguments.length; ++i)
-			out += ` || ${arguments[i]}`;
+
+		let out = `${LogUtilities.__getFormattedDate()}`;
+		for (let i = 0; i < arguments.length; ++i)
+			out += ` ${arguments[i] instanceof Object ? LogUtilities.__dumpObjectRecursively(arguments[i]) : arguments[i]}`;
+
 		store.dispatch(saveOtherDebugInfo(out));
 	}
 
