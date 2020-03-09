@@ -661,7 +661,8 @@ class TxStorage {
 	}
 
 	async saveTx(tx, batch=false) {
-		LogUtilities.toDebugScreen(`saveTx(batch:${batch}): `, tx);
+		if (!batch)
+			LogUtilities.toDebugScreen(`saveTx(batch:${batch}): `, tx);
 		if (tx.state >= TxStates.STATE_INCLUDED) { // those already have known hash
 			if (await this.included_txes.hasItem(tx.hash))
 				throw new DuplicateHashTxException(`tx hash ${tx.hash} already known`);
