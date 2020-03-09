@@ -68,7 +68,7 @@ class ABIEncoder {
 	}
 
 	static encodeApprove(spenderAddr, value, decimals=18) {
-		return new RuDataBuilder([0x09, 0x5e, 0xa7, 0xb3], 2, decimals).putAddress(spenderAddr).putUint256Unscaled(value).get();
+		return new RuDataBuilder([0x09, 0x5e, 0xa7, 0xb3], 2, decimals).putAddress(spenderAddr).putUint256Scaled(value).get();
 	}
 
 	static encodeCDAIMint(amount, decimals=18) {
