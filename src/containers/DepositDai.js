@@ -79,7 +79,7 @@ class DepositDai extends Component {
       .setGasPrice(this.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16))
       .setGas((GlobalConfig.cTokenMintGasLimit).toString(16))
       .tempSetData(mintEncodedABI)
-      .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.mint, [this.props.checksumAddress, daiAmount, 0]);
+      .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.mint, [TxStorage.storage.getOwnAddress(), daiAmount, 0]);
 
       return transactionObject;
   }
@@ -152,7 +152,7 @@ class DepositDai extends Component {
             GlobalConfig.cTokenMintGasLimit
           )
         )
-      );  
+      );
       this.props.navigation.navigate('DepositDaiConfirmation');
     } else {
       LogUtilities.logInfo('form validation failed!');

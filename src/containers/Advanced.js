@@ -87,6 +87,9 @@ class Advanced extends Component {
             Other Device Info
           </HeaderThree>
           <CrypterestText fontSize="14">{otherDebugInfo}</CrypterestText>
+		  <TouchableWithoutFeedback onPress={async () => { await Clipboard.setString(otherDebugInfo); }}>
+			<CopyAddressText>Copy</CopyAddressText>
+		  </TouchableWithoutFeedback>
           <HeaderThree color="#000" marginBottom="0" marginLeft="0" marginTop="24">
             Sync Your Transactions
           </HeaderThree>
