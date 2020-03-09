@@ -65,7 +65,7 @@ class TransactionList extends Component {
 					getItem={this.getItem}
 					getItemCount={this.getItemCount}
 					renderItem={({ item }) => <Transaction transaction={item} />}
-					keyExtractor={item => item.getHash()}
+					keyExtractor={item => `${item.getFrom()}${item.getNonce()}`}
 				/>
 			);
 		}
