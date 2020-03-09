@@ -87,16 +87,17 @@ async function downstreamMessageHandler(downstreamMessage) {
 
         // TODO: remove this temp cleanup:
         store.dispatch(saveEmptyTransaction('{}'));
-        store.dispatch(saveTransactionsLoaded(true));
 
         try {
           TxStorage.storage.setOwnAddress(checksumAddress);
           await TxStorage.storage.clear(true);
-          await TxStorage.storage.parseTxHistory(transactions);
+		  await TxStorage.storage.parseTxHistory(transactions);
+		  await TxStorage.storage.__tempstoragewritten();
         }
         catch (e) {
           store.dispatch(saveOtherDebugInfo(`exception: ${e.message} @ ${e.stack}`));
-        }
+		}
+		store.dispatch(saveTransactionsLoaded(true));
       }
     }
 
@@ -124,6 +125,7 @@ async function downstreamMessageHandler(downstreamMessage) {
 
 function registerHandler() {
   firebase.messaging().onMessage(downstreamMessageHandler);
+  firebase.messaging().stupid_shit_initialized();
 }
 
 module.exports = {
