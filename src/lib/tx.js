@@ -494,7 +494,17 @@ class Tx {
 const maxNonceKey = '_tx[maxnonce]';
 class TxStorage {
 	constructor (ourAddress) {
-		const load_promises = [new Promise(), new Promise(), new Promise()];
+		let load_promises = [];
+		let promise_resolves = [];
+		let promise_rejects = []; // if i ever implement this
+
+		[0, 1, 2].forEach(() => {
+			load_promises.push(new Promise((res, rej) => {
+				promise_resolves.push(res);
+				promise_rejects.push(rej);
+			}));
+		});
+
 		this.onload_promise = Promise.all(load_promises);
 
 		LogUtilities.toDebugScreen('TxStorage constructor called');
@@ -503,12 +513,12 @@ class TxStorage {
 
 		AsyncStorage.getItem(maxNonceKey).then(x => {
 				this.included_max_nonce = parseInt(x);
-				load_promises[2].resolve();
+				promise_resolves[2]();
 				LogUtilities.toDebugScreen(`MaxNonce: ${this.included_max_nonce}`);
 		});
 
-		this.included_txes = new PersistTxStorageAbstraction('_tx_', (x) => { if (x === undefined) load_promises[0].resolve(); }); // hash -> tx map
-		this.not_included_txes = new StorageAbstraction('_ntx_', (x) => { if (x === undefined) load_promises[1].resolve(); }); // only for new things we send, it's a nonce -> tx map.
+		this.included_txes = new PersistTxStorageAbstraction('_tx_', (x) => { if (x === undefined) promise_resolves[0](); }); // hash -> tx map
+		this.not_included_txes = new StorageAbstraction('_ntx_', (x) => { if (x === undefined) promise_resolves[1](); }); // only for new things we send, it's a nonce -> tx map.
 
 		if (ourAddress)
 			this.our_address = hexToBuf(ourAddress);
