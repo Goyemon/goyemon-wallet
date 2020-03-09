@@ -130,7 +130,7 @@ class SaveDai extends Component {
     const addressSpender = GlobalConfig.cDAIcontract;
     const amount = `0x${"ff".repeat(256/8)}`; // TODO: this needs to be a const somewhere, likely uint256max_hex.
 
-    const approveEncodedABI = ABIEncoder.encodeApprove(addressSpender, amount);
+    const approveEncodedABI = ABIEncoder.encodeApprove(addressSpender, amount, 0);
 
     return approveEncodedABI;
   }
