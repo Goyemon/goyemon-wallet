@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react';
 import { Provider } from 'react-redux';
-import Icon from 'react-native-vector-icons/AntDesign';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -32,7 +32,7 @@ const AppTab = createBottomTabNavigator(
       screen: SwapStack,
       navigationOptions: {
         tabBarLabel: 'Swap',
-        tabBarIcon: ({ tintColor }) => <Icon name="swap" size={28} color={tintColor} />
+        tabBarIcon: ({ tintColor }) => <Icon name="swap-horizontal" size={32} color={tintColor} />
       }
     },
     Save: {
@@ -53,7 +53,7 @@ const AppTab = createBottomTabNavigator(
       screen: SettingsStack,
       navigationOptions: {
         tabBarLabel: 'Settings',
-        tabBarIcon: ({ tintColor }) => <Icon name="setting" size={28} color={tintColor} />
+        tabBarIcon: ({ tintColor }) => <Icon name="settings-outline" size={28} color={tintColor} />
       }
     }
   },
