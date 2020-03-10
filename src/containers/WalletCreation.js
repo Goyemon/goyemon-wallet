@@ -15,7 +15,7 @@ import {
 } from '../actions/ActionGasPrice';
 import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
 import { Container, Button } from '../components/common';
-import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
+import { FCMMsgs} from '../lib/fcm.js';
 import TxStorage from '../lib/tx';
 import HomeStack from '../navigators/HomeStack';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
@@ -93,8 +93,8 @@ class WalletCreation extends Component {
     await WalletUtilities.generateWallet(this.props.mnemonicWords);
     await WalletUtilities.setPrivateKey(await WalletUtilities.createPrivateKey());
     await this.props.createChecksumAddress();
-    TxStorage.storage.setOwnAddress(this.props.checksumAddress); 
-    await FcmUpstreamMsgs.registerEthereumAddress(this.props.checksumAddress);
+    TxStorage.storage.setOwnAddress(this.props.checksumAddress);
+    FCMMsgs.registerEthereumAddress(this.props.checksumAddress);
   }
 
   async fetchPriceInfo() {
@@ -103,7 +103,7 @@ class WalletCreation extends Component {
   }
 
   fetchTokenInfo() {
-    FcmUpstreamMsgs.requestCDaiLendingInfo(this.props.checksumAddress);
+    FCMMsgs.requestCDaiLendingInfo(this.props.checksumAddress);
   }
 
   async isWalletReady() {
@@ -135,7 +135,7 @@ class WalletCreation extends Component {
   hasTransactions() {
     return this.props.transactionsLoaded != null;
   }
-    
+
   hasBalance() {
     const cDaiBalance = new BigNumber(this.props.balance.cDaiBalance);
     const daiBalance = new BigNumber(this.props.balance.daiBalance);

@@ -14,12 +14,13 @@ import {
   HeaderFour,
   TouchableCardContainer
 } from '../components/common';
-import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
 import PriceUtilities from '../utilities/PriceUtilities.js';
+import { FCMMsgs } from '../lib/fcm.js';
+
 
 class SaveList extends Component {
   componentDidMount() {
-    FcmUpstreamMsgs.requestCDaiLendingInfo(this.props.checksumAddress);
+    FCMMsgs.requestCDaiLendingInfo(this.props.checksumAddress);
   }
 
   getUsdValue(daiValue) {
