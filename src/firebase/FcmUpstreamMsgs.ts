@@ -30,6 +30,10 @@ class FcmUpstreamMsgs {
   requestCDaiLendingInfo(checksumAddress) {
     this.__sendMessage('cDai_lending_info', checksumAddress);
   }
+
+  requestUniswapETHDAIBalances(checksumAddress) {
+    this.__sendMessage('uniswap_ETHDAI_info', checksumAddress);
+  }
 }
 
 export default new FcmUpstreamMsgs();
