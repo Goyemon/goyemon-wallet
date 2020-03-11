@@ -80,7 +80,6 @@ const AppTab = createBottomTabNavigator(
 );
 
 const App = createAppContainer(AppTab);
-FcmListener.registerHandler();
 
 persistStore(store, {}, () => {
   store.dispatch(rehydrationComplete(true));
