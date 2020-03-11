@@ -111,7 +111,7 @@ class Swap extends Component {
       )
       .setGas(GlobalConfig.UniswapEthToTokenSwapInputGasLimit.toString(16))
       .tempSetData(ethToTokenSwapInputEncodedABI)
-      .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.eth2tok, [
+      .addTokenOperation('uniswap', TxStorage.TxTokenOpTypeToName.eth2tok, [
         this.props.checksumAddress,
         this.state.amount,
         minTokensWithDecimals
