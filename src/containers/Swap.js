@@ -102,6 +102,8 @@ class Swap extends Component {
       decimals
     );
 
+    const minTokensWithDecimals = new BigNumber(this.state.buyValue).times(new BigNumber(10).pow(18)).toString(16);
+
     const transactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.DAIUniswapContract)
       .setGasPrice(
@@ -112,7 +114,7 @@ class Swap extends Component {
       .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.eth2tok, [
         this.props.checksumAddress,
         this.state.amount,
-        minTokens
+        minTokensWithDecimals
       ]);
     // how to update the actual token amount bought
     // is this addTokenOperation right? what is the token? eth or dai?

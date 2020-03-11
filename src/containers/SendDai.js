@@ -92,12 +92,14 @@ class SendDai extends Component {
       decimals
     );
 
+    const amountWithDecimals = new BigNumber(this.state.amount).times(new BigNumber(10).pow(18)).toString(16);
+
     const transactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.DAITokenContract)
       .setGasPrice(this.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16))
       .setGas((GlobalConfig.ERC20TransferGasLimit).toString(16))
       .tempSetData(transferEncodedABI)
-      .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.transfer, [TxStorage.storage.getOwnAddress(), GlobalConfig.DAITokenContract, amount]);
+      .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.transfer, [TxStorage.storage.getOwnAddress(), GlobalConfig.DAITokenContract, amountWithDecimals]);
 
     return transactionObject;
   }
