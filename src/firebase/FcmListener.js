@@ -35,12 +35,13 @@ import TxStorage from '../lib/tx.js';
 
 async function downstreamMessageHandler(type, data) {
 	LogUtilities.logInfo(`received message ${type} => `, data);
+	let stateTree;
 
 	switch (type) {
 		case 'txhistory':
 			// TxStorage.storage.setOwnAddress(checksumAddress);
           	await TxStorage.storage.clear(true);
-		  	await TxStorage.storage.parseTxHistory(transactions);
+		  	await TxStorage.storage.parseTxHistory(data);
 			await TxStorage.storage.__tempstoragewritten();
 			store.dispatch(saveTransactionsLoaded(true));
 			break;
@@ -50,8 +51,7 @@ async function downstreamMessageHandler(type, data) {
 			break;
 
 		case 'balance':
-			const stateTree = store.getState();
-			const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
+			stateTree = store.getState();
 
 			if (data.hasOwnProperty('eth'))
 				store.dispatch(saveWeiBalance(new BigNumber(data.eth).toString(10)));
@@ -61,7 +61,7 @@ async function downstreamMessageHandler(type, data) {
 
 			if (data.hasOwnProperty('cdai')) {
 				setTimeout(() => {
-					FcmUpstreamMsgs.requestCDaiLendingInfo(checksumAddress);
+					FcmUpstreamMsgs.requestCDaiLendingInfo(stateTree.ReducerChecksumAddress.checksumAddress);
 				}, 15000);
 
 		  		store.dispatch(saveCDaiBalance(new BigNumber(data.cdai).toString(10)));
@@ -69,13 +69,12 @@ async function downstreamMessageHandler(type, data) {
 			break;
 
 		case 'cDai_lending_info':
-			const stateTree = store.getState();
-			const balance = stateTree.ReducerBalance.balance;
+			stateTree = store.getState();
 			// const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
 			store.dispatch(saveCDaiLendingInfo(data));
 			store.dispatch(
 				saveDaiSavingsBalance(
-					balance.cDaiBalance,
+					stateTree.ReducerBalance.balance.cDaiBalance,
 					data.current_exchange_rate
 				)
 			);
