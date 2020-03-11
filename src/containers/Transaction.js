@@ -25,6 +25,12 @@ class Transaction extends Component {
     const tx = props.transaction;
 
     try {
+      const uniswaps = tx.getTokenOperations('uniswap', TxStorage.TxTokenOpTypeToName.eth2tok);
+      this.isUniswapTx = uniswaps.length > 0;
+      this.swppedDaiValue;
+      if(this.isUniswapTx)
+        this.swppedDaiValue = TransactionUtilities.parseHexDaiValue(`0x${uniswaps[0].tok_bought}`);
+
       this.isDaiApproveTx = tx.hasTokenOperation('dai', TxStorage.TxTokenOpTypeToName.approval);
 
       const cDaiMints = tx.getTokenOperations('cdai', TxStorage.TxTokenOpTypeToName.mint);
@@ -87,6 +93,14 @@ class Transaction extends Component {
   }
 
   renderInOrOutTransactionIcon() {
+    if(this.isUniswapTx) {
+      return (
+        <CrypterestText fontSize={16}>
+          <Icon name="swap-horizontal" size={20} color="#5F5F5F" />
+        </CrypterestText>
+      );    
+    }
+
     if (this.isDaiTransferTx) {
       if (this.isOutgoingDaiTx && this.isIncomingDaiTx)
         return (
@@ -207,6 +221,11 @@ class Transaction extends Component {
 
   renderType() {
     let txType;
+    if (this.isUniswapTx) {
+      txType = 'Swapped';
+      return <CrypterestText fontSize={18}>{txType}</CrypterestText>;
+    }
+
     if (this.isDaiTransferTx) {
       if (this.isOutgoingDaiTx && this.isIncomingDaiTx)
         txType = 'Self';
@@ -257,6 +276,10 @@ class Transaction extends Component {
   }
 
   renderPlusOrMinusTransactionIcon() {
+    if (this.isUniswapTx) {
+      return <Icon name="plus" size={16} color="#1BA548" />;
+    }
+
     if (this.isDaiTransferTx) {
       if (this.isOutgoingDaiTx && this.isIncomingDaiTx)
         return <Icon name="plus-minus" size={16} color="#5F5F5F" />;
@@ -295,6 +318,16 @@ class Transaction extends Component {
   }
 
   renderValue() {
+    if (this.isUniswapTx) {
+      let style;
+      style = styles.valueStyleGreen;
+      return (
+        <CrypterestText fontSize={16} style={style}>
+          {this.swppedDaiValue} DAI
+        </CrypterestText>
+      );
+    }
+
     if (this.isDaiTransferTx) {
       let style;
 
