@@ -503,7 +503,10 @@ class Tx {
 	}
 
 	toJSON() {
-		return [this.getFrom(), this.getTo(), this.gas, this.gasPrice, this.value, this.nonce, this.timestamp, this.state, this.tokenData];
+		if (!this.sent_timestamp)
+			return [this.getFrom(), this.getTo(), this.gas, this.gasPrice, this.value, this.nonce, this.timestamp, this.state, this.tokenData];
+
+		return [this.getFrom(), this.getTo(), this.gas, this.gasPrice, this.value, this.nonce, this.timestamp, this.state, this.tokenData, this.sent_timestamp];
 	}
 
 	shallowClone() {
