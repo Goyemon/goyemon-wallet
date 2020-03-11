@@ -88,6 +88,8 @@ class Swap extends Component {
   }
 
   async constructTransactionObject() {
+    const amountWei = parseFloat(Web3.utils.toWei(this.state.amount, 'Ether'));
+
     const minTokens = this.getMinTokens(this.state.buyValue)
       .toString()
       .split('.')
@@ -106,6 +108,7 @@ class Swap extends Component {
 
     const transactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.DAIUniswapContract)
+      .setValue(amountWei.toString(16))
       .setGasPrice(
         this.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16)
       )
