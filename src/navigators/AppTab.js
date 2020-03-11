@@ -84,6 +84,7 @@ FcmListener.registerHandler();
 
 persistStore(store, {}, () => {
   store.dispatch(rehydrationComplete(true));
+  FcmListener.registerHandler();
 });
 
 export default () => (
