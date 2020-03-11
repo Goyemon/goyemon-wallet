@@ -76,12 +76,14 @@ class WithdrawDai extends Component {
       daiWithdrawAmount, decimals
     );
 
+    const daiWithdrawAmountWithDecimals = new BigNumber(this.state.daiWithdrawAmount).times(new BigNumber(10).pow(18)).toString(16);
+
     const transactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.cDAIcontract)
       .setGasPrice(this.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16))
       .setGas((GlobalConfig.cTokenRedeemUnderlyingGasLimit).toString(16))
       .tempSetData(redeemUnderlyingEncodedABI)
-      .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.redeem, [TxStorage.storage.getOwnAddress(), daiWithdrawAmount, 0]); // Web3.utils.toBN(daiWithdrawAmount).mul(new web3.utils.BN(10).pow(new web3.utils.BN(18))).toString(16)
+      .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.redeem, [TxStorage.storage.getOwnAddress(), daiWithdrawAmountWithDecimals, 0]);
 
     return transactionObject;
   }
