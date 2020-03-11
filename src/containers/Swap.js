@@ -1,29 +1,26 @@
 'use strict';
 import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import { View } from 'react-native';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
-import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
-import {
-  saveTransactionFeeEstimateUsd,
-  saveTransactionFeeEstimateEth
-} from '../actions/ActionTransactionFeeEstimate';
 import {
   RootContainer,
   Container,
   Button,
   UntouchableCardContainer,
   HeaderOne,
-  Form,
+  SwapForm,
   Loader,
   IsOnlineMessage,
   ErrorMessage
 } from '../components/common';
+import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
 import NetworkFeeContainer from '../containers/NetworkFeeContainer';
+import ABIEncoder from '../utilities/AbiUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
-import PriceUtilities from '../utilities/PriceUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import TxStorage from '../lib/tx.js';
@@ -36,10 +33,17 @@ class Swap extends Component {
       ethBalance: Web3.utils.fromWei(props.balance.weiBalance),
       amount: '',
       amountValidation: undefined,
+      buyValue: 0,
+      slippage: 0.5,
       loading: false,
       buttonDisabled: true,
       buttonOpacity: 0.5
     };
+  }
+
+  componentDidMount() {
+    // FcmUpstreamMsgs.requestUniswapETHDAIBalances(this.props.checksumAddress);
+    // where should i make a request?
   }
 
   componentDidUpdate(prevProps) {
@@ -62,34 +66,80 @@ class Swap extends Component {
     }
   }
 
+  getEthToDaiExchangeRate() {
+    return 200;
+    // write the logic based on the pool sizes
+  }
+
+  updateBuyValue(amount) {
+    const buyValue = this.getEthToDaiExchangeRate() * amount;
+    this.setState({ buyValue: buyValue });
+  }
+
+  getMinTokens(buyValue) {
+    const minTokens = buyValue * ((100 - this.state.slippage) / 100);
+    return minTokens;
+  }
+
+  getDeadline() {
+    const timestamp = Math.floor(Date.now() / 1000);
+    const deadline = timestamp + 60 * 60;
+    return deadline;
+  }
+
   async constructTransactionObject() {
-    let minToken;
-    let deadline;
+    const minTokens = this.getMinTokens(this.state.buyValue)
+      .toString()
+      .split('.')
+      .join('');
+    const decimalPlaces = TransactionUtilities.decimalPlaces(minTokens);
+    const decimals = 18 - parseInt(decimalPlaces);
+    const deadline = this.getDeadline();
+
     const ethToTokenSwapInputEncodedABI = ABIEncoder.encodeEthToTokenSwapInput(
-      minToken,
-      deadline
+      minTokens,
+      deadline,
+      decimals
     );
 
     const transactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.DAIUniswapContract)
       .setGasPrice(
-        this.state.gasPrice[this.state.checked].gasPriceWei.toString(16)
+        this.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16)
       )
       .setGas(GlobalConfig.UniswapEthToTokenSwapInputGasLimit.toString(16))
       .tempSetData(ethToTokenSwapInputEncodedABI)
       .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.eth2tok, [
         this.props.checksumAddress,
         this.state.amount,
-        minToken,
-        deadline
+        minTokens
       ]);
+    // how to update the actual token amount bought
+    // is this addTokenOperation right? what is the token? eth or dai?
 
     return transactionObject;
   }
 
+  sendTransactions = async () => {
+    const amountValidation = this.validateAmount(this.state.amount);
+    const isOnline = this.props.netInfo;
+
+    if (amountValidation && isOnline) {
+      this.setState({ loading: true, buttonDisabled: false });
+      LogUtilities.logInfo('validation successful');
+      const transactionObject = await this.constructTransactionObject();
+      await TransactionUtilities.sendOutgoingTransactionToServer(
+        transactionObject
+      );
+      this.props.navigation.navigate('History');
+    } else {
+      LogUtilities.logInfo('form validation failed!');
+    }
+  };
+
   validateAmount(amount) {
     let transactionFeeLimitInEther = TransactionUtilities.getTransactionFeeEstimateInEther(
-      this.state.gasPrice[this.state.checked].gasPriceWei,
+      this.returnTransactionSpeed(this.props.gasPrice.chosen),
       GlobalConfig.UniswapEthToTokenSwapInputGasLimit
     );
 
@@ -105,10 +155,11 @@ class Swap extends Component {
       amount.isGreaterThanOrEqualTo(0)
     ) {
       LogUtilities.logInfo('the amount validated!');
-      this.setState({ amountValidation: true });
-      if (this.state.toAddressValidation === true) {
-        this.setState({ buttonDisabled: false, buttonOpacity: 1 });
-      }
+      this.setState({
+        amountValidation: true,
+        buttonDisabled: false,
+        buttonOpacity: 1
+      });
       return true;
     }
     LogUtilities.logInfo('wrong balance!');
@@ -130,42 +181,8 @@ class Swap extends Component {
     }
   }
 
-  validateForm = async amount => {
-    const amountValidation = this.validateAmount(amount);
-    const isOnline = this.props.netInfo;
-
-    if (amountValidation && isOnline) {
-      this.setState({ loading: true, buttonDisabled: true });
-      LogUtilities.logInfo('validation successful');
-      const transactionObject = await this.constructTransactionObject();
-      await this.props.saveOutgoingTransactionObject(transactionObject);
-      this.props.saveTransactionFeeEstimateEth(
-        TransactionUtilities.getTransactionFeeEstimateInEther(
-          this.state.gasPrice[this.state.checked].gasPriceWei,
-          GlobalConfig.UniswapEthToTokenSwapInputGasLimit
-        )
-      );
-      this.props.saveTransactionFeeEstimateUsd(
-        PriceUtilities.convertEthToUsd(
-          TransactionUtilities.getTransactionFeeEstimateInEther(
-            this.state.gasPrice[this.state.checked].gasPriceWei,
-            GlobalConfig.UniswapEthToTokenSwapInputGasLimit
-          )
-        )
-      );
-      this.props.navigation.navigate('SwapConfirmation');
-    } else {
-      LogUtilities.logInfo('form validation failed!');
-    }
-  };
-
   render() {
-    const RoundDownBigNumber = BigNumber.clone({
-      DECIMAL_PLACES: 4,
-      ROUNDING_MODE: BigNumber.ROUND_DOWN
-    });
-    const ethBalance = RoundDownBigNumber(this.state.ethBalance).toFixed(4);
-
+    // no confirmation for now. just send after the validation
     return (
       <RootContainer>
         <HeaderOne marginTop="64">Swap</HeaderOne>
@@ -187,31 +204,77 @@ class Swap extends Component {
             width="100%"
           >
             <Title>you pay</Title>
-            <Form
-              borderColor={StyleUtilities.getBorderColor(
+            <SwapForm
+              borderBottomColor={StyleUtilities.getBorderColor(
                 this.state.amountValidation
               )}
-              borderWidth={1}
-              height="56px"
+              borderBottomWidth={1}
             >
-              <SendTextInputContainer>
-                <SendTextInput
-                  placeholder="0"
-                  keyboardType="numeric"
-                  clearButtonMode="while-editing"
-                  onChangeText={amount => {
-                    this.validateAmount(amount);
-                    this.setState({ amount });
-                  }}
-                  returnKeyType="done"
-                />
-              </SendTextInputContainer>
-            </Form>
+              <SendTextInput
+                placeholder="0"
+                keyboardType="numeric"
+                clearButtonMode="while-editing"
+                onChangeText={amount => {
+                  this.validateAmount(amount);
+                  this.setState({ amount });
+                  this.updateBuyValue(amount);
+                }}
+                returnKeyType="done"
+              />
+            </SwapForm>
           </Container>
-          <CoinImage source={require('../../assets/ether_icon.png')} />
-          <CurrencySymbolText>ETH</CurrencySymbolText>
+          <Container
+            alignItems="center"
+            flexDirection="row"
+            justifyContent="flex-start"
+            marginTop={0}
+            width="100%"
+          >
+            <CoinImage source={require('../../assets/ether_icon.png')} />
+            <CurrencySymbolText>ETH</CurrencySymbolText>
+          </Container>
         </UntouchableCardContainer>
         <View>{this.renderInsufficientBalanceMessage()}</View>
+        <Container
+          alignItems="center"
+          flexDirection="column"
+          justifyContent="center"
+          marginTop={0}
+          width="100%"
+        >
+          <Icon name="swap-vertical" size={40} color="#5F5F5F" />
+        </Container>
+        <UntouchableCardContainer
+          alignItems="center"
+          borderRadius="8px"
+          flexDirection="row"
+          height="160px"
+          justifyContent="center"
+          marginTop="16"
+          textAlign="left"
+          width="80%"
+        >
+          <Container
+            alignItems="flex-start"
+            flexDirection="column"
+            justifyContent="center"
+            marginTop={0}
+            width="100%"
+          >
+            <Title>you get</Title>
+            <BuyValueText>{this.state.buyValue}</BuyValueText>
+          </Container>
+          <Container
+            alignItems="center"
+            flexDirection="row"
+            justifyContent="flex-start"
+            marginTop={0}
+            width="100%"
+          >
+            <CoinImage source={require('../../assets/dai_icon.png')} />
+            <CurrencySymbolText>DAI</CurrencySymbolText>
+          </Container>
+        </UntouchableCardContainer>
         <NetworkFeeContainer
           gasLimit={GlobalConfig.UniswapEthToTokenSwapInputGasLimit}
         />
@@ -226,7 +289,7 @@ class Swap extends Component {
             marginBottom="12px"
             opacity={this.state.buttonOpacity}
             onPress={async () => {
-              await this.validateForm(this.state.toAddress, this.state.amount);
+              await this.sendTransactions();
               this.setState({ loading: false, buttonDisabled: false });
             }}
           />
@@ -238,24 +301,18 @@ class Swap extends Component {
   }
 }
 
-const SendTextInputContainer = styled.View`
-  align-items: center;
-  flex-direction: row;
-  height: 100%;
-  width: 95%;
-`;
-
 const SendTextInput = styled.TextInput`
   font-size: 28;
-  height: 56px;
-  width: 95%;
-  text-align: left;
+`;
+
+const BuyValueText = styled.Text`
+  font-size: 28;
 `;
 
 const CoinImage = styled.Image`
   border-radius: 20px;
   height: 40px;
-  margin-top: 16;
+  margin-right: 16;
   width: 40px;
 `;
 
@@ -263,14 +320,14 @@ const Title = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
   font-size: 16;
-  margin-top: 16;
+  margin-bottom: 8;
   text-transform: uppercase;
 `;
 
 const CurrencySymbolText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
-  font-size: 24;
+  font-size: 28;
 `;
 
 const ButtonWrapper = styled.View`
@@ -286,10 +343,4 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = {
-  saveOutgoingTransactionObject,
-  saveTransactionFeeEstimateUsd,
-  saveTransactionFeeEstimateEth
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Swap);
+export default connect(mapStateToProps)(Swap);
