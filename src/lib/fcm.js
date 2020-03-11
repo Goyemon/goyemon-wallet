@@ -1,6 +1,9 @@
 'use strict';
 import firebase from 'react-native-firebase';
+import LogUtilities from '../utilities/LogUtilities.js';
+
 const GlobalConfig = require('../config.json');
+
 
 function obj_property_default(obj, prop, def) {
 	if (obj.hasOwnProperty(prop))
@@ -12,6 +15,7 @@ function obj_property_default(obj, prop, def) {
 
 class Msg {
 	constructor(id, count) {
+		LogUtilities.toDebugScreen(`MSG constructor, id:${id}, count:${count}`);
 		this.data = [];
 		this.count = count;
 		this.have = 0;
@@ -19,6 +23,7 @@ class Msg {
 	}
 
 	addPart(num, data) {
+		LogUtilities.toDebugScreen(`MSG addPart, id:${this.id}, num:${num}, have:${this.have}+1/${this.count}`);
 		if (this.data[num])
 			throw new Error(`duplicate part ${num} for message batch id ${this.id}`);
 
@@ -33,7 +38,7 @@ class Msg {
 	}
 
 	getMessage() {
-		return this.data.join();
+		return this.data.join('');
 	}
 }
 
@@ -133,6 +138,18 @@ class FCMMsgs {
 		}
 	}
 
+	__fcm_msg(msg, frombg) {
+		const d = msg._data;
+
+		if (frombg && d && d.type && d.count && d.no && d.uid && d.data)
+			LogUtilities.toDebugScreen(`BG message: uid:${d.uid} type:${d.type} no/cnt:${d.no}/${d.count}`);
+
+		if (d && d.type && d.count && d.no && d.uid && d.data)
+			this.__on_msg(d.uid, d.type, d.no, d.count, d.data);
+		else
+			LogUtilities.toDebugScreen(`unknown FCM message type (bg:${frombg}):`, msg);
+	}
+
 	registerEthereumAddress(checksumAddress) {
 		this.__sendMessage('address_register', { address: checksumAddress });
 	}
@@ -160,14 +177,16 @@ class FCMMsgs {
 }
 
 const instance = new FCMMsgs();
+const handler = (x, frombg) => instance.__fcm_msg(x, frombg);
 
 function registerHandler() {
-	firebase.messaging().onMessage(instance.__on_msg);
+	LogUtilities.toDebugScreen('FCM registerHandler called');
+	firebase.messaging().onMessage(handler);
 	firebase.messaging().stupid_shit_initialized();
-  }
+}
 
-  module.exports = {
+module.exports = {
 	registerHandler: registerHandler,
-	downstreamMessageHandler: instance.__on_msg,
+	downstreamMessageHandler: x => handler,
 	FCMMsgs: instance
-  }
+}
