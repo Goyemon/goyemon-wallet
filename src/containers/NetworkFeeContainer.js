@@ -4,12 +4,7 @@ import { View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import {
-  getGasPriceFast,
-  getGasPriceAverage,
-  getGasPriceSlow,
-  updateGasPriceChosen
-} from '../actions/ActionGasPrice';
+import { getGasPrice, updateGasPriceChosen } from '../actions/ActionGasPrice';
 import {
   Container,
   UntouchableCardContainer,
@@ -46,9 +41,7 @@ class NetworkFeeContainer extends Component {
   }
 
   componentDidMount() {
-    this.props.getGasPriceFast();
-    this.props.getGasPriceAverage();
-    this.props.getGasPriceSlow();
+    this.props.getGasPrice();
   }
 
   toggleCurrency(gasPriceWei, gasLimit) {
@@ -119,7 +112,10 @@ class NetworkFeeContainer extends Component {
                         color="#1BA548"
                       />
                       <SelectedButton>
-                        {this.toggleCurrency(gasPrice.gasPriceWei, this.props.gasLimit)}
+                        {this.toggleCurrency(
+                          gasPrice.gasPriceWei,
+                          this.props.gasLimit
+                        )}
                       </SelectedButton>
                     </SpeedContainer>
                   ) : (
@@ -131,7 +127,10 @@ class NetworkFeeContainer extends Component {
                       <UnselectedButton>{gasPrice.speed}</UnselectedButton>
                       <Icon name={gasPrice.imageName} size={40} color="#000" />
                       <UnselectedButton>
-                        {this.toggleCurrency(gasPrice.gasPriceWei, this.props.gasLimit)}
+                        {this.toggleCurrency(
+                          gasPrice.gasPriceWei,
+                          this.props.gasLimit
+                        )}
                       </UnselectedButton>
                     </SpeedContainer>
                   )}
@@ -215,9 +214,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  getGasPriceFast,
-  getGasPriceAverage,
-  getGasPriceSlow,
+  getGasPrice,
   updateGasPriceChosen
 };
 

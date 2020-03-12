@@ -9,9 +9,7 @@ import { StackActions, NavigationActions } from 'react-navigation';
 import styled from 'styled-components/native';
 import { createChecksumAddress } from '../actions/ActionChecksumAddress';
 import {
-  getGasPriceFast,
-  getGasPriceAverage,
-  getGasPriceSlow
+  getGasPrice
 } from '../actions/ActionGasPrice';
 import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
 import { Container, Button } from '../components/common';
@@ -78,9 +76,7 @@ class WalletCreation extends Component {
   };
 
   async componentDidMount() {
-    this.props.getGasPriceFast();
-    this.props.getGasPriceAverage();
-    this.props.getGasPriceSlow();
+    this.props.getGasPrice();
     await this.createWallet();
     await this.fetchPriceInfo();
     await this.fetchTokenInfo();
@@ -337,9 +333,7 @@ const mapDispatchToProps = {
   createChecksumAddress,
   getEthPrice,
   getDaiPrice,
-  getGasPriceFast,
-  getGasPriceAverage,
-  getGasPriceSlow,
+  getGasPrice
 };
 
 export default connect(
