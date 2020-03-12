@@ -12,6 +12,7 @@ import {
   saveCDaiLendingInfo,
   saveDaiApprovalInfo
 } from '../actions/ActionCDaiLendingInfo';
+import { saveDaiExchangeReserve } from '../actions/ActionExchangeReserve';
 import {
   saveTransactionsLoaded
 } from '../actions/ActionTransactionsLoaded';
@@ -115,6 +116,9 @@ async function downstreamMessageHandler(downstreamMessage) {
         cDaiLendingInfoMessage.current_exchange_rate
       )
     );
+  } else if (downstreamMessage.data.type === 'uniswap_ETHDAI_info') {
+    const exchangeReserveMessage = JSON.parse(downstreamMessage.data.data);
+    store.dispatch(saveDaiExchangeReserve(exchangeReserveMessage));
   } else if (downstreamMessage.data.type === 'transactionError') {
     const errorMessage = JSON.parse(downstreamMessage.data.error);
     if (errorMessage.message === 'nonce too low') { // why only this if that transaction is guaranteed not to be propagated?
