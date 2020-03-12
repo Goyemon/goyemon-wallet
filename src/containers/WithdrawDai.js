@@ -46,24 +46,12 @@ class WithdrawDai extends Component {
   }
 
   componentDidMount() {
-    this.validateEthAmount(this.returnTransactionSpeed(this.props.gasPrice.chosen));
+    this.validateEthAmount(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen));
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.balance != prevProps.balance) {
       this.setState({ ethBalance: Web3.utils.fromWei(this.props.balance.weiBalance) });
-    }
-  }
-
-  returnTransactionSpeed(chosenSpeed) {
-    if(chosenSpeed === 0) {
-      return this.props.gasPrice.fast;
-    } else if (chosenSpeed === 1) {
-      return this.props.gasPrice.average;
-    } else if (chosenSpeed === 2) {
-      return this.props.gasPrice.slow;
-    } else {
-      LogUtilities.logInfo('invalid transaction speed');
     }
   }
 
@@ -80,7 +68,7 @@ class WithdrawDai extends Component {
 
     const transactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.cDAIcontract)
-      .setGasPrice(this.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16))
+      .setGasPrice(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16))
       .setGas((GlobalConfig.cTokenRedeemUnderlyingGasLimit).toString(16))
       .tempSetData(redeemUnderlyingEncodedABI)
       .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.redeem, [TxStorage.storage.getOwnAddress(), daiWithdrawAmountWithDecimals, 0]);
@@ -138,7 +126,7 @@ class WithdrawDai extends Component {
     const daiSavingsAmountValidation = this.validateDaiSavingsAmount(
       daiWithdrawAmount
     );
-    const ethAmountValidation = this.validateEthAmount(this.returnTransactionSpeed(this.props.gasPrice.chosen));
+    const ethAmountValidation = this.validateEthAmount(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen));
     const isOnline = this.props.netInfo;
 
     if (daiSavingsAmountValidation && ethAmountValidation && isOnline) {
@@ -149,14 +137,14 @@ class WithdrawDai extends Component {
       await this.props.saveOutgoingDaiTransactionAmount(daiWithdrawAmount);
       this.props.saveTransactionFeeEstimateEth(
         TransactionUtilities.getTransactionFeeEstimateInEther(
-          this.returnTransactionSpeed(this.props.gasPrice.chosen),
+          TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen),
           GlobalConfig.cTokenRedeemUnderlyingGasLimit
         )
       );
       this.props.saveTransactionFeeEstimateUsd(
         PriceUtilities.convertEthToUsd(
           TransactionUtilities.getTransactionFeeEstimateInEther(
-            this.returnTransactionSpeed(this.props.gasPrice.chosen),
+            TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen),
             GlobalConfig.cTokenRedeemUnderlyingGasLimit
           )
         )

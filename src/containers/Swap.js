@@ -54,18 +54,6 @@ class Swap extends Component {
     }
   }
 
-  returnTransactionSpeed(chosenSpeed) {
-    if (chosenSpeed === 0) {
-      return this.props.gasPrice.fast;
-    } else if (chosenSpeed === 1) {
-      return this.props.gasPrice.average;
-    } else if (chosenSpeed === 2) {
-      return this.props.gasPrice.slow;
-    } else {
-      LogUtilities.logInfo('invalid transaction speed');
-    }
-  }
-
   getEthToDaiExchangeRate() {
     return 200;
     // write the logic based on the pool sizes
@@ -110,7 +98,7 @@ class Swap extends Component {
       .setTo(GlobalConfig.DAIUniswapContract)
       .setValue(amountWei.toString(16))
       .setGasPrice(
-        this.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16)
+        TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16)
       )
       .setGas(GlobalConfig.UniswapEthToTokenSwapInputGasLimit.toString(16))
       .tempSetData(ethToTokenSwapInputEncodedABI)
@@ -144,7 +132,7 @@ class Swap extends Component {
 
   validateAmount(amount) {
     let transactionFeeLimitInEther = TransactionUtilities.getTransactionFeeEstimateInEther(
-      this.returnTransactionSpeed(this.props.gasPrice.chosen),
+      TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen),
       GlobalConfig.UniswapEthToTokenSwapInputGasLimit
     );
 

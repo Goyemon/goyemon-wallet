@@ -57,7 +57,7 @@ class SendDai extends Component {
   }
 
   componentDidMount() {
-    this.validateEthAmount(this.returnTransactionSpeed(this.props.gasPrice.chosen));
+    this.validateEthAmount(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen));
   }
 
   componentDidUpdate(prevProps) {
@@ -67,18 +67,6 @@ class SendDai extends Component {
     }
     if (this.props.balance != prevProps.balance) {
       this.setState({ ethBalance: Web3.utils.fromWei(this.props.balance.weiBalance) });
-    }
-  }
-
-  returnTransactionSpeed(chosenSpeed) {
-    if(chosenSpeed === 0) {
-      return this.props.gasPrice.fast;
-    } else if (chosenSpeed === 1) {
-      return this.props.gasPrice.average;
-    } else if (chosenSpeed === 2) {
-      return this.props.gasPrice.slow;
-    } else {
-      LogUtilities.logInfo('invalid transaction speed');
     }
   }
 
@@ -96,7 +84,7 @@ class SendDai extends Component {
 
     const transactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.DAITokenContract)
-      .setGasPrice(this.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16))
+      .setGasPrice(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16))
       .setGas((GlobalConfig.ERC20TransferGasLimit).toString(16))
       .tempSetData(transferEncodedABI)
       .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.transfer, [TxStorage.storage.getOwnAddress(), GlobalConfig.DAITokenContract, amountWithDecimals]);
@@ -169,7 +157,7 @@ class SendDai extends Component {
   validateForm = async (toAddress, amount) => {
     const toAddressValidation = this.validateToAddress(toAddress);
     const daiAmountValidation = this.validateDaiAmount(amount);
-    const ethAmountValidation = this.validateEthAmount(this.returnTransactionSpeed(this.props.gasPrice.chosen));
+    const ethAmountValidation = this.validateEthAmount(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen));
     const isOnline = this.props.netInfo;
 
     if (
@@ -186,14 +174,14 @@ class SendDai extends Component {
       await this.props.saveOutgoingDaiTransactionToAddress(toAddress);
       this.props.saveTransactionFeeEstimateEth(
         TransactionUtilities.getTransactionFeeEstimateInEther(
-          this.returnTransactionSpeed(this.props.gasPrice.chosen),
+          TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen),
           GlobalConfig.ERC20TransferGasLimit
         )
       );
       this.props.saveTransactionFeeEstimateUsd(
         PriceUtilities.convertEthToUsd(
           TransactionUtilities.getTransactionFeeEstimateInEther(
-            this.returnTransactionSpeed(this.props.gasPrice.chosen),
+            TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen),
             GlobalConfig.ERC20TransferGasLimit
           )
         )
