@@ -58,25 +58,13 @@ class SendEth extends Component {
     }
   }
 
-  returnTransactionSpeed(chosenSpeed) {
-    if(chosenSpeed === 0) {
-      return this.props.gasPrice.fast;
-    } else if (chosenSpeed === 1) {
-      return this.props.gasPrice.average;
-    } else if (chosenSpeed === 2) {
-      return this.props.gasPrice.slow;
-    } else {
-      LogUtilities.logInfo('invalid transaction speed');
-    }
-  }
-
   async constructTransactionObject() {
     const amountWei = parseFloat(Web3.utils.toWei(this.state.amount, 'Ether'));// TODO: why is it here?
 
     const transactionObject = (await TxStorage.storage.newTx())
       .setTo(this.state.toAddress)
       .setValue(amountWei.toString(16))
-      .setGasPrice(this.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16))
+      .setGasPrice(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16))
       .setGas((GlobalConfig.ETHTxGasLimit).toString(16));
 
     return transactionObject;
@@ -103,7 +91,7 @@ class SendEth extends Component {
 
   validateAmount(amount) {
     let transactionFeeLimitInEther = TransactionUtilities.getTransactionFeeEstimateInEther(
-      this.returnTransactionSpeed(this.props.gasPrice.chosen),
+      TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen),
       GlobalConfig.ETHTxGasLimit
     );
 
@@ -156,14 +144,14 @@ class SendEth extends Component {
       await this.props.saveOutgoingTransactionObject(transactionObject);
       this.props.saveTransactionFeeEstimateEth(
         TransactionUtilities.getTransactionFeeEstimateInEther(
-          this.returnTransactionSpeed(this.props.gasPrice.chosen),
+          TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen),
           GlobalConfig.ETHTxGasLimit
         )
       );
       this.props.saveTransactionFeeEstimateUsd(
         PriceUtilities.convertEthToUsd(
           TransactionUtilities.getTransactionFeeEstimateInEther(
-            this.returnTransactionSpeed(this.props.gasPrice.chosen),
+            TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen),
             GlobalConfig.ETHTxGasLimit
           )
         )

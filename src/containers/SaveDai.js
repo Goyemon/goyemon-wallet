@@ -50,7 +50,7 @@ class SaveDai extends Component {
 
   async componentDidMount() {
     this.props.saveDaiApprovalInfo( await TxStorage.storage.isDAIApprovedForCDAI());
-    this.validateEthAmount(this.returnTransactionSpeed(this.props.gasPrice.chosen));
+    this.validateEthAmount(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen));
   }
 
   componentDidUpdate(prevProps) {
@@ -61,18 +61,6 @@ class SaveDai extends Component {
     //}
     if (this.props.balance != prevProps.balance) {
       this.setState({ ethBalance: Web3.utils.fromWei(this.props.balance.weiBalance) });
-    }
-  }
-
-  returnTransactionSpeed(chosenSpeed) {
-    if(chosenSpeed === 0) {
-      return this.props.gasPrice.fast;
-    } else if (chosenSpeed === 1) {
-      return this.props.gasPrice.average;
-    } else if (chosenSpeed === 2) {
-      return this.props.gasPrice.slow;
-    } else {
-      LogUtilities.logInfo('invalid transaction speed');
     }
   }
 
@@ -154,7 +142,7 @@ class SaveDai extends Component {
 
     const transactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.cDAIcontract)
-      .setGasPrice(this.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16))
+      .setGasPrice(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16))
       .setGas((GlobalConfig.cTokenMintGasLimit).toString(16))
       .tempSetData(mintEncodedABI)
       .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.mint, [TxStorage.storage.getOwnAddress(), daiAmountWithDecimals, 0]);
@@ -164,7 +152,7 @@ class SaveDai extends Component {
 
   sendTransactions = async daiAmount => {
     const daiAmountValidation = this.validateDaiAmount(daiAmount);
-    const ethAmountValidation = this.validateEthAmount(this.returnTransactionSpeed(this.props.gasPrice.chosen));
+    const ethAmountValidation = this.validateEthAmount(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen));
     const isOnline = this.props.netInfo;
 
     if (daiAmountValidation && ethAmountValidation && isOnline) {
@@ -236,7 +224,7 @@ class SaveDai extends Component {
           opacity="1"
           onPress={async () => {
             this.setModalVisible(true);
-            this.validateEthAmount(this.returnTransactionSpeed(this.props.gasPrice.chosen));
+            this.validateEthAmount(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen));
           }}
         />
       );

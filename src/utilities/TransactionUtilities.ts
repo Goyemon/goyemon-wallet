@@ -99,6 +99,20 @@ class TransactionUtilities {
     );
   }
 
+  returnTransactionSpeed(chosenSpeed) {
+    const stateTree = store.getState();
+    const gasPrice = stateTree.ReducerGasPrice.gasPrice;
+      if (chosenSpeed === 0) {
+      return gasPrice.fast;
+    } else if (chosenSpeed === 1) {
+      return gasPrice.average;
+    } else if (chosenSpeed === 2) {
+      return gasPrice.slow;
+    } else {
+      LogUtilities.logInfo('invalid transaction speed');
+    }
+  }
+
   async constructSignedOutgoingTransactionObject(outgoingTransactionObject) {
     outgoingTransactionObject = new ethTx(outgoingTransactionObject.toTransactionDict());
     let privateKey = await WalletUtilities.retrievePrivateKey();
