@@ -48,16 +48,18 @@ class SaveDai extends Component {
   }
 
   async componentDidMount() {
-    this.props.saveDaiApprovalInfo( await TxStorage.storage.isDAIApprovedForCDAI());
+    if(this.props.cDaiLendingInfo.daiApproval != true){
+      this.props.saveDaiApprovalInfo( await TxStorage.storage.isDAIApprovedForCDAI());
+    }
     this.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit);
   }
 
-  componentDidUpdate(prevProps) {
-    //if (this.props.transactions != null && this.props.transactions.length != null) {
-    //  if (this.props.transactions != prevProps.transactions) {
-    //    this.props.saveDaiApprovalInfo(TransactionUtilities.isDaiApproved(this.props.transactions));
-    //  }
-    //}
+  async componentDidUpdate(prevProps) {
+    if(this.props.cDaiLendingInfo.daiApproval != true){
+      if (this.props.transactions != prevProps.transactions) {
+        this.props.saveDaiApprovalInfo(await TxStorage.storage.isDAIApprovedForCDAI());
+      } 
+    }
   }
 
   validateDaiAmount(daiAmount) {
