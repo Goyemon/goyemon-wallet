@@ -48,13 +48,14 @@ class SendEthConfirmation extends Component {
   render() {
     const { outgoingTransactionObjects } = this.props;
 
+    const toAddress = `0x${Buffer.from(outgoingTransactionObjects[outgoingTransactionObjects.length - 1].to_addr).toString("hex")}`;
+    const toChecksumAddress = Web3.utils.toChecksumAddress(toAddress);
     const valueInEther = parseFloat(
       Web3.utils.fromWei(
         outgoingTransactionObjects[outgoingTransactionObjects.length - 1].getValue(),
         'Ether'
       )
     );
-
     return (
       <RootContainer>
         <HeaderOne marginTop="96">Confirmation</HeaderOne>
@@ -77,7 +78,7 @@ class SendEthConfirmation extends Component {
           <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
             To
           </FormHeader>
-          <ToText>{outgoingTransactionObjects[outgoingTransactionObjects.length - 1].to}</ToText>
+          <ToText>{toChecksumAddress}</ToText>
           <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
             Amount
           </FormHeader>
