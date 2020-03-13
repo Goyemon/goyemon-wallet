@@ -56,7 +56,7 @@ class SendDai extends Component {
   }
 
   componentDidMount() {
-    this.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.ERC20TransferGasLimit);
+    this.updateWeiAmountValidation(TransactionUtilities.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.ERC20TransferGasLimit));
   }
 
   componentDidUpdate(prevProps) {
@@ -131,24 +131,18 @@ class SendDai extends Component {
     return false;
   }
 
-  validateWeiAmountForTransactionFee(gasPriceWei, gasLimit) {
-    const weiBalance = new BigNumber(this.props.balance.weiBalance);
-    const transactionFeeLimitInWei = new BigNumber(gasPriceWei).times(gasLimit);
-
-    if (weiBalance.isGreaterThan(transactionFeeLimitInWei)) {
-      LogUtilities.logInfo('the wei amount validated!');
+  updateWeiAmountValidation(weiAmountValidation) {
+    if(weiAmountValidation) {
       this.setState({ weiAmountValidation: true });
-      return true;
+    } else if (!weiAmountValidation) {
+      this.setState({ weiAmountValidation: false });
     }
-    LogUtilities.logInfo('wrong wei balance!');
-    this.setState({ weiAmountValidation: false });
-    return false;
   }
 
   validateForm = async (toAddress, amount) => {
     const toAddressValidation = this.validateToAddress(toAddress);
     const daiAmountValidation = this.validateDaiAmount(amount);
-    const weiAmountValidation = this.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.ERC20TransferGasLimit);
+    const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.ERC20TransferGasLimit);
     const isOnline = this.props.netInfo;
 
     if (

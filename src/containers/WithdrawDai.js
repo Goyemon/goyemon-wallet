@@ -45,7 +45,7 @@ class WithdrawDai extends Component {
   }
 
   componentDidMount() {
-    this.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.cTokenRedeemUnderlyingGasLimit);
+    this.updateWeiAmountValidation(TransactionUtilities.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.cTokenRedeemUnderlyingGasLimit));
   }
 
   async constructTransactionObject() {
@@ -69,52 +69,35 @@ class WithdrawDai extends Component {
     return transactionObject;
   }
 
-  validateDaiSavingsAmount(daiWithdrawAmount) {
-    daiWithdrawAmount = new BigNumber(10).pow(36).times(daiWithdrawAmount);
-    const daiSavingsBalance = new BigNumber(
-      this.props.balance.daiSavingsBalance
-    );
-
-    if (
-      daiSavingsBalance.isGreaterThanOrEqualTo(daiWithdrawAmount) &&
-      daiWithdrawAmount.isGreaterThanOrEqualTo(0)
-    ) {
-      LogUtilities.logInfo('the dai savings amount validated!');
+  updateDaiSavingsAmountValidation(daiSavingsAmountValidation) {
+    if(daiSavingsAmountValidation) {
       this.setState({
         daiSavingsAmountValidation: true,
         buttonDisabled: false,
         buttonOpacity: 1
       });
-      return true;
-    }
-    LogUtilities.logInfo('wrong dai balance!');
-    this.setState({
-      daiSavingsAmountValidation: false,
-      buttonDisabled: true,
-      buttonOpacity: 0.5
-    });
-    return false;
+    } else if (!daiSavingsAmountValidation) {
+      this.setState({
+        daiSavingsAmountValidation: false,
+        buttonDisabled: true,
+        buttonOpacity: 0.5
+      });
+      }
   }
 
-  validateWeiAmountForTransactionFee(gasPriceWei, gasLimit) {
-    const weiBalance = new BigNumber(this.props.balance.weiBalance);
-    const transactionFeeLimitInWei = new BigNumber(gasPriceWei).times(gasLimit);
-
-    if (weiBalance.isGreaterThan(transactionFeeLimitInWei)) {
-      LogUtilities.logInfo('the wei amount validated!');
+  updateWeiAmountValidation(weiAmountValidation) {
+    if(weiAmountValidation) {
       this.setState({ weiAmountValidation: true });
-      return true;
+    } else if (!weiAmountValidation) {
+      this.setState({ weiAmountValidation: false });
     }
-    LogUtilities.logInfo('wrong wei balance!');
-    this.setState({ weiAmountValidation: false });
-    return false;
   }
 
   validateForm = async daiWithdrawAmount => {
-    const daiSavingsAmountValidation = this.validateDaiSavingsAmount(
+    const daiSavingsAmountValidation = TransactionUtilities.validateDaiSavingsAmount(
       daiWithdrawAmount
     );
-    const weiAmountValidation = this.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.cTokenRedeemUnderlyingGasLimit);
+    const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.cTokenRedeemUnderlyingGasLimit);
     const isOnline = this.props.netInfo;
 
     if (daiSavingsAmountValidation && weiAmountValidation && isOnline) {
@@ -185,7 +168,7 @@ class WithdrawDai extends Component {
                 keyboardType="numeric"
                 clearButtonMode="while-editing"
                 onChangeText={daiWithdrawAmount => {
-                  this.validateDaiSavingsAmount(daiWithdrawAmount);
+                  this.updateDaiSavingsAmountValidation(TransactionUtilities.validateDaiSavingsAmount(daiWithdrawAmount));
                   this.setState({ daiWithdrawAmount });
                 }}
                 returnKeyType="done"

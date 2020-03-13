@@ -51,7 +51,7 @@ class SaveDai extends Component {
     if(this.props.cDaiLendingInfo.daiApproval != true){
       this.props.saveDaiApprovalInfo( await TxStorage.storage.isDAIApprovedForCDAI());
     }
-    this.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit);
+    this.updateWeiAmountValidation(TransactionUtilities.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit));
   }
 
   async componentDidUpdate(prevProps) {
@@ -62,43 +62,28 @@ class SaveDai extends Component {
     }
   }
 
-  validateDaiAmount(daiAmount) {
-    daiAmount = new BigNumber(10).pow(18).times(daiAmount);
-    const daiBalance = new BigNumber(this.props.balance.daiBalance);
-
-    if (
-      daiBalance.isGreaterThanOrEqualTo(daiAmount) &&
-      daiAmount.isGreaterThanOrEqualTo(0)
-    ) {
-      LogUtilities.logInfo('the dai amount validated!');
+  updateDaiAmountValidation(daiAmountValidation) {
+    if(daiAmountValidation) {
       this.setState({
         daiAmountValidation: true,
         buttonDisabled: false,
         buttonOpacity: 1
       });
-      return true;
+    } else if (!daiAmountValidation) {
+      this.setState({
+        daiAmountValidation: false,
+        buttonDisabled: true,
+        buttonOpacity: 0.5
+      });  
     }
-    LogUtilities.logInfo('wrong dai balance!');
-    this.setState({
-      daiAmountValidation: false,
-      buttonDisabled: true,
-      buttonOpacity: 0.5
-    });
-    return false;
   }
 
-  validateWeiAmountForTransactionFee(gasPriceWei, gasLimit) {
-    const weiBalance = new BigNumber(this.props.balance.weiBalance);
-    const transactionFeeLimitInWei = new BigNumber(gasPriceWei).times(gasLimit);
-
-    if (weiBalance.isGreaterThan(transactionFeeLimitInWei)) {
-      LogUtilities.logInfo('the wei amount validated!');
+  updateWeiAmountValidation(weiAmountValidation) {
+    if(weiAmountValidation) {
       this.setState({ weiAmountValidation: true });
-      return true;
+    } else if (!weiAmountValidation) {
+      this.setState({ weiAmountValidation: false });
     }
-    LogUtilities.logInfo('wrong wei balance!');
-    this.setState({ weiAmountValidation: false });
-    return false;
   }
 
   getApproveEncodedABI() {
@@ -138,8 +123,8 @@ class SaveDai extends Component {
   }
 
   sendTransactions = async daiAmount => {
-    const daiAmountValidation = this.validateDaiAmount(daiAmount);
-    const weiAmountValidation = this.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit);
+    const daiAmountValidation = TransactionUtilities.validateDaiAmount(daiAmount);
+    const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit);
     const isOnline = this.props.netInfo;
 
     if (daiAmountValidation && weiAmountValidation && isOnline) {
@@ -211,7 +196,7 @@ class SaveDai extends Component {
           opacity="1"
           onPress={async () => {
             this.setModalVisible(true);
-            this.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit);
+            this.updateWeiAmountValidation(TransactionUtilities.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit));
           }}
         />
       );
@@ -283,7 +268,7 @@ class SaveDai extends Component {
                     keyboardType="numeric"
                     clearButtonMode="while-editing"
                     onChangeText={daiAmount => {
-                      this.validateDaiAmount(daiAmount);
+                      this.updateDaiAmountValidation(TransactionUtilities.validateDaiAmount(daiAmount));
                       this.setState({ daiAmount });
                     }}
                     returnKeyType="done"
