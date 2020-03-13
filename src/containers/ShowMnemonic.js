@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { savePhotoLibraryPermission } from '../actions/ActionPermissions';
 import { RootContainer, Container, ProgressBar, Button, HeaderTwo, Description, CrypterestText } from '../components/common';
-import ShowMnemonicWords from '../containers/ShowMnemonicWords';
+import ShowMnemonicWords from './ShowMnemonicWords';
 import LogUtilities from '../utilities/LogUtilities.js';
 
 class ShowMnemonic extends Component {
