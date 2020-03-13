@@ -11,22 +11,13 @@ class CreateWalletTutorial extends Component {
     this.state = {
       loading: false,
       buttonDisabled: false,
-      navigationDestination: ''
     };
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (this.props.mnemonicWords != null && this.props.mnemonicWords != prevProps.mnemonicWords) {
       this.setState({ loading: false, buttonDisabled: false });
-      this.navigateToNext();
-    }
-  }
-
-  navigateToNext() {
-    if (this.state.navigationDestination === 'ShowMnemonic') {
       this.props.navigation.navigate('ShowMnemonic');
-    } else if (this.state.navigationDestination === 'MnemonicWordsScreenshot') {
-      this.props.navigation.navigate('MnemonicWordsScreenshot');
     }
   }
 
@@ -44,7 +35,7 @@ class CreateWalletTutorial extends Component {
             - only you have access to them. We do NOT.
           </Description>
           <Button
-            text="Verify Backup Words"
+            text="Save Backup Words"
             textColor="#00A3E2"
             backgroundColor="#FFF"
             borderColor="#00A3E2"
@@ -55,27 +46,7 @@ class CreateWalletTutorial extends Component {
             onPress={async () => {
               this.setState({
                 loading: true,
-                buttonDisabled: true,
-                navigationDestination: 'ShowMnemonic'
-              });
-              await WalletUtilities.init();
-              await this.props.saveMnemonicWords();
-            }}
-          />
-          <Button
-            text="Take a Screenshot"
-            textColor="#00A3E2"
-            backgroundColor="#F8F8F8"
-            borderColor="#F8F8F8"
-            disabled={this.state.buttonDisabled}
-            margin="0 auto"
-            marginBottom="12px"
-            opacity="1"
-            onPress={async () => {
-              this.setState({
-                loading: true,
-                buttonDisabled: true,
-                navigationDestination: 'MnemonicWordsScreenshot'
+                buttonDisabled: true
               });
               await WalletUtilities.init();
               await this.props.saveMnemonicWords();
