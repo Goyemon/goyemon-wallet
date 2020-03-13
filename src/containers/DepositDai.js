@@ -35,10 +35,9 @@ class DepositDai extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ethBalance: Web3.utils.fromWei(props.balance.weiBalance),
       daiAmount: '',
       daiAmountValidation: undefined,
-      ethAmountValidation: undefined,
+      weiAmountValidation: undefined,
       loading: false,
       buttonDisabled: true,
       buttonOpacity: 0.5,
@@ -46,13 +45,7 @@ class DepositDai extends Component {
   }
 
   componentDidMount() {
-    this.validateEthAmount(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen));
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.balance != prevProps.balance) {
-      this.setState({ ethBalance: Web3.utils.fromWei(this.props.balance.weiBalance) });
-    }
+    this.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.cTokenMintGasLimit);
   }
 
   async constructTransactionObject() {
@@ -99,31 +92,26 @@ class DepositDai extends Component {
     return false;
   }
 
-  validateEthAmount(gasPriceWei) {
-    let transactionFeeLimitInEther = TransactionUtilities.getTransactionFeeEstimateInEther(
-      gasPriceWei,
-      GlobalConfig.cTokenMintGasLimit
-    );
+  validateWeiAmountForTransactionFee(gasPriceWei, gasLimit) {
+    const weiBalance = new BigNumber(this.props.balance.weiBalance);
+    const transactionFeeLimitInWei = new BigNumber(gasPriceWei).times(gasLimit);
 
-    const ethBalance = new BigNumber(this.state.ethBalance);
-    transactionFeeLimitInEther = new BigNumber(transactionFeeLimitInEther);
-
-    if (ethBalance.isGreaterThan(transactionFeeLimitInEther)) {
+    if (weiBalance.isGreaterThan(transactionFeeLimitInWei)) {
       LogUtilities.logInfo('the eth amount validated!');
-      this.setState({ ethAmountValidation: true });
+      this.setState({ weiAmountValidation: true });
       return true;
     }
     LogUtilities.logInfo('wrong eth balance!');
-    this.setState({ ethAmountValidation: false });
+    this.setState({ weiAmountValidation: false });
     return false;
   }
 
   validateForm = async daiAmount => {
     const daiAmountValidation = this.validateDaiAmount(daiAmount);
-    const ethAmountValidation = this.validateEthAmount(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen));
+    const weiAmountValidation = this.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.cTokenMintGasLimit);
     const isOnline = this.props.netInfo;
 
-    if (daiAmountValidation && ethAmountValidation && isOnline) {
+    if (daiAmountValidation && weiAmountValidation && isOnline) {
       this.setState({ loading: true, buttonDisabled: true });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
@@ -208,7 +196,7 @@ class DepositDai extends Component {
           </Form>
           <InsufficientDaiBalanceMessage daiAmountValidation={this.state.daiAmountValidation} />
           <NetworkFeeContainer gasLimit={GlobalConfig.cTokenMintGasLimit} />
-          <InsufficientEthBalanceMessage ethAmountValidation={this.state.ethAmountValidation} />
+          <InsufficientEthBalanceMessage weiAmountValidation={this.state.weiAmountValidation} />
           <ButtonWrapper>
             <Button
               text="Next"
