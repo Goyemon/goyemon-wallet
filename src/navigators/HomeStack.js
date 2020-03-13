@@ -9,7 +9,6 @@ import ImportOptions from '../components/ImportOptions';
 import ImportTwentyFourMnemonicWords from '../containers/ImportTwentyFourMnemonicWords';
 import ImportTwelveMnemonicWords from '../containers/ImportTwelveMnemonicWords';
 import CreateWalletTutorial from '../containers/CreateWalletTutorial';
-import MnemonicWordsScreenshot from '../containers/MnemonicWordsScreenshot';
 import ShowMnemonic from '../components/ShowMnemonic';
 import VerifyMnemonic from '../containers/VerifyMnemonic';
 import WalletList from '../containers/WalletList';
@@ -77,12 +76,6 @@ const HomeStack = createStackNavigator(
     },
     CreateWalletTutorial: {
       screen: CreateWalletTutorial,
-      navigationOptions: () => ({
-        headerTransparent: true
-      })
-    },
-    MnemonicWordsScreenshot: {
-      screen: MnemonicWordsScreenshot,
       navigationOptions: () => ({
         headerTransparent: true
       })
