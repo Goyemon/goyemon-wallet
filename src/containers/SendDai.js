@@ -13,10 +13,6 @@ import {
 } from '../actions/ActionOutgoingDaiTransactionData';
 import { clearQRCodeData } from '../actions/ActionQRCodeData';
 import {
-  saveTransactionFeeEstimateUsd,
-  saveTransactionFeeEstimateEth
-} from '../actions/ActionTransactionFeeEstimate';
-import {
   RootContainer,
   Button,
   UntouchableCardContainer,
@@ -157,21 +153,6 @@ class SendDai extends Component {
       await this.props.saveOutgoingTransactionObject(transactionObject);
       await this.props.saveOutgoingDaiTransactionAmount(amount);
       await this.props.saveOutgoingDaiTransactionToAddress(toAddress);
-      this.props.saveTransactionFeeEstimateEth(
-        TransactionUtilities.getTransactionFeeEstimateInEther(
-          TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen),
-          GlobalConfig.ERC20TransferGasLimit
-        )
-      );
-      this.props.saveTransactionFeeEstimateUsd(
-        PriceUtilities.convertEthToUsd(
-          TransactionUtilities.getTransactionFeeEstimateInEther(
-            TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen),
-            GlobalConfig.ERC20TransferGasLimit
-          )
-        )
-      );
-
       this.props.navigation.navigate('SendDaiConfirmation');
     } else {
       LogUtilities.logInfo('form validation failed!');
@@ -353,8 +334,6 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   saveOutgoingTransactionObject,
-  saveTransactionFeeEstimateUsd,
-  saveTransactionFeeEstimateEth,
   saveOutgoingDaiTransactionAmount,
   saveOutgoingDaiTransactionToAddress,
   clearQRCodeData
