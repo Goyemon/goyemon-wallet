@@ -1,8 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { TouchableWithoutFeedback, View, Text } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { NavigationActions } from 'react-navigation';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
@@ -18,16 +16,16 @@ import {
   FormHeader,
   CrypterestText,
   Loader,
-  ToggleCurrencySymbol,
   IsOnlineMessage
 } from '../components/common/';
+import NetworkFeeContainerConfirmation from '../containers/NetworkFeeContainerConfirmation';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
+import GlobalConfig from '../config.json';
 
 class SendDaiConfirmation extends Component {
   constructor(props) {
     super();
     this.state = {
-      currency: 'USD',
       loading: false,
       buttonDisabled: false
     };
@@ -42,17 +40,8 @@ class SendDaiConfirmation extends Component {
     this.props.saveOutgoingDaiTransactionToAddress(this.props.outgoingDaiTransactionData.toAddress);
   }
 
-  toggleCurrency() {
-    if (this.state.currency === 'ETH') {
-      const usdTransactionFeeEstimateValue = this.props.transactionFeeEstimate.usd.toFixed(3);
-      return <NetworkFee fontSize="16">${usdTransactionFeeEstimateValue}</NetworkFee>;
-    } else if (this.state.currency === 'USD') {
-      return <NetworkFee fontSize="16">{this.props.transactionFeeEstimate.eth}ETH</NetworkFee>;
-    }
-  }
-
   render() {
-    const { outgoingTransactionObjects, outgoingDaiTransactionData } = this.props;
+    const { outgoingDaiTransactionData } = this.props;
 
     return (
       <RootContainer>
@@ -81,25 +70,7 @@ class SendDaiConfirmation extends Component {
             Amount
           </FormHeader>
           <Amount>{outgoingDaiTransactionData.amount} DAI</Amount>
-          <NetworkFeeContainer>
-            <FormHeader marginBottom="0" marginLeft="8" marginTop="0">
-              Max Network Fee
-            </FormHeader>
-            <TouchableWithoutFeedback
-              onPress={() => {
-                if (this.state.currency === 'ETH') {
-                  this.setState({ currency: 'USD' });
-                } else if (this.state.currency === 'USD') {
-                  this.setState({ currency: 'ETH' });
-                }
-              }}
-            >
-              <View>
-                <ToggleCurrencySymbol currency={this.state.currency} />
-              </View>
-            </TouchableWithoutFeedback>
-          </NetworkFeeContainer>
-          <NetworkFee>{this.toggleCurrency()}</NetworkFee>
+          <NetworkFeeContainerConfirmation gasLimit={GlobalConfig.ERC20TransferGasLimit}/>
         </UntouchableCardContainer>
         <ButtonContainer>
           <Button
@@ -158,20 +129,6 @@ const Amount = styled.Text`
   margin-left: 8;
 `;
 
-const NetworkFeeContainer = styled.View`
-  align-items: center;
-  flex-direction: row;
-  justify-content: center;
-  margin-top: 16;
-  margin-bottom: 8;
-`;
-
-const NetworkFee = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Bold';
-  margin-left: 8;
-`;
-
 const TotalValueText = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 24;
@@ -187,7 +144,6 @@ function mapStateToProps(state) {
   return {
     netInfo: state.ReducerNetInfo.netInfo,
     outgoingTransactionObjects: state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
-    transactionFeeEstimate: state.ReducerTransactionFeeEstimate.transactionFeeEstimate,
     outgoingDaiTransactionData: state.ReducerOutgoingDaiTransactionData.outgoingDaiTransactionData
   };
 }
