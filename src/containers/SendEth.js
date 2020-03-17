@@ -9,10 +9,6 @@ import Web3 from 'web3';
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
 import { clearQRCodeData } from '../actions/ActionQRCodeData';
 import {
-  saveTransactionFeeEstimateUsd,
-  saveTransactionFeeEstimateEth
-} from '../actions/ActionTransactionFeeEstimate';
-import {
   RootContainer,
   Button,
   UntouchableCardContainer,
@@ -133,20 +129,6 @@ class SendEth extends Component {
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
-      this.props.saveTransactionFeeEstimateEth(
-        TransactionUtilities.getTransactionFeeEstimateInEther(
-          TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen),
-          GlobalConfig.ETHTxGasLimit
-        )
-      );
-      this.props.saveTransactionFeeEstimateUsd(
-        PriceUtilities.convertEthToUsd(
-          TransactionUtilities.getTransactionFeeEstimateInEther(
-            TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen),
-            GlobalConfig.ETHTxGasLimit
-          )
-        )
-      );
       this.props.navigation.navigate('SendEthConfirmation');
     } else {
       LogUtilities.logInfo('form validation failed!');
@@ -325,8 +307,6 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   saveOutgoingTransactionObject,
-  saveTransactionFeeEstimateUsd,
-  saveTransactionFeeEstimateEth,
   clearQRCodeData
 };
 
