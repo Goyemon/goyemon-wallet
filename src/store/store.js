@@ -3,6 +3,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { applyMiddleware, createStore } from 'redux';
 import { persistReducer, persistStore } from 'redux-persist';
 import thunk from 'redux-thunk';
+import { rehydrationComplete } from '../actions/ActionRehydration';
+import FcmListener from '../firebase/FcmListener';
 import rootReducers from '../reducers/ReducerIndex';
 
 const persistConfig = {
@@ -27,6 +29,9 @@ const persistedReducer = persistReducer(persistConfig, rootReducers);
 
 const store = createStore(persistedReducer, applyMiddleware(thunk));
 
-const persistor = persistStore(store);
+const persistor = persistStore(store, {}, () => {
+  store.dispatch(rehydrationComplete(true));
+  FcmListener.registerHandler();
+});
 
 export { store, persistor };
