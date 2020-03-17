@@ -14,6 +14,7 @@ import HistoryStack from './HistoryStack';
 import HomeStack from './HomeStack';
 import SettingsStack from './SettingsStack';
 import SwapStack from './SwapStack';
+import { Loader } from '../components/common';
 import { store, persistor } from '../store/store.js';
 
 const AppTab = createBottomTabNavigator(
@@ -81,7 +82,7 @@ const App = createAppContainer(AppTab);
 
 export default () => (
   <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
+    <PersistGate loading={<Loader animating={true} size="large" />} persistor={persistor}>
       <App />
     </PersistGate>
   </Provider>
