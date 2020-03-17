@@ -3,10 +3,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
-import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
-import { rehydrationComplete } from '../actions/ActionRehydration';
-import FcmListener from '../firebase/FcmListener';
 import '../firebase/FcmTokenMonitor';
 import '../netinfo/NetInfoListener';
 import SaveIcon from '../../assets/SaveIcon.js';
@@ -81,10 +78,6 @@ const AppTab = createBottomTabNavigator(
 
 const App = createAppContainer(AppTab);
 
-persistStore(store, {}, () => {
-  store.dispatch(rehydrationComplete(true));
-  FcmListener.registerHandler();
-});
 
 export default () => (
   <Provider store={store}>
