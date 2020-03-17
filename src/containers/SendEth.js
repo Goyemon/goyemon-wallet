@@ -211,8 +211,10 @@ class SendEth extends Component {
                 keyboardType="numeric"
                 clearButtonMode="while-editing"
                 onChangeText={ethAmount => {
-                  this.validateAmount(ethAmount, GlobalConfig.ETHTxGasLimit);
-                  this.setState({ ethAmount });
+                  if(ethAmount){
+                    this.validateAmount(ethAmount, GlobalConfig.ETHTxGasLimit);
+                    this.setState({ ethAmount });  
+                  }
                 }}
                 returnKeyType="done"
               />
