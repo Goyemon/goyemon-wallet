@@ -195,11 +195,8 @@ class TransactionUtilities {
   }
 
   getTransactionFeeEstimateInEther(gasPriceWei, gasLimit) {
-    const transactionFeeEstimateWei = parseFloat(gasPriceWei) * gasLimit;
-    const transactionFeeEstimateInEther = Web3.utils.fromWei(
-      transactionFeeEstimateWei.toString(),
-      'Ether'
-    );
+    const transactionFeeEstimateWei = Web3.utils.toBN(gasPriceWei).mul(Web3.utils.toBN(gasLimit));
+    const transactionFeeEstimateInEther = Web3.utils.fromWei(transactionFeeEstimateWei, 'Ether').toString();
     return transactionFeeEstimateInEther;
   }
 
