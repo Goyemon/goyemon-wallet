@@ -19,7 +19,6 @@ import ReducerOutgoingTransactionObjects from './ReducerOutgoingTransactionObjec
 import ReducerPrice from './ReducerPrice';
 import ReducerRehydration from './ReducerRehydration';
 import ReducerTransactionsLoaded from './ReducerTransactionsLoaded';
-import ReducerTransactionFeeEstimate from './ReducerTransactionFeeEstimate';
 import ReducerTransactionHistory from './ReducerTransactionHistory';
 import ReducerCurrencies from './ReducerCurrencies';
 
@@ -41,7 +40,6 @@ const appReducers = combineReducers({
   ReducerPrice,
   ReducerRehydration,
   ReducerTransactionsLoaded,
-  ReducerTransactionFeeEstimate,
   ReducerTransactionHistory,
   ReducerCurrencies
 });
