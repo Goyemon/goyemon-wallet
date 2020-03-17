@@ -26,6 +26,7 @@
     "events": "^3.0.0",
     "hdkey": "^1.1.0",
     "https-browserify": "0.0.1",
+    "i18n-js": "^3.5.1",
     "jetifier": "^1.6.4",
     "lottie-react-native": "^3.2.1",
     "process": "^0.11.10",
