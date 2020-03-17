@@ -14,6 +14,7 @@ import {
   Description,
   CrypterestText
 } from '../components/common';
+import I18n from "../i18n/I18n";
 import TxStorage from '../lib/tx';
 import { persistor, store } from '../store/store.js';
 import LogUtilities from '../utilities/LogUtilities.js';
@@ -61,7 +62,7 @@ class Settings extends Component {
             <ModalBackground>
               <MondalInner>
                 <ModalTextContainer>
-                  <ResetWalletHeader>Are you sure?</ResetWalletHeader>
+                  <ResetWalletHeader>{I18n.t("Are you sure?")}</ResetWalletHeader>
                   <Description marginBottom="8" marginLeft="0" marginTop="16">
                     Did you save your backup words? Otherwise, you will lose your funds.
                   </Description>
