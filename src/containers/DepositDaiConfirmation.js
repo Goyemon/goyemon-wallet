@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-import Web3 from 'web3';
-import { saveOutgoingDaiTransactionAmount } from '../actions/ActionOutgoingDaiTransactionData';
+import { saveOutgoingTransactionDataAmount } from '../actions/ActionOutgoingTransactionData';
 import {
   RootContainer,
   Button,
@@ -33,11 +32,11 @@ class DepositDaiConfirmation extends Component {
       this.props.outgoingTransactionObjects.length - 1
     ];
     await TransactionUtilities.sendOutgoingTransactionToServer(outgoingTransactionObject);
-    this.props.saveOutgoingDaiTransactionAmount(this.props.outgoingDaiTransactionData.amount);
+    this.props.saveOutgoingTransactionDataAmount(this.props.outgoingTransactionData.amount);
   }
 
   render() {
-    const { outgoingDaiTransactionData } = this.props;
+    const { outgoingTransactionData } = this.props;
 
     return (
       <RootContainer>
@@ -45,7 +44,7 @@ class DepositDaiConfirmation extends Component {
         <TotalContainer>
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <CrypterestText fontSize="16">You are about to deposit</CrypterestText>
-          <TotalValue>{outgoingDaiTransactionData.amount} DAI</TotalValue>
+          <TotalValue>{outgoingTransactionData.amount} DAI</TotalValue>
         </TotalContainer>
         <UntouchableCardContainer
           alignItems="flex-start"
@@ -60,7 +59,7 @@ class DepositDaiConfirmation extends Component {
           <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
             Deposit Amount
           </FormHeader>
-          <Amount>{outgoingDaiTransactionData.amount} DAI</Amount>
+          <Amount>{outgoingTransactionData.amount} DAI</Amount>
           <NetworkFeeContainerConfirmation gasLimit={GlobalConfig.cTokenMintGasLimit}/>
         </UntouchableCardContainer>
         <ButtonContainer>
@@ -129,12 +128,12 @@ function mapStateToProps(state) {
   return {
     netInfo: state.ReducerNetInfo.netInfo,
     outgoingTransactionObjects: state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
-    outgoingDaiTransactionData: state.ReducerOutgoingDaiTransactionData.outgoingDaiTransactionData
+    outgoingTransactionData: state.ReducerOutgoingTransactionData.outgoingTransactionData
   };
 }
 
 const mapDispatchToProps = {
-  saveOutgoingDaiTransactionAmount
+  saveOutgoingTransactionDataAmount
 };
 
 export default connect(
