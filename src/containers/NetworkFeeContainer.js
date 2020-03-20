@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
@@ -12,6 +12,8 @@ import {
   MenuContainer,
   ToggleCurrencySymbol
 } from '../components/common';
+import SlippageContainer from './SlippageContainer';
+import LogUtilities from '../utilities/LogUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 
 class NetworkFeeContainer extends Component {
@@ -36,7 +38,7 @@ class NetworkFeeContainer extends Component {
         }
       ],
       currency: 'USD',
-      showNetworkFee: false
+      showAdvanced: false
     };
   }
 
@@ -62,10 +64,21 @@ class NetworkFeeContainer extends Component {
     }
   }
 
+  renderSlippageContainer() {
+    if(this.props.swap){
+      return (
+        <SlippageContainer />
+      )
+    } else {
+      LogUtilities.logInfo('this is not the swap component');
+    }
+  }
+
   renderNetWorkFeeContainer() {
-    if (this.state.showNetworkFee) {
+    if (this.state.showAdvanced) {
       return (
         <View>
+        {this.renderSlippageContainer()} 
           <NetworkFeeHeaderContainer>
             <FormHeader marginBottom="0" marginLeft="0" marginTop="0">
               Network Fee
@@ -144,21 +157,22 @@ class NetworkFeeContainer extends Component {
               name="menu-up"
               color="#000"
               onPress={() => {
-                this.setState({ showNetworkFee: false });
+                this.setState({ showAdvanced: false });
               }}
               size={32}
             />
           </MenuContainer>
         </View>
       );
-    } else if (!this.state.showNetworkFee) {
+    } else if (!this.state.showAdvanced) {
       return (
         <MenuContainer>
+          <Text>advanced</Text>
           <Icon
             name="menu-down"
             color="#000"
             onPress={() => {
-              this.setState({ showNetworkFee: true });
+              this.setState({ showAdvanced: true });
             }}
             size={32}
           />
@@ -168,7 +182,11 @@ class NetworkFeeContainer extends Component {
   }
 
   render() {
-    return <View>{this.renderNetWorkFeeContainer()}</View>;
+    return (
+      <View>
+        {this.renderNetWorkFeeContainer()}
+      </View> 
+    )
   }
 }
 
