@@ -22,7 +22,7 @@ import {
   InvalidToAddressMessage,
   InsufficientDaiBalanceMessage
 } from '../components/common';
-import NetworkFeeContainer from '../containers/NetworkFeeContainer';
+import AdvancedContainer from '../containers/AdvancedContainer';
 import HomeStack from '../navigators/HomeStack';
 import LogUtilities from '../utilities/LogUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
@@ -240,7 +240,7 @@ class SendDai extends Component {
             </SendTextInputContainer>
           </Form>
           <InsufficientDaiBalanceMessage daiAmountValidation={this.state.daiAmountValidation} />
-          <NetworkFeeContainer gasLimit={GlobalConfig.ERC20TransferGasLimit} />
+          <AdvancedContainer gasLimit={GlobalConfig.ERC20TransferGasLimit} />
           <InsufficientEthBalanceMessage weiAmountValidation={this.state.weiAmountValidation} />
           <ButtonWrapper>
             <Button

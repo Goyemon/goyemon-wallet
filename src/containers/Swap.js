@@ -20,7 +20,7 @@ import {
   ErrorMessage
 } from '../components/common';
 import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
-import NetworkFeeContainer from '../containers/NetworkFeeContainer';
+import AdvancedContainer from '../containers/AdvancedContainer';
 import ABIEncoder from '../utilities/AbiUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
@@ -274,7 +274,7 @@ class Swap extends Component {
             <CurrencySymbolText>DAI</CurrencySymbolText>
           </Container>
         </UntouchableCardContainer>
-        <NetworkFeeContainer
+        <AdvancedContainer
           gasLimit={GlobalConfig.UniswapEthToTokenSwapInputGasLimit} swap={true}
         />
         <ButtonWrapper>
