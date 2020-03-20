@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-import { saveOutgoingTransactionDataAmount } from '../actions/ActionOutgoingTransactionData';
 import {
   RootContainer,
   Button,
@@ -32,7 +31,6 @@ class DepositDaiConfirmation extends Component {
       this.props.outgoingTransactionObjects.length - 1
     ];
     await TransactionUtilities.sendOutgoingTransactionToServer(outgoingTransactionObject);
-    this.props.saveOutgoingTransactionDataAmount(this.props.outgoingTransactionData.amount);
   }
 
   render() {
@@ -44,7 +42,7 @@ class DepositDaiConfirmation extends Component {
         <TotalContainer>
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <CrypterestText fontSize="16">You are about to deposit</CrypterestText>
-          <TotalValue>{outgoingTransactionData.amount} DAI</TotalValue>
+          <TotalValue>{outgoingTransactionData.compound.amount} DAI</TotalValue>
         </TotalContainer>
         <UntouchableCardContainer
           alignItems="flex-start"
@@ -59,7 +57,7 @@ class DepositDaiConfirmation extends Component {
           <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
             Deposit Amount
           </FormHeader>
-          <Amount>{outgoingTransactionData.amount} DAI</Amount>
+          <Amount>{outgoingTransactionData.compound.amount} DAI</Amount>
           <NetworkFeeContainerConfirmation gasLimit={GlobalConfig.cTokenMintGasLimit}/>
         </UntouchableCardContainer>
         <ButtonContainer>
@@ -132,11 +130,4 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = {
-  saveOutgoingTransactionDataAmount
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DepositDaiConfirmation);
+export default connect(mapStateToProps)(DepositDaiConfirmation);

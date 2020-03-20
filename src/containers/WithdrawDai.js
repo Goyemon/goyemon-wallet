@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
-import { saveOutgoingTransactionDataAmount } from '../actions/ActionOutgoingTransactionData';
+import { saveOutgoingTransactionDataCompound } from '../actions/ActionOutgoingTransactionData';
 import {
   RootContainer,
   Button,
@@ -99,7 +99,7 @@ class WithdrawDai extends Component {
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
-      await this.props.saveOutgoingTransactionDataAmount(daiWithdrawAmount);
+      await this.props.saveOutgoingTransactionDataCompound({amount: daiWithdrawAmount});
       this.props.navigation.navigate('WithdrawDaiConfirmation');
     } else {
       LogUtilities.logInfo('form validation failed!');
@@ -234,7 +234,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   saveOutgoingTransactionObject,
-  saveOutgoingTransactionDataAmount
+  saveOutgoingTransactionDataCompound
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WithdrawDai);
