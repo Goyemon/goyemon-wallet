@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import { View } from 'react-native';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
+import { saveOutgoingTransactionDataSwap } from '../actions/ActionOutgoingTransactionData';
+import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
 import {
   RootContainer,
   Container,
@@ -31,10 +33,9 @@ class Swap extends Component {
     super(props);
     this.state = {
       ethBalance: Web3.utils.fromWei(props.balance.weiBalance),
-      amount: '',
-      amountValidation: undefined,
-      buyValue: 0,
-      slippage: 0.5,
+      ethSold: '',
+      tokenBought: '',
+      ethSoldValidation: undefined,
       loading: false,
       buttonDisabled: true,
       buttonOpacity: 0.5
@@ -53,18 +54,25 @@ class Swap extends Component {
     }
   }
 
-  getEthToDaiExchangeRate() {
-    return 200;
-    // write the logic based on the pool sizes
+  getEthToTokenExchangeRate(ethSold, weiReserve, tokenReserve) {
+    weiReserve = new BigNumber(weiReserve, 16);
+    tokenReserve = new BigNumber(tokenReserve, 16);
+    let weiSold = Web3.utils.toWei(ethSold, 'Ether');
+    weiSold = new BigNumber(weiSold);
+    const weiSoldWithFee = weiSold.times(997);
+    const numerator = weiSoldWithFee.times(tokenReserve);
+    const denominator = ((weiReserve.minus(weiSold)).times(1000)).plus(weiSoldWithFee);
+    return numerator.div(denominator);
   }
 
-  updateBuyValue(amount) {
-    const buyValue = this.getEthToDaiExchangeRate() * amount;
-    this.setState({ buyValue: buyValue });
+  updateTokenBought(ethSold) {
+    const exchangeRate = this.getEthToTokenExchangeRate(ethSold, this.props.exchangeReserve.daiExchange.weiReserve, this.props.exchangeReserve.daiExchange.daiReserve);
+    const tokenBought = exchangeRate.times(ethSold).div(new BigNumber(10).pow(18)).toString();
+    this.setState({ tokenBought: tokenBought });
   }
 
-  getMinTokens(buyValue) {
-    const minTokens = buyValue * ((100 - this.state.slippage) / 100);
+  getMinTokens(tokenBought) {
+    const minTokens = tokenBought * ((100 - this.props.outgoingTransactionData.swap.slippage) / 100);
     return minTokens;
   }
 
@@ -75,9 +83,9 @@ class Swap extends Component {
   }
 
   async constructTransactionObject() {
-    const amountWei = parseFloat(Web3.utils.toWei(this.state.amount, 'Ether'));
+    const weiSold = parseFloat(Web3.utils.toWei(this.state.ethSold, 'Ether'));
 
-    const minTokens = this.getMinTokens(this.state.buyValue)
+    const minTokens = this.getMinTokens(this.state.tokenBought)
       .toString()
       .split('.')
       .join('');
@@ -91,11 +99,11 @@ class Swap extends Component {
       decimals
     );
 
-    const minTokensWithDecimals = new BigNumber(this.state.buyValue).times(new BigNumber(10).pow(18)).toString(16);
+    const minTokensWithDecimals = new BigNumber(this.state.tokenBought).times(new BigNumber(10).pow(18)).toString(16);
 
     const transactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.DAIUniswapContract)
-      .setValue(amountWei.toString(16))
+      .setValue(weiSold.toString(16))
       .setGasPrice(
         TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16)
       )
@@ -103,70 +111,68 @@ class Swap extends Component {
       .tempSetData(ethToTokenSwapInputEncodedABI)
       .addTokenOperation('uniswap', TxStorage.TxTokenOpTypeToName.eth2tok, [
         this.props.checksumAddress,
-        this.state.amount,
+        this.state.ethSold,
         minTokensWithDecimals
       ]);
-    // how to update the actual token amount bought
-    // is this addTokenOperation right? what is the token? eth or dai?
-
     return transactionObject;
   }
 
-  sendTransactions = async () => {
-    const amountValidation = this.validateAmount(this.state.amount);
+  validateForm = async () => {
+    const ethSoldValidation = this.validateAmount(this.state.ethSold, GlobalConfig.UniswapEthToTokenSwapInputGasLimit);
     const isOnline = this.props.netInfo;
 
-    if (amountValidation && isOnline) {
+    if (ethSoldValidation && isOnline) {
       this.setState({ loading: true, buttonDisabled: false });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
-      await TransactionUtilities.sendOutgoingTransactionToServer(
-        transactionObject
-      );
-      this.props.navigation.navigate('History');
+      await this.props.saveOutgoingTransactionObject(transactionObject);
+      this.props.saveOutgoingTransactionDataSwap({sold: this.state.ethSold, bought: this.state.tokenBought, minBought: this.getMinTokens(this.state.tokenBought)});
+      this.props.navigation.navigate('SwapConfirmation');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }
   };
 
-  validateAmount(amount) {
-    let transactionFeeLimitInEther = TransactionUtilities.getTransactionFeeEstimateInEther(
-      TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen),
-      GlobalConfig.UniswapEthToTokenSwapInputGasLimit
-    );
-
-    const ethBalance = new BigNumber(this.state.ethBalance);
-
-    amount = new BigNumber(amount);
-    transactionFeeLimitInEther = new BigNumber(transactionFeeLimitInEther);
+  validateAmount(ethSold, gasLimit) {
+    const weiBalance = new BigNumber(this.props.balance.weiBalance);
+    const weiSold = new BigNumber(Web3.utils.toWei(ethSold, 'Ether')); 
+    const transactionFeeLimitInWei = new BigNumber(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen)).times(gasLimit);
+    const tokenReserve = new BigNumber(this.props.exchangeReserve.daiExchange.daiReserve, 16);
 
     if (
-      ethBalance.isGreaterThanOrEqualTo(
-        amount.plus(transactionFeeLimitInEther)
+      weiBalance.isGreaterThanOrEqualTo(
+        weiSold.plus(transactionFeeLimitInWei)
       ) &&
-      amount.isGreaterThanOrEqualTo(0)
+      weiSold.isGreaterThanOrEqualTo(0) &&
+      tokenReserve.isGreaterThanOrEqualTo(this.state.tokenBought)
     ) {
-      LogUtilities.logInfo('the amount validated!');
-      this.setState({
-        amountValidation: true,
-        buttonDisabled: false,
-        buttonOpacity: 1
-      });
+      LogUtilities.logInfo('the ethSold validated!');
       return true;
     }
     LogUtilities.logInfo('wrong balance!');
-    this.setState({
-      amountValidation: false,
-      buttonDisabled: true,
-      buttonOpacity: 0.5
-    });
     return false;
+  }
+
+  updateEthSoldValidation(ethSoldValidation) {
+    if(ethSoldValidation) {
+      this.setState({
+        ethSoldValidation: true,
+        buttonDisabled: false,
+        buttonOpacity: 1
+      });
+    } else if (!ethSoldValidation) {
+      this.setState({
+        ethSoldValidation: false,
+        buttonDisabled: true,
+        buttonOpacity: 0.5
+      });
+    }
   }
 
   renderInsufficientBalanceMessage() {
     if (
-      this.state.amountValidation ||
-      this.state.amountValidation === undefined
+      this.state.ethSoldValidation ||
+      this.state.ethSoldValidation === undefined
     ) {
     } else {
       return <ErrorMessage>invalid amount!</ErrorMessage>;
@@ -174,7 +180,6 @@ class Swap extends Component {
   }
 
   render() {
-    // no confirmation for now. just send after the validation
     return (
       <RootContainer>
         <HeaderOne marginTop="64">Swap</HeaderOne>
@@ -198,7 +203,7 @@ class Swap extends Component {
             <Title>you pay</Title>
             <SwapForm
               borderBottomColor={StyleUtilities.getBorderColor(
-                this.state.amountValidation
+                this.state.ethSoldValidation
               )}
               borderBottomWidth={1}
             >
@@ -206,10 +211,12 @@ class Swap extends Component {
                 placeholder="0"
                 keyboardType="numeric"
                 clearButtonMode="while-editing"
-                onChangeText={amount => {
-                  this.validateAmount(amount);
-                  this.setState({ amount });
-                  this.updateBuyValue(amount);
+                onChangeText={ethSold => {
+                  if(ethSold){
+                    this.updateEthSoldValidation(this.validateAmount(ethSold, GlobalConfig.UniswapEthToTokenSwapInputGasLimit));
+                    this.setState({ ethSold });
+                    this.updateTokenBought(ethSold);  
+                  }
                 }}
                 returnKeyType="done"
               />
@@ -254,7 +261,7 @@ class Swap extends Component {
             width="100%"
           >
             <Title>you get</Title>
-            <BuyValueText>{this.state.buyValue}</BuyValueText>
+            <TokenBoughtText>{this.state.tokenBought}</TokenBoughtText>
           </Container>
           <Container
             alignItems="center"
@@ -268,7 +275,7 @@ class Swap extends Component {
           </Container>
         </UntouchableCardContainer>
         <NetworkFeeContainer
-          gasLimit={GlobalConfig.UniswapEthToTokenSwapInputGasLimit}
+          gasLimit={GlobalConfig.UniswapEthToTokenSwapInputGasLimit} swap={true}
         />
         <ButtonWrapper>
           <Button
@@ -281,7 +288,7 @@ class Swap extends Component {
             marginBottom="12px"
             opacity={this.state.buttonOpacity}
             onPress={async () => {
-              await this.sendTransactions();
+              await this.validateForm();
               this.setState({ loading: false, buttonDisabled: false });
             }}
           />
@@ -297,7 +304,7 @@ const SendTextInput = styled.TextInput`
   font-size: 28;
 `;
 
-const BuyValueText = styled.Text`
+const TokenBoughtText = styled.Text`
   font-size: 28;
 `;
 
@@ -329,10 +336,17 @@ const ButtonWrapper = styled.View`
 function mapStateToProps(state) {
   return {
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
+    exchangeReserve: state.ReducerExchangeReserve.exchangeReserve,
     gasPrice: state.ReducerGasPrice.gasPrice,
     balance: state.ReducerBalance.balance,
-    netInfo: state.ReducerNetInfo.netInfo
+    netInfo: state.ReducerNetInfo.netInfo,
+    outgoingTransactionData: state.ReducerOutgoingTransactionData.outgoingTransactionData
   };
 }
 
-export default connect(mapStateToProps)(Swap);
+const mapDispatchToProps = {
+  saveOutgoingTransactionDataSwap,
+  saveOutgoingTransactionObject
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Swap);
