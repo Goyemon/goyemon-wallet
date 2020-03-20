@@ -14,7 +14,7 @@ import ReducerMnemonicWordsValidation from './ReducerMnemonicWordsValidation';
 import ReducerNetInfo from './ReducerNetInfo';
 import ReducerPermissions from './ReducerPermissions';
 import ReducerQRCodeData from './ReducerQRCodeData';
-import ReducerOutgoingDaiTransactionData from './ReducerOutgoingDaiTransactionData';
+import ReducerOutgoingTransactionData from './ReducerOutgoingTransactionData';
 import ReducerOutgoingTransactionObjects from './ReducerOutgoingTransactionObjects';
 import ReducerPrice from './ReducerPrice';
 import ReducerRehydration from './ReducerRehydration';
@@ -35,7 +35,7 @@ const appReducers = combineReducers({
   ReducerNetInfo,
   ReducerQRCodeData,
   ReducerPermissions,
-  ReducerOutgoingDaiTransactionData,
+  ReducerOutgoingTransactionData,
   ReducerOutgoingTransactionObjects,
   ReducerPrice,
   ReducerRehydration,

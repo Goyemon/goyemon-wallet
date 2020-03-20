@@ -8,9 +8,9 @@ import styled from 'styled-components/native';
 import Web3 from 'web3';
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
 import {
-  saveOutgoingDaiTransactionAmount,
-  saveOutgoingDaiTransactionToAddress
-} from '../actions/ActionOutgoingDaiTransactionData';
+  saveOutgoingTransactionDataAmount,
+  saveOutgoingTransactionDataToaddress
+} from '../actions/ActionOutgoingTransactionData';
 import { clearQRCodeData } from '../actions/ActionQRCodeData';
 import {
   RootContainer,
@@ -151,8 +151,8 @@ class SendDai extends Component {
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
-      await this.props.saveOutgoingDaiTransactionAmount(amount);
-      await this.props.saveOutgoingDaiTransactionToAddress(toAddress);
+      await this.props.saveOutgoingTransactionDataAmount(amount);
+      await this.props.saveOutgoingTransactionDataToaddress(toAddress);
       this.props.navigation.navigate('SendDaiConfirmation');
     } else {
       LogUtilities.logInfo('form validation failed!');
@@ -334,8 +334,8 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   saveOutgoingTransactionObject,
-  saveOutgoingDaiTransactionAmount,
-  saveOutgoingDaiTransactionToAddress,
+  saveOutgoingTransactionDataAmount,
+  saveOutgoingTransactionDataToaddress,
   clearQRCodeData
 };
 
