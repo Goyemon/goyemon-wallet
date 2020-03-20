@@ -2,18 +2,17 @@
 import React, { Component } from 'react';
 import { Clipboard, TouchableWithoutFeedback } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import firebase from 'react-native-firebase';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { saveFcmToken } from '../actions/ActionDebugInfo';
 import { RootContainer, Container, HeaderOne, HeaderThree, CrypterestText } from '../components/common';
-import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
+import { FCMMsgs } from '../lib/fcm.js';
 import LogUtilities from '../utilities/LogUtilities.js';
 
 class Advanced extends Component {
   constructor(props) {
-    super();
+    super(props);
     this.state = {
       clipboardContent: null
     };
@@ -25,10 +24,7 @@ class Advanced extends Component {
   }
 
   getFcmToken() {
-    firebase
-      .messaging()
-      .getToken()
-      .then(fcmToken => {
+	FCMMsgs.getFcmToken().then(fcmToken => {
         if (fcmToken) {
           LogUtilities.logInfo('the current fcmToken ===>', fcmToken);
           this.props.saveFcmToken(fcmToken);
@@ -40,11 +36,11 @@ class Advanced extends Component {
 
   async writeToClipboard() {
     await Clipboard.setString(this.props.debugInfo.fcmToken);
-    this.setState({ clipboardContent: this.props.debugInfo.fcmToken });
+    this.setState({ clipboardContent: 'token' });
   }
 
   renderCopyText() {
-    if (this.state.clipboardContent === this.props.debugInfo.fcmToken) {
+    if (this.state.clipboardContent === 'token') {
       return (
         <CopiedAddressContainer>
           <TouchableWithoutFeedback
@@ -87,7 +83,7 @@ class Advanced extends Component {
             Other Device Info
           </HeaderThree>
           <CrypterestText fontSize="14">{otherDebugInfo}</CrypterestText>
-		  <TouchableWithoutFeedback onPress={async () => { await Clipboard.setString(otherDebugInfo); }}>
+		  <TouchableWithoutFeedback onPress={async () => { await Clipboard.setString(otherDebugInfo); this.setState({ clipboardContent: 'debug' }); }}>
 			<CopyAddressText>Copy</CopyAddressText>
 		  </TouchableWithoutFeedback>
           <HeaderThree color="#000" marginBottom="0" marginLeft="0" marginTop="24">
@@ -97,7 +93,7 @@ class Advanced extends Component {
             <Icon
               onPress={async () => {
                 this.AnimationRef.rotate();
-                await FcmUpstreamMsgs.resyncTransactions(this.props.checksumAddress);
+                FCMMsgs.resyncTransactions(this.props.checksumAddress);
               }}
               name="sync"
               color="#5f5f5f"
