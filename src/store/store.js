@@ -17,11 +17,12 @@ const persistConfig = {
     'ReducerPermissions',
     'ReducerOutgoingTransactionObjects',
     'ReducerPrice',
-    // 'ReducerTransactionHistory',
     'ReducerTransactionsLoaded',
     'ReducerCurrencies'
   ]
 };
+
+    // 'ReducerTransactionHistory',
 
 const persistedReducer = persistReducer(persistConfig, rootReducers);
 
