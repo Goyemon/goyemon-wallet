@@ -1,8 +1,7 @@
 'use strict';
+import Web3 from 'web3';
 import {
-  GET_GAS_PRICE_FAST,
-  GET_GAS_PRICE_AVERAGE,
-  GET_GAS_PRICE_SLOW,
+  GET_GAS_PRICE,
   UPDATE_GAS_PRICE_CHOSEN
 } from '../constants/ActionTypes';
 
@@ -17,12 +16,22 @@ const INITIAL_STATE = {
 
 const gasPrice = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case GET_GAS_PRICE_FAST:
-      return { gasPrice: { ...state.gasPrice, fast: action.payload } };
-    case GET_GAS_PRICE_AVERAGE:
-      return { gasPrice: { ...state.gasPrice, average: action.payload } };
-    case GET_GAS_PRICE_SLOW:
-      return { gasPrice: { ...state.gasPrice, slow: action.payload } };
+    case GET_GAS_PRICE:
+      const gasPriceFastGwei = (action.payload.fast / 10).toString();
+      const gasPriceFastWei = Web3.utils.toWei(gasPriceFastGwei, 'Gwei');
+      const gasPriceAverageGwei = (action.payload.average / 10).toString();
+      const gasPriceAverageWei = Web3.utils.toWei(gasPriceAverageGwei, 'Gwei');
+      const gasPriceSlowGwei = (action.payload.safeLow / 10).toString();
+      const gasPriceSlowWei = Web3.utils.toWei(gasPriceSlowGwei, 'Gwei');
+
+      return {
+        gasPrice: {
+          ...state.gasPrice,
+          fast: gasPriceFastWei,
+          average: gasPriceAverageWei,
+          slow: gasPriceSlowWei
+        }
+      };
     case UPDATE_GAS_PRICE_CHOSEN:
       return { gasPrice: { ...state.gasPrice, chosen: action.payload } };
     default:

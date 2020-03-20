@@ -7,18 +7,18 @@ import ReducerCDaiLendingInfo from './ReducerCDaiLendingInfo';
 import ReducerChecksumAddress from './ReducerChecksumAddress';
 import ReducerFcmMsgs from './ReducerFcmMsgs';
 import ReducerDebugInfo from './ReducerDebugInfo';
+import ReducerExchangeReserve from './ReducerExchangeReserve';
 import ReducerGasPrice from './ReducerGasPrice';
 import ReducerMnemonic from './ReducerMnemonic';
 import ReducerMnemonicWordsValidation from './ReducerMnemonicWordsValidation';
 import ReducerNetInfo from './ReducerNetInfo';
 import ReducerPermissions from './ReducerPermissions';
 import ReducerQRCodeData from './ReducerQRCodeData';
-import ReducerOutgoingDaiTransactionData from './ReducerOutgoingDaiTransactionData';
+import ReducerOutgoingTransactionData from './ReducerOutgoingTransactionData';
 import ReducerOutgoingTransactionObjects from './ReducerOutgoingTransactionObjects';
 import ReducerPrice from './ReducerPrice';
 import ReducerRehydration from './ReducerRehydration';
 import ReducerTransactionsLoaded from './ReducerTransactionsLoaded';
-import ReducerTransactionFeeEstimate from './ReducerTransactionFeeEstimate';
 import ReducerTransactionHistory from './ReducerTransactionHistory';
 import ReducerCurrencies from './ReducerCurrencies';
 
@@ -28,18 +28,18 @@ const appReducers = combineReducers({
   ReducerChecksumAddress,
   ReducerFcmMsgs,
   ReducerDebugInfo,
+  ReducerExchangeReserve,
   ReducerGasPrice,
   ReducerMnemonic,
   ReducerMnemonicWordsValidation,
   ReducerNetInfo,
   ReducerQRCodeData,
   ReducerPermissions,
-  ReducerOutgoingDaiTransactionData,
+  ReducerOutgoingTransactionData,
   ReducerOutgoingTransactionObjects,
   ReducerPrice,
   ReducerRehydration,
   ReducerTransactionsLoaded,
-  ReducerTransactionFeeEstimate,
   ReducerTransactionHistory,
   ReducerCurrencies
 });

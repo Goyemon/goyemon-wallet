@@ -369,6 +369,11 @@ class Tx {
 		return this;
 	}
 
+	setSentTimestamp(tstamp) {
+		this.sent_timestamp = tstamp;
+		return this;
+	}
+
 	setState(state) {
 		this.state = state;
 		return this;
@@ -401,7 +406,7 @@ class Tx {
 						)
 					)
 				);
-			else
+			else {
 				Object.entries(data[8]).forEach(
 					([token, ops]) => ops.forEach(
 						opdescr => Object.entries(opdescr).forEach(
@@ -409,6 +414,9 @@ class Tx {
 						)
 					)
 				);
+				if (data.length > 9)
+					this.setSentTimestamp(data[9]);
+			}
 		}
 
 		return this.setFrom(data[0])
@@ -474,6 +482,10 @@ class Tx {
 		return this.timestamp;
 	}
 
+	getSortTimestamp() {
+		return this.sent_timestamp ? this.sent_timestamp : this.timestamp;
+	}
+
 	getNonce() {
 		return this.nonce;
 	}
@@ -491,7 +503,10 @@ class Tx {
 	}
 
 	toJSON() {
-		return [this.getFrom(), this.getTo(), this.gas, this.gasPrice, this.value, this.nonce, this.timestamp, this.state, this.tokenData];
+		if (!this.sent_timestamp)
+			return [this.getFrom(), this.getTo(), this.gas, this.gasPrice, this.value, this.nonce, this.timestamp, this.state, this.tokenData];
+
+		return [this.getFrom(), this.getTo(), this.gas, this.gasPrice, this.value, this.nonce, this.timestamp, this.state, this.tokenData, this.sent_timestamp];
 	}
 
 	shallowClone() {
@@ -625,9 +640,12 @@ class TxStorage {
 	}
 
 	async newTx(state=TxStates.STATE_NEW, nonce) {
+		const now = Math.trunc(Date.now() / 1000);
 		let tx = new Tx(state)
-			.setTimestamp(Math.trunc(Date.now() / 1000))
+			.setTimestamp(now)
+			.setSentTimestamp(now)
 			.setNonce(nonce ? nonce : await this.getNextNonce());
+
 		tx.from_addr = this.our_address;
 
 		return tx;
@@ -917,7 +935,7 @@ class TxStorage {
 		LogUtilities.toDebugScreen(`tempGetAllAsList() not included txes: `, nit);
 		nit.forEach((x) => ret.push(x));
 
-		ret.sort((a, b) => b.getTimestamp() - a.getTimestamp());
+		ret.sort((a, b) => b.getSortTimestamp() - a.getSortTimestamp());
 
 		return ret;
 	}

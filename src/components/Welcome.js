@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import {
-  widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 import styled from 'styled-components/native';

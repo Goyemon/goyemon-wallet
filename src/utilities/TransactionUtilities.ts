@@ -99,6 +99,69 @@ class TransactionUtilities {
     );
   }
 
+  returnTransactionSpeed(chosenSpeed) {
+    const stateTree = store.getState();
+    const gasPrice = stateTree.ReducerGasPrice.gasPrice;
+      if (chosenSpeed === 0) {
+      return gasPrice.fast;
+    } else if (chosenSpeed === 1) {
+      return gasPrice.average;
+    } else if (chosenSpeed === 2) {
+      return gasPrice.slow;
+    } else {
+      LogUtilities.logInfo('invalid transaction speed');
+    }
+  }
+
+  validateWeiAmountForTransactionFee(gasPriceWei, gasLimit) {
+    const stateTree = store.getState();
+    const balance = stateTree.ReducerBalance.balance;
+    const weiBalance = new BigNumber(balance.weiBalance);
+    const transactionFeeLimitInWei = new BigNumber(gasPriceWei).times(gasLimit);
+
+    if (weiBalance.isGreaterThan(transactionFeeLimitInWei)) {
+      LogUtilities.logInfo('the wei amount validated!');
+      return true;
+    }
+    LogUtilities.logInfo('wrong wei balance!');
+    return false;
+  }
+
+  validateDaiAmount(daiAmount) {
+    const stateTree = store.getState();
+    const balance = stateTree.ReducerBalance.balance;
+    const daiBalance = new BigNumber(balance.daiBalance);
+    daiAmount = new BigNumber(10).pow(18).times(daiAmount);
+
+    if (
+      daiBalance.isGreaterThanOrEqualTo(daiAmount) &&
+      daiAmount.isGreaterThanOrEqualTo(0)
+    ) {
+      LogUtilities.logInfo('the dai amount validated!');
+      return true;
+    }
+    LogUtilities.logInfo('wrong dai balance!');
+    return false;
+  }
+
+  validateDaiSavingsAmount(daiWithdrawAmount) {
+    const stateTree = store.getState();
+    const balance = stateTree.ReducerBalance.balance;
+    const daiSavingsBalance = new BigNumber(balance.daiSavingsBalance);
+
+    daiWithdrawAmount = new BigNumber(10).pow(36).times(daiWithdrawAmount);
+
+    if (
+      daiSavingsBalance.isGreaterThanOrEqualTo(daiWithdrawAmount) &&
+      daiWithdrawAmount.isGreaterThanOrEqualTo(0)
+    ) {
+      LogUtilities.logInfo('the dai savings amount validated!');
+      return true;
+    }
+    LogUtilities.logInfo('wrong dai balance!');
+    return false;
+  }
+
   async constructSignedOutgoingTransactionObject(outgoingTransactionObject) {
     outgoingTransactionObject = new ethTx(outgoingTransactionObject.toTransactionDict());
     let privateKey = await WalletUtilities.retrievePrivateKey();
@@ -132,11 +195,8 @@ class TransactionUtilities {
   }
 
   getTransactionFeeEstimateInEther(gasPriceWei, gasLimit) {
-    const transactionFeeEstimateWei = parseFloat(gasPriceWei) * gasLimit;
-    const transactionFeeEstimateInEther = Web3.utils.fromWei(
-      transactionFeeEstimateWei.toString(),
-      'Ether'
-    );
+    const transactionFeeEstimateWei = Web3.utils.toBN(gasPriceWei).mul(Web3.utils.toBN(gasLimit));
+    const transactionFeeEstimateInEther = Web3.utils.fromWei(transactionFeeEstimateWei, 'Ether').toString();
     return transactionFeeEstimateInEther;
   }
 

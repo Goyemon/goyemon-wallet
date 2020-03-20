@@ -7,15 +7,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
-import {
-  saveOutgoingDaiTransactionAmount,
-  saveOutgoingDaiTransactionToAddress
-} from '../actions/ActionOutgoingDaiTransactionData';
+import { saveOutgoingTransactionDataSend } from '../actions/ActionOutgoingTransactionData';
 import { clearQRCodeData } from '../actions/ActionQRCodeData';
-import {
-  saveTransactionFeeEstimateUsd,
-  saveTransactionFeeEstimateEth
-} from '../actions/ActionTransactionFeeEstimate';
 import {
   RootContainer,
   Button,
@@ -29,10 +22,9 @@ import {
   InvalidToAddressMessage,
   InsufficientDaiBalanceMessage
 } from '../components/common';
-import NetworkFeeContainer from '../containers/NetworkFeeContainer';
+import AdvancedContainer from '../containers/AdvancedContainer';
 import HomeStack from '../navigators/HomeStack';
 import LogUtilities from '../utilities/LogUtilities.js';
-import PriceUtilities from '../utilities/PriceUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import ABIEncoder from '../utilities/AbiUtilities';
@@ -43,12 +35,11 @@ class SendDai extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ethBalance: Web3.utils.fromWei(props.balance.weiBalance),
       toAddress: '',
       amount: '',
       toAddressValidation: undefined,
       daiAmountValidation: undefined,
-      ethAmountValidation: undefined,
+      weiAmountValidation: undefined,
       currency: 'USD',
       loading: false,
       buttonDisabled: true,
@@ -57,28 +48,13 @@ class SendDai extends Component {
   }
 
   componentDidMount() {
-    this.validateEthAmount(this.returnTransactionSpeed(this.props.gasPrice.chosen));
+    this.updateWeiAmountValidation(TransactionUtilities.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.ERC20TransferGasLimit));
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.qrCodeData != prevProps.qrCodeData) {
       this.setState({ toAddress: this.props.qrCodeData });
       this.validateToAddress(this.props.qrCodeData);
-    }
-    if (this.props.balance != prevProps.balance) {
-      this.setState({ ethBalance: Web3.utils.fromWei(this.props.balance.weiBalance) });
-    }
-  }
-
-  returnTransactionSpeed(chosenSpeed) {
-    if(chosenSpeed === 0) {
-      return this.props.gasPrice.fast;
-    } else if (chosenSpeed === 1) {
-      return this.props.gasPrice.average;
-    } else if (chosenSpeed === 2) {
-      return this.props.gasPrice.slow;
-    } else {
-      LogUtilities.logInfo('invalid transaction speed');
     }
   }
 
@@ -92,12 +68,14 @@ class SendDai extends Component {
       decimals
     );
 
+    const amountWithDecimals = new BigNumber(this.state.amount).times(new BigNumber(10).pow(18)).toString(16);
+
     const transactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.DAITokenContract)
-      .setGasPrice(this.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16))
+      .setGasPrice(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16))
       .setGas((GlobalConfig.ERC20TransferGasLimit).toString(16))
       .tempSetData(transferEncodedABI)
-      .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.transfer, [TxStorage.storage.getOwnAddress(), GlobalConfig.DAITokenContract, amount]);
+      .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.transfer, [TxStorage.storage.getOwnAddress(), GlobalConfig.DAITokenContract, amountWithDecimals]);
 
     return transactionObject;
   }
@@ -145,58 +123,31 @@ class SendDai extends Component {
     return false;
   }
 
-  validateEthAmount(gasPriceWei) {
-    let transactionFeeLimitInEther = TransactionUtilities.getTransactionFeeEstimateInEther(
-      gasPriceWei,
-      GlobalConfig.ERC20TransferGasLimit
-    );
-
-    const ethBalance = new BigNumber(this.state.ethBalance);
-    transactionFeeLimitInEther = new BigNumber(transactionFeeLimitInEther);
-
-    if (ethBalance.isGreaterThan(transactionFeeLimitInEther)) {
-      LogUtilities.logInfo('the eth amount validated!');
-      this.setState({ ethAmountValidation: true });
-      return true;
+  updateWeiAmountValidation(weiAmountValidation) {
+    if(weiAmountValidation) {
+      this.setState({ weiAmountValidation: true });
+    } else if (!weiAmountValidation) {
+      this.setState({ weiAmountValidation: false });
     }
-    LogUtilities.logInfo('wrong eth balance!');
-    this.setState({ ethAmountValidation: false });
-    return false;
   }
 
   validateForm = async (toAddress, amount) => {
     const toAddressValidation = this.validateToAddress(toAddress);
     const daiAmountValidation = this.validateDaiAmount(amount);
-    const ethAmountValidation = this.validateEthAmount(this.returnTransactionSpeed(this.props.gasPrice.chosen));
+    const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.ERC20TransferGasLimit);
     const isOnline = this.props.netInfo;
 
     if (
       toAddressValidation &&
       daiAmountValidation &&
-      ethAmountValidation &&
+      weiAmountValidation &&
       isOnline
     ) {
       this.setState({ loading: true, buttonDisabled: true });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
-      await this.props.saveOutgoingDaiTransactionAmount(amount);
-      await this.props.saveOutgoingDaiTransactionToAddress(toAddress);
-      this.props.saveTransactionFeeEstimateEth(
-        TransactionUtilities.getTransactionFeeEstimateInEther(
-          this.returnTransactionSpeed(this.props.gasPrice.chosen),
-          GlobalConfig.ERC20TransferGasLimit
-        )
-      );
-      this.props.saveTransactionFeeEstimateUsd(
-        PriceUtilities.convertEthToUsd(
-          TransactionUtilities.getTransactionFeeEstimateInEther(
-            this.returnTransactionSpeed(this.props.gasPrice.chosen),
-            GlobalConfig.ERC20TransferGasLimit
-          )
-        )
-      );
-
+      this.props.saveOutgoingTransactionDataSend({toaddress: toAddress, amount: amount});
       this.props.navigation.navigate('SendDaiConfirmation');
     } else {
       LogUtilities.logInfo('form validation failed!');
@@ -289,8 +240,8 @@ class SendDai extends Component {
             </SendTextInputContainer>
           </Form>
           <InsufficientDaiBalanceMessage daiAmountValidation={this.state.daiAmountValidation} />
-          <NetworkFeeContainer gasLimit={GlobalConfig.ERC20TransferGasLimit} />
-          <InsufficientEthBalanceMessage ethAmountValidation={this.state.ethAmountValidation} />
+          <AdvancedContainer gasLimit={GlobalConfig.ERC20TransferGasLimit} />
+          <InsufficientEthBalanceMessage weiAmountValidation={this.state.weiAmountValidation} />
           <ButtonWrapper>
             <Button
               text="Next"
@@ -378,10 +329,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   saveOutgoingTransactionObject,
-  saveTransactionFeeEstimateUsd,
-  saveTransactionFeeEstimateEth,
-  saveOutgoingDaiTransactionAmount,
-  saveOutgoingDaiTransactionToAddress,
+  saveOutgoingTransactionDataSend,
   clearQRCodeData
 };
 

@@ -1,15 +1,10 @@
 'use strict';
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import {
-  getGasPriceFast,
-  getGasPriceAverage,
-  getGasPriceSlow,
-  updateGasPriceChosen
-} from '../actions/ActionGasPrice';
+import { getGasPrice, updateGasPriceChosen } from '../actions/ActionGasPrice';
 import {
   Container,
   UntouchableCardContainer,
@@ -17,9 +12,11 @@ import {
   MenuContainer,
   ToggleCurrencySymbol
 } from '../components/common';
+import SlippageContainer from './SlippageContainer';
+import LogUtilities from '../utilities/LogUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 
-class NetworkFeeContainer extends Component {
+class AdvancedContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -41,14 +38,12 @@ class NetworkFeeContainer extends Component {
         }
       ],
       currency: 'USD',
-      showNetworkFee: false
+      showAdvanced: false
     };
   }
 
   componentDidMount() {
-    this.props.getGasPriceFast();
-    this.props.getGasPriceAverage();
-    this.props.getGasPriceSlow();
+    this.props.getGasPrice();
   }
 
   toggleCurrency(gasPriceWei, gasLimit) {
@@ -63,15 +58,25 @@ class NetworkFeeContainer extends Component {
         gasPriceWei,
         gasLimit
       );
+      console.log('ethValue ==>', ethValue);
       ethValue = parseFloat(ethValue).toFixed(5);
       return <NetworkFeeText>{ethValue}ETH</NetworkFeeText>;
     }
   }
 
-  renderNetWorkFeeContainer() {
-    if (this.state.showNetworkFee) {
+  renderSlippageContainer() {
+    if (this.props.swap) {
+      return <SlippageContainer />;
+    } else {
+      LogUtilities.logInfo('this is not the swap component');
+    }
+  }
+
+  renderAdvancedContainer() {
+    if (this.state.showAdvanced) {
       return (
         <View>
+          {this.renderSlippageContainer()}
           <NetworkFeeHeaderContainer>
             <FormHeader marginBottom="0" marginLeft="0" marginTop="0">
               Network Fee
@@ -119,7 +124,10 @@ class NetworkFeeContainer extends Component {
                         color="#1BA548"
                       />
                       <SelectedButton>
-                        {this.toggleCurrency(gasPrice.gasPriceWei, this.props.gasLimit)}
+                        {this.toggleCurrency(
+                          gasPrice.gasPriceWei,
+                          this.props.gasLimit
+                        )}
                       </SelectedButton>
                     </SpeedContainer>
                   ) : (
@@ -131,7 +139,10 @@ class NetworkFeeContainer extends Component {
                       <UnselectedButton>{gasPrice.speed}</UnselectedButton>
                       <Icon name={gasPrice.imageName} size={40} color="#000" />
                       <UnselectedButton>
-                        {this.toggleCurrency(gasPrice.gasPriceWei, this.props.gasLimit)}
+                        {this.toggleCurrency(
+                          gasPrice.gasPriceWei,
+                          this.props.gasLimit
+                        )}
                       </UnselectedButton>
                     </SpeedContainer>
                   )}
@@ -139,36 +150,31 @@ class NetworkFeeContainer extends Component {
               ))}
             </Container>
           </UntouchableCardContainer>
-          <MenuContainer>
-            <Icon
-              name="menu-up"
-              color="#000"
-              onPress={() => {
-                this.setState({ showNetworkFee: false });
-              }}
-              size={32}
-            />
+          <MenuContainer
+            onPress={() => {
+              this.setState({ showAdvanced: false });
+            }}
+          >
+            <Icon name="menu-up" color="#000" size={32} />
           </MenuContainer>
         </View>
       );
-    } else if (!this.state.showNetworkFee) {
+    } else if (!this.state.showAdvanced) {
       return (
-        <MenuContainer>
-          <Icon
-            name="menu-down"
-            color="#000"
-            onPress={() => {
-              this.setState({ showNetworkFee: true });
-            }}
-            size={32}
-          />
+        <MenuContainer
+          onPress={() => {
+            this.setState({ showAdvanced: true });
+          }}
+        >
+          <Text>advanced</Text>
+          <Icon name="menu-down" color="#000" size={32} />
         </MenuContainer>
       );
     }
   }
 
   render() {
-    return <View>{this.renderNetWorkFeeContainer()}</View>;
+    return <View>{this.renderAdvancedContainer()}</View>;
   }
 }
 
@@ -215,13 +221,8 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  getGasPriceFast,
-  getGasPriceAverage,
-  getGasPriceSlow,
+  getGasPrice,
   updateGasPriceChosen
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(NetworkFeeContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(AdvancedContainer);

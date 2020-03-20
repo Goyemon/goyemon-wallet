@@ -1,31 +1,26 @@
 'use strict';
 import React, { Component } from 'react';
-import { View, Image, Linking } from 'react-native';
+import { Linking } from 'react-native';
 import AndroidOpenSettings from 'react-native-android-open-settings';
 import CameraRoll from '@react-native-community/cameraroll';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import { captureScreen } from 'react-native-view-shot';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-import {
-  RootContainer,
-  ProgressBar,
-  Button,
-  HeaderTwo,
-  CrypterestText
-} from '../components/common';
 import { savePhotoLibraryPermission } from '../actions/ActionPermissions';
-import ShowMnemonicWords from '../containers/ShowMnemonicWords';
+import { RootContainer, Container, ProgressBar, Button, HeaderTwo, Description, CrypterestText } from '../components/common';
+import ShowMnemonicWords from './ShowMnemonicWords';
 import LogUtilities from '../utilities/LogUtilities.js';
 
-class MnemonicWordsScreenshot extends Component {
+class ShowMnemonic extends Component {
   constructor() {
     super();
     this.state = {
       imageURI: undefined,
       screenshotTaken: false,
-      nextButtonDisabled: true,
-      nextButtonOpacity: 0.5
+      nextButtonShown: false,
+      twoColor: "#eeeeee",
+      progressBarWidth: "0%"
     };
   }
 
@@ -124,15 +119,14 @@ class MnemonicWordsScreenshot extends Component {
         <Button
           text="Take a Screenshot"
           textColor="#00A3E2"
-          backgroundColor="#F8F8F8"
-          borderColor="#F8F8F8"
-          disabled={false}
-          margin="0 auto"
+          backgroundColor="#FFF"
+          borderColor="#00A3E2"
+          margin="8px auto"
           marginBottom="12px"
           opacity="1"
           onPress={() => {
-            this.requestPhotoLibraryPermission();
-          }}
+              this.requestPhotoLibraryPermission();
+            }}
         />
       );
     } else if (
@@ -146,7 +140,7 @@ class MnemonicWordsScreenshot extends Component {
           backgroundColor="#F8F8F8"
           borderColor="#F8F8F8"
           disabled={false}
-          margin="0 auto"
+          margin="8px auto"
           marginBottom="12px"
           opacity="1"
           onPress={() => {
@@ -166,7 +160,7 @@ class MnemonicWordsScreenshot extends Component {
           backgroundColor="#F8F8F8"
           borderColor="#F8F8F8"
           disabled={false}
-          margin="0 auto"
+          margin="8px auto"
           marginBottom="12px"
           opacity="1"
           onPress={() => {
@@ -183,8 +177,9 @@ class MnemonicWordsScreenshot extends Component {
         this.setState({
           imageURI: uri,
           screenshotTaken: true,
-          nextButtonDisabled: false,
-          nextButtonOpacity: 1
+          nextButtonShown: true,
+          twoColor: "#FDC800",
+          progressBarWidth: "40%"
         });
         CameraRoll.saveToCameraRoll(uri);
       },
@@ -192,34 +187,18 @@ class MnemonicWordsScreenshot extends Component {
     );
   }
 
-  render() {
-    return (
-      <RootContainer>
-        <ProgressBar
-          oneColor="#FDC800"
-          twoColor="#FDC800"
-          threeColor="#eeeeee"
-          marginRight="40%"
-          width="40%"
-        />
-        <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
-          Save Backup Words
-        </HeaderTwo>
-        <ShowMnemonicWords />
-        <ScreenshotContainer>
-          {this.renderScreenshotButtons()}
-          <ScreenshotImage source={{ uri: this.state.imageURI }} />
-          {this.renderScreenshotSavedMessage()}
-       </ScreenshotContainer>
+  renderNextButton() {
+    if(this.state.nextButtonShown){
+      return(
         <Button
           text="Next"
           textColor="#00A3E2"
           backgroundColor="#F8F8F8"
-          borderColor="#00A3E2"
-          disabled={this.state.nextButtonDisabled}
+          borderColor="#FFF"
+          disabled={false}
           margin="8px auto"
           marginBottom="12px"
-          opacity={this.state.nextButtonOpacity}
+          opacity={1}
           onPress={() => {
             if (Platform.OS === 'ios') {
               this.props.navigation.navigate('NotificationPermissionTutorial');
@@ -228,18 +207,52 @@ class MnemonicWordsScreenshot extends Component {
             }
           }}
         />
+      )
+    } else if (!this.state.nextButtonShown){
+      return null;
+    }
+  }
+
+  render() {
+    return (
+      <RootContainer>
+        <ProgressBar
+          oneColor="#FDC800"
+          twoColor={this.state.twoColor}
+          threeColor="#eeeeee"
+          marginRight="40%"
+          width={this.state.progressBarWidth}
+        />
+        <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
+          Save Backup Words
+        </HeaderTwo>
+          <Description marginBottom="8" marginLeft="8" marginTop="16">
+            carefully save your backup words in order
+          </Description>
+          <ShowMnemonicWords />
+          <Container alignItems="center" flexDirection="column" justifyContent="center" marginTop={0} width="100%">            
+          <Button
+            text="Verify Backup Words"
+            textColor="#00A3E2"
+            backgroundColor="#FFF"
+            borderColor="#00A3E2"
+            margin="8px auto"
+            marginBottom="8px"
+            opacity="1"
+            onPress={() => this.props.navigation.navigate('VerifyMnemonic')}
+          />
+        <CrypterestText fontSize="14">OR</CrypterestText>
+        {this.renderScreenshotButtons()}
+        <ScreenshotContainer>
+            <ScreenshotImage source={{ uri: this.state.imageURI }} />
+            {this.renderScreenshotSavedMessage()}
+        </ScreenshotContainer>
+        {this.renderNextButton()}
+        </Container>
       </RootContainer>
     );
   }
 }
-
-const Container = styled.View`
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0 auto;
-  width: 90%;
-`;
 
 const ScreenshotContainer = styled.View`
   flex: 1;
@@ -266,4 +279,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(MnemonicWordsScreenshot);
+)(ShowMnemonic);
