@@ -65,10 +65,8 @@ class AdvancedContainer extends Component {
   }
 
   renderSlippageContainer() {
-    if(this.props.swap){
-      return (
-        <SlippageContainer />
-      )
+    if (this.props.swap) {
+      return <SlippageContainer />;
     } else {
       LogUtilities.logInfo('this is not the swap component');
     }
@@ -78,7 +76,7 @@ class AdvancedContainer extends Component {
     if (this.state.showAdvanced) {
       return (
         <View>
-        {this.renderSlippageContainer()} 
+          {this.renderSlippageContainer()}
           <NetworkFeeHeaderContainer>
             <FormHeader marginBottom="0" marginLeft="0" marginTop="0">
               Network Fee
@@ -152,41 +150,31 @@ class AdvancedContainer extends Component {
               ))}
             </Container>
           </UntouchableCardContainer>
-          <MenuContainer>
-            <Icon
-              name="menu-up"
-              color="#000"
-              onPress={() => {
-                this.setState({ showAdvanced: false });
-              }}
-              size={32}
-            />
+          <MenuContainer
+            onPress={() => {
+              this.setState({ showAdvanced: false });
+            }}
+          >
+            <Icon name="menu-up" color="#000" size={32} />
           </MenuContainer>
         </View>
       );
     } else if (!this.state.showAdvanced) {
       return (
-        <MenuContainer>
+        <MenuContainer
+          onPress={() => {
+            this.setState({ showAdvanced: true });
+          }}
+        >
           <Text>advanced</Text>
-          <Icon
-            name="menu-down"
-            color="#000"
-            onPress={() => {
-              this.setState({ showAdvanced: true });
-            }}
-            size={32}
-          />
+          <Icon name="menu-down" color="#000" size={32} />
         </MenuContainer>
       );
     }
   }
 
   render() {
-    return (
-      <View>
-        {this.renderAdvancedContainer()}
-      </View> 
-    )
+    return <View>{this.renderAdvancedContainer()}</View>;
   }
 }
 
@@ -237,7 +225,4 @@ const mapDispatchToProps = {
   updateGasPriceChosen
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AdvancedContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(AdvancedContainer);
