@@ -56,6 +56,7 @@ class NetworkFeeContainer extends Component {
         gasPriceWei,
         gasLimit
       );
+      console.log('ethValue ==>', ethValue);
       ethValue = parseFloat(ethValue).toFixed(5);
       return <NetworkFeeText>{ethValue}ETH</NetworkFeeText>;
     }
