@@ -6,12 +6,9 @@ import { View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
+import { saveOutgoingTransactionDataSend } from '../actions/ActionOutgoingTransactionData';
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
 import { clearQRCodeData } from '../actions/ActionQRCodeData';
-import {
-  saveTransactionFeeEstimateUsd,
-  saveTransactionFeeEstimateEth
-} from '../actions/ActionTransactionFeeEstimate';
 import {
   RootContainer,
   Button,
@@ -24,7 +21,7 @@ import {
   InvalidToAddressMessage,
   ErrorMessage
 } from '../components/common';
-import NetworkFeeContainer from '../containers/NetworkFeeContainer';
+import AdvancedContainer from '../containers/AdvancedContainer';
 import HomeStack from '../navigators/HomeStack';
 import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
@@ -39,7 +36,7 @@ class SendEth extends Component {
     this.state = {
       ethBalance: Web3.utils.fromWei(props.balance.weiBalance),
       toAddress: '',
-      amount: '',
+      ethAmount: '',
       toAddressValidation: undefined,
       amountValidation: undefined,
       loading: false,
@@ -53,30 +50,15 @@ class SendEth extends Component {
       this.setState({ toAddress: this.props.qrCodeData });
       this.validateToAddress(this.props.qrCodeData);
     }
-    if (this.props.balance != prevProps.balance) {
-      this.setState({ ethBalance: Web3.utils.fromWei(this.props.balance.weiBalance) });
-    }
-  }
-
-  returnTransactionSpeed(chosenSpeed) {
-    if(chosenSpeed === 0) {
-      return this.props.gasPrice.fast;
-    } else if (chosenSpeed === 1) {
-      return this.props.gasPrice.average;
-    } else if (chosenSpeed === 2) {
-      return this.props.gasPrice.slow;
-    } else {
-      LogUtilities.logInfo('invalid transaction speed');
-    }
   }
 
   async constructTransactionObject() {
-    const amountWei = parseFloat(Web3.utils.toWei(this.state.amount, 'Ether'));// TODO: why is it here?
+    const amountWei = parseFloat(Web3.utils.toWei(this.state.ethAmount, 'Ether'));// TODO: why is it here?
 
     const transactionObject = (await TxStorage.storage.newTx())
       .setTo(this.state.toAddress)
       .setValue(amountWei.toString(16))
-      .setGasPrice(this.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16))
+      .setGasPrice(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16))
       .setGas((GlobalConfig.ETHTxGasLimit).toString(16));
 
     return transactionObject;
@@ -101,22 +83,16 @@ class SendEth extends Component {
     }
   }
 
-  validateAmount(amount) {
-    let transactionFeeLimitInEther = TransactionUtilities.getTransactionFeeEstimateInEther(
-      this.returnTransactionSpeed(this.props.gasPrice.chosen),
-      GlobalConfig.ETHTxGasLimit
-    );
-
-    const ethBalance = new BigNumber(this.state.ethBalance);
-
-    amount = new BigNumber(amount);
-    transactionFeeLimitInEther = new BigNumber(transactionFeeLimitInEther);
+  validateAmount(ethAmount, gasLimit) {
+    const weiBalance = new BigNumber(this.props.balance.weiBalance);
+    const weiAmount = new BigNumber(Web3.utils.toWei(ethAmount, 'Ether')); 
+    const transactionFeeLimitInWei = new BigNumber(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen)).times(gasLimit);
 
     if (
-      ethBalance.isGreaterThanOrEqualTo(
-        amount.plus(transactionFeeLimitInEther)
+      weiBalance.isGreaterThanOrEqualTo(
+        weiAmount.plus(transactionFeeLimitInWei)
       ) &&
-      amount.isGreaterThanOrEqualTo(0)
+      weiAmount.isGreaterThanOrEqualTo(0)
     ) {
       LogUtilities.logInfo('the amount validated!');
       this.setState({ amountValidation: true });
@@ -144,9 +120,9 @@ class SendEth extends Component {
     }
   }
 
-  validateForm = async (toAddress, amount) => {
+  validateForm = async (toAddress, ethAmount) => {
     const toAddressValidation = this.validateToAddress(toAddress);
-    const amountValidation = this.validateAmount(amount);
+    const amountValidation = this.validateAmount(ethAmount, GlobalConfig.ETHTxGasLimit);
     const isOnline = this.props.netInfo;
 
     if (toAddressValidation && amountValidation && isOnline) {
@@ -154,20 +130,7 @@ class SendEth extends Component {
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
-      this.props.saveTransactionFeeEstimateEth(
-        TransactionUtilities.getTransactionFeeEstimateInEther(
-          this.returnTransactionSpeed(this.props.gasPrice.chosen),
-          GlobalConfig.ETHTxGasLimit
-        )
-      );
-      this.props.saveTransactionFeeEstimateUsd(
-        PriceUtilities.convertEthToUsd(
-          TransactionUtilities.getTransactionFeeEstimateInEther(
-            this.returnTransactionSpeed(this.props.gasPrice.chosen),
-            GlobalConfig.ETHTxGasLimit
-          )
-        )
-      );
+      this.props.saveOutgoingTransactionDataSend({toaddress: toAddress, amount: ethAmount});
       this.props.navigation.navigate('SendEthConfirmation');
     } else {
       LogUtilities.logInfo('form validation failed!');
@@ -249,9 +212,11 @@ class SendEth extends Component {
                 placeholder="0"
                 keyboardType="numeric"
                 clearButtonMode="while-editing"
-                onChangeText={amount => {
-                  this.validateAmount(amount);
-                  this.setState({ amount });
+                onChangeText={ethAmount => {
+                  if(ethAmount){
+                    this.validateAmount(ethAmount, GlobalConfig.ETHTxGasLimit);
+                    this.setState({ ethAmount });  
+                  }
                 }}
                 returnKeyType="done"
               />
@@ -259,7 +224,7 @@ class SendEth extends Component {
             </SendTextInputContainer>
           </Form>
           <View>{this.renderInsufficientBalanceMessage()}</View>
-          <NetworkFeeContainer gasLimit={GlobalConfig.ETHTxGasLimit}/>
+          <AdvancedContainer gasLimit={GlobalConfig.ETHTxGasLimit}/>
           <ButtonWrapper>
             <Button
               text="Next"
@@ -273,7 +238,7 @@ class SendEth extends Component {
               onPress={async () => {
                 await this.validateForm(
                   this.state.toAddress,
-                  this.state.amount
+                  this.state.ethAmount
                 );
                 this.setState({ loading: false, buttonDisabled: false });
               }}
@@ -345,9 +310,8 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
+  saveOutgoingTransactionDataSend,
   saveOutgoingTransactionObject,
-  saveTransactionFeeEstimateUsd,
-  saveTransactionFeeEstimateEth,
   clearQRCodeData
 };
 

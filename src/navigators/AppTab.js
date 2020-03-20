@@ -1,13 +1,11 @@
 'use strict';
 import React from 'react';
 import { Provider } from 'react-redux';
-import Icon from 'react-native-vector-icons/AntDesign';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
-import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 import { rehydrationComplete } from '../actions/ActionRehydration';
 import FcmListener from '../firebase/FcmListener';
-import FCM from '../lib/fcm.js';
 import '../firebase/FcmTokenMonitor';
 import '../netinfo/NetInfoListener';
 import SaveIcon from '../../assets/SaveIcon.js';
@@ -18,6 +16,7 @@ import HistoryStack from './HistoryStack';
 import HomeStack from './HomeStack';
 import SettingsStack from './SettingsStack';
 import SwapStack from './SwapStack';
+import { Loader } from '../components/common';
 import { store, persistor } from '../store/store.js';
 
 const AppTab = createBottomTabNavigator(
@@ -33,7 +32,7 @@ const AppTab = createBottomTabNavigator(
       screen: SwapStack,
       navigationOptions: {
         tabBarLabel: 'Swap',
-        tabBarIcon: ({ tintColor }) => <Icon name="swap" size={28} color={tintColor} />
+        tabBarIcon: ({ tintColor }) => <Icon name="swap-horizontal" size={32} color={tintColor} />
       }
     },
     Save: {
@@ -54,7 +53,7 @@ const AppTab = createBottomTabNavigator(
       screen: SettingsStack,
       navigationOptions: {
         tabBarLabel: 'Settings',
-        tabBarIcon: ({ tintColor }) => <Icon name="setting" size={28} color={tintColor} />
+        tabBarIcon: ({ tintColor }) => <Icon name="settings-outline" size={28} color={tintColor} />
       }
     }
   },
@@ -81,16 +80,13 @@ const AppTab = createBottomTabNavigator(
 );
 
 const App = createAppContainer(AppTab);
+
 FCM.FCMMsgs.setMsgCallback(FcmListener.downstreamMessageHandler); // so now FcmListener is just a callback we attach to FCMMsgs.
 FCM.registerHandler(); // Then we call FCM.registerHandler() to actually initialize FCM.
 
-persistStore(store, {}, () => {
-  store.dispatch(rehydrationComplete(true));
-});
-
 export default () => (
   <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
+    <PersistGate loading={<Loader animating={true} size="large" />} persistor={persistor}>
       <App />
     </PersistGate>
   </Provider>

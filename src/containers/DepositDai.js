@@ -3,13 +3,8 @@ import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-import Web3 from 'web3';
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
-import { saveOutgoingDaiTransactionAmount } from '../actions/ActionOutgoingDaiTransactionData';
-import {
-  saveTransactionFeeEstimateUsd,
-  saveTransactionFeeEstimateEth
-} from '../actions/ActionTransactionFeeEstimate';
+import { saveOutgoingTransactionDataCompound } from '../actions/ActionOutgoingTransactionData';
 import {
   RootContainer,
   Button,
@@ -22,9 +17,8 @@ import {
   InsufficientEthBalanceMessage,
   InsufficientDaiBalanceMessage
 } from '../components/common';
-import NetworkFeeContainer from '../containers/NetworkFeeContainer';
+import AdvancedContainer from './AdvancedContainer';
 import LogUtilities from '../utilities/LogUtilities.js';
-import PriceUtilities from '../utilities/PriceUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import ABIEncoder from '../utilities/AbiUtilities';
@@ -35,10 +29,9 @@ class DepositDai extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ethBalance: Web3.utils.fromWei(props.balance.weiBalance),
       daiAmount: '',
       daiAmountValidation: undefined,
-      ethAmountValidation: undefined,
+      weiAmountValidation: undefined,
       loading: false,
       buttonDisabled: true,
       buttonOpacity: 0.5,
@@ -46,25 +39,7 @@ class DepositDai extends Component {
   }
 
   componentDidMount() {
-    this.validateEthAmount(this.returnTransactionSpeed(this.props.gasPrice.chosen));
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.balance != prevProps.balance) {
-      this.setState({ ethBalance: Web3.utils.fromWei(this.props.balance.weiBalance) });
-    }
-  }
-
-  returnTransactionSpeed(chosenSpeed) {
-    if(chosenSpeed === 0) {
-      return this.props.gasPrice.fast;
-    } else if (chosenSpeed === 1) {
-      return this.props.gasPrice.average;
-    } else if (chosenSpeed === 2) {
-      return this.props.gasPrice.slow;
-    } else {
-      LogUtilities.logInfo('invalid transaction speed');
-    }
+    this.updateWeiAmountValidation(TransactionUtilities.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.cTokenMintGasLimit));
   }
 
   async constructTransactionObject() {
@@ -74,85 +49,53 @@ class DepositDai extends Component {
 
     const mintEncodedABI = ABIEncoder.encodeCDAIMint(daiAmount, decimals);
 
+    const daiAmountWithDecimals = new BigNumber(this.state.daiAmount).times(new BigNumber(10).pow(18)).toString(16);
+
     const transactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.cDAIcontract)
-      .setGasPrice(this.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16))
+      .setGasPrice(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16))
       .setGas((GlobalConfig.cTokenMintGasLimit).toString(16))
       .tempSetData(mintEncodedABI)
-      .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.mint, [TxStorage.storage.getOwnAddress(), daiAmount, 0]);
+      .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.mint, [TxStorage.storage.getOwnAddress(), daiAmountWithDecimals, 0]);
 
       return transactionObject;
   }
 
-  validateDaiAmount(daiAmount) {
-    daiAmount = new BigNumber(10).pow(18).times(daiAmount);
-    const daiBalance = new BigNumber(this.props.balance.daiBalance);
-
-    if (
-      daiBalance.isGreaterThanOrEqualTo(daiAmount) &&
-      daiAmount.isGreaterThanOrEqualTo(0)
-    ) {
-      LogUtilities.logInfo('the dai amount validated!');
+  updateDaiAmountValidation(daiAmountValidation) {
+    if(daiAmountValidation) {
       this.setState({
         daiAmountValidation: true,
         buttonDisabled: false,
         buttonOpacity: 1
       });
-      return true;
+    } else if (!daiAmountValidation) {
+      this.setState({
+        daiAmountValidation: false,
+        buttonDisabled: true,
+        buttonOpacity: 0.5
+      });  
     }
-    LogUtilities.logInfo('wrong dai balance!');
-    this.setState({
-      daiAmountValidation: false,
-      buttonDisabled: true,
-      buttonOpacity: 0.5
-    });
-    return false;
   }
 
-  validateEthAmount(gasPriceWei) {
-    let transactionFeeLimitInEther = TransactionUtilities.getTransactionFeeEstimateInEther(
-      gasPriceWei,
-      GlobalConfig.cTokenMintGasLimit
-    );
-
-    const ethBalance = new BigNumber(this.state.ethBalance);
-    transactionFeeLimitInEther = new BigNumber(transactionFeeLimitInEther);
-
-    if (ethBalance.isGreaterThan(transactionFeeLimitInEther)) {
-      LogUtilities.logInfo('the eth amount validated!');
-      this.setState({ ethAmountValidation: true });
-      return true;
+  updateWeiAmountValidation(weiAmountValidation) {
+    if(weiAmountValidation) {
+      this.setState({ weiAmountValidation: true });
+    } else if (!weiAmountValidation) {
+      this.setState({ weiAmountValidation: false });
     }
-    LogUtilities.logInfo('wrong eth balance!');
-    this.setState({ ethAmountValidation: false });
-    return false;
   }
 
   validateForm = async daiAmount => {
-    const daiAmountValidation = this.validateDaiAmount(daiAmount);
-    const ethAmountValidation = this.validateEthAmount(this.returnTransactionSpeed(this.props.gasPrice.chosen));
+    const daiAmountValidation = TransactionUtilities.validateDaiAmount(daiAmount);
+    const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.cTokenMintGasLimit);
     const isOnline = this.props.netInfo;
 
-    if (daiAmountValidation && ethAmountValidation && isOnline) {
+    if (daiAmountValidation && weiAmountValidation && isOnline) {
       this.setState({ loading: true, buttonDisabled: true });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
-      await this.props.saveOutgoingDaiTransactionAmount(daiAmount);
-      this.props.saveTransactionFeeEstimateEth(
-        TransactionUtilities.getTransactionFeeEstimateInEther(
-          this.returnTransactionSpeed(this.props.gasPrice.chosen),
-          GlobalConfig.cTokenMintGasLimit
-        )
-      );
-      this.props.saveTransactionFeeEstimateUsd(
-        PriceUtilities.convertEthToUsd(
-          TransactionUtilities.getTransactionFeeEstimateInEther(
-            this.returnTransactionSpeed(this.props.gasPrice.chosen),
-            GlobalConfig.cTokenMintGasLimit
-          )
-        )
-      );
+      await this.props.saveOutgoingTransactionDataCompound({amount: daiAmount});
       this.props.navigation.navigate('DepositDaiConfirmation');
     } else {
       LogUtilities.logInfo('form validation failed!');
@@ -208,7 +151,7 @@ class DepositDai extends Component {
                 keyboardType="numeric"
                 clearButtonMode="while-editing"
                 onChangeText={daiAmount => {
-                  this.validateDaiAmount(daiAmount);
+                  this.updateDaiAmountValidation(TransactionUtilities.validateDaiAmount(daiAmount));
                   this.setState({ daiAmount });
                 }}
                 returnKeyType="done"
@@ -217,8 +160,8 @@ class DepositDai extends Component {
             </SendTextInputContainer>
           </Form>
           <InsufficientDaiBalanceMessage daiAmountValidation={this.state.daiAmountValidation} />
-          <NetworkFeeContainer gasLimit={GlobalConfig.cTokenMintGasLimit} />
-          <InsufficientEthBalanceMessage ethAmountValidation={this.state.ethAmountValidation} />
+          <AdvancedContainer gasLimit={GlobalConfig.cTokenMintGasLimit} />
+          <InsufficientEthBalanceMessage weiAmountValidation={this.state.weiAmountValidation} />
           <ButtonWrapper>
             <Button
               text="Next"
@@ -295,9 +238,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   saveOutgoingTransactionObject,
-  saveTransactionFeeEstimateUsd,
-  saveTransactionFeeEstimateEth,
-  saveOutgoingDaiTransactionAmount
+  saveOutgoingTransactionDataCompound
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DepositDai);

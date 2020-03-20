@@ -11,6 +11,7 @@ import {
   saveCDaiLendingInfo,
   saveDaiApprovalInfo
 } from '../actions/ActionCDaiLendingInfo';
+import { saveDaiExchangeReserve } from '../actions/ActionExchangeReserve';
 import {
   saveTransactionsLoaded
 } from '../actions/ActionTransactionsLoaded';
@@ -32,7 +33,6 @@ import { store } from '../store/store';
 import { saveOtherDebugInfo } from '../actions/ActionDebugInfo.js';
 
 import TxStorage from '../lib/tx.js';
-
 
 async function downstreamMessageHandler(type, data) {
 	LogUtilities.logInfo(`received message ${type} => `, data);

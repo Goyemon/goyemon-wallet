@@ -10,7 +10,6 @@ import { saveDaiApprovalInfo } from '../actions/ActionCDaiLendingInfo';
 import {
   updateGasPriceChosen
 } from '../actions/ActionGasPrice';
-import { saveOutgoingDaiTransactionAmount, saveOutgoingDaiTransactionApproveAmount } from '../actions/ActionOutgoingDaiTransactionData';
 import {
   RootContainer,
   UntouchableCardContainer,
@@ -25,7 +24,7 @@ import {
   InsufficientEthBalanceMessage,
   InsufficientDaiBalanceMessage
 } from '../components/common/';
-import NetworkFeeContainer from '../containers/NetworkFeeContainer';
+import AdvancedContainer from '../containers/AdvancedContainer';
 import LogUtilities from '../utilities/LogUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
@@ -37,11 +36,10 @@ class SaveDai extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ethBalance: Web3.utils.fromWei(props.balance.weiBalance),
       daiAmount: '',
       modalVisible: false,
       daiAmountValidation: undefined,
-      ethAmountValidation: undefined,
+      weiAmountValidation: undefined,
       loading: false,
       buttonDisabled: true,
       buttonOpacity: 0.5,
@@ -49,81 +47,42 @@ class SaveDai extends Component {
   }
 
   async componentDidMount() {
-    this.props.saveDaiApprovalInfo( await TxStorage.storage.isDAIApprovedForCDAI());
-    this.validateEthAmount(this.returnTransactionSpeed(this.props.gasPrice.chosen));
+    if(this.props.cDaiLendingInfo.daiApproval != true){
+      this.props.saveDaiApprovalInfo( await TxStorage.storage.isDAIApprovedForCDAI());
+    }
+    this.updateWeiAmountValidation(TransactionUtilities.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit));
   }
 
-  componentDidUpdate(prevProps) {
-    //if (this.props.transactions != null && this.props.transactions.length != null) {
-    //  if (this.props.transactions != prevProps.transactions) {
-    //    this.props.saveDaiApprovalInfo(TransactionUtilities.isDaiApproved(this.props.transactions));
-    //  }
-    //}
-    if (this.props.balance != prevProps.balance) {
-      this.setState({ ethBalance: Web3.utils.fromWei(this.props.balance.weiBalance) });
+  async componentDidUpdate(prevProps) {
+    if(this.props.cDaiLendingInfo.daiApproval != true){
+      if (this.props.transactions != prevProps.transactions) {
+        this.props.saveDaiApprovalInfo(await TxStorage.storage.isDAIApprovedForCDAI());
+      } 
     }
   }
 
-  returnTransactionSpeed(chosenSpeed) {
-    if(chosenSpeed === 0) {
-      return this.props.gasPrice.fast;
-    } else if (chosenSpeed === 1) {
-      return this.props.gasPrice.average;
-    } else if (chosenSpeed === 2) {
-      return this.props.gasPrice.slow;
-    } else {
-      LogUtilities.logInfo('invalid transaction speed');
-    }
-  }
-
-  validateDaiAmount(daiAmount) {
-    daiAmount = new BigNumber(10).pow(18).times(daiAmount);
-    const daiBalance = new BigNumber(this.props.balance.daiBalance);
-
-    if (
-      daiBalance.isGreaterThanOrEqualTo(daiAmount) &&
-      daiAmount.isGreaterThanOrEqualTo(0)
-    ) {
-      LogUtilities.logInfo('the dai amount validated!');
+  updateDaiAmountValidation(daiAmountValidation) {
+    if(daiAmountValidation) {
       this.setState({
         daiAmountValidation: true,
         buttonDisabled: false,
         buttonOpacity: 1
       });
-      return true;
+    } else if (!daiAmountValidation) {
+      this.setState({
+        daiAmountValidation: false,
+        buttonDisabled: true,
+        buttonOpacity: 0.5
+      });  
     }
-    LogUtilities.logInfo('wrong dai balance!');
-    this.setState({
-      daiAmountValidation: false,
-      buttonDisabled: true,
-      buttonOpacity: 0.5
-    });
-    return false;
   }
 
-  validateEthAmount(gasPriceWei) {
-    let approveTransactionFeeLimitInEther = TransactionUtilities.getTransactionFeeEstimateInEther(
-      gasPriceWei,
-      GlobalConfig.ERC20ApproveGasLimit
-    );
-    let mintTransactionFeeLimitInEther = TransactionUtilities.getTransactionFeeEstimateInEther(
-      gasPriceWei,
-      GlobalConfig.cTokenMintGasLimit
-    );
-
-    const ethBalance = new BigNumber(this.state.ethBalance);
-    approveTransactionFeeLimitInEther = new BigNumber(approveTransactionFeeLimitInEther);
-    mintTransactionFeeLimitInEther = new BigNumber(mintTransactionFeeLimitInEther);
-    const transactionFeeLimitInEther = approveTransactionFeeLimitInEther.plus(mintTransactionFeeLimitInEther);
-
-    if (ethBalance.isGreaterThan(transactionFeeLimitInEther)) {
-      LogUtilities.logInfo('the eth amount validated!');
-      this.setState({ ethAmountValidation: true });
-      return true;
+  updateWeiAmountValidation(weiAmountValidation) {
+    if(weiAmountValidation) {
+      this.setState({ weiAmountValidation: true });
+    } else if (!weiAmountValidation) {
+      this.setState({ weiAmountValidation: false });
     }
-    LogUtilities.logInfo('wrong eth balance!');
-    this.setState({ ethAmountValidation: false });
-    return false;
   }
 
   getApproveEncodedABI() {
@@ -149,30 +108,31 @@ class SaveDai extends Component {
 
   async constructMintTransactionObject() {
     const mintEncodedABI = ABIEncoder.encodeCDAIMint(this.state.daiAmount);
+
+    const daiAmountWithDecimals = new BigNumber(this.state.daiAmount).times(new BigNumber(10).pow(18)).toString(16);
+
     const transactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.cDAIcontract)
-      .setGasPrice(this.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16))
+      .setGasPrice(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16))
       .setGas((GlobalConfig.cTokenMintGasLimit).toString(16))
       .tempSetData(mintEncodedABI)
-      .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.mint, [TxStorage.storage.getOwnAddress(), this.state.daiAmount, 0]);
+      .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.mint, [TxStorage.storage.getOwnAddress(), daiAmountWithDecimals, 0]);
 
     return transactionObject;
   }
 
   sendTransactions = async daiAmount => {
-    const daiAmountValidation = this.validateDaiAmount(daiAmount);
-    const ethAmountValidation = this.validateEthAmount(this.returnTransactionSpeed(this.props.gasPrice.chosen));
+    const daiAmountValidation = TransactionUtilities.validateDaiAmount(daiAmount);
+    const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit);
     const isOnline = this.props.netInfo;
 
-    if (daiAmountValidation && ethAmountValidation && isOnline) {
+    if (daiAmountValidation && weiAmountValidation && isOnline) {
       this.setState({ loading: true, buttonDisabled: true });
       LogUtilities.logInfo('validation successful');
       const approveTransactionObject = await this.constructApproveTransactionObject();
       await TransactionUtilities.sendOutgoingTransactionToServer(approveTransactionObject);
-      this.props.saveOutgoingDaiTransactionApproveAmount(Web3.utils.toHex(-1));
       const mintTransactionObject = await this.constructMintTransactionObject();
       await TransactionUtilities.sendOutgoingTransactionToServer(mintTransactionObject);
-      this.props.saveOutgoingDaiTransactionAmount(daiAmount);
       this.setModalVisible(false);
       this.props.navigation.navigate('History');
     } else {
@@ -233,7 +193,7 @@ class SaveDai extends Component {
           opacity="1"
           onPress={async () => {
             this.setModalVisible(true);
-            this.validateEthAmount(this.returnTransactionSpeed(this.props.gasPrice.chosen));
+            this.updateWeiAmountValidation(TransactionUtilities.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit));
           }}
         />
       );
@@ -305,7 +265,7 @@ class SaveDai extends Component {
                     keyboardType="numeric"
                     clearButtonMode="while-editing"
                     onChangeText={daiAmount => {
-                      this.validateDaiAmount(daiAmount);
+                      this.updateDaiAmountValidation(TransactionUtilities.validateDaiAmount(daiAmount));
                       this.setState({ daiAmount });
                     }}
                     returnKeyType="done"
@@ -314,8 +274,8 @@ class SaveDai extends Component {
                 </SendTextInputContainer>
               </Form>
               <InsufficientDaiBalanceMessage daiAmountValidation={this.state.daiAmountValidation} />
-              <NetworkFeeContainer gasLimit={GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit} />
-              <InsufficientEthBalanceMessage ethAmountValidation={this.state.ethAmountValidation} />
+              <AdvancedContainer gasLimit={GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit} />
+              <InsufficientEthBalanceMessage weiAmountValidation={this.state.weiAmountValidation} />
                 <ButtonContainer>
                   <Button
                     text="Cancel"
@@ -327,7 +287,7 @@ class SaveDai extends Component {
                     opacity="1"
                     onPress={() => {
                       this.setModalVisible(false);
-                      this.setState({ daiAmountValidation: undefined, ethAmountValidation: undefined });
+                      this.setState({ daiAmountValidation: undefined, weiAmountValidation: undefined });
                     }}
                   />
                   <Button
@@ -487,8 +447,6 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   saveDaiApprovalInfo,
-  saveOutgoingDaiTransactionAmount,
-  saveOutgoingDaiTransactionApproveAmount,
   updateGasPriceChosen
 };
 

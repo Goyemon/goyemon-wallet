@@ -10,27 +10,27 @@ export default class NotificationPermissionNotGranted extends Component {
     return (
       <RootContainer>
           <NoPermissionContainer>
-            <HeaderTwo marginBottom="0" marginLeft="0" marginTop="0">
-              oops!
+            <HeaderTwo marginBottom="0" marginLeft="0" marginTop="96px">
+              whoops!
             </HeaderTwo>
             <Description marginBottom="8" marginLeft="8" marginTop="16">
-              please go to the notification settings and enable them
+              please enable notifications
             </Description>
             <NotificationPermissionDeniedImage
               source={require('../../assets/notification_not_granted.png')}
             />
             <Description marginBottom="0" marginLeft="0" marginTop="16">
-              we use notifications to update your transactions
+              we use them for transaction updates
             </Description>
-            <Description marginBottom="0" marginLeft="0" marginTop="0">
-              we respect your attention, no pop-ups
+            <Description marginBottom="0" marginLeft="0" marginTop="16">
+              there will be no pop-ups
             </Description>
             <Button
               text="Go To Device Settings"
               textColor="#5F5F5F"
               backgroundColor="#EEEEEE"
               borderColor="#EEEEEE"
-              margin="16px auto"
+              margin="24px auto"
               marginBottom="12px"
               opacity="1"
               onPress={() => {

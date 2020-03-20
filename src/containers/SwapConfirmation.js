@@ -1,7 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
+import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import {
   RootContainer,
@@ -17,9 +17,9 @@ import NetworkFeeContainerConfirmation from '../containers/NetworkFeeContainerCo
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import GlobalConfig from '../config.json';
 
-class SendEthConfirmation extends Component {
+class SwapConfirmation extends Component {
   constructor(props) {
-    super(props);
+    super();
     this.state = {
       loading: false,
       buttonDisabled: false
@@ -35,39 +35,43 @@ class SendEthConfirmation extends Component {
 
   render() {
     const { outgoingTransactionData } = this.props;
-
+    
     return (
       <RootContainer>
         <HeaderOne marginTop="96">Confirmation</HeaderOne>
         <TotalContainer>
-          <CoinImage source={require('../../assets/ether_icon.png')} />
-          <CrypterestText fontSize="16">You are about to send</CrypterestText>
-          <TotalValue>{outgoingTransactionData.send.amount} ETH</TotalValue>
-          <CrypterestText fontSize="16">+ network fee</CrypterestText>
+          <CoinImage source={require('../../assets/dai_icon.png')} />
+          <CrypterestText fontSize="16">You are about to sell</CrypterestText>
+          <TotalValue>{outgoingTransactionData.swap.sold} ETH</TotalValue>
         </TotalContainer>
         <UntouchableCardContainer
           alignItems="flex-start"
           borderRadius="0"
           flexDirection="column"
-          height="280px"
+          height="320px"
           justifyContent="flex-start"
           marginTop="0"
           textAlign="left"
           width="100%"
         >
           <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
-            To
+            You Pay
           </FormHeader>
-          <ToText>{outgoingTransactionData.send.toaddress}</ToText>
+          <Amount>{outgoingTransactionData.swap.sold} ETH</Amount>
           <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
-            Amount
+            You Get
           </FormHeader>
-          <AmountText>{outgoingTransactionData.send.amount} ETH</AmountText>
-          <NetworkFeeContainerConfirmation gasLimit={GlobalConfig.ETHTxGasLimit}/>
+          <Amount>{outgoingTransactionData.swap.bought} DAI</Amount>
+          <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
+            You Get at Least
+          </FormHeader>
+          <Amount>{outgoingTransactionData.swap.minBought} DAI</Amount>
+          <Amount>*slippage {outgoingTransactionData.swap.slippage} %</Amount>
+          <NetworkFeeContainerConfirmation gasLimit={GlobalConfig.cTokenRedeemUnderlyingGasLimit}/>
         </UntouchableCardContainer>
         <ButtonContainer>
           <Button
-            text="Send"
+            text="Swap"
             textColor="white"
             backgroundColor="#00A3E2"
             borderColor="#00A3E2"
@@ -80,7 +84,7 @@ class SendEthConfirmation extends Component {
                 this.setState({ loading: true, buttonDisabled: true });
                 await this.sendSignedTx();
                 this.props.navigation.reset(
-                  [NavigationActions.navigate({ routeName: 'WalletList' })],
+                  [NavigationActions.navigate({ routeName: 'Swap' })],
                   0
                 );
                 this.props.navigation.navigate('History');
@@ -100,7 +104,7 @@ const TotalContainer = styled.View`
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  margin-bottom: 56;
+  margin-bottom: 40;
   margin-top: 56;
 `;
 
@@ -110,13 +114,7 @@ const CoinImage = styled.Image`
   width: 40px;
 `;
 
-const ToText = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Bold';
-  margin-left: 8;
-`;
-
-const AmountText = styled.Text`
+const Amount = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Bold';
   margin-left: 8;
@@ -136,9 +134,9 @@ const ButtonContainer = styled.View`
 function mapStateToProps(state) {
   return {
     netInfo: state.ReducerNetInfo.netInfo,
-    outgoingTransactionData: state.ReducerOutgoingTransactionData.outgoingTransactionData,
-    outgoingTransactionObjects: state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects
+    outgoingTransactionObjects: state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
+    outgoingTransactionData: state.ReducerOutgoingTransactionData.outgoingTransactionData
   };
 }
 
-export default connect(mapStateToProps)(SendEthConfirmation);
+export default connect(mapStateToProps)(SwapConfirmation);

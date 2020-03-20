@@ -18,6 +18,7 @@ export * from './Loader';
 export * from './MenuContainer';
 export * from './ProgressBar';
 export * from './QRCodeIcon';
+export * from './SwapForm';
 export * from './RootContainer';
 export * from './ToggleCurrencySymbol';
 export * from './TouchableCardContainer';
