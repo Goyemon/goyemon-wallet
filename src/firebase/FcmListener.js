@@ -1,6 +1,5 @@
 'use strict';
 import BigNumber from 'bignumber.js';
-import firebase from 'react-native-firebase';
 import Web3 from 'web3';
 import {
   saveCDaiBalance,
@@ -27,114 +26,76 @@ import {
   removeExistingTransactionObject,
   updateErrorSentTransaction
 } from '../actions/ActionTransactionHistory';
-import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
+import { saveDaiExchangeReserve } from '../actions/ActionExchangeReserve';
 import LogUtilities from '../utilities/LogUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
-import FcmMsgsParser from './FcmMsgsParser.js';
 import { store } from '../store/store';
 import { saveOtherDebugInfo } from '../actions/ActionDebugInfo.js';
 
 import TxStorage from '../lib/tx.js';
 
-async function downstreamMessageHandler(downstreamMessage) {
-  const stateTree = store.getState();
-  const balance = stateTree.ReducerBalance.balance;
-  const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
+async function downstreamMessageHandler(type, data) {
+	LogUtilities.logInfo(`received message ${type} => `, data);
+	let stateTree;
 
-  LogUtilities.logInfo('downstreamMessage ===>', downstreamMessage);
+	switch (type) {
+		case 'txhistory':
+			// TxStorage.storage.setOwnAddress(checksumAddress);
+          	await TxStorage.storage.clear(true);
+		  	await TxStorage.storage.parseTxHistory(data);
+			await TxStorage.storage.__tempstoragewritten();
+			store.dispatch(saveTransactionsLoaded(true));
+			break;
 
-  if (downstreamMessage.data.type === 'balance') {
-    const balanceMessage = JSON.parse(downstreamMessage.data.data);
-    if (balanceMessage.hasOwnProperty('eth')) {
-      let weiBalance = new BigNumber(balanceMessage.eth);
-      weiBalance = weiBalance.toString(10);
-      store.dispatch(saveWeiBalance(weiBalance));
-    }
-    if (balanceMessage.hasOwnProperty('dai')) {
-      let daiBalance = new BigNumber(balanceMessage.dai);
-      daiBalance = daiBalance.toString(10);
-      store.dispatch(saveDaiBalance(daiBalance));
-    }
-    if (balanceMessage.hasOwnProperty('cdai')) {
-      setTimeout(() => {
-        FcmUpstreamMsgs.requestCDaiLendingInfo(checksumAddress);
-      }, 15000);
+		case 'txstate':
+			await Promise.all(Object.entries(data).map(([hash, data]) => TxStorage.storage.processTxState(hash, data)));
+			break;
 
-      let cDaiBalance = new BigNumber(balanceMessage.cdai);
-      cDaiBalance = cDaiBalance.toString(10);
-      store.dispatch(saveCDaiBalance(cDaiBalance));
-    } else {
-      LogUtilities.logInfo('balanceMessage ===>', balanceMessage);
-    }
+		case 'balance':
+			stateTree = store.getState();
 
-  } else if (downstreamMessage.data.type === 'txhistory') {
-    if (downstreamMessage.data.data === '{}') {
-      store.dispatch(saveOtherDebugInfo('got empty txhistory'));
-      store.dispatch(saveEmptyTransaction(downstreamMessage.data.data));
-      store.dispatch(saveTransactionsLoaded(true));
-      await TxStorage.storage.clear();
-      return;
-    }
+			if (data.hasOwnProperty('eth'))
+				store.dispatch(saveWeiBalance(new BigNumber(data.eth).toString(10)));
 
-    FcmMsgsParser.fcmMsgsSaver(downstreamMessage.data);
-    const stateTree = store.getState();
-    const fcmMsgs = stateTree.ReducerFcmMsgs.fcmMsgs;
-    if (fcmMsgs[downstreamMessage.data.uid] != undefined) {
-      if (
-        fcmMsgs[downstreamMessage.data.uid].length ===
-        parseInt(downstreamMessage.data.count)
-      ) {
-        const transactions = FcmMsgsParser.fcmMsgsToTransactions(
-          downstreamMessage.data
-        );
+			if (data.hasOwnProperty('dai'))
+				store.dispatch(saveDaiBalance(new BigNumber(data.dai).toString(10)));
 
-        // TODO: remove this temp cleanup:
-        store.dispatch(saveEmptyTransaction('{}'));
+			if (data.hasOwnProperty('cdai')) {
+				setTimeout(() => {
+					FcmUpstreamMsgs.requestCDaiLendingInfo(stateTree.ReducerChecksumAddress.checksumAddress);
+				}, 15000);
 
-        try {
-          TxStorage.storage.setOwnAddress(checksumAddress);
-          await TxStorage.storage.clear(true);
-		  await TxStorage.storage.parseTxHistory(transactions);
-		  await TxStorage.storage.__tempstoragewritten();
-        }
-        catch (e) {
-          store.dispatch(saveOtherDebugInfo(`exception: ${e.message} @ ${e.stack}`));
-		}
-		store.dispatch(saveTransactionsLoaded(true));
-      }
-    }
+		  		store.dispatch(saveCDaiBalance(new BigNumber(data.cdai).toString(10)));
+			}
+			break;
 
-  } else if (downstreamMessage.data.type === 'txstate') {
-    // TODO: this doesnt support msgs batches spread across multiple fcm messages yet.
-    const txStateMessages = JSON.parse(downstreamMessage.data.data);
-    await Promise.all(Object.entries(txStateMessages).map(([hash, data]) => TxStorage.storage.processTxState(hash, data)));
+		case 'cDai_lending_info':
+			stateTree = store.getState();
+			// const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
+			store.dispatch(saveCDaiLendingInfo(data));
+			store.dispatch(
+				saveDaiSavingsBalance(
+					stateTree.ReducerBalance.balance.cDaiBalance,
+					data.current_exchange_rate
+				)
+			);
+			break;
 
-  } else if (downstreamMessage.data.type === 'cDai_lending_info') {
-    const cDaiLendingInfoMessage = JSON.parse(downstreamMessage.data.data);
-    store.dispatch(saveCDaiLendingInfo(cDaiLendingInfoMessage));
-    store.dispatch(
-      saveDaiSavingsBalance(
-        balance.cDaiBalance,
-        cDaiLendingInfoMessage.current_exchange_rate
-      )
-    );
-  } else if (downstreamMessage.data.type === 'uniswap_ETHDAI_info') {
-    const exchangeReserveMessage = JSON.parse(downstreamMessage.data.data);
-    store.dispatch(saveDaiExchangeReserve(exchangeReserveMessage));
-  } else if (downstreamMessage.data.type === 'transactionError') {
-    const errorMessage = JSON.parse(downstreamMessage.data.error);
-    if (errorMessage.message === 'nonce too low') { // why only this if that transaction is guaranteed not to be propagated?
-      TxStorage.storage.markSentTxAsErrorByNonce(parseInt(downstreamMessage.data.nonce));
-    }
-  }
-}
+		case 'transactionError':
+			if (data.error.message === 'nonce too low') // why only this if that transaction is guaranteed not to be propagated?
+				TxStorage.storage.markSentTxAsErrorByNonce(parseInt(data.nonce));
 
-function registerHandler() {
-  firebase.messaging().onMessage(downstreamMessageHandler);
-  firebase.messaging().stupid_shit_initialized();
+			break;
+
+		case 'uniswap_ETHDAI_info':
+			store.dispatch(saveDaiExchangeReserve(data));
+			break;
+
+		default:
+			LogUtilities.logError(`unknown message type: ${type}`);
+	}
 }
 
 module.exports = {
-  registerHandler: registerHandler,
   downstreamMessageHandler: downstreamMessageHandler
 }
