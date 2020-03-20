@@ -4,10 +4,6 @@ import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import styled from 'styled-components/native';
 import {
-  saveOutgoingTransactionDataAmount,
-  saveOutgoingTransactionDataToaddress
-} from '../actions/ActionOutgoingTransactionData';
-import {
   RootContainer,
   Button,
   UntouchableCardContainer,
@@ -35,8 +31,6 @@ class SendDaiConfirmation extends Component {
       this.props.outgoingTransactionObjects.length - 1
     ];
     await TransactionUtilities.sendOutgoingTransactionToServer(outgoingTransactionObject);
-    this.props.saveOutgoingTransactionDataAmount(this.props.outgoingTransactionData.amount);
-    this.props.saveOutgoingTransactionDataToaddress(this.props.outgoingTransactionData.toaddress);
   }
 
   render() {
@@ -48,7 +42,7 @@ class SendDaiConfirmation extends Component {
         <TotalContainer>
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <CrypterestText fontSize="16">You are about to send</CrypterestText>
-          <TotalValueText>{outgoingTransactionData.amount} DAI</TotalValueText>
+          <TotalValueText>{outgoingTransactionData.send.amount} DAI</TotalValueText>
           <CrypterestText fontSize="16">+ network fee</CrypterestText>
         </TotalContainer>
         <UntouchableCardContainer
@@ -64,11 +58,11 @@ class SendDaiConfirmation extends Component {
           <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
             To
           </FormHeader>
-          <To>{outgoingTransactionData.toaddress}</To>
+          <To>{outgoingTransactionData.send.toaddress}</To>
           <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
             Amount
           </FormHeader>
-          <Amount>{outgoingTransactionData.amount} DAI</Amount>
+          <Amount>{outgoingTransactionData.send.amount} DAI</Amount>
           <NetworkFeeContainerConfirmation gasLimit={GlobalConfig.ERC20TransferGasLimit}/>
         </UntouchableCardContainer>
         <ButtonContainer>
@@ -147,12 +141,5 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = {
-  saveOutgoingTransactionDataAmount,
-  saveOutgoingTransactionDataToaddress
-};
+export default connect(mapStateToProps)(SendDaiConfirmation);
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SendDaiConfirmation);

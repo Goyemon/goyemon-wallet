@@ -7,10 +7,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
-import {
-  saveOutgoingTransactionDataAmount,
-  saveOutgoingTransactionDataToaddress
-} from '../actions/ActionOutgoingTransactionData';
+import { saveOutgoingTransactionDataSend } from '../actions/ActionOutgoingTransactionData';
 import { clearQRCodeData } from '../actions/ActionQRCodeData';
 import {
   RootContainer,
@@ -28,7 +25,6 @@ import {
 import NetworkFeeContainer from '../containers/NetworkFeeContainer';
 import HomeStack from '../navigators/HomeStack';
 import LogUtilities from '../utilities/LogUtilities.js';
-import PriceUtilities from '../utilities/PriceUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import ABIEncoder from '../utilities/AbiUtilities';
@@ -151,8 +147,7 @@ class SendDai extends Component {
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
-      await this.props.saveOutgoingTransactionDataAmount(amount);
-      await this.props.saveOutgoingTransactionDataToaddress(toAddress);
+      this.props.saveOutgoingTransactionDataSend({toaddress: toAddress, amount: amount});
       this.props.navigation.navigate('SendDaiConfirmation');
     } else {
       LogUtilities.logInfo('form validation failed!');
@@ -334,8 +329,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   saveOutgoingTransactionObject,
-  saveOutgoingTransactionDataAmount,
-  saveOutgoingTransactionDataToaddress,
+  saveOutgoingTransactionDataSend,
   clearQRCodeData
 };
 

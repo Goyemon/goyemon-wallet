@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import styled from 'styled-components/native';
-import Web3 from 'web3';
 import {
   RootContainer,
   Button,
@@ -35,23 +34,15 @@ class SendEthConfirmation extends Component {
   }
 
   render() {
-    const { outgoingTransactionObjects } = this.props;
+    const { outgoingTransactionData } = this.props;
 
-    const toAddress = `0x${Buffer.from(outgoingTransactionObjects[outgoingTransactionObjects.length - 1].to_addr).toString("hex")}`;
-    const toChecksumAddress = Web3.utils.toChecksumAddress(toAddress);
-    const valueInEther = parseFloat(
-      Web3.utils.fromWei(
-        outgoingTransactionObjects[outgoingTransactionObjects.length - 1].getValue(),
-        'Ether'
-      )
-    );
     return (
       <RootContainer>
         <HeaderOne marginTop="96">Confirmation</HeaderOne>
         <TotalContainer>
           <CoinImage source={require('../../assets/ether_icon.png')} />
           <CrypterestText fontSize="16">You are about to send</CrypterestText>
-          <TotalValue>{valueInEther} ETH</TotalValue>
+          <TotalValue>{outgoingTransactionData.send.amount} ETH</TotalValue>
           <CrypterestText fontSize="16">+ network fee</CrypterestText>
         </TotalContainer>
         <UntouchableCardContainer
@@ -67,11 +58,11 @@ class SendEthConfirmation extends Component {
           <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
             To
           </FormHeader>
-          <ToText>{toChecksumAddress}</ToText>
+          <ToText>{outgoingTransactionData.send.toaddress}</ToText>
           <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
             Amount
           </FormHeader>
-          <AmountText>{valueInEther} ETH</AmountText>
+          <AmountText>{outgoingTransactionData.send.amount} ETH</AmountText>
           <NetworkFeeContainerConfirmation gasLimit={GlobalConfig.ETHTxGasLimit}/>
         </UntouchableCardContainer>
         <ButtonContainer>
@@ -145,6 +136,7 @@ const ButtonContainer = styled.View`
 function mapStateToProps(state) {
   return {
     netInfo: state.ReducerNetInfo.netInfo,
+    outgoingTransactionData: state.ReducerOutgoingTransactionData.outgoingTransactionData,
     outgoingTransactionObjects: state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects
   };
 }
