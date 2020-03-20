@@ -10,7 +10,6 @@ import { saveDaiApprovalInfo } from '../actions/ActionCDaiLendingInfo';
 import {
   updateGasPriceChosen
 } from '../actions/ActionGasPrice';
-import { saveOutgoingTransactionDataAmount, saveOutgoingTransactionDataApproveAmount } from '../actions/ActionOutgoingTransactionData';
 import {
   RootContainer,
   UntouchableCardContainer,
@@ -132,10 +131,8 @@ class SaveDai extends Component {
       LogUtilities.logInfo('validation successful');
       const approveTransactionObject = await this.constructApproveTransactionObject();
       await TransactionUtilities.sendOutgoingTransactionToServer(approveTransactionObject);
-      this.props.saveOutgoingTransactionDataApproveAmount(Web3.utils.toHex(-1));
       const mintTransactionObject = await this.constructMintTransactionObject();
       await TransactionUtilities.sendOutgoingTransactionToServer(mintTransactionObject);
-      this.props.saveOutgoingTransactionDataAmount(daiAmount);
       this.setModalVisible(false);
       this.props.navigation.navigate('History');
     } else {
@@ -450,8 +447,6 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   saveDaiApprovalInfo,
-  saveOutgoingTransactionDataAmount,
-  saveOutgoingTransactionDataApproveAmount,
   updateGasPriceChosen
 };
 
