@@ -2,7 +2,6 @@
 import firebase from 'react-native-firebase';
 import LogUtilities from '../utilities/LogUtilities.js';
 import zlib from 'react-zlib-js';
-import base128 from './base128.js';
 
 const GlobalConfig = require('../config.json');
 
@@ -58,7 +57,12 @@ class Msg {
 		if (!this.compressed)
 			call(this.data.join(''));
 		else
-			zlib.inflateRaw(base128.fromBase128(this.data.join('')), x => call(x));
+			zlib.inflateRaw(Buffer.from(this.data.join(''), 'base64'), (err, ret) => {
+				if (err)
+					throw new Error(err);
+
+				call(ret)
+			});
 	}
 }
 
