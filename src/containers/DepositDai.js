@@ -17,7 +17,7 @@ import {
   InsufficientEthBalanceMessage,
   InsufficientDaiBalanceMessage
 } from '../components/common';
-import NetworkFeeContainer from '../containers/NetworkFeeContainer';
+import AdvancedContainer from './AdvancedContainer';
 import LogUtilities from '../utilities/LogUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
@@ -160,7 +160,7 @@ class DepositDai extends Component {
             </SendTextInputContainer>
           </Form>
           <InsufficientDaiBalanceMessage daiAmountValidation={this.state.daiAmountValidation} />
-          <NetworkFeeContainer gasLimit={GlobalConfig.cTokenMintGasLimit} />
+          <AdvancedContainer gasLimit={GlobalConfig.cTokenMintGasLimit} />
           <InsufficientEthBalanceMessage weiAmountValidation={this.state.weiAmountValidation} />
           <ButtonWrapper>
             <Button

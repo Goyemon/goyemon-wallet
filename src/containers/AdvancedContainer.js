@@ -16,7 +16,7 @@ import SlippageContainer from './SlippageContainer';
 import LogUtilities from '../utilities/LogUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 
-class NetworkFeeContainer extends Component {
+class AdvancedContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -74,7 +74,7 @@ class NetworkFeeContainer extends Component {
     }
   }
 
-  renderNetWorkFeeContainer() {
+  renderAdvancedContainer() {
     if (this.state.showAdvanced) {
       return (
         <View>
@@ -184,7 +184,7 @@ class NetworkFeeContainer extends Component {
   render() {
     return (
       <View>
-        {this.renderNetWorkFeeContainer()}
+        {this.renderAdvancedContainer()}
       </View> 
     )
   }
@@ -240,4 +240,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(NetworkFeeContainer);
+)(AdvancedContainer);

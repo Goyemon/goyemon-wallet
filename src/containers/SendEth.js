@@ -21,7 +21,7 @@ import {
   InvalidToAddressMessage,
   ErrorMessage
 } from '../components/common';
-import NetworkFeeContainer from '../containers/NetworkFeeContainer';
+import AdvancedContainer from '../containers/AdvancedContainer';
 import HomeStack from '../navigators/HomeStack';
 import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
@@ -224,7 +224,7 @@ class SendEth extends Component {
             </SendTextInputContainer>
           </Form>
           <View>{this.renderInsufficientBalanceMessage()}</View>
-          <NetworkFeeContainer gasLimit={GlobalConfig.ETHTxGasLimit}/>
+          <AdvancedContainer gasLimit={GlobalConfig.ETHTxGasLimit}/>
           <ButtonWrapper>
             <Button
               text="Next"
