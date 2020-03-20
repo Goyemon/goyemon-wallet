@@ -6,7 +6,7 @@ const MenuContainer = props => <MenuContainerInner>{props.children}</MenuContain
 
 const MenuContainerInner = styled.View`
   align-items: center;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   margin: 0 8px;
 `;
