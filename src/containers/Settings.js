@@ -11,8 +11,7 @@ import {
   HeaderOne,
   UntouchableCardContainer,
   Button,
-  Description,
-  CrypterestText
+  Description
 } from '../components/common';
 import I18n from "../i18n/I18n";
 import TxStorage from '../lib/tx';

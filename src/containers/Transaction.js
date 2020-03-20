@@ -1,12 +1,11 @@
 'use strict';
-import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
 import Web3 from 'web3';
-import { UntouchableCardContainer, CrypterestText } from '../components/common';
+import { CrypterestText } from '../components/common';
 import { TouchableCardContainer } from '../components/common';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 

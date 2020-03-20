@@ -1,7 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { KeyboardAvoidingView, Platform, StyleSheet, View, Text, TextInput } from 'react-native';
+import { KeyboardAvoidingView, Platform, StyleSheet, View, TextInput } from 'react-native';
 import styled from 'styled-components/native';
 import { updateMnemonicWordsValidation } from '../actions/ActionMnemonicWordsValidation';
 import { RootContainer, ProgressBar, HeaderTwo, Button, Description, ErrorMessage } from '../components/common';

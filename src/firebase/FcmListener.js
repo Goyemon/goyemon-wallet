@@ -63,6 +63,8 @@ async function downstreamMessageHandler(downstreamMessage) {
       let cDaiBalance = new BigNumber(balanceMessage.cdai);
       cDaiBalance = cDaiBalance.toString(10);
       store.dispatch(saveCDaiBalance(cDaiBalance));
+    } else {
+      LogUtilities.logInfo('balanceMessage ===>', balanceMessage);
     }
 
   } else if (downstreamMessage.data.type === 'txhistory') {

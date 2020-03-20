@@ -8,7 +8,6 @@ import styled from 'styled-components/native';
 import {
   RootContainer,
   UntouchableCardContainer,
-  HeaderOne,
   CrypterestText
 } from '../components/common';
 
