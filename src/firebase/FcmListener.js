@@ -25,6 +25,7 @@ import {
   removeExistingTransactionObject,
   updateErrorSentTransaction
 } from '../actions/ActionTransactionHistory';
+import { saveDaiExchangeReserve } from '../actions/ActionExchangeReserve';
 import LogUtilities from '../utilities/LogUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import { store } from '../store/store';
@@ -82,8 +83,12 @@ async function downstreamMessageHandler(type, data) {
 
 		case 'transactionError':
 			if (data.error.message === 'nonce too low') // why only this if that transaction is guaranteed not to be propagated?
-				TxStorage.storage.markSentTxAsErrorByNonce(parseInt(downstreamMessage.data.nonce));
+				TxStorage.storage.markSentTxAsErrorByNonce(parseInt(data.nonce));
 
+			break;
+
+		case 'uniswap_ETHDAI_info':
+			store.dispatch(saveDaiExchangeReserve(data));
 			break;
 
 		default:
