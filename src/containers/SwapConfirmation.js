@@ -48,7 +48,7 @@ class SwapConfirmation extends Component {
           alignItems="flex-start"
           borderRadius="0"
           flexDirection="column"
-          height="320px"
+          height="280px"
           justifyContent="flex-start"
           marginTop="0"
           textAlign="left"
@@ -58,10 +58,6 @@ class SwapConfirmation extends Component {
             You Pay
           </FormHeader>
           <Amount>{outgoingTransactionData.swap.sold} ETH</Amount>
-          <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
-            You Get
-          </FormHeader>
-          <Amount>{outgoingTransactionData.swap.bought} DAI</Amount>
           <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
             You Get at Least
           </FormHeader>

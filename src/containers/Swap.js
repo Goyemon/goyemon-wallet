@@ -261,8 +261,8 @@ class Swap extends Component {
             marginTop={0}
             width="100%"
           >
-            <Title>you get</Title>
-            <TokenBoughtText>{this.state.tokenBought.toFixed(4)}</TokenBoughtText>
+            <Title>you get at least</Title>
+            <MinTokenBoughtText>{this.getMinTokens(this.state.tokenBought).toFixed(4)}</MinTokenBoughtText>
           </Container>
           <Container
             alignItems="center"
@@ -305,7 +305,7 @@ const SendTextInput = styled.TextInput`
   font-size: 28;
 `;
 
-const TokenBoughtText = styled.Text`
+const MinTokenBoughtText = styled.Text`
   font-size: 28;
 `;
 
