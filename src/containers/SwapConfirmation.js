@@ -65,7 +65,7 @@ class SwapConfirmation extends Component {
           <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
             You Get at Least
           </FormHeader>
-          <Amount>{outgoingTransactionData.swap.minBought} DAI</Amount>
+          <Amount>{outgoingTransactionData.swap.minBought.toFixed(4)} DAI</Amount>
           <Amount>*slippage {outgoingTransactionData.swap.slippage} %</Amount>
           <NetworkFeeContainerConfirmation gasLimit={GlobalConfig.cTokenRedeemUnderlyingGasLimit}/>
         </UntouchableCardContainer>

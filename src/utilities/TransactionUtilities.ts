@@ -30,7 +30,7 @@ class TransactionUtilities {
     });
     const parsedDaiValue = RoundDownBigNumber(value, 16)
       .div(new BigNumber(10).pow(18))
-      .toString();
+      .toFixed(4);
     return parsedDaiValue;
   }
 
