@@ -194,7 +194,7 @@ class ShowMnemonic extends Component {
           text="Next"
           textColor="#00A3E2"
           backgroundColor="#F8F8F8"
-          borderColor="#FFF"
+          borderColor="#F8F8F8"
           disabled={false}
           margin="8px auto"
           marginBottom="12px"
