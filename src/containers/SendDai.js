@@ -24,6 +24,7 @@ import {
 } from '../components/common';
 import AdvancedContainer from '../containers/AdvancedContainer';
 import HomeStack from '../navigators/HomeStack';
+import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
@@ -155,12 +156,8 @@ class SendDai extends Component {
   };
 
   render() {
-    const RoundDownBigNumber = BigNumber.clone({
-      DECIMAL_PLACES: 4,
-      ROUNDING_MODE: BigNumber.ROUND_DOWN
-    });
     const daiBalance = RoundDownBigNumber(this.props.balance.daiBalance)
-      .div(new BigNumber(10).pow(18))
+      .div(new RoundDownBigNumber(10).pow(18))
       .toString();
 
     return (

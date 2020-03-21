@@ -1,10 +1,10 @@
 'use strict';
-import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Web3 from 'web3';
 import { Container, CrypterestText } from '../components/common';
+import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
@@ -56,14 +56,10 @@ class WalletDetail extends Component {
   render() {
     const { name, notation } = this.props.currency;
 
-    const RoundDownBigNumber = BigNumber.clone({
-      DECIMAL_PLACES: 4,
-      ROUNDING_MODE: BigNumber.ROUND_DOWN
-    });
     let ethBalance = Web3.utils.fromWei(this.props.balance.weiBalance);
     ethBalance = RoundDownBigNumber(ethBalance).toFixed(4);
     const daiBalance = RoundDownBigNumber(this.props.balance.daiBalance)
-      .div(new BigNumber(10).pow(18))
+      .div(new RoundDownBigNumber(10).pow(18))
       .toString();
 
     return (

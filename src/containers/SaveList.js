@@ -14,6 +14,7 @@ import {
   HeaderFour,
   TouchableCardContainer
 } from '../components/common';
+import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import { FCMMsgs } from '../lib/fcm.js';
 
@@ -35,17 +36,12 @@ class SaveList extends Component {
       .div(new BigNumber(10).pow(24))
       .toFixed(2);
 
-    const RoundDownBigNumber = BigNumber.clone({
-      DECIMAL_PLACES: 4,
-      ROUNDING_MODE: BigNumber.ROUND_DOWN
-    });
-
     const daiSavingsBalance = RoundDownBigNumber(balance.daiSavingsBalance)
-      .div(new BigNumber(10).pow(36))
+      .div(new RoundDownBigNumber(10).pow(36))
       .toString();
 
     const lifetimeEarnedInDai = RoundDownBigNumber(cDaiLendingInfo.lifetimeEarned)
-      .div(new BigNumber(10).pow(36))
+      .div(new RoundDownBigNumber(10).pow(36))
       .toString();
 
     return (

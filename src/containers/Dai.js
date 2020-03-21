@@ -1,5 +1,4 @@
 'use strict';
-import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
@@ -11,18 +10,15 @@ import {
   HeaderOne,
   HeaderFour
 } from '../components/common/';
+import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class Dai extends Component {
   render() {
     const { balance, navigation } = this.props;
 
-    const RoundDownBigNumber = BigNumber.clone({
-      DECIMAL_PLACES: 4,
-      ROUNDING_MODE: BigNumber.ROUND_DOWN
-    });
     const daiBalance = RoundDownBigNumber(balance.daiBalance)
-      .div(new BigNumber(10).pow(18))
+      .div(new RoundDownBigNumber(10).pow(18))
       .toString();
 
     return (
