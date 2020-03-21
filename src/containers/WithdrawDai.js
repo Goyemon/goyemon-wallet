@@ -18,6 +18,7 @@ import {
   InsufficientDaiBalanceMessage
 } from '../components/common';
 import AdvancedContainer from './AdvancedContainer';
+import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
@@ -109,12 +110,8 @@ class WithdrawDai extends Component {
   render() {
     const { balance } = this.props;
 
-    const RoundDownBigNumber = BigNumber.clone({
-      DECIMAL_PLACES: 4,
-      ROUNDING_MODE: BigNumber.ROUND_DOWN
-    });
     const daiSavingsBalance = RoundDownBigNumber(balance.daiSavingsBalance)
-      .div(new BigNumber(10).pow(36))
+      .div(new RoundDownBigNumber(10).pow(36))
       .toString();
 
     return (

@@ -1,5 +1,4 @@
 'use strict';
-import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Web3 from 'web3';
@@ -12,16 +11,13 @@ import {
   HeaderOne,
   HeaderFour
 } from '../components/common/';
+import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class Ethereum extends Component {
   render() {
     const { balance, navigation } = this.props;
 
-    const RoundDownBigNumber = BigNumber.clone({
-      DECIMAL_PLACES: 4,
-      ROUNDING_MODE: BigNumber.ROUND_DOWN
-    });
     let ethBalance = Web3.utils.fromWei(balance.weiBalance);
     ethBalance = RoundDownBigNumber(ethBalance).toFixed(4);
 

@@ -7,6 +7,7 @@ import Web3 from 'web3';
 import { addSentTransaction } from '../actions/ActionTransactionHistory';
 const GlobalConfig = require('../config.json');
 import { store } from '../store/store.js';
+import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import WalletUtilities from './WalletUtilities.ts';
@@ -24,24 +25,15 @@ class TransactionUtilities {
   }
 
   parseHexDaiValue(value) {
-    const RoundDownBigNumber = BigNumber.clone({
-      DECIMAL_PLACES: 4,
-      ROUNDING_MODE: BigNumber.ROUND_DOWN
-    });
     const parsedDaiValue = RoundDownBigNumber(value, 16)
-      .div(new BigNumber(10).pow(18))
+      .div(new RoundDownBigNumber(10).pow(18))
       .toFixed(4);
     return parsedDaiValue;
   }
 
   parseHexCDaiValue(value) {
-    const RoundDownBigNumber = BigNumber.clone({
-      DECIMAL_PLACES: 4,
-      ROUNDING_MODE: BigNumber.ROUND_DOWN
-    });
-
     const parsedDaiValue = RoundDownBigNumber(value, 16)
-      .div(new BigNumber(10).pow(8))
+      .div(new RoundDownBigNumber(10).pow(8))
       .toString();
     return parsedDaiValue;
   }

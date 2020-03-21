@@ -1,5 +1,4 @@
 'use strict';
-import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -15,6 +14,7 @@ import {
   HeaderFour
 } from '../components/common';
 import FcmPermissions from '../firebase/FcmPermissions.js';
+import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import WalletDetail from '../containers/WalletDetail';
 
@@ -26,15 +26,11 @@ class WalletList extends Component {
   render() {
     const { currencies, balance, navigation } = this.props;
 
-    const RoundDownBigNumber = BigNumber.clone({
-      DECIMAL_PLACES: 4,
-      ROUNDING_MODE: BigNumber.ROUND_DOWN
-    });
     let ethBalance = Web3.utils.fromWei(balance.weiBalance);
     ethBalance = RoundDownBigNumber(ethBalance).toFixed(4);
 
     const daiBalance = RoundDownBigNumber(balance.daiBalance)
-      .div(new BigNumber(10).pow(18))
+      .div(new RoundDownBigNumber(10).pow(18))
       .toString();
 
     let truncatedAdderss;

@@ -23,6 +23,7 @@ import {
 } from '../components/common';
 import AdvancedContainer from '../containers/AdvancedContainer';
 import HomeStack from '../navigators/HomeStack';
+import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
@@ -138,10 +139,6 @@ class SendEth extends Component {
   };
 
   render() {
-    const RoundDownBigNumber = BigNumber.clone({
-      DECIMAL_PLACES: 4,
-      ROUNDING_MODE: BigNumber.ROUND_DOWN
-    });
     const ethBalance = RoundDownBigNumber(this.state.ethBalance).toFixed(4);
 
     return (
