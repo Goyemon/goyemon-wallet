@@ -538,7 +538,7 @@ class TxStorage {
 		this.onload_promise = Promise.all(load_promises);
 
 		LogUtilities.toDebugScreen('TxStorage constructor called');
-		this.included_max_nonce = 0; // for our txes
+		this.included_max_nonce = -1; // for our txes
 		// this.not_included_max_nonce = 0; // TODO
 
 		AsyncStorage.getItem(maxNonceKey).then(x => {
