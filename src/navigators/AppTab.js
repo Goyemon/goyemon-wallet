@@ -5,9 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 import { PersistGate } from 'redux-persist/integration/react';
 import { rehydrationComplete } from '../actions/ActionRehydration';
-import FcmListener from '../firebase/FcmListener';
 import '../firebase/FcmTokenMonitor';
-import FCM from '../lib/fcm.js';
 import '../netinfo/NetInfoListener';
 import SaveIcon from '../../assets/SaveIcon.js';
 import HistoryIcon from '../../assets/HistoryIcon.js';
@@ -81,9 +79,6 @@ const AppTab = createBottomTabNavigator(
 );
 
 const App = createAppContainer(AppTab);
-
-FCM.FCMMsgs.setMsgCallback(FcmListener.downstreamMessageHandler); // so now FcmListener is just a callback we attach to FCMMsgs.
-FCM.registerHandler(); // Then we call FCM.registerHandler() to actually initialize FCM.
 
 export default () => (
   <Provider store={store}>
