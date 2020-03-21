@@ -34,9 +34,21 @@ import { saveOtherDebugInfo } from '../actions/ActionDebugInfo.js';
 
 import TxStorage from '../lib/tx.js';
 
+var storeReady = false
+var storeReadyPromise;
+
+function setStoreReadyPromise(p) {
+	storeReadyPromise = p;
+}
+
 async function downstreamMessageHandler(type, data) {
 	LogUtilities.logInfo(`received message ${type} => `, data);
 	let stateTree;
+
+	if (!storeReady) {
+		await storeReadyPromise;
+		storeReady = true;
+	}
 
 	switch (type) {
 		case 'txhistory':
@@ -97,5 +109,6 @@ async function downstreamMessageHandler(type, data) {
 }
 
 module.exports = {
-  downstreamMessageHandler: downstreamMessageHandler
+	setStoreReadyPromise: setStoreReadyPromise,
+	downstreamMessageHandler: downstreamMessageHandler
 }
