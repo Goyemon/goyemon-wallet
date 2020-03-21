@@ -902,10 +902,10 @@ class TxStorage {
 
 		let tasks = t1.map((x) => this.included_txes.removeItem(x));
 		t2.forEach(x => tasks.push(this.not_included_txes.removeItem(x)));
-		tasks.push(AsyncStorage.setItem(maxNonceKey, '0'));
+		tasks.push(AsyncStorage.setItem(maxNonceKey, '-1'));
 		await Promise.all(tasks);
 
-		this.included_max_nonce = 0;
+		this.included_max_nonce = -1;
 
 		if (!batch)
 			this.__onUpdate();
