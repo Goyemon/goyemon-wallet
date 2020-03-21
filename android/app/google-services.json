@@ -1,38 +1,61 @@
 {
+  // Ropsten
   "project_info": {
     "project_number": "255097673919",
     "firebase_url": "https://crypterest-ropsten-dev.firebaseio.com",
     "project_id": "crypterest-ropsten-dev",
     "storage_bucket": "crypterest-ropsten-dev.appspot.com"
   },
+  // Mainnet
+  // "project_info": {
+  //   "project_number": "370749471771",
+  //   "firebase_url": "https://crypterest-mainnet-prod.firebaseio.com",
+  //   "project_id": "crypterest-mainnet-prod",
+  //   "storage_bucket": "crypterest-mainnet-prod.appspot.com"
+  // },
   "client": [
     {
       "client_info": {
+        // Ropsten
         "mobilesdk_app_id": "1:255097673919:android:4edf1caeb140d5b0170e0a",
+        // Mainnet
+        // "mobilesdk_app_id": "1:370749471771:android:1be73601c482026f588cbe",
         "android_client_info": {
           "package_name": "com.swarm.crypterest"
         }
       },
       "oauth_client": [
         {
+          // Ropsten
           "client_id": "255097673919-dqgvenhvfh6jmlln0u7o0g5pttnc6r2d.apps.googleusercontent.com",
+          // Mainnet
+          // "client_id": "370749471771-h20eucdbu0bqgo7aqt6c3llo9d0hfdqo.apps.googleusercontent.com", 
           "client_type": 3
         }
       ],
       "api_key": [
         {
+          // Ropsten
           "current_key": "AIzaSyAYj42dRT4leve8YoEjx97j7lquVJMXDPs"
+          // Mainnet
+          // "current_key": "AIzaSyAluwnsZIEve6LTxzgtmb6Kdn5Hp-yRJp8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
+              // Ropsten
               "client_id": "255097673919-dqgvenhvfh6jmlln0u7o0g5pttnc6r2d.apps.googleusercontent.com",
+              // Mainnnet
+              // "client_id": "370749471771-h20eucdbu0bqgo7aqt6c3llo9d0hfdqo.apps.googleusercontent.com",
               "client_type": 3
             },
             {
+              // Ropsten
               "client_id": "255097673919-ctdevr2mifuhjgt292pmo66prh4mmh1p.apps.googleusercontent.com",
+              // Mainnet
+              // "client_id": "370749471771-g51jdto7s7c8tir5g501rm45oogrhss4.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.swarm.crypterest"
