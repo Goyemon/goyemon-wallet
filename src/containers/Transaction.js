@@ -26,9 +26,12 @@ class Transaction extends Component {
     try {
       const uniswaps = tx.getTokenOperations('uniswap', TxStorage.TxTokenOpTypeToName.eth2tok);
       this.isUniswapTx = uniswaps.length > 0;
-      this.swppedDaiValue;
-      if(this.isUniswapTx)
-        this.swppedDaiValue = TransactionUtilities.parseHexDaiValue(`0x${uniswaps[0].tok_bought}`);
+      this.ethSold;
+      this.tokenBought;
+      if(this.isUniswapTx) {
+        this.ethSold = TransactionUtilities.parseEthValue(`0x${uniswaps[0].eth_sold}`);
+        this.tokenBought = TransactionUtilities.parseHexDaiValue(`0x${uniswaps[0].tok_bought}`);
+      }
 
       this.isDaiApproveTx = tx.hasTokenOperation('dai', TxStorage.TxTokenOpTypeToName.approval);
 
@@ -276,7 +279,7 @@ class Transaction extends Component {
 
   renderPlusOrMinusTransactionIcon() {
     if (this.isUniswapTx) {
-      return <Icon name="plus" size={16} color="#1BA548" />;
+      return null;
     }
 
     if (this.isDaiTransferTx) {
@@ -318,12 +321,27 @@ class Transaction extends Component {
 
   renderValue() {
     if (this.isUniswapTx) {
+      const uniswaps = this.props.transaction.getTokenOperations('uniswap', TxStorage.TxTokenOpTypeToName.eth2tok);
+      this.tokenBought = TransactionUtilities.parseHexDaiValue(`0x${uniswaps[0].tok_bought}`);
+
       let style;
       style = styles.valueStyleGreen;
       return (
-        <CrypterestText fontSize={16} style={style}>
-          {this.swppedDaiValue} DAI
-        </CrypterestText>
+        <SwapValueContainer>
+          <SwapValueTextContainer>
+            <Icon name="minus" size={16} color="#F1860E" />
+            <CrypterestText fontSize={16} style={style}>
+              {this.ethSold} ETH
+            </CrypterestText>
+          </SwapValueTextContainer>
+          <Icon name="swap-vertical" size={16} color="#1BA548" />
+          <SwapValueTextContainer>
+          <Icon name="plus" size={16} color="#1BA548" />
+            <CrypterestText fontSize={16} style={style}>
+              {this.tokenBought} DAI
+            </CrypterestText>
+          </SwapValueTextContainer>
+        </SwapValueContainer>
       );
     }
 
@@ -431,7 +449,7 @@ class Transaction extends Component {
             <StatusContainer>{this.renderStatus()}</StatusContainer>
             <ValueContainer>
               {this.renderPlusOrMinusTransactionIcon()}
-              <CrypterestText fontSize={16}>{this.renderValue()}</CrypterestText>
+              <View>{this.renderValue()}</View>
             </ValueContainer>
           </TransactionList>
         </TouchableCardContainer>
@@ -480,7 +498,7 @@ const Time = styled.Text`
 `;
 
 const StatusContainer = styled.View`
-  width: 32%;
+  width: 30%;
 `;
 
 const FailedStatusText = styled.Text`
@@ -498,7 +516,17 @@ const FailedStatusHintText = styled.Text`
 const ValueContainer = styled.View`
   align-items: center;
   flex-direction: row;
-  width: 28%;
+  width: 30%;
+`;
+
+const SwapValueContainer = styled.View`
+  align-items: center;
+  flex-direction: column;
+`;
+
+const SwapValueTextContainer = styled.View`
+  align-items: center;
+  flex-direction: row;
 `;
 
 const mapStateToProps = state => ({
