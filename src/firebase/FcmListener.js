@@ -26,7 +26,6 @@ import {
   removeExistingTransactionObject,
   updateErrorSentTransaction
 } from '../actions/ActionTransactionHistory';
-import { saveDaiExchangeReserve } from '../actions/ActionExchangeReserve';
 import LogUtilities from '../utilities/LogUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import { store } from '../store/store';
