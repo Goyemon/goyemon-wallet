@@ -34,7 +34,7 @@ class Swap extends Component {
     this.state = {
       ethBalance: Web3.utils.fromWei(props.balance.weiBalance),
       ethSold: '',
-      tokenBought: '',
+      tokenBought: new BigNumber(0),
       ethSoldValidation: undefined,
       loading: false,
       buttonDisabled: true,
@@ -67,12 +67,12 @@ class Swap extends Component {
 
   updateTokenBought(ethSold) {
     const exchangeRate = this.getEthToTokenExchangeRate(ethSold, this.props.exchangeReserve.daiExchange.weiReserve, this.props.exchangeReserve.daiExchange.daiReserve);
-    const tokenBought = exchangeRate.times(ethSold).div(new BigNumber(10).pow(18)).toString();
+    const tokenBought = exchangeRate.times(ethSold).div(new BigNumber(10).pow(18));
     this.setState({ tokenBought: tokenBought });
   }
 
   getMinTokens(tokenBought) {
-    const minTokens = tokenBought * ((100 - this.props.outgoingTransactionData.swap.slippage) / 100);
+    const minTokens = tokenBought.times((100 - this.props.outgoingTransactionData.swap.slippage) / 100);
     return minTokens;
   }
 
@@ -99,7 +99,7 @@ class Swap extends Component {
       decimals
     );
 
-    const minTokensWithDecimals = new BigNumber(this.state.tokenBought).times(new BigNumber(10).pow(18)).toString(16);
+    const minTokensWithDecimals = this.state.tokenBought.times(new BigNumber(10).pow(18)).toString(16);
 
     const transactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.DAIUniswapContract)
@@ -126,7 +126,7 @@ class Swap extends Component {
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
-      this.props.saveOutgoingTransactionDataSwap({sold: this.state.ethSold, bought: this.state.tokenBought, minBought: this.getMinTokens(this.state.tokenBought)});
+      this.props.saveOutgoingTransactionDataSwap({sold: this.state.ethSold, bought: this.state.tokenBought.toFixed(4), minBought: this.getMinTokens(this.state.tokenBought)});
       this.props.navigation.navigate('SwapConfirmation');
     } else {
       LogUtilities.logInfo('form validation failed!');
@@ -261,7 +261,7 @@ class Swap extends Component {
             width="100%"
           >
             <Title>you get</Title>
-            <TokenBoughtText>{this.state.tokenBought}</TokenBoughtText>
+            <TokenBoughtText>{this.state.tokenBought.toFixed(4)}</TokenBoughtText>
           </Container>
           <Container
             alignItems="center"
