@@ -26,6 +26,7 @@ import {
   removeExistingTransactionObject,
   updateErrorSentTransaction
 } from '../actions/ActionTransactionHistory';
+import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
 import LogUtilities from '../utilities/LogUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import { store } from '../store/store';
