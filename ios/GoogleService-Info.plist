@@ -3,21 +3,39 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
+	<!-- Ropsten -->
 	<string>255097673919-ctdevr2mifuhjgt292pmo66prh4mmh1p.apps.googleusercontent.com</string>
+	<!-- Mainnet -->
+	<!-- <string>370749471771-g51jdto7s7c8tir5g501rm45oogrhss4.apps.googleusercontent.com</string> -->
 	<key>REVERSED_CLIENT_ID</key>
+	<!-- Ropsten -->
 	<string>com.googleusercontent.apps.255097673919-ctdevr2mifuhjgt292pmo66prh4mmh1p</string>
+	<!-- Mainnet -->
+	<!-- <string>com.googleusercontent.apps.370749471771-g51jdto7s7c8tir5g501rm45oogrhss4</string> -->
 	<key>API_KEY</key>
+	<!-- Ropsten -->
 	<string>AIzaSyApZRuh-7ce8ny2lbTXqU_05-3_q5CPA0A</string>
+	<!-- Mainnet -->
+	<!-- <string>AIzaSyCZ47t9IWZeB4rKtH4aUsXzIzONiLkveOk</string> -->
 	<key>GCM_SENDER_ID</key>
+	<!-- Ropsten -->
 	<string>255097673919</string>
+	<!-- Mainnet -->
+	<!-- <string>370749471771</string> -->
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.swarm.crypterest</string>
 	<key>PROJECT_ID</key>
+	<!-- Ropsten -->
 	<string>crypterest-ropsten-dev</string>
+	<!-- Mainnet -->
+	<!-- <string>crypterest-mainnet-prod</string> -->
 	<key>STORAGE_BUCKET</key>
+	<!-- Ropsten -->
 	<string>crypterest-ropsten-dev.appspot.com</string>
+	<!-- Mainnet -->
+	<!-- <string>crypterest-mainnet-prod.appspot.com</string> -->
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +47,14 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
+	<!-- Ropsten -->
 	<string>1:255097673919:ios:828c10b6accc1b42170e0a</string>
+	<!-- Mainnet -->
+	<!-- <string>1:370749471771:ios:e7ee5bb5ab335aa3588cbe</string> -->
 	<key>DATABASE_URL</key>
+	<!-- Ropsten -->
 	<string>https://crypterest-ropsten-dev.firebaseio.com</string>
+	<!-- Mainnet -->
+	<!-- <string>https://crypterest-mainnet-prod.firebaseio.com</string> -->
 </dict>
 </plist>
