@@ -7,6 +7,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { rehydrationComplete } from '../actions/ActionRehydration';
 import FcmListener from '../firebase/FcmListener';
 import '../firebase/FcmTokenMonitor';
+import FCM from '../lib/fcm.js';
 import '../netinfo/NetInfoListener';
 import SaveIcon from '../../assets/SaveIcon.js';
 import HistoryIcon from '../../assets/HistoryIcon.js';
