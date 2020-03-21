@@ -4,11 +4,7 @@ import { View } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { saveOutgoingTransactionDataSwapSlippage } from '../actions/ActionOutgoingTransactionData';
-import {
-  Container,
-  UntouchableCardContainer,
-  FormHeader
-} from '../components/common';
+import { Container, FormHeader } from '../components/common';
 
 class SlippageContainer extends Component {
   constructor(props) {

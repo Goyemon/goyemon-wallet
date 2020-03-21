@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { Modal, Alert, View, Text } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import styled from 'styled-components';
-import Web3 from 'web3';
 import { saveDaiApprovalInfo } from '../actions/ActionCDaiLendingInfo';
 import {
   updateGasPriceChosen
