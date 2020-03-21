@@ -100,7 +100,7 @@ class Swap extends Component {
       decimals
     );
 
-    const minTokensWithDecimals = this.state.tokenBought.times(new BigNumber(10).pow(18)).toString(16);
+    const minTokensWithDecimals = this.state.tokenBought.times(new RoundDownBigNumber(10).pow(18)).toString(16);
 
     const transactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.DAIUniswapContract)
@@ -112,7 +112,7 @@ class Swap extends Component {
       .tempSetData(ethToTokenSwapInputEncodedABI)
       .addTokenOperation('uniswap', TxStorage.TxTokenOpTypeToName.eth2tok, [
         this.props.checksumAddress,
-        this.state.ethSold,
+        weiSold.toString(16),
         minTokensWithDecimals
       ]);
     return transactionObject;
