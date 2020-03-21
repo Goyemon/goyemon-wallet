@@ -22,6 +22,7 @@ import {
 import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
 import AdvancedContainer from '../containers/AdvancedContainer';
 import ABIEncoder from '../utilities/AbiUtilities';
+import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
@@ -34,7 +35,7 @@ class Swap extends Component {
     this.state = {
       ethBalance: Web3.utils.fromWei(props.balance.weiBalance),
       ethSold: '',
-      tokenBought: new BigNumber(0),
+      tokenBought: new RoundDownBigNumber(0),
       ethSoldValidation: undefined,
       loading: false,
       buttonDisabled: true,
@@ -67,7 +68,7 @@ class Swap extends Component {
 
   updateTokenBought(ethSold) {
     const exchangeRate = this.getEthToTokenExchangeRate(ethSold, this.props.exchangeReserve.daiExchange.weiReserve, this.props.exchangeReserve.daiExchange.daiReserve);
-    const tokenBought = exchangeRate.times(ethSold).div(new BigNumber(10).pow(18));
+    const tokenBought = exchangeRate.times(ethSold).div(new RoundDownBigNumber(10).pow(18));
     this.setState({ tokenBought: tokenBought });
   }
 
