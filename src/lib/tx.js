@@ -693,6 +693,9 @@ class TxStorage {
 			if (this.txfilter_checkMaxNonce(tx) && !batch)
 				await AsyncStorage.setItem(maxNonceKey, this.included_max_nonce.toString());
 
+			if (!this._isDAIApprovedForCDAI_cached)
+				this._isDAIApprovedForCDAI_cached = undefined;
+
 			if (!batch)
 				this.__onUpdate();
 		}
@@ -769,7 +772,6 @@ class TxStorage {
 
 		return false;
 	}
-
 
 	async parseTxHistory(histObj) {
 		// LogUtilities.toDebugScreen('TxStorage parseTxHistory() called');
@@ -941,7 +943,7 @@ class TxStorage {
 	}
 
 	async isDAIApprovedForCDAI() { // TODO: i dont think this should be here, really. this is not a storage function...
-		if (this._isDAIApprovedForCDAI_cached === undefined) { // TODO: cache needs to be reset in onUpdate, unless it's true (it wont be more true after new transactions come)... although we may want to check the latest DAI approval only, what if we approve 0 after the MAX?
+		if (!this._isDAIApprovedForCDAI_cached) { // TODO: cache needs to be reset in onUpdate, unless it's true (it wont be more true after new transactions come)... although we may want to check the latest DAI approval only, what if we approve 0 after the MAX?
 			const our_hex_address = this.our_address.toString('hex');
 			const cdai_address = GlobalConfig.cDAIcontract.startsWith('0x') ? GlobalConfig.cDAIcontract.substr(2).toLowerCase() : GlobalConfig.cDAIcontract.toLowerCase();
 			this._isDAIApprovedForCDAI_cached = (await this.included_txes.getAllTxes()).some(
