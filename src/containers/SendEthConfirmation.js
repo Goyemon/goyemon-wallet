@@ -30,7 +30,9 @@ class SendEthConfirmation extends Component {
     const outgoingTransactionObject = this.props.outgoingTransactionObjects[
       this.props.outgoingTransactionObjects.length - 1
     ];
-    await TransactionUtilities.sendOutgoingTransactionToServer(outgoingTransactionObject);
+    await TransactionUtilities.sendOutgoingTransactionToServer(
+      outgoingTransactionObject
+    );
   }
 
   render() {
@@ -63,7 +65,9 @@ class SendEthConfirmation extends Component {
             Amount
           </FormHeader>
           <AmountText>{outgoingTransactionData.send.amount} ETH</AmountText>
-          <NetworkFeeContainerConfirmation gasLimit={GlobalConfig.ETHTxGasLimit}/>
+          <NetworkFeeContainerConfirmation
+            gasLimit={GlobalConfig.ETHTxGasLimit}
+          />
         </UntouchableCardContainer>
         <ButtonContainer>
           <Button
@@ -89,7 +93,7 @@ class SendEthConfirmation extends Component {
             }}
           />
         </ButtonContainer>
-        <Loader animating={this.state.loading} size="small"/>
+        <Loader animating={this.state.loading} size="small" />
         <IsOnlineMessage netInfo={this.props.netInfo} />
       </RootContainer>
     );
@@ -136,8 +140,10 @@ const ButtonContainer = styled.View`
 function mapStateToProps(state) {
   return {
     netInfo: state.ReducerNetInfo.netInfo,
-    outgoingTransactionData: state.ReducerOutgoingTransactionData.outgoingTransactionData,
-    outgoingTransactionObjects: state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects
+    outgoingTransactionData:
+      state.ReducerOutgoingTransactionData.outgoingTransactionData,
+    outgoingTransactionObjects:
+      state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects
   };
 }
 

@@ -99,7 +99,7 @@ class Initial extends Component {
       });
       this.props.navigation.dispatch(resetAction);
     } else if (!this.props.rehydration) {
-      LogUtilities.logInfo('rehydration is not done yet')
+      LogUtilities.logInfo('rehydration is not done yet');
     }
   }
 

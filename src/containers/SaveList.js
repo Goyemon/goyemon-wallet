@@ -18,7 +18,6 @@ import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import { FCMMsgs } from '../lib/fcm.js';
 
-
 class SaveList extends Component {
   componentDidMount() {
     FCMMsgs.requestCDaiLendingInfo(this.props.checksumAddress);
@@ -32,7 +31,9 @@ class SaveList extends Component {
 
   render() {
     const { balance, cDaiLendingInfo, navigation } = this.props;
-    const currentInterestRate = new BigNumber(cDaiLendingInfo.currentInterestRate)
+    const currentInterestRate = new BigNumber(
+      cDaiLendingInfo.currentInterestRate
+    )
       .div(new BigNumber(10).pow(24))
       .toFixed(2);
 
@@ -40,7 +41,9 @@ class SaveList extends Component {
       .div(new RoundDownBigNumber(10).pow(36))
       .toString();
 
-    const lifetimeEarnedInDai = RoundDownBigNumber(cDaiLendingInfo.lifetimeEarned)
+    const lifetimeEarnedInDai = RoundDownBigNumber(
+      cDaiLendingInfo.lifetimeEarned
+    )
       .div(new RoundDownBigNumber(10).pow(36))
       .toString();
 
@@ -60,11 +63,18 @@ class SaveList extends Component {
           <HeaderFour marginTop="24">total savings</HeaderFour>
           <BalanceText>${this.getUsdValue(daiSavingsBalance)}</BalanceText>
           <InterestEarnedTextContainer>
-            <InterestEarnedText>${this.getUsdValue(lifetimeEarnedInDai)}</InterestEarnedText>
+            <InterestEarnedText>
+              ${this.getUsdValue(lifetimeEarnedInDai)}
+            </InterestEarnedText>
             <Text> earned! </Text>
           </InterestEarnedTextContainer>
         </UntouchableCardContainer>
-        <HeaderThree color="#000" marginBottom="16" marginLeft="16" marginTop="16">
+        <HeaderThree
+          color="#000"
+          marginBottom="16"
+          marginLeft="16"
+          marginTop="16"
+        >
           YOUR ACCOUNTS
         </HeaderThree>
         <TouchableCardContainer
@@ -78,7 +88,13 @@ class SaveList extends Component {
             navigation.navigate('SaveDai');
           }}
         >
-          <Container alignItems="center" flexDirection="row" justifyContent="space-between" marginTop={0} width="100%">
+          <Container
+            alignItems="center"
+            flexDirection="row"
+            justifyContent="space-between"
+            marginTop={0}
+            width="100%"
+          >
             <CoinImageContainer>
               <CoinImage source={require('../../assets/dai_icon.png')} />
               <Text>Dai</Text>
@@ -91,7 +107,9 @@ class SaveList extends Component {
             <ValueContainer>
               <ValueText>{daiSavingsBalance}</ValueText>
               <ValueText>{currentInterestRate}%</ValueText>
-              <DaiInterestEarnedText>{lifetimeEarnedInDai}</DaiInterestEarnedText>
+              <DaiInterestEarnedText>
+                {lifetimeEarnedInDai}
+              </DaiInterestEarnedText>
             </ValueContainer>
           </Container>
         </TouchableCardContainer>

@@ -1,16 +1,16 @@
 // Ropsten testnet
 {
-    "FCM_server_address": "255097673919@gcm.googleapis.com",
-    "network_id": 3,
-    "cDAIcontract": "0x2b536482a01e620ee111747f8334b395a42a555e",
-    "DAITokenContract": "0xb5e5d0f8c0cba267cd3d7035d6adc8eba7df7cdd",
-    "DAIUniswapContract": "0x386045dA04eCbe32DA4Ce6bD78a224a3543c16F0",
-    "ETHTxGasLimit": 21000,
-    "ERC20TransferGasLimit" : 65000,
-    "ERC20ApproveGasLimit" : 50000,
-    "cTokenMintGasLimit": 350000,
-    "cTokenRedeemUnderlyingGasLimit": 650000,
-    "UniswapEthToTokenSwapInputGasLimit": 75000    
+  "FCM_server_address": "255097673919@gcm.googleapis.com",
+  "network_id": 3,
+  "cDAIcontract": "0x2b536482a01e620ee111747f8334b395a42a555e",
+  "DAITokenContract": "0xb5e5d0f8c0cba267cd3d7035d6adc8eba7df7cdd",
+  "DAIUniswapContract": "0x386045dA04eCbe32DA4Ce6bD78a224a3543c16F0",
+  "ETHTxGasLimit": 21000,
+  "ERC20TransferGasLimit": 65000,
+  "ERC20ApproveGasLimit": 50000,
+  "cTokenMintGasLimit": 350000,
+  "cTokenRedeemUnderlyingGasLimit": 650000,
+  "UniswapEthToTokenSwapInputGasLimit": 75000
 }
 
 // Mainnet
@@ -25,7 +25,7 @@
 //     "ERC20ApproveGasLimit" : 50000,
 //     "cTokenMintGasLimit": 350000,
 //     "cTokenRedeemUnderlyingGasLimit": 650000,
-//     "UniswapEthToTokenSwapInputGasLimit": 75000    
+//     "UniswapEthToTokenSwapInputGasLimit": 75000
 // }
 
 // the usd price of currencies is always the mainnet data

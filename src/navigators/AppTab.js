@@ -31,7 +31,9 @@ const AppTab = createBottomTabNavigator(
       screen: SwapStack,
       navigationOptions: {
         tabBarLabel: 'Swap',
-        tabBarIcon: ({ tintColor }) => <Icon name="swap-horizontal" size={32} color={tintColor} />
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="swap-horizontal" size={32} color={tintColor} />
+        )
       }
     },
     Save: {
@@ -52,7 +54,9 @@ const AppTab = createBottomTabNavigator(
       screen: SettingsStack,
       navigationOptions: {
         tabBarLabel: 'Settings',
-        tabBarIcon: ({ tintColor }) => <Icon name="settings-outline" size={28} color={tintColor} />
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="settings-outline" size={28} color={tintColor} />
+        )
       }
     }
   },
@@ -82,7 +86,10 @@ const App = createAppContainer(AppTab);
 
 export default () => (
   <Provider store={store}>
-    <PersistGate loading={<Loader animating={true} size="large" />} persistor={persistor}>
+    <PersistGate
+      loading={<Loader animating={true} size="large" />}
+      persistor={persistor}
+    >
       <App />
     </PersistGate>
   </Provider>

@@ -5,7 +5,14 @@ import { KeyboardAvoidingView, Platform, View, TextInput } from 'react-native';
 import styled from 'styled-components/native';
 import { saveMnemonicWords } from '../actions/ActionMnemonic';
 import { updateMnemonicWordsValidation } from '../actions/ActionMnemonicWordsValidation';
-import { RootContainer, ProgressBar, HeaderTwo, Description, Button, ErrorMessage } from '../components/common';
+import {
+  RootContainer,
+  ProgressBar,
+  HeaderTwo,
+  Description,
+  Button,
+  ErrorMessage
+} from '../components/common';
 import LogUtilities from '../utilities/LogUtilities.js';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
@@ -69,51 +76,51 @@ class ImportTwelveMnemonicWords extends Component {
             marginRight="40%"
             width="40%"
           />
-            <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
-              Import Your Wallet
-            </HeaderTwo>
-            <Description marginBottom="8" marginLeft="8" marginTop="16">
-              enter your backup words
-            </Description>
-            <MnemonicWordsContainer style={styles.table}>
-              {this.state.mnemonicWords.map((word, id) => (
-                <View style={styles.cell} key={id}>
-                  <MnemonicWordWrapper>
-                    <TextInput
-                      ref={id}
-                      style={{ textAlign: 'center', padding: 4 }}
-                      placeholder={(id + 1).toString()}
-                      autoCapitalize="none"
-                      maxLength={15}
-                      onChangeText={text => {
-                        this.handleTextChange(text, id);
-                      }}
-                      onSubmitEditing={
-                        id === 11
-                          ? LogUtilities.logInfo('done')
-                          : () => this.focusNextInput((id + 1).toString())
-                      }
-                      returnKeyType={id === 11 ? 'done' : 'next'}
-                    />
-                  </MnemonicWordWrapper>
-                </View>
-              ))}
-            </MnemonicWordsContainer>
-            <View>{this.renderInvalidMnemonicWordsMessage()}</View>
-            <ButtonContainer>
-              <Button
-                text="Next"
-                textColor="#00A3E2"
-                backgroundColor="#FFF"
-                borderColor="#00A3E2"
-                margin="24px auto"
-                marginBottom="12px"
-                opacity="1"
-                onPress={async () => {
-                  await this.validateForm();
-                }}
-              />
-            </ButtonContainer>
+          <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
+            Import Your Wallet
+          </HeaderTwo>
+          <Description marginBottom="8" marginLeft="8" marginTop="16">
+            enter your backup words
+          </Description>
+          <MnemonicWordsContainer style={styles.table}>
+            {this.state.mnemonicWords.map((word, id) => (
+              <View style={styles.cell} key={id}>
+                <MnemonicWordWrapper>
+                  <TextInput
+                    ref={id}
+                    style={{ textAlign: 'center', padding: 4 }}
+                    placeholder={(id + 1).toString()}
+                    autoCapitalize="none"
+                    maxLength={15}
+                    onChangeText={text => {
+                      this.handleTextChange(text, id);
+                    }}
+                    onSubmitEditing={
+                      id === 11
+                        ? LogUtilities.logInfo('done')
+                        : () => this.focusNextInput((id + 1).toString())
+                    }
+                    returnKeyType={id === 11 ? 'done' : 'next'}
+                  />
+                </MnemonicWordWrapper>
+              </View>
+            ))}
+          </MnemonicWordsContainer>
+          <View>{this.renderInvalidMnemonicWordsMessage()}</View>
+          <ButtonContainer>
+            <Button
+              text="Next"
+              textColor="#00A3E2"
+              backgroundColor="#FFF"
+              borderColor="#00A3E2"
+              margin="24px auto"
+              marginBottom="12px"
+              opacity="1"
+              onPress={async () => {
+                await this.validateForm();
+              }}
+            />
+          </ButtonContainer>
         </RootContainer>
       </KeyboardAvoidingView>
     );
@@ -162,7 +169,4 @@ const mapDispatchToProps = {
   updateMnemonicWordsValidation
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(ImportTwelveMnemonicWords);
+export default connect(null, mapDispatchToProps)(ImportTwelveMnemonicWords);

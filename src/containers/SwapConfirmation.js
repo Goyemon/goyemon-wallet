@@ -30,12 +30,14 @@ class SwapConfirmation extends Component {
     const outgoingTransactionObject = this.props.outgoingTransactionObjects[
       this.props.outgoingTransactionObjects.length - 1
     ];
-    await TransactionUtilities.sendOutgoingTransactionToServer(outgoingTransactionObject);
+    await TransactionUtilities.sendOutgoingTransactionToServer(
+      outgoingTransactionObject
+    );
   }
 
   render() {
     const { outgoingTransactionData } = this.props;
-    
+
     return (
       <RootContainer>
         <HeaderOne marginTop="96">Confirmation</HeaderOne>
@@ -61,9 +63,13 @@ class SwapConfirmation extends Component {
           <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
             You Get at Least
           </FormHeader>
-          <Amount>{outgoingTransactionData.swap.minBought.toFixed(4)} DAI</Amount>
+          <Amount>
+            {outgoingTransactionData.swap.minBought.toFixed(4)} DAI
+          </Amount>
           <Amount>*slippage {outgoingTransactionData.swap.slippage} %</Amount>
-          <NetworkFeeContainerConfirmation gasLimit={GlobalConfig.cTokenRedeemUnderlyingGasLimit}/>
+          <NetworkFeeContainerConfirmation
+            gasLimit={GlobalConfig.cTokenRedeemUnderlyingGasLimit}
+          />
         </UntouchableCardContainer>
         <ButtonContainer>
           <Button
@@ -89,7 +95,7 @@ class SwapConfirmation extends Component {
             }}
           />
         </ButtonContainer>
-        <Loader animating={this.state.loading} size="small"/>
+        <Loader animating={this.state.loading} size="small" />
         <IsOnlineMessage netInfo={this.props.netInfo} />
       </RootContainer>
     );
@@ -130,8 +136,10 @@ const ButtonContainer = styled.View`
 function mapStateToProps(state) {
   return {
     netInfo: state.ReducerNetInfo.netInfo,
-    outgoingTransactionObjects: state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
-    outgoingTransactionData: state.ReducerOutgoingTransactionData.outgoingTransactionData
+    outgoingTransactionObjects:
+      state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
+    outgoingTransactionData:
+      state.ReducerOutgoingTransactionData.outgoingTransactionData
   };
 }
 

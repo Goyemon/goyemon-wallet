@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Dimensions, TouchableOpacity, Text, BackHandler } from 'react-native';
+import { Dimensions, BackHandler } from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
@@ -39,8 +39,14 @@ class QRCodeScan extends Component {
 
   render() {
     return (
-      <Container alignItems="center" flexDirection="row" justifyContent="center" marginTop={0} width="100%">
-      <QRCodeScanner
+      <Container
+        alignItems="center"
+        flexDirection="row"
+        justifyContent="center"
+        marginTop={0}
+        width="100%"
+      >
+        <QRCodeScanner
           onRead={this.onScanSuccess}
           showMarker
           checkAndroid6Permissions
@@ -80,7 +86,4 @@ const mapDispatchToProps = {
   saveQRCodeData
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(QRCodeScan);
+export default connect(null, mapDispatchToProps)(QRCodeScan);

@@ -42,7 +42,13 @@ class NotificationPermissionTutorial extends Component {
           marginRight="0%"
           width="80%"
         />
-        <Container alignItems="center" flexDirection="column" justifyContent="center" marginTop={40} width="90%">
+        <Container
+          alignItems="center"
+          flexDirection="column"
+          justifyContent="center"
+          marginTop={40}
+          width="90%"
+        >
           <HeaderTwo marginBottom="0" marginLeft="0" marginTop="0">
             Almost Done!
           </HeaderTwo>
@@ -65,7 +71,7 @@ class NotificationPermissionTutorial extends Component {
               this.setState({ loading: false, buttonDisabled: false });
             }}
           />
-          <Loader animating={this.state.loading} size="small"/>
+          <Loader animating={this.state.loading} size="small" />
         </Container>
       </RootContainer>
     );

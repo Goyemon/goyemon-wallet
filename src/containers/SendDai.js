@@ -44,12 +44,17 @@ class SendDai extends Component {
       currency: 'USD',
       loading: false,
       buttonDisabled: true,
-      buttonOpacity: 0.5,
+      buttonOpacity: 0.5
     };
   }
 
   componentDidMount() {
-    this.updateWeiAmountValidation(TransactionUtilities.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.ERC20TransferGasLimit));
+    this.updateWeiAmountValidation(
+      TransactionUtilities.validateWeiAmountForTransactionFee(
+        TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen),
+        GlobalConfig.ERC20TransferGasLimit
+      )
+    );
   }
 
   componentDidUpdate(prevProps) {
@@ -60,7 +65,7 @@ class SendDai extends Component {
   }
 
   async constructTransactionObject() {
-    const amount = this.state.amount.split('.').join("");
+    const amount = this.state.amount.split('.').join('');
     const decimalPlaces = TransactionUtilities.decimalPlaces(this.state.amount);
     const decimals = 18 - parseInt(decimalPlaces);
     const transferEncodedABI = ABIEncoder.encodeTransfer(
@@ -69,14 +74,24 @@ class SendDai extends Component {
       decimals
     );
 
-    const amountWithDecimals = new BigNumber(this.state.amount).times(new BigNumber(10).pow(18)).toString(16);
+    const amountWithDecimals = new BigNumber(this.state.amount)
+      .times(new BigNumber(10).pow(18))
+      .toString(16);
 
     const transactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.DAITokenContract)
-      .setGasPrice(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16))
-      .setGas((GlobalConfig.ERC20TransferGasLimit).toString(16))
+      .setGasPrice(
+        TransactionUtilities.returnTransactionSpeed(
+          this.props.gasPrice.chosen
+        ).toString(16)
+      )
+      .setGas(GlobalConfig.ERC20TransferGasLimit.toString(16))
       .tempSetData(transferEncodedABI)
-      .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.transfer, [TxStorage.storage.getOwnAddress(), GlobalConfig.DAITokenContract, amountWithDecimals]);
+      .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.transfer, [
+        TxStorage.storage.getOwnAddress(),
+        GlobalConfig.DAITokenContract,
+        amountWithDecimals
+      ]);
 
     return transactionObject;
   }
@@ -125,7 +140,7 @@ class SendDai extends Component {
   }
 
   updateWeiAmountValidation(weiAmountValidation) {
-    if(weiAmountValidation) {
+    if (weiAmountValidation) {
       this.setState({ weiAmountValidation: true });
     } else if (!weiAmountValidation) {
       this.setState({ weiAmountValidation: false });
@@ -135,7 +150,10 @@ class SendDai extends Component {
   validateForm = async (toAddress, amount) => {
     const toAddressValidation = this.validateToAddress(toAddress);
     const daiAmountValidation = this.validateDaiAmount(amount);
-    const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.ERC20TransferGasLimit);
+    const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(
+      TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen),
+      GlobalConfig.ERC20TransferGasLimit
+    );
     const isOnline = this.props.netInfo;
 
     if (
@@ -148,7 +166,10 @@ class SendDai extends Component {
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
-      this.props.saveOutgoingTransactionDataSend({toaddress: toAddress, amount: amount});
+      this.props.saveOutgoingTransactionDataSend({
+        toaddress: toAddress,
+        amount: amount
+      });
       this.props.navigation.navigate('SendDaiConfirmation');
     } else {
       LogUtilities.logInfo('form validation failed!');
@@ -163,103 +184,110 @@ class SendDai extends Component {
     return (
       <RootContainer>
         <HeaderOne marginTop="96">Send</HeaderOne>
-          <UntouchableCardContainer
-            alignItems="center"
-            borderRadius="8px"
-            flexDirection="column"
-            height="160px"
-            justifyContent="center"
-            marginTop="56"
-            textAlign="center"
-            width="80%"
-          >
-            <CoinImage source={require('../../assets/dai_icon.png')} />
-            <Title>dai wallet balance</Title>
-            <BalanceContainer>
-              <Value>{daiBalance} DAI</Value>
-            </BalanceContainer>
-          </UntouchableCardContainer>
-          <FormHeader marginBottom="4" marginLeft="0" marginTop="0">
-            To
-          </FormHeader>
-          <Form
-            borderColor={StyleUtilities.getBorderColor(this.state.toAddressValidation)}
-            borderWidth={1}
-            height="56px"
-          >
-            <SendTextInputContainer>
-              <SendTextInput
-                placeholder="address"
-                clearButtonMode="while-editing"
-                onChangeText={toAddress => {
-                  this.validateToAddress(toAddress);
-                  this.setState({ toAddress });
-                }}
-                value={this.state.toAddress}
-              />
-              <TouchableOpacity
-                onPress={() => {
-                  this.props.clearQRCodeData();
-                  HomeStack.navigationOptions = () => {
-                    const tabBarVisible = false;
-                    return {
-                      tabBarVisible
-                    };
-                  };
-                  this.props.navigation.navigate('QRCodeScan');
-                }}
-              >
-                <Icon name="qrcode-scan" size={16} color="#5f5f5f" />
-              </TouchableOpacity>
-            </SendTextInputContainer>
-          </Form>
-          <InvalidToAddressMessage toAddressValidation={this.state.toAddressValidation} />
-          <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
-            Amount
-          </FormHeader>
-          <Form
-            borderColor={StyleUtilities.getBorderColor(this.state.daiAmountValidation)}
-            borderWidth={1}
-            height="56px"
-          >
-            <SendTextInputContainer>
-              <SendTextInput
-                placeholder="amount"
-                keyboardType="numeric"
-                clearButtonMode="while-editing"
-                onChangeText={amount => {
-                  this.validateDaiAmount(amount);
-                  this.setState({ amount });
-                }}
-                returnKeyType="done"
-              />
-              <CurrencySymbolText>DAI</CurrencySymbolText>
-            </SendTextInputContainer>
-          </Form>
-          <InsufficientDaiBalanceMessage daiAmountValidation={this.state.daiAmountValidation} />
-          <AdvancedContainer gasLimit={GlobalConfig.ERC20TransferGasLimit} />
-          <InsufficientEthBalanceMessage weiAmountValidation={this.state.weiAmountValidation} />
-          <ButtonWrapper>
-            <Button
-              text="Next"
-              textColor="#00A3E2"
-              backgroundColor="#FFF"
-              borderColor="#00A3E2"
-              disabled={this.state.buttonDisabled}
-              margin="40px auto"
-              marginBottom="12px"
-              opacity={this.state.buttonOpacity}
-              onPress={async () => {
-                await this.validateForm(
-                  this.state.toAddress,
-                  this.state.amount
-                );
-                this.setState({ loading: false, buttonDisabled: false });
+        <UntouchableCardContainer
+          alignItems="center"
+          borderRadius="8px"
+          flexDirection="column"
+          height="160px"
+          justifyContent="center"
+          marginTop="56"
+          textAlign="center"
+          width="80%"
+        >
+          <CoinImage source={require('../../assets/dai_icon.png')} />
+          <Title>dai wallet balance</Title>
+          <BalanceContainer>
+            <Value>{daiBalance} DAI</Value>
+          </BalanceContainer>
+        </UntouchableCardContainer>
+        <FormHeader marginBottom="4" marginLeft="0" marginTop="0">
+          To
+        </FormHeader>
+        <Form
+          borderColor={StyleUtilities.getBorderColor(
+            this.state.toAddressValidation
+          )}
+          borderWidth={1}
+          height="56px"
+        >
+          <SendTextInputContainer>
+            <SendTextInput
+              placeholder="address"
+              clearButtonMode="while-editing"
+              onChangeText={toAddress => {
+                this.validateToAddress(toAddress);
+                this.setState({ toAddress });
               }}
+              value={this.state.toAddress}
             />
-            <Loader animating={this.state.loading} size="small"/>
-          </ButtonWrapper>
-          <IsOnlineMessage netInfo={this.props.netInfo} />
+            <TouchableOpacity
+              onPress={() => {
+                this.props.clearQRCodeData();
+                HomeStack.navigationOptions = () => {
+                  const tabBarVisible = false;
+                  return {
+                    tabBarVisible
+                  };
+                };
+                this.props.navigation.navigate('QRCodeScan');
+              }}
+            >
+              <Icon name="qrcode-scan" size={16} color="#5f5f5f" />
+            </TouchableOpacity>
+          </SendTextInputContainer>
+        </Form>
+        <InvalidToAddressMessage
+          toAddressValidation={this.state.toAddressValidation}
+        />
+        <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
+          Amount
+        </FormHeader>
+        <Form
+          borderColor={StyleUtilities.getBorderColor(
+            this.state.daiAmountValidation
+          )}
+          borderWidth={1}
+          height="56px"
+        >
+          <SendTextInputContainer>
+            <SendTextInput
+              placeholder="amount"
+              keyboardType="numeric"
+              clearButtonMode="while-editing"
+              onChangeText={amount => {
+                this.validateDaiAmount(amount);
+                this.setState({ amount });
+              }}
+              returnKeyType="done"
+            />
+            <CurrencySymbolText>DAI</CurrencySymbolText>
+          </SendTextInputContainer>
+        </Form>
+        <InsufficientDaiBalanceMessage
+          daiAmountValidation={this.state.daiAmountValidation}
+        />
+        <AdvancedContainer gasLimit={GlobalConfig.ERC20TransferGasLimit} />
+        <InsufficientEthBalanceMessage
+          weiAmountValidation={this.state.weiAmountValidation}
+        />
+        <ButtonWrapper>
+          <Button
+            text="Next"
+            textColor="#00A3E2"
+            backgroundColor="#FFF"
+            borderColor="#00A3E2"
+            disabled={this.state.buttonDisabled}
+            margin="40px auto"
+            marginBottom="12px"
+            opacity={this.state.buttonOpacity}
+            onPress={async () => {
+              await this.validateForm(this.state.toAddress, this.state.amount);
+              this.setState({ loading: false, buttonDisabled: false });
+            }}
+          />
+          <Loader animating={this.state.loading} size="small" />
+        </ButtonWrapper>
+        <IsOnlineMessage netInfo={this.props.netInfo} />
       </RootContainer>
     );
   }
@@ -320,7 +348,7 @@ function mapStateToProps(state) {
     gasPrice: state.ReducerGasPrice.gasPrice,
     balance: state.ReducerBalance.balance,
     netInfo: state.ReducerNetInfo.netInfo,
-    qrCodeData: state.ReducerQRCodeData.qrCodeData,
+    qrCodeData: state.ReducerQRCodeData.qrCodeData
   };
 }
 

@@ -156,7 +156,7 @@ const HomeStack = createStackNavigator(
     }
   },
   {
-    navigationOptions:{
+    navigationOptions: {
       tabBarVisible: false
     }
   },

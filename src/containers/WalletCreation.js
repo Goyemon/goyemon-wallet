@@ -8,12 +8,10 @@ import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { StackActions, NavigationActions } from 'react-navigation';
 import styled from 'styled-components/native';
 import { createChecksumAddress } from '../actions/ActionChecksumAddress';
-import {
-  getGasPrice
-} from '../actions/ActionGasPrice';
+import { getGasPrice } from '../actions/ActionGasPrice';
 import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
 import { Container, Button } from '../components/common';
-import { FCMMsgs} from '../lib/fcm.js';
+import { FCMMsgs } from '../lib/fcm.js';
 import TxStorage from '../lib/tx';
 import HomeStack from '../navigators/HomeStack';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
@@ -35,16 +33,22 @@ class WalletCreation extends Component {
           <FadeInMessageOneText>generating your keys...</FadeInMessageOneText>
         </FadeInMessageOne>
         <FadeInMessageTwo animation="fadeInDown" delay={2500}>
-          <FadeInMessageTwoText>generating your address...</FadeInMessageTwoText>
+          <FadeInMessageTwoText>
+            generating your address...
+          </FadeInMessageTwoText>
         </FadeInMessageTwo>
         <FadeInMessageThree animation="fadeInDown" delay={4000}>
-          <FadeInMessageThreeText>fetching blockchain data...</FadeInMessageThreeText>
+          <FadeInMessageThreeText>
+            fetching blockchain data...
+          </FadeInMessageThreeText>
         </FadeInMessageThree>
         <FadeInMessageFour animation="fadeInDown" delay={5500}>
           <FadeInMessageFourText>getting price data...</FadeInMessageFourText>
         </FadeInMessageFour>
         <FadeInMessageFive animation="fadeInDown" delay={8000}>
-          <FadeInMessageFiveText>this shouldn't take too long...</FadeInMessageFiveText>
+          <FadeInMessageFiveText>
+            this shouldn't take too long...
+          </FadeInMessageFiveText>
         </FadeInMessageFive>
       </FadeInMessageContainer>
     );
@@ -87,7 +91,9 @@ class WalletCreation extends Component {
 
   async createWallet() {
     await WalletUtilities.generateWallet(this.props.mnemonicWords);
-    await WalletUtilities.setPrivateKey(await WalletUtilities.createPrivateKey());
+    await WalletUtilities.setPrivateKey(
+      await WalletUtilities.createPrivateKey()
+    );
     await this.props.createChecksumAddress();
     TxStorage.storage.setOwnAddress(this.props.checksumAddress);
     FCMMsgs.registerEthereumAddress(this.props.checksumAddress);
@@ -205,10 +211,20 @@ class WalletCreation extends Component {
           />
         }
       >
-        <Container alignItems="center" flexDirection="column"  justifyContent="center" marginTop={0} width="100%">
+        <Container
+          alignItems="center"
+          flexDirection="column"
+          justifyContent="center"
+          marginTop={0}
+          width="100%"
+        >
           {this.PullDownToRefreshMessage()}
           {this.FadeInMessages()}
-          <Modal animationType="fade" transparent visible={this.state.modalVisible}>
+          <Modal
+            animationType="fade"
+            transparent
+            visible={this.state.modalVisible}
+          >
             <ModalBackground>
               <ModalInner>
                 <ModalText>You are all set!</ModalText>
@@ -336,7 +352,4 @@ const mapDispatchToProps = {
   getGasPrice
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(WalletCreation);
+export default connect(mapStateToProps, mapDispatchToProps)(WalletCreation);

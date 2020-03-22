@@ -17,15 +17,23 @@ export default class History extends Component {
     };
   }
 
-
   toggleFilterChoiceText() {
     const choices = ['All', 'Dai'].map(filter => {
-        if (filter == this.state.filter)
-          return <FilterChoiceTextSelected key={filter}>{filter}</FilterChoiceTextSelected>;
+      if (filter == this.state.filter)
+        return (
+          <FilterChoiceTextSelected key={filter}>
+            {filter}
+          </FilterChoiceTextSelected>
+        );
 
-        return  <TouchableOpacity key={filter} onPress={() => this.setState({ filter: filter })}>
-                  <FilterChoiceTextUnelected>{filter}</FilterChoiceTextUnelected>
-                </TouchableOpacity>
+      return (
+        <TouchableOpacity
+          key={filter}
+          onPress={() => this.setState({ filter: filter })}
+        >
+          <FilterChoiceTextUnelected>{filter}</FilterChoiceTextUnelected>
+        </TouchableOpacity>
+      );
     });
 
     return <FilterChoiceContainer>{choices}</FilterChoiceContainer>;
@@ -37,7 +45,10 @@ export default class History extends Component {
         <OfflineNotice />
         <HeaderOne marginTop="64">History</HeaderOne>
         {this.toggleFilterChoiceText()}
-        <TransactionList tokenFilter={this.state.filter} key={`TransactionList_${this.state.filter}`} />
+        <TransactionList
+          tokenFilter={this.state.filter}
+          key={`TransactionList_${this.state.filter}`}
+        />
       </View>
     );
   }

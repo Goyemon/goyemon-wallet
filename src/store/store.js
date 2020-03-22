@@ -22,7 +22,7 @@ const persistConfig = {
   ]
 };
 
-    // 'ReducerTransactionHistory',
+// 'ReducerTransactionHistory',
 
 const persistedReducer = persistReducer(persistConfig, rootReducers);
 

@@ -1,7 +1,12 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Linking, TouchableHighlight, Alert, Modal } from 'react-native';
+import {
+  Linking,
+  TouchableHighlight,
+  Alert,
+  Modal
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import { clearState } from '../actions/ActionClearState';
@@ -13,7 +18,7 @@ import {
   Button,
   Description
 } from '../components/common';
-import I18n from "../i18n/I18n";
+import I18n from '../i18n/I18n';
 import TxStorage from '../lib/tx';
 import { persistor, store } from '../store/store.js';
 import LogUtilities from '../utilities/LogUtilities.js';
@@ -31,17 +36,29 @@ class Settings extends Component {
   }
 
   setModalVisible(visible) {
-    this.setState({ modalVisible: visible, buttonDisabled: true, buttonOpacity: 0.5 });
+    this.setState({
+      modalVisible: visible,
+      buttonDisabled: true,
+      buttonOpacity: 0.5
+    });
   }
 
   validateDeleteText(deleteText) {
     if (deleteText === 'delete') {
       LogUtilities.logInfo('the delete text validated!');
-      this.setState({ deleteTextValidation: true, buttonDisabled: false, buttonOpacity: 1 });
+      this.setState({
+        deleteTextValidation: true,
+        buttonDisabled: false,
+        buttonOpacity: 1
+      });
       return true;
     }
     LogUtilities.logInfo('wrong delete text!');
-    this.setState({ deleteTextValidation: false, buttonDisabled: true, buttonOpacity: 0.5 });
+    this.setState({
+      deleteTextValidation: false,
+      buttonDisabled: true,
+      buttonOpacity: 0.5
+    });
     return false;
   }
 
@@ -61,9 +78,12 @@ class Settings extends Component {
             <ModalBackground>
               <MondalInner>
                 <ModalTextContainer>
-                  <ResetWalletHeader>{I18n.t("Are you sure?")}</ResetWalletHeader>
+                  <ResetWalletHeader>
+                    {I18n.t('Are you sure?')}
+                  </ResetWalletHeader>
                   <Description marginBottom="8" marginLeft="0" marginTop="16">
-                    Did you save your backup words? Otherwise, you will lose your funds.
+                    Did you save your backup words? Otherwise, you will lose
+                    your funds.
                   </Description>
                 </ModalTextContainer>
                 <DeleteTextInputContainer>
@@ -342,7 +362,4 @@ const mapDispatchToProps = {
   clearState
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(Settings);
+export default connect(null, mapDispatchToProps)(Settings);
