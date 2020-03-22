@@ -53,11 +53,9 @@ class SaveDai extends Component {
     this.updateWeiAmountValidation(TransactionUtilities.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit));
   }
 
-  async componentDidUpdate(prevProps) {
+  async UNSAFE_componentWillMount(){
     if(this.props.cDaiLendingInfo.daiApproval != true){
-      if (this.props.transactions != prevProps.transactions) {
-        this.props.saveDaiApprovalInfo(await TxStorage.storage.isDAIApprovedForCDAI());
-      } 
+      this.props.saveDaiApprovalInfo(await TxStorage.storage.isDAIApprovedForCDAI());      
     }
   }
 
