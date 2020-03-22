@@ -2,10 +2,16 @@
 import FcmListener from './FcmListener.js';
 import FCM from '../lib/fcm.js';
 
+import AsyncStorage from '@react-native-community/async-storage';
+
 FCM.FCMMsgs.setMsgCallback(FcmListener.downstreamMessageHandler); // so now FcmListener is just a callback we attach to FCMMsgs.
 
-export default async downstreamMessage => {
-  await FCM.downstreamMessageHandler(downstreamMessage, true);
+var bgmsgcnt = 0;
 
-  return Promise.resolve();
+export default async downstreamMessage => {
+	await AsyncStorage.setItem(`bgmsg_${bgmsgcnt++}`, JSON.stringify(downstreamMessage));
+
+	await FCM.downstreamMessageHandler(downstreamMessage, true);
+
+	return Promise.resolve();
 }
