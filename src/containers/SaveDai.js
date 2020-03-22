@@ -107,7 +107,11 @@ class SaveDai extends Component {
   }
 
   async constructMintTransactionObject() {
-    const mintEncodedABI = ABIEncoder.encodeCDAIMint(this.state.daiAmount);
+    const daiAmount = this.state.daiAmount.split('.').join("");
+    const decimalPlaces = TransactionUtilities.decimalPlaces(this.state.daiAmount);
+    const decimals = 18 - parseInt(decimalPlaces);
+
+    const mintEncodedABI = ABIEncoder.encodeCDAIMint(daiAmount, decimals);
 
     const daiAmountWithDecimals = new BigNumber(this.state.daiAmount).times(new BigNumber(10).pow(18)).toString(16);
 
