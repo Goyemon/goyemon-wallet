@@ -55,20 +55,20 @@ class Swap extends Component {
     }
   }
 
-  getEthToTokenExchangeRate(ethSold, weiReserve, tokenReserve) {
+  getTokenBought(ethSold, weiReserve, tokenReserve) {
     weiReserve = new BigNumber(weiReserve, 16);
     tokenReserve = new BigNumber(tokenReserve, 16);
-    let weiSold = Web3.utils.toWei(ethSold, 'Ether');
+    let weiSold = Web3.utils.toWei(ethSold.toString(), 'Ether');
     weiSold = new BigNumber(weiSold);
     const weiSoldWithFee = weiSold.times(997);
     const numerator = weiSoldWithFee.times(tokenReserve);
     const denominator = ((weiReserve.minus(weiSold)).times(1000)).plus(weiSoldWithFee);
-    return numerator.div(denominator);
+    const tokenBought = numerator.div(denominator);
+    return tokenBought;
   }
 
   updateTokenBought(ethSold) {
-    const exchangeRate = this.getEthToTokenExchangeRate(ethSold, this.props.exchangeReserve.daiExchange.weiReserve, this.props.exchangeReserve.daiExchange.daiReserve);
-    const tokenBought = exchangeRate.times(ethSold).div(new RoundDownBigNumber(10).pow(18));
+    const tokenBought = this.getTokenBought(ethSold, this.props.exchangeReserve.daiExchange.weiReserve, this.props.exchangeReserve.daiExchange.daiReserve).div(new RoundDownBigNumber(10).pow(18));
     this.setState({ tokenBought: tokenBought });
   }
 
