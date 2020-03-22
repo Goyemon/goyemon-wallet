@@ -12,13 +12,14 @@ const persistConfig = {
     'ReducerBalance',
     'ReducerCDaiLendingInfo',
     'ReducerChecksumAddress',
+    'ReducerCurrencies',
     'ReducerGasPrice',
     'ReducerMnemonic',
-    'ReducerPermissions',
+    'ReducerMnemonicWordsValidation',
     'ReducerOutgoingTransactionObjects',
+    'ReducerPermissions',
     'ReducerPrice',
-    'ReducerTransactionsLoaded',
-    'ReducerCurrencies'
+    'ReducerTransactionsLoaded'
   ]
 };
 
