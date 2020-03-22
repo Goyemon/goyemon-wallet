@@ -1,6 +1,7 @@
 // Ropsten testnet
 {
   "FCM_server_address": "255097673919@gcm.googleapis.com",
+  "network_name": "ropsten",
   "network_id": 3,
   "cDAIcontract": "0x2b536482a01e620ee111747f8334b395a42a555e",
   "DAITokenContract": "0xb5e5d0f8c0cba267cd3d7035d6adc8eba7df7cdd",
@@ -16,6 +17,7 @@
 // Mainnet
 // {
 //     "FCM_server_address": "370749471771@gcm.googleapis.com",
+//     "network_name": "mainnet",
 //     "network_id": 1,
 //     "cDAIcontract": "0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643",
 //     "DAITokenContract": "0x6b175474e89094c44da98b954eedeac495271d0f",
