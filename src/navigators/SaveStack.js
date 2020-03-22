@@ -12,7 +12,7 @@ const SaveStack = createStackNavigator(
     SaveDai: {
       screen: SaveDai,
       navigationOptions: () => ({
-        headerTransparent: true,
+        headerTransparent: true
       })
     },
     SaveList: {

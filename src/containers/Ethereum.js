@@ -35,7 +35,9 @@ class Ethereum extends Component {
           width="90%"
         >
           <HeaderFour marginTop="24">eth wallet balance</HeaderFour>
-          <UsdBalance>${PriceUtilities.getEthUsdBalance(ethBalance)}</UsdBalance>
+          <UsdBalance>
+            ${PriceUtilities.getEthUsdBalance(ethBalance)}
+          </UsdBalance>
           <EthBalance>{ethBalance} ETH</EthBalance>
         </UntouchableCardContainer>
         <ButtonContainer>

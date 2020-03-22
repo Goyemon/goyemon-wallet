@@ -42,7 +42,7 @@ class SendEth extends Component {
       amountValidation: undefined,
       loading: false,
       buttonDisabled: true,
-      buttonOpacity: 0.5,
+      buttonOpacity: 0.5
     };
   }
 
@@ -54,13 +54,19 @@ class SendEth extends Component {
   }
 
   async constructTransactionObject() {
-    const amountWei = parseFloat(Web3.utils.toWei(this.state.ethAmount, 'Ether'));// TODO: why is it here?
+    const amountWei = parseFloat(
+      Web3.utils.toWei(this.state.ethAmount, 'Ether')
+    ); // TODO: why is it here?
 
     const transactionObject = (await TxStorage.storage.newTx())
       .setTo(this.state.toAddress)
       .setValue(amountWei.toString(16))
-      .setGasPrice(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16))
-      .setGas((GlobalConfig.ETHTxGasLimit).toString(16));
+      .setGasPrice(
+        TransactionUtilities.returnTransactionSpeed(
+          this.props.gasPrice.chosen
+        ).toString(16)
+      )
+      .setGas(GlobalConfig.ETHTxGasLimit.toString(16));
 
     return transactionObject;
   }
@@ -86,8 +92,10 @@ class SendEth extends Component {
 
   validateAmount(ethAmount, gasLimit) {
     const weiBalance = new BigNumber(this.props.balance.weiBalance);
-    const weiAmount = new BigNumber(Web3.utils.toWei(ethAmount, 'Ether')); 
-    const transactionFeeLimitInWei = new BigNumber(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen)).times(gasLimit);
+    const weiAmount = new BigNumber(Web3.utils.toWei(ethAmount, 'Ether'));
+    const transactionFeeLimitInWei = new BigNumber(
+      TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen)
+    ).times(gasLimit);
 
     if (
       weiBalance.isGreaterThanOrEqualTo(
@@ -123,7 +131,10 @@ class SendEth extends Component {
 
   validateForm = async (toAddress, ethAmount) => {
     const toAddressValidation = this.validateToAddress(toAddress);
-    const amountValidation = this.validateAmount(ethAmount, GlobalConfig.ETHTxGasLimit);
+    const amountValidation = this.validateAmount(
+      ethAmount,
+      GlobalConfig.ETHTxGasLimit
+    );
     const isOnline = this.props.netInfo;
 
     if (toAddressValidation && amountValidation && isOnline) {
@@ -131,7 +142,10 @@ class SendEth extends Component {
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
-      this.props.saveOutgoingTransactionDataSend({toaddress: toAddress, amount: ethAmount});
+      this.props.saveOutgoingTransactionDataSend({
+        toaddress: toAddress,
+        amount: ethAmount
+      });
       this.props.navigation.navigate('SendEthConfirmation');
     } else {
       LogUtilities.logInfo('form validation failed!');
@@ -144,105 +158,113 @@ class SendEth extends Component {
     return (
       <RootContainer>
         <HeaderOne marginTop="96">Send</HeaderOne>
-          <UntouchableCardContainer
-            alignItems="center"
-            borderRadius="8px"
-            flexDirection="column"
-            height="160px"
-            justifyContent="flex-start"
-            marginTop="56px"
-            textAlign="left"
-            width="80%"
-          >
-            <CoinImage source={require('../../assets/ether_icon.png')} />
-            <Title>eth wallet balance</Title>
-            <BalanceContainer>
-              <Value>{ethBalance} ETH</Value>
-              <Value>${PriceUtilities.getEthUsdBalance(this.state.ethBalance)}</Value>
-            </BalanceContainer>
-          </UntouchableCardContainer>
-          <FormHeader marginBottom="4" marginLeft="0" marginTop="0">
-            To
-          </FormHeader>
-          <Form
-            borderColor={StyleUtilities.getBorderColor(this.state.toAddressValidation)}
-            borderWidth={1}
-            height="56px"
-          >
-            <SendTextInputContainer>
-              <SendTextInput
-                placeholder="address"
-                clearButtonMode="while-editing"
-                onChangeText={toAddress => {
-                  this.validateToAddress(toAddress);
-                  this.setState({ toAddress });
-                }}
-                value={this.state.toAddress}
-              />
-              <TouchableOpacity
-                onPress={() => {
-                  this.props.clearQRCodeData();
-                  HomeStack.navigationOptions = () => {
-                    const tabBarVisible = false;
-                    return {
-                      tabBarVisible
-                    };
-                  };
-                  this.props.navigation.navigate('QRCodeScan');
-                }}
-              >
-                <Icon name="qrcode-scan" size={16} color="#5f5f5f" />
-              </TouchableOpacity>
-            </SendTextInputContainer>
-          </Form>
-          <InvalidToAddressMessage toAddressValidation={this.state.toAddressValidation} />
-          <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
-            Amount
-          </FormHeader>
-          <Form
-            borderColor={StyleUtilities.getBorderColor(this.state.amountValidation)}
-            borderWidth={1}
-            height="56px"
-          >
-            <SendTextInputContainer>
-              <SendTextInput
-                placeholder="0"
-                keyboardType="numeric"
-                clearButtonMode="while-editing"
-                onChangeText={ethAmount => {
-                  if(ethAmount){
-                    this.validateAmount(ethAmount, GlobalConfig.ETHTxGasLimit);
-                    this.setState({ ethAmount });  
-                  }
-                }}
-                returnKeyType="done"
-              />
-              <CurrencySymbolText>ETH</CurrencySymbolText>
-            </SendTextInputContainer>
-          </Form>
-          <View>{this.renderInsufficientBalanceMessage()}</View>
-          <AdvancedContainer gasLimit={GlobalConfig.ETHTxGasLimit}/>
-          <ButtonWrapper>
-            <Button
-              text="Next"
-              textColor="#00A3E2"
-              backgroundColor="#FFF"
-              borderColor="#00A3E2"
-              disabled={this.state.buttonDisabled}
-              margin="40px auto"
-              marginBottom="12px"
-              opacity={this.state.buttonOpacity}
-              onPress={async () => {
-                await this.validateForm(
-                  this.state.toAddress,
-                  this.state.ethAmount
-                );
-                this.setState({ loading: false, buttonDisabled: false });
+        <UntouchableCardContainer
+          alignItems="center"
+          borderRadius="8px"
+          flexDirection="column"
+          height="160px"
+          justifyContent="flex-start"
+          marginTop="56px"
+          textAlign="left"
+          width="80%"
+        >
+          <CoinImage source={require('../../assets/ether_icon.png')} />
+          <Title>eth wallet balance</Title>
+          <BalanceContainer>
+            <Value>{ethBalance} ETH</Value>
+            <Value>
+              ${PriceUtilities.getEthUsdBalance(this.state.ethBalance)}
+            </Value>
+          </BalanceContainer>
+        </UntouchableCardContainer>
+        <FormHeader marginBottom="4" marginLeft="0" marginTop="0">
+          To
+        </FormHeader>
+        <Form
+          borderColor={StyleUtilities.getBorderColor(
+            this.state.toAddressValidation
+          )}
+          borderWidth={1}
+          height="56px"
+        >
+          <SendTextInputContainer>
+            <SendTextInput
+              placeholder="address"
+              clearButtonMode="while-editing"
+              onChangeText={toAddress => {
+                this.validateToAddress(toAddress);
+                this.setState({ toAddress });
               }}
+              value={this.state.toAddress}
             />
-            <Loader animating={this.state.loading} size="small"/>
-          </ButtonWrapper>
-          <IsOnlineMessage netInfo={this.props.netInfo} />
+            <TouchableOpacity
+              onPress={() => {
+                this.props.clearQRCodeData();
+                HomeStack.navigationOptions = () => {
+                  const tabBarVisible = false;
+                  return {
+                    tabBarVisible
+                  };
+                };
+                this.props.navigation.navigate('QRCodeScan');
+              }}
+            >
+              <Icon name="qrcode-scan" size={16} color="#5f5f5f" />
+            </TouchableOpacity>
+          </SendTextInputContainer>
+        </Form>
+        <InvalidToAddressMessage
+          toAddressValidation={this.state.toAddressValidation}
+        />
+        <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
+          Amount
+        </FormHeader>
+        <Form
+          borderColor={StyleUtilities.getBorderColor(
+            this.state.amountValidation
+          )}
+          borderWidth={1}
+          height="56px"
+        >
+          <SendTextInputContainer>
+            <SendTextInput
+              placeholder="0"
+              keyboardType="numeric"
+              clearButtonMode="while-editing"
+              onChangeText={ethAmount => {
+                if (ethAmount) {
+                  this.validateAmount(ethAmount, GlobalConfig.ETHTxGasLimit);
+                  this.setState({ ethAmount });
+                }
+              }}
+              returnKeyType="done"
+            />
+            <CurrencySymbolText>ETH</CurrencySymbolText>
+          </SendTextInputContainer>
+        </Form>
+        <View>{this.renderInsufficientBalanceMessage()}</View>
+        <AdvancedContainer gasLimit={GlobalConfig.ETHTxGasLimit} />
+        <ButtonWrapper>
+          <Button
+            text="Next"
+            textColor="#00A3E2"
+            backgroundColor="#FFF"
+            borderColor="#00A3E2"
+            disabled={this.state.buttonDisabled}
+            margin="40px auto"
+            marginBottom="12px"
+            opacity={this.state.buttonOpacity}
+            onPress={async () => {
+              await this.validateForm(
+                this.state.toAddress,
+                this.state.ethAmount
+              );
+              this.setState({ loading: false, buttonDisabled: false });
+            }}
+          />
+          <Loader animating={this.state.loading} size="small" />
+        </ButtonWrapper>
+        <IsOnlineMessage netInfo={this.props.netInfo} />
       </RootContainer>
     );
   }
@@ -302,7 +324,7 @@ function mapStateToProps(state) {
     gasPrice: state.ReducerGasPrice.gasPrice,
     balance: state.ReducerBalance.balance,
     netInfo: state.ReducerNetInfo.netInfo,
-    qrCodeData: state.ReducerQRCodeData.qrCodeData,
+    qrCodeData: state.ReducerQRCodeData.qrCodeData
   };
 }
 

@@ -35,35 +35,52 @@ class DepositDai extends Component {
       weiAmountValidation: undefined,
       loading: false,
       buttonDisabled: true,
-      buttonOpacity: 0.5,
+      buttonOpacity: 0.5
     };
   }
 
   componentDidMount() {
-    this.updateWeiAmountValidation(TransactionUtilities.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.cTokenMintGasLimit));
+    this.updateWeiAmountValidation(
+      TransactionUtilities.validateWeiAmountForTransactionFee(
+        TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen),
+        GlobalConfig.cTokenMintGasLimit
+      )
+    );
   }
 
   async constructTransactionObject() {
-    const daiAmount = this.state.daiAmount.split('.').join("");
-    const decimalPlaces = TransactionUtilities.decimalPlaces(this.state.daiAmount);
+    const daiAmount = this.state.daiAmount.split('.').join('');
+    const decimalPlaces = TransactionUtilities.decimalPlaces(
+      this.state.daiAmount
+    );
     const decimals = 18 - parseInt(decimalPlaces);
 
     const mintEncodedABI = ABIEncoder.encodeCDAIMint(daiAmount, decimals);
 
-    const daiAmountWithDecimals = new BigNumber(this.state.daiAmount).times(new BigNumber(10).pow(18)).toString(16);
+    const daiAmountWithDecimals = new BigNumber(this.state.daiAmount)
+      .times(new BigNumber(10).pow(18))
+      .toString(16);
 
     const transactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.cDAIcontract)
-      .setGasPrice(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16))
-      .setGas((GlobalConfig.cTokenMintGasLimit).toString(16))
+      .setGasPrice(
+        TransactionUtilities.returnTransactionSpeed(
+          this.props.gasPrice.chosen
+        ).toString(16)
+      )
+      .setGas(GlobalConfig.cTokenMintGasLimit.toString(16))
       .tempSetData(mintEncodedABI)
-      .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.mint, [TxStorage.storage.getOwnAddress(), daiAmountWithDecimals, 0]);
+      .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.mint, [
+        TxStorage.storage.getOwnAddress(),
+        daiAmountWithDecimals,
+        0
+      ]);
 
-      return transactionObject;
+    return transactionObject;
   }
 
   updateDaiAmountValidation(daiAmountValidation) {
-    if(daiAmountValidation) {
+    if (daiAmountValidation) {
       this.setState({
         daiAmountValidation: true,
         buttonDisabled: false,
@@ -74,12 +91,12 @@ class DepositDai extends Component {
         daiAmountValidation: false,
         buttonDisabled: true,
         buttonOpacity: 0.5
-      });  
+      });
     }
   }
 
   updateWeiAmountValidation(weiAmountValidation) {
-    if(weiAmountValidation) {
+    if (weiAmountValidation) {
       this.setState({ weiAmountValidation: true });
     } else if (!weiAmountValidation) {
       this.setState({ weiAmountValidation: false });
@@ -87,8 +104,13 @@ class DepositDai extends Component {
   }
 
   validateForm = async daiAmount => {
-    const daiAmountValidation = TransactionUtilities.validateDaiAmount(daiAmount);
-    const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.cTokenMintGasLimit);
+    const daiAmountValidation = TransactionUtilities.validateDaiAmount(
+      daiAmount
+    );
+    const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(
+      TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen),
+      GlobalConfig.cTokenMintGasLimit
+    );
     const isOnline = this.props.netInfo;
 
     if (daiAmountValidation && weiAmountValidation && isOnline) {
@@ -96,7 +118,9 @@ class DepositDai extends Component {
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
-      await this.props.saveOutgoingTransactionDataCompound({amount: daiAmount});
+      await this.props.saveOutgoingTransactionDataCompound({
+        amount: daiAmount
+      });
       this.props.navigation.navigate('DepositDaiConfirmation');
     } else {
       LogUtilities.logInfo('form validation failed!');
@@ -118,65 +142,73 @@ class DepositDai extends Component {
     return (
       <RootContainer>
         <HeaderOne marginTop="96">Deposit</HeaderOne>
-          <UntouchableCardContainer
-            alignItems="center"
-            borderRadius="8px"
-            flexDirection="column"
-            height="240px"
-            justifyContent="center"
-            marginTop="56"
-            textAlign="center"
-            width="80%"
-          >
-            <CoinImage source={require('../../assets/dai_icon.png')} />
-            <Title>dai wallet balance</Title>
-            <Value>{daiBalance} DAI</Value>
-            <Title>interest rate</Title>
-            <Value>{currentInterestRate} %</Value>
-          </UntouchableCardContainer>
-          <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
-            Deposit Amount
-          </FormHeader>
-          <Form
-            borderColor={StyleUtilities.getBorderColor(this.state.daiAmountValidation)}
-            borderWidth={1}
-            height="56px"
-          >
-            <SendTextInputContainer>
-              <SendTextInput
-                placeholder="amount"
-                keyboardType="numeric"
-                clearButtonMode="while-editing"
-                onChangeText={daiAmount => {
-                  this.updateDaiAmountValidation(TransactionUtilities.validateDaiAmount(daiAmount));
-                  this.setState({ daiAmount });
-                }}
-                returnKeyType="done"
-              />
-              <CurrencySymbolText>DAI</CurrencySymbolText>
-            </SendTextInputContainer>
-          </Form>
-          <InsufficientDaiBalanceMessage daiAmountValidation={this.state.daiAmountValidation} />
-          <AdvancedContainer gasLimit={GlobalConfig.cTokenMintGasLimit} />
-          <InsufficientEthBalanceMessage weiAmountValidation={this.state.weiAmountValidation} />
-          <ButtonWrapper>
-            <Button
-              text="Next"
-              textColor="#00A3E2"
-              backgroundColor="#FFF"
-              borderColor="#00A3E2"
-              disabled={this.state.buttonDisabled}
-              margin="40px auto"
-              marginBottom="12px"
-              opacity={this.state.buttonOpacity}
-              onPress={async () => {
-                await this.validateForm(this.state.daiAmount);
-                this.setState({ loading: false, buttonDisabled: false });
+        <UntouchableCardContainer
+          alignItems="center"
+          borderRadius="8px"
+          flexDirection="column"
+          height="240px"
+          justifyContent="center"
+          marginTop="56"
+          textAlign="center"
+          width="80%"
+        >
+          <CoinImage source={require('../../assets/dai_icon.png')} />
+          <Title>dai wallet balance</Title>
+          <Value>{daiBalance} DAI</Value>
+          <Title>interest rate</Title>
+          <Value>{currentInterestRate} %</Value>
+        </UntouchableCardContainer>
+        <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
+          Deposit Amount
+        </FormHeader>
+        <Form
+          borderColor={StyleUtilities.getBorderColor(
+            this.state.daiAmountValidation
+          )}
+          borderWidth={1}
+          height="56px"
+        >
+          <SendTextInputContainer>
+            <SendTextInput
+              placeholder="amount"
+              keyboardType="numeric"
+              clearButtonMode="while-editing"
+              onChangeText={daiAmount => {
+                this.updateDaiAmountValidation(
+                  TransactionUtilities.validateDaiAmount(daiAmount)
+                );
+                this.setState({ daiAmount });
               }}
+              returnKeyType="done"
             />
-            <Loader animating={this.state.loading} size="small"/>
-          </ButtonWrapper>
-          <IsOnlineMessage netInfo={this.props.netInfo} />
+            <CurrencySymbolText>DAI</CurrencySymbolText>
+          </SendTextInputContainer>
+        </Form>
+        <InsufficientDaiBalanceMessage
+          daiAmountValidation={this.state.daiAmountValidation}
+        />
+        <AdvancedContainer gasLimit={GlobalConfig.cTokenMintGasLimit} />
+        <InsufficientEthBalanceMessage
+          weiAmountValidation={this.state.weiAmountValidation}
+        />
+        <ButtonWrapper>
+          <Button
+            text="Next"
+            textColor="#00A3E2"
+            backgroundColor="#FFF"
+            borderColor="#00A3E2"
+            disabled={this.state.buttonDisabled}
+            margin="40px auto"
+            marginBottom="12px"
+            opacity={this.state.buttonOpacity}
+            onPress={async () => {
+              await this.validateForm(this.state.daiAmount);
+              this.setState({ loading: false, buttonDisabled: false });
+            }}
+          />
+          <Loader animating={this.state.loading} size="small" />
+        </ButtonWrapper>
+        <IsOnlineMessage netInfo={this.props.netInfo} />
       </RootContainer>
     );
   }

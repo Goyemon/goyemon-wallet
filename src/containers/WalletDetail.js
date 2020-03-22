@@ -47,9 +47,13 @@ class WalletDetail extends Component {
 
   renderPrice() {
     if (this.props.currency.id === 0) {
-      return <CrypterestText fontSize="16">{this.props.price.eth}</CrypterestText>;
+      return (
+        <CrypterestText fontSize="16">{this.props.price.eth}</CrypterestText>
+      );
     } else if (this.props.currency.id === 1) {
-      return <CrypterestText fontSize="16">{this.props.price.dai}</CrypterestText>;
+      return (
+        <CrypterestText fontSize="16">{this.props.price.dai}</CrypterestText>
+      );
     }
   }
 
@@ -63,8 +67,15 @@ class WalletDetail extends Component {
       .toString();
 
     return (
-      <Container alignItems="center" flexDirection="column"  flexDirection="row" justifyContent="space-between" marginTop={0} width="100%">
-      <CoinImageContainer>{this.renderIcon()}</CoinImageContainer>
+      <Container
+        alignItems="center"
+        flexDirection="column"
+        flexDirection="row"
+        justifyContent="space-between"
+        marginTop={0}
+        width="100%"
+      >
+        <CoinImageContainer>{this.renderIcon()}</CoinImageContainer>
         <PriceContainer>
           <CoinText>{name}</CoinText>
           <PriceText>
@@ -72,8 +83,12 @@ class WalletDetail extends Component {
           </PriceText>
         </PriceContainer>
         <BalanceContainer>
-          <UsdBalanceText>{this.renderUsdBalance(ethBalance, daiBalance)}</UsdBalanceText>
-          <BalanceText>{this.renderBalance(ethBalance, daiBalance)}</BalanceText>
+          <UsdBalanceText>
+            {this.renderUsdBalance(ethBalance, daiBalance)}
+          </UsdBalanceText>
+          <BalanceText>
+            {this.renderBalance(ethBalance, daiBalance)}
+          </BalanceText>
         </BalanceContainer>
       </Container>
     );

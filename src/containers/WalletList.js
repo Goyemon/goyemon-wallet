@@ -34,7 +34,7 @@ class WalletList extends Component {
       .toString();
 
     let truncatedAdderss;
-    if(this.props.checksumAddress) {
+    if (this.props.checksumAddress) {
       truncatedAdderss = this.props.checksumAddress.substring(0, 24) + '...';
     }
 
@@ -52,7 +52,9 @@ class WalletList extends Component {
           width="90%"
         >
           <HeaderFour marginTop="24">total wallet balance</HeaderFour>
-          <UsdBalance>${PriceUtilities.getTotalBalance(ethBalance, daiBalance)}</UsdBalance>
+          <UsdBalance>
+            ${PriceUtilities.getTotalBalance(ethBalance, daiBalance)}
+          </UsdBalance>
           <AddressContainer
             onPress={() => {
               this.props.navigation.navigate('Receive');
@@ -62,7 +64,12 @@ class WalletList extends Component {
             <Address>{truncatedAdderss}</Address>
           </AddressContainer>
         </UntouchableCardContainer>
-        <HeaderThree color="#000" marginBottom="16" marginLeft="16" marginTop="16">
+        <HeaderThree
+          color="#000"
+          marginBottom="16"
+          marginLeft="16"
+          marginTop="16"
+        >
           YOUR ACCOUNTS
         </HeaderThree>
         {currencies.map(currency => (

@@ -6,9 +6,7 @@ import { Modal, Alert, View, Text } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import styled from 'styled-components';
 import { saveDaiApprovalInfo } from '../actions/ActionCDaiLendingInfo';
-import {
-  updateGasPriceChosen
-} from '../actions/ActionGasPrice';
+import { updateGasPriceChosen } from '../actions/ActionGasPrice';
 import {
   RootContainer,
   UntouchableCardContainer,
@@ -42,25 +40,34 @@ class SaveDai extends Component {
       weiAmountValidation: undefined,
       loading: false,
       buttonDisabled: true,
-      buttonOpacity: 0.5,
+      buttonOpacity: 0.5
     };
   }
 
   async componentDidMount() {
-    if(this.props.cDaiLendingInfo.daiApproval != true){
-      this.props.saveDaiApprovalInfo( await TxStorage.storage.isDAIApprovedForCDAI());
+    if (this.props.cDaiLendingInfo.daiApproval != true) {
+      this.props.saveDaiApprovalInfo(
+        await TxStorage.storage.isDAIApprovedForCDAI()
+      );
     }
-    this.updateWeiAmountValidation(TransactionUtilities.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit));
+    this.updateWeiAmountValidation(
+      TransactionUtilities.validateWeiAmountForTransactionFee(
+        TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen),
+        GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit
+      )
+    );
   }
 
-  async UNSAFE_componentWillMount(){
-    if(this.props.cDaiLendingInfo.daiApproval != true){
-      this.props.saveDaiApprovalInfo(await TxStorage.storage.isDAIApprovedForCDAI());      
+  async UNSAFE_componentWillMount() {
+    if (this.props.cDaiLendingInfo.daiApproval != true) {
+      this.props.saveDaiApprovalInfo(
+        await TxStorage.storage.isDAIApprovedForCDAI()
+      );
     }
   }
 
   updateDaiAmountValidation(daiAmountValidation) {
-    if(daiAmountValidation) {
+    if (daiAmountValidation) {
       this.setState({
         daiAmountValidation: true,
         buttonDisabled: false,
@@ -71,12 +78,12 @@ class SaveDai extends Component {
         daiAmountValidation: false,
         buttonDisabled: true,
         buttonOpacity: 0.5
-      });  
+      });
     }
   }
 
   updateWeiAmountValidation(weiAmountValidation) {
-    if(weiAmountValidation) {
+    if (weiAmountValidation) {
       this.setState({ weiAmountValidation: true });
     } else if (!weiAmountValidation) {
       this.setState({ weiAmountValidation: false });
@@ -85,56 +92,90 @@ class SaveDai extends Component {
 
   getApproveEncodedABI() {
     const addressSpender = GlobalConfig.cDAIcontract;
-    const amount = `0x${"ff".repeat(256/8)}`; // TODO: this needs to be a const somewhere, likely uint256max_hex.
+    const amount = `0x${'ff'.repeat(256 / 8)}`; // TODO: this needs to be a const somewhere, likely uint256max_hex.
 
-    const approveEncodedABI = ABIEncoder.encodeApprove(addressSpender, amount, 0);
+    const approveEncodedABI = ABIEncoder.encodeApprove(
+      addressSpender,
+      amount,
+      0
+    );
 
     return approveEncodedABI;
   }
 
-  async constructApproveTransactionObject() { // TODO: this has to be in TransactionUtilities. it's common code for the most part anyway. chainid, nonce, those are always set the same way. we just need to specify to/gas/data/value and that's across ALL txes sent
+  async constructApproveTransactionObject() {
+    // TODO: this has to be in TransactionUtilities. it's common code for the most part anyway. chainid, nonce, those are always set the same way. we just need to specify to/gas/data/value and that's across ALL txes sent
     const approveEncodedABI = this.getApproveEncodedABI();
     const transactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.DAITokenContract)
-      .setGasPrice(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16))
-      .setGas((GlobalConfig.ERC20ApproveGasLimit).toString(16))
+      .setGasPrice(
+        TransactionUtilities.returnTransactionSpeed(
+          this.props.gasPrice.chosen
+        ).toString(16)
+      )
+      .setGas(GlobalConfig.ERC20ApproveGasLimit.toString(16))
       .tempSetData(approveEncodedABI)
-      .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.approval, [GlobalConfig.cDAIcontract, TxStorage.storage.getOwnAddress(), "ff".repeat(256/8)]);
+      .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.approval, [
+        GlobalConfig.cDAIcontract,
+        TxStorage.storage.getOwnAddress(),
+        'ff'.repeat(256 / 8)
+      ]);
 
     return transactionObject;
   }
 
   async constructMintTransactionObject() {
-    const daiAmount = this.state.daiAmount.split('.').join("");
-    const decimalPlaces = TransactionUtilities.decimalPlaces(this.state.daiAmount);
+    const daiAmount = this.state.daiAmount.split('.').join('');
+    const decimalPlaces = TransactionUtilities.decimalPlaces(
+      this.state.daiAmount
+    );
     const decimals = 18 - parseInt(decimalPlaces);
 
     const mintEncodedABI = ABIEncoder.encodeCDAIMint(daiAmount, decimals);
 
-    const daiAmountWithDecimals = new BigNumber(this.state.daiAmount).times(new BigNumber(10).pow(18)).toString(16);
+    const daiAmountWithDecimals = new BigNumber(this.state.daiAmount)
+      .times(new BigNumber(10).pow(18))
+      .toString(16);
 
     const transactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.cDAIcontract)
-      .setGasPrice(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16))
-      .setGas((GlobalConfig.cTokenMintGasLimit).toString(16))
+      .setGasPrice(
+        TransactionUtilities.returnTransactionSpeed(
+          this.props.gasPrice.chosen
+        ).toString(16)
+      )
+      .setGas(GlobalConfig.cTokenMintGasLimit.toString(16))
       .tempSetData(mintEncodedABI)
-      .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.mint, [TxStorage.storage.getOwnAddress(), daiAmountWithDecimals, 0]);
+      .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.mint, [
+        TxStorage.storage.getOwnAddress(),
+        daiAmountWithDecimals,
+        0
+      ]);
 
     return transactionObject;
   }
 
   sendTransactions = async daiAmount => {
-    const daiAmountValidation = TransactionUtilities.validateDaiAmount(daiAmount);
-    const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit);
+    const daiAmountValidation = TransactionUtilities.validateDaiAmount(
+      daiAmount
+    );
+    const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(
+      TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen),
+      GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit
+    );
     const isOnline = this.props.netInfo;
 
     if (daiAmountValidation && weiAmountValidation && isOnline) {
       this.setState({ loading: true, buttonDisabled: true });
       LogUtilities.logInfo('validation successful');
       const approveTransactionObject = await this.constructApproveTransactionObject();
-      await TransactionUtilities.sendOutgoingTransactionToServer(approveTransactionObject);
+      await TransactionUtilities.sendOutgoingTransactionToServer(
+        approveTransactionObject
+      );
       const mintTransactionObject = await this.constructMintTransactionObject();
-      await TransactionUtilities.sendOutgoingTransactionToServer(mintTransactionObject);
+      await TransactionUtilities.sendOutgoingTransactionToServer(
+        mintTransactionObject
+      );
       this.setModalVisible(false);
       this.props.navigation.navigate('History');
     } else {
@@ -195,7 +236,15 @@ class SaveDai extends Component {
           opacity="1"
           onPress={async () => {
             this.setModalVisible(true);
-            this.updateWeiAmountValidation(TransactionUtilities.validateWeiAmountForTransactionFee(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen), GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit));
+            this.updateWeiAmountValidation(
+              TransactionUtilities.validateWeiAmountForTransactionFee(
+                TransactionUtilities.returnTransactionSpeed(
+                  this.props.gasPrice.chosen
+                ),
+                GlobalConfig.ERC20ApproveGasLimit +
+                  GlobalConfig.cTokenMintGasLimit
+              )
+            );
           }}
         />
       );
@@ -210,7 +259,9 @@ class SaveDai extends Component {
       .div(new RoundDownBigNumber(10).pow(36))
       .toString();
 
-    const lifetimeEarnedInDai = RoundDownBigNumber(cDaiLendingInfo.lifetimeEarned)
+    const lifetimeEarnedInDai = RoundDownBigNumber(
+      cDaiLendingInfo.lifetimeEarned
+    )
       .div(new RoundDownBigNumber(10).pow(36))
       .toString();
 
@@ -232,47 +283,60 @@ class SaveDai extends Component {
           <ModalContainer>
             <ModalBackground>
               <MondalInner>
-              <UntouchableCardContainer
-                alignItems="center"
-                borderRadius="8px"
-                flexDirection="column"
-                height="160px"
-                justifyContent="center"
-                marginTop="0"
-                textAlign="center"
-                width="80%"
-              >
-                <CoinImage source={require('../../assets/dai_icon.png')} />
-                <Title>dai wallet balance</Title>
-                <BalanceContainer>
-                  <Value>{daiBalance} DAI</Value>
-                </BalanceContainer>
-              </UntouchableCardContainer>
-              <Description marginBottom="8" marginLeft="8" marginTop="32">
-              how much do you want to deposit?
-              </Description>
-              <Form
-                borderColor={StyleUtilities.getBorderColor(this.state.daiAmountValidation)}
-                borderWidth={1}
-                height="56px"
-              >
-                <SendTextInputContainer>
-                  <SendTextInput
-                    placeholder="amount"
-                    keyboardType="numeric"
-                    clearButtonMode="while-editing"
-                    onChangeText={daiAmount => {
-                      this.updateDaiAmountValidation(TransactionUtilities.validateDaiAmount(daiAmount));
-                      this.setState({ daiAmount });
-                    }}
-                    returnKeyType="done"
-                  />
-                  <CurrencySymbolText>DAI</CurrencySymbolText>
-                </SendTextInputContainer>
-              </Form>
-              <InsufficientDaiBalanceMessage daiAmountValidation={this.state.daiAmountValidation} />
-              <AdvancedContainer gasLimit={GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit} />
-              <InsufficientEthBalanceMessage weiAmountValidation={this.state.weiAmountValidation} />
+                <UntouchableCardContainer
+                  alignItems="center"
+                  borderRadius="8px"
+                  flexDirection="column"
+                  height="160px"
+                  justifyContent="center"
+                  marginTop="0"
+                  textAlign="center"
+                  width="80%"
+                >
+                  <CoinImage source={require('../../assets/dai_icon.png')} />
+                  <Title>dai wallet balance</Title>
+                  <BalanceContainer>
+                    <Value>{daiBalance} DAI</Value>
+                  </BalanceContainer>
+                </UntouchableCardContainer>
+                <Description marginBottom="8" marginLeft="8" marginTop="32">
+                  how much do you want to deposit?
+                </Description>
+                <Form
+                  borderColor={StyleUtilities.getBorderColor(
+                    this.state.daiAmountValidation
+                  )}
+                  borderWidth={1}
+                  height="56px"
+                >
+                  <SendTextInputContainer>
+                    <SendTextInput
+                      placeholder="amount"
+                      keyboardType="numeric"
+                      clearButtonMode="while-editing"
+                      onChangeText={daiAmount => {
+                        this.updateDaiAmountValidation(
+                          TransactionUtilities.validateDaiAmount(daiAmount)
+                        );
+                        this.setState({ daiAmount });
+                      }}
+                      returnKeyType="done"
+                    />
+                    <CurrencySymbolText>DAI</CurrencySymbolText>
+                  </SendTextInputContainer>
+                </Form>
+                <InsufficientDaiBalanceMessage
+                  daiAmountValidation={this.state.daiAmountValidation}
+                />
+                <AdvancedContainer
+                  gasLimit={
+                    GlobalConfig.ERC20ApproveGasLimit +
+                    GlobalConfig.cTokenMintGasLimit
+                  }
+                />
+                <InsufficientEthBalanceMessage
+                  weiAmountValidation={this.state.weiAmountValidation}
+                />
                 <ButtonContainer>
                   <Button
                     text="Cancel"
@@ -284,7 +348,10 @@ class SaveDai extends Component {
                     opacity="1"
                     onPress={() => {
                       this.setModalVisible(false);
-                      this.setState({ daiAmountValidation: undefined, weiAmountValidation: undefined });
+                      this.setState({
+                        daiAmountValidation: undefined,
+                        weiAmountValidation: undefined
+                      });
                     }}
                   />
                   <Button
@@ -302,7 +369,7 @@ class SaveDai extends Component {
                     }}
                   />
                 </ButtonContainer>
-                <Loader animating={this.state.loading} size="small"/>
+                <Loader animating={this.state.loading} size="small" />
                 <IsOnlineMessage netInfo={this.props.netInfo} />
               </MondalInner>
             </ModalBackground>
@@ -321,7 +388,9 @@ class SaveDai extends Component {
           <HeaderFour marginTop="24">dai savings</HeaderFour>
           <BalanceText>{daiSavingsBalance} DAI</BalanceText>
           <DaiInterestEarnedTextContainer>
-            <DaiInterestEarnedText>{lifetimeEarnedInDai} DAI</DaiInterestEarnedText>
+            <DaiInterestEarnedText>
+              {lifetimeEarnedInDai} DAI
+            </DaiInterestEarnedText>
             <Text> earned!</Text>
           </DaiInterestEarnedTextContainer>
         </UntouchableCardContainer>
@@ -438,7 +507,7 @@ function mapStateToProps(state) {
     balance: state.ReducerBalance.balance,
     gasPrice: state.ReducerGasPrice.gasPrice,
     cDaiLendingInfo: state.ReducerCDaiLendingInfo.cDaiLendingInfo,
-    netInfo: state.ReducerNetInfo.netInfo,
+    netInfo: state.ReducerNetInfo.netInfo
   };
 }
 
@@ -448,8 +517,5 @@ const mapDispatchToProps = {
 };
 
 export default withNavigation(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(SaveDai)
+  connect(mapStateToProps, mapDispatchToProps)(SaveDai)
 );

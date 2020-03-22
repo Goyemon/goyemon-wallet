@@ -35,7 +35,9 @@ class Dai extends Component {
           width="90%"
         >
           <HeaderFour marginTop="24">dai wallet balance</HeaderFour>
-          <UsdBalance>${PriceUtilities.getDaiUsdBalance(daiBalance)}</UsdBalance>
+          <UsdBalance>
+            ${PriceUtilities.getDaiUsdBalance(daiBalance)}
+          </UsdBalance>
           <DaiBalance>{daiBalance} DAI</DaiBalance>
         </UntouchableCardContainer>
         <ButtonContainer>

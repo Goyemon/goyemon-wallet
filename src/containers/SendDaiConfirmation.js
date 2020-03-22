@@ -30,7 +30,9 @@ class SendDaiConfirmation extends Component {
     const outgoingTransactionObject = this.props.outgoingTransactionObjects[
       this.props.outgoingTransactionObjects.length - 1
     ];
-    await TransactionUtilities.sendOutgoingTransactionToServer(outgoingTransactionObject);
+    await TransactionUtilities.sendOutgoingTransactionToServer(
+      outgoingTransactionObject
+    );
   }
 
   render() {
@@ -42,7 +44,9 @@ class SendDaiConfirmation extends Component {
         <TotalContainer>
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <CrypterestText fontSize="16">You are about to send</CrypterestText>
-          <TotalValueText>{outgoingTransactionData.send.amount} DAI</TotalValueText>
+          <TotalValueText>
+            {outgoingTransactionData.send.amount} DAI
+          </TotalValueText>
           <CrypterestText fontSize="16">+ network fee</CrypterestText>
         </TotalContainer>
         <UntouchableCardContainer
@@ -63,7 +67,9 @@ class SendDaiConfirmation extends Component {
             Amount
           </FormHeader>
           <Amount>{outgoingTransactionData.send.amount} DAI</Amount>
-          <NetworkFeeContainerConfirmation gasLimit={GlobalConfig.ERC20TransferGasLimit}/>
+          <NetworkFeeContainerConfirmation
+            gasLimit={GlobalConfig.ERC20TransferGasLimit}
+          />
         </UntouchableCardContainer>
         <ButtonContainer>
           <Button
@@ -89,7 +95,7 @@ class SendDaiConfirmation extends Component {
             }}
           />
         </ButtonContainer>
-        <Loader animating={this.state.loading} size="small"/>
+        <Loader animating={this.state.loading} size="small" />
         <IsOnlineMessage netInfo={this.props.netInfo} />
       </RootContainer>
     );
@@ -136,10 +142,11 @@ const ButtonContainer = styled.View`
 function mapStateToProps(state) {
   return {
     netInfo: state.ReducerNetInfo.netInfo,
-    outgoingTransactionObjects: state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
-    outgoingTransactionData: state.ReducerOutgoingTransactionData.outgoingTransactionData
+    outgoingTransactionObjects:
+      state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
+    outgoingTransactionData:
+      state.ReducerOutgoingTransactionData.outgoingTransactionData
   };
 }
 
 export default connect(mapStateToProps)(SendDaiConfirmation);
-

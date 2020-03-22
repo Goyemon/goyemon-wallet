@@ -14,12 +14,10 @@ import WalletUtilities from './WalletUtilities.ts';
 import TxStorage from '../lib/tx.js';
 
 class TransactionUtilities {
-
   parseEthValue(value) {
-    if (value == null)
-      return null;
+    if (value == null) return null;
 
-    const bigNumberValue = Web3.utils.toBN(value);//.toString();
+    const bigNumberValue = Web3.utils.toBN(value); //.toString();
     const parsedEtherValue = Web3.utils.fromWei(bigNumberValue).toString();
     return parsedEtherValue;
   }
@@ -39,7 +37,7 @@ class TransactionUtilities {
   }
 
   parseTransactionTime(timestamp) {
-    const seconds = Math.floor((Date.now() - (timestamp * 1000)) / 1000);
+    const seconds = Math.floor((Date.now() - timestamp * 1000) / 1000);
     const months = [
       'January',
       'February',
@@ -94,7 +92,7 @@ class TransactionUtilities {
   returnTransactionSpeed(chosenSpeed) {
     const stateTree = store.getState();
     const gasPrice = stateTree.ReducerGasPrice.gasPrice;
-      if (chosenSpeed === 0) {
+    if (chosenSpeed === 0) {
       return parseInt(gasPrice.fast);
     } else if (chosenSpeed === 1) {
       return parseInt(gasPrice.average);
@@ -155,7 +153,9 @@ class TransactionUtilities {
   }
 
   async constructSignedOutgoingTransactionObject(outgoingTransactionObject) {
-    outgoingTransactionObject = new ethTx(outgoingTransactionObject.toTransactionDict());
+    outgoingTransactionObject = new ethTx(
+      outgoingTransactionObject.toTransactionDict()
+    );
     let privateKey = await WalletUtilities.retrievePrivateKey();
     privateKey = Buffer.from(privateKey, 'hex');
     outgoingTransactionObject.sign(privateKey);
@@ -187,8 +187,12 @@ class TransactionUtilities {
   }
 
   getTransactionFeeEstimateInEther(gasPriceWei, gasLimit) {
-    const transactionFeeEstimateWei = Web3.utils.toBN(gasPriceWei).mul(Web3.utils.toBN(gasLimit));
-    const transactionFeeEstimateInEther = Web3.utils.fromWei(transactionFeeEstimateWei, 'Ether').toString();
+    const transactionFeeEstimateWei = Web3.utils
+      .toBN(gasPriceWei)
+      .mul(Web3.utils.toBN(gasLimit));
+    const transactionFeeEstimateInEther = Web3.utils
+      .fromWei(transactionFeeEstimateWei, 'Ether')
+      .toString();
     return transactionFeeEstimateInEther;
   }
 

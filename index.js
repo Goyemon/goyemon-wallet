@@ -18,17 +18,19 @@ YellowBox.ignoreWarnings(['Remote debugger']);
 
 AppRegistry.registerComponent(appName, () => App);
 AppRegistry.registerHeadlessTask(
-	'RNFirebaseBackgroundMessage',
-	() => FcmBackgroundListener
+  'RNFirebaseBackgroundMessage',
+  () => FcmBackgroundListener
 );
 
 FCM.FCMMsgs.setMsgCallback(FcmListener.downstreamMessageHandler); // so now FcmListener is just a callback we attach to FCMMsgs.
-FcmListener.setStoreReadyPromise(new Promise((resolve, reject) => {
-	persistStore(store, {}, () => {
-		TxStorage.storage.isStorageReady().then(() => {
-			store.dispatch(rehydrationComplete(true));
-			resolve();
-		});
-	});
-}));
+FcmListener.setStoreReadyPromise(
+  new Promise((resolve, reject) => {
+    persistStore(store, {}, () => {
+      TxStorage.storage.isStorageReady().then(() => {
+        store.dispatch(rehydrationComplete(true));
+        resolve();
+      });
+    });
+  })
+);
 FCM.registerHandler(); // Then we call FCM.registerHandler() to actually initialize FCM.

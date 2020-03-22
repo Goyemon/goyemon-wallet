@@ -8,7 +8,15 @@ import { captureScreen } from 'react-native-view-shot';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { savePhotoLibraryPermission } from '../actions/ActionPermissions';
-import { RootContainer, Container, ProgressBar, Button, HeaderTwo, Description, CrypterestText } from '../components/common';
+import {
+  RootContainer,
+  Container,
+  ProgressBar,
+  Button,
+  HeaderTwo,
+  Description,
+  CrypterestText
+} from '../components/common';
 import ShowMnemonicWords from './ShowMnemonicWords';
 import LogUtilities from '../utilities/LogUtilities.js';
 
@@ -19,8 +27,8 @@ class ShowMnemonic extends Component {
       imageURI: undefined,
       screenshotTaken: false,
       nextButtonShown: false,
-      twoColor: "#eeeeee",
-      progressBarWidth: "0%"
+      twoColor: '#eeeeee',
+      progressBarWidth: '0%'
     };
   }
 
@@ -65,7 +73,9 @@ class ShowMnemonic extends Component {
               break;
             case RESULTS.BLOCKED:
               this.props.savePhotoLibraryPermission('blocked');
-              LogUtilities.logInfo('The permission is denied and not requestable anymore');
+              LogUtilities.logInfo(
+                'The permission is denied and not requestable anymore'
+              );
               break;
           }
         })
@@ -94,7 +104,9 @@ class ShowMnemonic extends Component {
               break;
             case RESULTS.BLOCKED:
               this.props.savePhotoLibraryPermission('blocked');
-              LogUtilities.logInfo('The permission is denied and not requestable anymore');
+              LogUtilities.logInfo(
+                'The permission is denied and not requestable anymore'
+              );
               break;
           }
         })
@@ -125,8 +137,8 @@ class ShowMnemonic extends Component {
           marginBottom="12px"
           opacity="1"
           onPress={() => {
-              this.requestPhotoLibraryPermission();
-            }}
+            this.requestPhotoLibraryPermission();
+          }}
         />
       );
     } else if (
@@ -178,8 +190,8 @@ class ShowMnemonic extends Component {
           imageURI: uri,
           screenshotTaken: true,
           nextButtonShown: true,
-          twoColor: "#FDC800",
-          progressBarWidth: "40%"
+          twoColor: '#FDC800',
+          progressBarWidth: '40%'
         });
         CameraRoll.saveToCameraRoll(uri);
       },
@@ -188,8 +200,8 @@ class ShowMnemonic extends Component {
   }
 
   renderNextButton() {
-    if(this.state.nextButtonShown){
-      return(
+    if (this.state.nextButtonShown) {
+      return (
         <Button
           text="Next"
           textColor="#00A3E2"
@@ -207,8 +219,8 @@ class ShowMnemonic extends Component {
             }
           }}
         />
-      )
-    } else if (!this.state.nextButtonShown){
+      );
+    } else if (!this.state.nextButtonShown) {
       return null;
     }
   }
@@ -226,11 +238,17 @@ class ShowMnemonic extends Component {
         <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
           Save Backup Words
         </HeaderTwo>
-          <Description marginBottom="8" marginLeft="8" marginTop="16">
-            carefully save your backup words in order
-          </Description>
-          <ShowMnemonicWords />
-          <Container alignItems="center" flexDirection="column" justifyContent="center" marginTop={0} width="100%">            
+        <Description marginBottom="8" marginLeft="8" marginTop="16">
+          carefully save your backup words in order
+        </Description>
+        <ShowMnemonicWords />
+        <Container
+          alignItems="center"
+          flexDirection="column"
+          justifyContent="center"
+          marginTop={0}
+          width="100%"
+        >
           <Button
             text="Verify Backup Words"
             textColor="#00A3E2"
@@ -241,13 +259,13 @@ class ShowMnemonic extends Component {
             opacity="1"
             onPress={() => this.props.navigation.navigate('VerifyMnemonic')}
           />
-        <CrypterestText fontSize="14">OR</CrypterestText>
-        {this.renderScreenshotButtons()}
-        <ScreenshotContainer>
+          <CrypterestText fontSize="14">OR</CrypterestText>
+          {this.renderScreenshotButtons()}
+          <ScreenshotContainer>
             <ScreenshotImage source={{ uri: this.state.imageURI }} />
             {this.renderScreenshotSavedMessage()}
-        </ScreenshotContainer>
-        {this.renderNextButton()}
+          </ScreenshotContainer>
+          {this.renderNextButton()}
         </Container>
       </RootContainer>
     );
@@ -276,7 +294,4 @@ const mapDispatchToProps = {
   savePhotoLibraryPermission
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ShowMnemonic);
+export default connect(mapStateToProps, mapDispatchToProps)(ShowMnemonic);

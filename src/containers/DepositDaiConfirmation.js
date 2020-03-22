@@ -30,7 +30,9 @@ class DepositDaiConfirmation extends Component {
     const outgoingTransactionObject = this.props.outgoingTransactionObjects[
       this.props.outgoingTransactionObjects.length - 1
     ];
-    await TransactionUtilities.sendOutgoingTransactionToServer(outgoingTransactionObject);
+    await TransactionUtilities.sendOutgoingTransactionToServer(
+      outgoingTransactionObject
+    );
   }
 
   render() {
@@ -41,7 +43,9 @@ class DepositDaiConfirmation extends Component {
         <HeaderOne marginTop="96">Confirmation</HeaderOne>
         <TotalContainer>
           <CoinImage source={require('../../assets/dai_icon.png')} />
-          <CrypterestText fontSize="16">You are about to deposit</CrypterestText>
+          <CrypterestText fontSize="16">
+            You are about to deposit
+          </CrypterestText>
           <TotalValue>{outgoingTransactionData.compound.amount} DAI</TotalValue>
         </TotalContainer>
         <UntouchableCardContainer
@@ -58,7 +62,9 @@ class DepositDaiConfirmation extends Component {
             Deposit Amount
           </FormHeader>
           <Amount>{outgoingTransactionData.compound.amount} DAI</Amount>
-          <NetworkFeeContainerConfirmation gasLimit={GlobalConfig.cTokenMintGasLimit}/>
+          <NetworkFeeContainerConfirmation
+            gasLimit={GlobalConfig.cTokenMintGasLimit}
+          />
         </UntouchableCardContainer>
         <ButtonContainer>
           <Button
@@ -84,7 +90,7 @@ class DepositDaiConfirmation extends Component {
             }}
           />
         </ButtonContainer>
-        <Loader animating={this.state.loading} size="small"/>
+        <Loader animating={this.state.loading} size="small" />
         <IsOnlineMessage netInfo={this.props.netInfo} />
       </RootContainer>
     );
@@ -125,8 +131,10 @@ const ButtonContainer = styled.View`
 function mapStateToProps(state) {
   return {
     netInfo: state.ReducerNetInfo.netInfo,
-    outgoingTransactionObjects: state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
-    outgoingTransactionData: state.ReducerOutgoingTransactionData.outgoingTransactionData
+    outgoingTransactionObjects:
+      state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
+    outgoingTransactionData:
+      state.ReducerOutgoingTransactionData.outgoingTransactionData
   };
 }
 
