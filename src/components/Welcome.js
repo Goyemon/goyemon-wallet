@@ -69,20 +69,11 @@ export default class Welcome extends Component {
             <HeaderTwo
               fontSize="24"
               fontWeight="bold"
-              marginBottom="16"
-              marginLeft="0"
-              marginTop="0"
-            >
-              share your crypto assets,
-            </HeaderTwo>
-            <HeaderTwo
-              fontSize="24"
-              fontWeight="bold"
               marginBottom="80"
               marginLeft="0"
               marginTop="0"
             >
-              earn passive income
+              enjoy freedom to earn
             </HeaderTwo>
             <TouchableCardContainer
               alignItems="center"
