@@ -948,7 +948,7 @@ class TxStorage {
 			const cdai_address = GlobalConfig.cDAIcontract.startsWith('0x') ? GlobalConfig.cDAIcontract.substr(2).toLowerCase() : GlobalConfig.cDAIcontract.toLowerCase();
 			this._isDAIApprovedForCDAI_cached = (await this.included_txes.getAllTxes()).some(
 				tx => tx.getTokenOperations('dai', TxTokenOpTypeToName.approval).some(
-					x => (x => (x.spender == cdai_address && x.approver == our_hex_address && x.amount === 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'))
+					x => (x.spender == cdai_address && x.approver == our_hex_address && x.amount === 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff')
 				)
 			);
 		}
