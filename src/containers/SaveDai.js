@@ -98,7 +98,7 @@ class SaveDai extends Component {
     const approveEncodedABI = this.getApproveEncodedABI();
     const transactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.DAITokenContract)
-      .setGasPrice(this.props.gasPrice.average.toString(16))
+      .setGasPrice(TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen).toString(16))
       .setGas((GlobalConfig.ERC20ApproveGasLimit).toString(16))
       .tempSetData(approveEncodedABI)
       .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.approval, [GlobalConfig.cDAIcontract, TxStorage.storage.getOwnAddress(), "ff".repeat(256/8)]);
