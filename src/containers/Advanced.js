@@ -6,10 +6,17 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { saveFcmToken } from '../actions/ActionDebugInfo';
-import { RootContainer, Container, HeaderOne, HeaderThree, CrypterestText } from '../components/common';
+import {
+  RootContainer,
+  Container,
+  HeaderOne,
+  HeaderThree,
+  CrypterestText
+} from '../components/common';
+import GlobalConfig from '../config.json';
 import { FCMMsgs } from '../lib/fcm.js';
 import LogUtilities from '../utilities/LogUtilities.js';
-
+ 
 class Advanced extends Component {
   constructor(props) {
     super(props);
@@ -24,14 +31,14 @@ class Advanced extends Component {
   }
 
   getFcmToken() {
-	FCMMsgs.getFcmToken().then(fcmToken => {
-        if (fcmToken) {
-          LogUtilities.logInfo('the current fcmToken ===>', fcmToken);
-          this.props.saveFcmToken(fcmToken);
-        } else {
-          LogUtilities.logInfo('no fcmToken ');
-        }
-      });
+    FCMMsgs.getFcmToken().then(fcmToken => {
+      if (fcmToken) {
+        LogUtilities.logInfo('the current fcmToken ===>', fcmToken);
+        this.props.saveFcmToken(fcmToken);
+      } else {
+        LogUtilities.logInfo('no fcmToken ');
+      }
+    });
   }
 
   async writeToClipboard() {
@@ -67,26 +74,57 @@ class Advanced extends Component {
   }
 
   render() {
-	// const otherDebugInfo = JSON.stringify(this.props.debugInfo.others);
-	const otherDebugInfo = this.props.debugInfo.others instanceof Array ? this.props.debugInfo.others.join("\n") : JSON.stringify(this.props.debugInfo.others);
+    // const otherDebugInfo = JSON.stringify(this.props.debugInfo.others);
+    const otherDebugInfo =
+      this.props.debugInfo.others instanceof Array
+        ? this.props.debugInfo.others.join('\n')
+        : JSON.stringify(this.props.debugInfo.others);
 
     return (
       <RootContainer>
         <HeaderOne marginTop="96">Advanced</HeaderOne>
-        <Container alignItems="flex-start" flexDirection="column" justifyContent="center" marginTop={0} width="90%">
-          <HeaderThree color="#000" marginBottom="0" marginLeft="0" marginTop="24">
+        <Container
+          alignItems="flex-start"
+          flexDirection="column"
+          justifyContent="center"
+          marginTop={0}
+          width="90%"
+        >
+          <HeaderThree
+            color="#000"
+            marginBottom="0"
+            marginLeft="0"
+            marginTop="24"
+          >
             Your Device Info
           </HeaderThree>
-          <CrypterestText fontSize="14">{this.props.debugInfo.fcmToken}</CrypterestText>
+          <CrypterestText fontSize="14">
+            {this.props.debugInfo.fcmToken}
+          </CrypterestText>
           {this.renderCopyText()}
-          <HeaderThree color="#000" marginBottom="0" marginLeft="0" marginTop="24">
+          <HeaderThree
+            color="#000"
+            marginBottom="0"
+            marginLeft="0"
+            marginTop="24"
+          >
             Other Device Info
           </HeaderThree>
           <CrypterestText fontSize="14">{otherDebugInfo}</CrypterestText>
-		  <TouchableWithoutFeedback onPress={async () => { await Clipboard.setString(otherDebugInfo); this.setState({ clipboardContent: 'debug' }); }}>
-			<CopyAddressText>Copy</CopyAddressText>
-		  </TouchableWithoutFeedback>
-          <HeaderThree color="#000" marginBottom="0" marginLeft="0" marginTop="24">
+          <TouchableWithoutFeedback
+            onPress={async () => {
+              await Clipboard.setString(otherDebugInfo);
+              this.setState({ clipboardContent: 'debug' });
+            }}
+          >
+            <CopyAddressText>Copy</CopyAddressText>
+          </TouchableWithoutFeedback>
+          <HeaderThree
+            color="#000"
+            marginBottom="0"
+            marginLeft="0"
+            marginTop="24"
+          >
             Sync Your Transactions
           </HeaderThree>
           <Animatable.View ref={ref => (this.AnimationRef = ref)}>
@@ -100,6 +138,15 @@ class Advanced extends Component {
               size={28}
             />
           </Animatable.View>
+          <HeaderThree
+            color="#000"
+            marginBottom="0"
+            marginLeft="0"
+            marginTop="24"
+          >
+            Network
+          </HeaderThree>
+          <CrypterestText fontSize="14">{GlobalConfig.network_name}</CrypterestText>
         </Container>
       </RootContainer>
     );
@@ -136,7 +183,4 @@ const mapDispatchToProps = {
   saveFcmToken
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Advanced);
+export default connect(mapStateToProps, mapDispatchToProps)(Advanced);
