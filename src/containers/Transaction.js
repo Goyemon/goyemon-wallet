@@ -191,7 +191,7 @@ class Transaction extends Component {
 
     switch (this.props.transaction.getState()) {
       case TxStorage.TxStates.STATE_NEW:
-        text = 'sent...';
+        text = 'pending...';
         break;
 
       case TxStorage.TxStates.STATE_PENDING:
@@ -199,11 +199,11 @@ class Transaction extends Component {
         break;
 
       case TxStorage.TxStates.STATE_INCLUDED:
-        text = 'included';
+        text = 'success';
         break;
 
       case TxStorage.TxStates.STATE_CONFIRMED:
-        text = 'confirmed';
+        text = 'success';
         break;
 
       case TxStorage.TxStates.STATE_ERROR:
