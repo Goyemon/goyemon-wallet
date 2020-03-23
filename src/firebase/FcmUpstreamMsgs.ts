@@ -6,7 +6,9 @@ import GlobalConfig from '../config.json';
 
 class FcmUpstreamMsgs {
   __sendMessage(type, checksumAddress) {
-    const checksumAddressWithoutPrefix = EtherUtilities.stripHexPrefix(checksumAddress);
+    const checksumAddressWithoutPrefix = EtherUtilities.stripHexPrefix(
+      checksumAddress
+    );
 
     const upstreamMessage = new firebase.messaging.RemoteMessage()
       .setMessageId(uuidv4())

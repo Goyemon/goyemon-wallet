@@ -80,7 +80,7 @@ class TransactionList extends Component {
 	}
 
 	render() {
-		return <View>{this.renderTransactions()}</View>;
+		return <HistoryContainer>{this.renderTransactions()}</HistoryContainer>;
 	}
 
 	componentDidMount() {
@@ -96,6 +96,11 @@ class TransactionList extends Component {
 		this.unsub();
 	}
 }
+
+const HistoryContainer = styled.View`
+  background: #f8f8f8;
+  height: 100%;
+`;
 
 const EmptyTransactionContainer = styled.View`
 		align-items: center;
