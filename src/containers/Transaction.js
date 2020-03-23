@@ -257,7 +257,7 @@ class Transaction extends Component {
       return <CrypterestText fontSize="14">{txType}</CrypterestText>;
 
     if (this.isDaiApproveTx)
-      txType = 'Initiated';
+      txType = 'Unlock Deposit';
     else if (this.isCDaiMintTx)
       txType = 'Deposited';
     else if (this.isCDaiRedeemUnderlyingTx)
