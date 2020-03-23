@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
 import { HeaderOne } from '../components/common/';
 // TODO: git rm those two:
@@ -56,6 +56,7 @@ export default class History extends Component {
 
 const HistoryContainer = styled.View`
   background: #f8f8f8;
+  height: 100%;
 `;
 
 const FilterChoiceContainer = styled.View`

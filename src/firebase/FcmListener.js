@@ -76,10 +76,7 @@ async function downstreamMessageHandler(type, data) {
 				store.dispatch(saveDaiBalance(new BigNumber(data.dai).toString(10)));
 
 			if (data.hasOwnProperty('cdai')) {
-				setTimeout(() => {
-					FcmUpstreamMsgs.requestCDaiLendingInfo(stateTree.ReducerChecksumAddress.checksumAddress);
-				}, 15000);
-
+				FcmUpstreamMsgs.requestCDaiLendingInfo(stateTree.ReducerChecksumAddress.checksumAddress);
 		  		store.dispatch(saveCDaiBalance(new BigNumber(data.cdai).toString(10)));
 			}
 			break;
