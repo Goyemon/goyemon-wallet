@@ -216,7 +216,7 @@ class WalletCreation extends Component {
           flexDirection="column"
           justifyContent="center"
           marginTop={0}
-          width="100%"
+          width="90%"
         >
           {this.PullDownToRefreshMessage()}
           {this.FadeInMessages()}

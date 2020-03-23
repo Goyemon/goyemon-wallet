@@ -195,6 +195,22 @@ class Swap extends Component {
     }
   }
 
+  renderTokenBoughtText() {
+    if (this.state.tokenBought.toFixed() === '0') {
+      return (
+        <MinTokenBoughtGrayText>
+          {this.getMinTokens(this.state.tokenBought).toFixed()}
+        </MinTokenBoughtGrayText>
+      );
+    } else {
+      return (
+        <MinTokenBoughtBlackText>
+          {this.getMinTokens(this.state.tokenBought).toFixed(4)}
+        </MinTokenBoughtBlackText>
+      );
+    }
+  }
+
   renderInsufficientBalanceMessage() {
     if (
       this.state.ethSoldValidation ||
@@ -292,9 +308,7 @@ class Swap extends Component {
             width="100%"
           >
             <Title>you get at least</Title>
-            <MinTokenBoughtText>
-              {this.getMinTokens(this.state.tokenBought).toFixed(4)}
-            </MinTokenBoughtText>
+            {this.renderTokenBoughtText()}
           </Container>
           <Container
             alignItems="center"
@@ -338,7 +352,13 @@ const SendTextInput = styled.TextInput`
   font-size: 28;
 `;
 
-const MinTokenBoughtText = styled.Text`
+const MinTokenBoughtGrayText = styled.Text`
+  color: #ccc;
+  font-size: 28;
+`;
+
+const MinTokenBoughtBlackText = styled.Text`
+  color: #000;
   font-size: 28;
 `;
 

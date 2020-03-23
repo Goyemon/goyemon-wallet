@@ -145,6 +145,7 @@ class Initial extends Component {
         width="90%"
       >
         <LoaderContainer animation="fadeIn" delay={1000}>
+          <Logo>Crypterest</Logo>
           <Loader animating={true} size="large" />
         </LoaderContainer>
       </Container>
@@ -153,6 +154,15 @@ class Initial extends Component {
 }
 
 const LoaderContainer = Animatable.createAnimatableComponent(styled.View``);
+
+const Logo = Animatable.createAnimatableComponent(styled.Text`
+  color: #e41b13;
+  font-family: 'HKGrotesk-Bold';
+  font-size: 40;
+  margin-bottom: 48;
+  text-align: center;
+  text-transform: uppercase;
+`);
 
 function mapStateToProps(state) {
   return {

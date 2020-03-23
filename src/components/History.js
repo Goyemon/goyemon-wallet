@@ -41,7 +41,7 @@ export default class History extends Component {
 
   render() {
     return (
-      <View>
+      <HistoryContainer>
         <OfflineNotice />
         <HeaderOne marginTop="64">History</HeaderOne>
         {this.toggleFilterChoiceText()}
@@ -49,10 +49,14 @@ export default class History extends Component {
           tokenFilter={this.state.filter}
           key={`TransactionList_${this.state.filter}`}
         />
-      </View>
+      </HistoryContainer>
     );
   }
 }
+
+const HistoryContainer = styled.View`
+  background: #f8f8f8;
+`;
 
 const FilterChoiceContainer = styled.View`
   align-items: center;
