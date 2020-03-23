@@ -5,6 +5,8 @@ import { store } from '../store/store';
 
 const DUMPOBJECT_DEFAULT_DEPTH = 4;
 
+var log_line_number = 0;
+
 class LogUtilities {
 	static __getFormattedDate() {
 		let d = new Date();
@@ -23,7 +25,7 @@ class LogUtilities {
 		if (arguments.length < 1)
 			return;
 
-		let out = `${LogUtilities.__getFormattedDate()}`;
+		let out = `[${log_line_number++}] ${LogUtilities.__getFormattedDate()}`;
 		for (let i = 0; i < arguments.length; ++i)
 			out += ` ${arguments[i] instanceof Object ? LogUtilities.__dumpObjectRecursively(arguments[i]) : arguments[i]}`;
 
