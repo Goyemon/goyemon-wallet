@@ -242,7 +242,7 @@ const ModalBackground = styled.View`
   border-top-color: #e41b13;
   height: 30%;
   min-height: 320px;
-  margin-top: 200;
+  margin-top: 80;
   width: 90%;
 `;
 
