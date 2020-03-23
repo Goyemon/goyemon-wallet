@@ -43,7 +43,6 @@ function setStoreReadyPromise(p) {
 
 async function downstreamMessageHandler(type, data) {
 	LogUtilities.logInfo(`received message ${type} => `, data);
-	let stateTree;
 
 	if (!storeReady) {
 		await storeReadyPromise;
