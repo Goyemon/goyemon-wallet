@@ -125,13 +125,13 @@ class Advanced extends Component {
             marginLeft="0"
             marginTop="24"
           >
-            Sync Your Transactions
+            Sync Your Wallet
           </HeaderThree>
           <Animatable.View ref={ref => (this.AnimationRef = ref)}>
             <Icon
               onPress={async () => {
                 this.AnimationRef.rotate();
-                FCMMsgs.resyncTransactions(this.props.checksumAddress);
+                FCMMsgs.resyncWallet(this.props.checksumAddress);
               }}
               name="sync"
               color="#5f5f5f"

@@ -182,8 +182,8 @@ class FCMMsgs {
 		this.__sendMessage('address_register', { address: checksumAddress });
 	}
 
-	resyncTransactions(checksumAddress) {
-		this.__sendMessage('resync_transactions', { address: checksumAddress });
+	resyncWallet(checksumAddress) {
+		this.__sendMessage('resync_wallet', { address: checksumAddress });
 	}
 
 	requestCDaiLendingInfo(checksumAddress) {
