@@ -53,7 +53,7 @@ class WalletList extends Component {
         >
           <HeaderFour marginTop="24">total wallet balance</HeaderFour>
           <UsdBalance>
-            ${PriceUtilities.getTotalBalance(ethBalance, daiBalance)}
+            ${PriceUtilities.getTotalWalletBalance(ethBalance, daiBalance)}
           </UsdBalance>
           <AddressContainer
             onPress={() => {

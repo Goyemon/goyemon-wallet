@@ -47,7 +47,7 @@ class PriceUtilities {
     }
   }
 
-  getTotalBalance(ethBalance, daiBalance) {
+  getTotalWalletBalance(ethBalance, daiBalance) {
     let totalUsdBalance =
       parseFloat(this.convertEthToUsd(ethBalance)) +
       parseFloat(this.convertDaiToUsd(daiBalance));
