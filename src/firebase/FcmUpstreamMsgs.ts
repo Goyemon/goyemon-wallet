@@ -25,8 +25,8 @@ class FcmUpstreamMsgs {
     this.__sendMessage('address_register', checksumAddress);
   }
 
-  resyncTransactions(checksumAddress) {
-    this.__sendMessage('resync_transactions', checksumAddress);
+  resyncWallet(checksumAddress) {
+    this.__sendMessage('resync_wallet', checksumAddress);
   }
 
   requestCDaiLendingInfo(checksumAddress) {

@@ -131,7 +131,7 @@ class Advanced extends Component {
             <Icon
               onPress={async () => {
                 this.AnimationRef.rotate();
-                FCMMsgs.resyncTransactions(this.props.checksumAddress);
+                FCMMsgs.resyncWallet(this.props.checksumAddress);
               }}
               name="sync"
               color="#5f5f5f"
