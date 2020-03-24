@@ -125,7 +125,7 @@ class Advanced extends Component {
             marginLeft="0"
             marginTop="24"
           >
-            Sync Your Transactions
+            Sync Your Wallet
           </HeaderThree>
           <Animatable.View ref={ref => (this.AnimationRef = ref)}>
             <Icon
