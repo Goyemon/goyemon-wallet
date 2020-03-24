@@ -110,7 +110,7 @@ class FCMMsgs {
         }
         this.__msgid_n = 0;
         this.__msgid_time = t;
-        return `m${this.msgid_time}`;
+        return `m${this.__msgid_time}`;
 	}
 
 	__sendMessage(type, otherData={}) {
@@ -165,7 +165,7 @@ class FCMMsgs {
 	}
 
 	__fcm_msg(msg, frombg) {
-		const d = msg._data;
+		const d = msg._data ? msg._data : msg.data;
 
 		if (frombg && d && d.type && d.count && d.no && d.uid && d.data)
 			LogUtilities.toDebugScreen(`BG message: uid:${d.uid} type:${d.type} no/cnt:${d.no}/${d.count}`);
