@@ -172,6 +172,8 @@ class FCMMsgs {
 
 		if (d && d.type && d.count && d.no && d.uid && d.data)
 			this.__on_msg(d.uid, d.type, d.no, d.count, d.data);
+		else if (d && d.type == 'transactionError' && d.error)
+			this.on_msg_callback(d.type, d); // TODO: we're bypassing __on_msg() here due to different msg format, but that means we can't (in the future) use msgtype_waits for transactionError. change the format to the same (use sendSplitMsg() in FCM) in the future and stop treating them differently here.
 		else
 			LogUtilities.toDebugScreen(`unknown FCM message type (bg:${frombg}):`, msg);
 	}
