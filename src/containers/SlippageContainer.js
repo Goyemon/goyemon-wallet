@@ -105,13 +105,14 @@ const UnselectedSlippageTextContainer = styled.TouchableOpacity`
 
 const SelectedButton = styled.Text`
   color: #1ba548;
-  font-family: 'HKGrotesk-Regular';
-  font-weight: 500;
+  font-family: 'HKGrotesk-Bold';
+  font-size: 16;
 `;
 
 const UnselectedButton = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
+  font-size: 16;
 `;
 
 const mapDispatchToProps = {
