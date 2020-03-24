@@ -10,6 +10,7 @@ import '../netinfo/NetInfoListener';
 import SaveIcon from '../../assets/SaveIcon.js';
 import HistoryIcon from '../../assets/HistoryIcon.js';
 import WalletIcon from '../../assets/WalletIcon.js';
+import BalanceStack from './BalanceStack';
 import SaveStack from './SaveStack';
 import HistoryStack from './HistoryStack';
 import HomeStack from './HomeStack';
@@ -20,6 +21,13 @@ import { store, persistor } from '../store/store.js';
 
 const AppTab = createBottomTabNavigator(
   {
+    Balance: {
+      screen: BalanceStack,
+      navigationOptions: {
+        tabBarLabel: 'Balance',
+        tabBarIcon: ({ tintColor }) => <WalletIcon fill={tintColor} />
+      }
+    },
     Home: {
       screen: HomeStack,
       navigationOptions: {
