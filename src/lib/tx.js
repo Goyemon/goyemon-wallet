@@ -53,6 +53,17 @@ function hexToBuf(hex) {
 	_TXidx_Dai[num]: could be like above but for txes that match the dai filter criteria, etc.
 
 */
+
+/* actually txhash has to be stored anyway, so why not just go
+	${prefix}_${hash} for txdata
+	${prefix}iall${num} for buckets
+	${prefix}iallc for count
+	${prefix}i${indexname}${num} for buckets again
+	${prefix}i${indexname}c for count in given index
+
+	hashes in buckets are always sorted by timestamp
+*/
+
 class PersistTxStorageAbstraction {
 	constructor(prefix='', onTxLoadCallback) {
 		LogUtilities.toDebugScreen('PersistTxStorageAbstraction constructor called');
@@ -811,12 +822,20 @@ class TxStorage {
 			if (this.txfilter_checkMaxNonce(tx))
 				await AsyncStorage.setItem(maxNonceKey, this.included_max_nonce.toString());
 
+			// to prevent the scenario when we sent the tx (it's in not_included_txes), but then we received "confirmed" (with no data) for it.
+			// The tx is then in both included_txes and not_included_txes. once we get the data (i.e. nonce) we need to check if it's in not_included_txes and remove it.
+			if (data[0] !== null && this.our_address.equals(tx.from_addr)) {
+				// TODO: do we have to getItem() first? there would be no harm if we just removeItem() that doesn't exist, unless it throws exceptions - we'd have to ignore that exception.
+				if (await this.not_included_txes.getItem(tx.getNonce()))
+					await this.not_included_txes.removeItem(tx.getNonce());
+			}
+
 			this.__onUpdate();
 			return;
 		}
 
 		// at this point it's a new tx we dont know or something that updates what we sent (found/stored by nonce)
-		if (data[0] !== null) {
+		if (data[0] !== null && this.our_address.equals(Buffer.from(data[0], 'hex'))) { // TODO: check sender address, it has to be us, the not_included_txes only has OUR sent txes
 			let nonce = typeof data[5] === 'string' ? parseInt(data[5]) : data[5];
 
 			tx = await this.not_included_txes.getItem(nonce);
@@ -860,7 +879,6 @@ class TxStorage {
 		}
 		else {
 			// we have no nonce, only hash, and it's not in included. remember hash -> state and update it when promoting
-			// TODO: when pendings come, it's possible that saveTx() will fail since state is not-yet-include and there is no nonce. for that lower state we need to store it separately. we know hash, but nothing else. the rest should come next.
 			tx = new Tx(data[7])
 				.setHash(hash)
 				.setTimestamp(data[6]);
