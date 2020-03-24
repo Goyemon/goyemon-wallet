@@ -12,7 +12,7 @@ const MenuContainerInner = styled.TouchableOpacity`
   align-items: center;
   flex-direction: row;
   justify-content: center;
-  margin: 0 8px;
+  margin: 8px;
 `;
 
 export { MenuContainer };
