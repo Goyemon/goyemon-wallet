@@ -7,7 +7,6 @@ import styled from 'styled-components';
 import { getGasPrice, updateGasPriceChosen } from '../actions/ActionGasPrice';
 import {
   Container,
-  UntouchableCardContainer,
   FormHeader,
   MenuContainer,
   ToggleCurrencySymbol
@@ -23,17 +22,14 @@ class AdvancedContainer extends Component {
       gasPrice: [
         {
           speed: 'fast',
-          imageName: 'run-fast',
           gasPriceWei: props.gasPrice.fast
         },
         {
           speed: 'average',
-          imageName: 'run',
           gasPriceWei: props.gasPrice.average
         },
         {
           speed: 'slow',
-          imageName: 'walk',
           gasPriceWei: props.gasPrice.slow
         }
       ],
@@ -96,60 +92,49 @@ class AdvancedContainer extends Component {
               </View>
             </NetworkFeeSymbolContainer>
           </NetworkFeeHeaderContainer>
-          <UntouchableCardContainer
+          <Container
             alignItems="center"
-            borderRadius="0"
-            flexDirection="column"
-            height="120px"
+            flexDirection="row"
             justifyContent="center"
-            marginTop="16"
-            textAlign="center"
+            marginTop={24}
             width="80%"
           >
-            <Container
-              alignItems="center"
-              flexDirection="row"
-              justifyContent="center"
-              marginTop={0}
-              width="100%"
-            >
-              {this.state.gasPrice.map((gasPrice, key) => (
-                <NetworkFee key={key}>
-                  {this.props.gasPrice.chosen === key ? (
-                    <SpeedContainer>
-                      <SelectedButton>{gasPrice.speed}</SelectedButton>
-                      <Icon
-                        name={gasPrice.imageName}
-                        size={40}
-                        color="#1BA548"
-                      />
-                      <SelectedButton>
-                        {this.toggleCurrency(
-                          gasPrice.gasPriceWei,
-                          this.props.gasLimit
-                        )}
-                      </SelectedButton>
-                    </SpeedContainer>
-                  ) : (
-                    <SpeedContainer
-                      onPress={() => {
-                        this.props.updateGasPriceChosen(key);
-                      }}
-                    >
-                      <UnselectedButton>{gasPrice.speed}</UnselectedButton>
-                      <Icon name={gasPrice.imageName} size={40} color="#000" />
-                      <UnselectedButton>
-                        {this.toggleCurrency(
-                          gasPrice.gasPriceWei,
-                          this.props.gasLimit
-                        )}
-                      </UnselectedButton>
-                    </SpeedContainer>
-                  )}
-                </NetworkFee>
-              ))}
-            </Container>
-          </UntouchableCardContainer>
+            {this.state.gasPrice.map((gasPrice, key) => (
+              <NetworkFee key={key}>
+                {this.props.gasPrice.chosen === key ? (
+                  <SpeedContainer>
+                    <SelectedSpeedTextContainer>
+                      <SelectedSpeedText>{gasPrice.speed}</SelectedSpeedText>
+                    </SelectedSpeedTextContainer>
+                    <SelectedButton>
+                      {this.toggleCurrency(
+                        gasPrice.gasPriceWei,
+                        this.props.gasLimit
+                      )}
+                    </SelectedButton>
+                  </SpeedContainer>
+                ) : (
+                  <SpeedContainer
+                    onPress={() => {
+                      this.props.updateGasPriceChosen(key);
+                    }}
+                  >
+                    <UnselectedSpeedTextContainer>
+                      <UnselectedSpeedText>
+                        {gasPrice.speed}
+                      </UnselectedSpeedText>
+                    </UnselectedSpeedTextContainer>
+                    <UnselectedButton>
+                      {this.toggleCurrency(
+                        gasPrice.gasPriceWei,
+                        this.props.gasLimit
+                      )}
+                    </UnselectedButton>
+                  </SpeedContainer>
+                )}
+              </NetworkFee>
+            ))}
+          </Container>
           <MenuContainer
             onPress={() => {
               this.setState({ showAdvanced: false });
@@ -204,14 +189,54 @@ const SpeedContainer = styled.TouchableOpacity`
   margin: 0 8px;
 `;
 
-const SelectedButton = styled.Text`
+const SelectedSpeedTextContainer = styled.View`
+  background-color: #fff;
+  border-color: #fff;
+  border-radius: 16px;
+  border-width: 1.5;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 4px;
+  padding: 8px 12px;
+  width: 100%;
+`;
+
+const UnselectedSpeedTextContainer = styled.View`
+  background-color: #fff;
+  border-color: #fff;
+  border-radius: 16px;
+  border-width: 1.5;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 4px;
+  padding: 8px 12px;
+  width: 100%;
+`;
+
+const SelectedSpeedText = styled.Text`
   color: #1ba548;
+  font-family: 'HKGrotesk-Bold';
+  font-size: 16;
+`;
+
+const UnselectedSpeedText = styled.Text`
+  color: #000;
   font-family: 'HKGrotesk-Regular';
+  font-size: 16;
+`;
+
+const SelectedButton = styled.Text`
+  color: #000;
+  font-family: 'HKGrotesk-Bold';
+  margin-top: 8;
 `;
 
 const UnselectedButton = styled.Text`
   color: #000;
   font-family: 'HKGrotesk-Regular';
+  margin-top: 8;
 `;
 
 function mapStateToProps(state) {
