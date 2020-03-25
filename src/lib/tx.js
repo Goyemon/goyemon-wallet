@@ -844,7 +844,7 @@ class TxStorage {
 					.setHash(hash)
 					.fromDataArray(data);
 
-				LogUtilities.toDebugScreen(`parseTxState(hash: ${hash}) not known tx, saved: `, tx);
+				LogUtilities.toDebugScreen(`parseTxState(hash: ${hash}) not known OUR tx, saved: `, tx);
 
 				await this.saveTx(tx);
 
@@ -856,12 +856,12 @@ class TxStorage {
 				return;
 			}
 
-			LogUtilities.toDebugScreen(`parseTxState(hash: ${hash}) known NOT included tx: `, tx);
+			LogUtilities.toDebugScreen(`parseTxState(hash: ${hash}) known OUR NOT included tx: `, tx);
 
 			tx.setHash(hash)
 				.fromDataArray(data);
 
-			LogUtilities.toDebugScreen(`parseTxState(hash: ${hash}) known NOT included tx updated: `, tx);
+			LogUtilities.toDebugScreen(`parseTxState(hash: ${hash}) known OUR NOT included tx updated: `, tx);
 
 			if (tx.state >= TxStates.STATE_INCLUDED) {
 				LogUtilities.toDebugScreen(`parseTxState(hash: ${hash}) moving to persistent storage since state is now ${tx.state}`);
@@ -872,6 +872,19 @@ class TxStorage {
 			}
 			else
 				await this.not_included_txes.setItem(nonce, tx.shallowClone());
+
+			this.__onUpdate();
+
+			return;
+		}
+		else if (data[0] !== null) { // not our, but we got the data. just save it.
+			tx = new Tx(data[7])
+				.setHash(hash)
+				.fromDataArray(data);
+
+			LogUtilities.toDebugScreen(`parseTxState(hash: ${hash}) not known tx, saved: `, tx);
+
+			await this.saveTx(tx);
 
 			this.__onUpdate();
 
