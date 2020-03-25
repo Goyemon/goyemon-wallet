@@ -64,12 +64,18 @@ function hexToBuf(hex) {
 	hashes in buckets are always sorted by timestamp
 */
 
+const storage_bucket_size = 64;
 class PersistTxStorageAbstraction {
-	constructor(prefix='', onTxLoadCallback) {
+	constructor(prefix='') {
 		LogUtilities.toDebugScreen('PersistTxStorageAbstraction constructor called');
-		this.storage = null;
+
+		this.cache = {};
+		this.counts = {};
+		this.filters = {};
+
 		this.prefix = prefix; // `${this.prefix}${key}`
 
+		/*
 		this._tempwritetimer = null;
 		AsyncStorage.getItem(`${this.prefix}_temp`).then(x => {
 			this.storage = {};
@@ -86,41 +92,84 @@ class PersistTxStorageAbstraction {
 			if (onTxLoadCallback)
 				onTxLoadCallback();
 		});
+		*/
+	}
 
-		this.last_write_promise = new Promise((res, rej) => {
-			res();
+	init_storage(name_to_filter_map, init_finish_callback) {
+		let load_count = 0;
+
+		function loadCount(name) {
+			load_count++;
+			AsyncStorage.getItem(`${this.prefix}i${name}c`).then(x => {
+				this.counts[name] = parseInt(x);
+				load_count--;
+				if (load_count == 0)
+					init_finish_callback();
+			});
+		}
+
+		loadCount('all');
+
+		Object.entries(name_to_filter_map).forEach(([name, filter]) => {
+			this.filters[name] = filter;
+			loadCount(name);
 		});
 	}
 
-	__tempbatchupds() {
-		if (!this._tempwritetimer) {
-			this.last_write_promise = new Promise((res, rej) => {
-				this.last_write_resolve = res;
-			});
+	async __getKey(k) {
+		// TODO: needs cache cleaning
+		if (!this.cache[k])
+			this.cache[k] = await AsyncStorage.getItem(k);
 
-			this._tempwritetimer  = setTimeout((() => {
-				this._tempwritetimer = null;
-				AsyncStorage.setItem(`${this.prefix}_temp`, JSON.stringify(this.storage));
-
-				this.last_write_resolve();
-			}).bind(this), 250);
-		}
+		return this.cache[k];
 	}
 
-	__tempstoragewritten() {
-		return this.last_write_promise;
+	async getTxByNum(num, index='all') {
+		const bucket_num = Math.floor(num / storage_bucket_size);
+		const bucket_pos = num % storage_bucket_size;
+
+		const bucket = await this.__getKey(`${this.prefix}i${index}${bucket_num}`);
+
+		return await this.__getKey(`${this.prefix}_${bucket[bucket_pos]}`);
 	}
 
-	async getItem(key) {
-		// return await AsyncStorage.getItem(`${this.prefix}${key}`);
-		return this.storage[key];
+	async getTxByHash(hash) {
+		return await this.__getKey(`${this.prefix}_${hash}`);
 	}
 
-	async setItem(key, value) {
-		// if (this.keyCache !== null)this.keyCache[key] = null;
-		this.storage[key] = value;
-		// return await AsyncStorage.setItem(`${this.prefix}${key}`, value);
-		this.__tempbatchupds();
+	async appendTx(hash, tx) {
+		// run filters to see which indices this goes in. for each index, append to the last bucket (make sure we create a new one if it spills)
+		let append_indices = ['all'];
+		Object.entries(this.filters).forEach(([index, filterfunc]) => {
+			if (filterfunc(tx))
+				append_indices.push(index);
+		});
+
+		let tasks = [AsyncStorage.setItem(`${this.prefix}_${hash}`, JSON.stringify(tx))];
+		append_indices.forEach(x => {
+			this.counts[x]++;
+			tasks.push(AsyncStorage.setItem(`${this.prefix}i${x}c`, this.counts[x]));
+
+			const bucket_num = Math.floor(num / storage_bucket_size);
+			if (this.counts[x] % storage_bucket_size == 0) { // new bucket
+				tasks.push(AsyncStorage.setItem(`${this.prefix}i${x}${bucket_num}`, [hash]));
+			}
+			else { // add to bucket
+				let bucket = await this.__getKey(`${this.prefix}i${x}${bucket_num}`);
+				bucket.push(hash);
+				tasks.push(AsyncStorage.setItem(`${this.prefix}i${x}${bucket_num}`, bucket));
+			}
+		});
+
+		await Promise.all(tasks);
+
+		// increase count for that index, too
+		// then await Promise.all([write_count, write_bucket, write_tx]);
+
+	}
+
+	getItemCount(index='all') {
+		return this.counts[index];
 	}
 
 	async removeItem(key) {
