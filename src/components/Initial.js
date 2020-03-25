@@ -9,7 +9,6 @@ import { Container, Loader } from '../components/common';
 import HomeStack from '../navigators/HomeStack';
 import LogUtilities from '../utilities/LogUtilities.js';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
-import TxStorage from '../lib/tx.js';
 
 class Initial extends Component {
   async componentDidUpdate(prevProps) {
@@ -19,7 +18,6 @@ class Initial extends Component {
   }
 
   async componentDidMount() {
-    TxStorage.storage.setOwnAddress(this.props.checksumAddress);
     await this.conditionalNavigation();
   }
 
