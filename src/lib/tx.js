@@ -643,6 +643,7 @@ class TxStorage {
 
 
 	setOwnAddress(ourAddress) {
+		LogUtilities.toDebugScreen(`TxStorage setOwnAddress(${ourAddress}) called`);
 		this.our_address = hexToBuf(ourAddress);
 	}
 
