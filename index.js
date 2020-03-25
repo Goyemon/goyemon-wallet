@@ -28,6 +28,7 @@ FcmListener.setStoreReadyPromise(
     persistStore(store, {}, () => {
       TxStorage.storage.isStorageReady().then(() => {
         store.dispatch(rehydrationComplete(true));
+        TxStorage.storage.setOwnAddress(store.getState().ReducerChecksumAddress.checksumAddress);
         resolve();
       });
     });
