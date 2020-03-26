@@ -15,40 +15,43 @@ class TransactionList extends Component {
 			'transactions': null,
 			'transactionsLoaded': false
 		}
+		this.uniqcounter = 0;
 	}
 
-	updateTxListState(txes) {
+	updateTxListState() {
 		LogUtilities.toDebugScreen('TransactionList updateTxListState() called');
-		let transactionlist;
-
-		if (this.props.tokenFilter && this.props.tokenFilter == 'Dai')
-			transactionlist = txes ? txes.filter(TxStorage.storage.txfilter_isRelevantToDai) : [];
-
-		else
-			transactionlist = txes;
-
-		// transactionlist.sort((a, b) => b.getTimestamp() - a.getTimestamp());
+		//if (this.props.tokenFilter && this.props.tokenFilter == 'Dai')
 
 		this.setState({
-			transactions: transactionlist,
+			transactions: this.uniqcounter++,
 			transactionsLoaded: true
 		});
 	}
 
 	getItem(data, index) {
-		// return empty <Transaction></Transaction> placeholder, but load data in bg that .then()s setState for that <Transaction> (if it's still mounted)
-		return data[index];
+		return {
+			getFrom: () => { return index; },
+			getNonce: () => { return '_nah'; },
+			filter: this.props.tokenFilter ? this.props.tokenFilter.toLowerCase() : 'all'
+		};
 	}
 	getItemCount(data) {
-		return data.length;
+		return TxStorage.storage.getTxCount(this.props.tokenFilter ? this.props.tokenFilter.toLowerCase() : 'all');
+		// this.props here seems not available. hm.
+		// this.props.tokenFilter ? this.props.tokenFilter.toLowerCase() : 'all'
 	}
+
+	// renderSingleTx(tx) {
+	// 	if (tx instanceof TxStorage.Tx)
+	// 		return <Transaction transaction={tx} />;
+
+	// 	return <EmptyTransactionText>Loadink...</EmptyTransactionText>;
+	// }
 
 	renderTransactions() {
 		LogUtilities.toDebugScreen('TransactionList renderTransactions() called');
 		if (this.state.transactionsLoaded) {
-			const transactions = this.state.transactions ? this.state.transactions : [];
-
-			if (transactions.length == 0)
+			if (this.getItemCount() == 0)
 				return (
 					<EmptyTransactionContainer>
 						<EmptyTransactionEmoji>(°△°) b</EmptyTransactionEmoji>
@@ -61,9 +64,9 @@ class TransactionList extends Component {
 				<VirtualizedList
 					initialNumToRender={32}
 					maxToRenderPerBatch={32}
-					data={transactions}
-					getItem={this.getItem}
-					getItemCount={this.getItemCount}
+					data={'yes'}
+					getItem={this.getItem.bind(this)}
+					getItemCount={this.getItemCount.bind(this)}
 					renderItem={({ item }) => <Transaction transaction={item} />}
 					keyExtractor={item => `${item.getFrom()}${item.getNonce()}`}
 				/>
@@ -87,7 +90,7 @@ class TransactionList extends Component {
 		LogUtilities.toDebugScreen('TransactionList componentDidMount() called');
 		// this.__mounted = true;
 		this.unsub = TxStorage.storage.subscribe(this.updateTxListState.bind(this));
-		TxStorage.storage.tempGetAllAsList().then(this.updateTxListState.bind(this)); // initial load
+		(async () => { this.updateTxListState() })();
 	}
 
 	componentWillUnmount() {

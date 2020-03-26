@@ -59,7 +59,6 @@ async function downstreamMessageHandler(type, data) {
 			// TxStorage.storage.setOwnAddress(checksumAddress);
           	await TxStorage.storage.clear(true);
 		  	await TxStorage.storage.parseTxHistory(data);
-			await TxStorage.storage.__tempstoragewritten();
 			store.dispatch(saveTransactionsLoaded(true));
 			break;
 

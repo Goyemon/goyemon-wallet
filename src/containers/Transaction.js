@@ -19,106 +19,127 @@ import LogUtilities from '../utilities/LogUtilities';
   ======================================================= */
 
 class Transaction extends Component {
-  constructor(props) {
-    super(props);
-    const tx = props.transaction;
+	constructor(props) {
+		super(props);
+		this.state = { transaction: this.props.transaction };
+	}
 
-    try {
-      const uniswaps = tx.getTokenOperations('uniswap', TxStorage.TxTokenOpTypeToName.eth2tok);
-      this.isUniswapTx = uniswaps.length > 0;
-      this.ethSold;
-      this.tokenBought;
-      if(this.isUniswapTx) {
-        this.ethSold = TransactionUtilities.parseEthValue(`0x${uniswaps[0].eth_sold}`);
-        this.tokenBought = TransactionUtilities.parseHexDaiValue(`0x${uniswaps[0].tok_bought}`);
-      }
+	recomputeAllTheWeirdoConstsAndStuff(tx) {
+		let newState = {};
 
-      this.isDaiApproveTx = tx.hasTokenOperation('dai', TxStorage.TxTokenOpTypeToName.approval);
+		if (tx instanceof TxStorage.Tx) {
+			newState.transaction = tx;
+			try {
+				const uniswaps = tx.getTokenOperations('uniswap', TxStorage.TxTokenOpTypeToName.eth2tok);
+				newState.isUniswapTx = uniswaps.length > 0;
+				newState.ethSold;
+				newState.tokenBought;
+				if (newState.isUniswapTx) {
+					newState.ethSold = TransactionUtilities.parseEthValue(`0x${uniswaps[0].eth_sold}`);
+					newState.tokenBought = TransactionUtilities.parseHexDaiValue(`0x${uniswaps[0].tok_bought}`);
+				}
 
-      const cDaiMints = tx.getTokenOperations('cdai', TxStorage.TxTokenOpTypeToName.mint);
-      this.isCDaiMintTx = cDaiMints.length > 0;
-      this.cDaiMintValue;
-      if (this.isCDaiMintTx)
-        this.cDaiMintValue = TransactionUtilities.parseHexDaiValue(`0x${cDaiMints[0].mintUnderlying}`);
+				newState.isDaiApproveTx = tx.hasTokenOperation('dai', TxStorage.TxTokenOpTypeToName.approval);
 
-      const cDaiRedeems = tx.getTokenOperations('cdai', TxStorage.TxTokenOpTypeToName.redeem);
-      this.isCDaiRedeemUnderlyingTx = cDaiRedeems.length > 0;
-      this.cDaiRedeemValue;
-      if (this.isCDaiRedeemUnderlyingTx)
-        this.cDaiRedeemValue = TransactionUtilities.parseHexDaiValue(`0x${cDaiRedeems[0].redeemUnderlying}`);
+				const cDaiMints = tx.getTokenOperations('cdai', TxStorage.TxTokenOpTypeToName.mint);
+				newState.isCDaiMintTx = cDaiMints.length > 0;
+				newState.cDaiMintValue;
+				if (newState.isCDaiMintTx)
+					newState.cDaiMintValue = TransactionUtilities.parseHexDaiValue(`0x${cDaiMints[0].mintUnderlying}`);
 
-      const cDaiFails = tx.getTokenOperations('cdai', TxStorage.TxTokenOpTypeToName.failure);
-      this.isCDaiFailedTx = cDaiFails.length > 0;
-      this.isCDaiMintFailedTx;
-      cDaiFails.forEach((tokenOp) => {
-        this.isCDaiMintFailedTx = this.isCDaiMintFailedTx || (parseInt(tokenOp.info, 16) === 38);
-      });
+				const cDaiRedeems = tx.getTokenOperations('cdai', TxStorage.TxTokenOpTypeToName.redeem);
+				newState.isCDaiRedeemUnderlyingTx = cDaiRedeems.length > 0;
+				newState.cDaiRedeemValue;
+				if (newState.isCDaiRedeemUnderlyingTx)
+					newState.cDaiRedeemValue = TransactionUtilities.parseHexDaiValue(`0x${cDaiRedeems[0].redeemUnderlying}`);
 
-      this.isCDaiRedeemUnderlyingFailedTx = false;
-      cDaiFails.forEach((tokenOp) => {
-        const failInfo = parseInt(tokenOp.info, 16);
-        this.isCDaiRedeemUnderlyingFailedTx = this.isCDaiRedeemUnderlyingFailedTx || failInfo == 42 || failInfo == 45 || failInfo == 46;
-      });
+				const cDaiFails = tx.getTokenOperations('cdai', TxStorage.TxTokenOpTypeToName.failure);
+				newState.isCDaiFailedTx = cDaiFails.length > 0;
+				newState.isCDaiMintFailedTx;
+				cDaiFails.forEach((tokenOp) => {
+					newState.isCDaiMintFailedTx = newState.isCDaiMintFailedTx || (parseInt(tokenOp.info, 16) === 38);
+				});
 
-      const ameTrs = tx.getTokenOperations('ame_ropsten', TxStorage.TxTokenOpTypeToName.transfer);
-      this.isAmeTransferTx = ameTrs.length > 0;
-      this.isOutgoingAmeTx;
-      this.isIncomingAmeTx;
-      this.ameTransferValue;
-      if (this.isAmeTransferTx) {
-        this.ameTransferValue = TransactionUtilities.parseHexDaiValue(`0x${ameTrs[0].amount}`);
-        this.isOutgoingAmeTx = ameTrs.some((x) => Web3.utils.toChecksumAddress(x.from_addr) === props.checksumAddress);
-        this.isIncomingAmeTx = ameTrs.some((x) => Web3.utils.toChecksumAddress(x.to_addr) === props.checksumAddress);
-      }
+				newState.isCDaiRedeemUnderlyingFailedTx = false;
+				cDaiFails.forEach((tokenOp) => {
+					const failInfo = parseInt(tokenOp.info, 16);
+					newState.isCDaiRedeemUnderlyingFailedTx = newState.isCDaiRedeemUnderlyingFailedTx || failInfo == 42 || failInfo == 45 || failInfo == 46;
+				});
 
-      const daiTrs = tx.getTokenOperations('dai', TxStorage.TxTokenOpTypeToName.transfer);
-      this.isDaiTransferTx = daiTrs.length > 0;
-      this.isOutgoingDaiTx;
-      this.isIncomingDaiTx;
-      this.daiTransferValue;
-      if (this.isDaiTransferTx) {
-        this.daiTransferValue = TransactionUtilities.parseHexDaiValue(`0x${daiTrs[0].amount}`);
-        this.isOutgoingDaiTx = daiTrs.some((x) => Web3.utils.toChecksumAddress(x.from_addr) === props.checksumAddress);
-        this.isIncomingDaiTx = daiTrs.some((x) => Web3.utils.toChecksumAddress(x.to_addr) === props.checksumAddress);
-      }
+				const ameTrs = tx.getTokenOperations('ame_ropsten', TxStorage.TxTokenOpTypeToName.transfer);
+				newState.isAmeTransferTx = ameTrs.length > 0;
+				newState.isOutgoingAmeTx;
+				newState.isIncomingAmeTx;
+				newState.ameTransferValue;
+				if (newState.isAmeTransferTx) {
+					newState.ameTransferValue = TransactionUtilities.parseHexDaiValue(`0x${ameTrs[0].amount}`);
+					newState.isOutgoingAmeTx = ameTrs.some((x) => Web3.utils.toChecksumAddress(x.from_addr) === this.props.checksumAddress);
+					newState.isIncomingAmeTx = ameTrs.some((x) => Web3.utils.toChecksumAddress(x.to_addr) === this.props.checksumAddress);
+				}
 
-      if (this.props.transaction.getFrom() != null && this.props.transaction.getTo() != null) {
-        this.isOutgoingEthTx =
-          Web3.utils.toChecksumAddress(tx.getFrom()) === props.checksumAddress;
-        this.isIncomingEthTx =
-          Web3.utils.toChecksumAddress(tx.getTo()) === props.checksumAddress;
-      }
-    }
-    catch (e) {
-      this.derpbugexception = `Transaction() exception: ${e.message} @ ${e.stack} || ${JSON.stringify(props.transaction)}`;
-    }
-  }
+				const daiTrs = tx.getTokenOperations('dai', TxStorage.TxTokenOpTypeToName.transfer);
+				newState.isDaiTransferTx = daiTrs.length > 0;
+				newState.isOutgoingDaiTx;
+				newState.isIncomingDaiTx;
+				newState.daiTransferValue;
+				if (newState.isDaiTransferTx) {
+					newState.daiTransferValue = TransactionUtilities.parseHexDaiValue(`0x${daiTrs[0].amount}`);
+					newState.isOutgoingDaiTx = daiTrs.some((x) => Web3.utils.toChecksumAddress(x.from_addr) === this.props.checksumAddress);
+					newState.isIncomingDaiTx = daiTrs.some((x) => Web3.utils.toChecksumAddress(x.to_addr) === this.props.checksumAddress);
+				}
+
+				if (tx.getFrom() != null && tx.getTo() != null) {
+					newState.isOutgoingEthTx = Web3.utils.toChecksumAddress(tx.getFrom()) === this.props.checksumAddress;
+					newState.isIncomingEthTx = Web3.utils.toChecksumAddress(tx.getTo()) === this.props.checksumAddress;
+				}
+			}
+			catch (e) {
+				newState.derpbugexception = `Transaction() exception: ${e.message} @ ${e.stack} || ${JSON.stringify(tx)}`;
+			}
+		}
+		else {
+			newState.transaction = null;
+			// LogUtilities.toDebugScreen(tx);
+			// TxStorage.storage.getTx(tx.getFrom(), tx.filter).then(x => this.recomputeAllTheWeirdoConstsAndStuff(x));
+		}
+
+		this.setState(newState);
+	}
+
+	componentDidMount() {
+		// LogUtilities.toDebugScreen(this.state.transaction);
+		TxStorage.storage.getTx(this.state.transaction.getFrom(), this.state.transaction.filter).then(x => this.recomputeAllTheWeirdoConstsAndStuff(x));
+	}
+
+	componentWillUnmount() {
+
+	}
 
   renderInOrOutTransactionIcon() {
-    if(this.isUniswapTx) {
+    if(this.state.isUniswapTx) {
       return (
         <CrypterestText fontSize={16}>
           <Icon name="swap-horizontal" size={20} color="#5F5F5F" />
         </CrypterestText>
-      );    
+      );
     }
 
-    if (this.isDaiTransferTx) {
-      if (this.isOutgoingDaiTx && this.isIncomingDaiTx)
+    if (this.state.isDaiTransferTx) {
+      if (this.state.isOutgoingDaiTx && this.state.isIncomingDaiTx)
         return (
           <CrypterestText fontSize={16}>
             <Icon name="arrow-collapse" size={20} color="#5F5F5F" />
           </CrypterestText>
         );
 
-      else if (this.isOutgoingDaiTx)
+      else if (this.state.isOutgoingDaiTx)
         return (
           <CrypterestText fontSize={16}>
             <Icon name="call-made" size={20} color="#F1860E" />
           </CrypterestText>
         );
 
-      else if (this.isIncomingDaiTx)
+      else if (this.state.isIncomingDaiTx)
         return (
           <CrypterestText fontSize={16}>
             <Icon name="call-received" size={20} color="#1BA548" />
@@ -126,15 +147,15 @@ class Transaction extends Component {
         );
     }
 
-    if (this.isAmeTransferTx) {
-      if (this.isOutgoingAmeTx)
+    if (this.state.isAmeTransferTx) {
+      if (this.state.isOutgoingAmeTx)
         return (
           <CrypterestText fontSize={16}>
             <Icon name="call-made" size={20} color="#F1860E" />
           </CrypterestText>
         );
 
-      else if (this.isIncomingAmeTx)
+      else if (this.state.isIncomingAmeTx)
         return (
           <CrypterestText fontSize={16}>
             <Icon name="call-received" size={20} color="#1BA548" />
@@ -142,42 +163,42 @@ class Transaction extends Component {
         );
     }
 
-    if (this.isCDaiFailedTx)
+    if (this.state.isCDaiFailedTx)
       return (
         <CrypterestText fontSize={16}>
           <Icon name="alert-circle-outline" size={20} color="#E41B13" />
         </CrypterestText>
       );
 
-    if (this.isDaiApproveTx || this.isCDaiMintTx)
+    if (this.state.isDaiApproveTx || this.state.isCDaiMintTx)
       return (
         <CrypterestText fontSize={16}>
           <Icon name="call-made" size={20} color="#F1860E" />
         </CrypterestText>
       );
 
-    if (this.isCDaiRedeemUnderlyingTx)
+    if (this.state.isCDaiRedeemUnderlyingTx)
       return (
         <CrypterestText fontSize={16}>
           <Icon name="call-received" size={20} color="#1BA548" />
         </CrypterestText>
       );
 
-    if (this.isOutgoingEthTx && this.isIncomingEthTx)
+    if (this.state.isOutgoingEthTx && this.state.isIncomingEthTx)
       return (
         <CrypterestText fontSize={16}>
           <Icon name="arrow-collapse" size={20} color="#5F5F5F" />
         </CrypterestText>
       );
 
-    if (this.props.transaction.getFrom() == null || this.isOutgoingEthTx)
+    if (this.state.transaction.getFrom() == null || this.state.isOutgoingEthTx)
       return (
         <CrypterestText fontSize={16}>
           <Icon name="call-made" size={20} color="#F1860E" />
         </CrypterestText>
       );
 
-    if (this.isIncomingEthTx)
+    if (this.state.isIncomingEthTx)
       return (
         <CrypterestText fontSize={16}>
           <Icon name="call-received" size={20} color="#1BA548" />
@@ -189,7 +210,7 @@ class Transaction extends Component {
   renderStatus() {
     let text;
 
-    switch (this.props.transaction.getState()) {
+    switch (this.state.transaction.getState()) {
       case TxStorage.TxStates.STATE_NEW:
         text = 'pending...';
         break;
@@ -223,54 +244,54 @@ class Transaction extends Component {
 
   renderType() {
     let txType;
-    if (this.isUniswapTx) {
+    if (this.state.isUniswapTx) {
       txType = 'Swapped';
       return <CrypterestText fontSize={18}>{txType}</CrypterestText>;
     }
 
-    if (this.isDaiTransferTx) {
-      if (this.isOutgoingDaiTx && this.isIncomingDaiTx)
+    if (this.state.isDaiTransferTx) {
+      if (this.state.isOutgoingDaiTx && this.state.isIncomingDaiTx)
         txType = 'Self';
-      else if (this.isOutgoingDaiTx)
+      else if (this.state.isOutgoingDaiTx)
         txType = 'Outgoing';
-      else if (this.isIncomingDaiTx)
+      else if (this.state.isIncomingDaiTx)
         txType = 'Incoming';
 
       return <CrypterestText fontSize={18}>{txType}</CrypterestText>;
     }
 
-    if (this.isAmeTransferTx) {
-      if (this.isOutgoingAmeTx)
+    if (this.state.isAmeTransferTx) {
+      if (this.state.isOutgoingAmeTx)
         txType = 'Outgoing';
-      else if (this.isIncomingAmeTx)
+      else if (this.state.isIncomingAmeTx)
         txType = 'Incoming';
 
       return <CrypterestText fontSize={18}>{txType}</CrypterestText>;
     }
 
-    if (this.isCDaiMintFailedTx)
+    if (this.state.isCDaiMintFailedTx)
       txType = 'Deposit Failed';
-    else if (this.isCDaiRedeemUnderlyingFailedTx)
+    else if (this.state.isCDaiRedeemUnderlyingFailedTx)
       txType = 'Withdraw Failed';
 
     if (txType)
       return <CrypterestText fontSize="14">{txType}</CrypterestText>;
 
-    if (this.isDaiApproveTx)
+    if (this.state.isDaiApproveTx)
       txType = 'Unlock Deposit';
-    else if (this.isCDaiMintTx)
+    else if (this.state.isCDaiMintTx)
       txType = 'Deposited';
-    else if (this.isCDaiRedeemUnderlyingTx)
+    else if (this.state.isCDaiRedeemUnderlyingTx)
       txType = 'Withdrawn';
 
     if (txType)
       return <CrypterestText fontSize={18}>{txType}</CrypterestText>;
 
-    if (this.isOutgoingEthTx && this.isIncomingEthTx)
+    if (this.state.isOutgoingEthTx && this.state.isIncomingEthTx)
       txType = 'Self';
-    else if (this.props.transaction.getFrom() === null || this.isOutgoingEthTx)
+    else if (this.state.transaction.getFrom() === null || this.state.isOutgoingEthTx)
       txType = 'Outgoing';
-    else if (this.isIncomingEthTx)
+    else if (this.state.isIncomingEthTx)
       txType = 'Incoming';
 
     if (txType)
@@ -278,51 +299,51 @@ class Transaction extends Component {
   }
 
   renderPlusOrMinusTransactionIcon() {
-    if (this.isUniswapTx) {
+    if (this.state.isUniswapTx) {
       return null;
     }
 
-    if (this.isDaiTransferTx) {
-      if (this.isOutgoingDaiTx && this.isIncomingDaiTx)
+    if (this.state.isDaiTransferTx) {
+      if (this.state.isOutgoingDaiTx && this.state.isIncomingDaiTx)
         return <Icon name="plus-minus" size={16} color="#5F5F5F" />;
-      else if (this.isOutgoingDaiTx)
+      else if (this.state.isOutgoingDaiTx)
         return <Icon name="minus" size={16} color="#F1860E" />;
-      else if (this.isIncomingDaiTx)
+      else if (this.state.isIncomingDaiTx)
         return <Icon name="plus" size={16} color="#1BA548" />;
     }
 
-    if (this.isAmeTransferTx) {
-      if (this.isOutgoingAmeTx)
+    if (this.state.isAmeTransferTx) {
+      if (this.state.isOutgoingAmeTx)
         return <Icon name="minus" size={16} color="#F1860E" />;
-      else if (this.isIncomingAmeTx)
+      else if (this.state.isIncomingAmeTx)
         return <Icon name="plus" size={16} color="#1BA548" />;
     }
 
-    if (this.isDaiApproveTx)
+    if (this.state.isDaiApproveTx)
       return;
 
-    if (this.isCDaiFailedTx)
+    if (this.state.isCDaiFailedTx)
       return null;
 
-    if (this.isCDaiMintTx)
+    if (this.state.isCDaiMintTx)
       return <Icon name="minus" size={16} color="#F1860E" />;
 
-    if (this.isCDaiRedeemUnderlyingTx)
+    if (this.state.isCDaiRedeemUnderlyingTx)
       return <Icon name="plus" size={16} color="#1BA548" />;
 
 
-    if (this.isOutgoingEthTx && this.isIncomingEthTx)
+    if (this.state.isOutgoingEthTx && this.state.isIncomingEthTx)
       return <Icon name="plus-minus" size={16} color="#5F5F5F" />;
-    else if (this.props.transaction.getFrom() == null || this.isOutgoingEthTx)
+    else if (this.state.transaction.getFrom() == null || this.state.isOutgoingEthTx)
       return <Icon name="minus" size={16} color="#F1860E" />;
-    else if (this.isIncomingEthTx)
+    else if (this.state.isIncomingEthTx)
       return <Icon name="plus" size={16} color="#1BA548" />;
   }
 
   renderValue() {
-    if (this.isUniswapTx) {
-      const uniswaps = this.props.transaction.getTokenOperations('uniswap', TxStorage.TxTokenOpTypeToName.eth2tok);
-      this.tokenBought = TransactionUtilities.parseHexDaiValue(`0x${uniswaps[0].tok_bought}`);
+    if (this.state.isUniswapTx) {
+      const uniswaps = this.state.transaction.getTokenOperations('uniswap', TxStorage.TxTokenOpTypeToName.eth2tok);
+      this.state.tokenBought = TransactionUtilities.parseHexDaiValue(`0x${uniswaps[0].tok_bought}`);
 
       let style;
       style = styles.valueStyleGreen;
@@ -331,85 +352,85 @@ class Transaction extends Component {
           <SwapValueTextContainer>
             <Icon name="minus" size={16} color="#F1860E" />
             <CrypterestText fontSize={16} style={style}>
-              {this.ethSold} ETH
+              {this.state.ethSold} ETH
             </CrypterestText>
           </SwapValueTextContainer>
           <Icon name="swap-vertical" size={16} color="#1BA548" />
           <SwapValueTextContainer>
           <Icon name="plus" size={16} color="#1BA548" />
             <CrypterestText fontSize={16} style={style}>
-              {this.tokenBought} DAI
+              {this.state.tokenBought} DAI
             </CrypterestText>
           </SwapValueTextContainer>
         </SwapValueContainer>
       );
     }
 
-    if (this.isDaiTransferTx) {
+    if (this.state.isDaiTransferTx) {
       let style;
 
-      if (this.isOutgoingDaiTx)
+      if (this.state.isOutgoingDaiTx)
         style = styles.valueStyleRed;
-      else if (this.isIncomingDaiTx)
+      else if (this.state.isIncomingDaiTx)
         style = styles.valueStyleGreen;
 
       return (
         <CrypterestText fontSize={16} style={style}>
-          {this.daiTransferValue} DAI
+          {this.state.daiTransferValue} DAI
         </CrypterestText>
       );
     }
 
-    if (this.isAmeTransferTx) {
+    if (this.state.isAmeTransferTx) {
       let style;
 
-      if (this.isOutgoingAmeTx) // is it possible that they're neither? both in here and for DAI this code uses else if, but should be just else imo.
+      if (this.state.isOutgoingAmeTx) // is it possible that they're neither? both in here and for DAI this code uses else if, but should be just else imo.
         style = styles.valueStyleRed
-      else if (this.isIncomingAmeTx)
+      else if (this.state.isIncomingAmeTx)
           style = styles.valueStyleGreen;
 
       return (
         <CrypterestText fontSize={16} style={style}>
-          {this.ameTransferValue} AME
+          {this.state.ameTransferValue} AME
         </CrypterestText>
       );
     }
 
-    if (this.isDaiApproveTx)
+    if (this.state.isDaiApproveTx)
       return null;
 
-    if (this.isCDaiFailedTx)
+    if (this.state.isCDaiFailedTx)
       return <CrypterestText fontSize={16}>0</CrypterestText>;
 
-    if (this.isCDaiMintTx)
+    if (this.state.isCDaiMintTx)
       return (
         <CrypterestText fontSize={16} style={styles.valueStyleRed}>
-          {this.cDaiMintValue} DAI
+          {this.state.cDaiMintValue} DAI
         </CrypterestText>
       );
 
-    if (this.isCDaiRedeemUnderlyingTx)
+    if (this.state.isCDaiRedeemUnderlyingTx)
       return (
         <CrypterestText fontSize={16} style={styles.valueStyleGreen}>
-          {this.cDaiRedeemValue} DAI
+          {this.state.cDaiRedeemValue} DAI
         </CrypterestText>
       );
 
-    if (this.props.transaction.getFrom() === null)
+    if (this.state.transaction.getFrom() === null)
       return <CrypterestText fontSize={16}>Token Transfer</CrypterestText>;
 
-    if (this.props.transaction.getTo() === null)
+    if (this.state.transaction.getTo() === null)
       return <CrypterestText fontSize={16}>Contract Creation</CrypterestText>;
 
 
-    const roundedEthValue = parseFloat(TransactionUtilities.parseEthValue(`0x${this.props.transaction.getValue()}`)).toFixed(4);
-    if (this.isOutgoingEthTx)
+    const roundedEthValue = parseFloat(TransactionUtilities.parseEthValue(`0x${this.state.transaction.getValue()}`)).toFixed(4);
+    if (this.state.isOutgoingEthTx)
       return (
         <CrypterestText fontSize={16} style={styles.valueStyleRed}>
           {roundedEthValue} ETH
         </CrypterestText>
       );
-    else if (this.isIncomingEthTx)
+    else if (this.state.isIncomingEthTx)
       return (
         <CrypterestText fontSize={16} style={styles.valueStyleGreen}>
           {roundedEthValue} ETH
@@ -420,12 +441,14 @@ class Transaction extends Component {
 
 
   render() {
-    if (this.derpbugexception)
-      return <CrypterestText fontSize={12}>{this.derpbugexception}</CrypterestText>;
+    if (this.state.derpbugexception)
+	  return <CrypterestText fontSize={12}>{this.state.derpbugexception}</CrypterestText>;
+
+	if (!(this.state.transaction instanceof TxStorage.Tx))
+		return <CrypterestText fontSize={12}>Loadink</CrypterestText>; // TODO: this likely needs to be, well, something else.
 
     try {
-
-      const time = TransactionUtilities.parseTransactionTime(this.props.transaction.getTimestamp());
+      const time = TransactionUtilities.parseTransactionTime(this.state.transaction.getTimestamp());
 
       return (
         <TouchableCardContainer
@@ -437,7 +460,7 @@ class Transaction extends Component {
           marginTop="0"
           textAlign="left"
           width="95%"
-          onPress={() => LogUtilities.dumpObject('tx', this.props.transaction)}>
+          onPress={() => LogUtilities.dumpObject('tx', this.state.transaction)}>
           <TransactionList>
             <InOrOutTransactionContainer>
               {this.renderInOrOutTransactionIcon()}
@@ -456,7 +479,7 @@ class Transaction extends Component {
       );
     }
     catch (e) {
-      const exc = `Transaction render() exception: ${e.message} @ ${e.stack} || ${JSON.stringify(this.props.transaction)}`;
+      const exc = `Transaction render() exception: ${e.message} @ ${e.stack} || ${JSON.stringify(this.transaction)}`;
       return <CrypterestText fontSize={12}>{exc}</CrypterestText>;
     }
   }
