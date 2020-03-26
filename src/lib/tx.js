@@ -196,7 +196,7 @@ class PersistTxStorageAbstraction {
 		// ...
 	}
 
-	async bulkLoad(hash_to_tx_map) {
+	async bulkLoad(txarray) {
 		var index_counts = {
 			'all': 0
 		}
@@ -244,7 +244,8 @@ class PersistTxStorageAbstraction {
 		await Promise.all(tasks);
 		*/
 
-		Object.entries(hash_to_tx_map).forEach(([hash, tx]) => {
+		txarray.forEach((tx) => {
+			const hash = tx.getHash();
 			add_to_index('all', hash);
 
 			Object.entries(this.filters).forEach(([index, filterfunc]) => { if (filterfunc(tx)) add_to_index(index, hash); });
@@ -583,11 +584,6 @@ class Tx {
 		return this;
 	}
 
-	setSentTimestamp(tstamp) {
-		this.sent_timestamp = tstamp;
-		return this;
-	}
-
 	setState(state) {
 		this.state = state;
 		return this;
@@ -628,8 +624,6 @@ class Tx {
 						)
 					)
 				);
-				if (data.length > 9)
-					this.setSentTimestamp(data[9]);
 			}
 		}
 
@@ -696,10 +690,6 @@ class Tx {
 		return this.timestamp;
 	}
 
-	getSortTimestamp() {
-		return this.sent_timestamp ? this.sent_timestamp : this.timestamp;
-	}
-
 	getNonce() {
 		return this.nonce;
 	}
@@ -717,10 +707,7 @@ class Tx {
 	}
 
 	toJSON() {
-		if (!this.sent_timestamp)
-			return [this.getFrom(), this.getTo(), this.gas, this.gasPrice, this.value, this.nonce, this.timestamp, this.state, this.tokenData];
-
-		return [this.getFrom(), this.getTo(), this.gas, this.gasPrice, this.value, this.nonce, this.timestamp, this.state, this.tokenData, this.sent_timestamp];
+		return [this.getFrom(), this.getTo(), this.gas, this.gasPrice, this.value, this.nonce, this.timestamp, this.state, this.tokenData];
 	}
 
 	shallowClone() {
@@ -846,7 +833,6 @@ class TxStorage {
 		const now = Math.trunc(Date.now() / 1000);
 		let tx = new Tx(state)
 			.setTimestamp(now)
-			.setSentTimestamp(now)
 			.setNonce(nonce ? nonce : await this.getNextNonce());
 
 		tx.from_addr = this.our_address;
@@ -937,7 +923,8 @@ class TxStorage {
 		if (histObj['_contracts'])
 			delete histObj['_contracts'];
 
-		Object.entries(histObj).forEach(([hash, data]) => { histObj[hash] = new Tx(data[7]).setHash(hash).fromDataArray(data); });
+		histObj = Object.entries(histObj).map(([hash, data]) => new Tx(data[7]).setHash(hash).fromDataArray(data));
+		histObj.sort((a, b) => b.getTimestamp() - a.getTimestamp());
 		await this.txes.bulkLoad(histObj);
 
 		// await Promise.all(
