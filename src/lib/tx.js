@@ -161,13 +161,13 @@ class PersistTxStorageAbstraction {
 				append_indices.push(index);
 		});
 
+		LogUtilities.toDebugScreen(`PersistTxStorageAbstraction appendTx(hash:${hash}, tx:${JSON.stringify(tx)}): append_indices:${append_indices.join()}`);
+
 		let tasks = [this.__setKey(`${this.prefix}_${hash}`, tx, JSON.stringify)];
 		append_indices.forEach(x => {
-			this.counts[x]++;
-			tasks.push(this.__setKey(`${this.prefix}i${x}c`, this.counts[x].toString()));
-
-			const bucket_num = Math.floor(num / storage_bucket_size);
+			const bucket_num = Math.floor(this.counts[x] / storage_bucket_size);
 			if (this.counts[x] % storage_bucket_size == 0) { // new bucket
+				LogUtilities.toDebugScreen(`PersistTxStorageAbstraction appendTx(): index:${x} item_num:${this.counts[x]} new bucket, bucket_num:${bucket_num}`);
 				tasks.push(this.__setKey(`${this.prefix}i${x}${bucket_num}`, [hash], this.__encodeBucket));
 			}
 			else { // add to bucket
@@ -176,8 +176,12 @@ class PersistTxStorageAbstraction {
 				bucket.push(hash);
 				tasks.push(this.__setKey(`${this.prefix}i${x}${bucket_num}`, this.__encodeBucket(bucket)));
 				*/
+				LogUtilities.toDebugScreen(`PersistTxStorageAbstraction appendTx(): index:${x} item_num:${this.counts[x]} bucket_num:${bucket_num}`);
 				tasks.push(this.__getKey(`${this.prefix}i${x}${bucket_num}`, this.__decodeBucket).then(async x => { x.push(hash); await this.__setKey(`${this.prefix}i${x}${bucket_num}`, x, this.__encodeBucket); }));
 			}
+
+			this.counts[x]++;
+			tasks.push(this.__setKey(`${this.prefix}i${x}c`, this.counts[x].toString()));
 		});
 
 		await Promise.all(tasks);
@@ -316,7 +320,7 @@ class PersistTxStorageAbstraction {
 	}
 
 	async replaceKey(oldkey, newkey, index='all') {
-		let bucket_count = Math.ceil(this.counts[index] / storage_bucket_size);
+		let bucket_count = Math.ceil(this.counts[index] / storage_bucket_size) - 1; // not exactly count, more like index and those go from 0
 
 		while (bucket_count >= 0) {
 			let bucket = await this.__getKey(`${this.prefix}i${index}${bucket_count}`);
@@ -333,30 +337,8 @@ class PersistTxStorageAbstraction {
 		}
 		throw new Error(`key "${oldkey}" not found in the index "${index}"`);
 	}
-
-	async getAllKeys() {
-		/*
-		if (this.keyCache === null) {
-			this.keyCache = {};
-			this.storage.getAllKeys().forEach((x) => { if (x.startsWith(this.prefix)) this.keyCache[x] = null; });
-		}
-		*/
-		// return await AsyncStorage.getAllKeys().filter(x => x.startsWith(prefix)).map(x => x.substr(prefix.length));
-		return Object.keys(this.storage);
-	}
-
-	async getAllValues() {
-		return Object.values(this.storage);
-	}
-
-	async getAllTxes() { // only returns TXes, not other stored values.
-		return Object.values(this.storage).filter(x => x instanceof Tx);
-	}
-
-	async hasItem(key) {
-		return this.storage.hasOwnProperty(key);
-	}
 }
+
 class StorageAbstraction {
 	constructor(prefix='', onFinishLoadingCallback) {
 		LogUtilities.toDebugScreen('StorageAbstraction constructor called');
