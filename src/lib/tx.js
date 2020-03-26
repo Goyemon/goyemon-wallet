@@ -773,9 +773,9 @@ class TxStorage {
 
 		this.on_update = [];
 
-		AsyncStorage.getAllKeys().then(x => {
-			LogUtilities.toDebugScreen(`AStor keys: ${x}`);
-		});
+		// AsyncStorage.getAllKeys().then(x => {
+		// 	LogUtilities.toDebugScreen(`AStor keys: ${x}`);
+		// });
 	}
 
 	isStorageReady() {
