@@ -98,15 +98,17 @@ class PersistTxStorageAbstraction {
 	init_storage(name_to_filter_map, init_finish_callback) {
 		let load_count = 0;
 
-		function loadCount(name) {
+		const loadCount = (function(name) {
 			load_count++;
 			AsyncStorage.getItem(`${this.prefix}i${name}c`).then(x => {
-				this.counts[name] = parseInt(x);
+				this.counts[name] = x ? parseInt(x) : 0;
 				load_count--;
-				if (load_count == 0 && init_finish_callback)
+				if (load_count == 0 && init_finish_callback) {
+					LogUtilities.toDebugScreen(`PersistTxStorageAbstraction init_storage(): tasks executed. counts:${JSON.stringify(this.counts)}`);
 					init_finish_callback();
+				}
 			});
-		}
+		}).bind(this);
 
 		loadCount('all');
 
@@ -162,7 +164,7 @@ class PersistTxStorageAbstraction {
 		let tasks = [this.__setKey(`${this.prefix}_${hash}`, tx, JSON.stringify)];
 		append_indices.forEach(x => {
 			this.counts[x]++;
-			tasks.push(this.__setKey(`${this.prefix}i${x}c`, this.counts[x]));
+			tasks.push(this.__setKey(`${this.prefix}i${x}c`, this.counts[x].toString()));
 
 			const bucket_num = Math.floor(num / storage_bucket_size);
 			if (this.counts[x] % storage_bucket_size == 0) { // new bucket
@@ -174,7 +176,7 @@ class PersistTxStorageAbstraction {
 				bucket.push(hash);
 				tasks.push(this.__setKey(`${this.prefix}i${x}${bucket_num}`, this.__encodeBucket(bucket)));
 				*/
-				tasks.push(this.__getKey(`${this.prefix}i${x}${bucket_num}`, this.__decodeBucket).then(x => { x.push(hash); await this.__setKey(`${this.prefix}i${x}${bucket_num}`, x, this.__encodeBucket); }));
+				tasks.push(this.__getKey(`${this.prefix}i${x}${bucket_num}`, this.__decodeBucket).then(async x => { x.push(hash); await this.__setKey(`${this.prefix}i${x}${bucket_num}`, x, this.__encodeBucket); }));
 			}
 		});
 
@@ -195,18 +197,21 @@ class PersistTxStorageAbstraction {
 	}
 
 	async bulkLoad(hash_to_tx_map) {
-		let index_counts = {
+		var index_counts = {
 			'all': 0
 		}
-		let index_buckets = {
+		var index_buckets = {
 			'all': []
 		}
 
+		const startTime = Date.now();
+
 		function add_to_index(index, hash) {
+			const buck = index_buckets[index];
 			if (index_counts[index] % storage_bucket_size == 0)
-				index_buckets.push([hash]);
+				buck.push([hash]);
 			else
-				index_buckets[index_buckets.length - 1].push(hash);
+				buck[buck.length - 1].push(hash);
 
 			index_counts[index]++;
 		}
@@ -214,7 +219,7 @@ class PersistTxStorageAbstraction {
 		Object.keys(this.filters).forEach(index => { index_counts[index] = 0; index_buckets[index] = []; });
 
 		let tasks = [];
-
+		/*
 		Object.entries(hash_to_tx_map).forEach(([hash, tx]) => {
 			add_to_index('all', hash);
 
@@ -224,7 +229,7 @@ class PersistTxStorageAbstraction {
 		});
 
 		Object.entries(index_counts).forEach(([index, count]) => {
-			tasks.push(AsyncStorage.setItem(`${this.prefix}i${index}c`, count));
+			tasks.push(AsyncStorage.setItem(`${this.prefix}i${index}c`, count.toString()));
 		});
 
 		Object.entries(index_buckets).forEach(([index, buckets]) => {
@@ -233,9 +238,35 @@ class PersistTxStorageAbstraction {
 			});
 		});
 
+
 		LogUtilities.toDebugScreen(`PersistTxStorageAbstraction bulkLoad(): tasks to execute:${tasks.length}, index counts:${JSON.stringify(index_counts)}`);
 
 		await Promise.all(tasks);
+		*/
+
+		Object.entries(hash_to_tx_map).forEach(([hash, tx]) => {
+			add_to_index('all', hash);
+
+			Object.entries(this.filters).forEach(([index, filterfunc]) => { if (filterfunc(tx)) add_to_index(index, hash); });
+
+			tasks.push([`${this.prefix}_${hash}`, JSON.stringify(tx)]);
+		});
+
+		Object.entries(index_counts).forEach(([index, count]) => {
+			tasks.push([`${this.prefix}i${index}c`, count.toString()]);
+		});
+
+		Object.entries(index_buckets).forEach(([index, buckets]) => {
+			buckets.forEach((bucket, idx) => {
+				tasks.push([`${this.prefix}i${index}${idx}`, this.__encodeBucket(bucket)]);
+			});
+		});
+
+		LogUtilities.toDebugScreen(`PersistTxStorageAbstraction bulkLoad(): tasks to execute:${tasks.length}, index counts:${JSON.stringify(index_counts)}`);
+
+		await AsyncStorage.multiSet(tasks);
+
+		LogUtilities.toDebugScreen(`PersistTxStorageAbstraction bulkLoad(): tasks executed. load time:${Date.now() - startTime}ms`);
 	}
 
 	async wipe() {
@@ -249,26 +280,31 @@ class PersistTxStorageAbstraction {
 		await Promise.all(tasks);
 		*/
 
+		let removekeys = [];
+
 		let tasks = [];
 		indices.forEach(x => {
 			for (let i = 0; i < Math.ceil(this.counts[x] / storage_bucket_size); ++i)
-				tasks.push(AsyncStorage.removeItem(`${this.prefix}i${x}${i}`)); // remove buckets
-			tasks.push(AsyncStorage.removeItem(`${this.prefix}i${x}c`)); // and the count
+				removekeys.push(`${this.prefix}i${x}${i}`); //tasks.push(AsyncStorage.removeItem(`${this.prefix}i${x}${i}`)); // remove buckets
+
+			removekeys.push(`${this.prefix}i${x}c`); //tasks.push(AsyncStorage.removeItem(`${this.prefix}i${x}c`)); // and the count
 		});
 
 		// now we only have index `all' to go through, but we actually need to read it and remove all hashes
 		let readtasks = [];
-		tasks.push(AsyncStorage.removeItem(`${this.prefix}iallc`));
+		removekeys.push(`${this.prefix}iallc`); // tasks.push(AsyncStorage.removeItem(`${this.prefix}iallc`));
 		for (let i = 0; i < Math.ceil(this.counts.all / storage_bucket_size); ++i) {
-			tasks.push(AsyncStorage.removeItem(`${this.prefix}iall${i}`));
+			removekeys.push(`${this.prefix}iall${i}`); // tasks.push(AsyncStorage.removeItem(`${this.prefix}iall${i}`));
 			readtasks.push(this.__getKey(`${this.prefix}iall${i}`, this.__decodeBucket).then(bucket => {
-				bucket.forEach(x => tasks.push(AsyncStorage.removeItem(`${this.prefix}_${x}`)));
+				bucket.forEach(x =>
+					removekeys.push(`${this.prefix}_${x}`) // tasks.push(AsyncStorage.removeItem(`${this.prefix}_${x}`))
+				);
 			}));
 		}
 		LogUtilities.toDebugScreen(`PersistTxStorageAbstraction wipe(): readtasks to execute:${readtasks.length}, index counts:${JSON.stringify(this.counts)}`);
 		await Promise.all(readtasks); // first we run readtasks to make sure we've processed all the buckets, this should also fill tasks with removes.
-		LogUtilities.toDebugScreen(`PersistTxStorageAbstraction wipe(): remove tasks to execute:${tasks.length}`);
-		await Promise.all(tasks); // aand we removed everything now.
+		LogUtilities.toDebugScreen(`PersistTxStorageAbstraction wipe(): remove tasks to execute:${removekeys.length}`);
+		await AsyncStorage.multiRemove(removekeys); // aand we removed everything now.
 
 		Object.keys(this.counts).forEach(x => this.counts[x] = 0);
 		this.cache = {};
@@ -821,7 +857,7 @@ class TxStorage {
 	__onUpdate() {
 		LogUtilities.toDebugScreen('TxStorage __onUpdate() called');
 		try {
-			this.on_update.forEach(x => x());
+			this.on_update.forEach(x => x([]));
 		}
 		catch (e) {
 			LogUtilities.toDebugScreen(`__executeUpdateCallbacks exception: ${e.message} @ ${e.stack}`);
@@ -829,6 +865,7 @@ class TxStorage {
 		return this;
 	}
 
+	/*
 	async saveTx(tx, batch=false) {
 		if (!batch)
 			LogUtilities.toDebugScreen(`saveTx(batch:${batch}): `, tx);
@@ -863,43 +900,14 @@ class TxStorage {
 				this.__onUpdate();
 		}
 	}
-
-	/*
-	async upgradeTxStateByHash(hash, new_state, new_timestamp) {
-		let tx = await this.included_txes.getItem(hash);
-		if (tx) {
-			tx.upgradeState(new_state, new_timestamp);
-			await this.included_txes.setItem(hash, tx);
-			this.__onUpdate();
-		}
-		else
-			throw new NoSuchTxException(`unknown txhash: ${hash}`)
-	}
-
-	async upgradeTxStateByNonce(nonce, new_state, new_timestamp, hash) {
-		let tx = await this.not_included_txes.getItem(nonce);
-		if (tx) {
-			tx.upgradeState(new_state, new_timestamp);
-			if (hash) {
-				if (this.included_txes.hasItem(hash))
-					throw new DuplicateHashTxException(`hash ${hash} already known`);
-
-				tx.setHash(hash);
-				await Promise.all([this.not_included_txes.removeItem(nonce), this.included_txes.setItem(tx.hash, tx)]);
-
-				if (tx.nonce > this.included_max_nonce)
-					this.included_max_nonce = tx.nonce;
-			}
-
-			this.__onUpdate();
-		}
-		else
-			throw new NoSuchTxException(`unknown txnonce: ${nonce}`)
-	}
 	*/
 
-	async getTxes(id, filterid) {
-		throw new Error('not implemented yet');
+	async getTx(id, index='all') {
+		return await this.txes.getTxByNum(id, index);
+	}
+
+	getTxCount(index='all') {
+		return this.txes.getItemCount(index);
 	}
 
 
@@ -925,28 +933,35 @@ class TxStorage {
 	}
 
 	async parseTxHistory(histObj) {
-		// LogUtilities.toDebugScreen('TxStorage parseTxHistory() called');
-		await Promise.all(
-			Object.entries(histObj).map(([txhash, data]) => {
-				if (txhash == "_contracts")
-					return;
+		LogUtilities.toDebugScreen('TxStorage parseTxHistory() called');
+		if (histObj['_contracts'])
+			delete histObj['_contracts'];
 
-				let tx = new Tx(data[7])
-					.setHash(txhash)
-					.fromDataArray(data);
+		Object.entries(histObj).forEach(([hash, data]) => { histObj[hash] = new Tx(data[7]).setHash(hash).fromDataArray(data); });
+		await this.txes.bulkLoad(histObj);
 
-				return this.saveTx(tx, true);
-			})
-		);
+		// await Promise.all(
+		// 	Object.entries(histObj).map(([txhash, data]) => {
+		// 		if (txhash == "_contracts")
+		// 			return;
+		//
+		// 		let tx = new Tx(data[7])
+		// 			.setHash(txhash)
+		// 			.fromDataArray(data);
+		//
+		// 		return this.saveTx(tx, true);
+		// 	})
+		// );
 
-		await AsyncStorage.setItem(maxNonceKey, this.included_max_nonce.toString());
+		// await AsyncStorage.setItem(maxNonceKey, this.included_max_nonce.toString());
 
-		LogUtilities.toDebugScreen(`TxStorage parseTxHistory() end, entries: ${(await this.included_txes.getAllTxes()).length}`);
-		this.__onUpdate();
+		// LogUtilities.toDebugScreen(`TxStorage parseTxHistory() end, entries: ${(await this.included_txes.getAllTxes()).length}`);
+		// this.__onUpdate();
 	}
 
 	async processTxState(hash, data) {
 		LogUtilities.toDebugScreen(`parseTxState(hash: ${hash}) + `, data);
+		return;
 		let tx = await this.included_txes.getItem(hash);
 		if (tx) { // known included tx, likely just updating state
 			LogUtilities.toDebugScreen(`parseTxState(hash: ${hash}) known included+ tx: `, tx);
@@ -1044,6 +1059,7 @@ class TxStorage {
 	}
 
 	async getNextNonce() {
+		return -1;
 		let max = 0;
 		const incmax = await this.getIncludedNextNonce();
 
@@ -1058,11 +1074,11 @@ class TxStorage {
 	}
 
 	async clear(batch=false) {
-		let [t1, t2] = await Promise.all([this.included_txes.getAllKeys(), this.not_included_txes.getAllKeys()]);
-
-		let tasks = t1.map((x) => this.included_txes.removeItem(x));
-		t2.forEach(x => tasks.push(this.not_included_txes.removeItem(x)));
-		tasks.push(AsyncStorage.setItem(maxNonceKey, '-1'));
+		let tasks = [
+			AsyncStorage.removeItem('_tx__temp'),
+			AsyncStorage.setItem(maxNonceKey, '-1'),
+			this.txes.wipe()
+		];
 		await Promise.all(tasks);
 
 		this.included_max_nonce = -1;
