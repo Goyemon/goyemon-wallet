@@ -19,20 +19,6 @@ class AdvancedContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      gasPrice: [
-        {
-          speed: 'fast',
-          gasPriceWei: props.gasPrice.fast
-        },
-        {
-          speed: 'average',
-          gasPriceWei: props.gasPrice.average
-        },
-        {
-          speed: 'slow',
-          gasPriceWei: props.gasPrice.slow
-        }
-      ],
       currency: 'USD',
       showAdvanced: false
     };
@@ -99,18 +85,15 @@ class AdvancedContainer extends Component {
             marginTop={24}
             width="80%"
           >
-            {this.state.gasPrice.map((gasPrice, key) => (
+            {this.props.gasPrice.map((gasPrice, key) => (
               <NetworkFee key={key}>
-                {this.props.gasPrice.chosen === key ? (
+                {this.props.gasChosen === key ? (
                   <SpeedContainer>
                     <SelectedSpeedTextContainer>
                       <SelectedSpeedText>{gasPrice.speed}</SelectedSpeedText>
                     </SelectedSpeedTextContainer>
                     <SelectedButton>
-                      {this.toggleCurrency(
-                        gasPrice.gasPriceWei,
-                        this.props.gasLimit
-                      )}
+                      {this.toggleCurrency(gasPrice.value, this.props.gasLimit)}
                     </SelectedButton>
                   </SpeedContainer>
                 ) : (
@@ -125,10 +108,7 @@ class AdvancedContainer extends Component {
                       </UnselectedSpeedText>
                     </UnselectedSpeedTextContainer>
                     <UnselectedButton>
-                      {this.toggleCurrency(
-                        gasPrice.gasPriceWei,
-                        this.props.gasLimit
-                      )}
+                      {this.toggleCurrency(gasPrice.value, this.props.gasLimit)}
                     </UnselectedButton>
                   </SpeedContainer>
                 )}
@@ -241,7 +221,8 @@ const UnselectedButton = styled.Text`
 
 function mapStateToProps(state) {
   return {
-    gasPrice: state.ReducerGasPrice.gasPrice
+    gasPrice: state.ReducerGasPrice.gasPrice,
+    gasChosen: state.ReducerGasPrice.gasChosen
   };
 }
 

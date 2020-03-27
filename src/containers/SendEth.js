@@ -63,7 +63,7 @@ class SendEth extends Component {
       .setValue(amountWei.toString(16))
       .setGasPrice(
         TransactionUtilities.returnTransactionSpeed(
-          this.props.gasPrice.chosen
+          this.props.gasChosen
         ).toString(16)
       )
       .setGas(GlobalConfig.ETHTxGasLimit.toString(16));
@@ -94,7 +94,7 @@ class SendEth extends Component {
     const weiBalance = new BigNumber(this.props.balance.weiBalance);
     const weiAmount = new BigNumber(Web3.utils.toWei(ethAmount, 'Ether'));
     const transactionFeeLimitInWei = new BigNumber(
-      TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen)
+      TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
     ).times(gasLimit);
 
     if (
@@ -322,6 +322,7 @@ const ButtonWrapper = styled.View`
 function mapStateToProps(state) {
   return {
     gasPrice: state.ReducerGasPrice.gasPrice,
+    gasChosen: state.ReducerGasPrice.gasChosen,
     balance: state.ReducerBalance.balance,
     netInfo: state.ReducerNetInfo.netInfo,
     qrCodeData: state.ReducerQRCodeData.qrCodeData

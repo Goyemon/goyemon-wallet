@@ -52,7 +52,7 @@ class SaveDai extends Component {
     }
     this.updateWeiAmountValidation(
       TransactionUtilities.validateWeiAmountForTransactionFee(
-        TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen),
+        TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
         GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit
       )
     );
@@ -110,7 +110,7 @@ class SaveDai extends Component {
       .setTo(GlobalConfig.DAITokenContract)
       .setGasPrice(
         TransactionUtilities.returnTransactionSpeed(
-          this.props.gasPrice.chosen
+          this.props.gasChosen
         ).toString(16)
       )
       .setGas(GlobalConfig.ERC20ApproveGasLimit.toString(16))
@@ -141,7 +141,7 @@ class SaveDai extends Component {
       .setTo(GlobalConfig.cDAIcontract)
       .setGasPrice(
         TransactionUtilities.returnTransactionSpeed(
-          this.props.gasPrice.chosen
+          this.props.gasChosen
         ).toString(16)
       )
       .setGas(GlobalConfig.cTokenMintGasLimit.toString(16))
@@ -160,7 +160,7 @@ class SaveDai extends Component {
       daiAmount
     );
     const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(
-      TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen),
+      TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
       GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit
     );
     const isOnline = this.props.netInfo;
@@ -239,7 +239,7 @@ class SaveDai extends Component {
             this.updateWeiAmountValidation(
               TransactionUtilities.validateWeiAmountForTransactionFee(
                 TransactionUtilities.returnTransactionSpeed(
-                  this.props.gasPrice.chosen
+                  this.props.gasChosen
                 ),
                 GlobalConfig.ERC20ApproveGasLimit +
                   GlobalConfig.cTokenMintGasLimit
@@ -506,6 +506,7 @@ function mapStateToProps(state) {
   return {
     balance: state.ReducerBalance.balance,
     gasPrice: state.ReducerGasPrice.gasPrice,
+    gasChosen: state.ReducerGasPrice.gasChosen,
     cDaiLendingInfo: state.ReducerCDaiLendingInfo.cDaiLendingInfo,
     netInfo: state.ReducerNetInfo.netInfo
   };

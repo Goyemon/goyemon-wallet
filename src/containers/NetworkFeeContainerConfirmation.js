@@ -56,7 +56,7 @@ class NetworkFeeContainerConfirmation extends Component {
         <NetworkFee>
           {this.toggleCurrency(
             TransactionUtilities.returnTransactionSpeed(
-              this.props.gasPrice.chosen
+              this.props.gasChosen
             ),
             this.props.gasLimit
           )}
@@ -82,7 +82,8 @@ const NetworkFee = styled.Text`
 
 function mapStateToProps(state) {
   return {
-    gasPrice: state.ReducerGasPrice.gasPrice
+    gasPrice: state.ReducerGasPrice.gasPrice,
+    gasChosen: state.ReducerGasPrice.gasChosen
   };
 }
 

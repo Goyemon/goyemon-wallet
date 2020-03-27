@@ -1,6 +1,5 @@
 'use strict';
 import axios from 'axios';
-import Web3 from 'web3';
 import {
   GET_GAS_PRICE,
   UPDATE_GAS_PRICE_CHOSEN

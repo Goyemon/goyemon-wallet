@@ -93,11 +93,11 @@ class TransactionUtilities {
     const stateTree = store.getState();
     const gasPrice = stateTree.ReducerGasPrice.gasPrice;
     if (chosenSpeed === 0) {
-      return parseInt(gasPrice.fast);
+      return parseInt(gasPrice[0].value);
     } else if (chosenSpeed === 1) {
-      return parseInt(gasPrice.average);
+      return parseInt(gasPrice[1].value);
     } else if (chosenSpeed === 2) {
-      return parseInt(gasPrice.slow);
+      return parseInt(gasPrice[2].value);
     } else {
       LogUtilities.logInfo('invalid transaction speed');
     }
