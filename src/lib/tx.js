@@ -156,7 +156,7 @@ class PersistTxStorageAbstraction {
 	}
 
 	async getTxByHash(hash) {
-		return await this.__getKey(`${this.prefix}_${hash}`, (data) => { data = JSON.parse(data); return new Tx(data[7]).setHash(hash).fromDataArray(data, false); });
+		return await this.__getKey(`${this.prefix}_${hash}`, (data) => { if (!data) return null; data = JSON.parse(data); return new Tx(data[7]).setHash(hash).fromDataArray(data, false); });
 	}
 
 	async appendTx(hash, tx) {
@@ -956,7 +956,7 @@ class TxStorage {
 
 			let newtx = tx.deepClone();
 
-			if (data[0] !== null) // or maybe more ;-) <- careful here, if this causes different filters to match then we're borked.
+			if (data[0] != null) // or maybe more ;-) <- careful here, if this causes different filters to match then we're borked.
 			 	newtx.fromDataArray(data);
 			else
 				newtx.upgradeState(data[7], data[6]);
