@@ -16,7 +16,6 @@ import SendEth from '../containers/SendEth';
 import QRCodeScan from '../containers/QRCodeScan';
 import SendEthConfirmation from '../containers/SendEthConfirmation';
 import Receive from '../containers/Receive';
-import Dai from '../containers/Dai';
 import SendDai from '../containers/SendDai';
 import SendDaiConfirmation from '../containers/SendDaiConfirmation';
 
@@ -123,13 +122,6 @@ const HomeStack = createStackNavigator(
       screen: Receive,
       navigationOptions: () => ({
         headerTransparent: true
-      })
-    },
-    Dai: {
-      screen: Dai,
-      navigationOptions: () => ({
-        headerTransparent: true,
-        headerBackTitle: 'Dai'
       })
     },
     SendDai: {
