@@ -1,21 +1,15 @@
 'use strict';
 import { createStackNavigator } from 'react-navigation';
-import WalletList from '../containers/WalletList';
 import SendEth from '../containers/SendEth';
 import QRCodeScan from '../containers/QRCodeScan';
 import SendEthConfirmation from '../containers/SendEthConfirmation';
-import Receive from '../containers/Receive';
 import SendDai from '../containers/SendDai';
 import SendDaiConfirmation from '../containers/SendDaiConfirmation';
 
 const SendStack = createStackNavigator(
   {
-    WalletList: {
-      screen: WalletList,
       navigationOptions: () => ({
-        headerLeft: null,
         headerTransparent: true,
-        headerBackTitle: 'Wallets'
       })
     },
     SendEth: {
@@ -38,12 +32,6 @@ const SendStack = createStackNavigator(
         headerTransparent: true
       })
     },
-    Receive: {
-      screen: Receive,
-      navigationOptions: () => ({
-        headerTransparent: true
-      })
-    },
     SendDai: {
       screen: SendDai,
       navigationOptions: () => ({
@@ -60,7 +48,7 @@ const SendStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: 'WalletList'
+    initialRouteName: 'Send'
   }
 );
 

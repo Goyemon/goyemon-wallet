@@ -13,7 +13,6 @@ import {
   RootContainer,
   Button,
   UntouchableCardContainer,
-  HeaderOne,
   Form,
   FormHeader,
   Loader,
@@ -157,14 +156,13 @@ class SendEth extends Component {
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="96">Send</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8px"
           flexDirection="column"
           height="160px"
           justifyContent="flex-start"
-          marginTop="56px"
+          marginTop="40"
           textAlign="left"
           width="80%"
         >

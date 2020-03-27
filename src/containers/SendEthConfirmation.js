@@ -84,7 +84,7 @@ class SendEthConfirmation extends Component {
                 this.setState({ loading: true, buttonDisabled: true });
                 await this.sendSignedTx();
                 this.props.navigation.reset(
-                  [NavigationActions.navigate({ routeName: 'WalletList' })],
+                  [NavigationActions.navigate({ routeName: 'Send' })],
                   0
                 );
                 this.props.navigation.navigate('History');
