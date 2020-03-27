@@ -12,7 +12,6 @@ import {
   UntouchableCardContainer,
   TransactionButton,
   HeaderOne,
-  HeaderFour,
   Form,
   Button,
   Description,
@@ -375,25 +374,6 @@ class SaveDai extends Component {
             </ModalBackground>
           </ModalContainer>
         </Modal>
-        <UntouchableCardContainer
-          alignItems="center"
-          borderRadius="8"
-          flexDirection="column"
-          height="176px"
-          justifyContent="center"
-          marginTop="24px"
-          textAlign="left"
-          width="90%"
-        >
-          <HeaderFour marginTop="24">dai savings</HeaderFour>
-          <BalanceText>{daiSavingsBalance} DAI</BalanceText>
-          <DaiInterestEarnedTextContainer>
-            <DaiInterestEarnedText>
-              {lifetimeEarnedInDai} DAI
-            </DaiInterestEarnedText>
-            <Text> earned!</Text>
-          </DaiInterestEarnedTextContainer>
-        </UntouchableCardContainer>
         {this.renderTransactionButtons()}
         {this.renderApproveButton()}
       </RootContainer>
@@ -469,24 +449,6 @@ const Value = styled.Text`
 
 const CurrencySymbolText = styled.Text`
   font-family: 'HKGrotesk-Regular';
-`;
-
-const BalanceText = styled.Text`
-  color: #000;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 32;
-`;
-
-const DaiInterestEarnedTextContainer = styled.Text`
-  font-family: 'HKGrotesk-Regular';
-  margin-top: 16;
-`;
-
-const DaiInterestEarnedText = styled.Text`
-  color: #1ba548;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 18;
-  font-weight: bold;
 `;
 
 const TransactionButtonContainer = styled.View`
