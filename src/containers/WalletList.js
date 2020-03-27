@@ -84,7 +84,7 @@ class WalletList extends Component {
             onPress={
               currency.name === 'Ether'
                 ? () => navigation.navigate('SendEth')
-                : () => navigation.navigate('Dai')
+                : () => navigation.navigate('SendDai')
             } 
           >
             <WalletDetail key={currency.id} currency={currency} />
