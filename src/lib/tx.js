@@ -990,7 +990,7 @@ class TxStorage {
 					LogUtilities.toDebugScreen(`processTxState(): our_max_nonce changed to ${this.our_max_nonce}`);
 				}
 
-				tx = getTxByHash(nonceKey);
+				tx = this.txes.getTxByHash(nonceKey);
 				if (tx) {
 					let newtx = tx.deepClone();
 					newtx.setHash(hash)
