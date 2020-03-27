@@ -278,17 +278,15 @@ class PersistTxStorageAbstraction {
 		return this.counts[index];
 	}
 
-	async replaceKey(oldkey, newkey, index='all') {
+	async __replaceKeyInIndex(oldkey, newkey, index='all') {
 		let bucket_count = Math.ceil(this.counts[index] / storage_bucket_size) - 1; // not exactly count, more like index and those go from 0
 
 		while (bucket_count >= 0) {
-			let bucket = await this.__getKey(`${this.prefix}i${index}${bucket_count}`);
+			let bucket = await this.__getKey(`${this.prefix}i${index}${bucket_count}`, this.__decodeBucket);
 			let pos = bucket.indexOf(oldkey);
 			if (pos >= 0) {
 				bucket[pos] = newkey;
-				await this.__setKey(`${this.prefix}_${newkey}`, await this.__getKey(`${this.prefix}_${oldkey}`));
-				await AsyncStorage.removeItem(`${this.prefix}_${oldkey}`);
-				await this.__setKey(`${this.prefix}i${index}${bucket_count}`, bucket);
+				await this.__setKey(`${this.prefix}i${index}${bucket_count}`, bucket, this.__encodeBucket);
 				return;
 			}
 
@@ -355,10 +353,10 @@ class PersistTxStorageAbstraction {
 		await this.__setKey(`${this.prefix}_${newhash}`, newtx, JSON.stringify);
 		await this.__removeKey(`${this.prefix}_${oldhash}`);
 
-		await Promise.all(Object.entries(this.filters).map(([index, filterfunc]) => {
+		await Promise.all([this.__replaceKeyInIndex(oldhash, newhash, 'all')].concat(Object.entries(this.filters).map(([index, filterfunc]) => {
 			if (filterfunc(newtx))
-				return this.replaceKey(oldhash, newhash, index);
-		}));
+				return this.__replaceKeyInIndex(oldhash, newhash, index);
+		})));
 
 		// throw new Error("not implemented yet");
 	}
@@ -403,7 +401,7 @@ class TxTokenOp {
 	}
 
 	deepClone() {
-		return Object.assign(new this.constructor(), this);
+		return Object.assign(new this.constructor([]), this);
 	}
 }
 class TxTokenMintOp extends TxTokenOp {
@@ -955,13 +953,14 @@ class TxStorage {
 			LogUtilities.toDebugScreen(`processTxState(hash:${hash}) known included+ tx: `, tx);
 
 			let newtx = tx.deepClone();
+			// LogUtilities.toDebugScreen(`processTxState(hash:${hash}) deep clone: `, JSON.stringify(newtx));
 
 			if (data[0] != null) // or maybe more ;-) <- careful here, if this causes different filters to match then we're borked.
 			 	newtx.fromDataArray(data);
 			else
 				newtx.upgradeState(data[7], data[6]);
 
-			LogUtilities.toDebugScreen(`processTxState(hash: ${hash}) known included+ tx updated: `, tx);
+			LogUtilities.toDebugScreen(`processTxState(hash: ${hash}) known included+ tx updated: `, newtx);
 
 			await this.txes.updateTx(tx, newtx, hash);
 
@@ -993,7 +992,9 @@ class TxStorage {
 				tx = await this.txes.getTxByHash(nonceKey);
 				if (tx) {
 					LogUtilities.toDebugScreen(`processTxState(hash:${hash}) known OUR tx by nonce: `, tx);
+
 					let newtx = tx.deepClone();
+					// LogUtilities.toDebugScreen(`processTxState(hash:${hash}) deep clone: `, JSON.stringify(newtx));
 					newtx.setHash(hash)
 						.fromDataArray(data);
 
@@ -1003,7 +1004,7 @@ class TxStorage {
 					// TODO: update to normal tx (with hash), rename keys, etc.
 					await this.txes.replaceTx(tx, newtx, nonceKey, hash);
 
-					LogUtilities.toDebugScreen(`processTxState(hash:${hash}) known OUR tx, promoted: `, tx);
+					LogUtilities.toDebugScreen(`processTxState(hash:${hash}) known OUR tx, promoted: `, newtx);
 
 					this.__onUpdate();
 					return;
