@@ -13,7 +13,7 @@ import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
 import { Container, Button } from '../components/common';
 import { FCMMsgs } from '../lib/fcm.js';
 import TxStorage from '../lib/tx';
-import HomeStack from '../navigators/HomeStack';
+import BalanceStack from '../navigators/BalanceStack';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class WalletCreation extends Component {
@@ -182,14 +182,14 @@ class WalletCreation extends Component {
     );
   }
 
-  navigateToWalletList() {
-    HomeStack.navigationOptions = ({ navigation }) => {
+  navigateToBalanceHome() {
+    BalanceStack.navigationOptions = ({ navigation }) => {
       const tabBarVisible = true;
       return tabBarVisible;
     };
     const resetAction = StackActions.reset({
       index: 0,
-      actions: [NavigationActions.navigate({ routeName: 'WalletList' })]
+      actions: [NavigationActions.navigate({ routeName: 'BalanceHome' })]
     });
     this.props.navigation.dispatch(resetAction);
   }
@@ -238,7 +238,7 @@ class WalletCreation extends Component {
                 marginBottom="12px"
                 opacity="1"
                 onPress={() => {
-                  this.navigateToWalletList();
+                  this.navigateToBalanceHome();
                 }}
               />
             </ModalBackground>
