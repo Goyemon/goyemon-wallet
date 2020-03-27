@@ -65,7 +65,7 @@ const HomeStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: 'Initial'
+    initialRouteName: 'WalletList'
   }
 );
 
