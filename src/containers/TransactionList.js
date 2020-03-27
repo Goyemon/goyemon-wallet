@@ -29,6 +29,7 @@ class TransactionList extends Component {
 	}
 
 	getItem(data, index) {
+		index = this.getItemCount() - index - 1; // basically reverse-sort. we want the LATEST index on top, not the earliest.
 		return {
 			getFrom: () => { return index; },
 			getNonce: () => { return '_nah'; },
