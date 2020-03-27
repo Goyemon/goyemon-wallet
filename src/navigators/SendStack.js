@@ -1,5 +1,6 @@
 'use strict';
 import { createStackNavigator } from 'react-navigation';
+import Send from '../components/Send';
 import SendEth from '../containers/SendEth';
 import QRCodeScan from '../containers/QRCodeScan';
 import SendEthConfirmation from '../containers/SendEthConfirmation';
@@ -8,8 +9,11 @@ import SendDaiConfirmation from '../containers/SendDaiConfirmation';
 
 const SendStack = createStackNavigator(
   {
+    Send: {
+      screen: Send,
       navigationOptions: () => ({
         headerTransparent: true,
+        headerBackTitle: 'Send'
       })
     },
     SendEth: {
