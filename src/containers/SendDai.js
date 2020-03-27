@@ -13,7 +13,6 @@ import {
   RootContainer,
   Button,
   UntouchableCardContainer,
-  HeaderOne,
   Form,
   FormHeader,
   Loader,
@@ -183,14 +182,13 @@ class SendDai extends Component {
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="96">Send</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8px"
           flexDirection="column"
           height="160px"
           justifyContent="center"
-          marginTop="56"
+          marginTop="40"
           textAlign="center"
           width="80%"
         >
@@ -251,7 +249,7 @@ class SendDai extends Component {
         >
           <SendTextInputContainer>
             <SendTextInput
-              placeholder="amount"
+              placeholder="0"
               keyboardType="numeric"
               clearButtonMode="while-editing"
               onChangeText={amount => {
