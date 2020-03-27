@@ -94,7 +94,7 @@ const AppTab = createBottomTabNavigator(
     }
   },
   {
-    initialRouteName: 'Home'
+    initialRouteName: 'Balance'
   }
 );
 
