@@ -11,6 +11,7 @@ import SaveIcon from '../../assets/SaveIcon.js';
 import HistoryIcon from '../../assets/HistoryIcon.js';
 import WalletIcon from '../../assets/WalletIcon.js';
 import BalanceStack from './BalanceStack';
+import EarnStack from './EarnStack';
 import SaveStack from './SaveStack';
 import HistoryStack from './HistoryStack';
 import HomeStack from './HomeStack';
@@ -48,6 +49,13 @@ const AppTab = createBottomTabNavigator(
       screen: SaveStack,
       navigationOptions: {
         tabBarLabel: 'Save',
+        tabBarIcon: ({ tintColor }) => <SaveIcon fill={tintColor} />
+      }
+    },
+    Earn: {
+      screen: EarnStack,
+      navigationOptions: {
+        tabBarLabel: 'Earn',
         tabBarIcon: ({ tintColor }) => <SaveIcon fill={tintColor} />
       }
     },
