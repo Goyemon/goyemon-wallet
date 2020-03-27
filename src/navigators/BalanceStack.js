@@ -113,6 +113,11 @@ const BalanceStack = createStackNavigator(
     }
   },
   {
+    navigationOptions: {
+      tabBarVisible: false
+    }
+  },
+  {
     initialRouteName: 'Initial'
   }
 );

@@ -60,11 +60,6 @@ const HomeStack = createStackNavigator(
     }
   },
   {
-    navigationOptions: {
-      tabBarVisible: false
-    }
-  },
-  {
     initialRouteName: 'WalletList'
   }
 );
