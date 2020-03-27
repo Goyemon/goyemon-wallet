@@ -403,7 +403,7 @@ class TxTokenOp {
 	}
 
 	deepClone() {
-		return Object.assign(new (this.constructor.name)(), this);
+		return Object.assign(new this.constructor(), this);
 	}
 }
 class TxTokenMintOp extends TxTokenOp {
