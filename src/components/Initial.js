@@ -6,7 +6,7 @@ import { StackActions, NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { Container, Loader } from '../components/common';
-import HomeStack from '../navigators/HomeStack';
+import BalanceStack from '../navigators/BalanceStack';
 import LogUtilities from '../utilities/LogUtilities.js';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
@@ -74,7 +74,7 @@ class Initial extends Component {
         mainPage = 'BalanceHome';
       }
 
-      HomeStack.navigationOptions = ({ navigation }) => {
+      BalanceStack.navigationOptions = ({ navigation }) => {
         let tabBarVisible;
         if (navigation.state.index >= 0 && mainPage === 'BalanceHome') {
           tabBarVisible = true;
