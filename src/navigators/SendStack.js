@@ -8,7 +8,7 @@ import Receive from '../containers/Receive';
 import SendDai from '../containers/SendDai';
 import SendDaiConfirmation from '../containers/SendDaiConfirmation';
 
-const HomeStack = createStackNavigator(
+const SendStack = createStackNavigator(
   {
     WalletList: {
       screen: WalletList,
@@ -64,4 +64,4 @@ const HomeStack = createStackNavigator(
   }
 );
 
-export default HomeStack;
+export default SendStack;
