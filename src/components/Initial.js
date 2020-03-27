@@ -71,12 +71,12 @@ class Initial extends Component {
         hasPersistedState &&
         hasPrivateKeyInKeychain
       ) {
-        mainPage = 'WalletList';
+        mainPage = 'BalanceHome';
       }
 
       HomeStack.navigationOptions = ({ navigation }) => {
         let tabBarVisible;
-        if (navigation.state.index >= 0 && mainPage === 'WalletList') {
+        if (navigation.state.index >= 0 && mainPage === 'BalanceHome') {
           tabBarVisible = true;
         } else if (
           (navigation.state.index >= 0 && mainPage === 'Welcome') ||
