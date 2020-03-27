@@ -32,8 +32,10 @@ const AppTab = createBottomTabNavigator(
     Send: {
       screen: SendStack,
       navigationOptions: {
-        tabBarLabel: 'Wallets',
-        tabBarIcon: ({ tintColor }) => <WalletIcon fill={tintColor} />
+        tabBarLabel: 'Send',
+        tabBarIcon: ({ tintColor }) => (
+        <Icon name="send" size={32} color={tintColor} />
+        )
       }
     },
     Swap: {
