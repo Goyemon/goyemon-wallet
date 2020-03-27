@@ -822,6 +822,7 @@ class TxStorage {
 
 
 	setOwnAddress(ourAddress) {
+		LogUtilities.toDebugScreen(`TxStorage setOwnAddress(${ourAddress}) called`);
 		this.our_address = hexToBuf(ourAddress);
 	}
 
@@ -922,7 +923,7 @@ class TxStorage {
 		const nonceKey = `nonce_${tx.getNonce()}`;
 		await this.txes.appendTx(nonceKey, tx);
 		LogUtilities.toDebugScreen(`saveTx(): tx saved (key:${nonceKey}): `, tx);
-		if (txfilter_checkMaxNonce(tx)) {
+		if (this.txfilter_checkMaxNonce(tx)) {
 			await AsyncStorage.setItem(maxNonceKey, this.our_max_nonce.toString());
 			LogUtilities.toDebugScreen(`saveTx(): our_max_nonce changed to ${this.our_max_nonce}`);
 		}
