@@ -42,7 +42,7 @@ class DepositDai extends Component {
   componentDidMount() {
     this.updateWeiAmountValidation(
       TransactionUtilities.validateWeiAmountForTransactionFee(
-        TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen),
+        TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
         GlobalConfig.cTokenMintGasLimit
       )
     );
@@ -65,7 +65,7 @@ class DepositDai extends Component {
       .setTo(GlobalConfig.cDAIcontract)
       .setGasPrice(
         TransactionUtilities.returnTransactionSpeed(
-          this.props.gasPrice.chosen
+          this.props.gasChosen
         ).toString(16)
       )
       .setGas(GlobalConfig.cTokenMintGasLimit.toString(16))
@@ -108,7 +108,7 @@ class DepositDai extends Component {
       daiAmount
     );
     const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(
-      TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen),
+      TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
       GlobalConfig.cTokenMintGasLimit
     );
     const isOnline = this.props.netInfo;
@@ -146,7 +146,7 @@ class DepositDai extends Component {
           alignItems="center"
           borderRadius="8px"
           flexDirection="column"
-          height="240px"
+          height="160px"
           justifyContent="center"
           marginTop="56"
           textAlign="center"
@@ -260,6 +260,7 @@ function mapStateToProps(state) {
   return {
     cDaiLendingInfo: state.ReducerCDaiLendingInfo.cDaiLendingInfo,
     gasPrice: state.ReducerGasPrice.gasPrice,
+    gasChosen: state.ReducerGasPrice.gasChosen,
     balance: state.ReducerBalance.balance,
     netInfo: state.ReducerNetInfo.netInfo
   };

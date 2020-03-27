@@ -51,7 +51,7 @@ class SendDai extends Component {
   componentDidMount() {
     this.updateWeiAmountValidation(
       TransactionUtilities.validateWeiAmountForTransactionFee(
-        TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen),
+        TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
         GlobalConfig.ERC20TransferGasLimit
       )
     );
@@ -82,7 +82,7 @@ class SendDai extends Component {
       .setTo(GlobalConfig.DAITokenContract)
       .setGasPrice(
         TransactionUtilities.returnTransactionSpeed(
-          this.props.gasPrice.chosen
+          this.props.gasChosen
         ).toString(16)
       )
       .setGas(GlobalConfig.ERC20TransferGasLimit.toString(16))
@@ -151,7 +151,7 @@ class SendDai extends Component {
     const toAddressValidation = this.validateToAddress(toAddress);
     const daiAmountValidation = this.validateDaiAmount(amount);
     const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(
-      TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen),
+      TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
       GlobalConfig.ERC20TransferGasLimit
     );
     const isOnline = this.props.netInfo;
@@ -346,6 +346,7 @@ function mapStateToProps(state) {
   return {
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
     gasPrice: state.ReducerGasPrice.gasPrice,
+    gasChosen: state.ReducerGasPrice.gasChosen,
     balance: state.ReducerBalance.balance,
     netInfo: state.ReducerNetInfo.netInfo,
     qrCodeData: state.ReducerQRCodeData.qrCodeData

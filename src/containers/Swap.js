@@ -118,7 +118,7 @@ class Swap extends Component {
       .setValue(weiSold.toString(16))
       .setGasPrice(
         TransactionUtilities.returnTransactionSpeed(
-          this.props.gasPrice.chosen
+          this.props.gasChosen
         ).toString(16)
       )
       .setGas(GlobalConfig.UniswapEthToTokenSwapInputGasLimit.toString(16))
@@ -158,7 +158,7 @@ class Swap extends Component {
     const weiBalance = new BigNumber(this.props.balance.weiBalance);
     const weiSold = new BigNumber(Web3.utils.toWei(ethSold, 'Ether'));
     const transactionFeeLimitInWei = new BigNumber(
-      TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen)
+      TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
     ).times(gasLimit);
     const tokenReserve = new BigNumber(
       this.props.exchangeReserve.daiExchange.daiReserve,
@@ -392,6 +392,7 @@ function mapStateToProps(state) {
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
     exchangeReserve: state.ReducerExchangeReserve.exchangeReserve,
     gasPrice: state.ReducerGasPrice.gasPrice,
+    gasChosen: state.ReducerGasPrice.gasChosen,
     balance: state.ReducerBalance.balance,
     netInfo: state.ReducerNetInfo.netInfo,
     outgoingTransactionData:

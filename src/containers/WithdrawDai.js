@@ -42,7 +42,7 @@ class WithdrawDai extends Component {
   componentDidMount() {
     this.updateWeiAmountValidation(
       TransactionUtilities.validateWeiAmountForTransactionFee(
-        TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen),
+        TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
         GlobalConfig.cTokenRedeemUnderlyingGasLimit
       )
     );
@@ -70,7 +70,7 @@ class WithdrawDai extends Component {
       .setTo(GlobalConfig.cDAIcontract)
       .setGasPrice(
         TransactionUtilities.returnTransactionSpeed(
-          this.props.gasPrice.chosen
+          this.props.gasChosen
         ).toString(16)
       )
       .setGas(GlobalConfig.cTokenRedeemUnderlyingGasLimit.toString(16))
@@ -113,7 +113,7 @@ class WithdrawDai extends Component {
       daiWithdrawAmount
     );
     const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(
-      TransactionUtilities.returnTransactionSpeed(this.props.gasPrice.chosen),
+      TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
       GlobalConfig.cTokenRedeemUnderlyingGasLimit
     );
     const isOnline = this.props.netInfo;
@@ -262,6 +262,7 @@ function mapStateToProps(state) {
   return {
     balance: state.ReducerBalance.balance,
     gasPrice: state.ReducerGasPrice.gasPrice,
+    gasChosen: state.ReducerGasPrice.gasChosen,
     netInfo: state.ReducerNetInfo.netInfo
   };
 }
