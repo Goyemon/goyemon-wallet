@@ -271,7 +271,7 @@ class SaveDai extends Component {
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="96">Dai</HeaderOne>
+        <HeaderOne marginTop="96">Save Dai</HeaderOne>
         <Modal
           animationType="fade"
           transparent
