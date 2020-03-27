@@ -113,7 +113,7 @@ const BalanceStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: 'BalanceHome'
+    initialRouteName: 'Initial'
   }
 );
 
