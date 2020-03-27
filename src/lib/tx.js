@@ -963,7 +963,7 @@ class TxStorage {
 
 			LogUtilities.toDebugScreen(`processTxState(hash: ${hash}) known included+ tx updated: `, tx);
 
-			this.txes.updateTx(tx, newtx, hash);
+			await this.txes.updateTx(tx, newtx, hash);
 
 			this.__onUpdate();
 			return;
@@ -990,8 +990,9 @@ class TxStorage {
 					LogUtilities.toDebugScreen(`processTxState(): our_max_nonce changed to ${this.our_max_nonce}`);
 				}
 
-				tx = this.txes.getTxByHash(nonceKey);
+				tx = await this.txes.getTxByHash(nonceKey);
 				if (tx) {
+					LogUtilities.toDebugScreen(`processTxState(hash:${hash}) known OUR tx by nonce: `, tx);
 					let newtx = tx.deepClone();
 					newtx.setHash(hash)
 						.fromDataArray(data);
@@ -1000,7 +1001,7 @@ class TxStorage {
 						newtx.upgradeState(savedState[7], savedState[6]);
 
 					// TODO: update to normal tx (with hash), rename keys, etc.
-					this.txes.replaceTx(tx, newtx, nonceKey, hash);
+					await this.txes.replaceTx(tx, newtx, nonceKey, hash);
 
 					LogUtilities.toDebugScreen(`processTxState(hash:${hash}) known OUR tx, promoted: `, tx);
 
@@ -1018,8 +1019,9 @@ class TxStorage {
 			if (savedState)
 				tx.upgradeState(savedState[7], savedState[6]);
 
+			LogUtilities.toDebugScreen(`processTxState(hash:${hash}) not known ${ourTx ? "OUR " : ""}tx, saving: `, tx);
+
 			await this.txes.appendTx(hash, tx);
-			LogUtilities.toDebugScreen(`processTxState(hash:${hash}) not known ${ourTx ? "OUR " : ""}tx, saved: `, tx);
 
 			this.__onUpdate();
 			return;
