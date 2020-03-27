@@ -12,7 +12,6 @@ import CreateWalletTutorial from '../containers/CreateWalletTutorial';
 import ShowMnemonic from '../containers/ShowMnemonic';
 import VerifyMnemonic from '../containers/VerifyMnemonic';
 import WalletList from '../containers/WalletList';
-import Ethereum from '../containers/Ethereum';
 import SendEth from '../containers/SendEth';
 import QRCodeScan from '../containers/QRCodeScan';
 import SendEthConfirmation from '../containers/SendEthConfirmation';
@@ -98,13 +97,6 @@ const HomeStack = createStackNavigator(
         headerLeft: null,
         headerTransparent: true,
         headerBackTitle: 'Wallets'
-      })
-    },
-    Ethereum: {
-      screen: Ethereum,
-      navigationOptions: () => ({
-        headerTransparent: true,
-        headerBackTitle: 'Ethereum'
       })
     },
     SendEth: {

@@ -83,9 +83,9 @@ class WalletList extends Component {
             key={currency.id}
             onPress={
               currency.name === 'Ether'
-                ? () => navigation.navigate('Ethereum')
+                ? () => navigation.navigate('SendEth')
                 : () => navigation.navigate('Dai')
-            }
+            } 
           >
             <WalletDetail key={currency.id} currency={currency} />
           </TouchableCardContainer>
