@@ -1,5 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
+import { ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { withNavigation } from 'react-navigation';
@@ -16,6 +17,7 @@ import {
   HeaderFour,
   CrypterestText
 } from '../components/common';
+import WalletDetail from '../containers/WalletDetail';
 import FcmPermissions from '../firebase/FcmPermissions.js';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import PriceUtilities from '../utilities/PriceUtilities.js';
@@ -72,6 +74,29 @@ class BalanceHome extends Component {
             <Address>{truncatedAdderss}</Address>
           </AddressContainer>
         </UntouchableCardContainer>
+        <ScrollView
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+        >
+          {this.props.currencies.map(currency => (
+            <TouchableCardContainer
+              alignItems="center"
+              flexDirection="row"
+              height="120px"
+              justifyContent="flex-start"
+              textAlign="left"
+              width="240px"
+              key={currency.id}
+              onPress={
+                currency.name === 'Ether'
+                  ? () => navigation.navigate('Ethereum')
+                  : () => navigation.navigate('Dai')
+              }
+            >
+              <WalletDetail key={currency.id} currency={currency} />
+            </TouchableCardContainer>
+          ))}
+        </ScrollView>
         <TouchableCardContainer
           alignItems="center"
           flexDirection="row"
@@ -110,7 +135,9 @@ class BalanceHome extends Component {
             <NameText>Compound</NameText>
           </NameContainer>
           <BalanceContainer>
-            <CoinText>${PriceUtilities.convertDaiToUsd(daiSavingsBalance)}</CoinText>
+            <CoinText>
+              ${PriceUtilities.convertDaiToUsd(daiSavingsBalance)}
+            </CoinText>
           </BalanceContainer>
         </TouchableCardContainer>
         <UntouchableCardContainer
