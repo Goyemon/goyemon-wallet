@@ -14,7 +14,7 @@ import BalanceStack from './BalanceStack';
 import EarnStack from './EarnStack';
 import SaveStack from './SaveStack';
 import HistoryStack from './HistoryStack';
-import HomeStack from './HomeStack';
+import SendStack from './SendStack';
 import SettingsStack from './SettingsStack';
 import SwapStack from './SwapStack';
 import { Loader } from '../components/common';
@@ -29,8 +29,8 @@ const AppTab = createBottomTabNavigator(
         tabBarIcon: ({ tintColor }) => <WalletIcon fill={tintColor} />
       }
     },
-    Home: {
-      screen: HomeStack,
+    Send: {
+      screen: SendStack,
       navigationOptions: {
         tabBarLabel: 'Wallets',
         tabBarIcon: ({ tintColor }) => <WalletIcon fill={tintColor} />

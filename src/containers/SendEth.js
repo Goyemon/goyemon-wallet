@@ -22,7 +22,7 @@ import {
   ErrorMessage
 } from '../components/common';
 import AdvancedContainer from '../containers/AdvancedContainer';
-import HomeStack from '../navigators/HomeStack';
+import SendStack from '../navigators/SendStack';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
@@ -200,7 +200,7 @@ class SendEth extends Component {
             <TouchableOpacity
               onPress={() => {
                 this.props.clearQRCodeData();
-                HomeStack.navigationOptions = () => {
+                SendStack.navigationOptions = () => {
                   const tabBarVisible = false;
                   return {
                     tabBarVisible
