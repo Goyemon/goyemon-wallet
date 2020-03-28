@@ -45,7 +45,13 @@ export default class EarnHome extends Component {
             textAlign="left"
             width="90%"
             onPress={() => {
-              this.props.navigation.navigate('DepositDai')
+              if (this.props.cDaiLendingInfo.daiApproval) {
+                this.props.navigation.navigate('DepositDai');
+              } else if (!this.props.cDaiLendingInfo.daiApproval) {
+                this.props.navigation.navigate('DepositFirstDai');
+              } else {
+                LogUtilities.logInfo('invalid approval value');
+              }
             }}
           >
             <CrypterestText fontSize={24}>
