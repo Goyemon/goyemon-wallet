@@ -1,6 +1,9 @@
 'use strict';
 import { createStackNavigator } from 'react-navigation';
 import EarnHome from '../containers/EarnHome';
+import Settings from '../containers/Settings';
+import BackupWords from '../containers/BackupWords';
+import Advanced from '../containers/Advanced';
 
 const EarnStack = createStackNavigator(
   {
@@ -10,6 +13,24 @@ const EarnStack = createStackNavigator(
         headerTransparent: true
       })
     },
+    Settings: {
+      screen: Settings,
+      navigationOptions: () => ({
+        headerTransparent: true
+      })
+    },
+    BackupWords: {
+      screen: BackupWords,
+      navigationOptions: () => ({
+        headerTransparent: true
+      })
+    },
+    Advanced: {
+      screen: Advanced,
+      navigationOptions: () => ({
+        headerTransparent: true
+      })
+    }    
   },
   {
     initialRouteName: 'EarnHome'

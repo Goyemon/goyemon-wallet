@@ -6,6 +6,9 @@ import QRCodeScan from '../containers/QRCodeScan';
 import SendEthConfirmation from '../containers/SendEthConfirmation';
 import SendDai from '../containers/SendDai';
 import SendDaiConfirmation from '../containers/SendDaiConfirmation';
+import Settings from '../containers/Settings';
+import BackupWords from '../containers/BackupWords';
+import Advanced from '../containers/Advanced';
 
 const SendStack = createStackNavigator(
   {
@@ -48,6 +51,24 @@ const SendStack = createStackNavigator(
       navigationOptions: () => ({
         headerTransparent: true,
         headerBackTitle: 'SendDaiConfirmation'
+      })
+    },
+    Settings: {
+      screen: Settings,
+      navigationOptions: () => ({
+        headerTransparent: true
+      })
+    },
+    BackupWords: {
+      screen: BackupWords,
+      navigationOptions: () => ({
+        headerTransparent: true
+      })
+    },
+    Advanced: {
+      screen: Advanced,
+      navigationOptions: () => ({
+        headerTransparent: true
       })
     }
   },
