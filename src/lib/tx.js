@@ -75,6 +75,8 @@ class PersistTxStorageAbstraction {
 
 		this.prefix = prefix; // `${this.prefix}${key}`
 
+		this.debug = true;
+
 		/*
 		this._tempwritetimer = null;
 		AsyncStorage.getItem(`${this.prefix}_temp`).then(x => {
@@ -105,6 +107,29 @@ class PersistTxStorageAbstraction {
 				load_count--;
 				if (load_count == 0 && init_finish_callback) {
 					LogUtilities.toDebugScreen(`PersistTxStorageAbstraction init_storage(): tasks executed. counts:${JSON.stringify(this.counts)}`);
+					if (this.debug) {
+						let temp_debug_bucket_names = [];
+						Object.keys(this.counts).forEach(x => {
+							for (let i = 0; i < Math.ceil(this.counts[x] / storage_bucket_size) + 1; ++i)
+								temp_debug_bucket_names.push(`${this.prefix}i${x}${i}`);
+						});
+						function bstats(buck) {
+							if (typeof buck !== 'string')
+								return JSON.stringify(buck);
+
+							let itemlens = {};
+							let cnt = 0;
+							buck.split(',').forEach(x => { itemlens[x.length] = (itemlens[x.length] ? itemlens[x.length] + 1 : 1); ++cnt; });
+
+							return `cnt:${cnt} lengths:${JSON.stringify(itemlens)}`;
+						}
+
+						AsyncStorage.multiGet(temp_debug_bucket_names).then(x => {
+							x.sort((a, b) => a[0].localeCompare(b[0]));
+							x.forEach(([n, v]) => LogUtilities.toDebugScreen(`${n} --> ${bstats(v)}`));
+						});
+					}
+
 					init_finish_callback();
 				}
 			});
@@ -122,6 +147,8 @@ class PersistTxStorageAbstraction {
 		// TODO: needs cache cleaning
 		if (!this.cache[k]) {
 			const val = await AsyncStorage.getItem(k);
+			if (this.debug && (val === null || val === undefined))
+				LogUtilities.toDebugScreen(`PersistTxStorageAbstraction __getKey(${k}) warning - returned null!`);
 			this.cache[k] = processfunc ? processfunc(val) : val;
 		}
 
@@ -151,6 +178,14 @@ class PersistTxStorageAbstraction {
 		const bucket_num = Math.floor(num / storage_bucket_size);
 		const bucket_pos = num % storage_bucket_size;
 
+		if (this.debug) {
+			if (!this.counts[index])
+				LogUtilities.toDebugScreen(`PersistTxStorageAbstraction getTxByNum() requested data from index that has no count defined:${index}`);
+			else
+				if (num >= this.counts[index])
+					LogUtilities.toDebugScreen(`PersistTxStorageAbstraction getTxByNum() requested data index:${index} num:${num}, but count is ${this.counts[index]}`);
+		}
+
 		const bucket = await this.__getKey(`${this.prefix}i${index}${bucket_num}`, this.__decodeBucket);
 		return await this.getTxByHash(bucket[bucket_pos]);
 	}
@@ -167,14 +202,19 @@ class PersistTxStorageAbstraction {
 				append_indices.push(index);
 		});
 
-		LogUtilities.toDebugScreen(`PersistTxStorageAbstraction appendTx(hash:${hash}, tx:${JSON.stringify(tx)}): append_indices:${append_indices.join()}`);
+		if (this.debug)
+			LogUtilities.toDebugScreen(`appendTx(${hash}): matches indices:${append_indices.map(x => `${x}: ${this.counts[x]}`).join()}; tx:${JSON.stringify(tx)})`)
+
+
 
 		let tasks = [this.__setKey(`${this.prefix}_${hash}`, tx, JSON.stringify)];
 		append_indices.forEach(x => {
 			const bucket_num = Math.floor(this.counts[x] / storage_bucket_size);
+			const bucket_key = `${this.prefix}i${x}${bucket_num}`;
 			if (this.counts[x] % storage_bucket_size == 0) { // new bucket
-				LogUtilities.toDebugScreen(`PersistTxStorageAbstraction appendTx(): index:${x} item_num:${this.counts[x]} new bucket, bucket_num:${bucket_num}`);
-				tasks.push(this.__setKey(`${this.prefix}i${x}${bucket_num}`, [hash], this.__encodeBucket));
+				if (this.debug)
+					LogUtilities.toDebugScreen(`PersistTxStorageAbstraction appendTx(): index:${x} item_num:${this.counts[x]} new bucket, bucket_num:${bucket_num}`);
+				tasks.push(this.__setKey(bucket_key, [hash], this.__encodeBucket));
 			}
 			else { // add to bucket
 				/*
@@ -182,8 +222,9 @@ class PersistTxStorageAbstraction {
 				bucket.push(hash);
 				tasks.push(this.__setKey(`${this.prefix}i${x}${bucket_num}`, this.__encodeBucket(bucket)));
 				*/
-				LogUtilities.toDebugScreen(`PersistTxStorageAbstraction appendTx(): index:${x} item_num:${this.counts[x]} bucket_num:${bucket_num}`);
-				tasks.push(this.__getKey(`${this.prefix}i${x}${bucket_num}`, this.__decodeBucket).then(async x => { x.push(hash); await this.__setKey(`${this.prefix}i${x}${bucket_num}`, x, this.__encodeBucket); }));
+				if (this.debug)
+					LogUtilities.toDebugScreen(`PersistTxStorageAbstraction appendTx(): index:${x} item_num:${this.counts[x]} bucket_num:${bucket_num}`);
+				tasks.push(this.__getKey(bucket_key, this.__decodeBucket).then(async x => { x.push(hash); await this.__setKey(bucket_key, x, this.__encodeBucket); }));
 			}
 
 			this.counts[x]++;
@@ -281,10 +322,15 @@ class PersistTxStorageAbstraction {
 	async __replaceKeyInIndex(oldkey, newkey, index='all') {
 		let bucket_count = Math.ceil(this.counts[index] / storage_bucket_size) - 1; // not exactly count, more like index and those go from 0
 
+		if (this.debug)
+			LogUtilities.toDebugScreen(`PersistTxStorageAbstraction __replaceKeyInIndex(${oldkey}, ${newkey}, ${index}): last bucket id: ${bucket_count}`);
+
 		while (bucket_count >= 0) {
 			let bucket = await this.__getKey(`${this.prefix}i${index}${bucket_count}`, this.__decodeBucket);
 			let pos = bucket.indexOf(oldkey);
 			if (pos >= 0) {
+				if (this.debug)
+					LogUtilities.toDebugScreen(`PersistTxStorageAbstraction __replaceKeyInIndex(): found item at position ${pos} in bucket id ${bucket_count}`);
 				bucket[pos] = newkey;
 				await this.__setKey(`${this.prefix}i${index}${bucket_count}`, bucket, this.__encodeBucket);
 				return;
@@ -350,6 +396,12 @@ class PersistTxStorageAbstraction {
 		// let indexDiff = this.__indexDiff(oldtx, newtx);
 		// TODO: index differences disregarded for now.
 
+		if (this.debug) {
+			LogUtilities.toDebugScreen(`PersistTxStorageAbstraction replaceTx(): replace oldtx ${this.prefix}_${oldhash} -> newtx ${this.prefix}_${newhash}`);
+			LogUtilities.toDebugScreen(`PersistTxStorageAbstraction replaceTx(): oldtx:${JSON.stringify(oldtx)}`)
+			LogUtilities.toDebugScreen(`PersistTxStorageAbstraction replaceTx(): newtx:${JSON.stringify(newtx)}`)
+		}
+
 		await this.__setKey(`${this.prefix}_${newhash}`, newtx, JSON.stringify);
 		await this.__removeKey(`${this.prefix}_${oldhash}`);
 
@@ -365,6 +417,8 @@ class PersistTxStorageAbstraction {
 		// let indexDiff = this.__indexDiff(oldtx, newtx);
 
 		// TODO: index differences disregarded for now.
+		if (this.debug)
+			LogUtilities.toDebugScreen(`PersistTxStorageAbstraction updateTx(): replace (${hash}) oldtx:${JSON.stringify(oldtx)} with newtx:${JSON.stringify(newtx)}`);
 
 		await this.__setKey(`${this.prefix}_${hash}`, newtx, JSON.stringify);
 
