@@ -33,16 +33,7 @@ const AppTab = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: 'Send',
         tabBarIcon: ({ tintColor }) => (
-        <Icon name="send" size={32} color={tintColor} />
-        )
-      }
-    },
-    Swap: {
-      screen: SwapStack,
-      navigationOptions: {
-        tabBarLabel: 'Swap',
-        tabBarIcon: ({ tintColor }) => (
-          <Icon name="swap-horizontal" size={32} color={tintColor} />
+          <Icon name="send" size={32} color={tintColor} />
         )
       }
     },
@@ -58,6 +49,15 @@ const AppTab = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: 'Earn',
         tabBarIcon: ({ tintColor }) => <SaveIcon fill={tintColor} />
+      }
+    },
+    Swap: {
+      screen: SwapStack,
+      navigationOptions: {
+        tabBarLabel: 'Swap',
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="swap-horizontal" size={32} color={tintColor} />
+        )
       }
     },
     History: {
