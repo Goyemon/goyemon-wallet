@@ -16,11 +16,12 @@ class TransactionList extends Component {
 			'transactionsLoaded': false
 		}
 		this.uniqcounter = 0;
+		// this.refreshIndices = {};
 	}
 
-	updateTxListState() {
+	updateTxListState(idx) {
 		LogUtilities.toDebugScreen('TransactionList updateTxListState() called');
-		//if (this.props.tokenFilter && this.props.tokenFilter == 'Dai')
+		// this.refreshIndices = {0: true,1: true,2: true,3: true,4: true,5: true,6:true,7:true,8:true,9:true};
 
 		this.setState({
 			transactions: this.uniqcounter++,
@@ -29,11 +30,16 @@ class TransactionList extends Component {
 	}
 
 	getItem(data, index) {
-		index = this.getItemCount() - index - 1; // basically reverse-sort. we want the LATEST index on top, not the earliest.
+		// let refreshData = {};
+		// if (this.refreshIndices[index]) {
+		// 	refreshData.refresh = 1;
+		// 	delete this.refreshIndices[index];
+		// }
+
 		return {
-			getFrom: () => { return index; },
-			getNonce: () => { return '_nah'; },
-			filter: this.props.tokenFilter ? this.props.tokenFilter.toLowerCase() : 'all'
+			index: this.getItemCount() - index - 1, // basically reverse-sort. we want the LATEST index on top, not the earliest.
+			filter: this.props.tokenFilter ? this.props.tokenFilter.toLowerCase() : 'all',
+			// ...refreshData
 		};
 	}
 	getItemCount(data) {
@@ -69,7 +75,7 @@ class TransactionList extends Component {
 					getItem={this.getItem.bind(this)}
 					getItemCount={this.getItemCount.bind(this)}
 					renderItem={({ item }) => <Transaction transaction={item} />}
-					keyExtractor={item => `${item.getFrom()}${item.getNonce()}`}
+					keyExtractor={item => item.index}
 				/>
 			);
 		}
