@@ -1,13 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { withNavigation } from 'react-navigation';
 import styled from 'styled-components';
-import {
-  saveEarnModalVisibility,
-  updateVisibleType
-} from '../actions/ActionEarnModalVisibility';
 import CompoundIcon from '../../assets/CompoundIcon.js';
 import {
   RootContainer,
@@ -17,16 +11,8 @@ import {
   CrypterestText,
   SettingsIcon
 } from '../components/common';
-import EarnModal from '../components/EarnModal';
 
-class EarnHome extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      modalVisible: false
-    };
-  }
-
+export default class EarnHome extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerRight: (
@@ -44,7 +30,6 @@ class EarnHome extends Component {
     return (
       <RootContainer>
         <HeaderOne marginTop="64">Earn</HeaderOne>
-        <EarnModal />
         <Container
           alignItems="flex-start"
           flexDirection="column"
@@ -60,8 +45,7 @@ class EarnHome extends Component {
             textAlign="left"
             width="90%"
             onPress={() => {
-              this.props.saveEarnModalVisibility(true);
-              this.props.updateVisibleType('depositDai');
+              this.props.navigation.navigate('DepositDai')
             }}
           >
             <CrypterestText fontSize={24}>
@@ -87,8 +71,7 @@ class EarnHome extends Component {
             textAlign="left"
             width="90%"
             onPress={() => {
-              this.props.saveEarnModalVisibility(true);
-              this.props.updateVisibleType('withdrawDai');
+              this.props.navigation.navigate('WithdrawDai')
             }}
           >
             <CrypterestText fontSize={24}>
@@ -129,10 +112,3 @@ const CardImage = styled.Image`
   resize-mode: contain;
   width: 40px;
 `;
-
-const mapDispatchToProps = {
-  saveEarnModalVisibility,
-  updateVisibleType
-};
-
-export default withNavigation(connect(null, mapDispatchToProps)(EarnHome));
