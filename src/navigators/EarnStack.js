@@ -1,6 +1,6 @@
 'use strict';
 import { createStackNavigator } from 'react-navigation';
-import EarnHome from '../containers/EarnHome';
+import EarnHome from '../components/EarnHome';
 import DepositDai from '../containers/DepositDai';
 import DepositDaiConfirmation from '../containers/DepositDaiConfirmation';
 import WithdrawDai from '../containers/WithdrawDai';
