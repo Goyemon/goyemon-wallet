@@ -166,7 +166,6 @@ const UsdBalanceText = styled.Text`
 const mapStateToProps = state => ({
   balance: state.ReducerBalance.balance,
   checksumAddress: state.ReducerChecksumAddress.checksumAddress,
-  currencies: state.ReducerCurrencies.currencies,
   price: state.ReducerPrice.price
 });
 
