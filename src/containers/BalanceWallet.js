@@ -37,11 +37,11 @@ class BalanceWallet extends Component {
 
     const daiBalance = RoundDownBigNumber(balance.daiBalance)
       .div(new RoundDownBigNumber(10).pow(18))
-      .toString();
+      .toFixed(2);
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="96">Wallet</HeaderOne>
+        <HeaderOne marginTop="112">Wallet</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8"

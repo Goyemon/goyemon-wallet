@@ -16,7 +16,8 @@ const EarnStack = createStackNavigator(
     EarnHome: {
       screen: EarnHome,
       navigationOptions: () => ({
-        headerTransparent: true
+        headerTransparent: true,
+        headerBackTitle: 'Earn'
       })
     },
     DepositDai: {
@@ -61,7 +62,8 @@ const EarnStack = createStackNavigator(
     Settings: {
       screen: Settings,
       navigationOptions: () => ({
-        headerTransparent: true
+        headerTransparent: true,
+        headerStyle: { marginTop: 18 }
       })
     },
     BackupWords: {

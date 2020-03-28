@@ -137,7 +137,7 @@ class DepositDai extends Component {
 
     const daiBalance = RoundDownBigNumber(this.props.balance.daiBalance)
       .div(new RoundDownBigNumber(10).pow(18))
-      .toString();
+      .toFixed(2);
 
     return (
       <RootContainer>

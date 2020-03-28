@@ -137,7 +137,7 @@ class WithdrawDai extends Component {
 
     const daiSavingsBalance = RoundDownBigNumber(balance.daiSavingsBalance)
       .div(new RoundDownBigNumber(10).pow(36))
-      .toString();
+      .toFixed(2);
 
     return (
       <RootContainer>
