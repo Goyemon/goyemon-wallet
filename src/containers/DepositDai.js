@@ -146,7 +146,7 @@ class DepositDai extends Component {
           alignItems="center"
           borderRadius="8px"
           flexDirection="column"
-          height="160px"
+          height="200px"
           justifyContent="center"
           marginTop="56"
           textAlign="center"
