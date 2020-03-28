@@ -8,7 +8,8 @@ import styled from 'styled-components/native';
 import {
   RootContainer,
   UntouchableCardContainer,
-  CrypterestText
+  CrypterestText,
+  SettingsIcon
 } from '../components/common';
 
 class Receive extends Component {
@@ -18,6 +19,19 @@ class Receive extends Component {
       clipboardContent: null
     };
   }
+
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerRight: (
+        <SettingsIcon
+          onPress={() => {
+            navigation.navigate('Settings');
+          }}
+        />
+      ),
+      headerStyle: { height: 80 }
+    };
+  };
 
   async writeToClipboard() {
     await Clipboard.setString(this.props.checksumAddress);

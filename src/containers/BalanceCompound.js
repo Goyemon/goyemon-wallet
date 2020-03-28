@@ -7,15 +7,28 @@ import styled from 'styled-components';
 import { withNavigation } from 'react-navigation';
 import {
   RootContainer,
-  Container,
   UntouchableCardContainer,
   HeaderOne,
-  HeaderFour
+  HeaderFour,
+  SettingsIcon
 } from '../components/common';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class BalanceCompound extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerRight: (
+        <SettingsIcon
+          onPress={() => {
+            navigation.navigate('Settings');
+          }}
+        />
+      ),
+      headerStyle: { height: 80 }
+    };
+  };
+
   render() {
     const { balance, cDaiLendingInfo } = this.props;
     const currentInterestRate = new BigNumber(
