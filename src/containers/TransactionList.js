@@ -24,7 +24,7 @@ class TransactionList extends Component {
 		// this.refreshIndices = {0: true,1: true,2: true,3: true,4: true,5: true,6:true,7:true,8:true,9:true};
 
 		this.setState({
-			transactions: this.uniqcounter++,
+			transactions_update_counter: this.uniqcounter++,
 			transactionsLoaded: true
 		});
 	}
@@ -74,8 +74,8 @@ class TransactionList extends Component {
 					data={'yes'}
 					getItem={this.getItem.bind(this)}
 					getItemCount={this.getItemCount.bind(this)}
-					renderItem={({ item }) => <Transaction transaction={item} />}
-					keyExtractor={item => item.index}
+					renderItem={({ item }) => <Transaction transaction={item} updateCounter={this.state.transactions_update_counter} />}
+					keyExtractor={item => item.index.toString()}
 				/>
 			);
 		}

@@ -108,10 +108,16 @@ class Transaction extends Component {
 
 	componentDidMount() {
 		// LogUtilities.toDebugScreen(this.state.transaction);
-		TxStorage.storage.getTx(this.state.transaction.getFrom(), this.state.transaction.filter).then(x => this.recomputeAllTheWeirdoConstsAndStuff(x));
+		TxStorage.storage.getTx(this.props.transaction.index, this.props.transaction.filter).then(x => this.recomputeAllTheWeirdoConstsAndStuff(x));
 	}
 
 	componentWillUnmount() {
+
+	}
+
+	componentDidUpdate(prevProps) {
+		if (this.props.updateCounter !== prevProps.updateCounter)
+			TxStorage.storage.getTx(this.props.transaction.index, this.props.transaction.filter).then(x => this.recomputeAllTheWeirdoConstsAndStuff(x));
 
 	}
 
