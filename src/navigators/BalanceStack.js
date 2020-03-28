@@ -93,7 +93,8 @@ const BalanceStack = createStackNavigator(
     BalanceHome: {
       screen: BalanceHome,
       navigationOptions: () => ({
-        headerTransparent: true
+        headerTransparent: true,
+        headerBackTitle: 'Balance'
       })
     },
     Receive: {
@@ -117,7 +118,8 @@ const BalanceStack = createStackNavigator(
     Settings: {
       screen: Settings,
       navigationOptions: () => ({
-        headerTransparent: true
+        headerTransparent: true,
+        headerStyle: { marginTop: 18 }
       })
     },
     BackupWords: {

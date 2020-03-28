@@ -65,7 +65,7 @@ class Settings extends Component {
   render() {
     return (
       <RootContainer>
-        <HeaderOne marginTop="96">Settings</HeaderOne>
+        <HeaderOne marginTop="112">Settings</HeaderOne>
         <Modal
           animationType="fade"
           transparent
