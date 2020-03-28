@@ -10,7 +10,7 @@ import {
   HeaderOne,
   CrypterestText,
   SettingsIcon
-} from '../components/common';
+} from './common';
 
 export default class EarnHome extends Component {
   static navigationOptions = ({ navigation }) => {
