@@ -1,6 +1,5 @@
 'use strict';
 import React, { Component } from 'react';
-import { ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { withNavigation } from 'react-navigation';
@@ -18,7 +17,6 @@ import {
   CrypterestText,
   SettingsIcon
 } from '../components/common';
-import WalletDetail from '../containers/WalletDetail';
 import FcmPermissions from '../firebase/FcmPermissions.js';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import PriceUtilities from '../utilities/PriceUtilities.js';
@@ -88,29 +86,57 @@ class BalanceHome extends Component {
             <Address>{truncatedAdderss}</Address>
           </AddressContainer>
         </UntouchableCardContainer>
-        <ScrollView
+        <CurrencyScrollView
           horizontal={true}
           showsHorizontalScrollIndicator={false}
         >
-          {this.props.currencies.map(currency => (
-            <TouchableCardContainer
-              alignItems="center"
-              flexDirection="row"
-              height="120px"
-              justifyContent="flex-start"
-              textAlign="left"
-              width="240px"
-              key={currency.id}
-              onPress={
-                currency.name === 'Ether'
-                  ? () => navigation.navigate('Ethereum')
-                  : () => navigation.navigate('Dai')
-              }
-            >
-              <WalletDetail key={currency.id} currency={currency} />
-            </TouchableCardContainer>
-          ))}
-        </ScrollView>
+          <UntouchableCardContainer
+            alignItems="center"
+            borderRadius="8"
+            flexDirection="row"
+            height="120px"
+            justifyContent="space-between"
+            marginTop={8}
+            textAlign="left"
+            width="50%"
+          >
+            <CurrencyImageContainer>
+              <CoinImage source={require('../../assets/ether_icon.png')} />
+              <CoinText>ETH</CoinText>
+            </CurrencyImageContainer>
+            <CurrencyBalanceContainer>
+              <UsdBalanceText>
+                ${PriceUtilities.convertEthToUsd(ethBalance).toFixed(2)}
+              </UsdBalanceText>
+              <BalanceText>
+                <CrypterestText fontSize="16">{ethBalance} ETH</CrypterestText>
+              </BalanceText>
+            </CurrencyBalanceContainer>
+          </UntouchableCardContainer>
+          <UntouchableCardContainer
+            alignItems="center"
+            borderRadius="8"
+            flexDirection="row"
+            height="120px"
+            justifyContent="space-between"
+            marginTop={8}
+            textAlign="left"
+            width="50%"
+          >
+            <CurrencyImageContainer>
+              <CoinImage source={require('../../assets/dai_icon.png')} />
+              <CoinText>DAI</CoinText>
+            </CurrencyImageContainer>
+            <CurrencyBalanceContainer>
+              <UsdBalanceText>
+                ${PriceUtilities.convertDaiToUsd(daiBalance).toFixed(2)}
+              </UsdBalanceText>
+              <BalanceText>
+                <CrypterestText fontSize="16">{daiBalance} DAI</CrypterestText>
+              </BalanceText>
+            </CurrencyBalanceContainer>
+          </UntouchableCardContainer>
+        </CurrencyScrollView>
         <TouchableCardContainer
           alignItems="center"
           flexDirection="row"
@@ -179,6 +205,10 @@ class BalanceHome extends Component {
   }
 }
 
+const CurrencyScrollView = styled.ScrollView`
+  width: 100%;
+`;
+
 const UsdBalance = styled.Text`
   color: #000;
   font-family: 'HKGrotesk-Regular';
@@ -198,6 +228,34 @@ const AddressContainer = styled.TouchableOpacity`
   justify-content: center;
   margin: 12px auto;
   width: 80%;
+`;
+
+const CurrencyImageContainer = styled.View`
+  align-items: center;
+  width: 50%;
+`;
+
+const CurrencyBalanceContainer = styled.View`
+  width: 50%;
+`;
+
+const CoinImage = styled.Image`
+  border-radius: 20px;
+  height: 40px;
+  width: 40px;
+  margin-bottom: 4;
+`;
+
+const BalanceText = styled.Text`
+  color: #5f5f5f;
+  font-family: 'HKGrotesk-Regular';
+`;
+
+const UsdBalanceText = styled.Text`
+  color: #000;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 18;
+  margin-bottom: 4;
 `;
 
 const IconImageContainer = styled.View`
@@ -223,7 +281,7 @@ const BalanceContainer = styled.View`
 const CoinText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
-  font-size: 20;
+  font-size: 16;
 `;
 
 const mapStateToProps = state => ({
