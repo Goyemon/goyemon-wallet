@@ -12,7 +12,6 @@ const persistConfig = {
     'ReducerBalance',
     'ReducerCDaiLendingInfo',
     'ReducerChecksumAddress',
-    'ReducerCurrencies',
     'ReducerGasPrice',
     'ReducerMnemonic',
     'ReducerMnemonicWordsValidation',

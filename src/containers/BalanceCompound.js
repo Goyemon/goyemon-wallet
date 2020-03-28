@@ -173,7 +173,6 @@ const mapStateToProps = state => ({
   balance: state.ReducerBalance.balance,
   cDaiLendingInfo: state.ReducerCDaiLendingInfo.cDaiLendingInfo,
   checksumAddress: state.ReducerChecksumAddress.checksumAddress,
-  currencies: state.ReducerCurrencies.currencies,
   price: state.ReducerPrice.price
 });
 
