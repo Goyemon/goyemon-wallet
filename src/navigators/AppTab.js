@@ -15,7 +15,6 @@ import EarnStack from './EarnStack';
 import SaveStack from './SaveStack';
 import HistoryStack from './HistoryStack';
 import SendStack from './SendStack';
-import SettingsStack from './SettingsStack';
 import SwapStack from './SwapStack';
 import { Loader } from '../components/common';
 import { store, persistor } from '../store/store.js';
@@ -66,15 +65,6 @@ const AppTab = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: 'History',
         tabBarIcon: ({ tintColor }) => <HistoryIcon fill={tintColor} />
-      }
-    },
-    Settings: {
-      screen: SettingsStack,
-      navigationOptions: {
-        tabBarLabel: 'Settings',
-        tabBarIcon: ({ tintColor }) => (
-          <Icon name="settings-outline" size={28} color={tintColor} />
-        )
       }
     }
   },
