@@ -220,7 +220,7 @@ const SendTextInputContainer = styled.View`
   align-items: center;
   flex-direction: row;
   height: 100%;
-  width: 95%;
+  width: 100%;
 `;
 
 const SendTextInput = styled.TextInput`
