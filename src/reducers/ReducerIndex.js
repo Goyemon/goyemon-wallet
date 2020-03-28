@@ -20,7 +20,6 @@ import ReducerPrice from './ReducerPrice';
 import ReducerRehydration from './ReducerRehydration';
 import ReducerTransactionsLoaded from './ReducerTransactionsLoaded';
 import ReducerTransactionHistory from './ReducerTransactionHistory';
-import ReducerCurrencies from './ReducerCurrencies';
 
 const appReducers = combineReducers({
   ReducerBalance,
@@ -41,7 +40,6 @@ const appReducers = combineReducers({
   ReducerRehydration,
   ReducerTransactionsLoaded,
   ReducerTransactionHistory,
-  ReducerCurrencies
 });
 
 const rootReducers = (state, action) => {
