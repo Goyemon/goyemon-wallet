@@ -236,6 +236,9 @@ class Swap extends Component {
   }
 
   render() {
+    let ethBalance = Web3.utils.fromWei(this.props.balance.weiBalance);
+    ethBalance = RoundDownBigNumber(ethBalance).toFixed(4);
+
     return (
       <RootContainer>
         <HeaderOne marginTop="64">Swap</HeaderOne>
@@ -282,6 +285,7 @@ class Swap extends Component {
                 returnKeyType="done"
               />
             </SwapForm>
+              <BalanceText>Balance: {ethBalance}</BalanceText>
           </Container>
           <Container
             alignItems="center"
@@ -391,6 +395,13 @@ const Title = styled.Text`
   text-transform: uppercase;
 `;
 
+const BalanceText = styled.Text`
+  color: #5f5f5f;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 16;
+  margin-top: 8;
+`;
+
 const CurrencySymbolText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
@@ -403,11 +414,11 @@ const ButtonWrapper = styled.View`
 
 function mapStateToProps(state) {
   return {
+    balance: state.ReducerBalance.balance,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
     exchangeReserve: state.ReducerExchangeReserve.exchangeReserve,
     gasPrice: state.ReducerGasPrice.gasPrice,
     gasChosen: state.ReducerGasPrice.gasChosen,
-    balance: state.ReducerBalance.balance,
     netInfo: state.ReducerNetInfo.netInfo,
     outgoingTransactionData:
       state.ReducerOutgoingTransactionData.outgoingTransactionData
