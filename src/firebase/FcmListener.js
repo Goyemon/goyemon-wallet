@@ -59,7 +59,6 @@ async function downstreamMessageHandler(type, data) {
 			// TxStorage.storage.setOwnAddress(checksumAddress);
           	await TxStorage.storage.clear(true);
 		  	await TxStorage.storage.parseTxHistory(data);
-			await TxStorage.storage.__tempstoragewritten();
 			store.dispatch(saveTransactionsLoaded(true));
 			break;
 
@@ -93,7 +92,7 @@ async function downstreamMessageHandler(type, data) {
 
 		case 'transactionError':
 			if (data.error.message === 'nonce too low') // why only this if that transaction is guaranteed not to be propagated?
-				TxStorage.storage.markSentTxAsErrorByNonce(parseInt(data.nonce));
+				TxStorage.storage.markNotIncludedTxAsErrorByNonce(parseInt(data.nonce));
 
 			break;
 
