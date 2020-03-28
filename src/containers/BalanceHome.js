@@ -15,7 +15,8 @@ import {
   UntouchableCardContainer,
   HeaderOne,
   HeaderFour,
-  CrypterestText
+  CrypterestText,
+  SettingsIcon
 } from '../components/common';
 import WalletDetail from '../containers/WalletDetail';
 import FcmPermissions from '../firebase/FcmPermissions.js';
@@ -23,6 +24,19 @@ import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class BalanceHome extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerRight: (
+        <SettingsIcon
+          onPress={() => {
+            navigation.navigate('Settings');
+          }}
+        />
+      ),
+      headerStyle: { height: 80 }
+    };
+  };
+
   async componentDidMount() {
     await FcmPermissions.checkFcmPermissions();
   }

@@ -14,7 +14,8 @@ import {
   Container,
   TouchableCardContainer,
   HeaderOne,
-  CrypterestText
+  CrypterestText,
+  SettingsIcon
 } from '../components/common';
 import EarnModal from '../components/EarnModal';
 
@@ -25,6 +26,19 @@ class EarnHome extends Component {
       modalVisible: false
     };
   }
+
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerRight: (
+        <SettingsIcon
+          onPress={() => {
+            navigation.navigate('Settings');
+          }}
+        />
+      ),
+      headerStyle: { height: 80 }
+    };
+  };
 
   render() {
     return (

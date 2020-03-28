@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
-import { HeaderOne } from '../components/common/';
+import { HeaderOne, SettingsIcon } from '../components/common/';
 // TODO: git rm those two:
 //import Transactions from '../containers/Transactions';
 //import TransactionsDai from '../containers/TransactionsDai';
@@ -16,6 +16,19 @@ export default class History extends Component {
       filter: 'All'
     };
   }
+
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerRight: (
+        <SettingsIcon
+          onPress={() => {
+            navigation.navigate('Settings');
+          }}
+        />
+      ),
+      headerStyle: { height: 80 }
+    };
+  };
 
   toggleFilterChoiceText() {
     const choices = ['All', 'Dai'].map(filter => {
