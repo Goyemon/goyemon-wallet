@@ -44,22 +44,23 @@ export default class Send extends Component {
       <RootContainer>
         <HeaderOne marginTop="64">Send</HeaderOne>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-        <Container
-          alignItems="flex-end"
-          flexDirection="row"
-          justifyContent="center"
-          marginTop={16}
-          width="100%"
-        >
-
-          <TouchableOpacity
-            onPress={() => this.setState({ currency: 'ether' })}
+          <Container
+            alignItems="flex-end"
+            flexDirection="row"
+            justifyContent="center"
+            marginTop={16}
+            width="100%"
           >
-            <CoinImage source={require('../../assets/ether_icon.png')} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.setState({ currency: 'dai' })}>
-            <CoinImage source={require('../../assets/dai_icon.png')} />
-          </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => this.setState({ currency: 'ether' })}
+            >
+              <CoinImage source={require('../../assets/ether_icon.png')} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => this.setState({ currency: 'dai' })}
+            >
+              <CoinImage source={require('../../assets/dai_icon.png')} />
+            </TouchableOpacity>
           </Container>
         </ScrollView>
         {this.renderCurrency()}
