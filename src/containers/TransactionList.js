@@ -15,40 +15,50 @@ class TransactionList extends Component {
 			'transactions': null,
 			'transactionsLoaded': false
 		}
+		this.uniqcounter = 0;
+		// this.refreshIndices = {};
 	}
 
-	updateTxListState(txes) {
+	updateTxListState(idx) {
 		LogUtilities.toDebugScreen('TransactionList updateTxListState() called');
-		let transactionlist;
-
-		if (this.props.tokenFilter && this.props.tokenFilter == 'Dai')
-			transactionlist = txes ? txes.filter(TxStorage.storage.txfilter_isRelevantToDai) : [];
-
-		else
-			transactionlist = txes;
-
-		// transactionlist.sort((a, b) => b.getTimestamp() - a.getTimestamp());
+		// this.refreshIndices = {0: true,1: true,2: true,3: true,4: true,5: true,6:true,7:true,8:true,9:true};
 
 		this.setState({
-			transactions: transactionlist,
+			transactions_update_counter: this.uniqcounter++,
 			transactionsLoaded: true
 		});
 	}
 
 	getItem(data, index) {
-		// return empty <Transaction></Transaction> placeholder, but load data in bg that .then()s setState for that <Transaction> (if it's still mounted)
-		return data[index];
+		// let refreshData = {};
+		// if (this.refreshIndices[index]) {
+		// 	refreshData.refresh = 1;
+		// 	delete this.refreshIndices[index];
+		// }
+
+		return {
+			index: this.getItemCount() - index - 1, // basically reverse-sort. we want the LATEST index on top, not the earliest.
+			filter: this.props.tokenFilter ? this.props.tokenFilter.toLowerCase() : 'all',
+			// ...refreshData
+		};
 	}
 	getItemCount(data) {
-		return data.length;
+		return TxStorage.storage.getTxCount(this.props.tokenFilter ? this.props.tokenFilter.toLowerCase() : 'all');
+		// this.props here seems not available. hm.
+		// this.props.tokenFilter ? this.props.tokenFilter.toLowerCase() : 'all'
 	}
+
+	// renderSingleTx(tx) {
+	// 	if (tx instanceof TxStorage.Tx)
+	// 		return <Transaction transaction={tx} />;
+
+	// 	return <EmptyTransactionText>Loadink...</EmptyTransactionText>;
+	// }
 
 	renderTransactions() {
 		LogUtilities.toDebugScreen('TransactionList renderTransactions() called');
 		if (this.state.transactionsLoaded) {
-			const transactions = this.state.transactions ? this.state.transactions : [];
-
-			if (transactions.length == 0)
+			if (this.getItemCount() == 0)
 				return (
 					<EmptyTransactionContainer>
 						<EmptyTransactionEmoji>(°△°) b</EmptyTransactionEmoji>
@@ -61,11 +71,11 @@ class TransactionList extends Component {
 				<VirtualizedList
 					initialNumToRender={32}
 					maxToRenderPerBatch={32}
-					data={transactions}
-					getItem={this.getItem}
-					getItemCount={this.getItemCount}
-					renderItem={({ item }) => <Transaction transaction={item} />}
-					keyExtractor={item => `${item.getFrom()}${item.getNonce()}`}
+					data={'yes'}
+					getItem={this.getItem.bind(this)}
+					getItemCount={this.getItemCount.bind(this)}
+					renderItem={({ item }) => <Transaction transaction={item} updateCounter={this.state.transactions_update_counter} />}
+					keyExtractor={item => item.index.toString()}
 				/>
 			);
 		}
@@ -87,7 +97,7 @@ class TransactionList extends Component {
 		LogUtilities.toDebugScreen('TransactionList componentDidMount() called');
 		// this.__mounted = true;
 		this.unsub = TxStorage.storage.subscribe(this.updateTxListState.bind(this));
-		TxStorage.storage.tempGetAllAsList().then(this.updateTxListState.bind(this)); // initial load
+		(async () => { this.updateTxListState() })();
 	}
 
 	componentWillUnmount() {
