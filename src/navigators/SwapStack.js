@@ -25,7 +25,8 @@ const SwapStack = createStackNavigator(
     Settings: {
       screen: Settings,
       navigationOptions: () => ({
-        headerTransparent: true
+        headerTransparent: true,
+        headerStyle: { marginTop: 18 }
       })
     },
     BackupWords: {

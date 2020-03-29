@@ -1,12 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-  Linking,
-  TouchableHighlight,
-  Alert,
-  Modal
-} from 'react-native';
+import { Linking, TouchableHighlight, Alert, Modal } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import { clearState } from '../actions/ActionClearState';
@@ -65,7 +60,7 @@ class Settings extends Component {
   render() {
     return (
       <RootContainer>
-        <HeaderOne marginTop="96">Settings</HeaderOne>
+        <HeaderOne marginTop="112">Settings</HeaderOne>
         <Modal
           animationType="fade"
           transparent
@@ -138,28 +133,32 @@ class Settings extends Component {
         </Modal>
         <CommunityIconContainer>
           <CommunityIcon>
-            <Icon
-              onPress={() => {
-                Linking.openURL('#').catch(err =>
-                  LogUtilities.logError('An error occurred', err)
-                );
-              }}
-              name="twitter"
-              color="#00aced"
-              size={40}
-            />
+            <IconOpacity>
+              <Icon
+                onPress={() => {
+                  Linking.openURL('#').catch(err =>
+                    LogUtilities.logError('An error occurred', err)
+                  );
+                }}
+                name="twitter"
+                color="#5f5f5f"
+                size={40}
+              />
+            </IconOpacity>
           </CommunityIcon>
           <CommunityIcon>
-            <Icon
-              onPress={() => {
-                Linking.openURL('#').catch(err =>
-                  LogUtilities.logError('An error occurred', err)
-                );
-              }}
-              name="github-circle"
-              color="#333"
-              size={40}
-            />
+            <IconOpacity>
+              <Icon
+                onPress={() => {
+                  Linking.openURL('#').catch(err =>
+                    LogUtilities.logError('An error occurred', err)
+                  );
+                }}
+                name="github-circle"
+                color="#5f5f5f"
+                size={40}
+              />
+            </IconOpacity>
           </CommunityIcon>
           <CommunityIcon>
             <Icon
@@ -267,6 +266,10 @@ const CommunityIconContainer = styled.View`
 const CommunityIcon = styled.View`
   margin-left: 8;
   margin-right: 8;
+`;
+
+const IconOpacity = styled.View`
+  opacity: 0.4;
 `;
 
 const SettingsListContainer = styled.View`

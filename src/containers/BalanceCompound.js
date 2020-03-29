@@ -9,6 +9,7 @@ import {
   RootContainer,
   UntouchableCardContainer,
   HeaderOne,
+  HeaderThree,
   HeaderFour,
   SettingsIcon
 } from '../components/common';
@@ -39,7 +40,7 @@ class BalanceCompound extends Component {
 
     const daiSavingsBalance = RoundDownBigNumber(balance.daiSavingsBalance)
       .div(new RoundDownBigNumber(10).pow(36))
-      .toString();
+      .toFixed(2);
 
     const lifetimeEarnedInDai = RoundDownBigNumber(
       cDaiLendingInfo.lifetimeEarned
@@ -49,7 +50,7 @@ class BalanceCompound extends Component {
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="96">Compound</HeaderOne>
+        <HeaderOne marginTop="112">Compound</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8"
@@ -65,7 +66,7 @@ class BalanceCompound extends Component {
             $
             {parseFloat(
               PriceUtilities.convertDaiToUsd(daiSavingsBalance)
-            ).toFixed(4)}
+            ).toFixed(2)}
           </BalanceText>
           <InterestEarnedTextContainer>
             <InterestEarnedText>
@@ -77,6 +78,14 @@ class BalanceCompound extends Component {
             <Text> earned! </Text>
           </InterestEarnedTextContainer>
         </UntouchableCardContainer>
+        <HeaderThree
+          color="#000"
+          marginBottom="0"
+          marginLeft="24"
+          marginTop="0"
+        >
+          Coins
+        </HeaderThree>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8"
@@ -97,9 +106,9 @@ class BalanceCompound extends Component {
             <TitleText>interest earned</TitleText>
           </TitleContainer>
           <ValueContainer>
-            <ValueText>{daiSavingsBalance}</ValueText>
+            <ValueText>{daiSavingsBalance} DAI</ValueText>
             <ValueText>{currentInterestRate}%</ValueText>
-            <DaiInterestEarnedText>{lifetimeEarnedInDai}</DaiInterestEarnedText>
+            <DaiInterestEarnedText>{lifetimeEarnedInDai} DAI</DaiInterestEarnedText>
           </ValueContainer>
         </UntouchableCardContainer>
       </RootContainer>

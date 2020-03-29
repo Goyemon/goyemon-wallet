@@ -1,7 +1,10 @@
 'use strict';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
+import { saveDaiApprovalInfo } from '../actions/ActionCDaiLendingInfo';
 import CompoundIcon from '../../assets/CompoundIcon.js';
 import {
   RootContainer,
@@ -12,7 +15,7 @@ import {
   SettingsIcon
 } from './common';
 
-export default class EarnHome extends Component {
+class EarnHome extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerRight: (
@@ -25,6 +28,22 @@ export default class EarnHome extends Component {
       headerStyle: { height: 80 }
     };
   };
+
+  async componentDidMount() {
+    if (this.props.cDaiLendingInfo.daiApproval != true) {
+      this.props.saveDaiApprovalInfo(
+        await TxStorage.storage.isDAIApprovedForCDAI()
+      );
+    }
+  }
+
+  async UNSAFE_componentWillMount() {
+    if (this.props.cDaiLendingInfo.daiApproval != true) {
+      this.props.saveDaiApprovalInfo(
+        await TxStorage.storage.isDAIApprovedForCDAI()
+      );
+    }
+  }
 
   render() {
     return (
@@ -45,7 +64,13 @@ export default class EarnHome extends Component {
             textAlign="left"
             width="90%"
             onPress={() => {
-              this.props.navigation.navigate('DepositDai')
+              if (this.props.cDaiLendingInfo.daiApproval) {
+                this.props.navigation.navigate('DepositDai');
+              } else if (!this.props.cDaiLendingInfo.daiApproval) {
+                this.props.navigation.navigate('DepositFirstDai');
+              } else {
+                LogUtilities.logInfo('invalid approval value');
+              }
             }}
           >
             <CrypterestText fontSize={24}>
@@ -71,7 +96,7 @@ export default class EarnHome extends Component {
             textAlign="left"
             width="90%"
             onPress={() => {
-              this.props.navigation.navigate('WithdrawDai')
+              this.props.navigation.navigate('WithdrawDai');
             }}
           >
             <CrypterestText fontSize={24}>
@@ -112,3 +137,17 @@ const CardImage = styled.Image`
   resize-mode: contain;
   width: 40px;
 `;
+
+function mapStateToProps(state) {
+  return {
+    cDaiLendingInfo: state.ReducerCDaiLendingInfo.cDaiLendingInfo
+  };
+}
+
+const mapDispatchToProps = {
+  saveDaiApprovalInfo
+};
+
+export default withNavigation(
+  connect(mapStateToProps, mapDispatchToProps)(EarnHome)
+);
