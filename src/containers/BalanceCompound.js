@@ -9,6 +9,7 @@ import {
   RootContainer,
   UntouchableCardContainer,
   HeaderOne,
+  HeaderThree,
   HeaderFour,
   SettingsIcon
 } from '../components/common';
@@ -77,6 +78,14 @@ class BalanceCompound extends Component {
             <Text> earned! </Text>
           </InterestEarnedTextContainer>
         </UntouchableCardContainer>
+        <HeaderThree
+          color="#000"
+          marginBottom="0"
+          marginLeft="24"
+          marginTop="0"
+        >
+          Coins
+        </HeaderThree>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8"

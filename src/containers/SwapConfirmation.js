@@ -1,5 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
@@ -42,8 +43,12 @@ class SwapConfirmation extends Component {
       <RootContainer>
         <HeaderOne marginTop="96">Confirmation</HeaderOne>
         <TotalContainer>
-          <CoinImage source={require('../../assets/dai_icon.png')} />
-          <CrypterestText fontSize="16">You are about to sell</CrypterestText>
+          <IconContainer>
+            <CoinImage source={require('../../assets/ether_icon.png')} />
+            <Icon name="swap-horizontal" size={24} color="#5f5f5f" />
+            <CoinImage source={require('../../assets/dai_icon.png')} />
+          </IconContainer>
+          <CrypterestText fontSize="16">You are about to swap</CrypterestText>
           <TotalValue>{outgoingTransactionData.swap.sold} ETH</TotalValue>
         </TotalContainer>
         <UntouchableCardContainer
@@ -110,9 +115,16 @@ const TotalContainer = styled.View`
   margin-top: 56;
 `;
 
+const IconContainer = styled.View`
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+`;
+
 const CoinImage = styled.Image`
   border-radius: 20px;
   height: 40px;
+  margin: 0 8px;
   width: 40px;
 `;
 
