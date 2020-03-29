@@ -89,7 +89,7 @@ class SendDai extends Component {
       .tempSetData(transferEncodedABI)
       .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.transfer, [
         TxStorage.storage.getOwnAddress(),
-        GlobalConfig.DAITokenContract,
+        this.state.toAddress,
         amountWithDecimals
       ]);
 
