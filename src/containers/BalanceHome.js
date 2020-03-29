@@ -8,6 +8,7 @@ import Web3 from 'web3';
 import CompoundIcon from '../../assets/CompoundIcon.js';
 import WalletIcon from '../../assets/WalletIcon.js';
 import PoolTogetherIcon from '../../assets/PoolTogetherIcon.js';
+import PoolTogetherGreyIcon from '../../assets/PoolTogetherGreyIcon.js';
 import {
   RootContainer,
   TouchableCardContainer,
@@ -93,7 +94,7 @@ class BalanceHome extends Component {
           marginLeft="24"
           marginTop="0"
         >
-          Assets
+          Coins
         </HeaderThree>
         <CurrencyScrollView
           horizontal={true}
@@ -179,18 +180,9 @@ class BalanceHome extends Component {
             </CoinText>
           </BalanceContainer>
         </TouchableCardContainer>
-        <UntouchableCardContainer
-          alignItems="center"
-          borderRadius="8"
-          flexDirection="row"
-          height="120px"
-          justifyContent="space-between"
-          marginTop={8}
-          textAlign="left"
-          width="90%"
-        >
+        <UntouchableGreyCardContainer>
           <IconImageContainer>
-            <PoolTogetherIcon />
+            <PoolTogetherGreyIcon />
           </IconImageContainer>
           <NameContainer>
             <NameText>PoolTogether</NameText>
@@ -198,7 +190,7 @@ class BalanceHome extends Component {
           <BalanceContainer>
             <CoinText>coming soon!</CoinText>
           </BalanceContainer>
-        </UntouchableCardContainer>
+        </UntouchableGreyCardContainer>
       </RootContainer>
     );
   }
@@ -238,7 +230,7 @@ const CurrencyContainer = styled.View`
   justify-content: center;
   margin-right: 16;
   padding: 16px 8px;
-  width: 50%;
+  width: 45%;
 `;
 
 const CurrencyImageContainer = styled.View`
@@ -292,6 +284,18 @@ const CoinText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
   font-size: 16;
+`;
+
+const UntouchableGreyCardContainer = styled.View`
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 8px;
+  flex-direction: row;
+  height: 120px;
+  justify-content: space-between;
+  margin: 16px auto;
+  padding: 16px;
+  width: 90%;
 `;
 
 const mapStateToProps = state => ({

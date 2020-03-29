@@ -69,7 +69,16 @@ export default class Welcome extends Component {
             <HeaderTwo
               fontSize="24"
               fontWeight="bold"
-              marginBottom="80"
+              marginBottom="16"
+              marginLeft="0"
+              marginTop="0"
+            >
+              live in the future and
+            </HeaderTwo>
+            <HeaderTwo
+              fontSize="24"
+              fontWeight="bold"
+              marginBottom="64"
               marginLeft="0"
               marginTop="0"
             >
