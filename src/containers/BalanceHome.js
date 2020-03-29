@@ -185,7 +185,7 @@ class BalanceHome extends Component {
             <PoolTogetherGreyIcon />
           </IconImageContainer>
           <NameContainer>
-            <NameText>PoolTogether</NameText>
+            <OpacityText>PoolTogether</OpacityText>
           </NameContainer>
           <BalanceContainer>
             <CoinText>coming soon!</CoinText>
@@ -296,6 +296,13 @@ const UntouchableGreyCardContainer = styled.View`
   margin: 16px auto;
   padding: 16px;
   width: 90%;
+`;
+
+const OpacityText = styled.Text`
+  color: #5f5f5f;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 20;
+  opacity: 0.5
 `;
 
 const mapStateToProps = state => ({
