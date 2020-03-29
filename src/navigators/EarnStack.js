@@ -3,6 +3,8 @@ import { createStackNavigator } from 'react-navigation';
 import EarnHome from '../components/EarnHome';
 import DepositDai from '../containers/DepositDai';
 import DepositDaiConfirmation from '../containers/DepositDaiConfirmation';
+import DepositFirstDai from '../containers/DepositFirstDai';
+import DepositFirstDaiConfirmation from '../containers/DepositFirstDaiConfirmation';
 import WithdrawDai from '../containers/WithdrawDai';
 import WithdrawDaiConfirmation from '../containers/WithdrawDaiConfirmation';
 import Settings from '../containers/Settings';
@@ -14,7 +16,8 @@ const EarnStack = createStackNavigator(
     EarnHome: {
       screen: EarnHome,
       navigationOptions: () => ({
-        headerTransparent: true
+        headerTransparent: true,
+        headerBackTitle: 'Earn'
       })
     },
     DepositDai: {
@@ -26,6 +29,19 @@ const EarnStack = createStackNavigator(
     },
     DepositDaiConfirmation: {
       screen: DepositDaiConfirmation,
+      navigationOptions: () => ({
+        headerTransparent: true
+      })
+    },
+    DepositFirstDai: {
+      screen: DepositFirstDai,
+      navigationOptions: () => ({
+        headerTransparent: true,
+        headerBackTitle: 'Deposit'
+      })
+    },
+    DepositFirstDaiConfirmation: {
+      screen: DepositFirstDaiConfirmation,
       navigationOptions: () => ({
         headerTransparent: true
       })
@@ -46,7 +62,8 @@ const EarnStack = createStackNavigator(
     Settings: {
       screen: Settings,
       navigationOptions: () => ({
-        headerTransparent: true
+        headerTransparent: true,
+        headerStyle: { marginTop: 18 }
       })
     },
     BackupWords: {

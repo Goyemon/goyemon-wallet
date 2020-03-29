@@ -8,6 +8,7 @@ import {
   RootContainer,
   UntouchableCardContainer,
   HeaderOne,
+  HeaderThree,
   HeaderFour,
   CrypterestText,
   SettingsIcon
@@ -37,11 +38,11 @@ class BalanceWallet extends Component {
 
     const daiBalance = RoundDownBigNumber(balance.daiBalance)
       .div(new RoundDownBigNumber(10).pow(18))
-      .toString();
+      .toFixed(2);
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="96">Wallet</HeaderOne>
+        <HeaderOne marginTop="112">Wallet</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8"
@@ -57,6 +58,14 @@ class BalanceWallet extends Component {
             ${PriceUtilities.getTotalWalletBalance(ethBalance, daiBalance)}
           </UsdBalance>
         </UntouchableCardContainer>
+        <HeaderThree
+          color="#000"
+          marginBottom="0"
+          marginLeft="24"
+          marginTop="0"
+        >
+          Coins
+        </HeaderThree>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8"
@@ -125,6 +134,7 @@ const UsdBalance = styled.Text`
 `;
 
 const CoinImageContainer = styled.View`
+  align-items: center;
   width: 15%;
 `;
 
@@ -136,7 +146,7 @@ const CoinImage = styled.Image`
 
 const PriceContainer = styled.View`
   margin-left: 16;
-  width: 42.5%;
+  width: 40%;
 `;
 
 const CoinText = styled.Text`
@@ -147,7 +157,7 @@ const CoinText = styled.Text`
 `;
 
 const BalanceContainer = styled.View`
-  width: 42.5%;
+  width: 45%;
 `;
 
 const BalanceText = styled.Text`

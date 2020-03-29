@@ -1,6 +1,7 @@
 'use strict';
 import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
+import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -333,4 +334,4 @@ const mapDispatchToProps = {
   clearQRCodeData
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SendEth);
+export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(SendEth));

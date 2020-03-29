@@ -1,6 +1,5 @@
 'use strict';
 import React, { Component } from 'react';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
@@ -18,7 +17,7 @@ import NetworkFeeContainerConfirmation from '../containers/NetworkFeeContainerCo
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import GlobalConfig from '../config.json';
 
-class SwapConfirmation extends Component {
+class DepositFirstDaiConfirmation extends Component {
   constructor(props) {
     super();
     this.state = {
@@ -28,57 +27,55 @@ class SwapConfirmation extends Component {
   }
 
   async sendSignedTx() {
-    const outgoingTransactionObject = this.props.outgoingTransactionObjects[
+    const outgoingApproveTransactionObject = this.props
+      .outgoingTransactionObjects[
+      this.props.outgoingTransactionObjects.length - 2
+    ];
+    await TransactionUtilities.sendOutgoingTransactionToServer(
+      outgoingApproveTransactionObject
+    );
+    const outgoingMintTransactionObject = this.props.outgoingTransactionObjects[
       this.props.outgoingTransactionObjects.length - 1
     ];
     await TransactionUtilities.sendOutgoingTransactionToServer(
-      outgoingTransactionObject
+      outgoingMintTransactionObject
     );
   }
 
   render() {
     const { outgoingTransactionData } = this.props;
-
+    
     return (
       <RootContainer>
         <HeaderOne marginTop="96">Confirmation</HeaderOne>
         <TotalContainer>
-          <IconContainer>
-            <CoinImage source={require('../../assets/ether_icon.png')} />
-            <Icon name="swap-horizontal" size={24} color="#5f5f5f" />
-            <CoinImage source={require('../../assets/dai_icon.png')} />
-          </IconContainer>
-          <CrypterestText fontSize="16">You are about to swap</CrypterestText>
-          <TotalValue>{outgoingTransactionData.swap.sold} ETH</TotalValue>
+          <CoinImage source={require('../../assets/dai_icon.png')} />
+          <CrypterestText fontSize="16">
+            You are about to deposit
+          </CrypterestText>
+          <TotalValue>{outgoingTransactionData.compound.amount} DAI</TotalValue>
         </TotalContainer>
         <UntouchableCardContainer
           alignItems="flex-start"
           borderRadius="0"
           flexDirection="column"
-          height="280px"
+          height="200px"
           justifyContent="flex-start"
           marginTop="0"
           textAlign="left"
           width="100%"
         >
           <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
-            You Pay
+            Deposit Amount
           </FormHeader>
-          <Amount>{outgoingTransactionData.swap.sold} ETH</Amount>
-          <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
-            You Get at Least
-          </FormHeader>
-          <Amount>
-            {outgoingTransactionData.swap.minBought.toFixed(4)} DAI
-          </Amount>
-          <Amount>*slippage {outgoingTransactionData.swap.slippage} %</Amount>
+          <Amount>{outgoingTransactionData.compound.amount} DAI</Amount>
           <NetworkFeeContainerConfirmation
-            gasLimit={GlobalConfig.cTokenRedeemUnderlyingGasLimit}
+            gasLimit={GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit}
           />
         </UntouchableCardContainer>
         <ButtonContainer>
           <Button
-            text="Swap"
+            text="Deposit"
             textColor="white"
             backgroundColor="#00A3E2"
             borderColor="#00A3E2"
@@ -91,7 +88,7 @@ class SwapConfirmation extends Component {
                 this.setState({ loading: true, buttonDisabled: true });
                 await this.sendSignedTx();
                 this.props.navigation.reset(
-                  [NavigationActions.navigate({ routeName: 'Swap' })],
+                  [NavigationActions.navigate({ routeName: 'EarnHome' })],
                   0
                 );
                 this.props.navigation.navigate('History');
@@ -115,16 +112,9 @@ const TotalContainer = styled.View`
   margin-top: 56;
 `;
 
-const IconContainer = styled.View`
-  align-items: center;
-  flex-direction: row;
-  justify-content: center;
-`;
-
 const CoinImage = styled.Image`
   border-radius: 20px;
   height: 40px;
-  margin: 0 8px;
   width: 40px;
 `;
 
@@ -155,4 +145,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(SwapConfirmation);
+export default connect(mapStateToProps)(DepositFirstDaiConfirmation);

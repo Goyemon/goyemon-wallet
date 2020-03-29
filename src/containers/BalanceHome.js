@@ -8,11 +8,13 @@ import Web3 from 'web3';
 import CompoundIcon from '../../assets/CompoundIcon.js';
 import WalletIcon from '../../assets/WalletIcon.js';
 import PoolTogetherIcon from '../../assets/PoolTogetherIcon.js';
+import PoolTogetherGreyIcon from '../../assets/PoolTogetherGreyIcon.js';
 import {
   RootContainer,
   TouchableCardContainer,
   UntouchableCardContainer,
   HeaderOne,
+  HeaderThree,
   HeaderFour,
   CrypterestText,
   SettingsIcon
@@ -47,7 +49,7 @@ class BalanceHome extends Component {
 
     const daiBalance = RoundDownBigNumber(balance.daiBalance)
       .div(new RoundDownBigNumber(10).pow(18))
-      .toString();
+      .toFixed(2);
 
     const daiSavingsBalance = RoundDownBigNumber(balance.daiSavingsBalance)
       .div(new RoundDownBigNumber(10).pow(36))
@@ -76,7 +78,7 @@ class BalanceHome extends Component {
           width="90%"
         >
           <HeaderFour marginTop="24">total balance</HeaderFour>
-          <UsdBalance>${totalBalance}</UsdBalance>
+          <UsdBalance>${totalBalance.toFixed(2)}</UsdBalance>
           <AddressContainer
             onPress={() => {
               navigation.navigate('Receive');
@@ -86,20 +88,19 @@ class BalanceHome extends Component {
             <Address>{truncatedAdderss}</Address>
           </AddressContainer>
         </UntouchableCardContainer>
+        <HeaderThree
+          color="#000"
+          marginBottom="8"
+          marginLeft="24"
+          marginTop="0"
+        >
+          Coins
+        </HeaderThree>
         <CurrencyScrollView
           horizontal={true}
           showsHorizontalScrollIndicator={false}
         >
-          <UntouchableCardContainer
-            alignItems="center"
-            borderRadius="8"
-            flexDirection="row"
-            height="120px"
-            justifyContent="space-between"
-            marginTop={8}
-            textAlign="left"
-            width="50%"
-          >
+          <CurrencyContainer>
             <CurrencyImageContainer>
               <CoinImage source={require('../../assets/ether_icon.png')} />
               <CoinText>ETH</CoinText>
@@ -109,20 +110,11 @@ class BalanceHome extends Component {
                 ${PriceUtilities.convertEthToUsd(ethBalance).toFixed(2)}
               </UsdBalanceText>
               <BalanceText>
-                <CrypterestText fontSize="16">{ethBalance} ETH</CrypterestText>
+                <CrypterestText fontSize="16">{ethBalance}</CrypterestText>
               </BalanceText>
             </CurrencyBalanceContainer>
-          </UntouchableCardContainer>
-          <UntouchableCardContainer
-            alignItems="center"
-            borderRadius="8"
-            flexDirection="row"
-            height="120px"
-            justifyContent="space-between"
-            marginTop={8}
-            textAlign="left"
-            width="50%"
-          >
+          </CurrencyContainer>
+          <CurrencyContainer>
             <CurrencyImageContainer>
               <CoinImage source={require('../../assets/dai_icon.png')} />
               <CoinText>DAI</CoinText>
@@ -132,11 +124,19 @@ class BalanceHome extends Component {
                 ${PriceUtilities.convertDaiToUsd(daiBalance).toFixed(2)}
               </UsdBalanceText>
               <BalanceText>
-                <CrypterestText fontSize="16">{daiBalance} DAI</CrypterestText>
+                <CrypterestText fontSize="16">{daiBalance}</CrypterestText>
               </BalanceText>
             </CurrencyBalanceContainer>
-          </UntouchableCardContainer>
+          </CurrencyContainer>
         </CurrencyScrollView>
+        <HeaderThree
+          color="#000"
+          marginBottom="0"
+          marginLeft="24"
+          marginTop="24"
+        >
+          Applications
+        </HeaderThree>
         <TouchableCardContainer
           alignItems="center"
           flexDirection="row"
@@ -176,22 +176,13 @@ class BalanceHome extends Component {
           </NameContainer>
           <BalanceContainer>
             <CoinText>
-              ${PriceUtilities.convertDaiToUsd(daiSavingsBalance)}
+              ${PriceUtilities.convertDaiToUsd(daiSavingsBalance).toFixed(2)}
             </CoinText>
           </BalanceContainer>
         </TouchableCardContainer>
-        <UntouchableCardContainer
-          alignItems="center"
-          borderRadius="8"
-          flexDirection="row"
-          height="120px"
-          justifyContent="space-between"
-          marginTop={8}
-          textAlign="left"
-          width="90%"
-        >
+        <UntouchableGreyCardContainer>
           <IconImageContainer>
-            <PoolTogetherIcon />
+            <PoolTogetherGreyIcon />
           </IconImageContainer>
           <NameContainer>
             <NameText>PoolTogether</NameText>
@@ -199,7 +190,7 @@ class BalanceHome extends Component {
           <BalanceContainer>
             <CoinText>coming soon!</CoinText>
           </BalanceContainer>
-        </UntouchableCardContainer>
+        </UntouchableGreyCardContainer>
       </RootContainer>
     );
   }
@@ -207,6 +198,7 @@ class BalanceHome extends Component {
 
 const CurrencyScrollView = styled.ScrollView`
   width: 100%;
+  margin-left: 5%;
 `;
 
 const UsdBalance = styled.Text`
@@ -230,19 +222,29 @@ const AddressContainer = styled.TouchableOpacity`
   width: 80%;
 `;
 
+const CurrencyContainer = styled.View`
+  align-items: center;
+  background-color: #fff;
+  border-radius: 8px;
+  flex-direction: row;
+  justify-content: center;
+  margin-right: 16;
+  padding: 16px 8px;
+  width: 45%;
+`;
+
 const CurrencyImageContainer = styled.View`
   align-items: center;
-  width: 50%;
 `;
 
 const CurrencyBalanceContainer = styled.View`
-  width: 50%;
+  margin-left: 16;
 `;
 
 const CoinImage = styled.Image`
   border-radius: 20px;
-  height: 40px;
-  width: 40px;
+  height: 32px;
+  width: 32px;
   margin-bottom: 4;
 `;
 
@@ -282,6 +284,18 @@ const CoinText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
   font-size: 16;
+`;
+
+const UntouchableGreyCardContainer = styled.View`
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 8px;
+  flex-direction: row;
+  height: 120px;
+  justify-content: space-between;
+  margin: 16px auto;
+  padding: 16px;
+  width: 90%;
 `;
 
 const mapStateToProps = state => ({

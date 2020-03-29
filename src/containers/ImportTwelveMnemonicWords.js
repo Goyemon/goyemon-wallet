@@ -11,7 +11,8 @@ import {
   HeaderTwo,
   Description,
   Button,
-  ErrorMessage
+  ErrorMessage,
+  Loader
 } from '../components/common';
 import LogUtilities from '../utilities/LogUtilities.js';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
@@ -21,13 +22,15 @@ class ImportTwelveMnemonicWords extends Component {
     super(props);
     this.state = {
       mnemonicWords: ['', '', '', '', '', '', '', '', '', '', '', ''],
-      mnemonicWordsValidation: true
+      mnemonicWordsValidation: true,
+      loading: false
     };
   }
 
   async validateForm() {
     const mnemonicWords = this.state.mnemonicWords.join(' ');
     if (WalletUtilities.validateMnemonic(mnemonicWords)) {
+      this.setState({ loading: true });
       this.setState({ mnemonicWordsValidation: true });
       this.props.updateMnemonicWordsValidation(true);
       await WalletUtilities.setMnemonic(mnemonicWords);
@@ -118,8 +121,10 @@ class ImportTwelveMnemonicWords extends Component {
               opacity="1"
               onPress={async () => {
                 await this.validateForm();
+                this.setState({ loading: false });
               }}
             />
+            <Loader animating={this.state.loading} size="small" />
           </ButtonContainer>
         </RootContainer>
       </KeyboardAvoidingView>
@@ -160,7 +165,6 @@ const MnemonicWordWrapper = styled.View`
 
 const ButtonContainer = styled.View`
   align-items: center;
-  flex-direction: row;
   justify-content: center;
 `;
 

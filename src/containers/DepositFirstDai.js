@@ -26,7 +26,7 @@ import ABIEncoder from '../utilities/AbiUtilities';
 import TxStorage from '../lib/tx.js';
 import GlobalConfig from '../config.json';
 
-class DepositDai extends Component {
+class DepositFirstDai extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -43,12 +43,46 @@ class DepositDai extends Component {
     this.updateWeiAmountValidation(
       TransactionUtilities.validateWeiAmountForTransactionFee(
         TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
-        GlobalConfig.cTokenMintGasLimit
+        GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit
       )
     );
   }
 
-  async constructTransactionObject() {
+  getApproveEncodedABI() {
+    const addressSpender = GlobalConfig.cDAIcontract;
+    const amount = `0x${'ff'.repeat(256 / 8)}`; // TODO: this needs to be a const somewhere, likely uint256max_hex.
+
+    const approveEncodedABI = ABIEncoder.encodeApprove(
+      addressSpender,
+      amount,
+      0
+    );
+
+    return approveEncodedABI;
+  }
+
+  async constructApproveTransactionObject() {
+    // TODO: this has to be in TransactionUtilities. it's common code for the most part anyway. chainid, nonce, those are always set the same way. we just need to specify to/gas/data/value and that's across ALL txes sent
+    const approveEncodedABI = this.getApproveEncodedABI();
+    const transactionObject = (await TxStorage.storage.newTx())
+      .setTo(GlobalConfig.DAITokenContract)
+      .setGasPrice(
+        TransactionUtilities.returnTransactionSpeed(
+          this.props.gasChosen
+        ).toString(16)
+      )
+      .setGas(GlobalConfig.ERC20ApproveGasLimit.toString(16))
+      .tempSetData(approveEncodedABI)
+      .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.approval, [
+        GlobalConfig.cDAIcontract,
+        TxStorage.storage.getOwnAddress(),
+        'ff'.repeat(256 / 8)
+      ]);
+
+    return transactionObject;
+  }
+
+  async constructMintTransactionObject() {
     const daiAmount = this.state.daiAmount.split('.').join('');
     const decimalPlaces = TransactionUtilities.decimalPlaces(
       this.state.daiAmount
@@ -109,19 +143,21 @@ class DepositDai extends Component {
     );
     const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(
       TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
-      GlobalConfig.cTokenMintGasLimit
+      GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit
     );
     const isOnline = this.props.netInfo;
 
     if (daiAmountValidation && weiAmountValidation && isOnline) {
       this.setState({ loading: true, buttonDisabled: true });
       LogUtilities.logInfo('validation successful');
-      const transactionObject = await this.constructTransactionObject();
-      await this.props.saveOutgoingTransactionObject(transactionObject);
+      const approveTransactionObject = await this.constructApproveTransactionObject();
+      await this.props.saveOutgoingTransactionObject(approveTransactionObject);
+      const mintTransactionObject = await this.constructMintTransactionObject();
+      await this.props.saveOutgoingTransactionObject(mintTransactionObject);
       await this.props.saveOutgoingTransactionDataCompound({
         amount: daiAmount
       });
-      this.props.navigation.navigate('DepositDaiConfirmation');
+      this.props.navigation.navigate('DepositFirstDaiConfirmation');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }
@@ -137,7 +173,7 @@ class DepositDai extends Component {
 
     const daiBalance = RoundDownBigNumber(this.props.balance.daiBalance)
       .div(new RoundDownBigNumber(10).pow(18))
-      .toFixed(2);
+      .toString();
 
     return (
       <RootContainer>
@@ -187,7 +223,11 @@ class DepositDai extends Component {
         <InsufficientDaiBalanceMessage
           daiAmountValidation={this.state.daiAmountValidation}
         />
-        <AdvancedContainer gasLimit={GlobalConfig.cTokenMintGasLimit} />
+        <AdvancedContainer
+          gasLimit={
+            GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit
+          }
+        />
         <InsufficientEthBalanceMessage
           weiAmountValidation={this.state.weiAmountValidation}
         />
@@ -271,4 +311,4 @@ const mapDispatchToProps = {
   saveOutgoingTransactionDataCompound
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DepositDai);
+export default connect(mapStateToProps, mapDispatchToProps)(DepositFirstDai);

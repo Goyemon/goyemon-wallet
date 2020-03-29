@@ -1,6 +1,7 @@
 'use strict';
 import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
+import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -178,7 +179,7 @@ class SendDai extends Component {
   render() {
     const daiBalance = RoundDownBigNumber(this.props.balance.daiBalance)
       .div(new RoundDownBigNumber(10).pow(18))
-      .toString();
+      .toFixed(2);
 
     return (
       <RootContainer>
@@ -357,4 +358,4 @@ const mapDispatchToProps = {
   clearQRCodeData
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SendDai);
+export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(SendDai));
