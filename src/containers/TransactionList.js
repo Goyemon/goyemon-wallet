@@ -17,6 +17,8 @@ class TransactionList extends Component {
 		}
 		this.uniqcounter = 0;
 		// this.refreshIndices = {};
+
+		this.__tempcachecount = 'derp';
 	}
 
 	updateTxListState(idx) {
@@ -43,17 +45,13 @@ class TransactionList extends Component {
 		};
 	}
 	getItemCount(data) {
-		return TxStorage.storage.getTxCount(this.props.tokenFilter ? this.props.tokenFilter.toLowerCase() : 'all');
-		// this.props here seems not available. hm.
-		// this.props.tokenFilter ? this.props.tokenFilter.toLowerCase() : 'all'
+		const ret = TxStorage.storage.getTxCount(this.props.tokenFilter ? this.props.tokenFilter.toLowerCase() : 'all');
+		if (ret != this.__tempcachecount) { // prevent flood
+			LogUtilities.toDebugScreen(`TransactionList getItemCount() called, returns ${ret}`);
+			this.__tempcachecount = ret;
+		}
+		return ret;
 	}
-
-	// renderSingleTx(tx) {
-	// 	if (tx instanceof TxStorage.Tx)
-	// 		return <Transaction transaction={tx} />;
-
-	// 	return <EmptyTransactionText>Loadink...</EmptyTransactionText>;
-	// }
 
 	renderTransactions() {
 		LogUtilities.toDebugScreen('TransactionList renderTransactions() called');

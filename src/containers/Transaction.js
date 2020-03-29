@@ -21,7 +21,7 @@ import LogUtilities from '../utilities/LogUtilities';
 class Transaction extends Component {
 	constructor(props) {
 		super(props);
-		this.state = { transaction: this.props.transaction };
+		this.state = { transaction: null };
 	}
 
 	recomputeAllTheWeirdoConstsAndStuff(tx) {
