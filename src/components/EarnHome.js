@@ -14,6 +14,8 @@ import {
   CrypterestText,
   SettingsIcon
 } from './common';
+import TxStorage from '../lib/tx.js';
+import LogUtilities from '../utilities/LogUtilities';
 
 class EarnHome extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -29,20 +31,21 @@ class EarnHome extends Component {
     };
   };
 
-  async componentDidMount() {
-    if (this.props.cDaiLendingInfo.daiApproval != true) {
-      this.props.saveDaiApprovalInfo(
-        await TxStorage.storage.isDAIApprovedForCDAI()
-      );
-    }
+  componentDidMount() {
+    LogUtilities.toDebugScreen('EarnHome componentDidMount() called');
+    const txChangeCallback = (() => {
+      TxStorage.storage.isDAIApprovedForCDAI().then(x => {
+        this.props.saveDaiApprovalInfo(x);
+      });
+    }).bind(this);
+
+    this.unsub = TxStorage.storage.subscribe(txChangeCallback);
+    txChangeCallback();
   }
 
-  async UNSAFE_componentWillMount() {
-    if (this.props.cDaiLendingInfo.daiApproval != true) {
-      this.props.saveDaiApprovalInfo(
-        await TxStorage.storage.isDAIApprovedForCDAI()
-      );
-    }
+  componentWillUnmount() {
+    LogUtilities.toDebugScreen('EarnHome componentWillUnmount() called');
+    this.unsub();
   }
 
   render() {
