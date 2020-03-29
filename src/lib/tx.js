@@ -248,7 +248,7 @@ class PersistTxStorageAbstraction {
 
 		let tasks = [this.__setKey(`${this.prefix}_${hash}`, tx, JSON.stringify)];
 		append_indices.forEach(x => {
-			tasks.push(async () => {
+			tasks.push((async () => {
 				let localtasks = [];
 				await this.__lock(x);
 
@@ -272,7 +272,7 @@ class PersistTxStorageAbstraction {
 				this.counts[x] = new_count;
 
 				this.__unlock(x);
-			});
+			})());
 		});
 
 		await Promise.all(tasks);
@@ -368,7 +368,7 @@ class PersistTxStorageAbstraction {
 	async __replaceKeyInIndex(oldkey, newkey, index='all') {
 		await this.__lock(index);
 
-		let bucket_count = Math.ceil(this.counts[index] / storage_bucket_size) - 1; // not exactly count, more like index and those go from 0
+		let bucket_count = Math.floor((this.counts[index] - 1) / storage_bucket_size); // not exactly count, more like index and those go from 0
 
 		if (this.debug)
 			LogUtilities.toDebugScreen(`PersistTxStorageAbstraction __replaceKeyInIndex(${oldkey}, ${newkey}, ${index}): last bucket id: ${bucket_count}`);
@@ -379,6 +379,7 @@ class PersistTxStorageAbstraction {
 			if (pos >= 0) {
 				if (this.debug)
 					LogUtilities.toDebugScreen(`PersistTxStorageAbstraction __replaceKeyInIndex(): found item at position ${pos} in bucket id ${bucket_count}`);
+
 				bucket[pos] = newkey;
 				await this.__setKey(`${this.prefix}i${index}${bucket_count}`, bucket, this.__encodeBucket);
 
@@ -390,6 +391,7 @@ class PersistTxStorageAbstraction {
 		}
 
 		this.__unlock(index);
+		LogUtilities.toDebugScreen(`PersistTxStorageAbstraction __replaceKeyInIndex(${oldkey}, ${newkey}, ${index}): item not found...`);
 		throw new Error(`key "${oldkey}" not found in the index "${index}"`);
 	}
 
