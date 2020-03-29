@@ -324,6 +324,8 @@ class PersistTxStorageAbstraction {
 		LogUtilities.toDebugScreen(`PersistTxStorageAbstraction bulkLoad(): tasks to execute:${tasks.length}, index counts:${JSON.stringify(index_counts)}`);
 
 		await AsyncStorage.multiSet(tasks);
+		this.counts = index_counts;
+		this.cache = {};
 
 		LogUtilities.toDebugScreen(`PersistTxStorageAbstraction bulkLoad(): tasks executed. load time:${Date.now() - startTime}ms`);
 	}
@@ -1042,6 +1044,7 @@ class TxStorage {
 			await this.txes.updateTx(tx, newtx, hash);
 
 			this.__unlock('txes');
+			this._isDAIApprovedForCDAI_cached = undefined;
 			this.__onUpdate();
 			return;
 		}
@@ -1174,7 +1177,7 @@ class TxStorage {
 	async isDAIApprovedForCDAI() { // TODO: i dont think this should be here, really. this is not a storage function...
 		if (!this._isDAIApprovedForCDAI_cached) {
 			const last_odcda_tx = await this.txes.getLastTx('odcda');
-			this._isDAIApprovedForCDAI_cached = last_odcda_tx && last_odcda_tx.getTokenOperations('dai', TxTokenOpTypeToName.approval).some(
+			this._isDAIApprovedForCDAI_cached = !!last_odcda_tx && last_odcda_tx.getTokenOperations('dai', TxTokenOpTypeToName.approval).some(
 				x => (x.amount === 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff')
 			);
 		}
