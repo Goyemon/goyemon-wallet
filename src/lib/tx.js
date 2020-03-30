@@ -45,26 +45,29 @@ class asyncLocks {
 	}
 
 	async lock(name) {
-		const lock = this.locks[name];
-		while (lock && lock.promise) // we wait as long as there is a promise to be awaited
+		const l = this.locks[name];
+		while (l && l.promise) // we wait as long as there is a promise to be awaited
 			await lock.promise; // the other "thread" will resolve and clear that promise.
 
+		if (!l)
+			l = this.locks[name] = {};
+
 		// no promise, we're ready to go. create a new promise and insert it into locks, so that other threads can wait for it.
-		lock.promise = new Promise((resolve, reject) => {
-			lock.resolve = resolve;
-			lock.reject = reject;
+		l.promise = new Promise((resolve, reject) => {
+			l.resolve = resolve;
+			l.reject = reject;
 		});
 	}
 
 	unlock(name) {
-		const lock = this.locks[name];
-		if (!lock || !lock.promise)
+		const l = this.locks[name];
+		if (!l || !l.promise)
 			throw new Error(`unlock() called on a non-locked lock ${name}`);
 
-		lock.resolve();
-		delete(lock.promise);
-		delete(lock.resolve);
-		delete(lock.reject);
+		l.resolve();
+		delete(l.promise);
+		delete(l.resolve);
+		delete(l.reject);
 	}
 }
 
