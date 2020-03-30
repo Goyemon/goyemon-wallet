@@ -1,4 +1,4 @@
-<h1 align="center">Crypterest</h1>
+<h1 align="center">Goyemon</h1>
 <p align="center">
   <a href="#"><img src="./assets/sample_img2.jpg" width="200"></a>
 </p>
@@ -40,10 +40,10 @@ From your command line:
 
 ```bash
 # Clone this repository
-$ git clone https://github.com/taisukemino/DeBank.git
+$ git clone https://github.com/taisukemino/Goyemon.git
 
 # Go into the repository
-$ cd DeBank
+$ cd Goyemon
 
 # Install dependencies
 $ npm install

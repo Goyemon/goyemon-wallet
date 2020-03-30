@@ -15,7 +15,7 @@ import {
   Button,
   HeaderTwo,
   Description,
-  CrypterestText
+  GoyemonText
 } from '../components/common';
 import ShowMnemonicWords from './ShowMnemonicWords';
 import LogUtilities from '../utilities/LogUtilities.js';
@@ -118,7 +118,7 @@ class ShowMnemonic extends Component {
 
   renderScreenshotSavedMessage() {
     if (this.state.screenshotTaken === true) {
-      return <CrypterestText fontSize="14">Screenshot Saved!</CrypterestText>;
+      return <GoyemonText fontSize="14">Screenshot Saved!</GoyemonText>;
     }
   }
 
@@ -157,7 +157,7 @@ class ShowMnemonic extends Component {
           opacity="1"
           onPress={() => {
             if (Platform.OS === 'ios') {
-              Linking.openURL('app-settings://notification/Crypterest');
+              Linking.openURL('app-settings://notification/Goyemon');
             } else if (Platform.OS === 'android') {
               AndroidOpenSettings.applicationSettings();
             }
@@ -259,7 +259,7 @@ class ShowMnemonic extends Component {
             opacity="1"
             onPress={() => this.props.navigation.navigate('VerifyMnemonic')}
           />
-          <CrypterestText fontSize="14">OR</CrypterestText>
+          <GoyemonText fontSize="14">OR</GoyemonText>
           {this.renderScreenshotButtons()}
           <ScreenshotContainer>
             <ScreenshotImage source={{ uri: this.state.imageURI }} />

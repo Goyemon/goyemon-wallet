@@ -8,7 +8,7 @@ import styled from 'styled-components/native';
 import {
   RootContainer,
   UntouchableCardContainer,
-  CrypterestText,
+  GoyemonText,
   SettingsIcon
 } from '../components/common';
 
@@ -84,7 +84,7 @@ class Receive extends Component {
             <QRCodeSvg value={checksumAddress} size={120} />
           </QrCodeContainer>
           <QrCodeText>Your Address</QrCodeText>
-          <CrypterestText fontSize="14">{checksumAddress}</CrypterestText>
+          <GoyemonText fontSize="14">{checksumAddress}</GoyemonText>
           {this.renderCopyText()}
         </UntouchableCardContainer>
       </RootContainer>

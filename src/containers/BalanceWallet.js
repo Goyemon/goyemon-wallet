@@ -10,7 +10,7 @@ import {
   HeaderOne,
   HeaderThree,
   HeaderFour,
-  CrypterestText,
+  GoyemonText,
   SettingsIcon
 } from '../components/common';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
@@ -81,16 +81,16 @@ class BalanceWallet extends Component {
           </CoinImageContainer>
           <PriceContainer>
             <CoinText>ETH</CoinText>
-            <CrypterestText fontSize="16">
+            <GoyemonText fontSize="16">
               1 ETH = ${this.props.price.eth}
-            </CrypterestText>
+            </GoyemonText>
           </PriceContainer>
           <BalanceContainer>
             <UsdBalanceText>
               ${PriceUtilities.convertEthToUsd(ethBalance).toFixed(2)}
             </UsdBalanceText>
             <BalanceText>
-              <CrypterestText fontSize="20">{ethBalance} ETH</CrypterestText>
+              <GoyemonText fontSize="20">{ethBalance} ETH</GoyemonText>
             </BalanceText>
           </BalanceContainer>
         </UntouchableCardContainer>
@@ -109,16 +109,16 @@ class BalanceWallet extends Component {
           </CoinImageContainer>
           <PriceContainer>
             <CoinText>DAI</CoinText>
-            <CrypterestText fontSize="16">
+            <GoyemonText fontSize="16">
               1 DAI = ${this.props.price.dai}
-            </CrypterestText>
+            </GoyemonText>
           </PriceContainer>
           <BalanceContainer>
             <UsdBalanceText>
               ${PriceUtilities.convertDaiToUsd(daiBalance).toFixed(2)}
             </UsdBalanceText>
             <BalanceText>
-              <CrypterestText fontSize="20">{daiBalance} DAI</CrypterestText>
+              <GoyemonText fontSize="20">{daiBalance} DAI</GoyemonText>
             </BalanceText>
           </BalanceContainer>
         </UntouchableCardContainer>

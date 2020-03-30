@@ -1,6 +1,6 @@
 //
 //  FixLibswiftCoreErrorFile.swift
-//  DeBank
+//  Goyemon
 //
 //  Created by Tai on 10/12/19.
 //  Copyright © 2019 Facebook. All rights reserved.

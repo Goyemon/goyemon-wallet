@@ -16,7 +16,7 @@ import {
   HeaderOne,
   HeaderThree,
   HeaderFour,
-  CrypterestText,
+  GoyemonText,
   SettingsIcon
 } from '../components/common';
 import FcmPermissions from '../firebase/FcmPermissions.js';
@@ -110,7 +110,7 @@ class BalanceHome extends Component {
                 ${PriceUtilities.convertEthToUsd(ethBalance).toFixed(2)}
               </UsdBalanceText>
               <BalanceText>
-                <CrypterestText fontSize="16">{ethBalance}</CrypterestText>
+                <GoyemonText fontSize="16">{ethBalance}</GoyemonText>
               </BalanceText>
             </CurrencyBalanceContainer>
           </CurrencyContainer>
@@ -124,7 +124,7 @@ class BalanceHome extends Component {
                 ${PriceUtilities.convertDaiToUsd(daiBalance).toFixed(2)}
               </UsdBalanceText>
               <BalanceText>
-                <CrypterestText fontSize="16">{daiBalance}</CrypterestText>
+                <GoyemonText fontSize="16">{daiBalance}</GoyemonText>
               </BalanceText>
             </CurrencyBalanceContainer>
           </CurrencyContainer>
@@ -151,7 +151,7 @@ class BalanceHome extends Component {
           </IconImageContainer>
           <NameContainer>
             <NameText>Wallet</NameText>
-            <CrypterestText fontSize={12}>ETH and ERC20</CrypterestText>
+            <GoyemonText fontSize={12}>ETH and ERC20</GoyemonText>
           </NameContainer>
           <BalanceContainer>
             <CoinText>

@@ -65,7 +65,7 @@ export default class Welcome extends Component {
       <RootContainer>
           {this.hollaFadeInOut()}
           <WelcomeContainer animation="fadeIn" delay={4000}>
-            <Logo>Crypterest</Logo>
+            <Logo>Goyemon</Logo>
             <HeaderTwo
               fontSize="24"
               fontWeight="bold"

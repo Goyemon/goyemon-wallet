@@ -35,7 +35,7 @@ export default class NotificationPermissionNotGranted extends Component {
               opacity="1"
               onPress={() => {
                 if (Platform.OS === 'ios') {
-                  Linking.openURL('app-settings://notification/Crypterest');
+                  Linking.openURL('app-settings://notification/Goyemon');
                 } else if (Platform.OS === 'android') {
                   AndroidOpenSettings.appNotificationSettings();
                 }

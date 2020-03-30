@@ -220,7 +220,7 @@ class Settings extends Component {
         <BottomText>
           <VersionText>v0.0.1</VersionText>
           <Icon name="heart-outline" color="#5f5f5f" size={24} />
-          <LoveText>Made with love by Swarm</LoveText>
+          <LoveText>Made with love by Goyemon</LoveText>
         </BottomText>
       </RootContainer>
     );

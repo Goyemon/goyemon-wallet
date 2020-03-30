@@ -71,7 +71,7 @@ node_modules
 
 # ReactCommon subdir shouldn't have Xcode project
 /ReactCommon/**/*.xcodeproj
-DeBank/build
+Goyemon/build
 
 # CocoaPods
 /template/ios/Pods/

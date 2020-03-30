@@ -35,12 +35,12 @@ android_library(
 
 android_build_config(
     name = "build_config",
-    package = "com.swarm.crypterest",
+    package = "com.swarm.goyemon",
 )
 
 android_resource(
     name = "res",
-    package = "com.swarm.crypterest",
+    package = "com.swarm.goyemon",
     res = "src/main/res",
 )
 

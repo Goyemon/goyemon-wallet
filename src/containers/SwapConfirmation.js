@@ -10,7 +10,7 @@ import {
   UntouchableCardContainer,
   HeaderOne,
   FormHeader,
-  CrypterestText,
+  GoyemonText,
   Loader,
   IsOnlineMessage
 } from '../components/common/';
@@ -48,7 +48,7 @@ class SwapConfirmation extends Component {
             <Icon name="swap-horizontal" size={24} color="#5f5f5f" />
             <CoinImage source={require('../../assets/dai_icon.png')} />
           </IconContainer>
-          <CrypterestText fontSize="16">You are about to swap</CrypterestText>
+          <GoyemonText fontSize="16">You are about to swap</GoyemonText>
           <TotalValue>{outgoingTransactionData.swap.sold} ETH</TotalValue>
         </TotalContainer>
         <UntouchableCardContainer

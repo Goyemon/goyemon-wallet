@@ -80,7 +80,7 @@ class TransactionList extends Component {
 		else {
 			return (
 				<EmptyTransactionContainer>
-					<EmptyTransactionText>Loadink...</EmptyTransactionText>
+					<EmptyTransactionText>...</EmptyTransactionText>
 					<EmptyTransactionEmoji>(ノ°Д°）ノ︵ ┻━┻</EmptyTransactionEmoji>
 				</EmptyTransactionContainer>
 			);

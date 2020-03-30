@@ -5,7 +5,7 @@ import { View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
 import Web3 from 'web3';
-import { CrypterestText } from '../components/common';
+import { GoyemonText } from '../components/common';
 import { TouchableCardContainer } from '../components/common';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 
@@ -124,91 +124,91 @@ class Transaction extends Component {
   renderInOrOutTransactionIcon() {
     if(this.state.isUniswapTx) {
       return (
-        <CrypterestText fontSize={16}>
+        <GoyemonText fontSize={16}>
           <Icon name="swap-horizontal" size={20} color="#5F5F5F" />
-        </CrypterestText>
+        </GoyemonText>
       );
     }
 
     if (this.state.isDaiTransferTx) {
       if (this.state.isOutgoingDaiTx && this.state.isIncomingDaiTx)
         return (
-          <CrypterestText fontSize={16}>
+          <GoyemonText fontSize={16}>
             <Icon name="arrow-collapse" size={20} color="#5F5F5F" />
-          </CrypterestText>
+          </GoyemonText>
         );
 
       else if (this.state.isOutgoingDaiTx)
         return (
-          <CrypterestText fontSize={16}>
+          <GoyemonText fontSize={16}>
             <Icon name="call-made" size={20} color="#F1860E" />
-          </CrypterestText>
+          </GoyemonText>
         );
 
       else if (this.state.isIncomingDaiTx)
         return (
-          <CrypterestText fontSize={16}>
+          <GoyemonText fontSize={16}>
             <Icon name="call-received" size={20} color="#1BA548" />
-          </CrypterestText>
+          </GoyemonText>
         );
     }
 
     if (this.state.isAmeTransferTx) {
       if (this.state.isOutgoingAmeTx)
         return (
-          <CrypterestText fontSize={16}>
+          <GoyemonText fontSize={16}>
             <Icon name="call-made" size={20} color="#F1860E" />
-          </CrypterestText>
+          </GoyemonText>
         );
 
       else if (this.state.isIncomingAmeTx)
         return (
-          <CrypterestText fontSize={16}>
+          <GoyemonText fontSize={16}>
             <Icon name="call-received" size={20} color="#1BA548" />
-          </CrypterestText>
+          </GoyemonText>
         );
     }
 
     if (this.state.isCDaiFailedTx)
       return (
-        <CrypterestText fontSize={16}>
+        <GoyemonText fontSize={16}>
           <Icon name="alert-circle-outline" size={20} color="#E41B13" />
-        </CrypterestText>
+        </GoyemonText>
       );
 
     if (this.state.isDaiApproveTx || this.state.isCDaiMintTx)
       return (
-        <CrypterestText fontSize={16}>
+        <GoyemonText fontSize={16}>
           <Icon name="call-made" size={20} color="#F1860E" />
-        </CrypterestText>
+        </GoyemonText>
       );
 
     if (this.state.isCDaiRedeemUnderlyingTx)
       return (
-        <CrypterestText fontSize={16}>
+        <GoyemonText fontSize={16}>
           <Icon name="call-received" size={20} color="#1BA548" />
-        </CrypterestText>
+        </GoyemonText>
       );
 
     if (this.state.isOutgoingEthTx && this.state.isIncomingEthTx)
       return (
-        <CrypterestText fontSize={16}>
+        <GoyemonText fontSize={16}>
           <Icon name="arrow-collapse" size={20} color="#5F5F5F" />
-        </CrypterestText>
+        </GoyemonText>
       );
 
     if (this.state.transaction.getFrom() == null || this.state.isOutgoingEthTx)
       return (
-        <CrypterestText fontSize={16}>
+        <GoyemonText fontSize={16}>
           <Icon name="call-made" size={20} color="#F1860E" />
-        </CrypterestText>
+        </GoyemonText>
       );
 
     if (this.state.isIncomingEthTx)
       return (
-        <CrypterestText fontSize={16}>
+        <GoyemonText fontSize={16}>
           <Icon name="call-received" size={20} color="#1BA548" />
-        </CrypterestText>
+        </GoyemonText>
       );
 
   }
@@ -245,14 +245,14 @@ class Transaction extends Component {
         // TODO: exception?
     }
 
-    return <CrypterestText fontSize={20}>{text}</CrypterestText>;
+    return <GoyemonText fontSize={20}>{text}</GoyemonText>;
   }
 
   renderType() {
     let txType;
     if (this.state.isUniswapTx) {
       txType = 'Swapped';
-      return <CrypterestText fontSize={18}>{txType}</CrypterestText>;
+      return <GoyemonText fontSize={18}>{txType}</GoyemonText>;
     }
 
     if (this.state.isDaiTransferTx) {
@@ -263,7 +263,7 @@ class Transaction extends Component {
       else if (this.state.isIncomingDaiTx)
         txType = 'Incoming';
 
-      return <CrypterestText fontSize={18}>{txType}</CrypterestText>;
+      return <GoyemonText fontSize={18}>{txType}</GoyemonText>;
     }
 
     if (this.state.isAmeTransferTx) {
@@ -272,7 +272,7 @@ class Transaction extends Component {
       else if (this.state.isIncomingAmeTx)
         txType = 'Incoming';
 
-      return <CrypterestText fontSize={18}>{txType}</CrypterestText>;
+      return <GoyemonText fontSize={18}>{txType}</GoyemonText>;
     }
 
     if (this.state.isCDaiMintFailedTx)
@@ -281,7 +281,7 @@ class Transaction extends Component {
       txType = 'Withdraw Failed';
 
     if (txType)
-      return <CrypterestText fontSize="14">{txType}</CrypterestText>;
+      return <GoyemonText fontSize="14">{txType}</GoyemonText>;
 
     if (this.state.isDaiApproveTx)
       txType = 'Unlock Deposit';
@@ -291,7 +291,7 @@ class Transaction extends Component {
       txType = 'Withdrawn';
 
     if (txType)
-      return <CrypterestText fontSize={18}>{txType}</CrypterestText>;
+      return <GoyemonText fontSize={18}>{txType}</GoyemonText>;
 
     if (this.state.isOutgoingEthTx && this.state.isIncomingEthTx)
       txType = 'Self';
@@ -301,7 +301,7 @@ class Transaction extends Component {
       txType = 'Incoming';
 
     if (txType)
-      return <CrypterestText fontSize={18}>{txType}</CrypterestText>;
+      return <GoyemonText fontSize={18}>{txType}</GoyemonText>;
   }
 
   renderPlusOrMinusTransactionIcon() {
@@ -357,16 +357,16 @@ class Transaction extends Component {
         <SwapValueContainer>
           <SwapValueTextContainer>
             <Icon name="minus" size={16} color="#F1860E" />
-            <CrypterestText fontSize={16} style={style}>
+            <GoyemonText fontSize={16} style={style}>
               {this.state.ethSold} ETH
-            </CrypterestText>
+            </GoyemonText>
           </SwapValueTextContainer>
           <Icon name="swap-vertical" size={16} color="#1BA548" />
           <SwapValueTextContainer>
           <Icon name="plus" size={16} color="#1BA548" />
-            <CrypterestText fontSize={16} style={style}>
+            <GoyemonText fontSize={16} style={style}>
               {this.state.tokenBought} DAI
-            </CrypterestText>
+            </GoyemonText>
           </SwapValueTextContainer>
         </SwapValueContainer>
       );
@@ -381,9 +381,9 @@ class Transaction extends Component {
         style = styles.valueStyleGreen;
 
       return (
-        <CrypterestText fontSize={16} style={style}>
+        <GoyemonText fontSize={16} style={style}>
           {this.state.daiTransferValue} DAI
-        </CrypterestText>
+        </GoyemonText>
       );
     }
 
@@ -396,9 +396,9 @@ class Transaction extends Component {
           style = styles.valueStyleGreen;
 
       return (
-        <CrypterestText fontSize={16} style={style}>
+        <GoyemonText fontSize={16} style={style}>
           {this.state.ameTransferValue} AME
-        </CrypterestText>
+        </GoyemonText>
       );
     }
 
@@ -406,41 +406,41 @@ class Transaction extends Component {
       return null;
 
     if (this.state.isCDaiFailedTx)
-      return <CrypterestText fontSize={16}>0</CrypterestText>;
+      return <GoyemonText fontSize={16}>0</GoyemonText>;
 
     if (this.state.isCDaiMintTx)
       return (
-        <CrypterestText fontSize={16} style={styles.valueStyleRed}>
+        <GoyemonText fontSize={16} style={styles.valueStyleRed}>
           {this.state.cDaiMintValue} DAI
-        </CrypterestText>
+        </GoyemonText>
       );
 
     if (this.state.isCDaiRedeemUnderlyingTx)
       return (
-        <CrypterestText fontSize={16} style={styles.valueStyleGreen}>
+        <GoyemonText fontSize={16} style={styles.valueStyleGreen}>
           {this.state.cDaiRedeemValue} DAI
-        </CrypterestText>
+        </GoyemonText>
       );
 
     if (this.state.transaction.getFrom() === null)
-      return <CrypterestText fontSize={16}>Token Transfer</CrypterestText>;
+      return <GoyemonText fontSize={16}>Token Transfer</GoyemonText>;
 
     if (this.state.transaction.getTo() === null)
-      return <CrypterestText fontSize={16}>Contract Creation</CrypterestText>;
+      return <GoyemonText fontSize={16}>Contract Creation</GoyemonText>;
 
 
     const roundedEthValue = parseFloat(TransactionUtilities.parseEthValue(`0x${this.state.transaction.getValue()}`)).toFixed(4);
     if (this.state.isOutgoingEthTx)
       return (
-        <CrypterestText fontSize={16} style={styles.valueStyleRed}>
+        <GoyemonText fontSize={16} style={styles.valueStyleRed}>
           {roundedEthValue} ETH
-        </CrypterestText>
+        </GoyemonText>
       );
     else if (this.state.isIncomingEthTx)
       return (
-        <CrypterestText fontSize={16} style={styles.valueStyleGreen}>
+        <GoyemonText fontSize={16} style={styles.valueStyleGreen}>
           {roundedEthValue} ETH
-        </CrypterestText>
+        </GoyemonText>
       );
   }
 
@@ -448,10 +448,10 @@ class Transaction extends Component {
 
   render() {
     if (this.state.derpbugexception)
-	  return <CrypterestText fontSize={12}>{this.state.derpbugexception}</CrypterestText>;
+	  return <GoyemonText fontSize={12}>{this.state.derpbugexception}</GoyemonText>;
 
 	if (!(this.state.transaction instanceof TxStorage.Tx))
-		return <CrypterestText fontSize={12}>Loadink</CrypterestText>; // TODO: this likely needs to be, well, something else.
+		return <GoyemonText fontSize={12}>...</GoyemonText>; // TODO: this likely needs to be, well, something else.
 
     try {
       const time = TransactionUtilities.parseTransactionTime(this.state.transaction.getTimestamp());
@@ -486,7 +486,7 @@ class Transaction extends Component {
     }
     catch (e) {
       const exc = `Transaction render() exception: ${e.message} @ ${e.stack} || ${JSON.stringify(this.transaction)}`;
-      return <CrypterestText fontSize={12}>{exc}</CrypterestText>;
+      return <GoyemonText fontSize={12}>{exc}</GoyemonText>;
     }
   }
 }

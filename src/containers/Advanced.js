@@ -11,7 +11,7 @@ import {
   Container,
   HeaderOne,
   HeaderThree,
-  CrypterestText
+  GoyemonText
 } from '../components/common';
 import GlobalConfig from '../config.json';
 import { FCMMsgs } from '../lib/fcm.js';
@@ -98,9 +98,9 @@ class Advanced extends Component {
           >
             Your Device Info
           </HeaderThree>
-          <CrypterestText fontSize="14">
+          <GoyemonText fontSize="14">
             {this.props.debugInfo.fcmToken}
-          </CrypterestText>
+          </GoyemonText>
           {this.renderCopyText()}
           <HeaderThree
             color="#000"
@@ -110,7 +110,7 @@ class Advanced extends Component {
           >
             Other Device Info
           </HeaderThree>
-          <CrypterestText fontSize="14">{otherDebugInfo}</CrypterestText>
+          <GoyemonText fontSize="14">{otherDebugInfo}</GoyemonText>
           <TouchableWithoutFeedback
             onPress={async () => {
               await Clipboard.setString(otherDebugInfo);
@@ -146,7 +146,7 @@ class Advanced extends Component {
           >
             Network
           </HeaderThree>
-          <CrypterestText fontSize="14">{GlobalConfig.network_name}</CrypterestText>
+          <GoyemonText fontSize="14">{GlobalConfig.network_name}</GoyemonText>
         </Container>
       </RootContainer>
     );

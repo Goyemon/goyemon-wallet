@@ -1,7 +1,7 @@
 'use strict';
 export * from './Button';
 export * from './Container';
-export * from './CrypterestText';
+export * from './GoyemonText';
 export * from './Description';
 export * from './ErrorMessage';
 export * from './Form';

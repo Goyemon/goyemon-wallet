@@ -11,7 +11,7 @@ import {
   Container,
   TouchableCardContainer,
   HeaderOne,
-  CrypterestText,
+  GoyemonText,
   SettingsIcon
 } from './common';
 import TxStorage from '../lib/tx.js';
@@ -76,9 +76,9 @@ class EarnHome extends Component {
               }
             }}
           >
-            <CrypterestText fontSize={24}>
+            <GoyemonText fontSize={24}>
               Deposit DAI to Compound
-            </CrypterestText>
+            </GoyemonText>
             <IconImageContainer>
               <IconImage>
                 <CardImage source={require('../../assets/dai_icon.png')} />
@@ -102,9 +102,9 @@ class EarnHome extends Component {
               this.props.navigation.navigate('WithdrawDai');
             }}
           >
-            <CrypterestText fontSize={24}>
+            <GoyemonText fontSize={24}>
               Withdraw DAI from Compound
-            </CrypterestText>
+            </GoyemonText>
             <IconImageContainer>
               <IconImage>
                 <CardImage source={require('../../assets/dai_icon.png')} />

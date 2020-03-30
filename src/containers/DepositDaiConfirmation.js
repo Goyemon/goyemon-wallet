@@ -9,7 +9,7 @@ import {
   UntouchableCardContainer,
   HeaderOne,
   FormHeader,
-  CrypterestText,
+  GoyemonText,
   Loader,
   IsOnlineMessage
 } from '../components/common/';
@@ -43,9 +43,9 @@ class DepositDaiConfirmation extends Component {
         <HeaderOne marginTop="96">Confirmation</HeaderOne>
         <TotalContainer>
           <CoinImage source={require('../../assets/dai_icon.png')} />
-          <CrypterestText fontSize="16">
+          <GoyemonText fontSize="16">
             You are about to deposit
-          </CrypterestText>
+          </GoyemonText>
           <TotalValue>{outgoingTransactionData.compound.amount} DAI</TotalValue>
         </TotalContainer>
         <UntouchableCardContainer

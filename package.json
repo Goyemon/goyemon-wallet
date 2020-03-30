@@ -1,5 +1,5 @@
 {
-  "name": "Crypterest",
+  "name": "Goyemon",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -12,7 +12,7 @@
     "npmreinstall": "rm -rf node_modules/ package-lock.json && npm install"
   },
   "dependencies": {
-    "@react-native-community/cameraroll": "^1.4.1",
+    "@react-native-community/cameraroll": "^1.5.2",
     "@react-native-community/netinfo": "^5.3.3",
     "@tradle/react-native-http": "^2.0.1",
     "assert": "^1.4.1",
@@ -30,8 +30,8 @@
     "jetifier": "^1.6.4",
     "lottie-react-native": "^3.2.1",
     "process": "^0.11.10",
-    "react": "16.9.0",
-    "react-native": "0.61.5",
+    "react": "16.11.0",
+    "react-native": "0.62.0",
     "react-native-android-open-settings": "^1.3.0",
     "react-native-animatable": "^1.3.2",
     "react-native-bip39": "^2.3.0",

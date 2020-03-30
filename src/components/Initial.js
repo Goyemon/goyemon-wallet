@@ -143,7 +143,7 @@ class Initial extends Component {
         width="90%"
       >
         <LoaderContainer animation="fadeIn" delay={1000}>
-          <Logo>Crypterest</Logo>
+          <Logo>Goyemon</Logo>
           <Loader animating={true} size="large" />
         </LoaderContainer>
       </Container>

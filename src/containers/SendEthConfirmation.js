@@ -9,7 +9,7 @@ import {
   UntouchableCardContainer,
   HeaderOne,
   FormHeader,
-  CrypterestText,
+  GoyemonText,
   Loader,
   IsOnlineMessage
 } from '../components/common/';
@@ -43,9 +43,9 @@ class SendEthConfirmation extends Component {
         <HeaderOne marginTop="96">Confirmation</HeaderOne>
         <TotalContainer>
           <CoinImage source={require('../../assets/ether_icon.png')} />
-          <CrypterestText fontSize="16">You are about to send</CrypterestText>
+          <GoyemonText fontSize="16">You are about to send</GoyemonText>
           <TotalValue>{outgoingTransactionData.send.amount} ETH</TotalValue>
-          <CrypterestText fontSize="16">+ network fee</CrypterestText>
+          <GoyemonText fontSize="16">+ network fee</GoyemonText>
         </TotalContainer>
         <UntouchableCardContainer
           alignItems="flex-start"
