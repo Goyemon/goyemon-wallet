@@ -647,7 +647,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "97993db8-a697-40d2-9006-e9abfec39585";
+				PROVISIONING_PROFILE = "57197bd0-d3ed-4e46-b790-ad4d7b84b1e4";
 				PROVISIONING_PROFILE_SPECIFIER = "com.swarm.goyemon AppStore";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Goyemon.app/Goyemon";
 				VALID_ARCHS = "$(ARCHS_STANDARD) ";
@@ -736,7 +736,7 @@
 				"OTHER_LDFLAGS[arch=*]" = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.swarm.goyemon;
 				PRODUCT_NAME = Goyemon;
-				PROVISIONING_PROFILE = "97993db8-a697-40d2-9006-e9abfec39585";
+				PROVISIONING_PROFILE = "57197bd0-d3ed-4e46-b790-ad4d7b84b1e4";
 				PROVISIONING_PROFILE_SPECIFIER = "com.swarm.goyemon AppStore";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
