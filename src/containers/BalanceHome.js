@@ -16,10 +16,10 @@ import {
   HeaderOne,
   HeaderThree,
   HeaderFour,
-  GoyemonText,
-  SettingsIcon
+  GoyemonText
 } from '../components/common';
 import FcmPermissions from '../firebase/FcmPermissions.js';
+import BalanceStack from '../navigators/BalanceStack';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
@@ -27,17 +27,31 @@ class BalanceHome extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerRight: (
-        <SettingsIcon
+        <Icon
+          color="#5f5f5f"
+          name="settings-outline"
+          size={28}
           onPress={() => {
+            BalanceStack.navigationOptions = () => {
+              const tabBarVisible = false;
+              return {
+                tabBarVisible
+              };
+            };
             navigation.navigate('Settings');
           }}
         />
-      ),
-      headerStyle: { height: 80 }
+      )
     };
   };
 
   async componentDidMount() {
+    BalanceStack.navigationOptions = () => {
+      const tabBarVisible = true;
+      return {
+        tabBarVisible
+      };
+    };
     await FcmPermissions.checkFcmPermissions();
   }
 
@@ -302,7 +316,7 @@ const OpacityText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
   font-size: 20;
-  opacity: 0.5
+  opacity: 0.5;
 `;
 
 const mapStateToProps = state => ({
