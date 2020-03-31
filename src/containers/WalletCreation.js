@@ -110,9 +110,8 @@ class WalletCreation extends Component {
 
   async isWalletReady() {
     const hasWallet = await this.hasWallet();
-    const hasTokenInfo = this.hasTokenInfo();
     const hasPriceInfo = this.hasPriceInfo();
-    const isWalletReady = hasWallet && hasTokenInfo && hasPriceInfo;
+    const isWalletReady = hasWallet && hasPriceInfo;
     this.setState({ isWalletReady });
   }
 
@@ -164,21 +163,6 @@ class WalletCreation extends Component {
       this.props.price.eth.length != 0 &&
       this.props.price.dai >= 0 &&
       this.props.price.dai.length != 0
-    );
-  }
-
-  hasTokenInfo() {
-    return this.hasCDaiLendingInfo();
-  }
-
-  hasCDaiLendingInfo() {
-    return (
-      this.props.cDaiLendingInfo.currentExchangeRate >= 0 &&
-      this.props.cDaiLendingInfo.currentExchangeRate.length != 0 &&
-      this.props.cDaiLendingInfo.currentInterestRate >= 0 &&
-      this.props.cDaiLendingInfo.currentInterestRate.length != 0 &&
-      this.props.cDaiLendingInfo.lifetimeEarned >= 0 &&
-      this.props.cDaiLendingInfo.lifetimeEarned.length != 0
     );
   }
 
