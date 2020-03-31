@@ -18,7 +18,6 @@ export * from './Loader';
 export * from './MenuContainer';
 export * from './ProgressBar';
 export * from './QRCodeIcon';
-export * from './SettingsIcon';
 export * from './SwapForm';
 export * from './RootContainer';
 export * from './ToggleCurrencySymbol';
