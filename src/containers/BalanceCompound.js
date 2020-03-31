@@ -10,27 +10,13 @@ import {
   UntouchableCardContainer,
   HeaderOne,
   HeaderThree,
-  HeaderFour,
-  SettingsIcon
+  HeaderFour
 } from '../components/common';
 import { FCMMsgs } from '../lib/fcm.js';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class BalanceCompound extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      headerRight: (
-        <SettingsIcon
-          onPress={() => {
-            navigation.navigate('Settings');
-          }}
-        />
-      ),
-      headerStyle: { height: 80 }
-    };
-  };
-
   componentDidMount() {
     FCMMsgs.requestCDaiLendingInfo(this.props.checksumAddress);
   }

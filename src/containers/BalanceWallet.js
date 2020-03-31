@@ -10,26 +10,12 @@ import {
   HeaderOne,
   HeaderThree,
   HeaderFour,
-  GoyemonText,
-  SettingsIcon
+  GoyemonText
 } from '../components/common';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class BalanceWallet extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      headerRight: (
-        <SettingsIcon
-          onPress={() => {
-            navigation.navigate('Settings');
-          }}
-        />
-      ),
-      headerStyle: { height: 80 }
-    };
-  };
-
   render() {
     const { balance } = this.props;
 
