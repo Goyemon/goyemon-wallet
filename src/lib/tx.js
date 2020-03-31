@@ -47,7 +47,7 @@ class asyncLocks {
 	async lock(name) {
 		let l = this.locks[name];
 		while (l && l.promise) // we wait as long as there is a promise to be awaited
-			await lock.promise; // the other "thread" will resolve and clear that promise.
+			await l.promise; // the other "thread" will resolve and clear that promise.
 
 		if (!l)
 			l = this.locks[name] = {};
