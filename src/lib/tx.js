@@ -38,29 +38,51 @@ function hexToBuf(hex) {
 	return typeof hex === 'string' ? Buffer.from(hex.startsWith('0x') ? hex.substr(2) : hex, 'hex') : null;
 }
 
+// ========== locks ==========
+class asyncLocks {
+	constructor() {
+		this.locks = {};
+	}
+
+	async lock(name) {
+		let l = this.locks[name];
+		while (l && l.promise) // we wait as long as there is a promise to be awaited
+			await lock.promise; // the other "thread" will resolve and clear that promise.
+
+		if (!l)
+			l = this.locks[name] = {};
+
+		// no promise, we're ready to go. create a new promise and insert it into locks, so that other threads can wait for it.
+		l.promise = new Promise((resolve, reject) => {
+			l.resolve = resolve;
+			l.reject = reject;
+		});
+	}
+
+	unlock(name) {
+		let l = this.locks[name];
+		if (!l || !l.promise)
+			throw new Error(`unlock() called on a non-locked lock ${name}`);
+
+		l.resolve();
+		delete(l.promise);
+		delete(l.resolve);
+		delete(l.reject);
+	}
+}
 
 // ========== storage abstraction ==========
 /*
-	'_TX' is prefix
+	prefix is a storage-wide prefix.
+	hash is transaction hash
 
-	_TXcount: count of all txes
-	_TX_[id]: incrementing unique id (probably base64 of .count?) that stores a tx. to make it short-ish.
-	_TXidx[num]: num from 0 contains oldest txes, highest num - newest. lets keep, say, 60 txes per bucket? bucket with given tx is gonna be just (id // tx_count_per_bucket)
-
-	or perhaps actually use
-	_TX_[txhash]: so that lookup is easy
-	_TXidx[num] stores hashes of sorted txes (by timestamp), like above.
-	_TXidx_Dai[num]: could be like above but for txes that match the dai filter criteria, etc.
-
-*/
-
-/* actually txhash has to be stored anyway, so why not just go
-	${prefix}_${hash} for txdata
-	${prefix}iall${num} for buckets
-	${prefix}iallc for count
+	${prefix}_${hash} for txdata (hash can be nonce_${number})
+	${prefix}iall${num} for buckets (counts from 0)
+	${prefix}iallc for item count
 	${prefix}i${indexname}${num} for buckets again
 	${prefix}i${indexname}c for count in given index
 
+	`all' is just an index name for all items.
 	hashes in buckets are always sorted by timestamp
 */
 
@@ -875,36 +897,19 @@ class TxStorage {
 		// 	LogUtilities.toDebugScreen(`AStor keys: ${x}`);
 		// });
 
-		this.locks = {
-			'txes': {}
-		};
+		this.locks = new asyncLocks();
 	}
 
 	async __lock(name) {
 		LogUtilities.toDebugScreen(`TxStorage attempt __lock(${name})`);
 		const t = Date.now();
-		while (this.locks[name].promise) // we wait as long as there is a promise to be awaited
-			await this.locks[name].promise; // the other "thread" will resolve and clear that promise.
-
+		await this.locks.lock(name);
 		LogUtilities.toDebugScreen(`TxStorage __lock(${name}) succeeded, wait time:${Date.now() - t}ms`);
-
-		// no promise, we're ready to go. create a new promise and insert it into locks, so that other threads can wait for it.
-		let np = {};
-		np.promise = new Promise((resolve, reject) => {
-			np.resolve = resolve;
-			np.reject = reject;
-		});
-		this.locks[name] = np;
 	}
 
 	__unlock(name) {
-		if (!this.locks[name].promise)
-			throw new Error(`__unblock() called on a non-blocked lock ${name}`);
-
+		this.locks.unlock(name);
 		LogUtilities.toDebugScreen(`TxStorage __unlock(${name})`);
-
-		this.locks[name].resolve();
-		this.locks[name] = {};
 	}
 
 
@@ -980,6 +985,10 @@ class TxStorage {
 			return tx.hasTokenOperation('cdai', TxTokenOpTypeToName.mint) ||
 				tx.hasTokenOperation('cdai', TxTokenOpTypeToName.redeem) ||
 				tx.hasTokenOperation('cdai', TxTokenOpTypeToName.failure);
+
+		if (tx.hasTokenOperations('uniswap'))
+			return tx.hasTokenOperation('uniswap', TxTokenOpTypeToName.eth2tok) ||
+				tx.hasTokenOperation('uniswap', TxTokenOpTypeToName.tok2eth);
 
 		return false;
 	}
@@ -1128,6 +1137,7 @@ class TxStorage {
 	}
 
 	async markNotIncludedTxAsErrorByNonce(nonce) {
+		LogUtilities.toDebugScreen(`markNotIncludedTxAsErrorByNonce(nonce:${nonce})`);
 		await this.__lock('txes');
 		const nonceKey = `nonce_${nonce}`;
 
@@ -1139,11 +1149,13 @@ class TxStorage {
 			await this.txes.updateTx(tx, newtx, nonceKey);
 
 			this.__unlock('txes');
+			LogUtilities.toDebugScreen(`markNotIncludedTxAsErrorByNonce(nonce:${nonce}) state updated`);
 			this.__onUpdate();
 			// TODO: what happens to our_max_nonce now?
 		}
 		else {
 			this.__unlock('txes');
+			LogUtilities.toDebugScreen(`markNotIncludedTxAsErrorByNonce(nonce:${nonce}) key not found!`);
 			throw new NoSuchTxException(`markNotIncludedTxAsErrorByNonce(): unknown tx nonce: ${nonce}`);
 		}
 	}

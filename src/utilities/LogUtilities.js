@@ -30,6 +30,7 @@ class LogUtilities {
 			out += ` ${arguments[i] instanceof Object ? LogUtilities.__dumpObjectRecursively(arguments[i]) : arguments[i]}`;
 
 		store.dispatch(saveOtherDebugInfo(out));
+		LogUtilities.logInfo(out); // because certain individual wont see it if it's not spammed on his screen
 	}
 
 	static dumpObject() {
