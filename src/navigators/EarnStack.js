@@ -7,9 +7,6 @@ import DepositFirstDai from '../containers/DepositFirstDai';
 import DepositFirstDaiConfirmation from '../containers/DepositFirstDaiConfirmation';
 import WithdrawDai from '../containers/WithdrawDai';
 import WithdrawDaiConfirmation from '../containers/WithdrawDaiConfirmation';
-import Settings from '../containers/Settings';
-import BackupWords from '../containers/BackupWords';
-import Advanced from '../containers/Advanced';
 
 const EarnStack = createStackNavigator(
   {
@@ -58,26 +55,7 @@ const EarnStack = createStackNavigator(
       navigationOptions: () => ({
         headerTransparent: true
       })
-    },
-    Settings: {
-      screen: Settings,
-      navigationOptions: () => ({
-        headerTransparent: true,
-        headerStyle: { marginTop: 18 }
-      })
-    },
-    BackupWords: {
-      screen: BackupWords,
-      navigationOptions: () => ({
-        headerTransparent: true
-      })
-    },
-    Advanced: {
-      screen: Advanced,
-      navigationOptions: () => ({
-        headerTransparent: true
-      })
-    }    
+    }
   },
   {
     initialRouteName: 'EarnHome'

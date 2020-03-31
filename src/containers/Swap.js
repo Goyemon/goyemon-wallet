@@ -17,8 +17,7 @@ import {
   SwapForm,
   Loader,
   IsOnlineMessage,
-  ErrorMessage,
-  SettingsIcon
+  ErrorMessage
 } from '../components/common';
 import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
 import AdvancedContainer from '../containers/AdvancedContainer';
@@ -43,19 +42,6 @@ class Swap extends Component {
       buttonOpacity: 0.5
     };
   }
-
-  static navigationOptions = ({ navigation }) => {
-    return {
-      headerRight: (
-        <SettingsIcon
-          onPress={() => {
-            navigation.navigate('Settings');
-          }}
-        />
-      ),
-      headerStyle: { height: 80 }
-    };
-  };
 
   componentDidMount() {
     FcmUpstreamMsgs.requestUniswapETHDAIBalances(this.props.checksumAddress);

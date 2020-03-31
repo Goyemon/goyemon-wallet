@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { ScrollView } from 'react-native';
 import styled from 'styled-components';
-import { RootContainer, Container, HeaderOne, SettingsIcon } from './common';
+import { RootContainer, Container, HeaderOne } from './common';
 import SendEth from '../containers/SendEth';
 import SendDai from '../containers/SendDai';
 import LogUtilities from '../utilities/LogUtilities.js';
@@ -15,19 +15,6 @@ export default class Send extends Component {
       currency: 'ether'
     };
   }
-
-  static navigationOptions = ({ navigation }) => {
-    return {
-      headerRight: (
-        <SettingsIcon
-          onPress={() => {
-            navigation.navigate('Settings');
-          }}
-        />
-      ),
-      headerStyle: { height: 80 }
-    };
-  };
 
   renderCurrency() {
     if (this.state.currency === 'ether') {

@@ -11,26 +11,12 @@ import {
   Container,
   TouchableCardContainer,
   HeaderOne,
-  GoyemonText,
-  SettingsIcon
+  GoyemonText
 } from './common';
 import TxStorage from '../lib/tx.js';
 import LogUtilities from '../utilities/LogUtilities';
 
 class EarnHome extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      headerRight: (
-        <SettingsIcon
-          onPress={() => {
-            navigation.navigate('Settings');
-          }}
-        />
-      ),
-      headerStyle: { height: 80 }
-    };
-  };
-
   componentDidMount() {
     LogUtilities.toDebugScreen('EarnHome componentDidMount() called');
     const txChangeCallback = (() => {
