@@ -16,12 +16,16 @@ import {
 import GlobalConfig from '../config.json';
 import { FCMMsgs } from '../lib/fcm.js';
 import LogUtilities from '../utilities/LogUtilities.js';
- 
+
+import axios from 'axios';
+
+
 class Advanced extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      clipboardContent: null
+	  clipboardContent: null,
+	  canSendToHttp: true,
     };
     this.AnimationRef;
   }
@@ -44,6 +48,52 @@ class Advanced extends Component {
   async writeToClipboard() {
     await Clipboard.setString(this.props.debugInfo.fcmToken);
     this.setState({ clipboardContent: 'token' });
+  }
+
+  async postLogToMagicalHttpEndpoint() {
+	if (this.sendStateChangeTimer)
+		return;
+
+	const log = this.props.debugInfo.others instanceof Array ? this.props.debugInfo.others.join('\n') : JSON.stringify(this.props.debugInfo.others);
+	const fcmtoken = this.props.debugInfo.fcmToken;
+	try {
+		await axios({
+			method: 'post',
+			url: 'http://51.89.42.181:31330/logData',
+			data: {
+			fcmToken: fcmtoken,
+			logData: log,
+			ctime: new Date().toString()
+			}
+		});
+
+		if (this.sendStateChangeTimer)
+			clearTimeout(this.sendStateChangeTimer);
+		this.sendStateChangeTimer = setTimeout(() => {
+			this.sendStateChangeTimer = null;
+			this.setState({ canSendToHttp: true });
+		}, 10000);
+		this.setState({ canSendToHttp: false });
+	}
+	catch (e) {
+		LogUtilities.logError(e, e.stack);
+	}
+  }
+
+  componentWillUnmount() {
+	  if (this.sendStateChangeTimer)
+	  	clearTimeout(this.sendStateChangeTimer);
+  }
+
+  renderPostLog() {
+	  if (this.state.canSendToHttp)
+		return <TouchableWithoutFeedback onPress={async () => { this.postLogToMagicalHttpEndpoint(); }}>
+	  				<CopyAddressText>Send log to magical http endpoint</CopyAddressText>
+			   </TouchableWithoutFeedback>;
+	  else
+	  return <TouchableWithoutFeedback>
+	  			<PostWaitText>(Please wait 10 seconds)</PostWaitText>
+			</TouchableWithoutFeedback>;
   }
 
   renderCopyText() {
@@ -138,6 +188,7 @@ class Advanced extends Component {
           >
             Other Device Info
           </HeaderThree>
+		  {this.renderPostLog()}
           <GoyemonText fontSize="14">{otherDebugInfo}</GoyemonText>
           <TouchableWithoutFeedback
             onPress={async () => {
@@ -171,6 +222,13 @@ const CopyAddressText = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 16;
 `;
+
+const PostWaitText = styled.Text`
+  color: #111111;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 16;
+`;
+
 
 function mapStateToProps(state) {
   return {
