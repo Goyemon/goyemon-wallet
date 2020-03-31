@@ -1,5 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
+import { BackHandler, TouchableWithoutFeedback, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { Linking, TouchableHighlight, Alert, Modal } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -11,10 +12,12 @@ import {
   HeaderOne,
   UntouchableCardContainer,
   Button,
-  Description
+  Description,
+  GoyemonText
 } from '../components/common';
 import I18n from '../i18n/I18n';
 import TxStorage from '../lib/tx';
+import BalanceStack from '../navigators/BalanceStack';
 import { persistor, store } from '../store/store.js';
 import LogUtilities from '../utilities/LogUtilities.js';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
@@ -27,6 +30,41 @@ class Settings extends Component {
       deleteTextValidation: false,
       buttonDisabled: true,
       buttonOpacity: 0.5
+    };
+  }
+
+  static navigationOptions = ({ navigation }) => ({
+    headerLeft: (
+      <BackButtonContainer
+        onPress={() => {
+          navigation.navigate('BalanceHome');
+          BalanceStack.navigationOptions = () => {
+            const tabBarVisible = true;
+            return {
+              tabBarVisible
+            };
+          };
+        }}
+      >
+        <Icon color="#00A3E2" name="chevron-left" size={40} />
+      </BackButtonContainer>
+    )
+  });
+
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  handleBackButton() {
+    BalanceStack.navigationOptions = () => {
+      const tabBarVisible = true;
+      return {
+        tabBarVisible
+      };
     };
   }
 
@@ -227,6 +265,11 @@ class Settings extends Component {
   }
 }
 
+const BackButtonContainer = styled.TouchableWithoutFeedback`
+  align-items: center;  
+  flex-direction: row;
+`;
+
 const ModalContainer = styled.View`
   background-color: rgba(0, 0, 0, 0.5);
   flex-direction: row;
@@ -260,7 +303,7 @@ const ModalTextContainer = styled.View`
 const CommunityIconContainer = styled.View`
   flex-direction: row;
   justify-content: center;
-  margin-top: 32;
+  margin-top: 40;
 `;
 
 const CommunityIcon = styled.View`
