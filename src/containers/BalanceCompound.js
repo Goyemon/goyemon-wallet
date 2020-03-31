@@ -13,6 +13,7 @@ import {
   HeaderFour,
   SettingsIcon
 } from '../components/common';
+import { FCMMsgs } from '../lib/fcm.js';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
@@ -29,6 +30,10 @@ class BalanceCompound extends Component {
       headerStyle: { height: 80 }
     };
   };
+
+  componentDidMount() {
+    FCMMsgs.requestCDaiLendingInfo(this.props.checksumAddress);
+  }
 
   render() {
     const { balance, cDaiLendingInfo } = this.props;
