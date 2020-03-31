@@ -110,7 +110,7 @@ class DepositFirstDai extends Component {
         0
       ]);
 
-    return transactionObject;
+    return transactionObject.setNonce(transactionObject.getNonce() + 1);
   }
 
   updateDaiAmountValidation(daiAmountValidation) {
