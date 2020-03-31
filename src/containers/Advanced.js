@@ -96,29 +96,9 @@ class Advanced extends Component {
             marginLeft="0"
             marginTop="24"
           >
-            Your Device Info
+            Network
           </HeaderThree>
-          <GoyemonText fontSize="14">
-            {this.props.debugInfo.fcmToken}
-          </GoyemonText>
-          {this.renderCopyText()}
-          <HeaderThree
-            color="#000"
-            marginBottom="0"
-            marginLeft="0"
-            marginTop="24"
-          >
-            Other Device Info
-          </HeaderThree>
-          <GoyemonText fontSize="14">{otherDebugInfo}</GoyemonText>
-          <TouchableWithoutFeedback
-            onPress={async () => {
-              await Clipboard.setString(otherDebugInfo);
-              this.setState({ clipboardContent: 'debug' });
-            }}
-          >
-            <CopyAddressText>Copy</CopyAddressText>
-          </TouchableWithoutFeedback>
+          <GoyemonText fontSize="14">{GlobalConfig.network_name}</GoyemonText>
           <HeaderThree
             color="#000"
             marginBottom="0"
@@ -144,9 +124,29 @@ class Advanced extends Component {
             marginLeft="0"
             marginTop="24"
           >
-            Network
+            Your Device Info
           </HeaderThree>
-          <GoyemonText fontSize="14">{GlobalConfig.network_name}</GoyemonText>
+          <GoyemonText fontSize="14">
+            {this.props.debugInfo.fcmToken}
+          </GoyemonText>
+          {this.renderCopyText()}
+          <HeaderThree
+            color="#000"
+            marginBottom="0"
+            marginLeft="0"
+            marginTop="24"
+          >
+            Other Device Info
+          </HeaderThree>
+          <GoyemonText fontSize="14">{otherDebugInfo}</GoyemonText>
+          <TouchableWithoutFeedback
+            onPress={async () => {
+              await Clipboard.setString(otherDebugInfo);
+              this.setState({ clipboardContent: 'debug' });
+            }}
+          >
+            <CopyAddressText>Copy</CopyAddressText>
+          </TouchableWithoutFeedback>
         </Container>
       </RootContainer>
     );
