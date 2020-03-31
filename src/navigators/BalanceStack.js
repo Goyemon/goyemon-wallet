@@ -94,32 +94,51 @@ const BalanceStack = createStackNavigator(
       screen: BalanceHome,
       navigationOptions: () => ({
         headerTransparent: true,
-        headerBackTitle: 'Balance'
+        headerBackTitle: 'Balance',
+        headerStyle: {
+          marginTop: 16,
+          marginRight: 16
+        }
       })
     },
     Receive: {
       screen: Receive,
       navigationOptions: () => ({
-        headerTransparent: true
+        headerTransparent: true,
+        headerStyle: {
+          marginTop: 16,
+          marginRight: 16
+        }
       })
     },
     BalanceWallet: {
       screen: BalanceWallet,
       navigationOptions: () => ({
-        headerTransparent: true
+        headerTransparent: true,
+        headerStyle: {
+          marginTop: 16,
+          marginRight: 16
+        }
       })
     },
     BalanceCompound: {
       screen: BalanceCompound,
       navigationOptions: () => ({
-        headerTransparent: true
+        headerTransparent: true,
+        headerStyle: {
+          marginTop: 16,
+          marginRight: 16
+        }
       })
     },
     Settings: {
       screen: Settings,
       navigationOptions: () => ({
         headerTransparent: true,
-        headerStyle: { marginTop: 18 }
+        headerStyle: {
+          marginTop: 16,
+          marginRight: 16
+        }
       })
     },
     BackupWords: {
