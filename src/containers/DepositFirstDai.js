@@ -74,7 +74,7 @@ class DepositFirstDai extends Component {
       .setGas(GlobalConfig.ERC20ApproveGasLimit.toString(16))
       .tempSetData(approveEncodedABI)
       .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.approval, [
-        GlobalConfig.cDAIcontract,
+        (GlobalConfig.cDAIcontract.startsWith('0x') ? GlobalConfig.cDAIcontract.substr(2) : GlobalConfig.cDAIcontract).toLowerCase(),
         TxStorage.storage.getOwnAddress(),
         'ff'.repeat(256 / 8)
       ]);
