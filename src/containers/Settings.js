@@ -114,7 +114,7 @@ class Settings extends Component {
                   <ResetWalletHeader>
                     {I18n.t('Are you sure?')}
                   </ResetWalletHeader>
-                  <Description marginBottom="8" marginLeft="0" marginTop="16">
+                  <Description marginBottom="0" marginLeft="0" marginTop="8">
                     Did you save your backup words? Otherwise, you will lose
                     your funds.
                   </Description>
@@ -280,10 +280,8 @@ const ModalContainer = styled.View`
 const ModalBackground = styled.View`
   background-color: #f8f8f8;
   border-radius: 16px;
-  border-top-width: 2;
-  border-top-color: #e41b13;
-  height: 30%;
-  min-height: 320px;
+  height: 40%;
+  min-height: 320px
   margin-top: 80;
   width: 90%;
 `;
@@ -353,7 +351,6 @@ const ResetWalletHeader = styled.Text`
   font-size: 24;
   margin-top: 16;
   text-align: center;
-  text-transform: uppercase;
 `;
 
 const ResetWalletText = styled.Text`
