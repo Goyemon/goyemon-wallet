@@ -5,10 +5,12 @@ import * as Animatable from 'react-native-animatable';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-import { Container, Loader } from '../components/common';
+import { Container } from '../components/common';
 import BalanceStack from '../navigators/BalanceStack';
 import LogUtilities from '../utilities/LogUtilities.js';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
+import Animation from 'lottie-react-native';
+import Loader from '../../assets/loader_animation.json';
 
 class Initial extends Component {
   async componentDidUpdate(prevProps) {
@@ -19,6 +21,7 @@ class Initial extends Component {
 
   async componentDidMount() {
     await this.conditionalNavigation();
+    this.animation.play();
   }
 
   async conditionalNavigation() {
@@ -144,20 +147,31 @@ class Initial extends Component {
       >
         <LoaderContainer animation="fadeIn" delay={1000}>
           <Logo>Goyemon</Logo>
-          <Loader animating={true} size="large" />
+          <Animation
+            ref={animation => {
+              this.animation = animation;
+            }}
+            style={{
+              width: 120,
+              height: 120
+            }}
+            loop={true}
+            source={Loader}
+          />
         </LoaderContainer>
       </Container>
     );
   }
 }
 
-const LoaderContainer = Animatable.createAnimatableComponent(styled.View``);
+const LoaderContainer = Animatable.createAnimatableComponent(styled.View`
+  align-items: center;
+`);
 
 const Logo = Animatable.createAnimatableComponent(styled.Text`
   color: #e41b13;
   font-family: 'HKGrotesk-Bold';
   font-size: 40;
-  margin-bottom: 48;
   text-align: center;
   text-transform: uppercase;
 `);
