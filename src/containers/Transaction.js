@@ -251,7 +251,7 @@ class Transaction extends Component {
   renderType() {
     let txType;
     if (this.state.isUniswapTx) {
-      txType = 'Swapped';
+      txType = 'Swap';
       return <GoyemonText fontSize={18}>{txType}</GoyemonText>;
     }
 
@@ -286,9 +286,9 @@ class Transaction extends Component {
     if (this.state.isDaiApproveTx)
       txType = 'Unlock Deposit';
     else if (this.state.isCDaiMintTx)
-      txType = 'Deposited';
+      txType = 'Deposit';
     else if (this.state.isCDaiRedeemUnderlyingTx)
-      txType = 'Withdrawn';
+      txType = 'Withdraw';
 
     if (txType)
       return <GoyemonText fontSize={18}>{txType}</GoyemonText>;

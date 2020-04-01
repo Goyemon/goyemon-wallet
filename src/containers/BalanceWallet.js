@@ -64,12 +64,11 @@ class BalanceWallet extends Component {
         >
           <CoinImageContainer>
             <CoinImage source={require('../../assets/ether_icon.png')} />
+            <CoinText>ETH</CoinText>
           </CoinImageContainer>
           <PriceContainer>
-            <CoinText>ETH</CoinText>
-            <GoyemonText fontSize="16">
-              1 ETH = ${this.props.price.eth}
-            </GoyemonText>
+            <PriceText>1 ETH</PriceText>
+            <PriceText>= ${this.props.price.eth}</PriceText>
           </PriceContainer>
           <BalanceContainer>
             <UsdBalanceText>
@@ -92,12 +91,11 @@ class BalanceWallet extends Component {
         >
           <CoinImageContainer>
             <CoinImage source={require('../../assets/dai_icon.png')} />
+            <CoinText>DAI</CoinText>
           </CoinImageContainer>
           <PriceContainer>
-            <CoinText>DAI</CoinText>
-            <GoyemonText fontSize="16">
-              1 DAI = ${this.props.price.dai}
-            </GoyemonText>
+            <PriceText>1 DAI</PriceText>
+            <PriceText>= ${this.props.price.dai}</PriceText>
           </PriceContainer>
           <BalanceContainer>
             <UsdBalanceText>
@@ -121,7 +119,7 @@ const UsdBalance = styled.Text`
 
 const CoinImageContainer = styled.View`
   align-items: center;
-  width: 15%;
+  width: 20%;
 `;
 
 const CoinImage = styled.Image`
@@ -132,13 +130,22 @@ const CoinImage = styled.Image`
 
 const PriceContainer = styled.View`
   margin-left: 16;
-  width: 40%;
+  width: 35%;
+`;
+
+const PriceText = styled.Text`
+  color: #5f5f5f;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 16;
+  margin-top: 4;
+  margin-bottom: 4;
 `;
 
 const CoinText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
-  font-size: 20;
+  font-size: 16;
+  margin-top: 4;
   margin-bottom: 4;
 `;
 

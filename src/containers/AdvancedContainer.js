@@ -171,27 +171,17 @@ const SpeedContainer = styled.TouchableOpacity`
 
 const SelectedSpeedTextContainer = styled.View`
   background-color: #fff;
-  border-color: #fff;
   border-radius: 16px;
-  border-width: 1.5;
   align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0 4px;
-  padding: 8px 12px;
+  padding: 8px;
   width: 100%;
 `;
 
 const UnselectedSpeedTextContainer = styled.View`
   background-color: #fff;
-  border-color: #fff;
   border-radius: 16px;
-  border-width: 1.5;
   align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0 4px;
-  padding: 8px 12px;
+  padding: 8px;
   width: 100%;
 `;
 

@@ -89,7 +89,7 @@ class BalanceCompound extends Component {
         >
           <CoinImageContainer>
             <CoinImage source={require('../../assets/dai_icon.png')} />
-            <Text>Dai</Text>
+            <CoinText>DAI</CoinText>
           </CoinImageContainer>
           <TitleContainer>
             <TitleText>dai savings</TitleText>
@@ -133,8 +133,14 @@ const CoinImageContainer = styled.View`
 const CoinImage = styled.Image`
   border-radius: 20px;
   height: 40px;
-  margin-bottom: 8;
   width: 40px;
+`;
+
+const CoinText = styled.Text`
+  color: #5f5f5f;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 16;
+  margin-top: 4;
 `;
 
 const TitleContainer = styled.View`
@@ -145,7 +151,7 @@ const TitleContainer = styled.View`
 const TitleText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
-  font-size: 20;
+  font-size: 18;
   margin-bottom: 8;
 `;
 
@@ -157,7 +163,7 @@ const ValueContainer = styled.View`
 const ValueText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
-  font-size: 20;
+  font-size: 18;
   margin-bottom: 8;
 `;
 

@@ -101,7 +101,7 @@ const TotalContainer = styled.View`
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  margin-bottom: 40;
+  margin-bottom: 28;
   margin-top: 56;
 `;
 

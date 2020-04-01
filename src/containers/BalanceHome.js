@@ -168,9 +168,9 @@ class BalanceHome extends Component {
             <GoyemonText fontSize={12}>ETH and ERC20</GoyemonText>
           </NameContainer>
           <BalanceContainer>
-            <CoinText>
+            <ApplicationBalanceText>
               ${PriceUtilities.getTotalWalletBalance(ethBalance, daiBalance)}
-            </CoinText>
+            </ApplicationBalanceText>
           </BalanceContainer>
         </TouchableCardContainer>
         <TouchableCardContainer
@@ -189,9 +189,9 @@ class BalanceHome extends Component {
             <NameText>Compound</NameText>
           </NameContainer>
           <BalanceContainer>
-            <CoinText>
+            <ApplicationBalanceText>
               ${PriceUtilities.convertDaiToUsd(daiSavingsBalance).toFixed(2)}
-            </CoinText>
+            </ApplicationBalanceText>
           </BalanceContainer>
         </TouchableCardContainer>
         <UntouchableGreyCardContainer>
@@ -202,7 +202,7 @@ class BalanceHome extends Component {
             <OpacityText>PoolTogether</OpacityText>
           </NameContainer>
           <BalanceContainer>
-            <CoinText>coming soon!</CoinText>
+            <ApplicationBalanceText>coming soon!</ApplicationBalanceText>
           </BalanceContainer>
         </UntouchableGreyCardContainer>
       </RootContainer>
@@ -279,6 +279,12 @@ const IconImageContainer = styled.View`
   width: 20%;
 `;
 
+const CoinText = styled.Text`
+  color: #5f5f5f;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 12;
+`;
+
 const NameContainer = styled.View`
   margin-left: 16;
   width: 40%;
@@ -294,10 +300,10 @@ const BalanceContainer = styled.View`
   width: 40%;
 `;
 
-const CoinText = styled.Text`
+const ApplicationBalanceText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
-  font-size: 16;
+  font-size: 20;
 `;
 
 const UntouchableGreyCardContainer = styled.View`
