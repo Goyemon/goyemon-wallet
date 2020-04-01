@@ -249,6 +249,8 @@ class ShowMnemonic extends Component {
           marginTop={0}
           width="100%"
         >
+          {this.renderScreenshotButtons()}
+          <GoyemonText fontSize="14">OR</GoyemonText>
           <Button
             text="Verify Backup Words"
             textColor="#00A3E2"
@@ -259,8 +261,6 @@ class ShowMnemonic extends Component {
             opacity="1"
             onPress={() => this.props.navigation.navigate('VerifyMnemonic')}
           />
-          <GoyemonText fontSize="14">OR</GoyemonText>
-          {this.renderScreenshotButtons()}
           <ScreenshotContainer>
             <ScreenshotImage source={{ uri: this.state.imageURI }} />
             {this.renderScreenshotSavedMessage()}

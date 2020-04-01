@@ -202,7 +202,7 @@ class BalanceHome extends Component {
             <OpacityText>PoolTogether</OpacityText>
           </NameContainer>
           <BalanceContainer>
-            <ApplicationBalanceText>coming soon!</ApplicationBalanceText>
+            <ApplicationBalanceGreyText>coming soon!</ApplicationBalanceGreyText>
           </BalanceContainer>
         </UntouchableGreyCardContainer>
       </RootContainer>
@@ -304,6 +304,13 @@ const ApplicationBalanceText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
   font-size: 20;
+`;
+
+const ApplicationBalanceGreyText = styled.Text`
+  color: #5f5f5f;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 20;
+  opacity: 0.4;
 `;
 
 const UntouchableGreyCardContainer = styled.View`

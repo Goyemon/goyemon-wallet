@@ -4,7 +4,7 @@ import { Container } from '../common'
 import styled from 'styled-components';
 
 const ProgressBar = props => (
-  <Container alignItems="center" flexDirection="column"  justifyContent="center" marginTop={120} width="100%">
+  <Container alignItems="center" flexDirection="column"  justifyContent="center" marginTop={112} width="100%">
   <Outer />
     <InnerContainer marginRight={props.marginRight} width={props.width}>
       <Inner />

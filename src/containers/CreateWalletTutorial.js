@@ -25,7 +25,7 @@ class CreateWalletTutorial extends Component {
     return (
       <RootContainer>
         <Container alignItems="center" flexDirection="column" justifyContent="center" marginTop={0} width="90%">
-          <HeaderTwo marginBottom="24" marginLeft="0" marginTop="144">
+          <HeaderTwo marginBottom="24" marginLeft="0" marginTop="112">
             With Great Power Comes Great Responsibility
           </HeaderTwo>
           <Description marginBottom="8" marginLeft="0" marginTop="16">
