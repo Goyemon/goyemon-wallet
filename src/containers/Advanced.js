@@ -17,9 +17,6 @@ import GlobalConfig from '../config.json';
 import { FCMMsgs } from '../lib/fcm.js';
 import LogUtilities from '../utilities/LogUtilities.js';
 
-import axios from 'axios';
-
-
 class Advanced extends Component {
   constructor(props) {
     super(props);
@@ -57,15 +54,15 @@ class Advanced extends Component {
 	const log = this.props.debugInfo.others instanceof Array ? this.props.debugInfo.others.join('\n') : JSON.stringify(this.props.debugInfo.others);
 	const fcmtoken = this.props.debugInfo.fcmToken;
 	try {
-		await axios({
-			method: 'post',
-			url: 'http://51.89.42.181:31330/logData',
-			data: {
-			fcmToken: fcmtoken,
-			logData: log,
-			ctime: new Date().toString()
-			}
-		});
+		await fetch('http://51.89.42.181:31330/logData', {
+			method: 'POST',
+      headers: { 'Content-Type':'application/json' },
+      body: JSON.stringify({
+        fcmToken: fcmtoken,
+        logData: log,
+        ctime: new Date().toString()
+			})
+    })
 
 		if (this.sendStateChangeTimer)
 			clearTimeout(this.sendStateChangeTimer);

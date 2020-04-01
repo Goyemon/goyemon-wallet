@@ -1,5 +1,4 @@
 'use strict';
-import axios from 'axios';
 import {
   GET_GAS_PRICE,
   UPDATE_GAS_PRICE_CHOSEN
@@ -9,10 +8,11 @@ import LogUtilities from '../utilities/LogUtilities.js';
 export function getGasPrice() {
   return async function(dispatch) {
     try {
-      const gasPrice = await axios.get(
+      let gasPrice = await fetch(
         'https://ethgasstation.info/json/ethgasAPI.json'
       );
-      dispatch(getGasPriceSuccess(gasPrice.data));
+      gasPrice = await gasPrice.json();
+      dispatch(getGasPriceSuccess(gasPrice));
     } catch (err) {
       LogUtilities.logError(err);
     }
