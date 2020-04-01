@@ -1,8 +1,33 @@
+// Ropsten testnet
 {
-    "FCM_server_address": "255097673919@gcm.googleapis.com",
-    "network_id": 3,
-    "cDAIcontract": "0x2b536482a01e620ee111747f8334b395a42a555e",
-    "DAIcontract": "0xb5e5d0f8c0cba267cd3d7035d6adc8eba7df7cdd"
+  "FCM_server_address": "687286274439@gcm.googleapis.com",
+  "network_name": "ropsten",
+  "network_id": 3,
+  "cDAIcontract": "0x2b536482a01e620ee111747f8334b395a42a555e",
+  "DAITokenContract": "0xb5e5d0f8c0cba267cd3d7035d6adc8eba7df7cdd",
+  "DAIUniswapContract": "0x386045dA04eCbe32DA4Ce6bD78a224a3543c16F0",
+  "ETHTxGasLimit": 21000,
+  "ERC20TransferGasLimit": 65000,
+  "ERC20ApproveGasLimit": 50000,
+  "cTokenMintGasLimit": 350000,
+  "cTokenRedeemUnderlyingGasLimit": 650000,
+  "UniswapEthToTokenSwapInputGasLimit": 75000
 }
 
-// the usd price of currencies and the gasLimit are always the mainnet data
+// Mainnet
+// {
+//     "FCM_server_address": "1050179785740@gcm.googleapis.com",
+//     "network_name": "mainnet",
+//     "network_id": 1,
+//     "cDAIcontract": "0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643",
+//     "DAITokenContract": "0x6b175474e89094c44da98b954eedeac495271d0f",
+//     "DAIUniswapContract": "0x2a1530C4C41db0B0b2bB646CB5Eb1A67b7158667",
+//     "ETHTxGasLimit": 21000,
+//     "ERC20TransferGasLimit" : 65000,
+//     "ERC20ApproveGasLimit" : 50000,
+//     "cTokenMintGasLimit": 350000,
+//     "cTokenRedeemUnderlyingGasLimit": 650000,
+//     "UniswapEthToTokenSwapInputGasLimit": 75000
+// }
+
+// the usd price of currencies is always the mainnet data

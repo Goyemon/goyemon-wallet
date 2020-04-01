@@ -1,19 +1,24 @@
 'use strict';
 import React, { Component } from 'react';
+import { BackHandler, TouchableWithoutFeedback, Text } from 'react-native';
 import { connect } from 'react-redux';
-import { View, Text, Linking, TouchableHighlight, Alert, Modal } from 'react-native';
+import { Linking, TouchableHighlight, Alert, Modal } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import { clearState } from '../actions/ActionClearState';
+import { rehydrationComplete } from '../actions/ActionRehydration';
 import {
   RootContainer,
   HeaderOne,
   UntouchableCardContainer,
   Button,
   Description,
-  CrypterestText
+  GoyemonText
 } from '../components/common';
-import { persistor } from '../store/store.js';
+import I18n from '../i18n/I18n';
+import TxStorage from '../lib/tx';
+import BalanceStack from '../navigators/BalanceStack';
+import { persistor, store } from '../store/store.js';
 import LogUtilities from '../utilities/LogUtilities.js';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
@@ -28,25 +33,72 @@ class Settings extends Component {
     };
   }
 
+  static navigationOptions = ({ navigation }) => ({
+    headerLeft: (
+      <BackButtonContainer
+        onPress={() => {
+          navigation.navigate('BalanceHome');
+          BalanceStack.navigationOptions = () => {
+            const tabBarVisible = true;
+            return {
+              tabBarVisible
+            };
+          };
+        }}
+      >
+        <Icon color="#00A3E2" name="chevron-left" size={40} />
+      </BackButtonContainer>
+    )
+  });
+
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  handleBackButton() {
+    BalanceStack.navigationOptions = () => {
+      const tabBarVisible = true;
+      return {
+        tabBarVisible
+      };
+    };
+  }
+
   setModalVisible(visible) {
-    this.setState({ modalVisible: visible, buttonDisabled: true, buttonOpacity: 0.5 });
+    this.setState({
+      modalVisible: visible,
+      buttonDisabled: true,
+      buttonOpacity: 0.5
+    });
   }
 
   validateDeleteText(deleteText) {
     if (deleteText === 'delete') {
       LogUtilities.logInfo('the delete text validated!');
-      this.setState({ deleteTextValidation: true, buttonDisabled: false, buttonOpacity: 1 });
+      this.setState({
+        deleteTextValidation: true,
+        buttonDisabled: false,
+        buttonOpacity: 1
+      });
       return true;
     }
     LogUtilities.logInfo('wrong delete text!');
-    this.setState({ deleteTextValidation: false, buttonDisabled: true, buttonOpacity: 0.5 });
+    this.setState({
+      deleteTextValidation: false,
+      buttonDisabled: true,
+      buttonOpacity: 0.5
+    });
     return false;
   }
 
   render() {
     return (
       <RootContainer>
-        <HeaderOne marginTop="64">Settings</HeaderOne>
+        <HeaderOne marginTop="112">Settings</HeaderOne>
         <Modal
           animationType="fade"
           transparent
@@ -59,9 +111,12 @@ class Settings extends Component {
             <ModalBackground>
               <MondalInner>
                 <ModalTextContainer>
-                  <ResetWalletHeader>Are you sure?</ResetWalletHeader>
-                  <Description marginBottom="8" marginLeft="0" marginTop="16">
-                    Did you save your backup words? Otherwise, you will lose your funds.
+                  <ResetWalletHeader>
+                    {I18n.t('Are you sure?')}
+                  </ResetWalletHeader>
+                  <Description marginBottom="0" marginLeft="0" marginTop="8">
+                    Did you save your backup words? Otherwise, you will lose
+                    your funds.
                   </Description>
                 </ModalTextContainer>
                 <DeleteTextInputContainer>
@@ -101,10 +156,12 @@ class Settings extends Component {
                     onPress={async () => {
                       await WalletUtilities.resetKeychainData();
                       await persistor.purge();
+                      await TxStorage.storage.clear();
                       this.props.clearState();
                       // reset notification settings using https://github.com/zo0r/react-native-push-notification
                       this.setModalVisible(false);
                       this.props.navigation.navigate('Initial');
+                      store.dispatch(rehydrationComplete(true));
                     }}
                   />
                 </ButtonContainer>
@@ -114,28 +171,32 @@ class Settings extends Component {
         </Modal>
         <CommunityIconContainer>
           <CommunityIcon>
-            <Icon
-              onPress={() => {
-                Linking.openURL('#').catch(err =>
-                  LogUtilities.logError('An error occurred', err)
-                );
-              }}
-              name="twitter"
-              color="#00aced"
-              size={40}
-            />
+            <IconOpacity>
+              <Icon
+                onPress={() => {
+                  Linking.openURL('#').catch(err =>
+                    LogUtilities.logError('An error occurred', err)
+                  );
+                }}
+                name="twitter"
+                color="#5f5f5f"
+                size={40}
+              />
+            </IconOpacity>
           </CommunityIcon>
           <CommunityIcon>
-            <Icon
-              onPress={() => {
-                Linking.openURL('#').catch(err =>
-                  LogUtilities.logError('An error occurred', err)
-                );
-              }}
-              name="github-circle"
-              color="#333"
-              size={40}
-            />
+            <IconOpacity>
+              <Icon
+                onPress={() => {
+                  Linking.openURL('#').catch(err =>
+                    LogUtilities.logError('An error occurred', err)
+                  );
+                }}
+                name="github-circle"
+                color="#5f5f5f"
+                size={40}
+              />
+            </IconOpacity>
           </CommunityIcon>
           <CommunityIcon>
             <Icon
@@ -197,12 +258,17 @@ class Settings extends Component {
         <BottomText>
           <VersionText>v0.0.1</VersionText>
           <Icon name="heart-outline" color="#5f5f5f" size={24} />
-          <LoveText>Made with love by Swarm</LoveText>
+          <LoveText>Made with love by Goyemon</LoveText>
         </BottomText>
       </RootContainer>
     );
   }
 }
+
+const BackButtonContainer = styled.TouchableWithoutFeedback`
+  align-items: center;  
+  flex-direction: row;
+`;
 
 const ModalContainer = styled.View`
   background-color: rgba(0, 0, 0, 0.5);
@@ -214,11 +280,9 @@ const ModalContainer = styled.View`
 const ModalBackground = styled.View`
   background-color: #f8f8f8;
   border-radius: 16px;
-  border-top-width: 2;
-  border-top-color: #e41b13;
-  height: 30%;
-  min-height: 320px;
-  margin-top: 200;
+  height: 40%;
+  min-height: 320px
+  margin-top: 80;
   width: 90%;
 `;
 
@@ -237,12 +301,16 @@ const ModalTextContainer = styled.View`
 const CommunityIconContainer = styled.View`
   flex-direction: row;
   justify-content: center;
-  margin-top: 32;
+  margin-top: 40;
 `;
 
 const CommunityIcon = styled.View`
   margin-left: 8;
   margin-right: 8;
+`;
+
+const IconOpacity = styled.View`
+  opacity: 0.4;
 `;
 
 const SettingsListContainer = styled.View`
@@ -283,7 +351,6 @@ const ResetWalletHeader = styled.Text`
   font-size: 24;
   margin-top: 16;
   text-align: center;
-  text-transform: uppercase;
 `;
 
 const ResetWalletText = styled.Text`
@@ -338,7 +405,4 @@ const mapDispatchToProps = {
   clearState
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(Settings);
+export default connect(null, mapDispatchToProps)(Settings);

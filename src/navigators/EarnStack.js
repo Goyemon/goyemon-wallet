@@ -1,22 +1,17 @@
 'use strict';
 import { createStackNavigator } from 'react-navigation';
-import EarnDai from '../containers/EarnDai';
-import EarnList from '../containers/EarnList';
+import EarnHome from '../components/EarnHome';
 import DepositDai from '../containers/DepositDai';
 import DepositDaiConfirmation from '../containers/DepositDaiConfirmation';
+import DepositFirstDai from '../containers/DepositFirstDai';
+import DepositFirstDaiConfirmation from '../containers/DepositFirstDaiConfirmation';
 import WithdrawDai from '../containers/WithdrawDai';
 import WithdrawDaiConfirmation from '../containers/WithdrawDaiConfirmation';
 
 const EarnStack = createStackNavigator(
   {
-    EarnDai: {
-      screen: EarnDai,
-      navigationOptions: () => ({
-        headerTransparent: true,
-      })
-    },
-    EarnList: {
-      screen: EarnList,
+    EarnHome: {
+      screen: EarnHome,
       navigationOptions: () => ({
         headerTransparent: true,
         headerBackTitle: 'Earn'
@@ -31,6 +26,19 @@ const EarnStack = createStackNavigator(
     },
     DepositDaiConfirmation: {
       screen: DepositDaiConfirmation,
+      navigationOptions: () => ({
+        headerTransparent: true
+      })
+    },
+    DepositFirstDai: {
+      screen: DepositFirstDai,
+      navigationOptions: () => ({
+        headerTransparent: true,
+        headerBackTitle: 'Deposit'
+      })
+    },
+    DepositFirstDaiConfirmation: {
+      screen: DepositFirstDaiConfirmation,
       navigationOptions: () => ({
         headerTransparent: true
       })
@@ -50,7 +58,7 @@ const EarnStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: 'EarnList'
+    initialRouteName: 'EarnHome'
   }
 );
 

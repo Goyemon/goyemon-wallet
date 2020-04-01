@@ -6,7 +6,9 @@ import GlobalConfig from '../config.json';
 
 class FcmUpstreamMsgs {
   __sendMessage(type, checksumAddress) {
-    const checksumAddressWithoutPrefix = EtherUtilities.stripHexPrefix(checksumAddress);
+    const checksumAddressWithoutPrefix = EtherUtilities.stripHexPrefix(
+      checksumAddress
+    );
 
     const upstreamMessage = new firebase.messaging.RemoteMessage()
       .setMessageId(uuidv4())
@@ -23,12 +25,16 @@ class FcmUpstreamMsgs {
     this.__sendMessage('address_register', checksumAddress);
   }
 
-  resyncTransactions(checksumAddress) {
-    this.__sendMessage('resync_transactions', checksumAddress);
+  resyncWallet(checksumAddress) {
+    this.__sendMessage('resync_wallet', checksumAddress);
   }
 
   requestCDaiLendingInfo(checksumAddress) {
     this.__sendMessage('cDai_lending_info', checksumAddress);
+  }
+
+  requestUniswapETHDAIBalances(checksumAddress) {
+    this.__sendMessage('uniswap_ETHDAI_info', checksumAddress);
   }
 }
 

@@ -1,35 +1,55 @@
 'use strict';
 import React from 'react';
 import { Provider } from 'react-redux';
-import Icon from 'react-native-vector-icons/AntDesign';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 import { PersistGate } from 'redux-persist/integration/react';
-import '../firebase/FcmListener';
+import { rehydrationComplete } from '../actions/ActionRehydration';
 import '../firebase/FcmTokenMonitor';
 import '../netinfo/NetInfoListener';
-import EarnIcon from '../../assets/EarnIcon.js';
+import SaveIcon from '../../assets/SaveIcon.js';
 import HistoryIcon from '../../assets/HistoryIcon.js';
 import WalletIcon from '../../assets/WalletIcon.js';
+import BalanceStack from './BalanceStack';
 import EarnStack from './EarnStack';
 import HistoryStack from './HistoryStack';
-import HomeStack from './HomeStack';
-import SettingsStack from './SettingsStack';
+import SendStack from './SendStack';
+import SwapStack from './SwapStack';
+import { Loader } from '../components/common';
 import { store, persistor } from '../store/store.js';
 
 const AppTab = createBottomTabNavigator(
   {
-    Home: {
-      screen: HomeStack,
+    Balance: {
+      screen: BalanceStack,
       navigationOptions: {
-        tabBarLabel: 'Wallets',
+        tabBarLabel: 'Balance',
         tabBarIcon: ({ tintColor }) => <WalletIcon fill={tintColor} />
+      }
+    },
+    Send: {
+      screen: SendStack,
+      navigationOptions: {
+        tabBarLabel: 'Send',
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="send" size={32} color={tintColor} />
+        )
       }
     },
     Earn: {
       screen: EarnStack,
       navigationOptions: {
         tabBarLabel: 'Earn',
-        tabBarIcon: ({ tintColor }) => <EarnIcon fill={tintColor} />
+        tabBarIcon: ({ tintColor }) => <SaveIcon fill={tintColor} />
+      }
+    },
+    Swap: {
+      screen: SwapStack,
+      navigationOptions: {
+        tabBarLabel: 'Swap',
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="swap-horizontal" size={32} color={tintColor} />
+        )
       }
     },
     History: {
@@ -37,13 +57,6 @@ const AppTab = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: 'History',
         tabBarIcon: ({ tintColor }) => <HistoryIcon fill={tintColor} />
-      }
-    },
-    Settings: {
-      screen: SettingsStack,
-      navigationOptions: {
-        tabBarLabel: 'Settings',
-        tabBarIcon: ({ tintColor }) => <Icon name="setting" size={28} color={tintColor} />
       }
     }
   },
@@ -65,7 +78,7 @@ const AppTab = createBottomTabNavigator(
     }
   },
   {
-    initialRouteName: 'Home'
+    initialRouteName: 'Balance'
   }
 );
 
@@ -73,7 +86,10 @@ const App = createAppContainer(AppTab);
 
 export default () => (
   <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
+    <PersistGate
+      loading={<Loader animating={true} size="large" />}
+      persistor={persistor}
+    >
       <App />
     </PersistGate>
   </Provider>

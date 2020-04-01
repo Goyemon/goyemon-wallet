@@ -3,21 +3,39 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>255097673919-ctdevr2mifuhjgt292pmo66prh4mmh1p.apps.googleusercontent.com</string>
+	<!-- Ropsten -->
+	<string>687286274439-3epagfiamneumqo7ke0c2c2pdhlvsr0o.apps.googleusercontent.com</string>
+	<!-- Mainnet -->
+	<!-- <string>1050179785740-gcm1vsfvk9dioocdjk7am1ev3hnoneis.apps.googleusercontent.com</string> -->
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.255097673919-ctdevr2mifuhjgt292pmo66prh4mmh1p</string>
+	<!-- Ropsten -->
+	<string>com.googleusercontent.apps.687286274439-3epagfiamneumqo7ke0c2c2pdhlvsr0o</string>
+	<!-- Mainnet -->
+	<!-- <string>com.googleusercontent.apps.1050179785740-gcm1vsfvk9dioocdjk7am1ev3hnoneis</string> -->
 	<key>API_KEY</key>
-	<string>AIzaSyApZRuh-7ce8ny2lbTXqU_05-3_q5CPA0A</string>
+	<!-- Ropsten -->
+	<string>AIzaSyBMUBLLGPV_WlyCnRkC4lLRQfPcV6o7gaU</string>
+	<!-- Mainnet -->
+	<!-- <string>AIzaSyA-Fp8qN1ipN3KG8CKWSx8hSgwL0RVricA</string> -->
 	<key>GCM_SENDER_ID</key>
-	<string>255097673919</string>
+	<!-- Ropsten -->
+	<string>687286274439</string>
+	<!-- Mainnet -->
+	<!-- <string>1050179785740</string> -->
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.swarm.crypterest</string>
+	<string>com.swarm.goyemon</string>
 	<key>PROJECT_ID</key>
-	<string>crypterest-ropsten-dev</string>
+	<!-- Ropsten -->
+	<string>goyemon-ropsten</string>
+	<!-- Mainnet -->
+	<!-- <string>goyemon-main</string> -->
 	<key>STORAGE_BUCKET</key>
-	<string>crypterest-ropsten-dev.appspot.com</string>
+	<!-- Ropsten -->
+	<string>goyemon-ropsten.appspot.com</string>
+	<!-- Mainnet -->
+	<!-- <string>goyemon-main.appspot.com</string> -->
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +47,14 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:255097673919:ios:828c10b6accc1b42170e0a</string>
+	<!-- Ropsten -->
+	<string>1:687286274439:ios:bac41f3eaf65a24c622b22</string>
+	<!-- Mainnet -->
+	<!-- <string>1:1050179785740:ios:fde229c0825f6f03ca8a29</string> -->
 	<key>DATABASE_URL</key>
-	<string>https://crypterest-ropsten-dev.firebaseio.com</string>
+	<!-- Ropsten -->
+	<string>https://goyemon-ropsten.firebaseio.com</string>
+	<!-- Mainnet -->
+	<!-- <string>https://goyemon-main.firebaseio.com</string> -->
 </dict>
 </plist>

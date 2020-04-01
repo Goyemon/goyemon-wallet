@@ -1,9 +1,8 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styled from 'styled-components/native';
 import { saveMnemonicWords } from '../actions/ActionMnemonic';
-import { RootContainer, Button, HeaderTwo, Description, Loader } from '../components/common';
+import { RootContainer, Container, Button, HeaderTwo, Description, Loader } from '../components/common';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class CreateWalletTutorial extends Component {
@@ -12,30 +11,21 @@ class CreateWalletTutorial extends Component {
     this.state = {
       loading: false,
       buttonDisabled: false,
-      navigationDestination: ''
     };
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (this.props.mnemonicWords != null && this.props.mnemonicWords != prevProps.mnemonicWords) {
       this.setState({ loading: false, buttonDisabled: false });
-      this.navigateToNext();
-    }
-  }
-
-  navigateToNext() {
-    if (this.state.navigationDestination === 'ShowMnemonic') {
       this.props.navigation.navigate('ShowMnemonic');
-    } else if (this.state.navigationDestination === 'MnemonicWordsScreenshot') {
-      this.props.navigation.navigate('MnemonicWordsScreenshot');
     }
   }
 
   render() {
     return (
       <RootContainer>
-        <Container>
-          <HeaderTwo marginBottom="24" marginLeft="0" marginTop="144">
+        <Container alignItems="center" flexDirection="column" justifyContent="center" marginTop={0} width="90%">
+          <HeaderTwo marginBottom="24" marginLeft="0" marginTop="112">
             With Great Power Comes Great Responsibility
           </HeaderTwo>
           <Description marginBottom="8" marginLeft="0" marginTop="16">
@@ -45,7 +35,7 @@ class CreateWalletTutorial extends Component {
             - only you have access to them. We do NOT.
           </Description>
           <Button
-            text="Verify Backup Words"
+            text="Save Backup Words"
             textColor="#00A3E2"
             backgroundColor="#FFF"
             borderColor="#00A3E2"
@@ -56,46 +46,18 @@ class CreateWalletTutorial extends Component {
             onPress={async () => {
               this.setState({
                 loading: true,
-                buttonDisabled: true,
-                navigationDestination: 'ShowMnemonic'
+                buttonDisabled: true
               });
               await WalletUtilities.init();
               await this.props.saveMnemonicWords();
             }}
           />
-          <Button
-            text="Take a Screenshot"
-            textColor="#00A3E2"
-            backgroundColor="#F8F8F8"
-            borderColor="#F8F8F8"
-            disabled={this.state.buttonDisabled}
-            margin="0 auto"
-            marginBottom="12px"
-            opacity="1"
-            onPress={async () => {
-              this.setState({
-                loading: true,
-                buttonDisabled: true,
-                navigationDestination: 'MnemonicWordsScreenshot'
-              });
-              await WalletUtilities.init();
-              await this.props.saveMnemonicWords();
-            }}
-          />
-          <Loader animating={this.state.loading} />
+          <Loader animating={this.state.loading} size="small"/>
         </Container>
       </RootContainer>
     );
   }
 }
-
-const Container = styled.View`
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0 auto;
-  width: 90%;
-`;
 
 function mapStateToProps(state) {
   return {

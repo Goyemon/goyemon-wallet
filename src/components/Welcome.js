@@ -3,13 +3,11 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import {
-  widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 import styled from 'styled-components/native';
 import {
   RootContainer,
-  Button,
   HeaderTwo,
   HeaderThree,
   TouchableCardContainer
@@ -65,10 +63,9 @@ export default class Welcome extends Component {
   render() {
     return (
       <RootContainer>
-        <Container>
           {this.hollaFadeInOut()}
           <WelcomeContainer animation="fadeIn" delay={4000}>
-            <Logo>Crypterest</Logo>
+            <Logo>Goyemon</Logo>
             <HeaderTwo
               fontSize="24"
               fontWeight="bold"
@@ -76,16 +73,16 @@ export default class Welcome extends Component {
               marginLeft="0"
               marginTop="0"
             >
-              share your crypto assets,
+              live in the future and
             </HeaderTwo>
             <HeaderTwo
               fontSize="24"
               fontWeight="bold"
-              marginBottom="80"
+              marginBottom="64"
               marginLeft="0"
               marginTop="0"
             >
-              earn passive income
+              enjoy freedom to earn
             </HeaderTwo>
             <TouchableCardContainer
               alignItems="center"
@@ -124,16 +121,10 @@ export default class Welcome extends Component {
               <CardImage source={require('../../assets/import_wallet_icon.png')} />
             </TouchableCardContainer>
           </WelcomeContainer>
-        </Container>
       </RootContainer>
     );
   }
 }
-
-const Container = styled.View`
-  flex: 1;
-  text-align: center;
-`;
 
 const HollaContainer = Animatable.createAnimatableComponent(styled.View`
   margin-top: ${hp('40%')};

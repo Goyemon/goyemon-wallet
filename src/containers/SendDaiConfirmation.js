@@ -1,31 +1,26 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { TouchableWithoutFeedback, View, Text } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { NavigationActions } from 'react-navigation';
 import styled from 'styled-components/native';
-import Web3 from 'web3';
-import {
-  saveOutgoingDaiTransactionAmount,
-  saveOutgoingDaiTransactionToAddress
-} from '../actions/ActionOutgoingDaiTransactionData';
 import {
   RootContainer,
   Button,
   UntouchableCardContainer,
   HeaderOne,
   FormHeader,
-  CrypterestText,
-  Loader
+  GoyemonText,
+  Loader,
+  IsOnlineMessage
 } from '../components/common/';
+import NetworkFeeContainerConfirmation from '../containers/NetworkFeeContainerConfirmation';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
+import GlobalConfig from '../config.json';
 
 class SendDaiConfirmation extends Component {
   constructor(props) {
     super();
     this.state = {
-      currency: 'USD',
       loading: false,
       buttonDisabled: false
     };
@@ -35,58 +30,24 @@ class SendDaiConfirmation extends Component {
     const outgoingTransactionObject = this.props.outgoingTransactionObjects[
       this.props.outgoingTransactionObjects.length - 1
     ];
-    await TransactionUtilities.sendOutgoingTransactionToServer(outgoingTransactionObject);
-    this.props.saveOutgoingDaiTransactionAmount(this.props.outgoingDaiTransactionData.amount);
-    this.props.saveOutgoingDaiTransactionToAddress(this.props.outgoingDaiTransactionData.toAddress);
-  }
-
-  toggleCurrencySymbol() {
-    if (this.state.currency === 'ETH') {
-      return (
-        <CurrencySymbol>
-          <Text>ETH</Text>
-          <Icon name="swap-horizontal" size={16} color="#5f5f5f" />
-          <CurrencySymbolTextChosen>USD</CurrencySymbolTextChosen>
-        </CurrencySymbol>
-      );
-    } else if (this.state.currency === 'USD') {
-      return (
-        <CurrencySymbol>
-          <CurrencySymbolTextChosen>ETH</CurrencySymbolTextChosen>
-          <Icon name="swap-horizontal" size={16} color="#5f5f5f" />
-          <Text>USD</Text>
-        </CurrencySymbol>
-      );
-    }
-  }
-
-  toggleCurrency() {
-    if (this.state.currency === 'ETH') {
-      const usdTransactionFeeEstimateValue = this.props.transactionFeeEstimate.usd.toFixed(3);
-      return <NetworkFee fontSize="16">${usdTransactionFeeEstimateValue}</NetworkFee>;
-    } else if (this.state.currency === 'USD') {
-      return <NetworkFee fontSize="16">{this.props.transactionFeeEstimate.eth}ETH</NetworkFee>;
-    }
-  }
-
-  renderIsOnlineMessage() {
-    if (this.props.netInfo) {
-      return;
-    }
-    return <ErrorMessage>you are offline 😟</ErrorMessage>;
+    await TransactionUtilities.sendOutgoingTransactionToServer(
+      outgoingTransactionObject
+    );
   }
 
   render() {
-    const { outgoingTransactionObjects, outgoingDaiTransactionData } = this.props;
+    const { outgoingTransactionData } = this.props;
 
     return (
       <RootContainer>
         <HeaderOne marginTop="96">Confirmation</HeaderOne>
         <TotalContainer>
           <CoinImage source={require('../../assets/dai_icon.png')} />
-          <CrypterestText fontSize="16">You are about to send</CrypterestText>
-          <TotalValueText>{outgoingDaiTransactionData.amount} DAI</TotalValueText>
-          <CrypterestText fontSize="16">+ network fee</CrypterestText>
+          <GoyemonText fontSize="16">You are about to send</GoyemonText>
+          <TotalValueText>
+            {outgoingTransactionData.send.amount} DAI
+          </TotalValueText>
+          <GoyemonText fontSize="16">+ network fee</GoyemonText>
         </TotalContainer>
         <UntouchableCardContainer
           alignItems="flex-start"
@@ -101,28 +62,14 @@ class SendDaiConfirmation extends Component {
           <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
             To
           </FormHeader>
-          <To>{outgoingDaiTransactionData.toAddress}</To>
+          <To>{outgoingTransactionData.send.toaddress}</To>
           <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
             Amount
           </FormHeader>
-          <Amount>{outgoingDaiTransactionData.amount} DAI</Amount>
-          <NetworkFeeContainer>
-            <FormHeader marginBottom="0" marginLeft="8" marginTop="0">
-              Max Network Fee
-            </FormHeader>
-            <TouchableWithoutFeedback
-              onPress={() => {
-                if (this.state.currency === 'ETH') {
-                  this.setState({ currency: 'USD' });
-                } else if (this.state.currency === 'USD') {
-                  this.setState({ currency: 'ETH' });
-                }
-              }}
-            >
-              {this.toggleCurrencySymbol()}
-            </TouchableWithoutFeedback>
-          </NetworkFeeContainer>
-          <NetworkFee>{this.toggleCurrency()}</NetworkFee>
+          <Amount>{outgoingTransactionData.send.amount} DAI</Amount>
+          <NetworkFeeContainerConfirmation
+            gasLimit={GlobalConfig.ERC20TransferGasLimit}
+          />
         </UntouchableCardContainer>
         <ButtonContainer>
           <Button
@@ -139,7 +86,7 @@ class SendDaiConfirmation extends Component {
                 this.setState({ loading: true, buttonDisabled: true });
                 await this.sendSignedTx();
                 this.props.navigation.reset(
-                  [NavigationActions.navigate({ routeName: 'WalletList' })],
+                  [NavigationActions.navigate({ routeName: 'Send' })],
                   0
                 );
                 this.props.navigation.navigate('History');
@@ -148,8 +95,8 @@ class SendDaiConfirmation extends Component {
             }}
           />
         </ButtonContainer>
-        <Loader animating={this.state.loading} />
-        <View>{this.renderIsOnlineMessage()}</View>
+        <Loader animating={this.state.loading} size="small" />
+        <IsOnlineMessage netInfo={this.props.netInfo} />
       </RootContainer>
     );
   }
@@ -159,7 +106,7 @@ const TotalContainer = styled.View`
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  margin-bottom: 56;
+  margin-bottom: 28;
   margin-top: 56;
 `;
 
@@ -181,30 +128,6 @@ const Amount = styled.Text`
   margin-left: 8;
 `;
 
-const NetworkFeeContainer = styled.View`
-  align-items: center;
-  flex-direction: row;
-  justify-content: center;
-  margin-top: 16;
-  margin-bottom: 8;
-`;
-
-const NetworkFee = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Bold';
-  margin-left: 8;
-`;
-
-const CurrencySymbol = styled.Text`
-  font-family: 'HKGrotesk-Regular';
-  font-size: 16;
-  margin-left: 8;
-`;
-
-const CurrencySymbolTextChosen = styled.Text`
-  color: #1ba548;
-`;
-
 const TotalValueText = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 24;
@@ -216,28 +139,14 @@ const ButtonContainer = styled.View`
   justify-content: center;
 `;
 
-const ErrorMessage = styled.Text`
-  color: #e41b13;
-  font-family: 'HKGrotesk-Regular';
-  text-align: center;
-  width: 100%;
-`;
-
 function mapStateToProps(state) {
   return {
     netInfo: state.ReducerNetInfo.netInfo,
-    outgoingTransactionObjects: state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
-    transactionFeeEstimate: state.ReducerTransactionFeeEstimate.transactionFeeEstimate,
-    outgoingDaiTransactionData: state.ReducerOutgoingDaiTransactionData.outgoingDaiTransactionData
+    outgoingTransactionObjects:
+      state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
+    outgoingTransactionData:
+      state.ReducerOutgoingTransactionData.outgoingTransactionData
   };
 }
 
-const mapDispatchToProps = {
-  saveOutgoingDaiTransactionAmount,
-  saveOutgoingDaiTransactionToAddress
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SendDaiConfirmation);
+export default connect(mapStateToProps)(SendDaiConfirmation);

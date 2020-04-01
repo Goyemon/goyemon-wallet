@@ -7,7 +7,8 @@ const HistoryStack = createStackNavigator(
     History: {
       screen: History,
       navigationOptions: () => ({
-        header: null
+        headerTransparent: true,
+        headerBackTitle: 'History'
       })
     }
   },

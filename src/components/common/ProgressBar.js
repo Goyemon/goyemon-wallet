@@ -1,11 +1,11 @@
 'use strict';
 import React from 'react';
-import { Text } from 'react-native';
+import { Container } from '../common'
 import styled from 'styled-components';
 
 const ProgressBar = props => (
-  <Container>
-    <Outer />
+  <Container alignItems="center" flexDirection="column"  justifyContent="center" marginTop={112} width="100%">
+  <Outer />
     <InnerContainer marginRight={props.marginRight} width={props.width}>
       <Inner />
     </InnerContainer>
@@ -22,13 +22,6 @@ const ProgressBar = props => (
     </NumberContainer>
   </Container>
 );
-
-const Container = styled.View`
-  align-items: center;
-  flex:1;
-  justify-content: center;
-  margin-top: 112;
-`;
 
 const Outer = styled.View`
   background-color: #eeeeee;

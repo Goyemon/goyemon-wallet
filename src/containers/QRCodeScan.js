@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Dimensions, TouchableOpacity, Text, BackHandler } from 'react-native';
+import { Dimensions, BackHandler } from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { saveQRCodeData } from '../actions/ActionQRCodeData';
-import HomeStack from '../navigators/HomeStack';
+import { Container } from '../components/common';
+import SendStack from '../navigators/SendStack';
 
 class QRCodeScan extends Component {
   componentDidMount() {
@@ -17,7 +17,7 @@ class QRCodeScan extends Component {
   }
 
   handleBackButton() {
-    HomeStack.navigationOptions = () => {
+    SendStack.navigationOptions = () => {
       const tabBarVisible = true;
       return {
         tabBarVisible
@@ -29,7 +29,7 @@ class QRCodeScan extends Component {
     this.props.saveQRCodeData(e.data);
     this.props.navigation.pop();
 
-    HomeStack.navigationOptions = () => {
+    SendStack.navigationOptions = () => {
       const tabBarVisible = true;
       return {
         tabBarVisible
@@ -39,7 +39,13 @@ class QRCodeScan extends Component {
 
   render() {
     return (
-      <Container>
+      <Container
+        alignItems="center"
+        flexDirection="row"
+        justifyContent="center"
+        marginTop={0}
+        width="100%"
+      >
         <QRCodeScanner
           onRead={this.onScanSuccess}
           showMarker
@@ -48,7 +54,7 @@ class QRCodeScan extends Component {
           bottomContent={
             <GoBackContainer
               onPress={() => {
-                HomeStack.navigationOptions = () => {
+                SendStack.navigationOptions = () => {
                   const tabBarVisible = true;
                   return {
                     tabBarVisible
@@ -66,12 +72,6 @@ class QRCodeScan extends Component {
   }
 }
 
-const Container = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`;
-
 const GoBackContainer = styled.TouchableOpacity`
   align-items: center;
   min-height: 120;
@@ -86,7 +86,4 @@ const mapDispatchToProps = {
   saveQRCodeData
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(QRCodeScan);
+export default connect(null, mapDispatchToProps)(QRCodeScan);

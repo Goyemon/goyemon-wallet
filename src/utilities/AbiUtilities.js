@@ -68,7 +68,7 @@ class ABIEncoder {
 	}
 
 	static encodeApprove(spenderAddr, value, decimals=18) {
-		return new RuDataBuilder([0x09, 0x5e, 0xa7, 0xb3], 2, decimals).putAddress(spenderAddr).putUint256Unscaled(value).get();
+		return new RuDataBuilder([0x09, 0x5e, 0xa7, 0xb3], 2, decimals).putAddress(spenderAddr).putUint256Scaled(value).get();
 	}
 
 	static encodeCDAIMint(amount, decimals=18) {
@@ -77,6 +77,10 @@ class ABIEncoder {
 
 	static encodeCDAIRedeemUnderlying(amount, decimals=18) {
 		return new RuDataBuilder([0x85, 0x2a, 0x12, 0xe3], 1, decimals).putUint256Scaled(amount).get();
+	}
+
+	static encodeEthToTokenSwapInput(minTokens, deadline, decimals=18) {
+		return new RuDataBuilder([0xf3, 0x39, 0xb5, 0x9b], 2, decimals).putUint256Scaled(minTokens).putUint256Unscaled(deadline).get();
 	}
 }
 

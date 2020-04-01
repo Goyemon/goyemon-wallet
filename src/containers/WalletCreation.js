@@ -8,10 +8,12 @@ import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { StackActions, NavigationActions } from 'react-navigation';
 import styled from 'styled-components/native';
 import { createChecksumAddress } from '../actions/ActionChecksumAddress';
+import { getGasPrice } from '../actions/ActionGasPrice';
 import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
-import { HeaderTwo, Description, Button } from '../components/common';
-import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
-import HomeStack from '../navigators/HomeStack';
+import { Container, Button } from '../components/common';
+import { FCMMsgs } from '../lib/fcm.js';
+import TxStorage from '../lib/tx';
+import BalanceStack from '../navigators/BalanceStack';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class WalletCreation extends Component {
@@ -27,20 +29,26 @@ class WalletCreation extends Component {
   FadeInMessages() {
     return (
       <FadeInMessageContainer>
-        <FadeInMessageOne animation="fadeInDown" delay={1000}>
+        <FadeInMessageOne animation="fadeInDown" delay={2500}>
           <FadeInMessageOneText>generating your keys...</FadeInMessageOneText>
         </FadeInMessageOne>
-        <FadeInMessageTwo animation="fadeInDown" delay={2500}>
-          <FadeInMessageTwoText>generating your address...</FadeInMessageTwoText>
+        <FadeInMessageTwo animation="fadeInDown" delay={4000}>
+          <FadeInMessageTwoText>
+            generating your address...
+          </FadeInMessageTwoText>
         </FadeInMessageTwo>
-        <FadeInMessageThree animation="fadeInDown" delay={4000}>
-          <FadeInMessageThreeText>fetching blockchain data...</FadeInMessageThreeText>
+        <FadeInMessageThree animation="fadeInDown" delay={5500}>
+          <FadeInMessageThreeText>
+            fetching blockchain data...
+          </FadeInMessageThreeText>
         </FadeInMessageThree>
-        <FadeInMessageFour animation="fadeInDown" delay={5500}>
+        <FadeInMessageFour animation="fadeInDown" delay={7000}>
           <FadeInMessageFourText>getting price data...</FadeInMessageFourText>
         </FadeInMessageFour>
-        <FadeInMessageFive animation="fadeInDown" delay={8000}>
-          <FadeInMessageFiveText>this shouldn't take too long...</FadeInMessageFiveText>
+        <FadeInMessageFive animation="fadeInDown" delay={9500}>
+          <FadeInMessageFiveText>
+            this shouldn't take too long...
+          </FadeInMessageFiveText>
         </FadeInMessageFive>
       </FadeInMessageContainer>
     );
@@ -48,7 +56,7 @@ class WalletCreation extends Component {
 
   PullDownToRefreshMessage() {
     return (
-      <FadeInMessageSix animation="fadeIn" delay={10000}>
+      <FadeInMessageSix animation="fadeIn" delay={11500}>
         <FadeInMessageSixText>pull down to refresh 👇</FadeInMessageSixText>
       </FadeInMessageSix>
     );
@@ -72,6 +80,7 @@ class WalletCreation extends Component {
   };
 
   async componentDidMount() {
+    this.props.getGasPrice();
     await this.createWallet();
     await this.fetchPriceInfo();
     await this.fetchTokenInfo();
@@ -82,9 +91,12 @@ class WalletCreation extends Component {
 
   async createWallet() {
     await WalletUtilities.generateWallet(this.props.mnemonicWords);
-    await WalletUtilities.setPrivateKey(await WalletUtilities.createPrivateKey());
+    await WalletUtilities.setPrivateKey(
+      await WalletUtilities.createPrivateKey()
+    );
     await this.props.createChecksumAddress();
-    await FcmUpstreamMsgs.registerEthereumAddress(this.props.checksumAddress);
+    TxStorage.storage.setOwnAddress(this.props.checksumAddress);
+    FCMMsgs.registerEthereumAddress(this.props.checksumAddress);
   }
 
   async fetchPriceInfo() {
@@ -93,14 +105,13 @@ class WalletCreation extends Component {
   }
 
   fetchTokenInfo() {
-    FcmUpstreamMsgs.requestCDaiLendingInfo(this.props.checksumAddress);
+    FCMMsgs.requestCDaiLendingInfo(this.props.checksumAddress);
   }
 
   async isWalletReady() {
     const hasWallet = await this.hasWallet();
-    const hasTokenInfo = this.hasTokenInfo();
     const hasPriceInfo = this.hasPriceInfo();
-    const isWalletReady = hasWallet && hasTokenInfo && hasPriceInfo;
+    const isWalletReady = hasWallet && hasPriceInfo;
     this.setState({ isWalletReady });
   }
 
@@ -123,11 +134,7 @@ class WalletCreation extends Component {
   }
 
   hasTransactions() {
-    if (this.props.totalTransactions != null && this.props.transactions != null) {
-      return true;
-    } else if (this.props.totalTransactions === null || this.props.transactions === null) {
-      return false;
-    }
+    return this.props.transactionsLoaded != null;
   }
 
   hasBalance() {
@@ -159,30 +166,14 @@ class WalletCreation extends Component {
     );
   }
 
-  hasTokenInfo() {
-    return this.hasCDaiLendingInfo();
-  }
-
-  hasCDaiLendingInfo() {
-    return (
-      this.props.cDaiLendingInfo.daiApproval != null &&
-      this.props.cDaiLendingInfo.currentExchangeRate >= 0 &&
-      this.props.cDaiLendingInfo.currentExchangeRate.length != 0 &&
-      this.props.cDaiLendingInfo.currentInterestRate >= 0 &&
-      this.props.cDaiLendingInfo.currentInterestRate.length != 0 &&
-      this.props.cDaiLendingInfo.lifetimeEarned >= 0 &&
-      this.props.cDaiLendingInfo.lifetimeEarned.length != 0
-    );
-  }
-
-  navigateToWalletList() {
-    HomeStack.navigationOptions = ({ navigation }) => {
+  navigateToBalanceHome() {
+    BalanceStack.navigationOptions = ({ navigation }) => {
       const tabBarVisible = true;
       return tabBarVisible;
     };
     const resetAction = StackActions.reset({
       index: 0,
-      actions: [NavigationActions.navigate({ routeName: 'WalletList' })]
+      actions: [NavigationActions.navigate({ routeName: 'BalanceHome' })]
     });
     this.props.navigation.dispatch(resetAction);
   }
@@ -204,10 +195,20 @@ class WalletCreation extends Component {
           />
         }
       >
-        <Container>
+        <Container
+          alignItems="center"
+          flexDirection="column"
+          justifyContent="center"
+          marginTop={0}
+          width="90%"
+        >
           {this.PullDownToRefreshMessage()}
           {this.FadeInMessages()}
-          <Modal animationType="fade" transparent visible={this.state.modalVisible}>
+          <Modal
+            animationType="fade"
+            transparent
+            visible={this.state.modalVisible}
+          >
             <ModalBackground>
               <ModalInner>
                 <ModalText>You are all set!</ModalText>
@@ -221,7 +222,7 @@ class WalletCreation extends Component {
                 marginBottom="12px"
                 opacity="1"
                 onPress={() => {
-                  this.navigateToWalletList();
+                  this.navigateToBalanceHome();
                 }}
               />
             </ModalBackground>
@@ -231,14 +232,6 @@ class WalletCreation extends Component {
     );
   }
 }
-
-const Container = styled.View`
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0 auto;
-  width: 90%;
-`;
 
 const ModalBackground = styled.View`
   background-color: rgba(0, 0, 0, 0.5);
@@ -329,21 +322,18 @@ function mapStateToProps(state) {
   return {
     balance: state.ReducerBalance.balance,
     cDaiLendingInfo: state.ReducerCDaiLendingInfo.cDaiLendingInfo,
-    totalTransactions: state.ReducerTotalTransactions.totalTransactions,
-    transactions: state.ReducerTransactionHistory.transactions,
     mnemonicWords: state.ReducerMnemonic.mnemonicWords,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
-    price: state.ReducerPrice.price
+    price: state.ReducerPrice.price,
+    transactionsLoaded: state.ReducerTransactionsLoaded.transactionsLoaded
   };
 }
 
 const mapDispatchToProps = {
   createChecksumAddress,
   getEthPrice,
-  getDaiPrice
+  getDaiPrice,
+  getGasPrice
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(WalletCreation);
+export default connect(mapStateToProps, mapDispatchToProps)(WalletCreation);

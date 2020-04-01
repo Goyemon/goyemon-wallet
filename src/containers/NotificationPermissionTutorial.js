@@ -1,9 +1,9 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styled from 'styled-components/native';
 import {
   RootContainer,
+  Container,
   ProgressBar,
   Button,
   HeaderTwo,
@@ -42,7 +42,13 @@ class NotificationPermissionTutorial extends Component {
           marginRight="0%"
           width="80%"
         />
-        <Container>
+        <Container
+          alignItems="center"
+          flexDirection="column"
+          justifyContent="center"
+          marginTop={40}
+          width="90%"
+        >
           <HeaderTwo marginBottom="0" marginLeft="0" marginTop="0">
             Almost Done!
           </HeaderTwo>
@@ -65,21 +71,12 @@ class NotificationPermissionTutorial extends Component {
               this.setState({ loading: false, buttonDisabled: false });
             }}
           />
-          <Loader animating={this.state.loading} />
+          <Loader animating={this.state.loading} size="small" />
         </Container>
       </RootContainer>
     );
   }
 }
-
-const Container = styled.View`
-  align-items: center;
-  flex: 1;
-  justify-content: center;
-  margin: 0 auto;
-  margin-top: 40;
-  width: 90%;
-`;
 
 const mapStateToProps = state => ({
   permissions: state.ReducerPermissions.permissions

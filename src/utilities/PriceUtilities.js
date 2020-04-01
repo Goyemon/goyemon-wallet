@@ -31,7 +31,7 @@ class PriceUtilities {
 
   getDaiUsdBalance(daiBalance) {
     try {
-      return this.convertDaiToUsd(daiBalance);
+      return this.convertDaiToUsd(daiBalance).toFixed(2);
     } catch (err) {
       LogUtilities.logError(err);
     }
@@ -47,7 +47,7 @@ class PriceUtilities {
     }
   }
 
-  getTotalBalance(ethBalance, daiBalance) {
+  getTotalWalletBalance(ethBalance, daiBalance) {
     let totalUsdBalance =
       parseFloat(this.convertEthToUsd(ethBalance)) +
       parseFloat(this.convertDaiToUsd(daiBalance));
