@@ -234,7 +234,7 @@ class Swap extends Component {
           flexDirection="row"
           height="160px"
           justifyContent="center"
-          marginTop="56px"
+          marginTop="24px"
           textAlign="left"
           width="80%"
         >
