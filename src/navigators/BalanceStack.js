@@ -135,6 +135,7 @@ const BalanceStack = createStackNavigator(
       screen: Settings,
       navigationOptions: () => ({
         headerTransparent: true,
+        gesturesEnabled: false,
         headerStyle: {
           marginTop: 16,
           marginRight: 16
