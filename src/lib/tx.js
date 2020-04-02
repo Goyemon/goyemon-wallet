@@ -1257,7 +1257,7 @@ class TxStorage {
 
 	async getVerificationData() {
 		function getCheckpoints(count, offset=0) {
-			const hashes = Math.floor(4000 / 32); // msg size / hash length
+			const hashes = Math.floor(4000 / (32 + 3)); // msg size / hash length (jsoned)
 			const computed_count = count - offset; // we assume [offset] hashes to be correct, so we don't checkpoint those, we only take into account the last count - offset hashes
 
 			const checkpoints = [];
