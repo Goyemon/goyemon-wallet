@@ -13,6 +13,7 @@ const MenuContainerInner = styled.TouchableOpacity`
   flex-direction: row;
   justify-content: center;
   margin: 8px;
+  margin-top: 16px;
 `;
 
 export { MenuContainer };
