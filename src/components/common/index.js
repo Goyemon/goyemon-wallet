@@ -22,5 +22,5 @@ export * from './SwapForm';
 export * from './RootContainer';
 export * from './ToggleCurrencySymbol';
 export * from './TouchableCardContainer';
-export * from './TransactionButton';
 export * from './UntouchableCardContainer';
+export * from './UseMaxButton';
