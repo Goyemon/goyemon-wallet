@@ -8,6 +8,7 @@ import { saveOutgoingTransactionDataCompound } from '../actions/ActionOutgoingTr
 import {
   RootContainer,
   Button,
+  UseMaxButton,
   UntouchableCardContainer,
   HeaderOne,
   Form,
@@ -175,6 +176,10 @@ class DepositFirstDai extends Component {
       .div(new RoundDownBigNumber(10).pow(18))
       .toString();
 
+    const daiFullBalance = RoundDownBigNumber(this.props.balance.daiBalance)
+      .div(new RoundDownBigNumber(10).pow(18))
+      .toString();
+
     return (
       <RootContainer>
         <HeaderOne marginTop="96">Deposit</HeaderOne>
@@ -194,9 +199,21 @@ class DepositFirstDai extends Component {
           <Title>interest rate</Title>
           <Value>{currentInterestRate} %</Value>
         </UntouchableCardContainer>
-        <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
-          Deposit Amount
-        </FormHeader>
+        <DepositAmountHeaderContainer>
+          <FormHeader marginBottom="0" marginLeft="0" marginTop="0">
+            Deposit Amount
+          </FormHeader>
+          <UseMaxButton
+            text="USE MAX"
+            textColor="#00A3E2"
+            onPress={() => {
+              this.setState({ daiAmount: daiFullBalance });
+              this.updateDaiAmountValidation(
+                TransactionUtilities.validateDaiAmount(daiFullBalance)
+              );
+            }}
+          />
+        </DepositAmountHeaderContainer>
         <Form
           borderColor={StyleUtilities.getBorderColor(
             this.state.daiAmountValidation
@@ -216,6 +233,7 @@ class DepositFirstDai extends Component {
                 this.setState({ daiAmount });
               }}
               returnKeyType="done"
+              value={this.state.daiAmount}
             />
             <CurrencySymbolText>DAI</CurrencySymbolText>
           </SendTextInputContainer>
@@ -290,6 +308,14 @@ const Value = styled.Text`
 
 const CurrencySymbolText = styled.Text`
   font-family: 'HKGrotesk-Regular';
+`;
+
+const DepositAmountHeaderContainer = styled.View`
+  align-items: center;
+  flex-direction: row;
+  margin: 0 auto;
+  margin-top: 16px;
+  width: 80%;
 `;
 
 const ButtonWrapper = styled.View`
