@@ -37,7 +37,7 @@ FcmListener.setStoreReadyPromise(
         store.dispatch(rehydrationComplete(true));
         TxStorage.storage.setOwnAddress(store.getState().ReducerChecksumAddress.checksumAddress);
 		resolve();
-		setTimeout(() => FCMcheckForUpdates(), 10000);
+		setTimeout(() => FCMcheckForUpdates(), 0);
       });
     });
   })
