@@ -27,7 +27,7 @@ class LogUtilities {
 
 		let out = `[${log_line_number++}] ${LogUtilities.__getFormattedDate()}`;
 		for (let i = 0; i < arguments.length; ++i)
-			out += ` ${arguments[i] instanceof Object ? LogUtilities.__dumpObjectRecursively(arguments[i]) : arguments[i]}`;
+			out += ` ${arguments[i] instanceof Object && typeof(arguments[i]) != 'string' ? LogUtilities.__dumpObjectRecursively(arguments[i]) : arguments[i]}`;
 
 		store.dispatch(saveOtherDebugInfo(out));
 		LogUtilities.logInfo(out); // because certain individual wont see it if it's not spammed on his screen

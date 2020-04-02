@@ -16,6 +16,7 @@ import {
 import GlobalConfig from '../config.json';
 import { FCMMsgs } from '../lib/fcm.js';
 import LogUtilities from '../utilities/LogUtilities.js';
+import TxStorage from '../lib/tx.js';
 
 class Advanced extends Component {
   constructor(props) {
@@ -195,6 +196,17 @@ class Advanced extends Component {
           >
             <CopyAddressText>Copy</CopyAddressText>
           </TouchableWithoutFeedback>
+
+		  <TouchableWithoutFeedback
+            onPress={async () => {
+              setTimeout(() => {
+				  TxStorage.storage.debugDumpAllTxes();
+			  }, 5000);
+            }}
+          >
+            <CopyAddressText>dump all txes (careful!)</CopyAddressText>
+          </TouchableWithoutFeedback>
+
         </Container>
       </RootContainer>
     );

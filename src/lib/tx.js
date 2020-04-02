@@ -3,6 +3,8 @@
 import LogUtilities from '../utilities/LogUtilities';
 import AsyncStorage from '@react-native-community/async-storage';
 
+const crypto = require('crypto');
+
 const GlobalConfig = require('../config.json');
 
 // TODO: since confirmed txes are kind of set in stone, we could actually store arrays of sorted
@@ -122,30 +124,14 @@ class PersistTxStorageAbstraction {
 
 	__init_lock(index) { // locks are noop for now, locking happens in TxStorage.
 		return;
-		this.locks[index] = {};
 	}
 
 	async __lock(index) {
 		return;
-		while (this.locks[index].promise) // we wait as long as there is a promise to be awaited
-			await this.locks[index].promise; // the other "thread" will resolve and clear that promise.
-
-		// no promise, we're ready to go. create a new promise and insert it into locks, so that other threads can wait for it.
-		let np = {};
-		np.promise = new Promise((resolve, reject) => {
-			np.resolve = resolve;
-			np.reject = reject;
-		});
-		this.locks[index] = np;
 	}
 
 	__unlock(index) {
 		return;
-		if (!this.locks[index].promise)
-			throw new Error(`__unblock() called on a non-blocked index ${index}`);
-
-		this.locks[index].resolve();
-		this.locks[index] = {};
 	}
 
 	init_storage(name_to_filter_map, init_finish_callback) {
@@ -255,6 +241,49 @@ class PersistTxStorageAbstraction {
 		const bucket = await this.__getKey(`${this.prefix}i${index}${bucket_num}`, this.__decodeBucket);
 
 		return await this.getTxByHash(bucket[bucket.length - 1]);
+	}
+
+
+	// async getHashesAt(idarray, index='all') {
+	// 	const ret = [];
+	//
+	// 	let last_bucket = null;
+	// 	let last_bucket_num = null;
+	//
+	// 	for (let i = 0; i < idarray.length; ++i) {
+	// 		const num = idarray[i];
+	// 		const bucket_num = Math.floor(num / storage_bucket_size);
+	// 		const bucket_pos = num % storage_bucket_size;
+	//
+	// 		if (bucket_num === last_bucket_num)
+	// 			ret.push(last_bucket[bucket_pos]);
+	// 		else {
+	// 			last_bucket = await this.__getKey(`${this.prefix}i${index}${bucket_num}`, this.__decodeBucket);
+	// 			last_bucket_num = bucket_num;
+	// 			ret.push(last_bucket[bucket_pos]);
+	// 		}
+	// 	}
+	//
+	// 	return ret;
+	// }
+
+	async getHashes(index='all') {
+		// TODO: rename this to get checksums or something, and hash things inside here from first bucket (or from offset if specified!),
+		// returning only the checksums at given checkpoints. sigh. otherwise we're keeping too much data in memory.
+
+		const bucket_count = Math.floor((this.counts[index] - 1) / storage_bucket_size);
+		const bucketnames = [];
+		for (let i = 0; i <= bucket_count; ++i)
+			bucketnames.push(`${this.prefix}i${index}${i}`);
+
+		const hashes_in_order = [];
+		const buckets = {};
+		(await AsyncStorage.multiGet(bucketnames)).forEach(([k, v]) => buckets[k] = v);
+		bucketnames.forEach((n) => {
+			this.__decodeBucket(buckets[n]).forEach((hash) => hashes_in_order.push(hash));
+		});
+
+		return hashes_in_order;
 	}
 
 	async appendTx(hash, tx) {
@@ -503,6 +532,33 @@ class PersistTxStorageAbstraction {
 		await this.__setKey(`${this.prefix}_${hash}`, newtx, JSON.stringify);
 
 		//throw new Error("not implemented yet");
+	}
+
+
+	async debugDumpAllTxes(index='all') {
+		// const loadTx = (data) => { if (!data) return null; data = JSON.parse(data); return new Tx(data[7]).setHash(hash).fromDataArray(data, false); }
+
+		const bucket_count = Math.floor((this.counts[index] - 1) / storage_bucket_size);
+		const bucketnames = [];
+		for (let i = 0; i <= bucket_count; ++i)
+			bucketnames.push(`${this.prefix}i${index}${i}`);
+
+		const hashes_in_order = [];
+
+		const buckets = {};
+		(await AsyncStorage.multiGet(bucketnames)).forEach(([k, v]) => buckets[k] = v);
+		bucketnames.forEach((n) => {
+			this.__decodeBucket(buckets[n]).forEach((hash) => hashes_in_order.push(`${this.prefix}_${hash}`));
+		});
+		// delete(buckets);
+
+		const txes = [];
+		(await AsyncStorage.multiGet(hashes_in_order)).forEach(([k, v]) => txes[k] = v);
+
+		hashes_in_order.forEach((n) => {
+			LogUtilities.toDebugScreen(n, txes[n]);
+		});
+
 	}
 }
 
@@ -1023,7 +1079,7 @@ class TxStorage {
 		histObj = Object.entries(histObj).map(([hash, data]) => new Tx(data[7]).setHash(hash).fromDataArray(data));
 		await this.__lock('txes');
 		histObj.forEach(tx => this.txfilter_checkMaxNonce(tx));
-		histObj.sort((a, b) => a.getTimestamp() - b.getTimestamp());
+		histObj.sort((a, b) => { const diff = a.getTimestamp() - b.getTimestamp(); return diff != 0 ? diff : a.getHash().localeCompare(b.getHash()); });
 		await this.txes.bulkLoad(histObj);
 
 		AsyncStorage.setItem(maxNonceKey, this.our_max_nonce.toString());
@@ -1197,6 +1253,65 @@ class TxStorage {
 		}
 
 		return this._isDAIApprovedForCDAI_cached;
+	}
+
+	async getVerificationData() {
+		function getCheckpoints(count, offset=0) {
+			const hashes = Math.floor(4000 / 32); // msg size / hash length
+			const computed_count = count - offset; // we assume [offset] hashes to be correct, so we don't checkpoint those, we only take into account the last count - offset hashes
+
+			const checkpoints = [];
+			let sum = Math.pow(hashes, Math.log10(computed_count)) / computed_count; // val for i[0]
+			for (let i = 1; i <= hashes; ++i) {
+				let val = Math.pow(hashes - i, Math.log10(computed_count)) / computed_count;
+				checkpoints.push(val);
+				sum += val;
+			}
+			const normalization_factor = 1 / sum;
+
+			let last = count + 1;
+			for (let i = checkpoints.length - 1; i >= 0; --i) {
+				const diff = Math.round(checkpoints[i] * normalization_factor * computed_count);
+				const val = last - (diff > 0 ? diff : 1);
+				if (val < 1) {
+					return checkpoints.slice(i + 1);
+				}
+				last = checkpoints[i] = val;
+			}
+
+			return checkpoints;
+		}
+
+		const count = this.txes.getItemCount('all');
+		const checkpoints = getCheckpoints(count, 0);
+
+		LogUtilities.toDebugScreen(`TxStorage getVerificationData() checkpoints (cnt:${count} off:0):`, checkpoints);
+
+		// const hashes = await this.txes.getHashesAt(checkpoints, 'all');
+		const hashes = await this.txes.getHashes('all');
+		const ret = [];
+		let lasthash = null;
+		let checkpoint = 0;
+		hashes.forEach((h, idx) => {
+			const ch = crypto.createHash('md5').update(lasthash ? `${lasthash}${h}` : h).digest('hex');
+			if (checkpoints[checkpoint] === idx + 1) {
+				ret.push(ch);
+				++checkpoint;
+			}
+			lasthash = ch;
+		});
+
+		return {
+			//'hashes': hashes,
+			'hashes': ret,
+			'count': count,
+			'offset': 0
+		};
+	}
+
+
+	async debugDumpAllTxes(index='all') {
+		return await this.txes.debugDumpAllTxes(index);
 	}
 }
 

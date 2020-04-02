@@ -123,7 +123,7 @@ class FCMMsgs {
 		  });
 
 		firebase.messaging().sendMessage(upstreamMessage);
-	  }
+	}
 
 
 	__on_msg(id, type, num, count, data) {
@@ -194,13 +194,15 @@ class FCMMsgs {
 		this.__sendMessage('uniswap_ETHDAI_info');
 	}
 
-	checkForUpdates(checksumAddress, lastConfirmedTstamp) {
-		this.__sendMessage('request_updates', { address: checksumAddress, lastTstamp: lastConfirmedTstamp });
+	checkForUpdates(checksumAddress, checksums, count, offset=0) {
+		this.__sendMessage('request_updates', { address: checksumAddress, sums: JSON.stringify(checksums), items: count, offset: offset });
 	}
 
 	sendTx(rawTx) {
 
 	}
+
+
 
 }
 

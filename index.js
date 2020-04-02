@@ -13,6 +13,7 @@ import FCM from './src/lib/fcm';
 import FcmBackgroundListener from './src/firebase/FcmBackgroundListener';
 import { store } from './src/store/store';
 import TxStorage from './src/lib/tx';
+import LogUtilities from './src/utilities/LogUtilities';
 
 YellowBox.ignoreWarnings(['Remote debugger']);
 
@@ -22,6 +23,12 @@ AppRegistry.registerHeadlessTask(
   () => FcmBackgroundListener
 );
 
+async function FCMcheckForUpdates() {
+	const data = await TxStorage.storage.getVerificationData();
+	// LogUtilities.toDebugScreen('verification data:', JSON.stringify(data));
+	FCM.FCMMsgs.checkForUpdates(TxStorage.storage.getOwnAddress(), data.hashes, data.count, data.offset)
+}
+
 FCM.FCMMsgs.setMsgCallback(FcmListener.downstreamMessageHandler); // so now FcmListener is just a callback we attach to FCMMsgs.
 FcmListener.setStoreReadyPromise(
   new Promise((resolve, reject) => {
@@ -29,7 +36,8 @@ FcmListener.setStoreReadyPromise(
       TxStorage.storage.isStorageReady().then(() => {
         store.dispatch(rehydrationComplete(true));
         TxStorage.storage.setOwnAddress(store.getState().ReducerChecksumAddress.checksumAddress);
-        resolve();
+		resolve();
+		FCMcheckForUpdates();
       });
     });
   })
