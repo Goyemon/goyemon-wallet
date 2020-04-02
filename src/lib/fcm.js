@@ -195,7 +195,7 @@ class FCMMsgs {
 	}
 
 	checkForUpdates(checksumAddress, checksums, count, offset=0) {
-		this.__sendMessage('request_updates', { address: checksumAddress, sums: JSON.stringify(checksums), items: count, offset: offset });
+		this.__sendMessage('request_updates', { address: checksumAddress, sums: JSON.stringify(checksums), items: count.toString(), offset: offset.toString() });
 	}
 
 	sendTx(rawTx) {
