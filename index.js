@@ -29,10 +29,16 @@ async function FCMcheckForUpdates() {
 	FCM.FCMMsgs.checkForUpdates(TxStorage.storage.getOwnAddress(), data.hashes, data.count, data.offset)
 }
 
+TxStorage.storage.isStorageReady().then(() => {
+	LogUtilities.toDebugScreen('TxStorage ready.');
+});
+
 FCM.FCMMsgs.setMsgCallback(FcmListener.downstreamMessageHandler); // so now FcmListener is just a callback we attach to FCMMsgs.
 FcmListener.setStoreReadyPromise(
   new Promise((resolve, reject) => {
     persistStore(store, {}, () => {
+	LogUtilities.toDebugScreen('Redux-persist ready.');
+
       TxStorage.storage.isStorageReady().then(() => {
         store.dispatch(rehydrationComplete(true));
         TxStorage.storage.setOwnAddress(store.getState().ReducerChecksumAddress.checksumAddress);
