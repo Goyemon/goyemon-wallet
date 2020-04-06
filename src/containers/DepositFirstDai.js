@@ -200,7 +200,7 @@ class DepositFirstDai extends Component {
           <Value>{currentInterestRate} %</Value>
         </UntouchableCardContainer>
         <DepositAmountHeaderContainer>
-          <FormHeader marginBottom="0" marginLeft="0" marginTop="0">
+          <FormHeader marginBottom="0" marginTop="0">
             Deposit Amount
           </FormHeader>
           <UseMaxButton

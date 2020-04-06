@@ -57,11 +57,11 @@ class SendEthConfirmation extends Component {
           textAlign="left"
           width="100%"
         >
-          <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
+          <FormHeader marginBottom="8"  marginTop="16">
             To
           </FormHeader>
           <ToText>{outgoingTransactionData.send.toaddress}</ToText>
-          <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
+          <FormHeader marginBottom="8"  marginTop="16">
             Amount
           </FormHeader>
           <AmountText>{outgoingTransactionData.send.amount} ETH</AmountText>
@@ -117,13 +117,11 @@ const CoinImage = styled.Image`
 const ToText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Bold';
-  margin-left: 8;
 `;
 
 const AmountText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Bold';
-  margin-left: 8;
 `;
 
 const TotalValue = styled.Text`

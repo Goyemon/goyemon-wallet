@@ -199,9 +199,11 @@ class SendDai extends Component {
             <Value>{daiBalance} DAI</Value>
           </BalanceContainer>
         </UntouchableCardContainer>
-        <FormHeader marginBottom="4" marginLeft="0" marginTop="0">
-          To
-        </FormHeader>
+        <FormHeaderContainer>
+          <FormHeader marginBottom="4" marginTop="0">
+            To
+          </FormHeader>
+        </FormHeaderContainer>
         <Form
           borderColor={StyleUtilities.getBorderColor(
             this.state.toAddressValidation
@@ -238,9 +240,11 @@ class SendDai extends Component {
         <InvalidToAddressMessage
           toAddressValidation={this.state.toAddressValidation}
         />
-        <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
-          Amount
-        </FormHeader>
+        <FormHeaderContainer>
+          <FormHeader marginBottom="4" marginTop="24">
+            Amount
+          </FormHeader>
+        </FormHeaderContainer>
         <Form
           borderColor={StyleUtilities.getBorderColor(
             this.state.daiAmountValidation
@@ -341,6 +345,14 @@ const ButtonWrapper = styled.View`
   align-items: center;
 `;
 
+const FormHeaderContainer = styled.View`
+  align-items: center;
+  flex-direction: row;
+  margin: 0 auto;
+  margin-top: 16px;
+  width: 80%;
+`;
+
 function mapStateToProps(state) {
   return {
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
@@ -358,4 +370,6 @@ const mapDispatchToProps = {
   clearQRCodeData
 };
 
-export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(SendDai));
+export default withNavigation(
+  connect(mapStateToProps, mapDispatchToProps)(SendDai)
+);

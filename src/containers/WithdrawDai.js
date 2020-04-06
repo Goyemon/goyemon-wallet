@@ -156,9 +156,11 @@ class WithdrawDai extends Component {
           <Title>dai savings</Title>
           <Value>{daiSavingsBalance} DAI</Value>
         </UntouchableCardContainer>
-        <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
-          Withdraw Amount
-        </FormHeader>
+        <WithDrawAmountHeaderContainer>
+          <FormHeader marginBottom="0" marginTop="0">
+            Withdraw Amount
+          </FormHeader>
+        </WithDrawAmountHeaderContainer>
         <Form
           borderColor={StyleUtilities.getBorderColor(
             this.state.daiSavingsAmountValidation
@@ -256,6 +258,14 @@ const CurrencySymbolText = styled.Text`
 
 const ButtonWrapper = styled.View`
   align-items: center;
+`;
+
+const WithDrawAmountHeaderContainer = styled.View`
+  align-items: center;
+  flex-direction: row;
+  margin: 0 auto;
+  margin-top: 16px;
+  width: 80%;
 `;
 
 function mapStateToProps(state) {

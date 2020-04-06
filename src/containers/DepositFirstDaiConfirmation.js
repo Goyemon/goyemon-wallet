@@ -65,7 +65,7 @@ class DepositFirstDaiConfirmation extends Component {
           textAlign="left"
           width="100%"
         >
-          <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
+          <FormHeader marginBottom="8"  marginTop="16">
             Deposit Amount
           </FormHeader>
           <Amount>{outgoingTransactionData.compound.amount} DAI</Amount>

@@ -26,7 +26,7 @@ const CardContainer = styled.View`
   justify-content: ${props => props.justifyContent};
   margin: 16px auto;
   margin-top: ${props => props.marginTop};
-  padding: 16px;
+  padding: 16px 24px;
   text-align: ${props => props.textAlign};
   width: ${props => props.width};
 `;

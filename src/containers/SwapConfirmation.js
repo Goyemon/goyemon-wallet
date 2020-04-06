@@ -61,11 +61,11 @@ class SwapConfirmation extends Component {
           textAlign="left"
           width="100%"
         >
-          <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
+          <FormHeader marginBottom="8"  marginTop="16">
             You Pay
           </FormHeader>
           <Amount>{outgoingTransactionData.swap.sold} ETH</Amount>
-          <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
+          <FormHeader marginBottom="8"  marginTop="16">
             You Get at Least
           </FormHeader>
           <Amount>
@@ -131,7 +131,6 @@ const CoinImage = styled.Image`
 const Amount = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Bold';
-  margin-left: 8;
 `;
 
 const TotalValue = styled.Text`

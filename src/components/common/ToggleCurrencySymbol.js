@@ -27,7 +27,6 @@ const ToggleCurrencySymbol = props => {
 const CurrencySymbol = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 16;
-  margin-left: 8;
 `;
 
 const CurrencySymbolTextChosen = styled.Text`

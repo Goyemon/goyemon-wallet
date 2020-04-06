@@ -33,13 +33,13 @@ class BalanceWallet extends Component {
           alignItems="center"
           borderRadius="8"
           flexDirection="column"
-          height="176px"
+          height="144px"
           justifyContent="center"
           marginTop="24px"
           textAlign="left"
           width="90%"
         >
-          <HeaderFour marginTop="24">total wallet balance</HeaderFour>
+          <HeaderFour marginTop="0">total wallet balance</HeaderFour>
           <UsdBalance>
             ${PriceUtilities.getTotalWalletBalance(ethBalance, daiBalance)}
           </UsdBalance>

@@ -59,11 +59,11 @@ class SendDaiConfirmation extends Component {
           textAlign="left"
           width="100%"
         >
-          <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
+          <FormHeader marginBottom="8"  marginTop="16">
             To
           </FormHeader>
           <To>{outgoingTransactionData.send.toaddress}</To>
-          <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
+          <FormHeader marginBottom="8"  marginTop="16">
             Amount
           </FormHeader>
           <Amount>{outgoingTransactionData.send.amount} DAI</Amount>
@@ -119,13 +119,11 @@ const CoinImage = styled.Image`
 const To = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Bold';
-  margin-left: 8;
 `;
 
 const Amount = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Bold';
-  margin-left: 8;
 `;
 
 const TotalValueText = styled.Text`

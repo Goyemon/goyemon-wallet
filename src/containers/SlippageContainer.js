@@ -30,7 +30,7 @@ class SlippageContainer extends Component {
     return (
       <View>
         <SlippageHeaderContainer>
-          <FormHeader marginBottom="0" marginLeft="0" marginTop="0">
+          <FormHeader marginBottom="0" marginTop="0">
             Slippage
           </FormHeader>
         </SlippageHeaderContainer>
@@ -70,7 +70,8 @@ class SlippageContainer extends Component {
 const SlippageHeaderContainer = styled.View`
   align-items: center;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
+  margin: 0 auto;
   margin-top: 24;
 `;
 
