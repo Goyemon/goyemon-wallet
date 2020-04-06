@@ -60,7 +60,7 @@ class AdvancedContainer extends Component {
         <View>
           {this.renderSlippageContainer()}
           <NetworkFeeHeaderContainer>
-            <FormHeader marginBottom="0" marginLeft="0" marginTop="0">
+            <FormHeader marginBottom="0" marginTop="0">
               Network Fee
             </FormHeader>
             <NetworkFeeSymbolContainer
@@ -73,9 +73,7 @@ class AdvancedContainer extends Component {
                 }
               }}
             >
-              <View>
-                <ToggleCurrencySymbol currency={this.state.currency} />
-              </View>
+              <ToggleCurrencySymbol currency={this.state.currency} />
             </NetworkFeeSymbolContainer>
           </NetworkFeeHeaderContainer>
           <Container
@@ -146,8 +144,9 @@ class AdvancedContainer extends Component {
 const NetworkFeeHeaderContainer = styled.View`
   align-items: center;
   flex-direction: row;
-  justify-content: center;
-  margin-top: 24;
+  margin:0 auto;
+  margin-top: 24px;
+  width: 80%;
 `;
 
 const NetworkFeeSymbolContainer = styled.TouchableWithoutFeedback``;

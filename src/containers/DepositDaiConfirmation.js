@@ -58,7 +58,7 @@ class DepositDaiConfirmation extends Component {
           textAlign="left"
           width="100%"
         >
-          <FormHeader marginBottom="8" marginLeft="8" marginTop="16">
+          <FormHeader marginBottom="8"  marginTop="16">
             Deposit Amount
           </FormHeader>
           <Amount>{outgoingTransactionData.compound.amount} DAI</Amount>
@@ -114,7 +114,6 @@ const CoinImage = styled.Image`
 const Amount = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Bold';
-  margin-left: 8;
 `;
 
 const TotalValue = styled.Text`

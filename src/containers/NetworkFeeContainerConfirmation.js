@@ -36,7 +36,7 @@ class NetworkFeeContainerConfirmation extends Component {
     return (
       <View>
         <NetworkFeeContainer>
-          <FormHeader marginBottom="0" marginLeft="8" marginTop="0">
+          <FormHeader marginBottom="0" marginTop="0">
             Max Network Fee
           </FormHeader>
           <TouchableWithoutFeedback
@@ -77,7 +77,6 @@ const NetworkFeeContainer = styled.View`
 const NetworkFee = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Bold';
-  margin-left: 8;
 `;
 
 function mapStateToProps(state) {

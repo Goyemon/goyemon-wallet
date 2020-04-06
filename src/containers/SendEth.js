@@ -176,9 +176,11 @@ class SendEth extends Component {
             </Value>
           </BalanceContainer>
         </UntouchableCardContainer>
-        <FormHeader marginBottom="4" marginLeft="0" marginTop="0">
-          To
-        </FormHeader>
+        <FormHeaderContainer>
+          <FormHeader marginBottom="0" marginTop="0">
+            To
+          </FormHeader>
+        </FormHeaderContainer>
         <Form
           borderColor={StyleUtilities.getBorderColor(
             this.state.toAddressValidation
@@ -215,9 +217,11 @@ class SendEth extends Component {
         <InvalidToAddressMessage
           toAddressValidation={this.state.toAddressValidation}
         />
-        <FormHeader marginBottom="4" marginLeft="0" marginTop="24">
-          Amount
-        </FormHeader>
+        <FormHeaderContainer>
+          <FormHeader marginBottom="0" marginTop="0">
+            Amount
+          </FormHeader>
+        </FormHeaderContainer>
         <Form
           borderColor={StyleUtilities.getBorderColor(
             this.state.amountValidation
@@ -318,6 +322,14 @@ const ButtonWrapper = styled.View`
   align-items: center;
 `;
 
+const FormHeaderContainer = styled.View`
+  align-items: center;
+  flex-direction: row;
+  margin: 0 auto;
+  margin-top: 16px;
+  width: 80%;
+`;
+
 function mapStateToProps(state) {
   return {
     gasPrice: state.ReducerGasPrice.gasPrice,
@@ -334,4 +346,6 @@ const mapDispatchToProps = {
   clearQRCodeData
 };
 
-export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(SendEth));
+export default withNavigation(
+  connect(mapStateToProps, mapDispatchToProps)(SendEth)
+);
