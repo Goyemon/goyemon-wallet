@@ -953,6 +953,11 @@ class TxStorage {
 		// 	LogUtilities.toDebugScreen(`AStor keys: ${x}`);
 		// });
 
+		AsyncStorage.getItem('persist:root').then(x => {
+		 	LogUtilities.toDebugScreen(`persist:root: ${x}`);
+		});
+
+
 		this.locks = new asyncLocks();
 	}
 
@@ -1256,6 +1261,72 @@ class TxStorage {
 	}
 
 	async getVerificationData() {
+		return await this.getVerificationDataXOR();
+	}
+
+	async getVerificationDataXOR() {
+		function getCheckpoints(count, offset=0) {
+			const hashes = Math.floor(4000 / (64 + 3)); // msg size / hash length (jsoned)
+			const computed_count = count - offset; // we assume [offset] hashes to be correct, so we don't checkpoint those, we only take into account the last count - offset hashes
+
+			const checkpoints = [];
+			let sum = Math.pow(hashes, Math.log10(computed_count)) / computed_count; // val for i[0]
+			for (let i = 1; i <= hashes; ++i) {
+				let val = Math.pow(hashes - i, Math.log10(computed_count)) / computed_count;
+				checkpoints.push(val);
+				sum += val;
+			}
+			const normalization_factor = 1 / sum;
+
+			let last = count + 1;
+			for (let i = checkpoints.length - 1; i >= 0; --i) {
+				const diff = Math.round(checkpoints[i] * normalization_factor * computed_count);
+				const val = last - (diff > 0 ? diff : 1);
+				if (val < 1) {
+					return checkpoints.slice(i + 1);
+				}
+				last = checkpoints[i] = val;
+			}
+
+			return checkpoints;
+		}
+
+		const count = this.txes.getItemCount('all');
+		const checkpoints = getCheckpoints(count, 0);
+
+		LogUtilities.toDebugScreen(`TxStorage getVerificationData() checkpoints (cnt:${count} off:0):`, checkpoints);
+
+		// const hashes = await this.txes.getHashesAt(checkpoints, 'all');
+		const hashes = await this.txes.getHashes('all');
+		const ret = [];
+		let lasthash = null;
+		let checkpoint = 0;
+		hashes.forEach((h, idx) => {
+			const cb = Buffer.from(h, 'hex');
+			if (lasthash) {
+				for (let i = lasthash.length - 1; i >= 0; --i)
+					lasthash[i] = lasthash[i] ^ cb[i];
+			}
+			else
+				lasthash = cb;
+
+			// LogUtilities.toDebugScreen(`XOR ${idx+1}: [${h}]  ${lasthash.toString('hex')}`);
+
+			if (checkpoints[checkpoint] === idx + 1) {
+				ret.push(lasthash.toString('hex'));
+				++checkpoint;
+			}
+		});
+
+		return {
+			//'hashes': hashes,
+			'hashes': ret,
+			'count': count,
+			'offset': 0
+		};
+	}
+
+	async getVerificationDataMD5() {
 		function getCheckpoints(count, offset=0) {
 			const hashes = Math.floor(4000 / (32 + 3)); // msg size / hash length (jsoned)
 			const computed_count = count - offset; // we assume [offset] hashes to be correct, so we don't checkpoint those, we only take into account the last count - offset hashes
