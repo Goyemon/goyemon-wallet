@@ -9,7 +9,6 @@ import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
 import CompoundIcon from '../../assets/CompoundIcon.js';
 import WalletIcon from '../../assets/WalletIcon.js';
 import PoolTogetherIcon from '../../assets/PoolTogetherIcon.js';
-import PoolTogetherGreyIcon from '../../assets/PoolTogetherGreyIcon.js';
 import {
   RootContainer,
   TouchableCardContainer,
@@ -199,7 +198,7 @@ class BalanceHome extends Component {
         </TouchableCardContainer>
         <UntouchableGreyCardContainer>
           <IconImageContainer>
-            <PoolTogetherGreyIcon />
+            <PoolTogetherIcon />
           </IconImageContainer>
           <NameContainer>
             <OpacityText>PoolTogether</OpacityText>
