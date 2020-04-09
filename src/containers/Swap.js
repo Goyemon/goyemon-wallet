@@ -73,8 +73,8 @@ class Swap extends Component {
   updateTokenBought(ethSold) {
     const tokenBought = this.getTokenBought(
       ethSold,
-      this.props.exchangeReserve.daiExchange.weiReserve,
-      this.props.exchangeReserve.daiExchange.daiReserve
+      this.props.uniswap.daiExchange.weiReserve,
+      this.props.uniswap.daiExchange.daiReserve
     ).div(new RoundDownBigNumber(10).pow(18));
     this.setState({ tokenBought: tokenBought });
   }
@@ -161,7 +161,7 @@ class Swap extends Component {
       TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
     ).times(gasLimit);
     const tokenReserve = new BigNumber(
-      this.props.exchangeReserve.daiExchange.daiReserve,
+      this.props.uniswap.daiExchange.daiReserve,
       16
     );
 
@@ -402,7 +402,7 @@ function mapStateToProps(state) {
   return {
     balance: state.ReducerBalance.balance,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
-    exchangeReserve: state.ReducerUniswap.exchangeReserve,
+    uniswap: state.ReducerUniswap.uniswap,
     gasPrice: state.ReducerGasPrice.gasPrice,
     gasChosen: state.ReducerGasPrice.gasChosen,
     netInfo: state.ReducerNetInfo.netInfo,

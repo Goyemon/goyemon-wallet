@@ -2,7 +2,7 @@
 import { SAVE_DAI_EXCHANGE_RESERVE } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
-  exchangeReserve: {
+  uniswap: {
     daiExchange: {
       weiReserve: '',
       daiReserve: ''
@@ -10,13 +10,13 @@ const INITIAL_STATE = {
   }
 };
 
-const exchangeReserve = (state = INITIAL_STATE, action) => {
+const uniswap = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SAVE_DAI_EXCHANGE_RESERVE:
       return {
-        exchangeReserve: {
+        uniswap: {
           daiExchange: {
-            ...state.exchangeReserve.daiExchange,
+            ...state.uniswap.daiExchange,
             weiReserve: action.payload.ETH_balance,
             daiReserve: action.payload.DAI_balance
           }
@@ -27,4 +27,4 @@ const exchangeReserve = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default exchangeReserve;
+export default uniswap;
