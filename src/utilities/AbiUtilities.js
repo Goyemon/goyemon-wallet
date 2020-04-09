@@ -84,6 +84,9 @@ class ABIEncoder {
 	}
 }
 
+	static encodeDepositPool(amount, decimals=18) {
+		return new RuDataBuilder([0x23, 0x44, 0x09, 0x44], 1, decimals).putUint256Scaled(amount).get();
+	}
 
 export default ABIEncoder;
 /*
