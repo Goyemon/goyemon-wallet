@@ -15,6 +15,7 @@ import BalanceHome from '../containers/BalanceHome';
 import Receive from '../containers/Receive';
 import BalanceWallet from '../containers/BalanceWallet';
 import BalanceCompound from '../containers/BalanceCompound';
+import BalancePoolTogether from '../containers/BalancePoolTogether';
 import Settings from '../containers/Settings';
 import BackupWords from '../containers/BackupWords';
 import Advanced from '../containers/Advanced';
@@ -123,6 +124,16 @@ const BalanceStack = createStackNavigator(
     },
     BalanceCompound: {
       screen: BalanceCompound,
+      navigationOptions: () => ({
+        headerTransparent: true,
+        headerStyle: {
+          marginTop: 16,
+          marginRight: 16
+        }
+      })
+    },
+    BalancePoolTogether: {
+      screen: BalancePoolTogether,
       navigationOptions: () => ({
         headerTransparent: true,
         headerStyle: {
