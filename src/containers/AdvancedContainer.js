@@ -149,7 +149,7 @@ const NetworkFeeHeaderContainer = styled.View`
   width: 80%;
 `;
 
-const NetworkFeeSymbolContainer = styled.TouchableWithoutFeedback``;
+const NetworkFeeSymbolContainer = styled.TouchableOpacity``;
 
 const NetworkFee = styled.View`
   margin: 0 4px;
