@@ -196,17 +196,25 @@ class BalanceHome extends Component {
             </ApplicationBalanceText>
           </BalanceContainer>
         </TouchableCardContainer>
-        <UntouchableGreyCardContainer>
+        <TouchableCardContainer
+          alignItems="center"
+          flexDirection="row"
+          height="120px"
+          justifyContent="space-between"
+          textAlign="left"
+          width="90%"
+          onPress={() => navigation.navigate('BalancePoolTogether')}
+        >
           <IconImageContainer>
             <PoolTogetherIcon />
           </IconImageContainer>
           <NameContainer>
-            <OpacityText>PoolTogether</OpacityText>
+            <NameText>PoolTogether</NameText>
           </NameContainer>
           <BalanceContainer>
-            <ApplicationBalanceGreyText>coming soon!</ApplicationBalanceGreyText>
+            <ApplicationBalanceText></ApplicationBalanceText>
           </BalanceContainer>
-        </UntouchableGreyCardContainer>
+        </TouchableCardContainer>
       </RootContainer>
     );
   }
@@ -308,32 +316,6 @@ const ApplicationBalanceText = styled.Text`
   font-size: 20;
 `;
 
-const ApplicationBalanceGreyText = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 20;
-  opacity: 0.4;
-`;
-
-const UntouchableGreyCardContainer = styled.View`
-  align-items: center;
-  background-color: rgba(255, 255, 255, 0.4);
-  border-radius: 8px;
-  flex-direction: row;
-  height: 120px;
-  justify-content: space-between;
-  margin: 16px auto;
-  padding: 16px;
-  width: 90%;
-`;
-
-const OpacityText = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 20;
-  opacity: 0.5;
-`;
-
 const mapStateToProps = state => ({
   balance: state.ReducerBalance.balance,
   checksumAddress: state.ReducerChecksumAddress.checksumAddress,
@@ -345,4 +327,6 @@ const mapDispatchToProps = {
   getDaiPrice
 };
 
-export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(BalanceHome));
+export default withNavigation(
+  connect(mapStateToProps, mapDispatchToProps)(BalanceHome)
+);
