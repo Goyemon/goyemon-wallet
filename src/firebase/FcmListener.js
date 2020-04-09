@@ -9,7 +9,7 @@ import {
 } from '../actions/ActionBalance';
 import {
   saveCompoundDaiInfo
-} from '../actions/ActionCDaiLendingInfo';
+} from '../actions/ActionCompound';
 import { saveDaiExchangeReserve } from '../actions/ActionExchangeReserve';
 import {
   saveTransactionsLoaded
