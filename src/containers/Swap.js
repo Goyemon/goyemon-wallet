@@ -402,7 +402,7 @@ function mapStateToProps(state) {
   return {
     balance: state.ReducerBalance.balance,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
-    exchangeReserve: state.ReducerExchangeReserve.exchangeReserve,
+    exchangeReserve: state.ReducerUniswap.exchangeReserve,
     gasPrice: state.ReducerGasPrice.gasPrice,
     gasChosen: state.ReducerGasPrice.gasChosen,
     netInfo: state.ReducerNetInfo.netInfo,
