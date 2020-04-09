@@ -28,7 +28,8 @@ const TxTokenOpTypeToName = { // names inside txhistory object
 	mint: 'mint',
 	redeem: 'redeem',
 	eth2tok: 'eth2tok',
-	tok2eth: 'tok2eth'
+	tok2eth: 'tok2eth',
+	depositPool: 'depositPool'
 };
 
 
@@ -671,6 +672,18 @@ class TxTokenTok2EthOp extends TxTokenOp {
 		return { [TxTokenOpTypeToName.tok2eth]: [this.from_addr, this.tok_sold, this.eth_bought] };
 	}
 }
+
+class TxTokenDepositPoolOp extends TxTokenOp {
+	constructor (arr) {
+		super();
+		[this.depositor, this.depositPoolAmount] = arr;
+		// this.depositor = arr[0]; this.depositPoolAmount = arr[1]; 
+	}
+
+	toJSON() {
+		return { [TxTokenOpTypeToName.depositPool]: [this.depositor, this.depositPoolAmount] };
+	}
+}
 /*
 function createTxOpClass(fieldlist) {
 	let cls = function(arr) {
@@ -701,7 +714,8 @@ const TxTokenOpNameToClass = { // name -> tokenop storage class
 	[TxTokenOpTypeToName.mint]: TxTokenMintOp,
 	[TxTokenOpTypeToName.redeem]: TxTokenRedeemOp,
 	[TxTokenOpTypeToName.eth2tok]: TxTokenEth2TokOp,
-	[TxTokenOpTypeToName.tok2eth]: TxTokenTok2EthOp
+	[TxTokenOpTypeToName.tok2eth]: TxTokenTok2EthOp,
+	[TxTokenOpTypeToName.depositPool]: TxTokenDepositPoolOp
 }
 
 class Tx {
@@ -1051,6 +1065,9 @@ class TxStorage {
 			return tx.hasTokenOperation('uniswap', TxTokenOpTypeToName.eth2tok) ||
 				tx.hasTokenOperation('uniswap', TxTokenOpTypeToName.tok2eth);
 
+		if (tx.hasTokenOperations('poolTogether'))
+			return tx.hasTokenOperation('poolTogether', TxTokenOpTypeToName.depositPool)
+				
 		return false;
 	}
 
