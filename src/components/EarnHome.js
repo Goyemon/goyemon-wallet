@@ -136,6 +136,32 @@ class EarnHome extends Component {
               </IconImage>
             </IconImageContainer>
           </TouchableCardContainer>
+          <TouchableCardContainer
+            alignItems="center"
+            flexDirection="column"
+            height="160px"
+            justifyContent="center"
+            textAlign="left"
+            width="90%"
+            onPress={() => {
+              this.props.navigation.navigate('WithdrawDaiFromPoolTogether');
+            }}
+          >
+            <GoyemonText fontSize={24}>
+              Withdraw DAI from PoolTogether
+            </GoyemonText>
+            <IconImageContainer>
+              <IconImage>
+                <CardImage source={require('../../assets/dai_icon.png')} />
+              </IconImage>
+              <IconImage>
+                <Icon name="arrow-left-bold" size={20} color="#5F5F5F" />
+              </IconImage>
+              <IconImage>
+                <PoolTogetherIcon />
+              </IconImage>
+            </IconImageContainer>
+          </TouchableCardContainer>
         </Container>
       </RootContainer>
     );
