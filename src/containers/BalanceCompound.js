@@ -177,7 +177,7 @@ const DaiInterestEarnedText = styled.Text`
 
 const mapStateToProps = state => ({
   balance: state.ReducerBalance.balance,
-  compound: state.ReducerCDaiLendingInfo.compound,
+  compound: state.ReducerCompound.compound,
   checksumAddress: state.ReducerChecksumAddress.checksumAddress,
   price: state.ReducerPrice.price
 });

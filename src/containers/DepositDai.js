@@ -284,7 +284,7 @@ const ButtonWrapper = styled.View`
 
 function mapStateToProps(state) {
   return {
-    compound: state.ReducerCDaiLendingInfo.compound,
+    compound: state.ReducerCompound.compound,
     gasPrice: state.ReducerGasPrice.gasPrice,
     gasChosen: state.ReducerGasPrice.gasChosen,
     balance: state.ReducerBalance.balance,

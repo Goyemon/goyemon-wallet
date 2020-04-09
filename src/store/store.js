@@ -10,7 +10,7 @@ const persistConfig = {
   storage: AsyncStorage,
   whitelist: [
     'ReducerBalance',
-    'ReducerCDaiLendingInfo',
+    'ReducerCompound',
     'ReducerChecksumAddress',
     'ReducerGasPrice',
     'ReducerMnemonic',

@@ -321,7 +321,7 @@ const ModalText = styled.Text`
 function mapStateToProps(state) {
   return {
     balance: state.ReducerBalance.balance,
-    compound: state.ReducerCDaiLendingInfo.compound,
+    compound: state.ReducerCompound.compound,
     mnemonicWords: state.ReducerMnemonic.mnemonicWords,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
     price: state.ReducerPrice.price,
