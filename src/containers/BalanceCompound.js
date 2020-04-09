@@ -18,13 +18,13 @@ import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class BalanceCompound extends Component {
   componentDidMount() {
-    FCMMsgs.requestCDaiLendingInfo(this.props.checksumAddress);
+    FCMMsgs.requestCompoundDaiInfo(this.props.checksumAddress);
   }
 
   render() {
-    const { balance, cDaiLendingInfo } = this.props;
+    const { balance, compound } = this.props;
     const currentInterestRate = new BigNumber(
-      cDaiLendingInfo.currentInterestRate
+      compound.dai.currentInterestRate
     )
       .div(new BigNumber(10).pow(24))
       .toFixed(2);
@@ -34,7 +34,7 @@ class BalanceCompound extends Component {
       .toFixed(2);
 
     const lifetimeEarnedInDai = RoundDownBigNumber(
-      cDaiLendingInfo.lifetimeEarned
+      compound.dai.lifetimeEarned
     )
       .div(new RoundDownBigNumber(10).pow(36))
       .toString();
@@ -177,7 +177,7 @@ const DaiInterestEarnedText = styled.Text`
 
 const mapStateToProps = state => ({
   balance: state.ReducerBalance.balance,
-  cDaiLendingInfo: state.ReducerCDaiLendingInfo.cDaiLendingInfo,
+  compound: state.ReducerCDaiLendingInfo.compound,
   checksumAddress: state.ReducerChecksumAddress.checksumAddress,
   price: state.ReducerPrice.price
 });

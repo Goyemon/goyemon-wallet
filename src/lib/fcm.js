@@ -186,7 +186,7 @@ class FCMMsgs {
 		this.__sendMessage('resync_wallet', { address: checksumAddress });
 	}
 
-	requestCDaiLendingInfo(checksumAddress) {
+	requestCompoundDaiInfo(checksumAddress) {
 		this.__sendMessage('cDai_lending_info', { address: checksumAddress });
 	}
 

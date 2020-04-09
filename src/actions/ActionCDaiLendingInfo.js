@@ -1,18 +1,18 @@
 'use strict';
-import { SAVE_CDAI_LENDING_INFO } from '../constants/ActionTypes';
+import { SAVE_COMPOUND_DAI_INFO } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
-export function saveCDaiLendingInfo(cDaiLendingInfo) {
+export function saveCompoundDaiInfo(compoundDaiInfo) {
   return async function (dispatch) {
     try {
-      dispatch(saveCDaiLendingInfoSuccess(cDaiLendingInfo));
+      dispatch(saveCompoundDaiInfoSuccess(compoundDaiInfo));
     } catch (err) {
       LogUtilities.logError(err);
     }
   };
 }
 
-const saveCDaiLendingInfoSuccess = (cDaiLendingInfo) => ({
-  type: SAVE_CDAI_LENDING_INFO,
-  payload: cDaiLendingInfo,
+const saveCompoundDaiInfoSuccess = (compoundDaiInfo) => ({
+  type: SAVE_COMPOUND_DAI_INFO,
+  payload: compoundDaiInfo,
 });

@@ -129,9 +129,9 @@ class DepositDai extends Component {
   };
 
   render() {
-    const { cDaiLendingInfo } = this.props;
+    const { compound } = this.props;
     const currentInterestRate = new BigNumber(
-      cDaiLendingInfo.currentInterestRate
+      compound.dai.currentInterestRate
     )
       .div(new BigNumber(10).pow(24))
       .toFixed(2);
@@ -284,7 +284,7 @@ const ButtonWrapper = styled.View`
 
 function mapStateToProps(state) {
   return {
-    cDaiLendingInfo: state.ReducerCDaiLendingInfo.cDaiLendingInfo,
+    compound: state.ReducerCDaiLendingInfo.compound,
     gasPrice: state.ReducerGasPrice.gasPrice,
     gasChosen: state.ReducerGasPrice.gasChosen,
     balance: state.ReducerBalance.balance,

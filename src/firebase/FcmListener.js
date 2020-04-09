@@ -8,8 +8,7 @@ import {
   saveWeiBalance
 } from '../actions/ActionBalance';
 import {
-  saveCDaiLendingInfo,
-  saveDaiApprovalInfo
+  saveCompoundDaiInfo
 } from '../actions/ActionCDaiLendingInfo';
 import { saveDaiExchangeReserve } from '../actions/ActionExchangeReserve';
 import {
@@ -74,14 +73,14 @@ async function downstreamMessageHandler(type, data) {
 				store.dispatch(saveDaiBalance(new BigNumber(data.dai).toString(10)));
 
 			if (data.hasOwnProperty('cdai')) {
-				FcmUpstreamMsgs.requestCDaiLendingInfo(stateTree.ReducerChecksumAddress.checksumAddress);
+				FcmUpstreamMsgs.requestCompoundDaiInfo(stateTree.ReducerChecksumAddress.checksumAddress);
 		  		store.dispatch(saveCDaiBalance(new BigNumber(data.cdai).toString(10)));
 			}
 			break;
 
 		case 'cDai_lending_info':
 			// const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
-			store.dispatch(saveCDaiLendingInfo(data));
+			store.dispatch(saveCompoundDaiInfo(data));
 			store.dispatch(
 				saveDaiSavingsBalance(
 					stateTree.ReducerBalance.balance.cDaiBalance,

@@ -1,23 +1,27 @@
 'use strict';
-import { SAVE_CDAI_LENDING_INFO } from '../constants/ActionTypes';
+import { SAVE_COMPOUND_DAI_INFO } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
-  cDaiLendingInfo: {
-    currentExchangeRate: '',
-    currentInterestRate: '',
-    lifetimeEarned: '',
+  compound: {
+    dai: {
+      currentExchangeRate: '',
+      currentInterestRate: '',
+      lifetimeEarned: '',  
+    }
   },
 };
 
-const cDaiLendingInfo = (state = INITIAL_STATE, action) => {
+const compound = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case SAVE_CDAI_LENDING_INFO:
+    case SAVE_COMPOUND_DAI_INFO:
       return {
-        cDaiLendingInfo: {
-          ...state.cDaiLendingInfo,
-          currentExchangeRate: action.payload.current_exchange_rate,
-          currentInterestRate: action.payload.yearly_interest_rate,
-          lifetimeEarned: action.payload.lifetime_earned,
+        compound: {
+          dai: {
+            ...state.compound.dai,
+            currentExchangeRate: action.payload.current_exchange_rate,
+            currentInterestRate: action.payload.yearly_interest_rate,
+            lifetimeEarned: action.payload.lifetime_earned,  
+          }
         },
       };
     default:
@@ -25,4 +29,4 @@ const cDaiLendingInfo = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default cDaiLendingInfo;
+export default compound;

@@ -105,7 +105,7 @@ class WalletCreation extends Component {
   }
 
   fetchTokenInfo() {
-    FCMMsgs.requestCDaiLendingInfo(this.props.checksumAddress);
+    FCMMsgs.requestCompoundDaiInfo(this.props.checksumAddress);
   }
 
   async isWalletReady() {
@@ -321,7 +321,7 @@ const ModalText = styled.Text`
 function mapStateToProps(state) {
   return {
     balance: state.ReducerBalance.balance,
-    cDaiLendingInfo: state.ReducerCDaiLendingInfo.cDaiLendingInfo,
+    compound: state.ReducerCDaiLendingInfo.compound,
     mnemonicWords: state.ReducerMnemonic.mnemonicWords,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
     price: state.ReducerPrice.price,

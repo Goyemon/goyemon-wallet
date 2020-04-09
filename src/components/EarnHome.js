@@ -162,7 +162,6 @@ const CardImage = styled.Image`
 
 function mapStateToProps(state) {
   return {
-    cDaiLendingInfo: state.ReducerCDaiLendingInfo.cDaiLendingInfo,
     approval: state.ReducerApproval.approval
   };
 }
