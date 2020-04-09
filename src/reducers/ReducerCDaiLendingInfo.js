@@ -1,16 +1,12 @@
 'use strict';
-import {
-  SAVE_CDAI_LENDING_INFO,
-  SAVE_DAI_APPROVAL_INFO
-} from '../constants/ActionTypes';
+import { SAVE_CDAI_LENDING_INFO } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
   cDaiLendingInfo: {
-    daiApproval: null,
     currentExchangeRate: '',
     currentInterestRate: '',
-    lifetimeEarned: ''
-  }
+    lifetimeEarned: '',
+  },
 };
 
 const cDaiLendingInfo = (state = INITIAL_STATE, action) => {
@@ -21,15 +17,8 @@ const cDaiLendingInfo = (state = INITIAL_STATE, action) => {
           ...state.cDaiLendingInfo,
           currentExchangeRate: action.payload.current_exchange_rate,
           currentInterestRate: action.payload.yearly_interest_rate,
-          lifetimeEarned: action.payload.lifetime_earned
-        }
-      };
-    case SAVE_DAI_APPROVAL_INFO:
-      return {
-        cDaiLendingInfo: {
-          ...state.cDaiLendingInfo,
-          daiApproval: action.payload
-        }
+          lifetimeEarned: action.payload.lifetime_earned,
+        },
       };
     default:
       return state || INITIAL_STATE;
