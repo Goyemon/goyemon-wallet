@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
-import { saveDaiApprovalInfo } from '../actions/ActionCDaiLendingInfo';
+import { saveDaiCompoundApproval } from '../actions/ActionApproval';
 import CompoundIcon from '../../assets/CompoundIcon.js';
 import {
   RootContainer,
@@ -21,7 +21,7 @@ class EarnHome extends Component {
     LogUtilities.toDebugScreen('EarnHome componentDidMount() called');
     const txChangeCallback = (() => {
       TxStorage.storage.isDAIApprovedForCDAI().then(x => {
-        this.props.saveDaiApprovalInfo(x);
+        this.props.saveDaiCompoundApproval(x);
       });
     }).bind(this);
 
@@ -53,9 +53,9 @@ class EarnHome extends Component {
             textAlign="left"
             width="90%"
             onPress={() => {
-              if (this.props.cDaiLendingInfo.daiApproval) {
+              if (this.props.approval.dai.compound) {
                 this.props.navigation.navigate('DepositDai');
-              } else if (!this.props.cDaiLendingInfo.daiApproval) {
+              } else if (!this.props.approval.dai.compound) {
                 this.props.navigation.navigate('DepositFirstDai');
               } else {
                 LogUtilities.logInfo('invalid approval value');
@@ -129,12 +129,13 @@ const CardImage = styled.Image`
 
 function mapStateToProps(state) {
   return {
-    cDaiLendingInfo: state.ReducerCDaiLendingInfo.cDaiLendingInfo
+    cDaiLendingInfo: state.ReducerCDaiLendingInfo.cDaiLendingInfo,
+    approval: state.ReducerApproval.approval
   };
 }
 
 const mapDispatchToProps = {
-  saveDaiApprovalInfo
+  saveDaiCompoundApproval
 };
 
 export default withNavigation(
