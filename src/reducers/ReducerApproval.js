@@ -1,12 +1,16 @@
 'use strict';
-import { SAVE_DAI_COMPOUND_APPROVAL} from '../constants/ActionTypes';
+import {
+  SAVE_DAI_COMPOUND_APPROVAL,
+  SAVE_DAI_POOLTOGETHER_APPROVAL,
+} from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
   approval: {
     dai: {
-      compound: null
-    }
-  }
+      compound: null,
+      poolTogether: null,
+    },
+  },
 };
 
 const approval = (state = INITIAL_STATE, action) => {
@@ -16,10 +20,20 @@ const approval = (state = INITIAL_STATE, action) => {
         approval: {
           dai: {
             ...state.approval.dai,
-            compound: action.payload
-          }
-        }
+            compound: action.payload,
+          },
+        },
       };
+    case SAVE_DAI_POOLTOGETHER_APPROVAL:
+      return {
+        approval: {
+          dai: {
+            ...state.approval.dai,
+            poolTogether: action.payload,
+          },
+        },
+      };
+
     default:
       return state || INITIAL_STATE;
   }
