@@ -12,7 +12,8 @@
   "ERC20ApproveGasLimit": 50000,
   "cTokenMintGasLimit": 350000,
   "cTokenRedeemUnderlyingGasLimit": 650000,
-  "UniswapEthToTokenSwapInputGasLimit": 75000
+  "UniswapEthToTokenSwapInputGasLimit": 75000,
+  "PoolTogetherDepositPoolGasLimit": 700000
 }
 
 // Mainnet
@@ -29,7 +30,9 @@
 //     "ERC20ApproveGasLimit" : 50000,
 //     "cTokenMintGasLimit": 350000,
 //     "cTokenRedeemUnderlyingGasLimit": 650000,
-//     "UniswapEthToTokenSwapInputGasLimit": 75000
+//     "UniswapEthToTokenSwapInputGasLimit": 75000,
+//     "PoolTogetherDepositPoolGasLimit": 700000
+
 // }
 
 // the usd price of currencies is always the mainnet data
