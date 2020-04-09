@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
 import { saveDaiCompoundApproval } from '../actions/ActionApproval';
 import CompoundIcon from '../../assets/CompoundIcon.js';
+import PoolTogetherIcon from '../../assets/PoolTogetherIcon.js';
 import {
   RootContainer,
   Container,
@@ -100,6 +101,38 @@ class EarnHome extends Component {
               </IconImage>
               <IconImage>
                 <CompoundIcon />
+              </IconImage>
+            </IconImageContainer>
+          </TouchableCardContainer>
+          <TouchableCardContainer
+            alignItems="center"
+            flexDirection="column"
+            height="160px"
+            justifyContent="center"
+            textAlign="left"
+            width="90%"
+            onPress={() => {
+              if (this.props.approval.dai.poolTogether) {
+                this.props.navigation.navigate('DepositDaiToPoolTogether');
+              } else if (!this.props.approval.dai.poolTogether) {
+                this.props.navigation.navigate('DepositFirstDaiToPoolTogether');
+              } else {
+                LogUtilities.logInfo('invalid approval value');
+              }
+            }}
+          >
+            <GoyemonText fontSize={24}>
+              Deposit DAI to PoolTogether
+            </GoyemonText>
+            <IconImageContainer>
+              <IconImage>
+                <CardImage source={require('../../assets/dai_icon.png')} />
+              </IconImage>
+              <IconImage>
+                <Icon name="arrow-right-bold" size={20} color="#5F5F5F" />
+              </IconImage>
+              <IconImage>
+                <PoolTogetherIcon />
               </IconImage>
             </IconImageContainer>
           </TouchableCardContainer>
