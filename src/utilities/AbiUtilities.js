@@ -82,11 +82,15 @@ class ABIEncoder {
 	static encodeEthToTokenSwapInput(minTokens, deadline, decimals=18) {
 		return new RuDataBuilder([0xf3, 0x39, 0xb5, 0x9b], 2, decimals).putUint256Scaled(minTokens).putUint256Unscaled(deadline).get();
 	}
-}
 
 	static encodeDepositPool(amount, decimals=18) {
 		return new RuDataBuilder([0x23, 0x44, 0x09, 0x44], 1, decimals).putUint256Scaled(amount).get();
 	}
+
+	static encodeWithdraw(amount, decimals=18) {
+		return new RuDataBuilder([0xb3, 0x87, 0x00, 0xc6], 1, decimals).putUint256Scaled(amount).get();
+	}
+}
 
 export default ABIEncoder;
 /*
