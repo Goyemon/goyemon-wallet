@@ -152,6 +152,17 @@ class TransactionUtilities {
     return false;
   }
 
+  // finish writing this once you get the deposited balance
+  validateDaiDepositedAmount(daiWithdrawAmount) {
+    const stateTree = store.getState();
+    const balance = stateTree.ReducerBalance.balance;
+
+    daiWithdrawAmount = new BigNumber(10).pow(36).times(daiWithdrawAmount);
+
+    LogUtilities.logInfo('wrong dai balance!');
+    return false;
+  }
+
   async constructSignedOutgoingTransactionObject(outgoingTransactionObject) {
     outgoingTransactionObject = new ethTx(
       outgoingTransactionObject.toTransactionDict()
