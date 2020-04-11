@@ -10,6 +10,7 @@ import WithdrawDaiConfirmation from '../containers/WithdrawDaiConfirmation';
 import DepositDaiToPoolTogether from '../containers/DepositDaiToPoolTogether';
 import DepositDaiToPoolTogetherConfirmation from '../containers/DepositDaiToPoolTogetherConfirmation';
 import DepositFirstDaiToPoolTogether from '../containers/DepositFirstDaiToPoolTogether';
+import DepositFirstDaiToPoolTogetherConfirmation from '../containers/DepositFirstDaiToPoolTogetherConfirmation';
 import WithdrawDaiFromPoolTogether from '../containers/WithdrawDaiFromPoolTogether';
 import WithdrawDaiFromPoolTogetherConfirmation from '../containers/WithdrawDaiFromPoolTogetherConfirmation';
 
@@ -79,6 +80,12 @@ const EarnStack = createStackNavigator(
       navigationOptions: () => ({
         headerTransparent: true,
         headerBackTitle: 'Deposit',
+      }),
+    },
+    DepositFirstDaiToPoolTogetherConfirmation: {
+      screen: DepositFirstDaiToPoolTogetherConfirmation,
+      navigationOptions: () => ({
+        headerTransparent: true,
       }),
     },
     WithdrawDaiFromPoolTogether: {
