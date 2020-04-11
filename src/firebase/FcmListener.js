@@ -65,6 +65,10 @@ async function downstreamMessageHandler(type, data) {
 			await Promise.all(Object.entries(data).map(([hash, data]) => TxStorage.storage.processTxState(hash, data)));
 			break;
 
+		case 'txsync':
+			await TxStorage.storage.processTxSync(data);
+			break;
+
 		case 'balance':
 			if (data.hasOwnProperty('eth'))
 				store.dispatch(saveWeiBalance(new BigNumber(data.eth).toString(10)));

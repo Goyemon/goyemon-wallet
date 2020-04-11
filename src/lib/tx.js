@@ -504,6 +504,8 @@ class PersistTxStorageAbstraction {
 	}
 
 	async replaceTx(oldtx, newtx, oldhash, newhash) {
+		// for now this can only be called when changing nonce_xxx to proper txhash, so when 'sent' state goes into included. soon added: nonce_xxx to fail_xxx when a tx errors out (and we dont want to keep the nonce_xxx key as it'll get overwritten)
+
 		// let indexDiff = this.__indexDiff(oldtx, newtx);
 		// TODO: index differences disregarded for now.
 
@@ -525,9 +527,11 @@ class PersistTxStorageAbstraction {
 	}
 
 	async updateTx(oldtx, newtx, hash) {
-		// let indexDiff = this.__indexDiff(oldtx, newtx);
+		// no hash change, therefore sent stays sent (nonce_xxx) or included stays included (txhash)
 
+		// let indexDiff = this.__indexDiff(oldtx, newtx);
 		// TODO: index differences disregarded for now.
+
 		if (this.debug)
 			LogUtilities.toDebugScreen(`PersistTxStorageAbstraction updateTx(): replace (${hash}) oldtx:${JSON.stringify(oldtx)} with newtx:${JSON.stringify(newtx)}`);
 
@@ -678,7 +682,7 @@ class TxTokenDepositPoolOp extends TxTokenOp {
 	constructor (arr) {
 		super();
 		[this.depositor, this.depositPoolAmount] = arr;
-		// this.depositor = arr[0]; this.depositPoolAmount = arr[1]; 
+		// this.depositor = arr[0]; this.depositPoolAmount = arr[1];
 	}
 
 	toJSON() {
@@ -690,7 +694,7 @@ class TxTokenWithdrawOp extends TxTokenOp {
 	constructor (arr) {
 		super();
 		[this.withdrawer, this.withdrawAmount] = arr;
-		// this.withdrawer = arr[0]; this.withdrawAmount = arr[1]; 
+		// this.withdrawer = arr[0]; this.withdrawAmount = arr[1];
 	}
 
 	toJSON() {
@@ -1083,7 +1087,7 @@ class TxStorage {
 		if (tx.hasTokenOperations('poolTogether'))
 			return tx.hasTokenOperation('poolTogether', TxTokenOpTypeToName.depositPool) ||
 				tx.hasTokenOperation('poolTogether', TxTokenOpTypeToName.withdraw)
-				
+
 		return false;
 	}
 
@@ -1240,7 +1244,7 @@ class TxStorage {
 			let newtx = tx.deepClone();
 			newtx.setState(TxStates.STATE_ERROR);
 
-			await this.txes.updateTx(tx, newtx, nonceKey);
+			await this.txes.updateTx(tx, newtx, nonceKey); // todo: no, rename it, so that next sent transaction with this nonce won't overwrite this one.
 
 			this.__unlock('txes');
 			LogUtilities.toDebugScreen(`markNotIncludedTxAsErrorByNonce(nonce:${nonce}) state updated`);
@@ -1411,6 +1415,11 @@ class TxStorage {
 			'count': count,
 			'offset': 0
 		};
+	}
+
+
+	async processTxSync(data) {
+		LogUtilities.toDebugScreen('received txsync data:', data);
 	}
 
 
