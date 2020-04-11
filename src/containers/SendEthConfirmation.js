@@ -11,7 +11,7 @@ import {
   FormHeader,
   GoyemonText,
   Loader,
-  IsOnlineMessage
+  IsOnlineMessage,
 } from '../components/common/';
 import NetworkFeeContainerConfirmation from '../containers/NetworkFeeContainerConfirmation';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
@@ -22,21 +22,15 @@ class SendEthConfirmation extends Component {
     super(props);
     this.state = {
       loading: false,
-      buttonDisabled: false
+      buttonDisabled: false,
     };
-  }
-
-  async sendSignedTx() {
-    const outgoingTransactionObject = this.props.outgoingTransactionObjects[
-      this.props.outgoingTransactionObjects.length - 1
-    ];
-    await TransactionUtilities.sendOutgoingTransactionToServer(
-      outgoingTransactionObject
-    );
   }
 
   render() {
     const { outgoingTransactionData } = this.props;
+    const outgoingTransactionObject = this.props.outgoingTransactionObjects[
+      this.props.outgoingTransactionObjects.length - 1
+    ];
 
     return (
       <RootContainer>
@@ -57,11 +51,11 @@ class SendEthConfirmation extends Component {
           textAlign="left"
           width="100%"
         >
-          <FormHeader marginBottom="8"  marginTop="16">
+          <FormHeader marginBottom="8" marginTop="16">
             To
           </FormHeader>
           <ToText>{outgoingTransactionData.send.toaddress}</ToText>
-          <FormHeader marginBottom="8"  marginTop="16">
+          <FormHeader marginBottom="8" marginTop="16">
             Amount
           </FormHeader>
           <AmountText>{outgoingTransactionData.send.amount} ETH</AmountText>
@@ -82,7 +76,9 @@ class SendEthConfirmation extends Component {
             onPress={async () => {
               if (this.props.netInfo) {
                 this.setState({ loading: true, buttonDisabled: true });
-                await this.sendSignedTx();
+                await TransactionUtilities.sendOutgoingTransactionToServer(
+                  outgoingTransactionObject
+                );
                 this.props.navigation.reset(
                   [NavigationActions.navigate({ routeName: 'Send' })],
                   0
@@ -141,7 +137,7 @@ function mapStateToProps(state) {
     outgoingTransactionData:
       state.ReducerOutgoingTransactionData.outgoingTransactionData,
     outgoingTransactionObjects:
-      state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects
+      state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
   };
 }
 

@@ -26,17 +26,11 @@ class DepositDaiToPoolTogetherConfirmation extends Component {
     };
   }
 
-  async sendSignedTx() {
+  render() {
+    const { outgoingTransactionData } = this.props;
     const outgoingTransactionObject = this.props.outgoingTransactionObjects[
       this.props.outgoingTransactionObjects.length - 1
     ];
-    await TransactionUtilities.sendOutgoingTransactionToServer(
-      outgoingTransactionObject
-    );
-  }
-
-  render() {
-    const { outgoingTransactionData } = this.props;
 
     return (
       <RootContainer>
@@ -44,7 +38,9 @@ class DepositDaiToPoolTogetherConfirmation extends Component {
         <TotalContainer>
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <GoyemonText fontSize="16">You are about to deposit</GoyemonText>
-          <TotalValue>{outgoingTransactionData.poolTogether.amount} DAI</TotalValue>
+          <TotalValue>
+            {outgoingTransactionData.poolTogether.amount} DAI
+          </TotalValue>
         </TotalContainer>
         <UntouchableCardContainer
           alignItems="flex-start"
@@ -77,7 +73,9 @@ class DepositDaiToPoolTogetherConfirmation extends Component {
             onPress={async () => {
               if (this.props.netInfo) {
                 this.setState({ loading: true, buttonDisabled: true });
-                await this.sendSignedTx();
+                await TransactionUtilities.sendOutgoingTransactionToServer(
+                  outgoingTransactionObject
+                );
                 this.props.navigation.reset(
                   [NavigationActions.navigate({ routeName: 'EarnHome' })],
                   0
