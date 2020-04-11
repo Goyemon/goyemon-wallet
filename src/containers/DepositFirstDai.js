@@ -49,27 +49,6 @@ class DepositFirstDai extends Component {
     );
   }
 
-  async constructApproveTransactionObject() {
-    // TODO: this has to be in TransactionUtilities. it's common code for the most part anyway. chainid, nonce, those are always set the same way. we just need to specify to/gas/data/value and that's across ALL txes sent
-    const approveEncodedABI = TransactionUtilities.getApproveEncodedABI(GlobalConfig.cDAIcontract);
-    const transactionObject = (await TxStorage.storage.newTx())
-      .setTo(GlobalConfig.DAITokenContract)
-      .setGasPrice(
-        TransactionUtilities.returnTransactionSpeed(
-          this.props.gasChosen
-        ).toString(16)
-      )
-      .setGas(GlobalConfig.ERC20ApproveGasLimit.toString(16))
-      .tempSetData(approveEncodedABI)
-      .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.approval, [
-        (GlobalConfig.cDAIcontract.startsWith('0x') ? GlobalConfig.cDAIcontract.substr(2) : GlobalConfig.cDAIcontract).toLowerCase(),
-        TxStorage.storage.getOwnAddress(),
-        'ff'.repeat(256 / 8)
-      ]);
-
-    return transactionObject;
-  }
-
   async constructMintTransactionObject() {
     const daiAmount = this.state.daiAmount.split('.').join('');
     const decimalPlaces = TransactionUtilities.decimalPlaces(
@@ -138,7 +117,7 @@ class DepositFirstDai extends Component {
     if (daiAmountValidation && weiAmountValidation && isOnline) {
       this.setState({ loading: true, buttonDisabled: true });
       LogUtilities.logInfo('validation successful');
-      const approveTransactionObject = await this.constructApproveTransactionObject();
+      const approveTransactionObject = await TransactionUtilities.constructApproveTransactionObject(GlobalConfig.cDAIcontract, this.props.gasChosen);
       await this.props.saveOutgoingTransactionObject(approveTransactionObject);
       const mintTransactionObject = await this.constructMintTransactionObject();
       await this.props.saveOutgoingTransactionObject(mintTransactionObject);

@@ -227,6 +227,29 @@ class TransactionUtilities {
 
     return approveEncodedABI;
   }
+
+  async constructApproveTransactionObject(spender, gasChosen) {
+    const approveEncodedABI = this.getApproveEncodedABI(spender);
+    const approveTransactionObject = (await TxStorage.storage.newTx())
+      .setTo(GlobalConfig.DAITokenContract)
+      .setGasPrice(
+        this.returnTransactionSpeed(
+          gasChosen
+        ).toString(16)
+      )
+      .setGas(GlobalConfig.ERC20ApproveGasLimit.toString(16))
+      .tempSetData(approveEncodedABI)
+      .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.approval, [
+        (spender.startsWith('0x')
+          ? spender.substr(2)
+          : spender
+        ).toLowerCase(),
+        TxStorage.storage.getOwnAddress(),
+        'ff'.repeat(256 / 8),
+      ]);
+
+    return approveTransactionObject;
+  }  
 }
 
 export default new TransactionUtilities();
