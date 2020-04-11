@@ -7,6 +7,7 @@ import Web3 from 'web3';
 import { addSentTransaction } from '../actions/ActionTransactionHistory';
 const GlobalConfig = require('../config.json');
 import { store } from '../store/store.js';
+import ABIEncoder from '../utilities/AbiUtilities';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
@@ -213,6 +214,18 @@ class TransactionUtilities {
     );
     transactionFeeEstimateInUsd = transactionFeeEstimateInUsd.toFixed(3);
     return transactionFeeEstimateInUsd;
+  }
+
+  getApproveEncodedABI(addressSpender) {
+    const amount = `0x${'ff'.repeat(256 / 8)}`; // TODO: this needs to be a const somewhere, likely uint256max_hex.
+
+    const approveEncodedABI = ABIEncoder.encodeApprove(
+      addressSpender,
+      amount,
+      0
+    );
+
+    return approveEncodedABI;
   }
 }
 

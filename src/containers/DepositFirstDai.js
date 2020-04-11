@@ -49,22 +49,9 @@ class DepositFirstDai extends Component {
     );
   }
 
-  getApproveEncodedABI() {
-    const addressSpender = GlobalConfig.cDAIcontract;
-    const amount = `0x${'ff'.repeat(256 / 8)}`; // TODO: this needs to be a const somewhere, likely uint256max_hex.
-
-    const approveEncodedABI = ABIEncoder.encodeApprove(
-      addressSpender,
-      amount,
-      0
-    );
-
-    return approveEncodedABI;
-  }
-
   async constructApproveTransactionObject() {
     // TODO: this has to be in TransactionUtilities. it's common code for the most part anyway. chainid, nonce, those are always set the same way. we just need to specify to/gas/data/value and that's across ALL txes sent
-    const approveEncodedABI = this.getApproveEncodedABI();
+    const approveEncodedABI = TransactionUtilities.getApproveEncodedABI(GlobalConfig.cDAIcontract);
     const transactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.DAITokenContract)
       .setGasPrice(
