@@ -36,6 +36,8 @@ class EarnHome extends Component {
   }
 
   render() {
+    const { navigation, approval } = this.props;
+
     return (
       <RootContainer>
         <HeaderOne marginTop="64">Earn</HeaderOne>
@@ -54,10 +56,10 @@ class EarnHome extends Component {
             textAlign="left"
             width="90%"
             onPress={() => {
-              if (this.props.approval.dai.compound) {
-                this.props.navigation.navigate('DepositDai');
-              } else if (!this.props.approval.dai.compound) {
-                this.props.navigation.navigate('DepositFirstDai');
+              if (approval.dai.compound) {
+                navigation.navigate('DepositDai');
+              } else if (!approval.dai.compound) {
+                navigation.navigate('DepositFirstDai');
               } else {
                 LogUtilities.logInfo('invalid approval value');
               }
@@ -86,7 +88,7 @@ class EarnHome extends Component {
             textAlign="left"
             width="90%"
             onPress={() => {
-              this.props.navigation.navigate('WithdrawDai');
+              navigation.navigate('WithdrawDai');
             }}
           >
             <GoyemonText fontSize={24}>
@@ -112,10 +114,10 @@ class EarnHome extends Component {
             textAlign="left"
             width="90%"
             onPress={() => {
-              if (this.props.approval.dai.poolTogether) {
-                this.props.navigation.navigate('DepositDaiToPoolTogether');
-              } else if (!this.props.approval.dai.poolTogether) {
-                this.props.navigation.navigate('DepositFirstDaiToPoolTogether');
+              if (approval.dai.poolTogether) {
+                navigation.navigate('DepositDaiToPoolTogether');
+              } else if (!approval.dai.poolTogether) {
+                navigation.navigate('DepositFirstDaiToPoolTogether');
               } else {
                 LogUtilities.logInfo('invalid approval value');
               }
@@ -144,7 +146,7 @@ class EarnHome extends Component {
             textAlign="left"
             width="90%"
             onPress={() => {
-              this.props.navigation.navigate('WithdrawDaiFromPoolTogether');
+              navigation.navigate('WithdrawDaiFromPoolTogether');
             }}
           >
             <GoyemonText fontSize={24}>

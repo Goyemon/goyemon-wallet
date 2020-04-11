@@ -138,14 +138,12 @@ class WalletCreation extends Component {
   }
 
   hasBalance() {
-    const cDaiBalance = new BigNumber(this.props.balance.cDaiBalance);
-    const daiBalance = new BigNumber(this.props.balance.daiBalance);
-    const weiBalance = new BigNumber(this.props.balance.weiBalance);
+    const { balance } = this.props;
 
     return (
-      cDaiBalance.isGreaterThanOrEqualTo(0) &&
-      daiBalance.isGreaterThanOrEqualTo(0) &&
-      weiBalance.isGreaterThanOrEqualTo(0)
+      new BigNumber(balance.cDaiBalance).isGreaterThanOrEqualTo(0) &&
+      new BigNumber(balance.daiBalance).isGreaterThanOrEqualTo(0) &&
+      new BigNumber(balance.weiBalance).isGreaterThanOrEqualTo(0)
     );
   }
 
@@ -158,11 +156,12 @@ class WalletCreation extends Component {
   }
 
   hasPrice() {
+    const { price } = this.props;
     return (
-      this.props.price.eth >= 0 &&
-      this.props.price.eth.length != 0 &&
-      this.props.price.dai >= 0 &&
-      this.props.price.dai.length != 0
+      price.eth >= 0 &&
+      price.eth.length != 0 &&
+      price.dai >= 0 &&
+      price.dai.length != 0
     );
   }
 

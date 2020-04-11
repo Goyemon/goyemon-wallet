@@ -123,10 +123,12 @@ class Advanced extends Component {
 
   render() {
     // const otherDebugInfo = JSON.stringify(this.props.debugInfo.others);
+    const { debugInfo } = this.props;
+
     const otherDebugInfo =
-      this.props.debugInfo.others instanceof Array
-        ? this.props.debugInfo.others.join('\n')
-        : JSON.stringify(this.props.debugInfo.others);
+      debugInfo.others instanceof Array
+        ? debugInfo.others.join('\n')
+        : JSON.stringify(debugInfo.others);
 
     return (
       <RootContainer>
@@ -175,7 +177,7 @@ class Advanced extends Component {
             Your Device Info
           </HeaderThree>
           <GoyemonText fontSize="14">
-            {this.props.debugInfo.fcmToken}
+            {debugInfo.fcmToken}
           </GoyemonText>
           {this.renderCopyText()}
           <HeaderThree

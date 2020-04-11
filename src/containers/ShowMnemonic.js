@@ -51,28 +51,29 @@ class ShowMnemonic extends Component {
   }
 
   checkPhotoLibraryPermission() {
+    const { savePhotoLibraryPermission } = this.props;
     if (Platform.OS === 'ios') {
       check(PERMISSIONS.IOS.PHOTO_LIBRARY)
         .then(result => {
           switch (result) {
             case RESULTS.UNAVAILABLE:
-              this.props.savePhotoLibraryPermission('unavailable');
+              savePhotoLibraryPermission('unavailable');
               LogUtilities.logInfo(
                 'This feature is not available (on this device / in this context)'
               );
               break;
             case RESULTS.DENIED:
-              this.props.savePhotoLibraryPermission('denied');
+              savePhotoLibraryPermission('denied');
               LogUtilities.logInfo(
                 'The permission has not been requested / is denied but requestable'
               );
               break;
             case RESULTS.GRANTED:
-              this.props.savePhotoLibraryPermission('granted');
+              savePhotoLibraryPermission('granted');
               LogUtilities.logInfo('The permission is granted');
               break;
             case RESULTS.BLOCKED:
-              this.props.savePhotoLibraryPermission('blocked');
+              savePhotoLibraryPermission('blocked');
               LogUtilities.logInfo(
                 'The permission is denied and not requestable anymore'
               );
@@ -87,23 +88,23 @@ class ShowMnemonic extends Component {
         .then(result => {
           switch (result) {
             case RESULTS.UNAVAILABLE:
-              this.props.savePhotoLibraryPermission('unavailable');
+              savePhotoLibraryPermission('unavailable');
               LogUtilities.logInfo(
                 'This feature is not available (on this device / in this context)'
               );
               break;
             case RESULTS.DENIED:
-              this.props.savePhotoLibraryPermission('denied');
+              savePhotoLibraryPermission('denied');
               LogUtilities.logInfo(
                 'The permission has not been requested / is denied but requestable'
               );
               break;
             case RESULTS.GRANTED:
-              this.props.savePhotoLibraryPermission('granted');
+              savePhotoLibraryPermission('granted');
               LogUtilities.logInfo('The permission is granted');
               break;
             case RESULTS.BLOCKED:
-              this.props.savePhotoLibraryPermission('blocked');
+              savePhotoLibraryPermission('blocked');
               LogUtilities.logInfo(
                 'The permission is denied and not requestable anymore'
               );
@@ -123,9 +124,10 @@ class ShowMnemonic extends Component {
   }
 
   renderScreenshotButtons() {
+    const { permissions } = this.props;
     if (
-      this.props.permissions.photoLibrary === '' ||
-      this.props.permissions.photoLibrary === 'denied'
+      permissions.photoLibrary === '' ||
+      permissions.photoLibrary === 'denied'
     ) {
       return (
         <Button
@@ -142,8 +144,8 @@ class ShowMnemonic extends Component {
         />
       );
     } else if (
-      this.props.permissions.photoLibrary === 'unavailable' ||
-      this.props.permissions.photoLibrary === 'blocked'
+      permissions.photoLibrary === 'unavailable' ||
+      permissions.photoLibrary === 'blocked'
     ) {
       return (
         <Button
@@ -164,7 +166,7 @@ class ShowMnemonic extends Component {
           }}
         />
       );
-    } else if (this.props.permissions.photoLibrary === 'granted') {
+    } else if (permissions.photoLibrary === 'granted') {
       return (
         <Button
           text="Tap to Capture!"

@@ -27,9 +27,9 @@ class SendEthConfirmation extends Component {
   }
 
   render() {
-    const { outgoingTransactionData } = this.props;
-    const outgoingTransactionObject = this.props.outgoingTransactionObjects[
-      this.props.outgoingTransactionObjects.length - 1
+    const { outgoingTransactionData, outgoingTransactionObjects, navigation, netInfo } = this.props;
+    const outgoingTransactionObject = outgoingTransactionObjects[
+      outgoingTransactionObjects.length - 1
     ];
 
     return (
@@ -74,23 +74,23 @@ class SendEthConfirmation extends Component {
             marginBottom="12px"
             opacity="1"
             onPress={async () => {
-              if (this.props.netInfo) {
+              if (netInfo) {
                 this.setState({ loading: true, buttonDisabled: true });
                 await TransactionUtilities.sendOutgoingTransactionToServer(
                   outgoingTransactionObject
                 );
-                this.props.navigation.reset(
+                navigation.reset(
                   [NavigationActions.navigate({ routeName: 'Send' })],
                   0
                 );
-                this.props.navigation.navigate('History');
+                navigation.navigate('History');
                 this.setState({ loading: false, buttonDisabled: false });
               }
             }}
           />
         </ButtonContainer>
         <Loader animating={this.state.loading} size="small" />
-        <IsOnlineMessage netInfo={this.props.netInfo} />
+        <IsOnlineMessage netInfo={netInfo} />
       </RootContainer>
     );
   }
