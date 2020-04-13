@@ -44,27 +44,24 @@ class LogUtilities {
 	}
 
 	static __dumpObjectRecursively(x, level=0, maxlevel=DUMPOBJECT_DEFAULT_DEPTH) {
-		let out = `(${typeof x})`;
+		if (typeof(x) === 'string')
+			return `"${x}"`;
 
-		for (let id in x) {
-			if (level <= maxlevel) {
-				if (x[id] instanceof Buffer)
-					out += ` ${id}: (Buffer)[${x[id].toString("hex")}]`;
-				else if (x[id] instanceof Array) {
-					out += ` ${id}: (Array)[${x[id].map(x => LogUtilities.__dumpObjectRecursively(x)).join(", ")}]`;
-				}
-				else if (x[id] instanceof Object)
-					out += ` ${id}(Object): { ${LogUtilities.__dumpObjectRecursively(x[id], level + 1, maxlevel)} }`;
-				else
-					out += ` ${id}: ${x[id]}`;
+		else if (typeof(x) === 'number')
+			return `${x}`;
 
-				continue;
-			}
+		else if (x instanceof Buffer)
+			return `(Buffer)[${x.toString("hex")}]`;
 
-			out += ` ${id}: ${x[id]}`;
+		if (level <= maxlevel) {
+			if (x instanceof Array)
+				return `[${x.map((x, idx) => `${LogUtilities.__dumpObjectRecursively(x, level + 1, maxlevel)}`).join(", ")}]`;
+
+			else if (x instanceof Object)
+				return `{ ${Object.keys(x).map((xk) => `${xk}: ${LogUtilities.__dumpObjectRecursively(x[xk], level + 1, maxlevel)}`)} }`;
 		}
 
-		return out;
+		return `(${typeof x})${x}`;
 	}
 }
 
