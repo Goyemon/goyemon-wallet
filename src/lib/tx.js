@@ -7,11 +7,6 @@ const crypto = require('crypto');
 
 const GlobalConfig = require('../config.json');
 
-// TODO: since confirmed txes are kind of set in stone, we could actually store arrays of sorted
-// txes, by timestamps for example. __txbytime_0: [hash1, hash2, hash3, hash4 .. hash20]
-// __txbytime_1: [hash21, hash22, hash23, ... hash40]
-// just remember the last number n and we know it's __txbytime_1 .. __txbytime_n
-
 // ========== consts ==========
 const TxStates = {
 	STATE_ERROR: -1,
@@ -202,9 +197,12 @@ class PersistTxStorageAbstraction {
 
 			AsyncStorage.getItem(`${this.prefix}i${name}c`).then(x => {
 				this.counts[name] = x ? parseInt(x) : 0;
-
-				const lastBucketNum = Math.floor((this.counts[name] - 1) / storage_bucket_size);
-				countToplocked(name, lastBucketNum);
+				if (this.counts[name] > 0) {
+					const lastBucketNum = Math.floor((this.counts[name] - 1) / storage_bucket_size);
+					countToplocked(name, lastBucketNum);
+				}
+				else
+					checkFinish();
 			});
 		}).bind(this);
 
@@ -1587,6 +1585,13 @@ class TxStorage {
 
 	async processTxSync(data) {
 		LogUtilities.toDebugScreen('received txsync data:', data);
+		return;
+		Object.entries(data).forEach(([hash, txdata]) => {
+			// try to find by txnonce if this is our tx.
+			// if found, replacetx.
+			// if not found, try to find by hash, if it's there perhaps check if same, if not update. or just update(?)
+			// if still not found, just appendTx().
+		});
 	}
 
 
