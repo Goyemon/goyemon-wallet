@@ -25,11 +25,13 @@ class Initial extends Component {
   }
 
   async conditionalNavigation() {
-    if (this.props.rehydration) {
+    const { rehydration, mnemonicWords, mnemonicWordsValidation, permissions } = this.props;
+
+    if (rehydration) {
       let mnemonicWordsStatePersisted;
-      if (this.props.mnemonicWords === null) {
+      if (mnemonicWords === null) {
         mnemonicWordsStatePersisted = false;
-      } else if (this.props.mnemonicWords != null) {
+      } else if (mnemonicWords != null) {
         mnemonicWordsStatePersisted = true;
       }
 
@@ -42,35 +44,35 @@ class Initial extends Component {
       if (
         !mnemonicWordsStatePersisted ||
         (mnemonicWordsStatePersisted &&
-          !this.props.mnemonicWordsValidation &&
-          !this.props.permissions.notification &&
+          !mnemonicWordsValidation &&
+          !permissions.notification &&
           !hasPrivateKeyInKeychain) ||
         (mnemonicWordsStatePersisted &&
-          this.props.permissions.notification === null &&
+          permissions.notification === null &&
           hasPrivateKeyInKeychain)
       ) {
         mainPage = 'Welcome';
       } else if (
         mnemonicWordsStatePersisted &&
-        !this.props.permissions.notification &&
+        !permissions.notification &&
         hasPrivateKeyInKeychain
       ) {
         mainPage = 'NotificationPermissionNotGranted';
       } else if (
         (mnemonicWordsStatePersisted &&
-          this.props.mnemonicWordsValidation &&
-          this.props.permissions.notification &&
+          mnemonicWordsValidation &&
+          permissions.notification &&
           !hasPersistedState &&
           !hasPrivateKeyInKeychain) ||
         (mnemonicWordsStatePersisted &&
-          this.props.permissions.notification &&
+          permissions.notification &&
           !hasPersistedState &&
           hasPrivateKeyInKeychain)
       ) {
         mainPage = 'WalletCreation';
       } else if (
         mnemonicWordsStatePersisted &&
-        this.props.permissions.notification &&
+        permissions.notification &&
         hasPersistedState &&
         hasPrivateKeyInKeychain
       ) {
@@ -99,7 +101,7 @@ class Initial extends Component {
         actions: [NavigationActions.navigate({ routeName: mainPage })]
       });
       this.props.navigation.dispatch(resetAction);
-    } else if (!this.props.rehydration) {
+    } else if (!rehydration) {
       LogUtilities.logInfo('rehydration is not done yet');
     }
   }
@@ -118,23 +120,25 @@ class Initial extends Component {
   }
 
   hasBalance = () => {
-    const cDaiBalance = new BigNumber(this.props.balance.cDaiBalance);
-    const daiBalance = new BigNumber(this.props.balance.daiBalance);
-    const weiBalance = new BigNumber(this.props.balance.weiBalance);
+    const { balance } = this.props;
     return (
-      cDaiBalance.isGreaterThanOrEqualTo(0) &&
-      daiBalance.isGreaterThanOrEqualTo(0) &&
-      weiBalance.isGreaterThanOrEqualTo(0)
+      new BigNumber(balance.cDaiBalance).isGreaterThanOrEqualTo(0) &&
+      new BigNumber(balance.daiBalance).isGreaterThanOrEqualTo(0) &&
+      new BigNumber(balance.weiBalance).isGreaterThanOrEqualTo(0)
     );
   };
 
   hasChecksumAddress = () => this.props.checksumAddress != null;
 
-  hasPrice = () =>
-    this.props.price.eth >= 0 &&
-    this.props.price.eth.length != 0 &&
-    this.props.price.dai >= 0 &&
-    this.props.price.dai.length != 0;
+  hasPrice = () => {
+    const { price } = this.props;
+    return (
+      price.eth >= 0 &&
+      price.eth.length != 0 &&
+      price.dai >= 0 &&
+      price.dai.length != 0  
+    )
+  }
 
   render() {
     return (

@@ -27,14 +27,12 @@ class DepositFirstDaiToPoolTogetherConfirmation extends Component {
   }
 
   render() {
-    const { outgoingTransactionData } = this.props;
-    const outgoingApproveTransactionObject = this.props
-      .outgoingTransactionObjects[
-      this.props.outgoingTransactionObjects.length - 2
+    const { outgoingTransactionData, outgoingTransactionObjects, navigation, netInfo } = this.props;
+    const outgoingApproveTransactionObject = outgoingTransactionObjects[
+      outgoingTransactionObjects.length - 2
     ];
-    const outgoingDepositPoolTransactionObject = this.props
-      .outgoingTransactionObjects[
-      this.props.outgoingTransactionObjects.length - 1
+    const outgoingDepositPoolTransactionObject = outgoingTransactionObjects[
+      outgoingTransactionObjects.length - 1
     ];
 
     return (
@@ -79,7 +77,7 @@ class DepositFirstDaiToPoolTogetherConfirmation extends Component {
             marginBottom="12px"
             opacity="1"
             onPress={async () => {
-              if (this.props.netInfo) {
+              if (netInfo) {
                 this.setState({ loading: true, buttonDisabled: true });
                 await TransactionUtilities.sendOutgoingTransactionToServer(
                   outgoingApproveTransactionObject
@@ -87,18 +85,18 @@ class DepositFirstDaiToPoolTogetherConfirmation extends Component {
                 await TransactionUtilities.sendOutgoingTransactionToServer(
                   outgoingDepositPoolTransactionObject
                 );
-                this.props.navigation.reset(
+                navigation.reset(
                   [NavigationActions.navigate({ routeName: 'EarnHome' })],
                   0
                 );
-                this.props.navigation.navigate('History');
+                navigation.navigate('History');
                 this.setState({ loading: false, buttonDisabled: false });
               }
             }}
           />
         </ButtonContainer>
         <Loader animating={this.state.loading} size="small" />
-        <IsOnlineMessage netInfo={this.props.netInfo} />
+        <IsOnlineMessage netInfo={netInfo} />
       </RootContainer>
     );
   }

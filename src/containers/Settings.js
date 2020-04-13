@@ -96,6 +96,7 @@ class Settings extends Component {
   }
 
   render() {
+    const { navigation } = this.props;
     return (
       <RootContainer>
         <HeaderOne marginTop="112">Settings</HeaderOne>
@@ -160,7 +161,7 @@ class Settings extends Component {
                       this.props.clearState();
                       // reset notification settings using https://github.com/zo0r/react-native-push-notification
                       this.setModalVisible(false);
-                      this.props.navigation.navigate('Initial');
+                      navigation.navigate('Initial');
                       store.dispatch(rehydrationComplete(true));
                     }}
                   />
@@ -217,7 +218,7 @@ class Settings extends Component {
         <SettingsListContainer>
           <TouchableHighlight
             underlayColor="#FFF"
-            onPress={() => this.props.navigation.navigate('BackupWords')}
+            onPress={() => navigation.navigate('BackupWords')}
           >
             <SettingsList>
               <Icon name="key-outline" color="#5F5F5F" size={28} />
@@ -227,7 +228,7 @@ class Settings extends Component {
           </TouchableHighlight>
           <TouchableHighlight
             underlayColor="#FFF"
-            onPress={() => this.props.navigation.navigate('Advanced')}
+            onPress={() => navigation.navigate('Advanced')}
           >
             <SettingsList>
               <Icon name="crosshairs" color="#5F5F5F" size={28} />

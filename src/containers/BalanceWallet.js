@@ -17,7 +17,7 @@ import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class BalanceWallet extends Component {
   render() {
-    const { balance } = this.props;
+    const { balance, price } = this.props;
 
     let ethBalance = Web3.utils.fromWei(balance.weiBalance);
     ethBalance = RoundDownBigNumber(ethBalance).toFixed(4);
@@ -68,7 +68,7 @@ class BalanceWallet extends Component {
           </CoinImageContainer>
           <PriceContainer>
             <PriceText>1 ETH</PriceText>
-            <PriceText>= ${this.props.price.eth}</PriceText>
+            <PriceText>= ${price.eth}</PriceText>
           </PriceContainer>
           <BalanceContainer>
             <UsdBalanceText>
@@ -95,7 +95,7 @@ class BalanceWallet extends Component {
           </CoinImageContainer>
           <PriceContainer>
             <PriceText>1 DAI</PriceText>
-            <PriceText>= ${this.props.price.dai}</PriceText>
+            <PriceText>= ${price.dai}</PriceText>
           </PriceContainer>
           <BalanceContainer>
             <UsdBalanceText>

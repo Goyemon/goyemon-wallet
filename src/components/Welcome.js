@@ -61,6 +61,7 @@ export default class Welcome extends Component {
   }
 
   render() {
+    const { navigation } = this.props;
     return (
       <RootContainer>
           {this.hollaFadeInOut()}
@@ -92,7 +93,7 @@ export default class Welcome extends Component {
               textAlign="left"
               width="80%"
               onPress={() => {
-                this.props.navigation.navigate('CreateWalletTutorial');
+                navigation.navigate('CreateWalletTutorial');
               }}
             >
               <View>
@@ -110,7 +111,7 @@ export default class Welcome extends Component {
               justifyContent="space-between"
               textAlign="left"
               width="80%"
-              onPress={() => this.props.navigation.navigate('ImportOptions')}
+              onPress={() => navigation.navigate('ImportOptions')}
             >
               <View>
                 <HeaderThree color="#00A3E2" marginBottom="0" marginLeft="8" marginTop="0">

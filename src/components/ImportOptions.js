@@ -5,6 +5,7 @@ import { RootContainer, ProgressBar, HeaderTwo, Description, Button } from '../c
 
 export default class ImportOptions extends Component {
   render() {
+    const { navigation } = this.props;
     return (
       <RootContainer>
         <ProgressBar
@@ -30,7 +31,7 @@ export default class ImportOptions extends Component {
               marginBottom="12px"
               opacity="1"
               onPress={async () => {
-                this.props.navigation.navigate('ImportTwelveMnemonicWords');
+                navigation.navigate('ImportTwelveMnemonicWords');
               }}
             />
             <Button
@@ -42,7 +43,7 @@ export default class ImportOptions extends Component {
               marginBottom="12px"
               opacity="1"
               onPress={async () => {
-                this.props.navigation.navigate('ImportTwentyFourMnemonicWords');
+                navigation.navigate('ImportTwentyFourMnemonicWords');
               }}
             />
           </ButtonContainer>

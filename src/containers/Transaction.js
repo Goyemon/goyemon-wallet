@@ -25,6 +25,7 @@ class Transaction extends Component {
 	}
 
 	recomputeAllTheWeirdoConstsAndStuff(tx) {
+    const { checksumAddress } = this.props;
 		let newState = {};
 
 		if (tx instanceof TxStorage.Tx) {
@@ -73,8 +74,8 @@ class Transaction extends Component {
 				newState.ameTransferValue;
 				if (newState.isAmeTransferTx) {
 					newState.ameTransferValue = TransactionUtilities.parseHexDaiValue(`0x${ameTrs[0].amount}`);
-					newState.isOutgoingAmeTx = ameTrs.some((x) => Web3.utils.toChecksumAddress(x.from_addr) === this.props.checksumAddress);
-					newState.isIncomingAmeTx = ameTrs.some((x) => Web3.utils.toChecksumAddress(x.to_addr) === this.props.checksumAddress);
+					newState.isOutgoingAmeTx = ameTrs.some((x) => Web3.utils.toChecksumAddress(x.from_addr) === checksumAddress);
+					newState.isIncomingAmeTx = ameTrs.some((x) => Web3.utils.toChecksumAddress(x.to_addr) === checksumAddress);
 				}
 
 				const daiTrs = tx.getTokenOperations('dai', TxStorage.TxTokenOpTypeToName.transfer);
@@ -84,13 +85,13 @@ class Transaction extends Component {
 				newState.daiTransferValue;
 				if (newState.isDaiTransferTx) {
 					newState.daiTransferValue = TransactionUtilities.parseHexDaiValue(`0x${daiTrs[0].amount}`);
-					newState.isOutgoingDaiTx = daiTrs.some((x) => Web3.utils.toChecksumAddress(x.from_addr) === this.props.checksumAddress);
-					newState.isIncomingDaiTx = daiTrs.some((x) => Web3.utils.toChecksumAddress(x.to_addr) === this.props.checksumAddress);
+					newState.isOutgoingDaiTx = daiTrs.some((x) => Web3.utils.toChecksumAddress(x.from_addr) === checksumAddress);
+					newState.isIncomingDaiTx = daiTrs.some((x) => Web3.utils.toChecksumAddress(x.to_addr) === checksumAddress);
 				}
 
 				if (tx.getFrom() != null && tx.getTo() != null) {
-					newState.isOutgoingEthTx = Web3.utils.toChecksumAddress(tx.getFrom()) === this.props.checksumAddress;
-					newState.isIncomingEthTx = Web3.utils.toChecksumAddress(tx.getTo()) === this.props.checksumAddress;
+					newState.isOutgoingEthTx = Web3.utils.toChecksumAddress(tx.getFrom()) === checksumAddress;
+					newState.isIncomingEthTx = Web3.utils.toChecksumAddress(tx.getTo()) === checksumAddress;
 				}
 			}
 			catch (e) {
