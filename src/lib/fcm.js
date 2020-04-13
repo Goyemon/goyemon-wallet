@@ -22,7 +22,8 @@ function obj_property_default(obj, prop, def) {
 
 const msgtype_compressed = {
 	'txhistory': true,
-	'txstate': true
+	'txstate': true,
+	'txsync': true
 };
 
 class Msg {

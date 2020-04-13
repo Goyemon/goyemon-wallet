@@ -98,6 +98,7 @@ class PersistTxStorageAbstraction {
 		this.cache = {};
 		this.counts = {};
 		this.filters = {};
+		this.toplocked_per_filter = {};
 		this.locks = {};
 
 		this.prefix = prefix; // `${this.prefix}${key}`
@@ -139,48 +140,80 @@ class PersistTxStorageAbstraction {
 	init_storage(name_to_filter_map, init_finish_callback) {
 		let load_count = 0;
 
-		const loadCount = (function(name) {
+		const checkFinish = () => {
+			load_count--;
+
+			if (load_count == 0) {
+				LogUtilities.toDebugScreen(`PersistTxStorageAbstraction init_storage(): tasks executed. counts:${JSON.stringify(this.counts)} toplocked:${JSON.stringify(this.toplocked_per_filter)}`);
+
+				if (this.debug) {
+					let temp_debug_bucket_names = [];
+					Object.keys(this.counts).forEach(x => {
+						for (let i = 0; i < Math.ceil(this.counts[x] / storage_bucket_size) + 1; ++i)
+							temp_debug_bucket_names.push(`${this.prefix}i${x}${i}`);
+					});
+					function bstats(buck) {
+						if (typeof buck !== 'string')
+							return JSON.stringify(buck);
+
+						let itemlens = {};
+						let cnt = 0;
+						buck.split(',').forEach(x => { itemlens[x.length] = (itemlens[x.length] ? itemlens[x.length] + 1 : 1); ++cnt; });
+
+						return `cnt:${cnt} lengths:${JSON.stringify(itemlens)}`;
+					}
+
+					AsyncStorage.multiGet(temp_debug_bucket_names).then(x => {
+						x.sort((a, b) => a[0].localeCompare(b[0]));
+						x.forEach(([n, v]) => LogUtilities.toDebugScreen(`${n} --> ${bstats(v)}`));
+					});
+				}
+
+				if (init_finish_callback)
+					init_finish_callback();
+			}
+		};
+
+		const countToplocked = (name, bucketnum) => {
+			this.__getKey(`${this.prefix}i${name}${bucketnum}`, this.__decodeBucket).then(x => {
+				for (let i = x.length - 1; i >= 0; --i) {
+					if (x[i].startsWith(txNoncePrefix))
+						this.toplocked_per_filter[name]++;
+
+					else {
+						checkFinish();
+						return;
+					}
+				}
+				if (bucketnum == 0) {
+					checkFinish();
+					return;
+				}
+
+				countToplocked(name, bucketnum - 1);
+			});
+		}
+
+		const load_index_data = (function(name) {
 			load_count++;
+
 			this.__init_lock(name);
+			this.toplocked_per_filter[name] = 0;
 
 			AsyncStorage.getItem(`${this.prefix}i${name}c`).then(x => {
 				this.counts[name] = x ? parseInt(x) : 0;
-				load_count--;
-				if (load_count == 0 && init_finish_callback) {
-					LogUtilities.toDebugScreen(`PersistTxStorageAbstraction init_storage(): tasks executed. counts:${JSON.stringify(this.counts)}`);
-					if (this.debug) {
-						let temp_debug_bucket_names = [];
-						Object.keys(this.counts).forEach(x => {
-							for (let i = 0; i < Math.ceil(this.counts[x] / storage_bucket_size) + 1; ++i)
-								temp_debug_bucket_names.push(`${this.prefix}i${x}${i}`);
-						});
-						function bstats(buck) {
-							if (typeof buck !== 'string')
-								return JSON.stringify(buck);
 
-							let itemlens = {};
-							let cnt = 0;
-							buck.split(',').forEach(x => { itemlens[x.length] = (itemlens[x.length] ? itemlens[x.length] + 1 : 1); ++cnt; });
-
-							return `cnt:${cnt} lengths:${JSON.stringify(itemlens)}`;
-						}
-
-						AsyncStorage.multiGet(temp_debug_bucket_names).then(x => {
-							x.sort((a, b) => a[0].localeCompare(b[0]));
-							x.forEach(([n, v]) => LogUtilities.toDebugScreen(`${n} --> ${bstats(v)}`));
-						});
-					}
-
-					init_finish_callback();
-				}
+				const lastBucketNum = Math.floor((this.counts[name] - 1) / storage_bucket_size);
+				countToplocked(name, lastBucketNum);
 			});
 		}).bind(this);
 
-		loadCount('all');
+		load_index_data('all');
 
 		Object.entries(name_to_filter_map).forEach(([name, filter]) => {
 			this.filters[name] = filter;
-			loadCount(name);
+
+			load_index_data(name);
 		});
 	}
 
@@ -190,6 +223,7 @@ class PersistTxStorageAbstraction {
 			const val = await AsyncStorage.getItem(k);
 			if (this.debug && (val === null || val === undefined))
 				LogUtilities.toDebugScreen(`PersistTxStorageAbstraction __getKey(${k}) warning - returned null!`);
+
 			this.cache[k] = processfunc ? processfunc(val) : val;
 		}
 
@@ -288,7 +322,7 @@ class PersistTxStorageAbstraction {
 		return hashes_in_order;
 	}
 
-	async appendTx(hash, tx) {
+	async appendTx(hash, tx, toplock=false) {
 		// run filters to see which indices this goes in. for each index, append to the last bucket (make sure we create a new one if it spills)
 		let append_indices = ['all'];
 		Object.entries(this.filters).forEach(([index, filterfunc]) => {
@@ -300,32 +334,84 @@ class PersistTxStorageAbstraction {
 			LogUtilities.toDebugScreen(`appendTx(${hash}): matches indices:${append_indices.map(x => `${x}: ${this.counts[x]}`).join()}; tx:${JSON.stringify(tx)})`)
 
 		let tasks = [this.__setKey(`${this.prefix}_${hash}`, tx, JSON.stringify)];
+
 		append_indices.forEach(x => {
-			tasks.push((async () => {
+			tasks.push((async (index) => {
 				let localtasks = [];
-				await this.__lock(x);
 
-				const bucket_num = Math.floor(this.counts[x] / storage_bucket_size);
-				const bucket_key = `${this.prefix}i${x}${bucket_num}`;
-				if (this.counts[x] % storage_bucket_size == 0) { // new bucket
-					if (this.debug)
-						LogUtilities.toDebugScreen(`PersistTxStorageAbstraction appendTx(): index:${x} item_num:${this.counts[x]} new bucket, bucket_num:${bucket_num}`);
-					localtasks.push(await this.__setKey(bucket_key, [hash], this.__encodeBucket));
+				await this.__lock(index);
+				const last_bucket_num = Math.floor(this.counts[index] / storage_bucket_size);
+
+				if (toplock) { // easy, just insert at the top as last element
+					const bucket_key = `${this.prefix}i${index}${last_bucket_num}`;
+					if (this.counts[index] % storage_bucket_size == 0) { // new bucket
+						if (this.debug)
+							LogUtilities.toDebugScreen(`PersistTxStorageAbstraction appendTx(top): index:${index} item_num:${this.counts[index]} new bucket, last_bucket_num:${last_bucket_num}`);
+
+						localtasks.push(this.__setKey(bucket_key, [hash], this.__encodeBucket));
+					}
+					else { // add to bucket
+						if (this.debug)
+							LogUtilities.toDebugScreen(`PersistTxStorageAbstraction appendTx(top): index:${index} item_num:${this.counts[index]} last_bucket_num:${last_bucket_num}`);
+
+						localtasks.push(this.__getKey(bucket_key, this.__decodeBucket).then(async x => { x.push(hash); await this.__setKey(bucket_key, x, this.__encodeBucket); }));
+					}
 				}
-				else { // add to bucket
+				else { // inserting in the middle, so we may need to carry to later buckets
+					const global_position = this.counts[index] - this.toplocked_per_filter[index];
+					const bucket_num = Math.floor(global_position / storage_bucket_size);
+					const bucket_pos = global_position % storage_bucket_size;
+
 					if (this.debug)
-						LogUtilities.toDebugScreen(`PersistTxStorageAbstraction appendTx(): index:${x} item_num:${this.counts[x]} bucket_num:${bucket_num}`);
-					localtasks.push(await this.__getKey(bucket_key, this.__decodeBucket).then(async x => { x.push(hash); await this.__setKey(bucket_key, x, this.__encodeBucket); }));
+						LogUtilities.toDebugScreen(`PersistTxStorageAbstraction appendTx(): index:${index} item_num:${global_position} bucket_num:${bucket_num} last_bucket_num:${last_bucket_num} toplocked:${this.toplocked_per_filter[index]}`);
+
+					localtasks.push((async () => { // sadly we have to do it one by one, because to carry last velue of bucket x to x+1 we need to know it... therefore fetch, insert, pop(), then we can move onto next bucket
+						let carry = null; // this gets moved to another bucket, if necessary
+
+						for (let i = bucket_num; i <= last_bucket_num; ++i) {
+							const bucket_key = `${this.prefix}i${index}${i}`;
+							const x = await this.__getKey(bucket_key, this.__decodeBucket);
+
+							if (this.debug)
+								LogUtilities.toDebugScreen(`PersistTxStorageAbstraction appendTx(): index:${index} bucket:${i} len:${x.length} carry:${carry !== null}${i == bucket_num ? ` splice_position:${bucket_pos}` : ''}`);
+
+							if (carry !== null) { // add what we carried from previous, if anything
+								x.unshift(carry);
+								carry = null;
+							}
+
+							if (i == bucket_num) { // this is the bucket we're inserting our initial value
+								x.splice(bucket_pos, 0, hash);
+							}
+
+							if (x.length > storage_bucket_size) { // need to carry
+								carry = x.pop();
+							}
+
+							await this.__setKey(bucket_key, x, this.__encodeBucket);
+						}
+
+						if (carry !== null) { // looks like the last bucket overflowed, so we need to create another bucket too.
+							if (this.debug)
+								LogUtilities.toDebugScreen(`PersistTxStorageAbstraction appendTx(): index:${index} new bucket:${last_bucket_num + 1} carry:${carry !== null}`);
+
+							const bucket_key = `${this.prefix}i${index}${last_bucket_num + 1}`;
+							await this.__setKey(bucket_key, [hash], this.__encodeBucket);
+						}
+					})());
 				}
 
-				const new_count = this.counts[x] + 1;
-				localtasks.push(await this.__setKey(`${this.prefix}i${x}c`, new_count.toString()));
+				const new_count = this.counts[index] + 1;
+				localtasks.push(this.__setKey(`${this.prefix}i${index}c`, new_count.toString()));
 
 				await Promise.all(localtasks);
-				this.counts[x] = new_count;
+				this.counts[index] = new_count;
 
-				this.__unlock(x);
-			})());
+				if (toplock)
+					this.toplocked_per_filter[index]++;
+
+				this.__unlock(index);
+			})(x));
 		});
 
 		await Promise.all(tasks);
@@ -418,33 +504,105 @@ class PersistTxStorageAbstraction {
 		return this.counts[index];
 	}
 
-	async __replaceKeyInIndex(oldkey, newkey, index='all') {
+	async __replaceKeyInIndex(oldkey, newkey, index='all', toplockremove=false) {
 		await this.__lock(index);
 
-		let bucket_count = Math.floor((this.counts[index] - 1) / storage_bucket_size); // not exactly count, more like index and those go from 0
+		// the way to proceed with toplockremove == true
+		// we need to find the item first, the way we do it now is fine.
+		// once we have iten_pos, let's check if it's in toplocked, i.e. it's global_pos > this.counts[index] - this.toplocked_per_filter[index] (TODO: smells like off by one possible, maybe >= not >?)
+		// if it's not toplocked, then we could issue a warning (or even throw new Error(), it shouldnt happen), that said, if that happens we can just replace the key and be done with it.
+		// if until now everything is fine,
+		// we have position of the item we need to move, we have the position we need to move it to (basically this.counts[index] - this.toplocked_per_filter[index])
+		// we splice our item out; at this point current bucket has 1 fewer items.
+		// so now until we reach destination bucket, we need to pop() from previous bucket and unshift() to current (carry)
+		// when we reach the destination bucket, we just splice the item in in its intended position (since at this point we have carried last item to the bucket+1, we have room for it here)
 
-		if (this.debug)
-			LogUtilities.toDebugScreen(`PersistTxStorageAbstraction __replaceKeyInIndex(${oldkey}, ${newkey}, ${index}): last bucket id: ${bucket_count}`);
+		const last_bucket = Math.floor((this.counts[index] - 1) / storage_bucket_size);
 
-		while (bucket_count >= 0) {
-			let bucket = await this.__getKey(`${this.prefix}i${index}${bucket_count}`, this.__decodeBucket);
-			let pos = bucket.indexOf(oldkey);
-			if (pos >= 0) {
+		if (!toplockremove) {
+			let bucket_count = last_bucket;
+
+			if (this.debug)
+				LogUtilities.toDebugScreen(`PersistTxStorageAbstraction __replaceKeyInIndex(${oldkey}, ${newkey}, ${index}, ${toplockremove}): last bucket id: ${last_bucket}`);
+
+			while (bucket_count >= 0) {
+				let bucket = await this.__getKey(`${this.prefix}i${index}${bucket_count}`, this.__decodeBucket);
+				let pos = bucket.indexOf(oldkey);
+				if (pos >= 0) {
+					if (this.debug)
+						LogUtilities.toDebugScreen(`PersistTxStorageAbstraction __replaceKeyInIndex(): found item at position ${pos} in bucket ${bucket_count}`);
+
+					bucket[pos] = newkey;
+					await this.__setKey(`${this.prefix}i${index}${bucket_count}`, bucket, this.__encodeBucket);
+
+					this.__unlock(index);
+					return;
+				}
+
+				bucket_count--;
+			}
+		}
+		else {
+			// here comes the fun!
+			const destination_pos = this.counts[index] - this.toplocked_per_filter[index];
+			const destination_bucket = Math.floor(destination_pos / storage_bucket_size);
+			const destination_bucket_pos = destination_pos % storage_bucket_size;
+
+			// first, find the item.
+			let item_bucket_pos;
+			let item_bucket_num;
+			let bucket;
+
+			for (item_bucket_num = last_bucket; item_bucket_num >= 0; --item_bucket_num) {
+				bucket = await this.__getKey(`${this.prefix}i${index}${item_bucket_num}`, this.__decodeBucket);
+				item_bucket_pos = bucket.indexOf(oldkey);
+				if (item_bucket_pos >= 0)
+					break;
+			}
+
+			if (item_bucket_pos >= 0) { // we found it!
 				if (this.debug)
-					LogUtilities.toDebugScreen(`PersistTxStorageAbstraction __replaceKeyInIndex(): found item at position ${pos} in bucket id ${bucket_count}`);
+					LogUtilities.toDebugScreen(`PersistTxStorageAbstraction __replaceKeyInIndex(${index}): found item at position ${item_bucket_pos} in bucket ${item_bucket_num}, moving to ${destination_bucket_pos}@${destination_bucket}, toplocked:${this.toplocked_per_filter[index]}`);
 
-				bucket[pos] = newkey;
-				await this.__setKey(`${this.prefix}i${index}${bucket_count}`, bucket, this.__encodeBucket);
+				if (item_bucket_num < destination_bucket || (item_bucket_num == destination_bucket && item_bucket_pos < destination_bucket_pos)) {
+					this.__unlock(index);
+					LogUtilities.toDebugScreen(`PersistTxStorageAbstraction __replaceKeyInIndex(${oldkey}, ${newkey}, ${index}, ${toplockremove}): item was already not in toplocks`);
+					throw new Error(`key "${oldkey}" not found in the index "${index}"`);
+				}
+
+				let bgtasks = [];
+
+				bucket.splice(item_bucket_pos, 1); // remove from current bucket. if it was a full bucket, it's now lacking one item
+
+				for (let i = item_bucket_num; i > destination_bucket; --i) { // we fetch early buckets until we reach destination, to shift items one right
+					if (this.debug)
+						LogUtilities.toDebugScreen(`PersistTxStorageAbstraction __replaceKeyInIndex(${index}): last item of bucket ${i - 1} -> first item of bucket ${i}`);
+
+					const prev_bucket = await this.__getKey(`${this.prefix}i${index}${i - 1}`, this.__decodeBucket);
+
+					bucket.unshift(prev_bucket.pop()); // move last item of prev bucket as first of current
+					bgtasks.push(this.__setKey(`${this.prefix}i${index}${i}`, bucket, this.__encodeBucket)); // save current bucket, no need to touch previous yet
+
+					bucket = prev_bucket;
+				}
+
+				if (this.debug)
+					LogUtilities.toDebugScreen(`PersistTxStorageAbstraction __replaceKeyInIndex(${index}): inserting ${newkey} at ${destination_bucket_pos} in bucket ${destination_bucket}. end.`);
+
+				bucket.splice(destination_bucket_pos, 0, newkey);
+				bgtasks.push(this.__setKey(`${this.prefix}i${index}${destination_bucket}`, bucket, this.__encodeBucket));
+
+				await Promise.all(bgtasks); // now write it all.
+
+				this.toplocked_per_filter[index]--;
 
 				this.__unlock(index);
 				return;
 			}
-
-			bucket_count--;
 		}
 
 		this.__unlock(index);
-		LogUtilities.toDebugScreen(`PersistTxStorageAbstraction __replaceKeyInIndex(${oldkey}, ${newkey}, ${index}): item not found...`);
+		LogUtilities.toDebugScreen(`PersistTxStorageAbstraction __replaceKeyInIndex(${oldkey}, ${newkey}, ${index}, ${toplockremove}): item not found...`);
 		throw new Error(`key "${oldkey}" not found in the index "${index}"`);
 	}
 
@@ -503,12 +661,14 @@ class PersistTxStorageAbstraction {
 		return ret;
 	}
 
-	async replaceTx(oldtx, newtx, oldhash, newhash) {
+	async replaceTx(oldtx, newtx, oldhash, newhash, toplockremove=false) {
+		// for now this can only be called when changing nonce_xxx to proper txhash, so when 'sent' state goes into included. soon added: nonce_xxx to fail_xxx when a tx errors out (and we dont want to keep the nonce_xxx key as it'll get overwritten)
+
 		// let indexDiff = this.__indexDiff(oldtx, newtx);
 		// TODO: index differences disregarded for now.
 
 		if (this.debug) {
-			LogUtilities.toDebugScreen(`PersistTxStorageAbstraction replaceTx(): replace oldtx ${this.prefix}_${oldhash} -> newtx ${this.prefix}_${newhash}`);
+			LogUtilities.toDebugScreen(`PersistTxStorageAbstraction replaceTx(): replace oldtx ${oldhash} -> newtx ${newhash}`);
 			LogUtilities.toDebugScreen(`PersistTxStorageAbstraction replaceTx(): oldtx:${JSON.stringify(oldtx)}`)
 			LogUtilities.toDebugScreen(`PersistTxStorageAbstraction replaceTx(): newtx:${JSON.stringify(newtx)}`)
 		}
@@ -516,18 +676,20 @@ class PersistTxStorageAbstraction {
 		await this.__setKey(`${this.prefix}_${newhash}`, newtx, JSON.stringify);
 		await this.__removeKey(`${this.prefix}_${oldhash}`);
 
-		await Promise.all([this.__replaceKeyInIndex(oldhash, newhash, 'all')].concat(Object.entries(this.filters).map(([index, filterfunc]) => {
+		await Promise.all([this.__replaceKeyInIndex(oldhash, newhash, 'all', toplockremove)].concat(Object.entries(this.filters).map(([index, filterfunc]) => {
 			if (filterfunc(newtx))
-				return this.__replaceKeyInIndex(oldhash, newhash, index);
+				return this.__replaceKeyInIndex(oldhash, newhash, index, toplockremove);
 		})));
 
 		// throw new Error("not implemented yet");
 	}
 
 	async updateTx(oldtx, newtx, hash) {
-		// let indexDiff = this.__indexDiff(oldtx, newtx);
+		// no hash change, therefore sent stays sent (nonce_xxx) or included stays included (txhash)
 
+		// let indexDiff = this.__indexDiff(oldtx, newtx);
 		// TODO: index differences disregarded for now.
+
 		if (this.debug)
 			LogUtilities.toDebugScreen(`PersistTxStorageAbstraction updateTx(): replace (${hash}) oldtx:${JSON.stringify(oldtx)} with newtx:${JSON.stringify(newtx)}`);
 
@@ -678,7 +840,7 @@ class TxTokenDepositPoolOp extends TxTokenOp {
 	constructor (arr) {
 		super();
 		[this.depositor, this.depositPoolAmount] = arr;
-		// this.depositor = arr[0]; this.depositPoolAmount = arr[1]; 
+		// this.depositor = arr[0]; this.depositPoolAmount = arr[1];
 	}
 
 	toJSON() {
@@ -690,7 +852,7 @@ class TxTokenWithdrawOp extends TxTokenOp {
 	constructor (arr) {
 		super();
 		[this.withdrawer, this.withdrawAmount] = arr;
-		// this.withdrawer = arr[0]; this.withdrawAmount = arr[1]; 
+		// this.withdrawer = arr[0]; this.withdrawAmount = arr[1];
 	}
 
 	toJSON() {
@@ -940,6 +1102,10 @@ class Tx {
 // this is the one we instantiate (once) to use the TX data in storage.
 // import React, { Component } from 'react'; - not needed without the wrapper.
 const maxNonceKey = '_tx[maxnonce]';
+const txNoncePrefix = 'nonce_';
+const txFailPrefix = 'fail_';
+const txStatePrefix = 'state_';
+
 class TxStorage {
 	constructor (ourAddress) {
 		let load_promises = [];
@@ -982,9 +1148,10 @@ class TxStorage {
 		// 	LogUtilities.toDebugScreen(`AStor keys: ${x}`);
 		// });
 
-		AsyncStorage.getItem('persist:root').then(x => {
-		 	LogUtilities.toDebugScreen(`persist:root: ${x}`);
-		});
+		// this has sensitive data, so let's not:
+		// AsyncStorage.getItem('persist:root').then(x => {
+		//  	LogUtilities.toDebugScreen(`persist:root: ${x}`);
+		// });
 
 
 		this.locks = new asyncLocks();
@@ -1083,7 +1250,7 @@ class TxStorage {
 		if (tx.hasTokenOperations('poolTogether'))
 			return tx.hasTokenOperation('poolTogether', TxTokenOpTypeToName.depositPool) ||
 				tx.hasTokenOperation('poolTogether', TxTokenOpTypeToName.withdraw)
-				
+
 		return false;
 	}
 
@@ -1097,8 +1264,8 @@ class TxStorage {
 
 	async saveTx(tx) { // used now only to save our own sent txes, therefore those wont have anything but the nonce.
 		await this.__lock('txes');
-		const nonceKey = `nonce_${tx.getNonce()}`;
-		await this.txes.appendTx(nonceKey, tx);
+		const nonceKey = `${txNoncePrefix}${tx.getNonce()}`;
+		await this.txes.appendTx(nonceKey, tx, true);
 		LogUtilities.toDebugScreen(`saveTx(): tx saved (key:${nonceKey}): `, tx);
 		if (this.txfilter_checkMaxNonce(tx)) {
 			await AsyncStorage.setItem(maxNonceKey, this.our_max_nonce.toString());
@@ -1158,16 +1325,16 @@ class TxStorage {
 
 		if (data[0] !== null) { // we have the data, nice
 			const ourTx = this.our_address.equals(Buffer.from(data[0], 'hex'));
-			const savedState = await AsyncStorage.getItem(`tx_state_${hash}`);
+			const savedState = await AsyncStorage.getItem(`tx_${txStatePrefix}${hash}`);
 			if (savedState) {
-				await AsyncStorage.removeItem(`tx_state_${hash}`);
+				await AsyncStorage.removeItem(`tx_${txStatePrefix}${hash}`);
 				LogUtilities.toDebugScreen(`processTxState(hash:${hash}) savedState present: `, savedState);
 				savedState = JSON.parse(savedState);
 			}
 
 			if (ourTx) { // our tx so find by nonce
 				const nonce = typeof data[5] === 'string' ? parseInt(data[5]) : data[5];
-				const nonceKey = `nonce_${nonce}`;
+				const nonceKey = `${txNoncePrefix}${nonce}`;
 
 				if (nonce > this.our_max_nonce) {
 					this.our_max_nonce = nonce;
@@ -1187,8 +1354,8 @@ class TxStorage {
 					if (savedState)
 						newtx.upgradeState(savedState[7], savedState[6]);
 
-					// TODO: update to normal tx (with hash), rename keys, etc.
-					await this.txes.replaceTx(tx, newtx, nonceKey, hash);
+					// update to normal tx (with hash), rename keys, etc.
+					await this.txes.replaceTx(tx, newtx, nonceKey, hash, true);
 
 					LogUtilities.toDebugScreen(`processTxState(hash:${hash}) known OUR tx, promoted: `, newtx);
 
@@ -1210,7 +1377,7 @@ class TxStorage {
 
 			LogUtilities.toDebugScreen(`processTxState(hash:${hash}) not known ${ourTx ? "OUR " : ""}tx, saving: `, tx);
 
-			await this.txes.appendTx(hash, tx);
+			await this.txes.appendTx(hash, tx, false);
 
 			this.__unlock('txes');
 			this._isDAIApprovedForCDAI_cached = undefined;
@@ -1224,7 +1391,7 @@ class TxStorage {
 			.setHash(hash)
 			.setTimestamp(data[6]);
 
-		await AsyncStorage.setItem(`tx_state_${hash}`, JSON.stringify(tx));
+		await AsyncStorage.setItem(`tx_${txStatePrefix}${hash}`, JSON.stringify(tx));
 		LogUtilities.toDebugScreen(`processTxState(hash: ${hash}) not known tx WITH NO DATA (OOPS...), state saved: `, tx);
 		this.__unlock('txes');
 		// no onupdate here as we did not save that Tx, umm, in the pool... yet.
@@ -1233,14 +1400,14 @@ class TxStorage {
 	async markNotIncludedTxAsErrorByNonce(nonce) {
 		LogUtilities.toDebugScreen(`markNotIncludedTxAsErrorByNonce(nonce:${nonce})`);
 		await this.__lock('txes');
-		const nonceKey = `nonce_${nonce}`;
+		const nonceKey = `${txNoncePrefix}${nonce}`;
 
 		let tx = await this.txes.getTxByHash(nonceKey);
 		if (tx) {
 			let newtx = tx.deepClone();
 			newtx.setState(TxStates.STATE_ERROR);
 
-			await this.txes.updateTx(tx, newtx, nonceKey);
+			await this.txes.replaceTx(tx, newtx, nonceKey, `${txFailPrefix}${this.txes.getItemCount('all')}`, true);
 
 			this.__unlock('txes');
 			LogUtilities.toDebugScreen(`markNotIncludedTxAsErrorByNonce(nonce:${nonce}) state updated`);
@@ -1262,7 +1429,6 @@ class TxStorage {
 	async clear(batch=false) {
 		await this.__lock('txes');
 		let tasks = [
-			AsyncStorage.removeItem('_tx__temp'),
 			AsyncStorage.setItem(maxNonceKey, '-1'),
 			this.txes.wipe()
 		];
@@ -1298,68 +1464,7 @@ class TxStorage {
 	}
 
 	async getVerificationDataXOR() {
-		function getCheckpoints(count, offset=0) {
-			const hashes = Math.floor(4000 / (64 + 3)); // msg size / hash length (jsoned)
-			const computed_count = count - offset; // we assume [offset] hashes to be correct, so we don't checkpoint those, we only take into account the last count - offset hashes
-
-			const checkpoints = [];
-			let sum = Math.pow(hashes, Math.log10(computed_count)) / computed_count; // val for i[0]
-			for (let i = 1; i <= hashes; ++i) {
-				let val = Math.pow(hashes - i, Math.log10(computed_count)) / computed_count;
-				checkpoints.push(val);
-				sum += val;
-			}
-			const normalization_factor = 1 / sum;
-
-			let last = count + 1;
-			for (let i = checkpoints.length - 1; i >= 0; --i) {
-				const diff = Math.round(checkpoints[i] * normalization_factor * computed_count);
-				const val = last - (diff > 0 ? diff : 1);
-				if (val < 1) {
-					return checkpoints.slice(i + 1);
-				}
-				last = checkpoints[i] = val;
-			}
-
-			return checkpoints;
-		}
-
-		const count = this.txes.getItemCount('all');
-		const checkpoints = getCheckpoints(count, 0);
-
-		LogUtilities.toDebugScreen(`TxStorage getVerificationData() checkpoints (cnt:${count} off:0):`, checkpoints);
-
-		// const hashes = await this.txes.getHashesAt(checkpoints, 'all');
-		const hashes = await this.txes.getHashes('all');
-		const ret = [];
-		let lasthash = null;
-		let checkpoint = 0;
-		hashes.forEach((h, idx) => {
-			const cb = Buffer.from(h, 'hex');
-			if (lasthash) {
-				for (let i = lasthash.length - 1; i >= 0; --i)
-					lasthash[i] = lasthash[i] ^ cb[i];
-			}
-			else
-				lasthash = cb;
-
-			// LogUtilities.toDebugScreen(`XOR ${idx+1}: [${h}]  ${lasthash.toString('hex')}`);
-
-			if (checkpoints[checkpoint] === idx + 1) {
-				ret.push(lasthash.toString('hex'));
-				++checkpoint;
-			}
-		});
-
-		return {
-			//'hashes': hashes,
-			'hashes': ret,
-			'count': count,
-			'offset': 0
-		};
-	}
-
-	async getVerificationDataMD5() {
+		// TODO: this also counts sent txes and failures. we probably should ignore those. we may need to store the count of failures for the `all' index. we should already have the count of sent (toplocks)
 		function getCheckpoints(count, offset=0) {
 			const hashes = Math.floor(4000 / (32 + 3)); // msg size / hash length (jsoned)
 			const computed_count = count - offset; // we assume [offset] hashes to be correct, so we don't checkpoint those, we only take into account the last count - offset hashes
@@ -1386,7 +1491,8 @@ class TxStorage {
 			return checkpoints;
 		}
 
-		const count = this.txes.getItemCount('all');
+		await this.__lock('txes');
+		const count = this.txes.getItemCount('all'); // TODO: we could count those without toplocks and failures in the hashes.forEach() too, but then we wont have the checkpoint list to store ready yet.
 		const checkpoints = getCheckpoints(count, 0);
 
 		LogUtilities.toDebugScreen(`TxStorage getVerificationData() checkpoints (cnt:${count} off:0):`, checkpoints);
@@ -1397,13 +1503,24 @@ class TxStorage {
 		let lasthash = null;
 		let checkpoint = 0;
 		hashes.forEach((h, idx) => {
-			const ch = crypto.createHash('md5').update(lasthash ? `${lasthash}${h}` : h).digest('hex');
+			const cb = crypto.createHash('md5').update(h).digest(); // we md5-hash those hashes so that: a) they're shorter, b) we can add more data to checksums easily, without making the xored values longer
+			// const cb = Buffer.from(h, 'hex');
+			if (lasthash) {
+				for (let i = lasthash.length - 1; i >= 0; --i)
+					lasthash[i] = lasthash[i] ^ cb[i];
+			}
+			else
+				lasthash = cb;
+
+			// LogUtilities.toDebugScreen(`XOR ${idx+1}: [${h}]  ${lasthash.toString('hex')}`);
+
 			if (checkpoints[checkpoint] === idx + 1) {
-				ret.push(ch);
+				ret.push(lasthash.toString('hex'));
 				++checkpoint;
 			}
-			lasthash = ch;
 		});
+
+		await this.__unlock('txes');
 
 		return {
 			//'hashes': hashes,
@@ -1411,6 +1528,65 @@ class TxStorage {
 			'count': count,
 			'offset': 0
 		};
+	}
+
+	// async getVerificationDataMD5() {
+	// 	function getCheckpoints(count, offset=0) {
+	// 		const hashes = Math.floor(4000 / (32 + 3)); // msg size / hash length (jsoned)
+	// 		const computed_count = count - offset; // we assume [offset] hashes to be correct, so we don't checkpoint those, we only take into account the last count - offset hashes
+	//
+	// 		const checkpoints = [];
+	// 		let sum = Math.pow(hashes, Math.log10(computed_count)) / computed_count; // val for i[0]
+	// 		for (let i = 1; i <= hashes; ++i) {
+	// 			let val = Math.pow(hashes - i, Math.log10(computed_count)) / computed_count;
+	// 			checkpoints.push(val);
+	// 			sum += val;
+	// 		}
+	// 		const normalization_factor = 1 / sum;
+	//
+	// 		let last = count + 1;
+	// 		for (let i = checkpoints.length - 1; i >= 0; --i) {
+	// 			const diff = Math.round(checkpoints[i] * normalization_factor * computed_count);
+	// 			const val = last - (diff > 0 ? diff : 1);
+	// 			if (val < 1) {
+	// 				return checkpoints.slice(i + 1);
+	// 			}
+	// 			last = checkpoints[i] = val;
+	// 		}
+	//
+	// 		return checkpoints;
+	// 	}
+	//
+	// 	const count = this.txes.getItemCount('all');
+	// 	const checkpoints = getCheckpoints(count, 0);
+	//
+	// 	LogUtilities.toDebugScreen(`TxStorage getVerificationData() checkpoints (cnt:${count} off:0):`, checkpoints);
+	//
+	// 	// const hashes = await this.txes.getHashesAt(checkpoints, 'all');
+	// 	const hashes = await this.txes.getHashes('all');
+	// 	const ret = [];
+	// 	let lasthash = null;
+	// 	let checkpoint = 0;
+	// 	hashes.forEach((h, idx) => {
+	// 		const ch = crypto.createHash('md5').update(lasthash ? `${lasthash}${h}` : h).digest('hex');
+	// 		if (checkpoints[checkpoint] === idx + 1) {
+	// 			ret.push(ch);
+	// 			++checkpoint;
+	// 		}
+	// 		lasthash = ch;
+	// 	});
+	//
+	// 	return {
+	// 		//'hashes': hashes,
+	// 		'hashes': ret,
+	// 		'count': count,
+	// 		'offset': 0
+	// 	};
+	// }
+
+
+	async processTxSync(data) {
+		LogUtilities.toDebugScreen('received txsync data:', data);
 	}
 
 
