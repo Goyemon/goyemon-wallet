@@ -6,7 +6,7 @@
   "cDAIcontract": "0x2b536482a01e620ee111747f8334b395a42a555e",
   "DAITokenContract": "0xb5e5d0f8c0cba267cd3d7035d6adc8eba7df7cdd",
   "DAIUniswapContract": "0x386045dA04eCbe32DA4Ce6bD78a224a3543c16F0",
-  "DAIPoolTogetherContract": "",
+  "DAIPoolTogetherContract": "0xc4CCd92240A36C05b9d63d479457b929241c960B",
   "ETHTxGasLimit": 21000,
   "ERC20TransferGasLimit": 65000,
   "ERC20ApproveGasLimit": 50000,
