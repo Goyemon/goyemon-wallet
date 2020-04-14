@@ -18,6 +18,7 @@ import {
   InsufficientDaiBalanceMessage
 } from '../components/common';
 import AdvancedContainer from './AdvancedContainer';
+import I18n from '../i18n/I18n';
 import LogUtilities from '../utilities/LogUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
@@ -152,7 +153,7 @@ class WithdrawDaiFromPoolTogether extends Component {
         </UntouchableCardContainer>
         <WithDrawAmountHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
-            Withdraw Amount
+            {I18n.t('withdraw-amount')}
           </FormHeader>
         </WithDrawAmountHeaderContainer>
         <Form
@@ -191,7 +192,7 @@ class WithdrawDaiFromPoolTogether extends Component {
         />
         <ButtonWrapper>
           <Button
-            text="Next"
+            text={I18n.t('button-next')}
             textColor="#00A3E2"
             backgroundColor="#FFF"
             borderColor="#00A3E2"

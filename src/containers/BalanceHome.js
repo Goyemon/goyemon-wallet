@@ -19,6 +19,7 @@ import {
   GoyemonText
 } from '../components/common';
 import FcmPermissions from '../firebase/FcmPermissions.js';
+import I18n from '../i18n/I18n';
 import BalanceStack from '../navigators/BalanceStack';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import PriceUtilities from '../utilities/PriceUtilities.js';
@@ -82,7 +83,7 @@ class BalanceHome extends Component {
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="64">Balance</HeaderOne>
+        <HeaderOne marginTop="64">{I18n.t('portfolio-home-header')}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8"
@@ -93,7 +94,9 @@ class BalanceHome extends Component {
           textAlign="left"
           width="90%"
         >
-          <HeaderFour marginTop="24">total balance</HeaderFour>
+          <HeaderFour marginTop="24">
+            {I18n.t('portfolio-home-totalbalance')}
+          </HeaderFour>
           <UsdBalance>${totalBalance.toFixed(2)}</UsdBalance>
           <AddressContainer
             onPress={() => {
@@ -110,7 +113,7 @@ class BalanceHome extends Component {
           marginLeft="24"
           marginTop="0"
         >
-          Coins
+          {I18n.t('portfolio-home-coins')}
         </HeaderThree>
         <CurrencyScrollView
           horizontal={true}
@@ -151,7 +154,7 @@ class BalanceHome extends Component {
           marginLeft="24"
           marginTop="24"
         >
-          Applications
+          {I18n.t('portfolio-home-applications')}
         </HeaderThree>
         <TouchableCardContainer
           alignItems="center"
@@ -166,7 +169,7 @@ class BalanceHome extends Component {
             <WalletIcon />
           </IconImageContainer>
           <NameContainer>
-            <NameText>Wallet</NameText>
+            <NameText> {I18n.t('portfolio-home-wallet')}</NameText>
             <GoyemonText fontSize={12}>ETH and ERC20</GoyemonText>
           </NameContainer>
           <BalanceContainer>

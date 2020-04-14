@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { RootContainer, Container, HeaderOne, Description } from '../components/common';
+import I18n from '../i18n/I18n';
 
 class BackupWords extends Component {
   render() {
@@ -10,10 +11,10 @@ class BackupWords extends Component {
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="96">Backup Words</HeaderOne>
+        <HeaderOne marginTop="96">{I18n.t('settings-backup-words-header')}</HeaderOne>
         <Container alignItems="center" flexDirection="column" justifyContent="center" marginTop={16} width="90%">
           <Description marginBottom="16" marginLeft="8" marginTop="16">
-            carefully write down these backup words in order
+          {I18n.t('settings-backup-words-description')}
           </Description>
           <MnemonicWordsContainer style={styles.table}>
             {mnemonicWords.map((mnemonicWord, id) => (

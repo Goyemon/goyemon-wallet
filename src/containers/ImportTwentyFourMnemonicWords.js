@@ -15,6 +15,7 @@ import {
   Loader
 } from '../components/common';
 import LogUtilities from '../utilities/LogUtilities.js';
+import I18n from '../i18n/I18n';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class ImportTwentyFourMnemonicWords extends Component {
@@ -137,7 +138,7 @@ class ImportTwentyFourMnemonicWords extends Component {
           <View>{this.renderInvalidMnemonicWordsMessage()}</View>
           <ButtonContainer>
             <Button
-              text="Next"
+              text={I18n.t('button-next')}
               textColor="#00A3E2"
               backgroundColor="#FFF"
               borderColor="#00A3E2"

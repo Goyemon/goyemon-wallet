@@ -22,6 +22,7 @@ import {
   ErrorMessage
 } from '../components/common';
 import AdvancedContainer from '../containers/AdvancedContainer';
+import I18n from '../i18n/I18n';
 import SendStack from '../navigators/SendStack';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
@@ -168,7 +169,7 @@ class SendEth extends Component {
           width="80%"
         >
           <CoinImage source={require('../../assets/ether_icon.png')} />
-          <Title>eth wallet balance</Title>
+          <Title>{I18n.t('eth-wallet-balance')}</Title>
           <BalanceContainer>
             <Value>{ethBalance} ETH</Value>
             <Value>
@@ -178,7 +179,7 @@ class SendEth extends Component {
         </UntouchableCardContainer>
         <FormHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
-            To
+          {I18n.t('send-to')}
           </FormHeader>
         </FormHeaderContainer>
         <Form
@@ -190,7 +191,7 @@ class SendEth extends Component {
         >
           <SendTextInputContainer>
             <SendTextInput
-              placeholder="address"
+              placeholder={I18n.t('send-address')}
               clearButtonMode="while-editing"
               onChangeText={toAddress => {
                 this.validateToAddress(toAddress);
@@ -219,7 +220,7 @@ class SendEth extends Component {
         />
         <FormHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
-            Amount
+          {I18n.t('send-amount')}
           </FormHeader>
         </FormHeaderContainer>
         <Form
@@ -249,7 +250,7 @@ class SendEth extends Component {
         <AdvancedContainer gasLimit={GlobalConfig.ETHTxGasLimit} />
         <ButtonWrapper>
           <Button
-            text="Next"
+            text={I18n.t('button-next')}
             textColor="#00A3E2"
             backgroundColor="#FFF"
             borderColor="#00A3E2"

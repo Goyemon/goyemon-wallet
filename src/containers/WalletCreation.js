@@ -11,6 +11,7 @@ import { createChecksumAddress } from '../actions/ActionChecksumAddress';
 import { getGasPrice } from '../actions/ActionGasPrice';
 import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
 import { Container, Button } from '../components/common';
+import I18n from '../i18n/I18n';
 import { FCMMsgs } from '../lib/fcm.js';
 import TxStorage from '../lib/tx';
 import BalanceStack from '../navigators/BalanceStack';
@@ -30,24 +31,24 @@ class WalletCreation extends Component {
     return (
       <FadeInMessageContainer>
         <FadeInMessageOne animation="fadeInDown" delay={2500}>
-          <FadeInMessageOneText>generating your keys...</FadeInMessageOneText>
+          <FadeInMessageOneText>{I18n.translations('wallet-creation-key')}...</FadeInMessageOneText>
         </FadeInMessageOne>
         <FadeInMessageTwo animation="fadeInDown" delay={4000}>
           <FadeInMessageTwoText>
-            generating your address...
+          {I18n.translations('wallet-creation-address')}...
           </FadeInMessageTwoText>
         </FadeInMessageTwo>
         <FadeInMessageThree animation="fadeInDown" delay={5500}>
           <FadeInMessageThreeText>
-            fetching blockchain data...
+          {I18n.translations('wallet-creation-blockchain-data')}...
           </FadeInMessageThreeText>
         </FadeInMessageThree>
         <FadeInMessageFour animation="fadeInDown" delay={7000}>
-          <FadeInMessageFourText>getting price data...</FadeInMessageFourText>
+          <FadeInMessageFourText>{I18n.translations('wallet-creation-price-data')}...</FadeInMessageFourText>
         </FadeInMessageFour>
         <FadeInMessageFive animation="fadeInDown" delay={9500}>
           <FadeInMessageFiveText>
-            this shouldn't take too long...
+          {I18n.translations('wallet-creation-caution')}...
           </FadeInMessageFiveText>
         </FadeInMessageFive>
       </FadeInMessageContainer>

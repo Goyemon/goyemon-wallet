@@ -14,6 +14,7 @@ import {
   IsOnlineMessage,
 } from '../components/common/';
 import NetworkFeeContainerConfirmation from '../containers/NetworkFeeContainerConfirmation';
+import I18n from '../i18n/I18n';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import GlobalConfig from '../config.json';
 
@@ -35,7 +36,7 @@ class DepositDaiToPoolTogetherConfirmation extends Component {
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="96">Confirmation</HeaderOne>
+        <HeaderOne marginTop="96">{I18n.t('confirmation')}</HeaderOne>
         <TotalContainer>
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <GoyemonText fontSize="16">You are about to deposit</GoyemonText>
@@ -54,7 +55,7 @@ class DepositDaiToPoolTogetherConfirmation extends Component {
           width="100%"
         >
           <FormHeader marginBottom="8" marginTop="16">
-            Deposit Amount
+            {I18n.t('deposit-amount')}
           </FormHeader>
           <Amount>{outgoingTransactionData.poolTogether.amount} DAI</Amount>
           <NetworkFeeContainerConfirmation
@@ -63,7 +64,7 @@ class DepositDaiToPoolTogetherConfirmation extends Component {
         </UntouchableCardContainer>
         <ButtonContainer>
           <Button
-            text="Deposit"
+            text={I18n.t('button-deposit')}
             textColor="white"
             backgroundColor="#00A3E2"
             borderColor="#00A3E2"

@@ -14,6 +14,7 @@ import {
   GoyemonText
 } from '../components/common';
 import GlobalConfig from '../config.json';
+import I18n from '../i18n/I18n';
 import { FCMMsgs } from '../lib/fcm.js';
 import LogUtilities from '../utilities/LogUtilities.js';
 import TxStorage from '../lib/tx.js';
@@ -115,7 +116,7 @@ class Advanced extends Component {
             await this.writeToClipboard();
           }}
         >
-          <CopyAddressText>Copy</CopyAddressText>
+          <CopyAddressText>{I18n.t('copy')}</CopyAddressText>
         </TouchableWithoutFeedback>
       );
     }
@@ -132,7 +133,9 @@ class Advanced extends Component {
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="96">Advanced</HeaderOne>
+        <HeaderOne marginTop="96">
+          {I18n.t('settings-advanced-header')}
+        </HeaderOne>
         <Container
           alignItems="flex-start"
           flexDirection="column"
@@ -146,7 +149,7 @@ class Advanced extends Component {
             marginLeft="0"
             marginTop="24"
           >
-            Network
+            {I18n.t('settings-advanced-network')}
           </HeaderThree>
           <GoyemonText fontSize="14">{GlobalConfig.network_name}</GoyemonText>
           <HeaderThree
@@ -155,7 +158,7 @@ class Advanced extends Component {
             marginLeft="0"
             marginTop="24"
           >
-            Sync Your Wallet
+            {I18n.t('settings-advanced-sync')}
           </HeaderThree>
           <Animatable.View ref={ref => (this.AnimationRef = ref)}>
             <Icon
@@ -174,7 +177,7 @@ class Advanced extends Component {
             marginLeft="0"
             marginTop="24"
           >
-            Your Device Info
+            {I18n.t('settings-advanced-device-info')}
           </HeaderThree>
           <GoyemonText fontSize="14">
             {debugInfo.fcmToken}
@@ -186,7 +189,7 @@ class Advanced extends Component {
             marginLeft="0"
             marginTop="24"
           >
-            Other Device Info
+            {I18n.t('settings-advanced-other-device-info')}
           </HeaderThree>
 		  {this.renderPostLog()}
           <GoyemonText fontSize="14">{otherDebugInfo}</GoyemonText>
@@ -196,7 +199,7 @@ class Advanced extends Component {
               this.setState({ clipboardContent: 'debug' });
             }}
           >
-            <CopyAddressText>Copy</CopyAddressText>
+            <CopyAddressText>{I18n.t('copy')}</CopyAddressText>
           </TouchableWithoutFeedback>
 
 		  <TouchableWithoutFeedback

@@ -19,6 +19,7 @@ import {
   InsufficientDaiBalanceMessage
 } from '../components/common';
 import AdvancedContainer from './AdvancedContainer';
+import I18n from '../i18n/I18n';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
@@ -160,17 +161,17 @@ class DepositFirstDai extends Component {
           width="80%"
         >
           <CoinImage source={require('../../assets/dai_icon.png')} />
-          <Title>dai wallet balance</Title>
+          <Title>{I18n.t('dai-wallet-balance')}</Title>
           <Value>{daiBalance} DAI</Value>
           <Title>interest rate</Title>
           <Value>{currentInterestRate} %</Value>
         </UntouchableCardContainer>
         <DepositAmountHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
-            Deposit Amount
+            {I18n.t('deposit-amount')}
           </FormHeader>
           <UseMaxButton
-            text="USE MAX"
+            text={I18n.t('use-max')}
             textColor="#00A3E2"
             onPress={() => {
               this.setState({ daiAmount: daiFullBalance });
@@ -217,7 +218,7 @@ class DepositFirstDai extends Component {
         />
         <ButtonWrapper>
           <Button
-            text="Next"
+            text={I18n.t('button-next')}
             textColor="#00A3E2"
             backgroundColor="#FFF"
             borderColor="#00A3E2"

@@ -18,6 +18,7 @@ import {
   GoyemonText
 } from '../components/common';
 import ShowMnemonicWords from './ShowMnemonicWords';
+import I18n from '../i18n/I18n';
 import LogUtilities from '../utilities/LogUtilities.js';
 
 class ShowMnemonic extends Component {
@@ -205,7 +206,7 @@ class ShowMnemonic extends Component {
     if (this.state.nextButtonShown) {
       return (
         <Button
-          text="Next"
+          text={I18n.t('button-next')}
           textColor="#00A3E2"
           backgroundColor="#F8F8F8"
           borderColor="#F8F8F8"

@@ -6,6 +6,7 @@ import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 import { PersistGate } from 'redux-persist/integration/react';
 import { rehydrationComplete } from '../actions/ActionRehydration';
 import '../firebase/FcmTokenMonitor';
+import I18n from '../i18n/I18n';
 import '../netinfo/NetInfoListener';
 import SaveIcon from '../../assets/SaveIcon.js';
 import HistoryIcon from '../../assets/HistoryIcon.js';
@@ -23,14 +24,14 @@ const AppTab = createBottomTabNavigator(
     Balance: {
       screen: BalanceStack,
       navigationOptions: {
-        tabBarLabel: 'Balance',
+        tabBarLabel: I18n.t('bottom-tab-portfolio'),
         tabBarIcon: ({ tintColor }) => <WalletIcon fill={tintColor} />
       }
     },
     Send: {
       screen: SendStack,
       navigationOptions: {
-        tabBarLabel: 'Send',
+        tabBarLabel: I18n.t('bottom-tab-send'),
         tabBarIcon: ({ tintColor }) => (
           <Icon name="send" size={32} color={tintColor} />
         )
@@ -39,14 +40,14 @@ const AppTab = createBottomTabNavigator(
     Earn: {
       screen: EarnStack,
       navigationOptions: {
-        tabBarLabel: 'Earn',
+        tabBarLabel: I18n.t('bottom-tab-earn'),
         tabBarIcon: ({ tintColor }) => <SaveIcon fill={tintColor} />
       }
     },
     Swap: {
       screen: SwapStack,
       navigationOptions: {
-        tabBarLabel: 'Swap',
+        tabBarLabel: I18n.t('bottom-tab-swap'),
         tabBarIcon: ({ tintColor }) => (
           <Icon name="swap-horizontal" size={32} color={tintColor} />
         )
@@ -55,7 +56,7 @@ const AppTab = createBottomTabNavigator(
     History: {
       screen: HistoryStack,
       navigationOptions: {
-        tabBarLabel: 'History',
+        tabBarLabel: I18n.t('bottom-tab-history'),
         tabBarIcon: ({ tintColor }) => <HistoryIcon fill={tintColor} />
       }
     }

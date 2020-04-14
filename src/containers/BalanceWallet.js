@@ -12,6 +12,7 @@ import {
   HeaderFour,
   GoyemonText
 } from '../components/common';
+import I18n from '../i18n/I18n';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
@@ -28,7 +29,7 @@ class BalanceWallet extends Component {
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="112">Wallet</HeaderOne>
+        <HeaderOne marginTop="112">{I18n.t('portfolio-wallet-header')}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8"
@@ -39,7 +40,7 @@ class BalanceWallet extends Component {
           textAlign="left"
           width="90%"
         >
-          <HeaderFour marginTop="0">total wallet balance</HeaderFour>
+          <HeaderFour marginTop="0">{I18n.t('portfolio-wallet-totalbalance')}</HeaderFour>
           <UsdBalance>
             ${PriceUtilities.getTotalWalletBalance(ethBalance, daiBalance)}
           </UsdBalance>
@@ -50,7 +51,7 @@ class BalanceWallet extends Component {
           marginLeft="24"
           marginTop="0"
         >
-          Coins
+          {I18n.t('portfolio-wallet-coins')}
         </HeaderThree>
         <UntouchableCardContainer
           alignItems="center"

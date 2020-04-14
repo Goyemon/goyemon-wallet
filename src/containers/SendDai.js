@@ -23,6 +23,7 @@ import {
   InsufficientDaiBalanceMessage
 } from '../components/common';
 import AdvancedContainer from '../containers/AdvancedContainer';
+import I18n from '../i18n/I18n';
 import SendStack from '../navigators/SendStack';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
@@ -194,14 +195,14 @@ class SendDai extends Component {
           width="80%"
         >
           <CoinImage source={require('../../assets/dai_icon.png')} />
-          <Title>dai wallet balance</Title>
+          <Title>{I18n.t('dai-wallet-balance')}</Title>
           <BalanceContainer>
             <Value>{daiBalance} DAI</Value>
           </BalanceContainer>
         </UntouchableCardContainer>
         <FormHeaderContainer>
-          <FormHeader marginBottom="4" marginTop="0">
-            To
+          <FormHeader marginBottom="0" marginTop="0">
+          {I18n.t('send-to')}
           </FormHeader>
         </FormHeaderContainer>
         <Form
@@ -213,7 +214,7 @@ class SendDai extends Component {
         >
           <SendTextInputContainer>
             <SendTextInput
-              placeholder="address"
+              placeholder={I18n.t('send-address')}
               clearButtonMode="while-editing"
               onChangeText={toAddress => {
                 this.validateToAddress(toAddress);
@@ -241,8 +242,8 @@ class SendDai extends Component {
           toAddressValidation={this.state.toAddressValidation}
         />
         <FormHeaderContainer>
-          <FormHeader marginBottom="4" marginTop="24">
-            Amount
+          <FormHeader marginBottom="0" marginTop="0">
+          {I18n.t('send-amount')}
           </FormHeader>
         </FormHeaderContainer>
         <Form
@@ -275,7 +276,7 @@ class SendDai extends Component {
         />
         <ButtonWrapper>
           <Button
-            text="Next"
+            text={I18n.t('button-next')}
             textColor="#00A3E2"
             backgroundColor="#FFF"
             borderColor="#00A3E2"

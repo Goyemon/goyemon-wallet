@@ -14,6 +14,7 @@ import {
   HeaderOne,
   GoyemonText
 } from './common';
+import I18n from '../i18n/I18n';
 import TxStorage from '../lib/tx.js';
 import LogUtilities from '../utilities/LogUtilities';
 
@@ -40,7 +41,7 @@ class EarnHome extends Component {
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="64">Earn</HeaderOne>
+        <HeaderOne marginTop="64">{I18n.t('earn-home-header')}</HeaderOne>
         <Container
           alignItems="flex-start"
           flexDirection="column"
@@ -66,7 +67,7 @@ class EarnHome extends Component {
             }}
           >
             <GoyemonText fontSize={24}>
-              Deposit DAI to Compound
+            {I18n.t('earn-home-compound-deposit')}
             </GoyemonText>
             <IconImageContainer>
               <IconImage>
@@ -92,7 +93,7 @@ class EarnHome extends Component {
             }}
           >
             <GoyemonText fontSize={24}>
-              Withdraw DAI from Compound
+            {I18n.t('earn-home-compound-withdraw')}
             </GoyemonText>
             <IconImageContainer>
               <IconImage>
@@ -124,7 +125,7 @@ class EarnHome extends Component {
             }}
           >
             <GoyemonText fontSize={24}>
-              Deposit DAI to PoolTogether
+            {I18n.t('earn-home-pooltogether-deposit')}
             </GoyemonText>
             <IconImageContainer>
               <IconImage>
@@ -150,7 +151,7 @@ class EarnHome extends Component {
             }}
           >
             <GoyemonText fontSize={24}>
-              Withdraw DAI from PoolTogether
+            {I18n.t('earn-home-pooltogether-withdraw')}
             </GoyemonText>
             <IconImageContainer>
               <IconImage>

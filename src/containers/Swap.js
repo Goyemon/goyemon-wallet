@@ -21,6 +21,7 @@ import {
 } from '../components/common';
 import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
 import AdvancedContainer from '../containers/AdvancedContainer';
+import I18n from '../i18n/I18n';
 import ABIEncoder from '../utilities/AbiUtilities';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
@@ -227,7 +228,7 @@ class Swap extends Component {
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="64">Swap</HeaderOne>
+        <HeaderOne marginTop="64">{I18n.t('swap-header')}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8px"
@@ -331,7 +332,7 @@ class Swap extends Component {
         />
         <ButtonWrapper>
           <Button
-            text="Next"
+            text={I18n.t('button-next')}
             textColor="#00A3E2"
             backgroundColor="#FFF"
             borderColor="#00A3E2"
