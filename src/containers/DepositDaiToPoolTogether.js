@@ -133,6 +133,10 @@ class DepositDaiToPoolTogether extends Component {
     }
   };
 
+  renderChanceOfWinning() {
+    return <Text>You have a 1 in 536,100 chance of winning.</Text>;
+  }
+
   render() {
     const { balance } = this.props;
     const daiBalance = RoundDownBigNumber(balance.dai)
@@ -161,6 +165,8 @@ class DepositDaiToPoolTogether extends Component {
           <Value>{daiBalance} DAI</Value>
           <Title>next prize(estimated)</Title>
           <Value>$</Value>
+          <Title>time until the next prize</Title>
+          <Value>days hours minutes</Value>
         </UntouchableCardContainer>
         <DepositAmountHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
@@ -204,6 +210,7 @@ class DepositDaiToPoolTogether extends Component {
         <InsufficientDaiBalanceMessage
           daiAmountValidation={this.state.daiAmountValidation}
         />
+        {this.renderChanceOfWinning()}
         <AdvancedContainer
           gasLimit={GlobalConfig.PoolTogetherDepositPoolGasLimit}
         />
