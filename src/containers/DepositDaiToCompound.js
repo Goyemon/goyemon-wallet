@@ -123,7 +123,7 @@ class DepositDaiToCompound extends Component {
       await this.props.saveOutgoingTransactionDataCompound({
         amount: daiAmount
       });
-      this.props.navigation.navigate('DepositDaiConfirmation');
+      this.props.navigation.navigate('DepositDaiToCompoundConfirmation');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }

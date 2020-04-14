@@ -2,7 +2,7 @@
 import { createStackNavigator } from 'react-navigation';
 import EarnHome from '../components/EarnHome';
 import DepositDaiToCompound from '../containers/DepositDaiToCompound';
-import DepositDaiConfirmation from '../containers/DepositDaiConfirmation';
+import DepositDaiToCompoundConfirmation from '../containers/DepositDaiToCompoundConfirmation';
 import DepositFirstDai from '../containers/DepositFirstDai';
 import DepositFirstDaiConfirmation from '../containers/DepositFirstDaiConfirmation';
 import WithdrawDai from '../containers/WithdrawDai';
@@ -30,8 +30,8 @@ const EarnStack = createStackNavigator(
         headerBackTitle: 'Deposit'
       })
     },
-    DepositDaiConfirmation: {
-      screen: DepositDaiConfirmation,
+    DepositDaiToCompoundConfirmation: {
+      screen: DepositDaiToCompoundConfirmation,
       navigationOptions: () => ({
         headerTransparent: true
       })
