@@ -133,6 +133,11 @@ class WithdrawDaiFromPoolTogether extends Component {
 
   render() {
     const { balance } = this.props;
+    const pooltogetherDaiBalance = RoundDownBigNumber(
+      balance.pooltogetherDai
+    )
+      .div(new RoundDownBigNumber(10).pow(36))
+      .toFixed(2);
 
     return (
       <RootContainer>
@@ -149,6 +154,7 @@ class WithdrawDaiFromPoolTogether extends Component {
         >
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <Title>dai balance in pooltogether</Title>
+          <Value>{pooltogetherDaiBalance}DAI</Value>
           <Value>DAI</Value>
         </UntouchableCardContainer>
         <WithDrawAmountHeaderContainer>
