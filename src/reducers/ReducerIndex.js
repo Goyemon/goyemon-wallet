@@ -17,6 +17,7 @@ import ReducerPermissions from './ReducerPermissions';
 import ReducerQRCodeData from './ReducerQRCodeData';
 import ReducerOutgoingTransactionData from './ReducerOutgoingTransactionData';
 import ReducerOutgoingTransactionObjects from './ReducerOutgoingTransactionObjects';
+import ReducerPoolTogether from './ReducerPoolTogether';
 import ReducerPrice from './ReducerPrice';
 import ReducerRehydration from './ReducerRehydration';
 import ReducerTransactionsLoaded from './ReducerTransactionsLoaded';
@@ -36,6 +37,7 @@ const appReducers = combineReducers({
   ReducerNetInfo,
   ReducerQRCodeData,
   ReducerPermissions,
+  ReducerPoolTogether,
   ReducerOutgoingTransactionData,
   ReducerOutgoingTransactionObjects,
   ReducerPrice,
