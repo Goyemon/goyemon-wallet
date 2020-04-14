@@ -145,7 +145,7 @@ class AdvancedContainer extends Component {
 const NetworkFeeHeaderContainer = styled.View`
   align-items: center;
   flex-direction: row;
-  margin:0 auto;
+  margin: 0 auto;
   margin-top: 24px;
   width: 80%;
 `;

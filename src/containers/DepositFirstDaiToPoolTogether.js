@@ -1,6 +1,7 @@
 'use strict';
 import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
+import { Text } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
@@ -140,9 +141,7 @@ class DepositFirstDaiToPoolTogether extends Component {
 
   renderChanceOfWinning() {
     return (
-      <View>
         <Text>You have a 1 in 536,100 chance of winning.</Text>
-      </View>
     );
   }
 

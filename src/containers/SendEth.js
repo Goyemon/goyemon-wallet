@@ -179,7 +179,7 @@ class SendEth extends Component {
         </UntouchableCardContainer>
         <FormHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
-          {I18n.t('send-to')}
+            {I18n.t('send-to')}
           </FormHeader>
         </FormHeaderContainer>
         <Form
@@ -193,7 +193,7 @@ class SendEth extends Component {
             <SendTextInput
               placeholder={I18n.t('send-address')}
               clearButtonMode="while-editing"
-              onChangeText={toAddress => {
+              onChangeText={(toAddress) => {
                 this.validateToAddress(toAddress);
                 this.setState({ toAddress });
               }}
@@ -220,7 +220,7 @@ class SendEth extends Component {
         />
         <FormHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
-          {I18n.t('send-amount')}
+            {I18n.t('send-amount')}
           </FormHeader>
         </FormHeaderContainer>
         <Form
@@ -235,7 +235,7 @@ class SendEth extends Component {
               placeholder="0"
               keyboardType="numeric"
               clearButtonMode="while-editing"
-              onChangeText={ethAmount => {
+              onChangeText={(ethAmount) => {
                 if (ethAmount) {
                   this.validateAmount(ethAmount, GlobalConfig.ETHTxGasLimit);
                   this.setState({ ethAmount });

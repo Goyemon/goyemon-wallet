@@ -3,7 +3,7 @@ import { GET_DAI_PRICE, GET_ETH_PRICE } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
 export function getDaiPrice() {
-  return async function(dispatch) {
+  return async function (dispatch) {
     try {
       let res = await fetch(
         'https://min-api.cryptocompare.com/data/price?fsym=DAI&tsyms=USD'
@@ -17,13 +17,13 @@ export function getDaiPrice() {
   };
 }
 
-const getDaiPriceSuccess = daiPrice => ({
+const getDaiPriceSuccess = (daiPrice) => ({
   type: GET_DAI_PRICE,
   payload: daiPrice
 });
 
 export function getEthPrice() {
-  return async function(dispatch) {
+  return async function (dispatch) {
     try {
       let res = await fetch(
         'https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD'
@@ -37,7 +37,7 @@ export function getEthPrice() {
   };
 }
 
-const getEthPriceSuccess = ethPrice => ({
+const getEthPriceSuccess = (ethPrice) => ({
   type: GET_ETH_PRICE,
   payload: ethPrice
 });

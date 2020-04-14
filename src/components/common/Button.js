@@ -2,7 +2,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Button = props => (
+const Button = (props) => (
   <ButtonContainer
     onPress={props.onPress}
     backgroundColor={props.backgroundColor}
@@ -17,18 +17,18 @@ const Button = props => (
 );
 
 const ButtonContainer = styled.TouchableOpacity`
-  background-color: ${props => props.backgroundColor};
-  border-color: ${props => props.borderColor};
+  background-color: ${(props) => props.backgroundColor};
+  border-color: ${(props) => props.borderColor};
   border-radius: 16px;
   border-width: 1;
-  margin: ${props => props.margin};
-  marginBottom: ${props => props.marginBottom};
+  margin: ${(props) => props.margin};
+  marginbottom: ${(props) => props.marginBottom};
   min-width: 120px;
-  opacity: ${props => props.opacity};
+  opacity: ${(props) => props.opacity};
 `;
 
 const ButtonText = styled.Text`
-  color: ${props => props.textColor};
+  color: ${(props) => props.textColor};
   font-family: 'HKGrotesk-Bold';
   font-size: 20;
   padding: 12px 24px;

@@ -202,7 +202,7 @@ class SendDai extends Component {
         </UntouchableCardContainer>
         <FormHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
-          {I18n.t('send-to')}
+            {I18n.t('send-to')}
           </FormHeader>
         </FormHeaderContainer>
         <Form
@@ -216,7 +216,7 @@ class SendDai extends Component {
             <SendTextInput
               placeholder={I18n.t('send-address')}
               clearButtonMode="while-editing"
-              onChangeText={toAddress => {
+              onChangeText={(toAddress) => {
                 this.validateToAddress(toAddress);
                 this.setState({ toAddress });
               }}
@@ -243,7 +243,7 @@ class SendDai extends Component {
         />
         <FormHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
-          {I18n.t('send-amount')}
+            {I18n.t('send-amount')}
           </FormHeader>
         </FormHeaderContainer>
         <Form
@@ -258,7 +258,7 @@ class SendDai extends Component {
               placeholder="0"
               keyboardType="numeric"
               clearButtonMode="while-editing"
-              onChangeText={amount => {
+              onChangeText={(amount) => {
                 this.validateDaiAmount(amount);
                 this.setState({ amount });
               }}

@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components/native';
 import OfflineNotice from '../../containers/OfflineNotice';
 
-const RootContainer = props => (
+const RootContainer = (props) => (
   <RootContainerStyle>
     <OfflineNotice />
     {props.children}

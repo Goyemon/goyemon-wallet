@@ -9,21 +9,21 @@ const INITIAL_STATE = {
   outgoingTransactionData: {
     send: {
       toaddress: '',
-      amount: '',
+      amount: ''
     },
     compound: {
-      amount: '',
+      amount: ''
     },
     poolTogether: {
-      amount: '',
+      amount: ''
     },
     swap: {
       sold: '',
       bought: '',
       slippage: 0.5,
-      minBought: '',
-    },
-  },
+      minBought: ''
+    }
+  }
 };
 
 const outgoingTransactionData = (state = INITIAL_STATE, action) => {
@@ -32,40 +32,40 @@ const outgoingTransactionData = (state = INITIAL_STATE, action) => {
       return {
         outgoingTransactionData: {
           ...state.outgoingTransactionData,
-          send: action.payload,
-        },
+          send: action.payload
+        }
       };
     case SAVE_OUTGOING_TRANSACTION_DATA_COMPOUND:
       return {
         outgoingTransactionData: {
           ...state.outgoingTransactionData,
-          compound: action.payload,
-        },
+          compound: action.payload
+        }
       };
     case SAVE_OUTGOING_TRANSACTION_DATA_POOLTOGETHER:
       return {
         outgoingTransactionData: {
           ...state.outgoingTransactionData,
-          poolTogether: action.payload,
-        },
+          poolTogether: action.payload
+        }
       };
     case SAVE_OUTGOING_TRANSACTION_DATA_SWAP:
       return {
         outgoingTransactionData: {
           swap: {
             ...state.outgoingTransactionData.swap,
-            ...action.payload,
-          },
-        },
+            ...action.payload
+          }
+        }
       };
     case SAVE_OUTGOING_TRANSACTION_DATA_SWAP_SLIPPAGE:
       return {
         outgoingTransactionData: {
           swap: {
             ...state.outgoingTransactionData.swap,
-            slippage: action.payload,
-          },
-        },
+            slippage: action.payload
+          }
+        }
       };
     default:
       return state || INITIAL_STATE;

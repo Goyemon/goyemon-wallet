@@ -14,8 +14,8 @@ import {
   ErrorMessage,
   Loader
 } from '../components/common';
-import LogUtilities from '../utilities/LogUtilities.js';
 import I18n from '../i18n/I18n';
+import LogUtilities from '../utilities/LogUtilities';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class ImportTwentyFourMnemonicWords extends Component {

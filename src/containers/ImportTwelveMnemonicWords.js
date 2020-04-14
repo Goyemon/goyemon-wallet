@@ -96,7 +96,7 @@ class ImportTwelveMnemonicWords extends Component {
                     placeholder={(id + 1).toString()}
                     autoCapitalize="none"
                     maxLength={15}
-                    onChangeText={text => {
+                    onChangeText={(text) => {
                       this.handleTextChange(text, id);
                     }}
                     onSubmitEditing={

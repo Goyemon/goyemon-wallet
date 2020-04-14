@@ -11,7 +11,7 @@ import {
   FormHeader,
   GoyemonText,
   Loader,
-  IsOnlineMessage,
+  IsOnlineMessage
 } from '../components/common/';
 import NetworkFeeContainerConfirmation from '../containers/NetworkFeeContainerConfirmation';
 import I18n from '../i18n/I18n';
@@ -23,18 +23,21 @@ class DepositFirstDaiToPoolTogetherConfirmation extends Component {
     super();
     this.state = {
       loading: false,
-      buttonDisabled: false,
+      buttonDisabled: false
     };
   }
 
   render() {
-    const { outgoingTransactionData, outgoingTransactionObjects, navigation, netInfo } = this.props;
-    const outgoingApproveTransactionObject = outgoingTransactionObjects[
-      outgoingTransactionObjects.length - 2
-    ];
-    const outgoingDepositPoolTransactionObject = outgoingTransactionObjects[
-      outgoingTransactionObjects.length - 1
-    ];
+    const {
+      outgoingTransactionData,
+      outgoingTransactionObjects,
+      navigation,
+      netInfo
+    } = this.props;
+    const outgoingApproveTransactionObject =
+      outgoingTransactionObjects[outgoingTransactionObjects.length - 2];
+    const outgoingDepositPoolTransactionObject =
+      outgoingTransactionObjects[outgoingTransactionObjects.length - 1];
 
     return (
       <RootContainer>
@@ -140,7 +143,7 @@ function mapStateToProps(state) {
     outgoingTransactionObjects:
       state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
     outgoingTransactionData:
-      state.ReducerOutgoingTransactionData.outgoingTransactionData,
+      state.ReducerOutgoingTransactionData.outgoingTransactionData
   };
 }
 

@@ -1,6 +1,7 @@
 'use strict';
 import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
+import { Text } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
@@ -16,7 +17,7 @@ import {
   Loader,
   IsOnlineMessage,
   InsufficientEthBalanceMessage,
-  InsufficientDaiBalanceMessage,
+  InsufficientDaiBalanceMessage
 } from '../components/common';
 import AdvancedContainer from './AdvancedContainer';
 import I18n from '../i18n/I18n';
@@ -37,7 +38,7 @@ class DepositDaiToPoolTogether extends Component {
       weiAmountValidation: undefined,
       loading: false,
       buttonDisabled: true,
-      buttonOpacity: 0.5,
+      buttonOpacity: 0.5
     };
   }
 
@@ -89,13 +90,13 @@ class DepositDaiToPoolTogether extends Component {
       this.setState({
         daiAmountValidation: true,
         buttonDisabled: false,
-        buttonOpacity: 1,
+        buttonOpacity: 1
       });
     } else if (!daiAmountValidation) {
       this.setState({
         daiAmountValidation: false,
         buttonDisabled: true,
-        buttonOpacity: 0.5,
+        buttonOpacity: 0.5
       });
     }
   }
@@ -287,13 +288,13 @@ function mapStateToProps(state) {
     balance: state.ReducerBalance.balance,
     gasChosen: state.ReducerGasPrice.gasChosen,
     gasPrice: state.ReducerGasPrice.gasPrice,
-    netInfo: state.ReducerNetInfo.netInfo,
+    netInfo: state.ReducerNetInfo.netInfo
   };
 }
 
 const mapDispatchToProps = {
   saveOutgoingTransactionObject,
-  saveOutgoingTransactionDataPoolTogether,
+  saveOutgoingTransactionDataPoolTogether
 };
 
 export default connect(

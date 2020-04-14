@@ -9,7 +9,7 @@ const INITIAL_STATE = {
       players: '',
       countdown: ''
     }
-  },
+  }
 };
 
 const poolTogether = (state = INITIAL_STATE, action) => {
@@ -24,7 +24,7 @@ const poolTogether = (state = INITIAL_STATE, action) => {
             players: action.payload.players,
             countdown: action.payload.countdown
           }
-        },
+        }
       };
     default:
       return state || INITIAL_STATE;

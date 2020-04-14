@@ -25,7 +25,12 @@ class Initial extends Component {
   }
 
   async conditionalNavigation() {
-    const { rehydration, mnemonicWords, mnemonicWordsValidation, permissions } = this.props;
+    const {
+      rehydration,
+      mnemonicWords,
+      mnemonicWordsValidation,
+      permissions
+    } = this.props;
 
     if (rehydration) {
       let mnemonicWordsStatePersisted;
@@ -136,9 +141,9 @@ class Initial extends Component {
       price.eth >= 0 &&
       price.eth.length != 0 &&
       price.dai >= 0 &&
-      price.dai.length != 0  
-    )
-  }
+      price.dai.length != 0
+    );
+  };
 
   render() {
     return (
@@ -152,7 +157,7 @@ class Initial extends Component {
         <LoaderContainer animation="fadeIn" delay={1000}>
           <Logo>Goyemon</Logo>
           <Animation
-            ref={animation => {
+            ref={(animation) => {
               this.animation = animation;
             }}
             style={{

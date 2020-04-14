@@ -107,7 +107,7 @@ class WithdrawDaiFromPoolTogether extends Component {
     }
   }
 
-  validateForm = async daiWithdrawAmount => {
+  validateForm = async (daiWithdrawAmount) => {
     const daiDepositedAmountValidation = TransactionUtilities.validateDaiDepositedAmount(
       daiWithdrawAmount
     );
@@ -168,7 +168,7 @@ class WithdrawDaiFromPoolTogether extends Component {
               placeholder="amount"
               keyboardType="numeric"
               clearButtonMode="while-editing"
-              onChangeText={daiWithdrawAmount => {
+              onChangeText={(daiWithdrawAmount) => {
                 this.updateDaiDepositedAmountValidation(
                   TransactionUtilities.validateDaiDepositedAmount(
                     daiWithdrawAmount
@@ -277,4 +277,7 @@ const mapDispatchToProps = {
   saveOutgoingTransactionDataPoolTogether
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(WithdrawDaiFromPoolTogether);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WithdrawDaiFromPoolTogether);

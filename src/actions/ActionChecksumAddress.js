@@ -4,7 +4,7 @@ import LogUtilities from '../utilities/LogUtilities.js';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 export function createChecksumAddress() {
-  return async function(dispatch) {
+  return async function (dispatch) {
     try {
       const checksumAddress = await WalletUtilities.createChecksumAddress();
       dispatch(createChecksumAddressSuccess(checksumAddress));
@@ -14,7 +14,8 @@ export function createChecksumAddress() {
   };
 }
 
-const createChecksumAddressSuccess = checksumAddress => ({
+const createChecksumAddressSuccess = (checksumAddress) => ({
   type: CREATE_CHECKSUM_ADDRESS,
   payload: checksumAddress
 });
+Z;

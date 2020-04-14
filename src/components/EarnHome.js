@@ -22,7 +22,7 @@ class EarnHome extends Component {
   componentDidMount() {
     LogUtilities.toDebugScreen('EarnHome componentDidMount() called');
     const txChangeCallback = (() => {
-      TxStorage.storage.isDAIApprovedForCDAI().then(x => {
+      TxStorage.storage.isDAIApprovedForCDAI().then((x) => {
         this.props.saveDaiCompoundApproval(x);
       });
     }).bind(this);
@@ -67,7 +67,7 @@ class EarnHome extends Component {
             }}
           >
             <GoyemonText fontSize={24}>
-            {I18n.t('earn-home-compound-deposit')}
+              {I18n.t('earn-home-compound-deposit')}
             </GoyemonText>
             <IconImageContainer>
               <IconImage>
@@ -93,7 +93,7 @@ class EarnHome extends Component {
             }}
           >
             <GoyemonText fontSize={24}>
-            {I18n.t('earn-home-compound-withdraw')}
+              {I18n.t('earn-home-compound-withdraw')}
             </GoyemonText>
             <IconImageContainer>
               <IconImage>
@@ -125,7 +125,7 @@ class EarnHome extends Component {
             }}
           >
             <GoyemonText fontSize={24}>
-            {I18n.t('earn-home-pooltogether-deposit')}
+              {I18n.t('earn-home-pooltogether-deposit')}
             </GoyemonText>
             <IconImageContainer>
               <IconImage>
@@ -151,7 +151,7 @@ class EarnHome extends Component {
             }}
           >
             <GoyemonText fontSize={24}>
-            {I18n.t('earn-home-pooltogether-withdraw')}
+              {I18n.t('earn-home-pooltogether-withdraw')}
             </GoyemonText>
             <IconImageContainer>
               <IconImage>

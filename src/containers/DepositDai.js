@@ -105,7 +105,7 @@ class DepositDai extends Component {
     }
   }
 
-  validateForm = async daiAmount => {
+  validateForm = async (daiAmount) => {
     const daiAmountValidation = TransactionUtilities.validateDaiAmount(
       daiAmount
     );
@@ -131,9 +131,7 @@ class DepositDai extends Component {
 
   render() {
     const { balance, compound } = this.props;
-    const currentInterestRate = new BigNumber(
-      compound.dai.currentInterestRate
-    )
+    const currentInterestRate = new BigNumber(compound.dai.currentInterestRate)
       .div(new BigNumber(10).pow(24))
       .toFixed(2);
 
@@ -191,7 +189,7 @@ class DepositDai extends Component {
               placeholder="amount"
               keyboardType="numeric"
               clearButtonMode="while-editing"
-              onChangeText={daiAmount => {
+              onChangeText={(daiAmount) => {
                 this.updateDaiAmountValidation(
                   TransactionUtilities.validateDaiAmount(daiAmount)
                 );

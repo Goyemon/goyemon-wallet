@@ -4,7 +4,7 @@ import { Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
 
-const ToggleCurrencySymbol = props => {
+const ToggleCurrencySymbol = (props) => {
   if (props.currency === 'ETH') {
     return (
       <CurrencySymbol>

@@ -24,9 +24,7 @@ class BalanceCompound extends Component {
 
   render() {
     const { balance, compound } = this.props;
-    const currentInterestRate = new BigNumber(
-      compound.dai.currentInterestRate
-    )
+    const currentInterestRate = new BigNumber(compound.dai.currentInterestRate)
       .div(new BigNumber(10).pow(24))
       .toFixed(2);
 
@@ -34,9 +32,7 @@ class BalanceCompound extends Component {
       .div(new RoundDownBigNumber(10).pow(36))
       .toFixed(2);
 
-    const lifetimeEarnedInDai = RoundDownBigNumber(
-      compound.dai.lifetimeEarned
-    )
+    const lifetimeEarnedInDai = RoundDownBigNumber(compound.dai.lifetimeEarned)
       .div(new RoundDownBigNumber(10).pow(36))
       .toString();
 
@@ -53,7 +49,9 @@ class BalanceCompound extends Component {
           textAlign="center"
           width="90%"
         >
-          <HeaderFour marginTop="24">{I18n.t('portfolio-compound-totalsavings')}</HeaderFour>
+          <HeaderFour marginTop="24">
+            {I18n.t('portfolio-compound-totalsavings')}
+          </HeaderFour>
           <BalanceText>
             $
             {parseFloat(
@@ -95,12 +93,16 @@ class BalanceCompound extends Component {
           <TitleContainer>
             <TitleText>{I18n.t('portfolio-compound-dai-savings')}</TitleText>
             <TitleText>{I18n.t('portfolio-compound-yearly-rate')}</TitleText>
-            <TitleText>{I18n.t('portfolio-compound-interest-earned')}</TitleText>
+            <TitleText>
+              {I18n.t('portfolio-compound-interest-earned')}
+            </TitleText>
           </TitleContainer>
           <ValueContainer>
             <ValueText>{compoundDaiBalance} DAI</ValueText>
             <ValueText>{currentInterestRate}%</ValueText>
-            <DaiInterestEarnedText>{lifetimeEarnedInDai} DAI</DaiInterestEarnedText>
+            <DaiInterestEarnedText>
+              {lifetimeEarnedInDai} DAI
+            </DaiInterestEarnedText>
           </ValueContainer>
         </UntouchableCardContainer>
       </RootContainer>
@@ -176,7 +178,7 @@ const DaiInterestEarnedText = styled.Text`
   margin-bottom: 4;
 `;
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   balance: state.ReducerBalance.balance,
   compound: state.ReducerCompound.compound,
   checksumAddress: state.ReducerChecksumAddress.checksumAddress,

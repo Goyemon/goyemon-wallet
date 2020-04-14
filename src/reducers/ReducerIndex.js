@@ -43,7 +43,7 @@ const appReducers = combineReducers({
   ReducerPrice,
   ReducerRehydration,
   ReducerTransactionsLoaded,
-  ReducerTransactionHistory,
+  ReducerTransactionHistory
 });
 
 const rootReducers = (state, action) => {

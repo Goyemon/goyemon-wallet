@@ -2,7 +2,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 
-const FormHeader = props => (
+const FormHeader = (props) => (
   <FormHeaderContainer>
     <FormHeaderText
       marginBottom={props.marginBottom}
@@ -22,8 +22,8 @@ const FormHeaderText = styled.Text`
   color: #000;
   font-family: 'HKGrotesk-Bold';
   font-size: 20;
-  margin-bottom: ${props => `${props.marginBottom}`};
-  margin-top: ${props => `${props.marginTop}`};
+  margin-bottom: ${(props) => `${props.marginBottom}`};
+  margin-top: ${(props) => `${props.marginTop}`};
 `;
 
 export { FormHeader };

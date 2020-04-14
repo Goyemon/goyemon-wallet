@@ -2,7 +2,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 
-const SwapForm = props => (
+const SwapForm = (props) => (
   <CardContainer
     borderBottomColor={props.borderBottomColor}
     borderBottomWidth={props.borderBottomWidth}
@@ -15,8 +15,8 @@ const SwapForm = props => (
 const CardContainer = styled.View`
   background: #fff;
   border-radius: 0;
-  border-bottom-color: ${props => props.borderBottomColor};
-  border-bottom-width: ${props => props.borderBottomWidth};
+  border-bottom-color: ${(props) => props.borderBottomColor};
+  border-bottom-width: ${(props) => props.borderBottomWidth};
   width: 80%;
 `;
 

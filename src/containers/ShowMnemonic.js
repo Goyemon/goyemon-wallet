@@ -39,12 +39,12 @@ class ShowMnemonic extends Component {
 
   requestPhotoLibraryPermission() {
     if (Platform.OS === 'ios') {
-      request(PERMISSIONS.IOS.PHOTO_LIBRARY).then(result => {
+      request(PERMISSIONS.IOS.PHOTO_LIBRARY).then((result) => {
         this.checkPhotoLibraryPermission();
         LogUtilities.logInfo('result ===>', result);
       });
     } else if (Platform.OS === 'android') {
-      request(PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE).then(result => {
+      request(PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE).then((result) => {
         this.checkPhotoLibraryPermission();
         LogUtilities.logInfo('result ===>', result);
       });
@@ -55,7 +55,7 @@ class ShowMnemonic extends Component {
     const { savePhotoLibraryPermission } = this.props;
     if (Platform.OS === 'ios') {
       check(PERMISSIONS.IOS.PHOTO_LIBRARY)
-        .then(result => {
+        .then((result) => {
           switch (result) {
             case RESULTS.UNAVAILABLE:
               savePhotoLibraryPermission('unavailable');
@@ -81,12 +81,12 @@ class ShowMnemonic extends Component {
               break;
           }
         })
-        .catch(error => {
+        .catch((error) => {
           LogUtilities.logInfo('error ===>', error);
         });
     } else if (Platform.OS === 'android') {
       check(PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE)
-        .then(result => {
+        .then((result) => {
           switch (result) {
             case RESULTS.UNAVAILABLE:
               savePhotoLibraryPermission('unavailable');
@@ -112,7 +112,7 @@ class ShowMnemonic extends Component {
               break;
           }
         })
-        .catch(error => {
+        .catch((error) => {
           LogUtilities.logInfo('error ===>', error);
         });
     }
@@ -188,7 +188,7 @@ class ShowMnemonic extends Component {
 
   takeScreenShot() {
     captureScreen().then(
-      uri => {
+      (uri) => {
         this.setState({
           imageURI: uri,
           screenshotTaken: true,
@@ -198,7 +198,7 @@ class ShowMnemonic extends Component {
         });
         CameraRoll.saveToCameraRoll(uri);
       },
-      error => LogUtilities.logError('Oops, Something Went Wrong', error)
+      (error) => LogUtilities.logError('Oops, Something Went Wrong', error)
     );
   }
 

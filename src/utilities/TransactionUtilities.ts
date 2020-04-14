@@ -5,7 +5,6 @@ import firebase from 'react-native-firebase';
 import uuidv4 from 'uuid/v4';
 import Web3 from 'web3';
 import { addSentTransaction } from '../actions/ActionTransactionHistory';
-const GlobalConfig = require('../config.json');
 import { store } from '../store/store.js';
 import ABIEncoder from '../utilities/AbiUtilities';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
@@ -13,6 +12,7 @@ import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import WalletUtilities from './WalletUtilities.ts';
 import TxStorage from '../lib/tx.js';
+import GlobalConfig from '../config.json';
 
 class TransactionUtilities {
   parseEthValue(value) {
@@ -232,24 +232,18 @@ class TransactionUtilities {
     const approveEncodedABI = this.getApproveEncodedABI(spender);
     const approveTransactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.DAITokenContract)
-      .setGasPrice(
-        this.returnTransactionSpeed(
-          gasChosen
-        ).toString(16)
-      )
+      .setGasPrice(this.returnTransactionSpeed(gasChosen).toString(16))
       .setGas(GlobalConfig.ERC20ApproveGasLimit.toString(16))
       .tempSetData(approveEncodedABI)
       .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.approval, [
-        (spender.startsWith('0x')
-          ? spender.substr(2)
-          : spender
-        ).toLowerCase(),
+        (spender.startsWith('0x') ? spender.substr(2) : spender).toLowerCase(),
         TxStorage.storage.getOwnAddress(),
-        'ff'.repeat(256 / 8),
+        'ff'.repeat(256 / 8)
       ]);
 
     return approveTransactionObject;
-  }  
+  }
+
 }
 
 export default new TransactionUtilities();

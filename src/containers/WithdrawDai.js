@@ -109,7 +109,7 @@ class WithdrawDai extends Component {
     }
   }
 
-  validateForm = async daiWithdrawAmount => {
+  validateForm = async (daiWithdrawAmount) => {
     const daiSavingsAmountValidation = TransactionUtilities.validateDaiSavingsAmount(
       daiWithdrawAmount
     );
@@ -174,7 +174,7 @@ class WithdrawDai extends Component {
               placeholder="amount"
               keyboardType="numeric"
               clearButtonMode="while-editing"
-              onChangeText={daiWithdrawAmount => {
+              onChangeText={(daiWithdrawAmount) => {
                 this.updateDaiSavingsAmountValidation(
                   TransactionUtilities.validateDaiSavingsAmount(
                     daiWithdrawAmount

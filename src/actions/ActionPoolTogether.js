@@ -14,5 +14,5 @@ export function savePoolTogetherDaiInfo(poolTogetherDaiInfo) {
 
 const savePoolTogetherDaiInfoSuccess = (poolTogetherDaiInfo) => ({
   type: SAVE_POOLTOGETHER_DAI_INFO,
-  payload: poolTogetherDaiInfo,
+  payload: poolTogetherDaiInfo
 });

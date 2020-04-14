@@ -79,7 +79,7 @@ class NotificationPermissionTutorial extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   permissions: state.ReducerPermissions.permissions
 });
 

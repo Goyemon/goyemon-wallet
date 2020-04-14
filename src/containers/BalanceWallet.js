@@ -29,7 +29,9 @@ class BalanceWallet extends Component {
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="112">{I18n.t('portfolio-wallet-header')}</HeaderOne>
+        <HeaderOne marginTop="112">
+          {I18n.t('portfolio-wallet-header')}
+        </HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8"
@@ -40,7 +42,9 @@ class BalanceWallet extends Component {
           textAlign="left"
           width="90%"
         >
-          <HeaderFour marginTop="0">{I18n.t('portfolio-wallet-totalbalance')}</HeaderFour>
+          <HeaderFour marginTop="0">
+            {I18n.t('portfolio-wallet-totalbalance')}
+          </HeaderFour>
           <UsdBalance>
             ${PriceUtilities.getTotalWalletBalance(ethBalance, daiBalance)}
           </UsdBalance>
@@ -167,7 +171,7 @@ const UsdBalanceText = styled.Text`
   margin-bottom: 4;
 `;
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   balance: state.ReducerBalance.balance,
   checksumAddress: state.ReducerChecksumAddress.checksumAddress,
   price: state.ReducerPrice.price

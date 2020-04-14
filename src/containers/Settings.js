@@ -126,7 +126,7 @@ class Settings extends Component {
                   <DeleteTextInput
                     autoCapitalize="none"
                     clearButtonMode="while-editing"
-                    onChangeText={deleteText => {
+                    onChangeText={(deleteText) => {
                       this.validateDeleteText(deleteText);
                     }}
                   />
@@ -174,7 +174,7 @@ class Settings extends Component {
             <IconOpacity>
               <Icon
                 onPress={() => {
-                  Linking.openURL('#').catch(err =>
+                  Linking.openURL('#').catch((err) =>
                     LogUtilities.logError('An error occurred', err)
                   );
                 }}
@@ -188,7 +188,7 @@ class Settings extends Component {
             <IconOpacity>
               <Icon
                 onPress={() => {
-                  Linking.openURL('#').catch(err =>
+                  Linking.openURL('#').catch((err) =>
                     LogUtilities.logError('An error occurred', err)
                   );
                 }}
@@ -201,7 +201,7 @@ class Settings extends Component {
           <CommunityIcon>
             <Icon
               onPress={() => {
-                Linking.openURL('https://discord.gg/MXGfnJG').catch(err =>
+                Linking.openURL('https://discord.gg/MXGfnJG').catch((err) =>
                   LogUtilities.logError('An error occurred', err)
                 );
               }}
@@ -212,7 +212,7 @@ class Settings extends Component {
           </CommunityIcon>
         </CommunityIconContainer>
         <Description marginBottom="40" marginLeft="8" marginTop="16">
-        {I18n.t('settings-community')}
+          {I18n.t('settings-community')}
         </Description>
         <SettingsListContainer>
           <TouchableHighlight
@@ -221,7 +221,9 @@ class Settings extends Component {
           >
             <SettingsList>
               <Icon name="key-outline" color="#5F5F5F" size={28} />
-              <SettingsListText>{I18n.t('settings-backup-words')}</SettingsListText>
+              <SettingsListText>
+                {I18n.t('settings-backup-words')}
+              </SettingsListText>
               <Icon name="chevron-right" color="#5F5F5F" size={28} />
             </SettingsList>
           </TouchableHighlight>
@@ -266,7 +268,7 @@ class Settings extends Component {
 }
 
 const BackButtonContainer = styled.TouchableWithoutFeedback`
-  align-items: center;  
+  align-items: center;
   flex-direction: row;
 `;
 
