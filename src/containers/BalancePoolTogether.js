@@ -1,5 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
+import { Text } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { withNavigation } from 'react-navigation';
@@ -44,6 +45,12 @@ class BalancePoolTogether extends Component {
           </CoinImageContainer>
           <TitleContainer></TitleContainer>
           <ValueContainer></ValueContainer>
+          <Text>prize estimated</Text>
+          <Text>balance in an open draw</Text>
+          <Text>balance in a committed draw</Text>
+          <Text>the number of tickets</Text>
+          <Text>the number of players</Text>
+          <Text>time until the next prize</Text>
         </UntouchableCardContainer>
       </RootContainer>
     );
