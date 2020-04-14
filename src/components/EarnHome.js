@@ -60,7 +60,7 @@ class EarnHome extends Component {
               if (approval.dai.compound) {
                 navigation.navigate('DepositDaiToCompound');
               } else if (!approval.dai.compound) {
-                navigation.navigate('DepositFirstDai');
+                navigation.navigate('DepositFirstDaiToCompound');
               } else {
                 LogUtilities.logInfo('invalid approval value');
               }
