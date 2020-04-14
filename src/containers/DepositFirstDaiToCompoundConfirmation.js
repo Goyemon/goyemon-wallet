@@ -12,13 +12,13 @@ import {
   GoyemonText,
   Loader,
   IsOnlineMessage
-} from '../components/common/';
-import NetworkFeeContainerConfirmation from '../containers/NetworkFeeContainerConfirmation';
+} from '../components/common';
+import NetworkFeeContainerConfirmation from './NetworkFeeContainerConfirmation';
 import I18n from '../i18n/I18n';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import GlobalConfig from '../config.json';
 
-class DepositFirstDaiConfirmation extends Component {
+class DepositFirstDaiToCompoundConfirmation extends Component {
   constructor(props) {
     super();
     this.state = {
@@ -145,4 +145,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(DepositFirstDaiConfirmation);
+export default connect(mapStateToProps)(DepositFirstDaiToCompoundConfirmation);

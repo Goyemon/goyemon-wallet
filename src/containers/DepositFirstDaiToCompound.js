@@ -128,7 +128,7 @@ class DepositFirstDaiToCompound extends Component {
       await this.props.saveOutgoingTransactionDataCompound({
         amount: daiAmount
       });
-      this.props.navigation.navigate('DepositFirstDaiConfirmation');
+      this.props.navigation.navigate('DepositFirstDaiToCompoundConfirmation');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }

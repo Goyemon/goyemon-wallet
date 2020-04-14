@@ -4,7 +4,7 @@ import EarnHome from '../components/EarnHome';
 import DepositDaiToCompound from '../containers/DepositDaiToCompound';
 import DepositDaiToCompoundConfirmation from '../containers/DepositDaiToCompoundConfirmation';
 import DepositFirstDaiToCompound from '../containers/DepositFirstDaiToCompound';
-import DepositFirstDaiConfirmation from '../containers/DepositFirstDaiConfirmation';
+import DepositFirstDaiToCompoundConfirmation from '../containers/DepositFirstDaiToCompoundConfirmation';
 import WithdrawDai from '../containers/WithdrawDai';
 import WithdrawDaiConfirmation from '../containers/WithdrawDaiConfirmation';
 import DepositDaiToPoolTogether from '../containers/DepositDaiToPoolTogether';
@@ -43,8 +43,8 @@ const EarnStack = createStackNavigator(
         headerBackTitle: 'Deposit'
       })
     },
-    DepositFirstDaiConfirmation: {
-      screen: DepositFirstDaiConfirmation,
+    DepositFirstDaiToCompoundConfirmation: {
+      screen: DepositFirstDaiToCompoundConfirmation,
       navigationOptions: () => ({
         headerTransparent: true
       })
