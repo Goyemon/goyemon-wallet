@@ -131,18 +131,18 @@ class DepositFirstDai extends Component {
   };
 
   render() {
-    const { compound } = this.props;
+    const { balance, compound } = this.props;
     const currentInterestRate = new BigNumber(
       compound.dai.currentInterestRate
     )
       .div(new BigNumber(10).pow(24))
       .toFixed(2);
 
-    const daiBalance = RoundDownBigNumber(this.props.balance.daiBalance)
+    const daiBalance = RoundDownBigNumber(balance.dai)
       .div(new RoundDownBigNumber(10).pow(18))
       .toString();
 
-    const daiFullBalance = RoundDownBigNumber(this.props.balance.daiBalance)
+    const daiFullBalance = RoundDownBigNumber(balance.dai)
       .div(new RoundDownBigNumber(10).pow(18))
       .toString();
 

@@ -141,9 +141,9 @@ class WalletCreation extends Component {
     const { balance } = this.props;
 
     return (
-      new BigNumber(balance.cDaiBalance).isGreaterThanOrEqualTo(0) &&
-      new BigNumber(balance.daiBalance).isGreaterThanOrEqualTo(0) &&
-      new BigNumber(balance.weiBalance).isGreaterThanOrEqualTo(0)
+      new BigNumber(balance.cDai).isGreaterThanOrEqualTo(0) &&
+      new BigNumber(balance.dai).isGreaterThanOrEqualTo(0) &&
+      new BigNumber(balance.wei).isGreaterThanOrEqualTo(0)
     );
   }
 

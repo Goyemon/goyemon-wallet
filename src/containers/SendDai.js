@@ -117,7 +117,7 @@ class SendDai extends Component {
 
   validateDaiAmount(amount) {
     amount = new BigNumber(10).pow(18).times(amount);
-    const daiBalance = new BigNumber(this.props.balance.daiBalance);
+    const daiBalance = new BigNumber(this.props.balance.dai);
 
     if (
       daiBalance.isGreaterThanOrEqualTo(amount) &&
@@ -177,7 +177,7 @@ class SendDai extends Component {
   };
 
   render() {
-    const daiBalance = RoundDownBigNumber(this.props.balance.daiBalance)
+    const daiBalance = RoundDownBigNumber(this.props.balance.dai)
       .div(new RoundDownBigNumber(10).pow(18))
       .toFixed(2);
 

@@ -107,7 +107,7 @@ class TransactionUtilities {
   validateWeiAmountForTransactionFee(gasPriceWei, gasLimit) {
     const stateTree = store.getState();
     const balance = stateTree.ReducerBalance.balance;
-    const weiBalance = new BigNumber(balance.weiBalance);
+    const weiBalance = new BigNumber(balance.wei);
     const transactionFeeLimitInWei = new BigNumber(gasPriceWei).times(gasLimit);
 
     if (weiBalance.isGreaterThan(transactionFeeLimitInWei)) {
@@ -121,7 +121,7 @@ class TransactionUtilities {
   validateDaiAmount(daiAmount) {
     const stateTree = store.getState();
     const balance = stateTree.ReducerBalance.balance;
-    const daiBalance = new BigNumber(balance.daiBalance);
+    const daiBalance = new BigNumber(balance.dai);
     daiAmount = new BigNumber(10).pow(18).times(daiAmount);
 
     if (
@@ -143,7 +143,7 @@ class TransactionUtilities {
     daiWithdrawAmount = new BigNumber(10).pow(36).times(daiWithdrawAmount);
 
     if (
-      daiSavingsBalance.isGreaterThanOrEqualTo(daiWithdrawAmount) &&
+      compoundDaiBalance.isGreaterThanOrEqualTo(daiWithdrawAmount) &&
       daiWithdrawAmount.isGreaterThanOrEqualTo(0)
     ) {
       LogUtilities.logInfo('the dai savings amount validated!');

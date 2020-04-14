@@ -86,8 +86,8 @@ async function downstreamMessageHandler(type, data) {
 			// const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
 			store.dispatch(saveCompoundDaiInfo(data));
 			store.dispatch(
-					stateTree.ReducerBalance.balance.cDaiBalance,
 				saveCompoundDaiBalance(
+					stateTree.ReducerBalance.balance.cDai,
 					data.current_exchange_rate
 				)
 			);

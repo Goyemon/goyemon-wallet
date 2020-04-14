@@ -60,10 +60,10 @@ class BalanceHome extends Component {
   render() {
     const { balance, navigation } = this.props;
 
-    let ethBalance = Web3.utils.fromWei(balance.weiBalance);
+    let ethBalance = Web3.utils.fromWei(balance.wei);
     ethBalance = RoundDownBigNumber(ethBalance).toFixed(4);
 
-    const daiBalance = RoundDownBigNumber(balance.daiBalance)
+    const daiBalance = RoundDownBigNumber(balance.dai)
       .div(new RoundDownBigNumber(10).pow(18))
       .toFixed(2);
 

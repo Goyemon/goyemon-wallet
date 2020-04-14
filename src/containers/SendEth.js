@@ -35,7 +35,7 @@ class SendEth extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ethBalance: Web3.utils.fromWei(props.balance.weiBalance),
+      ethBalance: Web3.utils.fromWei(props.balance.wei),
       toAddress: '',
       ethAmount: '',
       toAddressValidation: undefined,
@@ -91,7 +91,7 @@ class SendEth extends Component {
   }
 
   validateAmount(ethAmount, gasLimit) {
-    const weiBalance = new BigNumber(this.props.balance.weiBalance);
+    const weiBalance = new BigNumber(this.props.balance.wei);
     const weiAmount = new BigNumber(Web3.utils.toWei(ethAmount, 'Ether'));
     const transactionFeeLimitInWei = new BigNumber(
       TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)

@@ -146,11 +146,12 @@ class DepositFirstDaiToPoolTogether extends Component {
   }
 
   render() {
-    const daiBalance = RoundDownBigNumber(this.props.balance.daiBalance)
+    const { balance } = this.props;
+    const daiBalance = RoundDownBigNumber(balance.dai)
       .div(new RoundDownBigNumber(10).pow(18))
       .toString();
 
-    const daiFullBalance = RoundDownBigNumber(this.props.balance.daiBalance)
+    const daiFullBalance = RoundDownBigNumber(balance.dai)
       .div(new RoundDownBigNumber(10).pow(18))
       .toString();
 
