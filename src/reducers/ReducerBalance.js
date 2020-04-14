@@ -12,6 +12,7 @@ const INITIAL_STATE = {
     dai: '',
     cDai: '',
     compoundDai: '',
+    pooltogetherDai: ''
   }
 };
 
