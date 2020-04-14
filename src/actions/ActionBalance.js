@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 import {
   SAVE_C_DAI_BALANCE,
   SAVE_DAI_BALANCE,
-  SAVE_DAI_SAVINGS_BALANCE,
+  SAVE_COMPOUND_DAI_BALANCE,
   SAVE_WEI_BALANCE
 } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
@@ -38,23 +38,23 @@ const saveDaiBalanceSuccess = daiBalance => ({
   payload: daiBalance
 });
 
-export function saveDaiSavingsBalance(cDaiBalance, currentExchangeRate) {
+export function saveCompoundDaiBalance(cDaiBalance, currentExchangeRate) {
   return async function(dispatch) {
     try {
-      let daiSavingsBalance = new BigNumber(cDaiBalance).times(
+      let compoundDaiBalance = new BigNumber(cDaiBalance).times(
         currentExchangeRate
       );
-      daiSavingsBalance = daiSavingsBalance.toString();
-      dispatch(saveDaiSavingsBalanceSuccess(daiSavingsBalance));
+      compoundDaiBalance = compoundDaiBalance.toString();
+      dispatch(saveCompoundDaiBalanceSuccess(compoundDaiBalance));
     } catch (err) {
       LogUtilities.logError(err);
     }
   };
 }
 
-const saveDaiSavingsBalanceSuccess = daiSavingsBalance => ({
-  type: SAVE_DAI_SAVINGS_BALANCE,
-  payload: daiSavingsBalance
+const saveCompoundDaiBalanceSuccess = compoundDaiBalance => ({
+  type: SAVE_COMPOUND_DAI_BALANCE,
+  payload: compoundDaiBalance
 });
 
 export function saveWeiBalance(weiBalance) {

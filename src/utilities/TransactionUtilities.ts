@@ -138,7 +138,7 @@ class TransactionUtilities {
   validateDaiSavingsAmount(daiWithdrawAmount) {
     const stateTree = store.getState();
     const balance = stateTree.ReducerBalance.balance;
-    const daiSavingsBalance = new BigNumber(balance.daiSavingsBalance);
+    const compoundDaiBalance = new BigNumber(balance.compoundDai);
 
     daiWithdrawAmount = new BigNumber(10).pow(36).times(daiWithdrawAmount);
 

@@ -135,7 +135,7 @@ class WithdrawDai extends Component {
   render() {
     const { balance } = this.props;
 
-    const daiSavingsBalance = RoundDownBigNumber(balance.daiSavingsBalance)
+    const compoundDaiBalance = RoundDownBigNumber(balance.compoundDai)
       .div(new RoundDownBigNumber(10).pow(36))
       .toFixed(2);
 
@@ -154,7 +154,7 @@ class WithdrawDai extends Component {
         >
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <Title>dai savings</Title>
-          <Value>{daiSavingsBalance} DAI</Value>
+          <Value>{compoundDaiBalance} DAI</Value>
         </UntouchableCardContainer>
         <WithDrawAmountHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">

@@ -29,7 +29,7 @@ class BalanceCompound extends Component {
       .div(new BigNumber(10).pow(24))
       .toFixed(2);
 
-    const daiSavingsBalance = RoundDownBigNumber(balance.daiSavingsBalance)
+    const compoundDaiBalance = RoundDownBigNumber(balance.compoundDai)
       .div(new RoundDownBigNumber(10).pow(36))
       .toFixed(2);
 
@@ -56,7 +56,7 @@ class BalanceCompound extends Component {
           <BalanceText>
             $
             {parseFloat(
-              PriceUtilities.convertDaiToUsd(daiSavingsBalance)
+              PriceUtilities.convertDaiToUsd(compoundDaiBalance)
             ).toFixed(2)}
           </BalanceText>
           <InterestEarnedTextContainer>

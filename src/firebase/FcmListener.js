@@ -4,7 +4,7 @@ import Web3 from 'web3';
 import {
   saveCDaiBalance,
   saveDaiBalance,
-  saveDaiSavingsBalance,
+  saveCompoundDaiBalance,
   saveWeiBalance
 } from '../actions/ActionBalance';
 import {
@@ -86,8 +86,8 @@ async function downstreamMessageHandler(type, data) {
 			// const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
 			store.dispatch(saveCompoundDaiInfo(data));
 			store.dispatch(
-				saveDaiSavingsBalance(
 					stateTree.ReducerBalance.balance.cDaiBalance,
+				saveCompoundDaiBalance(
 					data.current_exchange_rate
 				)
 			);

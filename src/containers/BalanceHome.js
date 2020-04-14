@@ -67,13 +67,13 @@ class BalanceHome extends Component {
       .div(new RoundDownBigNumber(10).pow(18))
       .toFixed(2);
 
-    const daiSavingsBalance = RoundDownBigNumber(balance.daiSavingsBalance)
+    const compoundDaiBalance = RoundDownBigNumber(balance.compoundDai)
       .div(new RoundDownBigNumber(10).pow(36))
       .toString();
 
     const totalBalance =
       parseFloat(PriceUtilities.getTotalWalletBalance(ethBalance, daiBalance)) +
-      parseFloat(PriceUtilities.convertDaiToUsd(daiSavingsBalance));
+      parseFloat(PriceUtilities.convertDaiToUsd(compoundDaiBalance)) +
 
     let truncatedAdderss;
     if (this.props.checksumAddress) {
@@ -192,7 +192,7 @@ class BalanceHome extends Component {
           </NameContainer>
           <BalanceContainer>
             <ApplicationBalanceText>
-              ${PriceUtilities.convertDaiToUsd(daiSavingsBalance).toFixed(2)}
+              ${PriceUtilities.convertDaiToUsd(compoundDaiBalance).toFixed(2)}
             </ApplicationBalanceText>
           </BalanceContainer>
         </TouchableCardContainer>
