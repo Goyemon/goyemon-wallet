@@ -28,7 +28,7 @@ import ABIEncoder from '../utilities/AbiUtilities';
 import TxStorage from '../lib/tx.js';
 import GlobalConfig from '../config.json';
 
-class DepositDai extends Component {
+class DepositDaiToCompound extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -296,4 +296,4 @@ const mapDispatchToProps = {
   saveOutgoingTransactionDataCompound
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DepositDai);
+export default connect(mapStateToProps, mapDispatchToProps)(DepositDaiToCompound);

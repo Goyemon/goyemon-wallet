@@ -1,7 +1,7 @@
 'use strict';
 import { createStackNavigator } from 'react-navigation';
 import EarnHome from '../components/EarnHome';
-import DepositDai from '../containers/DepositDai';
+import DepositDaiToCompound from '../containers/DepositDaiToCompound';
 import DepositDaiConfirmation from '../containers/DepositDaiConfirmation';
 import DepositFirstDai from '../containers/DepositFirstDai';
 import DepositFirstDaiConfirmation from '../containers/DepositFirstDaiConfirmation';
@@ -23,8 +23,8 @@ const EarnStack = createStackNavigator(
         headerBackTitle: 'Earn'
       })
     },
-    DepositDai: {
-      screen: DepositDai,
+    DepositDaiToCompound: {
+      screen: DepositDaiToCompound,
       navigationOptions: () => ({
         headerTransparent: true,
         headerBackTitle: 'Deposit'

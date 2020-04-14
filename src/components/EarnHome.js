@@ -58,7 +58,7 @@ class EarnHome extends Component {
             width="90%"
             onPress={() => {
               if (approval.dai.compound) {
-                navigation.navigate('DepositDai');
+                navigation.navigate('DepositDaiToCompound');
               } else if (!approval.dai.compound) {
                 navigation.navigate('DepositFirstDai');
               } else {
