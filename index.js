@@ -49,3 +49,5 @@ FcmListener.setStoreReadyPromise(
   })
 );
 FCM.registerHandler(); // Then we call FCM.registerHandler() to actually initialize FCM.
+
+import __temp from './src/lib/debug';

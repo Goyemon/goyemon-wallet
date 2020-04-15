@@ -1188,7 +1188,10 @@ class TxStorage {
 	}
 
 	getOwnAddress() {
-		return this.our_address.toString('hex');
+		if (this.our_address)
+			return this.our_address.toString('hex');
+
+		return null;
 	}
 
 
@@ -1524,7 +1527,8 @@ class TxStorage {
 			//'hashes': hashes,
 			'hashes': ret,
 			'count': count,
-			'offset': 0
+			'offset': 0,
+			'checkpoints': checkpoints
 		};
 	}
 
@@ -1599,8 +1603,6 @@ class TxStorage {
 		return await this.txes.debugDumpAllTxes(index);
 	}
 }
-
-
 
 
 
