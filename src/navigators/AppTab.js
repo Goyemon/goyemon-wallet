@@ -24,14 +24,14 @@ const AppTab = createBottomTabNavigator(
     Balance: {
       screen: BalanceStack,
       navigationOptions: {
-        tabBarLabel: I18n.t('bottom-tab-portfolio'),
+        tabBarLabel: I18n.t('portfolio'),
         tabBarIcon: ({ tintColor }) => <WalletIcon fill={tintColor} />
       }
     },
     Send: {
       screen: SendStack,
       navigationOptions: {
-        tabBarLabel: I18n.t('bottom-tab-send'),
+        tabBarLabel: I18n.t('send'),
         tabBarIcon: ({ tintColor }) => (
           <Icon name="send" size={32} color={tintColor} />
         )
@@ -40,14 +40,14 @@ const AppTab = createBottomTabNavigator(
     Earn: {
       screen: EarnStack,
       navigationOptions: {
-        tabBarLabel: I18n.t('bottom-tab-earn'),
+        tabBarLabel: I18n.t('earn'),
         tabBarIcon: ({ tintColor }) => <SaveIcon fill={tintColor} />
       }
     },
     Swap: {
       screen: SwapStack,
       navigationOptions: {
-        tabBarLabel: I18n.t('bottom-tab-swap'),
+        tabBarLabel: I18n.t('swap'),
         tabBarIcon: ({ tintColor }) => (
           <Icon name="swap-horizontal" size={32} color={tintColor} />
         )
@@ -56,7 +56,7 @@ const AppTab = createBottomTabNavigator(
     History: {
       screen: HistoryStack,
       navigationOptions: {
-        tabBarLabel: I18n.t('bottom-tab-history'),
+        tabBarLabel: I18n.t('history'),
         tabBarIcon: ({ tintColor }) => <HistoryIcon fill={tintColor} />
       }
     }

@@ -41,7 +41,7 @@ class EarnHome extends Component {
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="64">{I18n.t('earn-home-header')}</HeaderOne>
+        <HeaderOne marginTop="64">{I18n.t('earn')}</HeaderOne>
         <Container
           alignItems="flex-start"
           flexDirection="column"

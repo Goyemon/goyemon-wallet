@@ -141,7 +141,7 @@ class Advanced extends Component {
     return (
       <RootContainer>
         <HeaderOne marginTop="96">
-          {I18n.t('settings-advanced-header')}
+          {I18n.t('advanced')}
         </HeaderOne>
         <Container
           alignItems="flex-start"

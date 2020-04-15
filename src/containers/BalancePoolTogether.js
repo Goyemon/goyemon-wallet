@@ -43,14 +43,13 @@ class BalancePoolTogether extends Component {
             <CoinImage source={require('../../assets/dai_icon.png')} />
             <CoinText>DAI</CoinText>
           </CoinImageContainer>
-          <TitleContainer></TitleContainer>
+          <TitleContainer>prize estimated</TitleContainer>
+          <TitleContainer>balance in an open draw</TitleContainer>
+          <TitleContainer>balance in a committed draw</TitleContainer>
+          <TitleContainer>the number of tickets</TitleContainer>
+          <TitleContainer>the number of players</TitleContainer>
+          <TitleContainer>time until the next prize</TitleContainer>
           <ValueContainer></ValueContainer>
-          <Text>prize estimated</Text>
-          <Text>balance in an open draw</Text>
-          <Text>balance in a committed draw</Text>
-          <Text>the number of tickets</Text>
-          <Text>the number of players</Text>
-          <Text>time until the next prize</Text>
         </UntouchableCardContainer>
       </RootContainer>
     );
@@ -81,7 +80,7 @@ const CoinText = styled.Text`
   margin-top: 4;
 `;
 
-const TitleContainer = styled.View`
+const TitleContainer = styled.Text`
   margin-left: 16;
   width: 42.5%;
 `;

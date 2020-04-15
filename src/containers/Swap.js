@@ -228,7 +228,7 @@ class Swap extends Component {
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="64">{I18n.t('swap-header')}</HeaderOne>
+        <HeaderOne marginTop="64">{I18n.t('swap')}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8px"
@@ -272,7 +272,7 @@ class Swap extends Component {
                 returnKeyType="done"
               />
             </SwapForm>
-              <BalanceText>Balance: {ethBalance}</BalanceText>
+              <BalanceText>{I18n.t('balance')}: {ethBalance}</BalanceText>
           </Container>
           <Container
             alignItems="center"

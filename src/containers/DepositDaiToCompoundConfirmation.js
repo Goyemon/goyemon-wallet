@@ -65,7 +65,7 @@ class DepositDaiToCompoundConfirmation extends Component {
         </UntouchableCardContainer>
         <ButtonContainer>
           <Button
-            text={I18n.t('button-deposit')}
+            text={I18n.t('deposit')}
             textColor="white"
             backgroundColor="#00A3E2"
             borderColor="#00A3E2"

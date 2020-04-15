@@ -30,7 +30,7 @@ export default class Send extends Component {
   render() {
     return (
       <RootContainer>
-        <HeaderOne marginTop="64">{I18n.t('send-header')}</HeaderOne>
+        <HeaderOne marginTop="64">{I18n.t('send')}</HeaderOne>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
           <Container
             alignItems="flex-end"

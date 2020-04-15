@@ -70,7 +70,7 @@ class Receive extends Component {
             <QrCodeText>Your QR Code</QrCodeText>
             <QRCodeSvg value={checksumAddress} size={120} />
           </QrCodeContainer>
-          <QrCodeText>Your Address</QrCodeText>
+          <QrCodeText>{I18n.t('portfolio-receive-address')}</QrCodeText>
           <GoyemonText fontSize="14">{checksumAddress}</GoyemonText>
           {this.renderCopyText()}
         </UntouchableCardContainer>

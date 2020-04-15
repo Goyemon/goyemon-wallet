@@ -145,7 +145,7 @@ class DepositDaiToCompound extends Component {
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="96">Deposit</HeaderOne>
+        <HeaderOne marginTop="96">{I18n.t('deposit')}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8px"
@@ -186,7 +186,7 @@ class DepositDaiToCompound extends Component {
         >
           <SendTextInputContainer>
             <SendTextInput
-              placeholder="amount"
+              placeholder="0"
               keyboardType="numeric"
               clearButtonMode="while-editing"
               onChangeText={(daiAmount) => {

@@ -44,7 +44,7 @@ export default class History extends Component {
     return (
       <HistoryContainer>
         <OfflineNotice />
-        <HeaderOne marginTop="64">{I18n.t('history-header')}</HeaderOne>
+        <HeaderOne marginTop="64">{I18n.t('history')}</HeaderOne>
         {this.toggleFilterChoiceText()}
         <TransactionList
           tokenFilter={this.state.filter}

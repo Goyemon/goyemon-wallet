@@ -233,7 +233,7 @@ class Settings extends Component {
           >
             <SettingsList>
               <Icon name="crosshairs" color="#5F5F5F" size={28} />
-              <SettingsListText>{I18n.t('settings-advanced')}</SettingsListText>
+              <SettingsListText>{I18n.t('advanced')}</SettingsListText>
               <Icon name="chevron-right" color="#5F5F5F" size={28} />
             </SettingsList>
           </TouchableHighlight>

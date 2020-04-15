@@ -88,7 +88,7 @@ class BalanceHome extends Component {
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="64">{I18n.t('portfolio-home-header')}</HeaderOne>
+        <HeaderOne marginTop="64">{I18n.t('portfolio')}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8"

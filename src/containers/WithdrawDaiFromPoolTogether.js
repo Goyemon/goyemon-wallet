@@ -141,7 +141,7 @@ class WithdrawDaiFromPoolTogether extends Component {
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="96">Withdraw</HeaderOne>
+        <HeaderOne marginTop="96">{I18n.t('withdraw')}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8px"
@@ -155,12 +155,14 @@ class WithdrawDaiFromPoolTogether extends Component {
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <Title>dai balance in pooltogether</Title>
           <Value>{pooltogetherDaiBalance}DAI</Value>
+          <Title>open and committed</Title>
           <Value>DAI</Value>
         </UntouchableCardContainer>
         <WithDrawAmountHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
             {I18n.t('withdraw-amount')}
           </FormHeader>
+          <Title>{I18n.t('use-max')}</Title>
         </WithDrawAmountHeaderContainer>
         <Form
           borderColor={StyleUtilities.getBorderColor(
@@ -171,7 +173,7 @@ class WithdrawDaiFromPoolTogether extends Component {
         >
           <SendTextInputContainer>
             <SendTextInput
-              placeholder="amount"
+              placeholder="0"
               keyboardType="numeric"
               clearButtonMode="while-editing"
               onChangeText={(daiWithdrawAmount) => {

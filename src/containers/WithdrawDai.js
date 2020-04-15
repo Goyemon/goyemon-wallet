@@ -142,7 +142,7 @@ class WithdrawDai extends Component {
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="96">Withdraw</HeaderOne>
+        <HeaderOne marginTop="96">{I18n.t('withdraw')}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8px"
@@ -171,7 +171,7 @@ class WithdrawDai extends Component {
         >
           <SendTextInputContainer>
             <SendTextInput
-              placeholder="amount"
+              placeholder="0"
               keyboardType="numeric"
               clearButtonMode="while-editing"
               onChangeText={(daiWithdrawAmount) => {

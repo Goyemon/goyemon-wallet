@@ -18,4 +18,3 @@ const createChecksumAddressSuccess = (checksumAddress) => ({
   type: CREATE_CHECKSUM_ADDRESS,
   payload: checksumAddress
 });
-Z;

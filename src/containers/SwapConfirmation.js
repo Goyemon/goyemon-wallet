@@ -77,7 +77,7 @@ class SwapConfirmation extends Component {
         </UntouchableCardContainer>
         <ButtonContainer>
           <Button
-            text={I18n.t('button-Swap')}
+            text={I18n.t('swap')}
             textColor="white"
             backgroundColor="#00A3E2"
             borderColor="#00A3E2"

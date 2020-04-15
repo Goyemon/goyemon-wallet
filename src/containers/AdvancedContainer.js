@@ -130,7 +130,7 @@ class AdvancedContainer extends Component {
             this.setState({ showAdvanced: true });
           }}
         >
-          <Text>advanced</Text>
+          <Text>{I18n.t('advanced')}</Text>
           <Icon name="menu-down" color="#000" size={32} />
         </MenuContainer>
       );

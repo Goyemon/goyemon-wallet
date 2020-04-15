@@ -72,16 +72,7 @@ export default class Welcome extends Component {
             marginLeft="0"
             marginTop="0"
           >
-            live in the future and
-          </HeaderTwo>
-          <HeaderTwo
-            fontSize="24"
-            fontWeight="bold"
-            marginBottom="64"
-            marginLeft="0"
-            marginTop="0"
-          >
-            enjoy freedom to earn
+            Bank of the people, by the people, for the people
           </HeaderTwo>
           <TouchableCardContainer
             alignItems="center"

@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import Web3 from 'web3';
 import { GoyemonText } from '../components/common';
 import { TouchableCardContainer } from '../components/common';
+import I18n from '../i18n/I18n';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 
 import TxStorage from '../lib/tx.js';
@@ -227,17 +228,17 @@ class Transaction extends Component {
         break;
 
       case TxStorage.TxStates.STATE_INCLUDED:
-        text = 'success';
+        text = I18n.t('history-success');
         break;
 
       case TxStorage.TxStates.STATE_CONFIRMED:
-        text = 'success';
+        text = I18n.t('history-success');
         break;
 
       case TxStorage.TxStates.STATE_ERROR:
         return (
           <View>
-            <FailedStatusText>failed</FailedStatusText>
+            <FailedStatusText>{I18n.t('history-failed')}</FailedStatusText>
             <FailedStatusHintText>*try syncing in the advanced settings</FailedStatusHintText>
           </View>
         );
@@ -252,7 +253,7 @@ class Transaction extends Component {
   renderType() {
     let txType;
     if (this.state.isUniswapTx) {
-      txType = 'Swap';
+      txType = I18n.t('swap');
       return <GoyemonText fontSize={18}>{txType}</GoyemonText>;
     }
 
@@ -260,36 +261,36 @@ class Transaction extends Component {
       if (this.state.isOutgoingDaiTx && this.state.isIncomingDaiTx)
         txType = 'Self';
       else if (this.state.isOutgoingDaiTx)
-        txType = 'Outgoing';
+        txType = I18n.t('history-outgoing');
       else if (this.state.isIncomingDaiTx)
-        txType = 'Incoming';
+        txType = I18n.t('histor-incoming');
 
       return <GoyemonText fontSize={18}>{txType}</GoyemonText>;
     }
 
     if (this.state.isAmeTransferTx) {
       if (this.state.isOutgoingAmeTx)
-        txType = 'Outgoing';
+        txType = I18n.t('history-outgoing');
       else if (this.state.isIncomingAmeTx)
-        txType = 'Incoming';
+        txType = I18n.t('histor-incoming');
 
       return <GoyemonText fontSize={18}>{txType}</GoyemonText>;
     }
 
     if (this.state.isCDaiMintFailedTx)
-      txType = 'Deposit Failed';
+      txType = I18n.t('deposit') + I18n.t('history-failed');
     else if (this.state.isCDaiRedeemUnderlyingFailedTx)
-      txType = 'Withdraw Failed';
+      txType = I18n.t('withdraw') + I18n.t('history-failed');
 
     if (txType)
       return <GoyemonText fontSize="14">{txType}</GoyemonText>;
 
     if (this.state.isDaiApproveTx)
-      txType = 'Unlock Deposit';
+      txType = I18n.t('history-unlock') + I18n.t('deposit');
     else if (this.state.isCDaiMintTx)
-      txType = 'Deposit';
+      txType = I18n.t('deposit');
     else if (this.state.isCDaiRedeemUnderlyingTx)
-      txType = 'Withdraw';
+      txType = I18n.t('withdraw');
 
     if (txType)
       return <GoyemonText fontSize={18}>{txType}</GoyemonText>;
@@ -297,9 +298,9 @@ class Transaction extends Component {
     if (this.state.isOutgoingEthTx && this.state.isIncomingEthTx)
       txType = 'Self';
     else if (this.state.transaction.getFrom() === null || this.state.isOutgoingEthTx)
-      txType = 'Outgoing';
+      txType = I18n.t('history-outgoing');
     else if (this.state.isIncomingEthTx)
-      txType = 'Incoming';
+      txType = I18n.t('history-incoming');
 
     if (txType)
       return <GoyemonText fontSize={18}>{txType}</GoyemonText>;

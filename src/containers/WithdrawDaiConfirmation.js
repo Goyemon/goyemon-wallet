@@ -65,7 +65,7 @@ class WithdrawDaiConfirmation extends Component {
         </UntouchableCardContainer>
         <ButtonContainer>
           <Button
-            text={I18n.t('button-withdraw')}
+            text={I18n.t('withdraw')}
             textColor="white"
             backgroundColor="#00A3E2"
             borderColor="#00A3E2"
