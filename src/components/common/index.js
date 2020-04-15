@@ -20,6 +20,7 @@ export * from './ProgressBar';
 export * from './QRCodeIcon';
 export * from './SwapForm';
 export * from './RootContainer';
+export * from './SettingsListCard';
 export * from './ToggleCurrencySymbol';
 export * from './TouchableCardContainer';
 export * from './UntouchableCardContainer';

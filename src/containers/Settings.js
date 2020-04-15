@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { BackHandler, TouchableWithoutFeedback, Text } from 'react-native';
+import { BackHandler } from 'react-native';
 import { connect } from 'react-redux';
 import { Linking, TouchableHighlight, Alert, Modal } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -12,7 +12,8 @@ import {
   HeaderOne,
   UntouchableCardContainer,
   Button,
-  Description
+  Description,
+  SettingsListCard
 } from '../components/common';
 import I18n from '../i18n/I18n';
 import TxStorage from '../lib/tx';
@@ -215,28 +216,18 @@ class Settings extends Component {
           {I18n.t('settings-community')}
         </Description>
         <SettingsListContainer>
-          <TouchableHighlight
-            underlayColor="#FFF"
+          <SettingsListCard
+            iconName="key-outline"
             onPress={() => navigation.navigate('BackupWords')}
           >
-            <SettingsList>
-              <Icon name="key-outline" color="#5F5F5F" size={28} />
-              <SettingsListText>
-                {I18n.t('settings-backup-words')}
-              </SettingsListText>
-              <Icon name="chevron-right" color="#5F5F5F" size={28} />
-            </SettingsList>
-          </TouchableHighlight>
-          <TouchableHighlight
-            underlayColor="#FFF"
+            {I18n.t('settings-backup-words')}
+          </SettingsListCard>
+          <SettingsListCard
+            iconName="crosshairs"
             onPress={() => navigation.navigate('Advanced')}
           >
-            <SettingsList>
-              <Icon name="crosshairs" color="#5F5F5F" size={28} />
-              <SettingsListText>{I18n.t('advanced')}</SettingsListText>
-              <Icon name="chevron-right" color="#5F5F5F" size={28} />
-            </SettingsList>
-          </TouchableHighlight>
+            {I18n.t('advanced')}
+          </SettingsListCard>
         </SettingsListContainer>
         <UntouchableCardContainer
           alignItems="center"
@@ -323,28 +314,6 @@ const SettingsListContainer = styled.View`
   margin-top: 16;
   margin-bottom: 8;
   width: 100%;
-`;
-
-const SettingsList = styled.View`
-  align-items: center;
-  border-color: rgba(95, 95, 95, 0.3);
-  border-top-width: 0.5;
-  border-bottom-width: 0.5;
-  flex-direction: row;
-  justify-content: space-between;
-  padding-bottom: 16px;
-  padding-left: 16px;
-  padding-right: 16px;
-  padding-top: 16px;
-  width: 100%;
-`;
-
-const SettingsListText = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 20;
-  margin-left: 16;
-  width: 80%;
 `;
 
 const ResetWalletHeader = styled.Text`
