@@ -59,5 +59,5 @@ export default class ImportOptions extends Component {
 }
 
 const ButtonContainer = styled.View`
-  margintop: 40;
+  margin-top: 40;
 `;
