@@ -55,9 +55,7 @@ class NetworkFeeContainerConfirmation extends Component {
         </NetworkFeeContainer>
         <NetworkFee>
           {this.toggleCurrency(
-            TransactionUtilities.returnTransactionSpeed(
-              this.props.gasChosen
-            ),
+            TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
             this.props.gasLimit
           )}
         </NetworkFee>

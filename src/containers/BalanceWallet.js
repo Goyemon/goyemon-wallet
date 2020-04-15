@@ -12,6 +12,7 @@ import {
   HeaderFour,
   GoyemonText
 } from '../components/common';
+import I18n from '../i18n/I18n';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
@@ -19,16 +20,18 @@ class BalanceWallet extends Component {
   render() {
     const { balance, price } = this.props;
 
-    let ethBalance = Web3.utils.fromWei(balance.weiBalance);
+    let ethBalance = Web3.utils.fromWei(balance.wei);
     ethBalance = RoundDownBigNumber(ethBalance).toFixed(4);
 
-    const daiBalance = RoundDownBigNumber(balance.daiBalance)
+    const daiBalance = RoundDownBigNumber(balance.dai)
       .div(new RoundDownBigNumber(10).pow(18))
       .toFixed(2);
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="112">Wallet</HeaderOne>
+        <HeaderOne marginTop="112">
+          {I18n.t('portfolio-wallet-header')}
+        </HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8"
@@ -39,7 +42,9 @@ class BalanceWallet extends Component {
           textAlign="left"
           width="90%"
         >
-          <HeaderFour marginTop="0">total wallet balance</HeaderFour>
+          <HeaderFour marginTop="0">
+            {I18n.t('portfolio-wallet-totalbalance')}
+          </HeaderFour>
           <UsdBalance>
             ${PriceUtilities.getTotalWalletBalance(ethBalance, daiBalance)}
           </UsdBalance>
@@ -50,7 +55,7 @@ class BalanceWallet extends Component {
           marginLeft="24"
           marginTop="0"
         >
-          Coins
+          {I18n.t('portfolio-wallet-coins')}
         </HeaderThree>
         <UntouchableCardContainer
           alignItems="center"
@@ -166,7 +171,7 @@ const UsdBalanceText = styled.Text`
   margin-bottom: 4;
 `;
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   balance: state.ReducerBalance.balance,
   checksumAddress: state.ReducerChecksumAddress.checksumAddress,
   price: state.ReducerPrice.price

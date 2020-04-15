@@ -1,10 +1,10 @@
 'use strict';
 import { createStackNavigator } from 'react-navigation';
 import EarnHome from '../components/EarnHome';
-import DepositDai from '../containers/DepositDai';
-import DepositDaiConfirmation from '../containers/DepositDaiConfirmation';
-import DepositFirstDai from '../containers/DepositFirstDai';
-import DepositFirstDaiConfirmation from '../containers/DepositFirstDaiConfirmation';
+import DepositDaiToCompound from '../containers/DepositDaiToCompound';
+import DepositDaiToCompoundConfirmation from '../containers/DepositDaiToCompoundConfirmation';
+import DepositFirstDaiToCompound from '../containers/DepositFirstDaiToCompound';
+import DepositFirstDaiToCompoundConfirmation from '../containers/DepositFirstDaiToCompoundConfirmation';
 import WithdrawDai from '../containers/WithdrawDai';
 import WithdrawDaiConfirmation from '../containers/WithdrawDaiConfirmation';
 import DepositDaiToPoolTogether from '../containers/DepositDaiToPoolTogether';
@@ -23,28 +23,28 @@ const EarnStack = createStackNavigator(
         headerBackTitle: 'Earn'
       })
     },
-    DepositDai: {
-      screen: DepositDai,
+    DepositDaiToCompound: {
+      screen: DepositDaiToCompound,
       navigationOptions: () => ({
         headerTransparent: true,
         headerBackTitle: 'Deposit'
       })
     },
-    DepositDaiConfirmation: {
-      screen: DepositDaiConfirmation,
+    DepositDaiToCompoundConfirmation: {
+      screen: DepositDaiToCompoundConfirmation,
       navigationOptions: () => ({
         headerTransparent: true
       })
     },
-    DepositFirstDai: {
-      screen: DepositFirstDai,
+    DepositFirstDaiToCompound: {
+      screen: DepositFirstDaiToCompound,
       navigationOptions: () => ({
         headerTransparent: true,
         headerBackTitle: 'Deposit'
       })
     },
-    DepositFirstDaiConfirmation: {
-      screen: DepositFirstDaiConfirmation,
+    DepositFirstDaiToCompoundConfirmation: {
+      screen: DepositFirstDaiToCompoundConfirmation,
       navigationOptions: () => ({
         headerTransparent: true
       })

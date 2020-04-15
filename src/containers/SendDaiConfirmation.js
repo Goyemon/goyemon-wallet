@@ -11,7 +11,7 @@ import {
   FormHeader,
   GoyemonText,
   Loader,
-  IsOnlineMessage,
+  IsOnlineMessage
 } from '../components/common/';
 import NetworkFeeContainerConfirmation from '../containers/NetworkFeeContainerConfirmation';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
@@ -22,26 +22,30 @@ class SendDaiConfirmation extends Component {
     super();
     this.state = {
       loading: false,
-      buttonDisabled: false,
+      buttonDisabled: false
     };
   }
 
   render() {
-    const { outgoingTransactionData, outgoingTransactionObjects, navigation, netInfo } = this.props;
-    const outgoingTransactionObject = outgoingTransactionObjects[
-      outgoingTransactionObjects.length - 1
-    ];
+    const {
+      outgoingTransactionData,
+      outgoingTransactionObjects,
+      navigation,
+      netInfo
+    } = this.props;
+    const outgoingTransactionObject =
+      outgoingTransactionObjects[outgoingTransactionObjects.length - 1];
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="96">Confirmation</HeaderOne>
+        <HeaderOne marginTop="96">{I18n.t('confirmation')}</HeaderOne>
         <TotalContainer>
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <GoyemonText fontSize="16">You are about to send</GoyemonText>
           <TotalValueText>
             {outgoingTransactionData.send.amount} DAI
           </TotalValueText>
-          <GoyemonText fontSize="16">+ network fee</GoyemonText>
+          <GoyemonText fontSize="16">+ {I18n.t('network-fee')}</GoyemonText>
         </TotalContainer>
         <UntouchableCardContainer
           alignItems="flex-start"
@@ -139,7 +143,7 @@ function mapStateToProps(state) {
     outgoingTransactionObjects:
       state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
     outgoingTransactionData:
-      state.ReducerOutgoingTransactionData.outgoingTransactionData,
+      state.ReducerOutgoingTransactionData.outgoingTransactionData
   };
 }
 

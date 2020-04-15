@@ -19,6 +19,7 @@ import {
   GoyemonText
 } from '../components/common';
 import FcmPermissions from '../firebase/FcmPermissions.js';
+import I18n from '../i18n/I18n';
 import BalanceStack from '../navigators/BalanceStack';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import PriceUtilities from '../utilities/PriceUtilities.js';
@@ -60,20 +61,25 @@ class BalanceHome extends Component {
   render() {
     const { balance, navigation } = this.props;
 
-    let ethBalance = Web3.utils.fromWei(balance.weiBalance);
+    let ethBalance = Web3.utils.fromWei(balance.wei);
     ethBalance = RoundDownBigNumber(ethBalance).toFixed(4);
 
-    const daiBalance = RoundDownBigNumber(balance.daiBalance)
+    const daiBalance = RoundDownBigNumber(balance.dai)
       .div(new RoundDownBigNumber(10).pow(18))
       .toFixed(2);
 
-    const daiSavingsBalance = RoundDownBigNumber(balance.daiSavingsBalance)
+    const compoundDaiBalance = RoundDownBigNumber(balance.compoundDai)
       .div(new RoundDownBigNumber(10).pow(36))
       .toString();
 
+    const pooltogetherDaiBalance = RoundDownBigNumber(balance.pooltogetherDai)
+      .div(new RoundDownBigNumber(10).pow(18))
+      .toFixed(2);
+
     const totalBalance =
       parseFloat(PriceUtilities.getTotalWalletBalance(ethBalance, daiBalance)) +
-      parseFloat(PriceUtilities.convertDaiToUsd(daiSavingsBalance));
+      parseFloat(PriceUtilities.convertDaiToUsd(compoundDaiBalance)) +
+      parseFloat(PriceUtilities.convertDaiToUsd(pooltogetherDaiBalance));
 
     let truncatedAdderss;
     if (this.props.checksumAddress) {
@@ -82,7 +88,7 @@ class BalanceHome extends Component {
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="64">Balance</HeaderOne>
+        <HeaderOne marginTop="64">{I18n.t('portfolio-home-header')}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8"
@@ -93,7 +99,9 @@ class BalanceHome extends Component {
           textAlign="left"
           width="90%"
         >
-          <HeaderFour marginTop="24">total balance</HeaderFour>
+          <HeaderFour marginTop="24">
+            {I18n.t('portfolio-home-totalbalance')}
+          </HeaderFour>
           <UsdBalance>${totalBalance.toFixed(2)}</UsdBalance>
           <AddressContainer
             onPress={() => {
@@ -110,7 +118,7 @@ class BalanceHome extends Component {
           marginLeft="24"
           marginTop="0"
         >
-          Coins
+          {I18n.t('portfolio-home-coins')}
         </HeaderThree>
         <CurrencyScrollView
           horizontal={true}
@@ -151,7 +159,7 @@ class BalanceHome extends Component {
           marginLeft="24"
           marginTop="24"
         >
-          Applications
+          {I18n.t('portfolio-home-applications')}
         </HeaderThree>
         <TouchableCardContainer
           alignItems="center"
@@ -166,7 +174,7 @@ class BalanceHome extends Component {
             <WalletIcon />
           </IconImageContainer>
           <NameContainer>
-            <NameText>Wallet</NameText>
+            <NameText> {I18n.t('portfolio-home-wallet')}</NameText>
             <GoyemonText fontSize={12}>ETH and ERC20</GoyemonText>
           </NameContainer>
           <BalanceContainer>
@@ -192,7 +200,7 @@ class BalanceHome extends Component {
           </NameContainer>
           <BalanceContainer>
             <ApplicationBalanceText>
-              ${PriceUtilities.convertDaiToUsd(daiSavingsBalance).toFixed(2)}
+              ${PriceUtilities.convertDaiToUsd(compoundDaiBalance).toFixed(2)}
             </ApplicationBalanceText>
           </BalanceContainer>
         </TouchableCardContainer>
@@ -212,7 +220,12 @@ class BalanceHome extends Component {
             <NameText>PoolTogether</NameText>
           </NameContainer>
           <BalanceContainer>
-            <ApplicationBalanceText></ApplicationBalanceText>
+            <ApplicationBalanceText>
+              $
+              {PriceUtilities.convertDaiToUsd(pooltogetherDaiBalance).toFixed(
+                2
+              )}
+            </ApplicationBalanceText>
           </BalanceContainer>
         </TouchableCardContainer>
       </RootContainer>

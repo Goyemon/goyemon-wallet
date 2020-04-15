@@ -19,6 +19,7 @@ import {
   InsufficientDaiBalanceMessage
 } from '../components/common';
 import AdvancedContainer from './AdvancedContainer';
+import I18n from '../i18n/I18n';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
@@ -27,7 +28,7 @@ import ABIEncoder from '../utilities/AbiUtilities';
 import TxStorage from '../lib/tx.js';
 import GlobalConfig from '../config.json';
 
-class DepositFirstDai extends Component {
+class DepositFirstDaiToCompound extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -104,7 +105,7 @@ class DepositFirstDai extends Component {
     }
   }
 
-  validateForm = async daiAmount => {
+  validateForm = async (daiAmount) => {
     const daiAmountValidation = TransactionUtilities.validateDaiAmount(
       daiAmount
     );
@@ -117,32 +118,33 @@ class DepositFirstDai extends Component {
     if (daiAmountValidation && weiAmountValidation && isOnline) {
       this.setState({ loading: true, buttonDisabled: true });
       LogUtilities.logInfo('validation successful');
-      const approveTransactionObject = await TransactionUtilities.constructApproveTransactionObject(GlobalConfig.cDAIcontract, this.props.gasChosen);
+      const approveTransactionObject = await TransactionUtilities.constructApproveTransactionObject(
+        GlobalConfig.cDAIcontract,
+        this.props.gasChosen
+      );
       await this.props.saveOutgoingTransactionObject(approveTransactionObject);
       const mintTransactionObject = await this.constructMintTransactionObject();
       await this.props.saveOutgoingTransactionObject(mintTransactionObject);
       await this.props.saveOutgoingTransactionDataCompound({
         amount: daiAmount
       });
-      this.props.navigation.navigate('DepositFirstDaiConfirmation');
+      this.props.navigation.navigate('DepositFirstDaiToCompoundConfirmation');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }
   };
 
   render() {
-    const { compound } = this.props;
-    const currentInterestRate = new BigNumber(
-      compound.dai.currentInterestRate
-    )
+    const { balance, compound } = this.props;
+    const currentInterestRate = new BigNumber(compound.dai.currentInterestRate)
       .div(new BigNumber(10).pow(24))
       .toFixed(2);
 
-    const daiBalance = RoundDownBigNumber(this.props.balance.daiBalance)
+    const daiBalance = RoundDownBigNumber(balance.dai)
       .div(new RoundDownBigNumber(10).pow(18))
       .toString();
 
-    const daiFullBalance = RoundDownBigNumber(this.props.balance.daiBalance)
+    const daiFullBalance = RoundDownBigNumber(balance.dai)
       .div(new RoundDownBigNumber(10).pow(18))
       .toString();
 
@@ -160,17 +162,17 @@ class DepositFirstDai extends Component {
           width="80%"
         >
           <CoinImage source={require('../../assets/dai_icon.png')} />
-          <Title>dai wallet balance</Title>
+          <Title>{I18n.t('dai-wallet-balance')}</Title>
           <Value>{daiBalance} DAI</Value>
           <Title>interest rate</Title>
           <Value>{currentInterestRate} %</Value>
         </UntouchableCardContainer>
         <DepositAmountHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
-            Deposit Amount
+            {I18n.t('deposit-amount')}
           </FormHeader>
           <UseMaxButton
-            text="USE MAX"
+            text={I18n.t('use-max')}
             textColor="#00A3E2"
             onPress={() => {
               this.setState({ daiAmount: daiFullBalance });
@@ -192,7 +194,7 @@ class DepositFirstDai extends Component {
               placeholder="amount"
               keyboardType="numeric"
               clearButtonMode="while-editing"
-              onChangeText={daiAmount => {
+              onChangeText={(daiAmount) => {
                 this.updateDaiAmountValidation(
                   TransactionUtilities.validateDaiAmount(daiAmount)
                 );
@@ -217,7 +219,7 @@ class DepositFirstDai extends Component {
         />
         <ButtonWrapper>
           <Button
-            text="Next"
+            text={I18n.t('button-next')}
             textColor="#00A3E2"
             backgroundColor="#FFF"
             borderColor="#00A3E2"
@@ -303,4 +305,4 @@ const mapDispatchToProps = {
   saveOutgoingTransactionDataCompound
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DepositFirstDai);
+export default connect(mapStateToProps, mapDispatchToProps)(DepositFirstDaiToCompound);

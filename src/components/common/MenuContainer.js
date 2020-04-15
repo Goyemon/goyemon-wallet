@@ -2,7 +2,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 
-const MenuContainer = props => (
+const MenuContainer = (props) => (
   <MenuContainerInner onPress={props.onPress}>
     {props.children}
   </MenuContainerInner>

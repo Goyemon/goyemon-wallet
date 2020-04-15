@@ -1,6 +1,7 @@
 'use strict';
 import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
+import { Text } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
@@ -16,9 +17,10 @@ import {
   Loader,
   IsOnlineMessage,
   InsufficientEthBalanceMessage,
-  InsufficientDaiBalanceMessage,
+  InsufficientDaiBalanceMessage
 } from '../components/common';
 import AdvancedContainer from './AdvancedContainer';
+import I18n from '../i18n/I18n';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
@@ -36,7 +38,7 @@ class DepositDaiToPoolTogether extends Component {
       weiAmountValidation: undefined,
       loading: false,
       buttonDisabled: true,
-      buttonOpacity: 0.5,
+      buttonOpacity: 0.5
     };
   }
 
@@ -88,13 +90,13 @@ class DepositDaiToPoolTogether extends Component {
       this.setState({
         daiAmountValidation: true,
         buttonDisabled: false,
-        buttonOpacity: 1,
+        buttonOpacity: 1
       });
     } else if (!daiAmountValidation) {
       this.setState({
         daiAmountValidation: false,
         buttonDisabled: true,
-        buttonOpacity: 0.5,
+        buttonOpacity: 0.5
       });
     }
   }
@@ -131,12 +133,17 @@ class DepositDaiToPoolTogether extends Component {
     }
   };
 
+  renderChanceOfWinning() {
+    return <Text>You have a 1 in 536,100 chance of winning.</Text>;
+  }
+
   render() {
-    const daiBalance = RoundDownBigNumber(this.props.balance.daiBalance)
+    const { balance } = this.props;
+    const daiBalance = RoundDownBigNumber(balance.dai)
       .div(new RoundDownBigNumber(10).pow(18))
       .toFixed(2);
 
-    const daiFullBalance = RoundDownBigNumber(this.props.balance.daiBalance)
+    const daiFullBalance = RoundDownBigNumber(balance.dai)
       .div(new RoundDownBigNumber(10).pow(18))
       .toString();
 
@@ -154,17 +161,19 @@ class DepositDaiToPoolTogether extends Component {
           width="80%"
         >
           <CoinImage source={require('../../assets/dai_icon.png')} />
-          <Title>dai wallet balance</Title>
+          <Title>{I18n.t('dai-wallet-balance')}</Title>
           <Value>{daiBalance} DAI</Value>
           <Title>next prize(estimated)</Title>
           <Value>$</Value>
+          <Title>time until the next prize</Title>
+          <Value>days hours minutes</Value>
         </UntouchableCardContainer>
         <DepositAmountHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
-            Deposit Amount
+            {I18n.t('deposit-amount')}
           </FormHeader>
           <UseMaxButton
-            text="USE MAX"
+            text={I18n.t('use-max')}
             textColor="#00A3E2"
             onPress={() => {
               this.setState({ daiAmount: daiFullBalance });
@@ -201,6 +210,7 @@ class DepositDaiToPoolTogether extends Component {
         <InsufficientDaiBalanceMessage
           daiAmountValidation={this.state.daiAmountValidation}
         />
+        {this.renderChanceOfWinning()}
         <AdvancedContainer
           gasLimit={GlobalConfig.PoolTogetherDepositPoolGasLimit}
         />
@@ -209,7 +219,7 @@ class DepositDaiToPoolTogether extends Component {
         />
         <ButtonWrapper>
           <Button
-            text="Next"
+            text={I18n.t('button-next')}
             textColor="#00A3E2"
             backgroundColor="#FFF"
             borderColor="#00A3E2"
@@ -285,13 +295,13 @@ function mapStateToProps(state) {
     balance: state.ReducerBalance.balance,
     gasChosen: state.ReducerGasPrice.gasChosen,
     gasPrice: state.ReducerGasPrice.gasPrice,
-    netInfo: state.ReducerNetInfo.netInfo,
+    netInfo: state.ReducerNetInfo.netInfo
   };
 }
 
 const mapDispatchToProps = {
   saveOutgoingTransactionObject,
-  saveOutgoingTransactionDataPoolTogether,
+  saveOutgoingTransactionDataPoolTogether
 };
 
 export default connect(

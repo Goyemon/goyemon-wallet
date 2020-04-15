@@ -10,6 +10,7 @@ import {
   UntouchableCardContainer,
   GoyemonText
 } from '../components/common';
+import I18n from '../i18n/I18n';
 
 class Receive extends Component {
   constructor(props) {
@@ -45,7 +46,7 @@ class Receive extends Component {
             await this.writeToClipboard();
           }}
         >
-          <CopyAddressText>Copy</CopyAddressText>
+          <CopyAddressText>{I18n.t('copy')}</CopyAddressText>
         </TouchableWithoutFeedback>
       );
     }

@@ -8,6 +8,7 @@ import { HeaderOne } from '../components/common/';
 //import TransactionsDai from '../containers/TransactionsDai';
 import OfflineNotice from '../containers/OfflineNotice';
 import TransactionList from '../containers/TransactionList';
+import I18n from '../i18n/I18n';
 
 export default class History extends Component {
   constructor(props) {
@@ -18,7 +19,7 @@ export default class History extends Component {
   }
 
   toggleFilterChoiceText() {
-    const choices = ['All', 'Dai'].map(filter => {
+    const choices = ['All', 'Dai'].map((filter) => {
       if (filter == this.state.filter)
         return (
           <FilterChoiceTextSelected key={filter}>
@@ -43,7 +44,7 @@ export default class History extends Component {
     return (
       <HistoryContainer>
         <OfflineNotice />
-        <HeaderOne marginTop="64">History</HeaderOne>
+        <HeaderOne marginTop="64">{I18n.t('history-header')}</HeaderOne>
         {this.toggleFilterChoiceText()}
         <TransactionList
           tokenFilter={this.state.filter}

@@ -12,6 +12,7 @@ import {
   HeaderThree,
   HeaderFour
 } from '../components/common';
+import I18n from '../i18n/I18n';
 import { FCMMsgs } from '../lib/fcm.js';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import PriceUtilities from '../utilities/PriceUtilities.js';
@@ -23,19 +24,15 @@ class BalanceCompound extends Component {
 
   render() {
     const { balance, compound } = this.props;
-    const currentInterestRate = new BigNumber(
-      compound.dai.currentInterestRate
-    )
+    const currentInterestRate = new BigNumber(compound.dai.currentInterestRate)
       .div(new BigNumber(10).pow(24))
       .toFixed(2);
 
-    const daiSavingsBalance = RoundDownBigNumber(balance.daiSavingsBalance)
+    const compoundDaiBalance = RoundDownBigNumber(balance.compoundDai)
       .div(new RoundDownBigNumber(10).pow(36))
       .toFixed(2);
 
-    const lifetimeEarnedInDai = RoundDownBigNumber(
-      compound.dai.lifetimeEarned
-    )
+    const lifetimeEarnedInDai = RoundDownBigNumber(compound.dai.lifetimeEarned)
       .div(new RoundDownBigNumber(10).pow(36))
       .toString();
 
@@ -52,11 +49,13 @@ class BalanceCompound extends Component {
           textAlign="center"
           width="90%"
         >
-          <HeaderFour marginTop="24">total savings</HeaderFour>
+          <HeaderFour marginTop="24">
+            {I18n.t('portfolio-compound-totalsavings')}
+          </HeaderFour>
           <BalanceText>
             $
             {parseFloat(
-              PriceUtilities.convertDaiToUsd(daiSavingsBalance)
+              PriceUtilities.convertDaiToUsd(compoundDaiBalance)
             ).toFixed(2)}
           </BalanceText>
           <InterestEarnedTextContainer>
@@ -75,7 +74,7 @@ class BalanceCompound extends Component {
           marginLeft="24"
           marginTop="0"
         >
-          Coins
+          {I18n.t('portfolio-compound-coins')}
         </HeaderThree>
         <UntouchableCardContainer
           alignItems="center"
@@ -92,14 +91,18 @@ class BalanceCompound extends Component {
             <CoinText>DAI</CoinText>
           </CoinImageContainer>
           <TitleContainer>
-            <TitleText>dai savings</TitleText>
-            <TitleText>yearly rate</TitleText>
-            <TitleText>interest earned</TitleText>
+            <TitleText>{I18n.t('portfolio-compound-dai-savings')}</TitleText>
+            <TitleText>{I18n.t('portfolio-compound-yearly-rate')}</TitleText>
+            <TitleText>
+              {I18n.t('portfolio-compound-interest-earned')}
+            </TitleText>
           </TitleContainer>
           <ValueContainer>
-            <ValueText>{daiSavingsBalance} DAI</ValueText>
+            <ValueText>{compoundDaiBalance} DAI</ValueText>
             <ValueText>{currentInterestRate}%</ValueText>
-            <DaiInterestEarnedText>{lifetimeEarnedInDai} DAI</DaiInterestEarnedText>
+            <DaiInterestEarnedText>
+              {lifetimeEarnedInDai} DAI
+            </DaiInterestEarnedText>
           </ValueContainer>
         </UntouchableCardContainer>
       </RootContainer>
@@ -175,7 +178,7 @@ const DaiInterestEarnedText = styled.Text`
   margin-bottom: 4;
 `;
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   balance: state.ReducerBalance.balance,
   compound: state.ReducerCompound.compound,
   checksumAddress: state.ReducerChecksumAddress.checksumAddress,

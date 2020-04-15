@@ -35,7 +35,7 @@ const gasPrice = (state = INITIAL_STATE, action) => {
       const gasPriceSlowWei = Web3.utils.toWei(gasPriceSlowGwei, 'Gwei');
 
       return {
-        gasPrice: state.gasPrice.map(gasPrice => {
+        gasPrice: state.gasPrice.map((gasPrice) => {
           if (gasPrice.speed === 'fast') {
             return { speed: 'fast', value: gasPriceFastWei };
           } else if (gasPrice.speed === 'average') {

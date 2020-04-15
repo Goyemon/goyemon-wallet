@@ -21,6 +21,7 @@ import {
 } from '../components/common';
 import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
 import AdvancedContainer from '../containers/AdvancedContainer';
+import I18n from '../i18n/I18n';
 import ABIEncoder from '../utilities/AbiUtilities';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
@@ -33,7 +34,7 @@ class Swap extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ethBalance: Web3.utils.fromWei(props.balance.weiBalance),
+      ethBalance: Web3.utils.fromWei(props.balance.wei),
       ethSold: '',
       tokenBought: new RoundDownBigNumber(0),
       ethSoldValidation: undefined,
@@ -50,7 +51,7 @@ class Swap extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.balance != prevProps.balance) {
       this.setState({
-        ethBalance: Web3.utils.fromWei(this.props.balance.weiBalance)
+        ethBalance: Web3.utils.fromWei(this.props.balance.wei)
       });
     }
   }
@@ -155,7 +156,7 @@ class Swap extends Component {
   };
 
   validateAmount(ethSold, gasLimit) {
-    const weiBalance = new BigNumber(this.props.balance.weiBalance);
+    const weiBalance = new BigNumber(this.props.balance.wei);
     const weiSold = new BigNumber(Web3.utils.toWei(ethSold, 'Ether'));
     const transactionFeeLimitInWei = new BigNumber(
       TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
@@ -222,12 +223,12 @@ class Swap extends Component {
   }
 
   render() {
-    let ethBalance = Web3.utils.fromWei(this.props.balance.weiBalance);
+    let ethBalance = Web3.utils.fromWei(this.props.balance.wei);
     ethBalance = RoundDownBigNumber(ethBalance).toFixed(4);
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="64">Swap</HeaderOne>
+        <HeaderOne marginTop="64">{I18n.t('swap-header')}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8px"
@@ -331,7 +332,7 @@ class Swap extends Component {
         />
         <ButtonWrapper>
           <Button
-            text="Next"
+            text={I18n.t('button-next')}
             textColor="#00A3E2"
             backgroundColor="#FFF"
             borderColor="#00A3E2"

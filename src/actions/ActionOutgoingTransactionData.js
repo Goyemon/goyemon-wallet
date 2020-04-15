@@ -7,7 +7,7 @@ import { SAVE_OUTGOING_TRANSACTION_DATA_SWAP_SLIPPAGE } from '../constants/Actio
 import LogUtilities from '../utilities/LogUtilities.js';
 
 export function saveOutgoingTransactionDataSend(sendData) {
-  return async function(dispatch) {
+  return async function (dispatch) {
     try {
       dispatch(saveOutgoingTransactionDataSendSuccess(sendData));
     } catch (err) {
@@ -16,13 +16,13 @@ export function saveOutgoingTransactionDataSend(sendData) {
   };
 }
 
-const saveOutgoingTransactionDataSendSuccess = sendData => ({
+const saveOutgoingTransactionDataSendSuccess = (sendData) => ({
   type: SAVE_OUTGOING_TRANSACTION_DATA_SEND,
   payload: sendData
 });
 
 export function saveOutgoingTransactionDataCompound(compoundData) {
-  return async function(dispatch) {
+  return async function (dispatch) {
     try {
       dispatch(saveOutgoingTransactionDataCompoundSuccess(compoundData));
     } catch (err) {
@@ -31,13 +31,13 @@ export function saveOutgoingTransactionDataCompound(compoundData) {
   };
 }
 
-const saveOutgoingTransactionDataCompoundSuccess = compoundData => ({
+const saveOutgoingTransactionDataCompoundSuccess = (compoundData) => ({
   type: SAVE_OUTGOING_TRANSACTION_DATA_COMPOUND,
   payload: compoundData
 });
 
 export function saveOutgoingTransactionDataPoolTogether(poolTogether) {
-  return async function(dispatch) {
+  return async function (dispatch) {
     try {
       dispatch(saveOutgoingTransactionDataPoolTogetherSuccess(poolTogether));
     } catch (err) {
@@ -46,13 +46,13 @@ export function saveOutgoingTransactionDataPoolTogether(poolTogether) {
   };
 }
 
-const saveOutgoingTransactionDataPoolTogetherSuccess = poolTogether => ({
+const saveOutgoingTransactionDataPoolTogetherSuccess = (poolTogether) => ({
   type: SAVE_OUTGOING_TRANSACTION_DATA_POOLTOGETHER,
   payload: poolTogether
 });
 
 export function saveOutgoingTransactionDataSwap(swapData) {
-  return async function(dispatch) {
+  return async function (dispatch) {
     try {
       dispatch(saveOutgoingTransactionDataSwapSuccess(swapData));
     } catch (err) {
@@ -61,13 +61,13 @@ export function saveOutgoingTransactionDataSwap(swapData) {
   };
 }
 
-const saveOutgoingTransactionDataSwapSuccess = swapData => ({
+const saveOutgoingTransactionDataSwapSuccess = (swapData) => ({
   type: SAVE_OUTGOING_TRANSACTION_DATA_SWAP,
   payload: swapData
 });
 
 export function saveOutgoingTransactionDataSwapSlippage(slippage) {
-  return async function(dispatch) {
+  return async function (dispatch) {
     try {
       dispatch(saveOutgoingTransactionDataSwapSlippageSuccess(slippage));
     } catch (err) {
@@ -76,7 +76,7 @@ export function saveOutgoingTransactionDataSwapSlippage(slippage) {
   };
 }
 
-const saveOutgoingTransactionDataSwapSlippageSuccess = slippage => ({
+const saveOutgoingTransactionDataSwapSlippageSuccess = (slippage) => ({
   type: SAVE_OUTGOING_TRANSACTION_DATA_SWAP_SLIPPAGE,
   payload: slippage
 });

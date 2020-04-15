@@ -3,7 +3,7 @@ import { REHYDRATION_COMPLETE } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
 export function rehydrationComplete(completed) {
-  return async function(dispatch) {
+  return async function (dispatch) {
     try {
       dispatch(rehydrationCompleteSuccess(completed));
     } catch (err) {
@@ -12,7 +12,7 @@ export function rehydrationComplete(completed) {
   };
 }
 
-const rehydrationCompleteSuccess = completed => ({
+const rehydrationCompleteSuccess = (completed) => ({
   type: REHYDRATION_COMPLETE,
   payload: completed
 });

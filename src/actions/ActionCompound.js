@@ -14,5 +14,5 @@ export function saveCompoundDaiInfo(compoundDaiInfo) {
 
 const saveCompoundDaiInfoSuccess = (compoundDaiInfo) => ({
   type: SAVE_COMPOUND_DAI_INFO,
-  payload: compoundDaiInfo,
+  payload: compoundDaiInfo
 });

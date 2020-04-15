@@ -2,7 +2,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 
-const HeaderThree = props => (
+const HeaderThree = (props) => (
   <HeaderThreeText
     color={props.color}
     marginBottom={props.marginBottom}
@@ -14,12 +14,12 @@ const HeaderThree = props => (
 );
 
 const HeaderThreeText = styled.Text`
-  color: ${props => props.color};
+  color: ${(props) => props.color};
   font-family: 'HKGrotesk-Bold';
   font-size: 16;
-  margin-bottom: ${props => `${props.marginBottom}`};
-  margin-left: ${props => `${props.marginLeft}`};
-  margin-top: ${props => `${props.marginTop}`};
+  margin-bottom: ${(props) => `${props.marginBottom}`};
+  margin-left: ${(props) => `${props.marginLeft}`};
+  margin-top: ${(props) => `${props.marginTop}`};
   text-transform: uppercase;
 `;
 

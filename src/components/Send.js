@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { RootContainer, Container, HeaderOne } from './common';
 import SendEth from '../containers/SendEth';
 import SendDai from '../containers/SendDai';
+import I18n from '../i18n/I18n';
 import LogUtilities from '../utilities/LogUtilities.js';
 
 export default class Send extends Component {
@@ -29,7 +30,7 @@ export default class Send extends Component {
   render() {
     return (
       <RootContainer>
-        <HeaderOne marginTop="64">Send</HeaderOne>
+        <HeaderOne marginTop="64">{I18n.t('send-header')}</HeaderOne>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
           <Container
             alignItems="flex-end"

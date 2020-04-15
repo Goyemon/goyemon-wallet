@@ -1,11 +1,17 @@
 'use strict';
 import React from 'react';
-import { Container } from '../common'
+import { Container } from '../common';
 import styled from 'styled-components';
 
-const ProgressBar = props => (
-  <Container alignItems="center" flexDirection="column"  justifyContent="center" marginTop={112} width="100%">
-  <Outer />
+const ProgressBar = (props) => (
+  <Container
+    alignItems="center"
+    flexDirection="column"
+    justifyContent="center"
+    marginTop={112}
+    width="100%"
+  >
+    <Outer />
     <InnerContainer marginRight={props.marginRight} width={props.width}>
       <Inner />
     </InnerContainer>
@@ -35,8 +41,8 @@ const InnerContainer = styled.View`
   border-radius: 16px;
   height: 8px;
   margin-top: -8;
-  margin-right: ${props => props.marginRight};
-  width: ${props => props.width};
+  margin-right: ${(props) => props.marginRight};
+  width: ${(props) => props.width};
 `;
 
 const Inner = styled.View`
@@ -54,7 +60,7 @@ const NumberContainer = styled.View`
 
 const OneContainer = styled.View`
   align-items: center;
-  background-color: ${props => props.oneColor};
+  background-color: ${(props) => props.oneColor};
   border-radius: 10px;
   height: 20px;
   justify-content: center;
@@ -68,7 +74,7 @@ const One = styled.Text`
 
 const TwoContainer = styled.View`
   align-items: center;
-  background-color: ${props => props.twoColor};
+  background-color: ${(props) => props.twoColor};
   border-radius: 10px;
   height: 20px;
   justify-content: center;
@@ -82,7 +88,7 @@ const Two = styled.Text`
 
 const ThreeContainer = styled.View`
   align-items: center;
-  background-color: ${props => props.threeColor};
+  background-color: ${(props) => props.threeColor};
   border-radius: 10px;
   height: 20px;
   justify-content: center;

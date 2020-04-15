@@ -11,30 +11,35 @@ import {
   FormHeader,
   GoyemonText,
   Loader,
-  IsOnlineMessage,
-} from '../components/common/';
-import NetworkFeeContainerConfirmation from '../containers/NetworkFeeContainerConfirmation';
+  IsOnlineMessage
+} from '../components/common';
+import NetworkFeeContainerConfirmation from './NetworkFeeContainerConfirmation';
+import I18n from '../i18n/I18n';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import GlobalConfig from '../config.json';
 
-class DepositDaiConfirmation extends Component {
+class DepositDaiToCompoundConfirmation extends Component {
   constructor(props) {
     super();
     this.state = {
       loading: false,
-      buttonDisabled: false,
+      buttonDisabled: false
     };
   }
 
   render() {
-    const { outgoingTransactionData, outgoingTransactionObjects, navigation, netInfo } = this.props;
-    const outgoingTransactionObject = outgoingTransactionObjects[
-      outgoingTransactionObjects.length - 1
-    ];
+    const {
+      outgoingTransactionData,
+      outgoingTransactionObjects,
+      navigation,
+      netInfo
+    } = this.props;
+    const outgoingTransactionObject =
+      outgoingTransactionObjects[outgoingTransactionObjects.length - 1];
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="96">Confirmation</HeaderOne>
+        <HeaderOne marginTop="96">{I18n.t('confirmation')}</HeaderOne>
         <TotalContainer>
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <GoyemonText fontSize="16">You are about to deposit</GoyemonText>
@@ -51,7 +56,7 @@ class DepositDaiConfirmation extends Component {
           width="100%"
         >
           <FormHeader marginBottom="8" marginTop="16">
-            Deposit Amount
+            {I18n.t('deposit-amount')}
           </FormHeader>
           <Amount>{outgoingTransactionData.compound.amount} DAI</Amount>
           <NetworkFeeContainerConfirmation
@@ -60,7 +65,7 @@ class DepositDaiConfirmation extends Component {
         </UntouchableCardContainer>
         <ButtonContainer>
           <Button
-            text="Deposit"
+            text={I18n.t('button-deposit')}
             textColor="white"
             backgroundColor="#00A3E2"
             borderColor="#00A3E2"
@@ -127,8 +132,8 @@ function mapStateToProps(state) {
     outgoingTransactionObjects:
       state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
     outgoingTransactionData:
-      state.ReducerOutgoingTransactionData.outgoingTransactionData,
+      state.ReducerOutgoingTransactionData.outgoingTransactionData
   };
 }
 
-export default connect(mapStateToProps)(DepositDaiConfirmation);
+export default connect(mapStateToProps)(DepositDaiToCompoundConfirmation);

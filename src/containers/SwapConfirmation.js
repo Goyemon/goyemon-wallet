@@ -12,9 +12,10 @@ import {
   FormHeader,
   GoyemonText,
   Loader,
-  IsOnlineMessage,
+  IsOnlineMessage
 } from '../components/common/';
 import NetworkFeeContainerConfirmation from '../containers/NetworkFeeContainerConfirmation';
+import I18n from '../i18n/I18n';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import GlobalConfig from '../config.json';
 
@@ -23,19 +24,23 @@ class SwapConfirmation extends Component {
     super();
     this.state = {
       loading: false,
-      buttonDisabled: false,
+      buttonDisabled: false
     };
   }
 
   render() {
-    const { outgoingTransactionData, outgoingTransactionObjects, navigation, netInfo } = this.props;
-    const outgoingTransactionObject = outgoingTransactionObjects[
-      outgoingTransactionObjects.length - 1
-    ];
+    const {
+      outgoingTransactionData,
+      outgoingTransactionObjects,
+      navigation,
+      netInfo
+    } = this.props;
+    const outgoingTransactionObject =
+      outgoingTransactionObjects[outgoingTransactionObjects.length - 1];
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="96">Confirmation</HeaderOne>
+        <HeaderOne marginTop="96">{I18n.t('confirmation')}</HeaderOne>
         <TotalContainer>
           <IconContainer>
             <CoinImage source={require('../../assets/ether_icon.png')} />
@@ -72,7 +77,7 @@ class SwapConfirmation extends Component {
         </UntouchableCardContainer>
         <ButtonContainer>
           <Button
-            text="Swap"
+            text={I18n.t('button-Swap')}
             textColor="white"
             backgroundColor="#00A3E2"
             borderColor="#00A3E2"
@@ -146,7 +151,7 @@ function mapStateToProps(state) {
     outgoingTransactionObjects:
       state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
     outgoingTransactionData:
-      state.ReducerOutgoingTransactionData.outgoingTransactionData,
+      state.ReducerOutgoingTransactionData.outgoingTransactionData
   };
 }
 

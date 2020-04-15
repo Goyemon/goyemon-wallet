@@ -2,9 +2,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import {
-  heightPercentageToDP as hp
-} from 'react-native-responsive-screen';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import styled from 'styled-components/native';
 import {
   RootContainer,
@@ -64,64 +62,78 @@ export default class Welcome extends Component {
     const { navigation } = this.props;
     return (
       <RootContainer>
-          {this.hollaFadeInOut()}
-          <WelcomeContainer animation="fadeIn" delay={4000}>
-            <Logo>Goyemon</Logo>
-            <HeaderTwo
-              fontSize="24"
-              fontWeight="bold"
-              marginBottom="16"
-              marginLeft="0"
-              marginTop="0"
-            >
-              live in the future and
-            </HeaderTwo>
-            <HeaderTwo
-              fontSize="24"
-              fontWeight="bold"
-              marginBottom="64"
-              marginLeft="0"
-              marginTop="0"
-            >
-              enjoy freedom to earn
-            </HeaderTwo>
-            <TouchableCardContainer
-              alignItems="center"
-              flexDirection="row"
-              height="120px"
-              justifyContent="space-between"
-              textAlign="left"
-              width="80%"
-              onPress={() => {
-                navigation.navigate('CreateWalletTutorial');
-              }}
-            >
-              <View>
-                <HeaderThree color="#00A3E2" marginBottom="0" marginLeft="8" marginTop="0">
-                  Create
-                </HeaderThree>
-                <CardText>new wallet</CardText>
-              </View>
-              <CardImage source={require('../../assets/create_wallet_icon.png')} />
-            </TouchableCardContainer>
-            <TouchableCardContainer
-              alignItems="center"
-              flexDirection="row"
-              height="120px"
-              justifyContent="space-between"
-              textAlign="left"
-              width="80%"
-              onPress={() => navigation.navigate('ImportOptions')}
-            >
-              <View>
-                <HeaderThree color="#00A3E2" marginBottom="0" marginLeft="8" marginTop="0">
-                  Import
-                </HeaderThree>
-                <CardText>existing wallet</CardText>
-              </View>
-              <CardImage source={require('../../assets/import_wallet_icon.png')} />
-            </TouchableCardContainer>
-          </WelcomeContainer>
+        {this.hollaFadeInOut()}
+        <WelcomeContainer animation="fadeIn" delay={4000}>
+          <Logo>Goyemon</Logo>
+          <HeaderTwo
+            fontSize="24"
+            fontWeight="bold"
+            marginBottom="16"
+            marginLeft="0"
+            marginTop="0"
+          >
+            live in the future and
+          </HeaderTwo>
+          <HeaderTwo
+            fontSize="24"
+            fontWeight="bold"
+            marginBottom="64"
+            marginLeft="0"
+            marginTop="0"
+          >
+            enjoy freedom to earn
+          </HeaderTwo>
+          <TouchableCardContainer
+            alignItems="center"
+            flexDirection="row"
+            height="120px"
+            justifyContent="space-between"
+            textAlign="left"
+            width="80%"
+            onPress={() => {
+              navigation.navigate('CreateWalletTutorial');
+            }}
+          >
+            <View>
+              <HeaderThree
+                color="#00A3E2"
+                marginBottom="0"
+                marginLeft="8"
+                marginTop="0"
+              >
+                Create
+              </HeaderThree>
+              <CardText>new wallet</CardText>
+            </View>
+            <CardImage
+              source={require('../../assets/create_wallet_icon.png')}
+            />
+          </TouchableCardContainer>
+          <TouchableCardContainer
+            alignItems="center"
+            flexDirection="row"
+            height="120px"
+            justifyContent="space-between"
+            textAlign="left"
+            width="80%"
+            onPress={() => navigation.navigate('ImportOptions')}
+          >
+            <View>
+              <HeaderThree
+                color="#00A3E2"
+                marginBottom="0"
+                marginLeft="8"
+                marginTop="0"
+              >
+                Import
+              </HeaderThree>
+              <CardText>existing wallet</CardText>
+            </View>
+            <CardImage
+              source={require('../../assets/import_wallet_icon.png')}
+            />
+          </TouchableCardContainer>
+        </WelcomeContainer>
       </RootContainer>
     );
   }

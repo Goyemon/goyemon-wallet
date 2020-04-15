@@ -11,9 +11,10 @@ import {
   FormHeader,
   GoyemonText,
   Loader,
-  IsOnlineMessage,
+  IsOnlineMessage
 } from '../components/common/';
 import NetworkFeeContainerConfirmation from '../containers/NetworkFeeContainerConfirmation';
+import I18n from '../i18n/I18n';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import GlobalConfig from '../config.json';
 
@@ -22,19 +23,23 @@ class WithdrawDaiFromPoolTogetherConfirmation extends Component {
     super();
     this.state = {
       loading: false,
-      buttonDisabled: false,
+      buttonDisabled: false
     };
   }
 
   render() {
-    const { outgoingTransactionData, outgoingTransactionObjects, navigation, netInfo } = this.props;
-    const outgoingTransactionObject = outgoingTransactionObjects[
-      outgoingTransactionObjects.length - 1
-    ];
+    const {
+      outgoingTransactionData,
+      outgoingTransactionObjects,
+      navigation,
+      netInfo
+    } = this.props;
+    const outgoingTransactionObject =
+      outgoingTransactionObjects[outgoingTransactionObjects.length - 1];
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="96">Confirmation</HeaderOne>
+        <HeaderOne marginTop="96">{I18n.t('confirmation')}</HeaderOne>
         <TotalContainer>
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <GoyemonText fontSize="16">You are about to withdraw</GoyemonText>
@@ -53,7 +58,7 @@ class WithdrawDaiFromPoolTogetherConfirmation extends Component {
           width="100%"
         >
           <FormHeader marginBottom="8" marginTop="16">
-            Withdraw Amount
+            {I18n.t('withdraw-amount')}
           </FormHeader>
           <Amount>{outgoingTransactionData.poolTogether.amount} DAI</Amount>
           <NetworkFeeContainerConfirmation
@@ -62,7 +67,7 @@ class WithdrawDaiFromPoolTogetherConfirmation extends Component {
         </UntouchableCardContainer>
         <ButtonContainer>
           <Button
-            text="Withdraw"
+            text={I18n.t('button-withdraw')}
             textColor="white"
             backgroundColor="#00A3E2"
             borderColor="#00A3E2"
@@ -129,7 +134,7 @@ function mapStateToProps(state) {
     outgoingTransactionObjects:
       state.ReducerOutgoingTransactionObjects.outgoingTransactionObjects,
     outgoingTransactionData:
-      state.ReducerOutgoingTransactionData.outgoingTransactionData,
+      state.ReducerOutgoingTransactionData.outgoingTransactionData
   };
 }
 

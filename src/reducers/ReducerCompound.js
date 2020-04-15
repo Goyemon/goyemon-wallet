@@ -6,9 +6,9 @@ const INITIAL_STATE = {
     dai: {
       currentExchangeRate: '',
       currentInterestRate: '',
-      lifetimeEarned: '',  
+      lifetimeEarned: ''
     }
-  },
+  }
 };
 
 const compound = (state = INITIAL_STATE, action) => {
@@ -20,9 +20,9 @@ const compound = (state = INITIAL_STATE, action) => {
             ...state.compound.dai,
             currentExchangeRate: action.payload.current_exchange_rate,
             currentInterestRate: action.payload.yearly_interest_rate,
-            lifetimeEarned: action.payload.lifetime_earned,  
+            lifetimeEarned: action.payload.lifetime_earned
           }
-        },
+        }
       };
     default:
       return state || INITIAL_STATE;

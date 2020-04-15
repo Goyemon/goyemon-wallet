@@ -12,8 +12,7 @@ import {
   HeaderOne,
   UntouchableCardContainer,
   Button,
-  Description,
-  GoyemonText
+  Description
 } from '../components/common';
 import I18n from '../i18n/I18n';
 import TxStorage from '../lib/tx';
@@ -99,7 +98,7 @@ class Settings extends Component {
     const { navigation } = this.props;
     return (
       <RootContainer>
-        <HeaderOne marginTop="112">Settings</HeaderOne>
+        <HeaderOne marginTop="112">{I18n.t('settings-header')}</HeaderOne>
         <Modal
           animationType="fade"
           transparent
@@ -113,7 +112,7 @@ class Settings extends Component {
               <MondalInner>
                 <ModalTextContainer>
                   <ResetWalletHeader>
-                    {I18n.t('Are you sure?')}
+                    {I18n.t('settings-reset-title')}
                   </ResetWalletHeader>
                   <Description marginBottom="0" marginLeft="0" marginTop="8">
                     Did you save your backup words? Otherwise, you will lose
@@ -127,14 +126,14 @@ class Settings extends Component {
                   <DeleteTextInput
                     autoCapitalize="none"
                     clearButtonMode="while-editing"
-                    onChangeText={deleteText => {
+                    onChangeText={(deleteText) => {
                       this.validateDeleteText(deleteText);
                     }}
                   />
                 </DeleteTextInputContainer>
                 <ButtonContainer>
                   <Button
-                    text="Cancel"
+                    text={I18n.t('button-cancel')}
                     textColor="#5F5F5F"
                     backgroundColor="#EEEEEE"
                     borderColor="#EEEEEE"
@@ -146,7 +145,7 @@ class Settings extends Component {
                     }}
                   />
                   <Button
-                    text="Confirm"
+                    text={I18n.t('button-confirm')}
                     textColor="#FFF"
                     backgroundColor="#E41B13"
                     borderColor="#E41B13"
@@ -175,7 +174,7 @@ class Settings extends Component {
             <IconOpacity>
               <Icon
                 onPress={() => {
-                  Linking.openURL('#').catch(err =>
+                  Linking.openURL('#').catch((err) =>
                     LogUtilities.logError('An error occurred', err)
                   );
                 }}
@@ -189,7 +188,7 @@ class Settings extends Component {
             <IconOpacity>
               <Icon
                 onPress={() => {
-                  Linking.openURL('#').catch(err =>
+                  Linking.openURL('#').catch((err) =>
                     LogUtilities.logError('An error occurred', err)
                   );
                 }}
@@ -202,7 +201,7 @@ class Settings extends Component {
           <CommunityIcon>
             <Icon
               onPress={() => {
-                Linking.openURL('https://discord.gg/MXGfnJG').catch(err =>
+                Linking.openURL('https://discord.gg/MXGfnJG').catch((err) =>
                   LogUtilities.logError('An error occurred', err)
                 );
               }}
@@ -213,7 +212,7 @@ class Settings extends Component {
           </CommunityIcon>
         </CommunityIconContainer>
         <Description marginBottom="40" marginLeft="8" marginTop="16">
-          Join the community
+          {I18n.t('settings-community')}
         </Description>
         <SettingsListContainer>
           <TouchableHighlight
@@ -222,7 +221,9 @@ class Settings extends Component {
           >
             <SettingsList>
               <Icon name="key-outline" color="#5F5F5F" size={28} />
-              <SettingsListText>Backup Words</SettingsListText>
+              <SettingsListText>
+                {I18n.t('settings-backup-words')}
+              </SettingsListText>
               <Icon name="chevron-right" color="#5F5F5F" size={28} />
             </SettingsList>
           </TouchableHighlight>
@@ -232,7 +233,7 @@ class Settings extends Component {
           >
             <SettingsList>
               <Icon name="crosshairs" color="#5F5F5F" size={28} />
-              <SettingsListText>Advanced</SettingsListText>
+              <SettingsListText>{I18n.t('settings-advanced')}</SettingsListText>
               <Icon name="chevron-right" color="#5F5F5F" size={28} />
             </SettingsList>
           </TouchableHighlight>
@@ -253,7 +254,7 @@ class Settings extends Component {
               this.setModalVisible(true);
             }}
           >
-            <ResetWalletText>Reset Wallet</ResetWalletText>
+            <ResetWalletText>{I18n.t('settings-reset-wallet')}</ResetWalletText>
           </TouchableHighlight>
         </UntouchableCardContainer>
         <BottomText>
@@ -267,7 +268,7 @@ class Settings extends Component {
 }
 
 const BackButtonContainer = styled.TouchableWithoutFeedback`
-  align-items: center;  
+  align-items: center;
   flex-direction: row;
 `;
 

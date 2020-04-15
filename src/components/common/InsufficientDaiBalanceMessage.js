@@ -3,7 +3,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { ErrorMessage } from '../common';
 
-const InsufficientDaiBalanceMessage = props => {
+const InsufficientDaiBalanceMessage = (props) => {
   if (props.daiAmountValidation || props.daiAmountValidation === undefined) {
     return <View />;
   } else {

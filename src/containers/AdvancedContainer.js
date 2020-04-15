@@ -12,6 +12,7 @@ import {
   ToggleCurrencySymbol
 } from '../components/common';
 import SlippageContainer from './SlippageContainer';
+import I18n from '../i18n/I18n';
 import LogUtilities from '../utilities/LogUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 
@@ -61,7 +62,7 @@ class AdvancedContainer extends Component {
           {this.renderSlippageContainer()}
           <NetworkFeeHeaderContainer>
             <FormHeader marginBottom="0" marginTop="0">
-              Network Fee
+              {I18n.t('network-fee')}
             </FormHeader>
             <NetworkFeeSymbolContainer
               onPress={() => {
@@ -144,7 +145,7 @@ class AdvancedContainer extends Component {
 const NetworkFeeHeaderContainer = styled.View`
   align-items: center;
   flex-direction: row;
-  margin:0 auto;
+  margin: 0 auto;
   margin-top: 24px;
   width: 80%;
 `;

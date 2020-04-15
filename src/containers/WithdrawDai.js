@@ -18,6 +18,7 @@ import {
   InsufficientDaiBalanceMessage
 } from '../components/common';
 import AdvancedContainer from './AdvancedContainer';
+import I18n from '../i18n/I18n';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
@@ -108,7 +109,7 @@ class WithdrawDai extends Component {
     }
   }
 
-  validateForm = async daiWithdrawAmount => {
+  validateForm = async (daiWithdrawAmount) => {
     const daiSavingsAmountValidation = TransactionUtilities.validateDaiSavingsAmount(
       daiWithdrawAmount
     );
@@ -135,7 +136,7 @@ class WithdrawDai extends Component {
   render() {
     const { balance } = this.props;
 
-    const daiSavingsBalance = RoundDownBigNumber(balance.daiSavingsBalance)
+    const compoundDaiBalance = RoundDownBigNumber(balance.compoundDai)
       .div(new RoundDownBigNumber(10).pow(36))
       .toFixed(2);
 
@@ -154,11 +155,11 @@ class WithdrawDai extends Component {
         >
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <Title>dai savings</Title>
-          <Value>{daiSavingsBalance} DAI</Value>
+          <Value>{compoundDaiBalance} DAI</Value>
         </UntouchableCardContainer>
         <WithDrawAmountHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
-            Withdraw Amount
+            {I18n.t('withdraw-amount')}
           </FormHeader>
         </WithDrawAmountHeaderContainer>
         <Form
@@ -173,7 +174,7 @@ class WithdrawDai extends Component {
               placeholder="amount"
               keyboardType="numeric"
               clearButtonMode="while-editing"
-              onChangeText={daiWithdrawAmount => {
+              onChangeText={(daiWithdrawAmount) => {
                 this.updateDaiSavingsAmountValidation(
                   TransactionUtilities.validateDaiSavingsAmount(
                     daiWithdrawAmount
@@ -197,7 +198,7 @@ class WithdrawDai extends Component {
         />
         <ButtonWrapper>
           <Button
-            text="Next"
+            text={I18n.t('button-next')}
             textColor="#00A3E2"
             backgroundColor="#FFF"
             borderColor="#00A3E2"

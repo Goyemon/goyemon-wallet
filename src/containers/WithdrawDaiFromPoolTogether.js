@@ -18,6 +18,7 @@ import {
   InsufficientDaiBalanceMessage
 } from '../components/common';
 import AdvancedContainer from './AdvancedContainer';
+import I18n from '../i18n/I18n';
 import LogUtilities from '../utilities/LogUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
@@ -106,7 +107,7 @@ class WithdrawDaiFromPoolTogether extends Component {
     }
   }
 
-  validateForm = async daiWithdrawAmount => {
+  validateForm = async (daiWithdrawAmount) => {
     const daiDepositedAmountValidation = TransactionUtilities.validateDaiDepositedAmount(
       daiWithdrawAmount
     );
@@ -132,6 +133,11 @@ class WithdrawDaiFromPoolTogether extends Component {
 
   render() {
     const { balance } = this.props;
+    const pooltogetherDaiBalance = RoundDownBigNumber(
+      balance.pooltogetherDai
+    )
+      .div(new RoundDownBigNumber(10).pow(36))
+      .toFixed(2);
 
     return (
       <RootContainer>
@@ -148,11 +154,12 @@ class WithdrawDaiFromPoolTogether extends Component {
         >
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <Title>dai balance in pooltogether</Title>
+          <Value>{pooltogetherDaiBalance}DAI</Value>
           <Value>DAI</Value>
         </UntouchableCardContainer>
         <WithDrawAmountHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
-            Withdraw Amount
+            {I18n.t('withdraw-amount')}
           </FormHeader>
         </WithDrawAmountHeaderContainer>
         <Form
@@ -167,7 +174,7 @@ class WithdrawDaiFromPoolTogether extends Component {
               placeholder="amount"
               keyboardType="numeric"
               clearButtonMode="while-editing"
-              onChangeText={daiWithdrawAmount => {
+              onChangeText={(daiWithdrawAmount) => {
                 this.updateDaiDepositedAmountValidation(
                   TransactionUtilities.validateDaiDepositedAmount(
                     daiWithdrawAmount
@@ -191,7 +198,7 @@ class WithdrawDaiFromPoolTogether extends Component {
         />
         <ButtonWrapper>
           <Button
-            text="Next"
+            text={I18n.t('button-next')}
             textColor="#00A3E2"
             backgroundColor="#FFF"
             borderColor="#00A3E2"
@@ -276,4 +283,7 @@ const mapDispatchToProps = {
   saveOutgoingTransactionDataPoolTogether
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(WithdrawDaiFromPoolTogether);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WithdrawDaiFromPoolTogether);
