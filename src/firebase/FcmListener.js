@@ -10,7 +10,7 @@ import {
 import {
   saveCompoundDaiInfo
 } from '../actions/ActionCompound';
-import { saveDaiExchangeReserve } from '../actions/ActionExchangeReserve';
+import { saveDaiExchangeReserve } from '../actions/ActionUniswap';
 import {
   saveTransactionsLoaded
 } from '../actions/ActionTransactionsLoaded';
