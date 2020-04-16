@@ -4,9 +4,11 @@ import { View } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import styled from 'styled-components/native';
+import CompoundIcon from '../../assets/CompoundIcon.js';
+import PoolTogetherIcon from '../../assets/PoolTogetherIcon.js';
+import UniswapIcon from '../../assets/UniswapIcon.js';
 import {
   RootContainer,
-  HeaderTwo,
   HeaderThree,
   TouchableCardContainer
 } from '../components/common';
@@ -65,15 +67,27 @@ export default class Welcome extends Component {
         {this.hollaFadeInOut()}
         <WelcomeContainer animation="fadeIn" delay={4000}>
           <Logo>Goyemon</Logo>
-          <HeaderTwo
-            fontSize="24"
-            fontWeight="bold"
-            marginBottom="16"
-            marginLeft="0"
-            marginTop="0"
-          >
-            Bank of the people, by the people, for the people
-          </HeaderTwo>
+          <OneLinerContainer>
+            <OneLiner>new generation bank</OneLiner>
+            <OneLiner>at your fingertips</OneLiner>
+          </OneLinerContainer>
+          <IconContainer>
+            <Icon>
+              <CoinImage source={require('../../assets/ether_icon.png')} />
+            </Icon>
+            <Icon>
+              <CoinImage source={require('../../assets/dai_icon.png')} />
+            </Icon>
+            <Icon>
+              <CompoundIcon />
+            </Icon>
+            <Icon>
+              <UniswapIcon />
+            </Icon>
+            <Icon>
+              <PoolTogetherIcon />
+            </Icon>
+          </IconContainer>
           <TouchableCardContainer
             alignItems="center"
             flexDirection="row"
@@ -151,10 +165,39 @@ const Logo = Animatable.createAnimatableComponent(styled.Text`
   color: #e41b13;
   font-family: 'HKGrotesk-Bold';
   font-size: 40;
+  margin-top: 48;
   margin-bottom: 48;
   text-align: center;
   text-transform: uppercase;
 `);
+
+const OneLinerContainer = styled.View`
+  margin-bottom: 32;
+`;
+
+const OneLiner = styled.Text`
+  color: #5f5f5f;
+  font-size: 32;
+  font-family: 'HKGrotesk-Bold';
+  margin-bottom: 8;
+  text-align: center;
+`;
+
+const IconContainer = styled.View`
+  flex-direction: row;
+  margin-bottom: 40;
+`;
+
+const Icon = styled.View`
+  margin-right: 8px;
+  margin-left: 8px;
+`;
+
+const CoinImage = styled.Image`
+  border-radius: 20px;
+  height: 40px;
+  width: 40px;
+`;
 
 const TitleRedText = styled.Text`
   color: #e41b13;
