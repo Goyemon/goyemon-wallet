@@ -154,7 +154,7 @@ class DepositDaiToCompound extends Component {
           justifyContent="center"
           marginTop="56"
           textAlign="center"
-          width="80%"
+          width="90%"
         >
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <Title>{I18n.t('dai-wallet-balance')}</Title>

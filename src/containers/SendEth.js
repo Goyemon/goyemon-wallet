@@ -166,7 +166,7 @@ class SendEth extends Component {
           justifyContent="flex-start"
           marginTop="40"
           textAlign="left"
-          width="80%"
+          width="90%"
         >
           <CoinImage source={require('../../assets/ether_icon.png')} />
           <Title>{I18n.t('eth-wallet-balance')}</Title>

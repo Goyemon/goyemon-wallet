@@ -237,7 +237,7 @@ class Swap extends Component {
           justifyContent="center"
           marginTop="24px"
           textAlign="left"
-          width="80%"
+          width="90%"
         >
           <Container
             alignItems="flex-start"
@@ -303,7 +303,7 @@ class Swap extends Component {
           justifyContent="center"
           marginTop="16"
           textAlign="left"
-          width="80%"
+          width="90%"
         >
           <Container
             alignItems="flex-start"

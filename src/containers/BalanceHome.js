@@ -310,7 +310,7 @@ const CoinText = styled.Text`
 
 const NameContainer = styled.View`
   margin-left: 16;
-  width: 40%;
+  width: 45%;
 `;
 
 const NameText = styled.Text`
@@ -320,7 +320,7 @@ const NameText = styled.Text`
 `;
 
 const BalanceContainer = styled.View`
-  width: 40%;
+  width: 35%;
 `;
 
 const ApplicationBalanceText = styled.Text`
