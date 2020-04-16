@@ -174,7 +174,7 @@ class BalanceHome extends Component {
             <WalletIcon />
           </IconImageContainer>
           <NameContainer>
-            <NameText> {I18n.t('portfolio-home-wallet')}</NameText>
+            <NameText>{I18n.t('portfolio-home-wallet')}</NameText>
             <GoyemonText fontSize={12}>ETH and ERC20</GoyemonText>
           </NameContainer>
           <BalanceContainer>

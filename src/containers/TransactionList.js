@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { View, VirtualizedList } from 'react-native';
 import styled from 'styled-components/native';
 import Transaction from './Transaction';
+import I18n from '../i18n/I18n';
 import LogUtilities from '../utilities/LogUtilities';
 
 import TxStorage from '../lib/tx.js';
