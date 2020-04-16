@@ -15,7 +15,8 @@ class TemporaryDebugConnector_TotallyRemoveItLater_And_Definitely_Do_Not_Ship_It
 		this.vmContext = {
 			storage: TxStorage.storage,
 			AsyncStorage,
-			LogUtilities
+			LogUtilities,
+			FCMMsgs
 		};
 		vm.createContext(this.vmContext);
 	}

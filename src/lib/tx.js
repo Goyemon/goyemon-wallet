@@ -85,7 +85,7 @@ class asyncLocks {
 	hashes in buckets are always sorted by timestamp
 */
 
-const storage_bucket_size = 64;
+const storage_bucket_size = Math.floor(4096 / (64+1));
 class PersistTxStorageAbstraction {
 	constructor(prefix='') {
 		LogUtilities.toDebugScreen('PersistTxStorageAbstraction constructor called');
@@ -301,24 +301,161 @@ class PersistTxStorageAbstraction {
 	// 	return ret;
 	// }
 
-	async getHashes(index='all') {
+	/*
+	async getHashRanges(index='all', start, end) {
+		const high_bucket = Math.floor(end / storage_bucket_size);
+		const high_bucket_off = end % storage_bucket_size;
+		const low_bucket = Math.floor(start / storage_bucket_size);
+		const low_bucket_off = start % storage_bucket_size;
+
+		const bucketnames = [];
+		for (let i = low_bucket; i <= high_bucket; ++i)
+			bucketnames.push(`${this.prefix}i${index}${i}`);
+
+		await this.__lock(index);
+
+		const bucketdata = await AsyncStorage.multiGet(bucketnames); // looks like the results returned are in the same order we're requesting them https://github.com/react-native-community/async-storage/blob/master/lib/AsyncStorage.js#L266
+		LogUtilities.toDebugScreen(`getHashRanges(): bucketnames.length = ${bucketnames.length}, bucketdata.length == ${bucketdata.length}`);
+
+		const ret = [];
+		for (let i = 0; i < bucketnames.length; ++i) {
+			let add_items;
+			const bd = this.__decodeBucket(bucketdata[i][1]);
+
+			//LogUtilities.toDebugScreen(`getHashRanges(): bucketdata[${i}] = ${bd}`);
+
+			if (i == 0) {
+				if (i == bucketnames.length - 1)
+					add_items = bd.slice(low_bucket_off, high_bucket_off);
+				else
+					add_items = bd.slice(low_bucket_off);
+			}
+			else if (i == bucketnames.length - 1) {
+				add_items = bd.slice(0, high_bucket_off);
+			}
+			else
+				add_items = bd;
+
+			ret.splice(ret.length, 0, ...add_items);
+		}
+
+		// LogUtilities.toDebugScreen(`getHashRanges(): ret == ${ret}}`);
+
+		const txdata = await AsyncStorage.multiGet(ret.map(x => `${this.prefix}_${x}`));
+
+		LogUtilities.toDebugScreen(`getHashRanges(): txdata.length == ${txdata.length}, ret.length == ${ret.length}`);
+		for (let i = 0; i < ret.length; ++i) {
+			try {
+				const tx = JSON.parse(txdata[i][1]);
+				ret[i] = [ret[i], tx[7]];
+			}
+			catch (e) {
+				LogUtilities.toDebugScreen(`getHashRanges(): txdata[${i}] == `, txdata[i]);
+				ret[i] = [ret[i], null]; // or should we let it blow up? hmm
+			}
+		}
+
+		await this.__unlock(index);
+
+		return ret;
+	}
+	*/
+
+	async getHashes(index='all', offset=0) {
+		await this.__lock(index);
+
+		const high_bucket = Math.floor((this.counts[index] - 1) / storage_bucket_size);
+		const low_bucket = Math.floor(offset / storage_bucket_size);
+		const low_bucket_off = offset % storage_bucket_size;
+
+		const bucketnames = [];
+		for (let i = low_bucket; i <= high_bucket; ++i)
+			bucketnames.push(`${this.prefix}i${index}${i}`);
+
+		const bucketdata = await AsyncStorage.multiGet(bucketnames); // looks like the results returned are in the same order we're requesting them https://github.com/react-native-community/async-storage/blob/master/lib/AsyncStorage.js#L266
+		LogUtilities.toDebugScreen(`getHashes(): bucketnames.length = ${bucketnames.length}, bucketdata.length == ${bucketdata.length}`);
+
+		const ret = [];
+		for (let i = 0; i < bucketnames.length; ++i) {
+			let add_items;
+			const bd = this.__decodeBucket(bucketdata[i][1]);
+
+			//LogUtilities.toDebugScreen(`getHashRanges(): bucketdata[${i}] = ${bd}`);
+
+			if (i == 0)
+				add_items = bd.slice(low_bucket_off);
+
+			else
+				add_items = bd;
+
+			ret.splice(ret.length, 0, ...add_items);
+		}
+
+		// LogUtilities.toDebugScreen(`getHashes(): ret == ${ret}}`);
+
+		const txdata = await AsyncStorage.multiGet(ret.map(x => `${this.prefix}_${x}`));
+
+		LogUtilities.toDebugScreen(`getHashes(): txdata.length == ${txdata.length}, ret.length == ${ret.length}`);
+		for (let i = 0; i < ret.length; ++i) {
+			try {
+				const tx = JSON.parse(txdata[i][1]);
+				ret[i] = [ret[i], tx[7]];
+			}
+			catch (e) {
+				LogUtilities.toDebugScreen(`getHashes(): txdata[${i}] == `, txdata[i]);
+				ret[i] = [ret[i], null]; // or should we let it blow up? hmm
+			}
+		}
+
+		this.__unlock(index);
+
+		return ret;
+	}
+
+	/*
+	async getHashes(index='all', offset=0) {
 		// TODO: rename this to get checksums or something, and hash things inside here from first bucket (or from offset if specified!),
 		// returning only the checksums at given checkpoints. sigh. otherwise we're keeping too much data in memory.
 
 		const bucket_count = Math.floor((this.counts[index] - 1) / storage_bucket_size);
+		const low_bucket = Math.floor(offset / storage_bucket_size);
+		const low_bucket_off = offset % storage_bucket_size;
+
 		const bucketnames = [];
-		for (let i = 0; i <= bucket_count; ++i)
+		for (let i = low_bucket; i <= bucket_count; ++i)
 			bucketnames.push(`${this.prefix}i${index}${i}`);
 
 		const hashes_in_order = [];
+
 		const buckets = {};
 		(await AsyncStorage.multiGet(bucketnames)).forEach(([k, v]) => buckets[k] = v);
-		bucketnames.forEach((n) => {
-			this.__decodeBucket(buckets[n]).forEach((hash) => hashes_in_order.push(hash));
+		bucketnames.forEach((n, idx) => {
+			const itms = (idx == 0 ? this.__decodeBucket(buckets[n]).slice(low_bucket_off) : this.__decodeBucket(buckets[n]));
+			// hashes_in_order.splice(hashes_in_order.length, 0, ...itms);
+
+			itms.forEach(x => hashes_in_order.push([x, null]));
+
+		});
+
+		const txstates = {};
+
+		(await AsyncStorage.multiGet(hashes_in_order.map(x => `${this.prefix}_${x[0]}`))).forEach(([k, v]) => {
+			try {
+				txstates[k] = JSON.parse(v)[7];
+			}
+			catch (e) {
+				LogUtilities.toDebugScreen(`getHashes(): ${k} returned ${v}`);
+			}
+		});
+
+		hashes_in_order.forEach(x => {
+			const prefixkey = `${this.prefix}_${x[0]}`;
+			x[1] = txstates[prefixkey];
 		});
 
 		return hashes_in_order;
 	}
+	*/
 
 	async appendTx(hash, tx, toplock=false) {
 		// run filters to see which indices this goes in. for each index, append to the last bucket (make sure we create a new one if it spills)
@@ -1492,19 +1629,22 @@ class TxStorage {
 			return checkpoints;
 		}
 
+		// TODO: we need to store [last_number_checked(offset), last_hash], so when we get hashes from given offset, we just xor them against last_hash and continue normally.
+
 		await this.__lock('txes');
-		const count = this.txes.getItemCount('all'); // TODO: we could count those without toplocks and failures in the hashes.forEach() too, but then we wont have the checkpoint list to store ready yet.
-		const checkpoints = getCheckpoints(count, 0);
+		const offset = 0;
 
-		LogUtilities.toDebugScreen(`TxStorage getVerificationData() checkpoints (cnt:${count} off:0):`, checkpoints);
 
-		// const hashes = await this.txes.getHashesAt(checkpoints, 'all');
-		const hashes = await this.txes.getHashes('all');
+
+		//const hashes = await this.txes.getHashes('all', offset);
+		const hashes = (await this.txes.getHashes('all', offset)).filter(([x, derp]) => (!x.startsWith(txNoncePrefix) && !x.startsWith(txFailPrefix)));
+		const checkpoints = getCheckpoints(hashes.length, offset);
 		const ret = [];
+
 		let lasthash = null;
 		let checkpoint = 0;
-		hashes.forEach((h, idx) => {
-			const cb = crypto.createHash('md5').update(h).digest(); // we md5-hash those hashes so that: a) they're shorter, b) we can add more data to checksums easily, without making the xored values longer
+		hashes.forEach(([h, d], idx) => {
+			const cb = crypto.createHash('md5').update(`${h}|${d}`).digest(); // we md5-hash those hashes so that: a) they're shorter, b) we can add more data to checksums easily, without making the xored values longer
 			// const cb = Buffer.from(h, 'hex');
 			if (lasthash) {
 				for (let i = lasthash.length - 1; i >= 0; --i)
@@ -1524,10 +1664,9 @@ class TxStorage {
 		await this.__unlock('txes');
 
 		return {
-			//'hashes': hashes,
 			'hashes': ret,
-			'count': count,
-			'offset': 0,
+			'count': hashes.length,
+			'offset': offset,
 			'checkpoints': checkpoints
 		};
 	}
@@ -1588,14 +1727,71 @@ class TxStorage {
 
 
 	async processTxSync(data) {
-		LogUtilities.toDebugScreen('received txsync data:', data);
-		return;
-		Object.entries(data).forEach(([hash, txdata]) => {
+		// LogUtilities.toDebugScreen('processTxSync(): received txsync data:', data);
+		if ('_contracts' in data)
+			delete data['_contracts'];
+
+		data = Object.entries(data).map(([hash, txdata]) => new Tx(txdata[7]).setHash(hash).fromDataArray(txdata));
+		data.sort((a, b) => { const diff = a.getTimestamp() - b.getTimestamp(); return diff != 0 ? diff : a.getHash().localeCompare(b.getHash()); });
+
+		// LogUtilities.toDebugScreen('processTxSync(): txsync data:', data);
+
+		await this.__lock('txes');
+
+		const removeKeys = [];
+
+		let changed = 0;
+
+		for (let i = 0; i < data.length; ++i) {
+			const tx = data[i];
+			let oldTx;
+			const ourTx = (tx.from_addr && this.our_address.equals(tx.from_addr));
+			removeKeys.push(`tx_${txStatePrefix}${tx.getHash()}`);
+
+			if (ourTx) {
+				const nonceKey = `${txNoncePrefix}${tx.getNonce()}`;
+				oldTx = await this.txes.getTxByHash(nonceKey);
+				if (oldTx) {
+					// replacetx
+					LogUtilities.toDebugScreen('processTxSync(): found OUR tx by nonce: ', oldTx);
+					LogUtilities.toDebugScreen('processTxSync(): to be replaced with: ', tx);
+					await this.txes.replaceTx(oldTx, tx, nonceKey, tx.getHash(), true);
+					changed++;
+					return;
+				}
+			}
+
+			oldTx = await this.txes.getTxByHash(tx.getHash());
+
+			if (oldTx) {
+				// updateTx, perhaps after comparing if changed
+				LogUtilities.toDebugScreen('processTxSync(): found tx by hash: ', oldTx);
+				if (oldTx.getState() !== tx.getState()) {
+					LogUtilities.toDebugScreen('processTxSync(): to be replaced with: ', tx);
+					await this.txes.replaceTx(oldTx, tx, nonceKey, tx.getHash(), false);
+					changed++;
+				}
+				else
+					LogUtilities.toDebugScreen('processTxSync(): replacement has same state, skipping: ', tx);
+				return;
+			}
+
+			LogUtilities.toDebugScreen('processTxSync(): inserting new, unknown tx: ', tx);
+
+			await this.txes.appendTx(tx.getHash(), tx, false);
+			changed++;
 			// try to find by txnonce if this is our tx.
 			// if found, replacetx.
 			// if not found, try to find by hash, if it's there perhaps check if same, if not update. or just update(?)
 			// if still not found, just appendTx().
-		});
+		}
+		LogUtilities.toDebugScreen(`processTxSync(): removeKeys: ${removeKeys.join()}`);
+		await AsyncStorage.multiRemove(removeKeys);
+
+		this.__unlock('txes');
+
+		if (changed > 0)
+			this.__onUpdate();
 	}
 
 
