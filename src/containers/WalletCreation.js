@@ -170,14 +170,14 @@ class WalletCreation extends Component {
     );
   }
 
-  navigateToBalanceHome() {
+  navigateToPortfolioHome() {
     BalanceStack.navigationOptions = ({ navigation }) => {
       const tabBarVisible = true;
       return tabBarVisible;
     };
     const resetAction = StackActions.reset({
       index: 0,
-      actions: [NavigationActions.navigate({ routeName: 'BalanceHome' })]
+      actions: [NavigationActions.navigate({ routeName: 'PortfolioHome' })]
     });
     this.props.navigation.dispatch(resetAction);
   }
@@ -226,7 +226,7 @@ class WalletCreation extends Component {
                 marginBottom="12px"
                 opacity="1"
                 onPress={() => {
-                  this.navigateToBalanceHome();
+                  this.navigateToPortfolioHome();
                 }}
               />
             </ModalBackground>

@@ -11,7 +11,7 @@ import {
   HeaderFour,
 } from '../components/common';
 
-class BalancePoolTogether extends Component {
+class PortfolioPoolTogether extends Component {
   render() {
     return (
       <RootContainer>
@@ -94,4 +94,4 @@ const mapStateToProps = (state) => ({
   balance: state.ReducerBalance.balance
 });
 
-export default withNavigation(connect(mapStateToProps)(BalancePoolTogether));
+export default withNavigation(connect(mapStateToProps)(PortfolioPoolTogether));

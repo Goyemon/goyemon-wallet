@@ -24,7 +24,7 @@ import BalanceStack from '../navigators/BalanceStack';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
-class BalanceHome extends Component {
+class PortfolioHome extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerRight: (
@@ -168,7 +168,7 @@ class BalanceHome extends Component {
           justifyContent="space-between"
           textAlign="left"
           width="90%"
-          onPress={() => navigation.navigate('BalanceWallet')}
+          onPress={() => navigation.navigate('PortfolioWallet')}
         >
           <IconImageContainer>
             <WalletIcon />
@@ -190,7 +190,7 @@ class BalanceHome extends Component {
           justifyContent="space-between"
           textAlign="left"
           width="90%"
-          onPress={() => navigation.navigate('BalanceCompound')}
+          onPress={() => navigation.navigate('PortfolioCompound')}
         >
           <IconImageContainer>
             <CompoundIcon />
@@ -211,7 +211,7 @@ class BalanceHome extends Component {
           justifyContent="space-between"
           textAlign="left"
           width="90%"
-          onPress={() => navigation.navigate('BalancePoolTogether')}
+          onPress={() => navigation.navigate('PortfolioPoolTogether')}
         >
           <IconImageContainer>
             <PoolTogetherIcon />
@@ -341,5 +341,5 @@ const mapDispatchToProps = {
 };
 
 export default withNavigation(
-  connect(mapStateToProps, mapDispatchToProps)(BalanceHome)
+  connect(mapStateToProps, mapDispatchToProps)(PortfolioHome)
 );

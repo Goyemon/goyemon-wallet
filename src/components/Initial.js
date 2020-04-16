@@ -81,12 +81,12 @@ class Initial extends Component {
         hasPersistedState &&
         hasPrivateKeyInKeychain
       ) {
-        mainPage = 'BalanceHome';
+        mainPage = 'PortfolioHome';
       }
 
       BalanceStack.navigationOptions = ({ navigation }) => {
         let tabBarVisible;
-        if (navigation.state.index >= 0 && mainPage === 'BalanceHome') {
+        if (navigation.state.index >= 0 && mainPage === 'PortfolioHome') {
           tabBarVisible = true;
         } else if (
           (navigation.state.index >= 0 && mainPage === 'Welcome') ||

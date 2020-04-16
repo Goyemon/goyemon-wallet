@@ -16,7 +16,7 @@ import I18n from '../i18n/I18n';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
-class BalanceWallet extends Component {
+class PortfolioWallet extends Component {
   render() {
     const { balance, price } = this.props;
 
@@ -177,4 +177,4 @@ const mapStateToProps = (state) => ({
   price: state.ReducerPrice.price
 });
 
-export default withNavigation(connect(mapStateToProps)(BalanceWallet));
+export default withNavigation(connect(mapStateToProps)(PortfolioWallet));

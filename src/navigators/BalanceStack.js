@@ -11,11 +11,11 @@ import ImportTwelveMnemonicWords from '../containers/ImportTwelveMnemonicWords';
 import CreateWalletTutorial from '../containers/CreateWalletTutorial';
 import ShowMnemonic from '../containers/ShowMnemonic';
 import VerifyMnemonic from '../containers/VerifyMnemonic';
-import BalanceHome from '../containers/BalanceHome';
+import PortfolioHome from '../containers/PortfolioHome';
 import Receive from '../containers/Receive';
-import BalanceWallet from '../containers/BalanceWallet';
-import BalanceCompound from '../containers/BalanceCompound';
-import BalancePoolTogether from '../containers/BalancePoolTogether';
+import PortfolioWallet from '../containers/PortfolioWallet';
+import PortfolioCompound from '../containers/PortfolioCompound';
+import PortfolioPoolTogether from '../containers/PortfolioPoolTogether';
 import Settings from '../containers/Settings';
 import BackupWords from '../containers/BackupWords';
 import Advanced from '../containers/Advanced';
@@ -91,8 +91,8 @@ const BalanceStack = createStackNavigator(
         headerTransparent: true
       })
     },
-    BalanceHome: {
-      screen: BalanceHome,
+    PortfolioHome: {
+      screen: PortfolioHome,
       navigationOptions: () => ({
         headerTransparent: true,
         headerBackTitle: 'Balance',
@@ -112,8 +112,8 @@ const BalanceStack = createStackNavigator(
         }
       })
     },
-    BalanceWallet: {
-      screen: BalanceWallet,
+    PortfolioWallet: {
+      screen: PortfolioWallet,
       navigationOptions: () => ({
         headerTransparent: true,
         headerStyle: {
@@ -122,8 +122,8 @@ const BalanceStack = createStackNavigator(
         }
       })
     },
-    BalanceCompound: {
-      screen: BalanceCompound,
+    PortfolioCompound: {
+      screen: PortfolioCompound,
       navigationOptions: () => ({
         headerTransparent: true,
         headerStyle: {
@@ -132,8 +132,8 @@ const BalanceStack = createStackNavigator(
         }
       })
     },
-    BalancePoolTogether: {
-      screen: BalancePoolTogether,
+    PortfolioPoolTogether: {
+      screen: PortfolioPoolTogether,
       navigationOptions: () => ({
         headerTransparent: true,
         headerStyle: {
