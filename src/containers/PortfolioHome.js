@@ -24,7 +24,7 @@ import BalanceStack from '../navigators/BalanceStack';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
-class BalanceHome extends Component {
+class PortfolioHome extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerRight: (
@@ -168,13 +168,13 @@ class BalanceHome extends Component {
           justifyContent="space-between"
           textAlign="left"
           width="90%"
-          onPress={() => navigation.navigate('BalanceWallet')}
+          onPress={() => navigation.navigate('PortfolioWallet')}
         >
           <IconImageContainer>
             <WalletIcon />
           </IconImageContainer>
           <NameContainer>
-            <NameText> {I18n.t('portfolio-home-wallet')}</NameText>
+            <NameText>{I18n.t('portfolio-home-wallet')}</NameText>
             <GoyemonText fontSize={12}>ETH and ERC20</GoyemonText>
           </NameContainer>
           <BalanceContainer>
@@ -190,7 +190,7 @@ class BalanceHome extends Component {
           justifyContent="space-between"
           textAlign="left"
           width="90%"
-          onPress={() => navigation.navigate('BalanceCompound')}
+          onPress={() => navigation.navigate('PortfolioCompound')}
         >
           <IconImageContainer>
             <CompoundIcon />
@@ -211,7 +211,7 @@ class BalanceHome extends Component {
           justifyContent="space-between"
           textAlign="left"
           width="90%"
-          onPress={() => navigation.navigate('BalancePoolTogether')}
+          onPress={() => navigation.navigate('PortfolioPoolTogether')}
         >
           <IconImageContainer>
             <PoolTogetherIcon />
@@ -310,7 +310,7 @@ const CoinText = styled.Text`
 
 const NameContainer = styled.View`
   margin-left: 16;
-  width: 40%;
+  width: 45%;
 `;
 
 const NameText = styled.Text`
@@ -320,7 +320,7 @@ const NameText = styled.Text`
 `;
 
 const BalanceContainer = styled.View`
-  width: 40%;
+  width: 35%;
 `;
 
 const ApplicationBalanceText = styled.Text`
@@ -341,5 +341,5 @@ const mapDispatchToProps = {
 };
 
 export default withNavigation(
-  connect(mapStateToProps, mapDispatchToProps)(BalanceHome)
+  connect(mapStateToProps, mapDispatchToProps)(PortfolioHome)
 );

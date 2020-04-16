@@ -39,7 +39,7 @@ class SlippageContainer extends Component {
           flexDirection="row"
           justifyContent="center"
           marginTop={24}
-          width="80%"
+          width="90%"
         >
           {this.state.slippage.map((slippage, key) => (
             <Slippage key={key}>

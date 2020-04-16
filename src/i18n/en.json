@@ -35,7 +35,7 @@
   "history-outgoing": "Outgoing",
   "history-success": "Success",
   "history-failed": "Failed",
-  "history-unlock": "Unlock",
+  "history-approve": "Authorize",
   "history-empty-tx-msg1": "holy tabula rasa!",
   "history-empty-tx-msg2": "you don’t have any transactions yet!",
   // settings

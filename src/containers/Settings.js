@@ -37,7 +37,7 @@ class Settings extends Component {
     headerLeft: (
       <BackButtonContainer
         onPress={() => {
-          navigation.navigate('BalanceHome');
+          navigation.navigate('PortfolioHome');
           BalanceStack.navigationOptions = () => {
             const tabBarVisible = true;
             return {

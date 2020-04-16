@@ -150,7 +150,7 @@ class WithdrawDaiFromPoolTogether extends Component {
           justifyContent="center"
           marginTop="56"
           textAlign="center"
-          width="80%"
+          width="90%"
         >
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <Title>dai balance in pooltogether</Title>

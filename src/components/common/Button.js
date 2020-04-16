@@ -34,7 +34,7 @@ if (I18n.locale === 'ja-US') {
     color: ${(props) => props.textColor};
     font-family: 'HKGrotesk-Bold';
     font-size: 18;
-    padding: 16px 24px 12px 24px;
+    padding: 14px 24px 8px 24px;
     text-align: center;
   `;
 } else {

@@ -82,7 +82,7 @@ class AdvancedContainer extends Component {
             flexDirection="row"
             justifyContent="center"
             marginTop={24}
-            width="80%"
+            width="90%"
           >
             {this.props.gasPrice.map((gasPrice, key) => (
               <NetworkFee key={key}>
@@ -166,7 +166,7 @@ const SpeedContainer = styled.TouchableOpacity`
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  margin: 0 8px;
+  margin: 0 6px;
 `;
 
 const SelectedSpeedTextContainer = styled.View`

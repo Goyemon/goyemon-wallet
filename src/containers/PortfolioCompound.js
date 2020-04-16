@@ -17,7 +17,7 @@ import { FCMMsgs } from '../lib/fcm.js';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
-class BalanceCompound extends Component {
+class PortfolioCompound extends Component {
   componentDidMount() {
     FCMMsgs.requestCompoundDaiInfo(this.props.checksumAddress);
   }
@@ -185,4 +185,4 @@ const mapStateToProps = (state) => ({
   price: state.ReducerPrice.price
 });
 
-export default withNavigation(connect(mapStateToProps)(BalanceCompound));
+export default withNavigation(connect(mapStateToProps)(PortfolioCompound));

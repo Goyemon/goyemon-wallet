@@ -26,7 +26,7 @@ class TransactionUtilities {
   parseHexDaiValue(value) {
     const parsedDaiValue = RoundDownBigNumber(value, 16)
       .div(new RoundDownBigNumber(10).pow(18))
-      .toFixed(4);
+      .toFixed(2);
     return parsedDaiValue;
   }
 
