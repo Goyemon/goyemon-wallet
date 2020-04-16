@@ -35,7 +35,7 @@
   "history-outgoing": "送金",
   "history-success": "成功",
   "history-failed": "失敗",
-  "history-unlock": "始動",
+  "history-approve": "許可",
   "history-empty-tx-msg1": "おっと。まだ取引はないみたいです。",
   "history-empty-tx-msg2": "トランズアクションが発生したらここに表示されます。",
   // settings
