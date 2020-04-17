@@ -6,7 +6,7 @@ import { StackActions, NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { Container } from '../components/common';
-import BalanceStack from '../navigators/BalanceStack';
+import PortfolioStack from '../navigators/PortfolioStack';
 import LogUtilities from '../utilities/LogUtilities.js';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 import Animation from 'lottie-react-native';
@@ -84,7 +84,7 @@ class Initial extends Component {
         mainPage = 'PortfolioHome';
       }
 
-      BalanceStack.navigationOptions = ({ navigation }) => {
+      PortfolioStack.navigationOptions = ({ navigation }) => {
         let tabBarVisible;
         if (navigation.state.index >= 0 && mainPage === 'PortfolioHome') {
           tabBarVisible = true;

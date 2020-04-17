@@ -20,7 +20,7 @@ import {
 } from '../components/common';
 import FcmPermissions from '../firebase/FcmPermissions.js';
 import I18n from '../i18n/I18n';
-import BalanceStack from '../navigators/BalanceStack';
+import PortfolioStack from '../navigators/PortfolioStack';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
@@ -33,7 +33,7 @@ class PortfolioHome extends Component {
           name="settings-outline"
           size={28}
           onPress={() => {
-            BalanceStack.navigationOptions = () => {
+            PortfolioStack.navigationOptions = () => {
               const tabBarVisible = false;
               return {
                 tabBarVisible
@@ -47,7 +47,7 @@ class PortfolioHome extends Component {
   };
 
   async componentDidMount() {
-    BalanceStack.navigationOptions = () => {
+    PortfolioStack.navigationOptions = () => {
       const tabBarVisible = true;
       return {
         tabBarVisible

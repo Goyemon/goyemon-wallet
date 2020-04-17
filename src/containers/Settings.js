@@ -17,7 +17,7 @@ import {
 } from '../components/common';
 import I18n from '../i18n/I18n';
 import TxStorage from '../lib/tx';
-import BalanceStack from '../navigators/BalanceStack';
+import PortfolioStack from '../navigators/PortfolioStack';
 import { persistor, store } from '../store/store.js';
 import LogUtilities from '../utilities/LogUtilities.js';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
@@ -38,7 +38,7 @@ class Settings extends Component {
       <BackButtonContainer
         onPress={() => {
           navigation.navigate('PortfolioHome');
-          BalanceStack.navigationOptions = () => {
+          PortfolioStack.navigationOptions = () => {
             const tabBarVisible = true;
             return {
               tabBarVisible
@@ -60,7 +60,7 @@ class Settings extends Component {
   }
 
   handleBackButton() {
-    BalanceStack.navigationOptions = () => {
+    PortfolioStack.navigationOptions = () => {
       const tabBarVisible = true;
       return {
         tabBarVisible

@@ -11,7 +11,7 @@ import '../netinfo/NetInfoListener';
 import SaveIcon from '../../assets/SaveIcon.js';
 import HistoryIcon from '../../assets/HistoryIcon.js';
 import WalletIcon from '../../assets/WalletIcon.js';
-import BalanceStack from './BalanceStack';
+import PortfolioStack from './PortfolioStack';
 import EarnStack from './EarnStack';
 import HistoryStack from './HistoryStack';
 import SendStack from './SendStack';
@@ -22,7 +22,7 @@ import { store, persistor } from '../store/store.js';
 const AppTab = createBottomTabNavigator(
   {
     Balance: {
-      screen: BalanceStack,
+      screen: PortfolioStack,
       navigationOptions: {
         tabBarLabel: I18n.t('portfolio'),
         tabBarIcon: ({ tintColor }) => <WalletIcon fill={tintColor} />
