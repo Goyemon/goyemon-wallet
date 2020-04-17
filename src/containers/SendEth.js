@@ -11,7 +11,6 @@ import { saveOutgoingTransactionDataSend } from '../actions/ActionOutgoingTransa
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
 import { clearQRCodeData } from '../actions/ActionQRCodeData';
 import {
-  RootContainer,
   Button,
   UntouchableCardContainer,
   Form,
@@ -157,7 +156,7 @@ class SendEth extends Component {
     const ethBalance = RoundDownBigNumber(this.state.ethBalance).toFixed(4);
 
     return (
-      <RootContainer>
+      <View>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8px"
@@ -269,7 +268,7 @@ class SendEth extends Component {
           <Loader animating={this.state.loading} size="small" />
         </ButtonWrapper>
         <IsOnlineMessage netInfo={this.props.netInfo} />
-      </RootContainer>
+      </View>
     );
   }
 }
