@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { Linking } from 'react-native';
+import { Linking, View } from 'react-native';
 import AndroidOpenSettings from 'react-native-android-open-settings';
 import CameraRoll from '@react-native-community/cameraroll';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
@@ -118,9 +118,14 @@ class ShowMnemonic extends Component {
     }
   }
 
-  renderScreenshotSavedMessage() {
+  renderScreenshotSavedContainer() {
     if (this.state.screenshotTaken === true) {
-      return <GoyemonText fontSize="14">Screenshot Saved!</GoyemonText>;
+      return (
+        <ScreenshotContainer>
+          <ScreenshotImage source={{ uri: this.state.imageURI }} />
+          <GoyemonText fontSize="14">Screenshot Saved!</GoyemonText>
+        </ScreenshotContainer>
+      );
     }
   }
 
@@ -253,22 +258,19 @@ class ShowMnemonic extends Component {
           width="100%"
         >
           {this.renderScreenshotButtons()}
+          {this.renderScreenshotSavedContainer()}
+          {this.renderNextButton()}
           <GoyemonText fontSize="14">OR</GoyemonText>
           <Button
             text="Verify Backup Words"
             textColor="#00A3E2"
             backgroundColor="#FFF"
             borderColor="#00A3E2"
-            margin="8px auto"
+            margin="24px auto"
             marginBottom="8px"
             opacity="1"
             onPress={() => this.props.navigation.navigate('VerifyMnemonic')}
           />
-          <ScreenshotContainer>
-            <ScreenshotImage source={{ uri: this.state.imageURI }} />
-            {this.renderScreenshotSavedMessage()}
-          </ScreenshotContainer>
-          {this.renderNextButton()}
         </Container>
       </RootContainer>
     );
