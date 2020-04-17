@@ -15,7 +15,7 @@ const Form = (props) => (
 const CardContainer = styled.View`
   align-items: center;
   background: #fff;
-  border-radius: 0;
+  border-radius: 8px;
   border-color: ${(props) => props.borderColor};
   border-width: ${(props) => props.borderWidth};
   flex-direction: column;
@@ -23,7 +23,7 @@ const CardContainer = styled.View`
   justify-content: flex-start;
   margin: 16px auto;
   padding: 16px;
-  width: 80%;
+  width: 90%;
 `;
 
 export { Form };

@@ -73,6 +73,7 @@ const SlippageHeaderContainer = styled.View`
   justify-content: flex-start;
   margin: 0 auto;
   margin-top: 24;
+  width: 90%;
 `;
 
 const Slippage = styled.View`
