@@ -299,7 +299,7 @@ class Transaction extends Component {
       // TODO: exception?
     }
 
-    return <GoyemonText fontSize={20}>{text}</GoyemonText>;
+    return <GoyemonText fontSize={18}>{text}</GoyemonText>;
   }
 
   renderType() {
