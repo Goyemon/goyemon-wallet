@@ -9,7 +9,6 @@ import {
   UntouchableCardContainer,
   HeaderOne,
   FormHeader,
-  GoyemonText,
   Loader,
   IsOnlineMessage
 } from '../components/common/';
@@ -42,20 +41,13 @@ class DepositFirstDaiToPoolTogetherConfirmation extends Component {
     return (
       <RootContainer>
         <HeaderOne marginTop="96">{I18n.t('confirmation')}</HeaderOne>
-        <TotalContainer>
-          <CoinImage source={require('../../assets/dai_icon.png')} />
-          <GoyemonText fontSize="16">You are about to deposit</GoyemonText>
-          <TotalValue>
-            {outgoingTransactionData.poolTogether.amount} DAI
-          </TotalValue>
-        </TotalContainer>
         <UntouchableCardContainer
           alignItems="flex-start"
           borderRadius="0"
           flexDirection="column"
           height="200px"
           justifyContent="flex-start"
-          marginTop="0"
+          marginTop="24"
           textAlign="left"
           width="100%"
         >
@@ -106,29 +98,10 @@ class DepositFirstDaiToPoolTogetherConfirmation extends Component {
   }
 }
 
-const TotalContainer = styled.View`
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  margin-bottom: 28;
-  margin-top: 56;
-`;
-
-const CoinImage = styled.Image`
-  border-radius: 20px;
-  height: 40px;
-  width: 40px;
-`;
-
 const Amount = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Bold';
   margin-left: 8;
-`;
-
-const TotalValue = styled.Text`
-  font-family: 'HKGrotesk-Regular';
-  font-size: 24;
 `;
 
 const ButtonContainer = styled.View`
