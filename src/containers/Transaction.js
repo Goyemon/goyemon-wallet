@@ -305,7 +305,7 @@ class Transaction extends Component {
   renderType() {
     let txType;
     if (this.state.isUniswapTx) {
-      txType = I18n.t('swap');
+      txType = I18n.t('history-swap');
       return <GoyemonText fontSize={18}>{txType}</GoyemonText>;
     }
 

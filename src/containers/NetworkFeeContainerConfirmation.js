@@ -4,6 +4,7 @@ import { View, TouchableWithoutFeedback } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { FormHeader, ToggleCurrencySymbol } from '../components/common';
+import I18n from '../i18n/I18n';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 
 class NetworkFeeContainerConfirmation extends Component {
@@ -37,7 +38,7 @@ class NetworkFeeContainerConfirmation extends Component {
       <View>
         <NetworkFeeContainer>
           <FormHeader marginBottom="0" marginTop="0">
-            Max Network Fee
+          {I18n.t('max-network-fee')}
           </FormHeader>
           <TouchableWithoutFeedback
             onPress={() => {

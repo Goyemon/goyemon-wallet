@@ -1,4 +1,9 @@
 {
+  // welcome
+  "welcome-create": "create",
+  "welcome-new-wallet": "new wallet",
+  "welcome-import": "import",
+  "welcome-existing-wallet": "existing wallet",
   // wallet creation
   "wallet-creation-key": "generating your keys",
   "wallet-creation-address": "generating your address",
@@ -10,6 +15,7 @@
   "portfolio-home-coins": "coins",
   "portfolio-home-applications": "applications",
   "portfolio-home-wallet": "Wallet",
+  "portfolio-receive-qrcode": "Your QR Code",
   "portfolio-receive-address": "Your Address",
   "portfolio-wallet-header": "Wallet",
   "portfolio-wallet-totalbalance": "total wallet balance",
@@ -20,19 +26,20 @@
   "portfolio-compound-yearly-rate": "yearly rate",
   "portfolio-compound-interest-earned": "interest-earned",
   // send
-  "send-to": "To",
   "send-address": "address",
-  "send-amount": "Amount",
   // earn
   "earn-home-compound-deposit": "Deposit DAI to Compound",
   "earn-home-compound-withdraw": "Withdraw DAI from Compound",
   "earn-home-pooltogether-deposit": "Deposit DAI to PoolTogether",
   "earn-home-pooltogether-withdraw": "Withdraw DAI from PoolTogether",
   // swap
-
+  "swap-sell-title": "you pay",
+  "swap-buy-title": "you get at least",
+  "swap-slippage": "Slippage",
   // history
   "history-incoming": "Incoming",
   "history-outgoing": "Outgoing",
+  "history-swap": "Swap",
   "history-success": "Success",
   "history-failed": "Failed",
   "history-approve": "Authorize",
@@ -44,6 +51,8 @@
   "settings-backup-words": "Backup Words",
   "settings-reset-wallet": "Reset Wallet",
   "settings-reset-title": "Are you sure?",
+  "settings-reset-warning": "Did you save your backup words? Otherwise, you will lose your funds.",
+  "settings-reset-instruction": "type 'delete' to confirm",
   "settings-backup-words-header": "Backup Words",
   "settings-backup-words-description": "carefully write down these backup words in order",
   "settings-advanced-network": "Network",
@@ -59,8 +68,11 @@
   "button-cancel": "Cancel",
   "button-confirm": "Confirm",
   "button-next": "Next",
+  "button-send": "Send",
   "eth-wallet-balance": "eth wallet balance",
   "dai-wallet-balance": "dai wallet balance",
+  "to": "To",
+  "amount": "Amount",
   "deposit": "Deposit",
   "withdraw": "Withdraw",
   "balance": "Balance",
@@ -71,5 +83,6 @@
   "withdraw-amount": "Withdraw Amount",
   "confirmation": "Confirmation",
   "network-fee": "Network Fee",
+  "max-network-fee": "Max Network Fee",
   "go-back": "go back"
 }

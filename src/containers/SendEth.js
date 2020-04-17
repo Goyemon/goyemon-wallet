@@ -178,7 +178,7 @@ class SendEth extends Component {
         </UntouchableCardContainer>
         <FormHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
-            {I18n.t('send-to')}
+            {I18n.t('to')}
           </FormHeader>
         </FormHeaderContainer>
         <Form
@@ -219,7 +219,7 @@ class SendEth extends Component {
         />
         <FormHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
-            {I18n.t('send-amount')}
+            {I18n.t('amount')}
           </FormHeader>
         </FormHeaderContainer>
         <Form

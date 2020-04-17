@@ -50,11 +50,11 @@ class SendDaiConfirmation extends Component {
           width="100%"
         >
           <FormHeader marginBottom="8" marginTop="16">
-            To
+          {I18n.t('to')}
           </FormHeader>
           <To>{outgoingTransactionData.send.toaddress}</To>
           <FormHeader marginBottom="8" marginTop="16">
-            Amount
+          {I18n.t('amount')}
           </FormHeader>
           <Amount>{outgoingTransactionData.send.amount} DAI</Amount>
           <NetworkFeeContainerConfirmation
@@ -63,7 +63,7 @@ class SendDaiConfirmation extends Component {
         </UntouchableCardContainer>
         <ButtonContainer>
           <Button
-            text="Send"
+            text={I18n.t('send')}
             textColor="white"
             backgroundColor="#00A3E2"
             borderColor="#00A3E2"

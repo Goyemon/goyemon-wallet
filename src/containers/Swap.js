@@ -246,7 +246,7 @@ class Swap extends Component {
             marginTop={0}
             width="100%"
           >
-            <Title>you pay</Title>
+            <Title>{I18n.t('swap-sell-title')}</Title>
             <SwapForm
               borderBottomColor={StyleUtilities.getBorderColor(
                 this.state.ethSoldValidation
@@ -312,7 +312,7 @@ class Swap extends Component {
             marginTop={0}
             width="100%"
           >
-            <Title>you get at least</Title>
+            <Title>{I18n.t('swap-buy-title')}</Title>
             {this.renderTokenBoughtText()}
           </Container>
           <Container

@@ -116,13 +116,12 @@ class Settings extends Component {
                     {I18n.t('settings-reset-title')}
                   </ResetWalletHeader>
                   <Description marginBottom="0" marginLeft="0" marginTop="8">
-                    Did you save your backup words? Otherwise, you will lose
-                    your funds.
+                  {I18n.t('settings-reset-warning')}
                   </Description>
                 </ModalTextContainer>
                 <DeleteTextInputContainer>
                   <Description marginBottom="8" marginLeft="0" marginTop="16">
-                    type "delete" to confirm
+                  {I18n.t('settings-reset-instruction')}
                   </Description>
                   <DeleteTextInput
                     autoCapitalize="none"
