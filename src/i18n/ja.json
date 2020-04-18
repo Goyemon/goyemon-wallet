@@ -1,4 +1,9 @@
 {
+  // welcome
+  "welcome-create": "新規",
+  "welcome-new-wallet": "ウォレット",
+  "welcome-import": "インポート",
+  "welcome-existing-wallet": "別のウォレット",
   // common
   "wallet-creation-key": "キーを生成中",
   "wallet-creation-address": "アドレスを生成中",
@@ -10,6 +15,7 @@
   "portfolio-home-coins": "通貨",
   "portfolio-home-applications": "アプリケーション",
   "portfolio-home-wallet": "ウォレット",
+  "portfolio-receive-qrcode": "QRコード",
   "portfolio-receive-address": "アドレス",
   "portfolio-wallet-header": "ウォレット",
   "portfolio-wallet-totalbalance": "ウォレット残高",
@@ -20,19 +26,20 @@
   "portfolio-compound-yearly-rate": "年利",
   "portfolio-compound-interest-earned": "利益",
   // send
-  "send-to": "送金先",
   "send-address": "アドレス",
-  "send-amount": "送金額",
   // earn
   "earn-home-compound-deposit": "CompoundにDaiを預ける",
   "earn-home-compound-withdraw": "CompoundからDaiを引き出す",
   "earn-home-pooltogether-deposit": "PoolTogetherにDaiを預ける",
   "earn-home-pooltogether-withdraw": "PoolTogetherからDaiを引き出す",
   // swap
-
+  "swap-sell-title": "売り値",
+  "swap-buy-title": "受取額の最小値",
+  "swap-slippage": "価格変動の許容率",
   // history
   "history-incoming": "受金",
   "history-outgoing": "送金",
+  "history-swap": "交換",
   "history-success": "成功",
   "history-failed": "失敗",
   "history-approve": "許可",
@@ -44,6 +51,8 @@
   "settings-backup-words": "バックアップ",
   "settings-reset-wallet": "ウォレットを削除",
   "settings-reset-title": "本当に削除しますか？",
+  "settings-reset-warning": "バックアップをとっていないと資産を失います。",
+  "settings-reset-instruction": "'delete'と打ち込んで確認してください",
   "settings-backup-words-header": "バックアップ",
   "settings-backup-words-description": "以下の文字を順番に書き出して、安全な場所に保管してください",
   "settings-advanced-network": "ネットワーク",
@@ -59,8 +68,11 @@
   "button-cancel": "キャンセル",
   "button-confirm": "確認",
   "button-next": "次へ",
+  "button-send": "送金",
   "eth-wallet-balance": "eth ウォレット残高",
   "dai-wallet-balance": "dai ウォレット残高",
+  "to": "送金先",
+  "amount": "送金額",
   "deposit": "預け入れ",
   "withdraw": "引き出し",
   "balance": "残高",
@@ -71,5 +83,6 @@
   "withdraw-amount": "引出額",
   "confirmation": "確認",
   "network-fee": "ネットワーク費",
+  "max-network-fee": "ネットワーク費の最大値",
   "go-back": "戻る"
 }

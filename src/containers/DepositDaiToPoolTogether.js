@@ -283,7 +283,7 @@ const DepositAmountHeaderContainer = styled.View`
   flex-direction: row;
   margin: 0 auto;
   margin-top: 16px;
-  width: 80%;
+  width: 90%;
 `;
 
 const ButtonWrapper = styled.View`

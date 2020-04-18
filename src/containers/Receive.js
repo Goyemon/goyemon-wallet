@@ -67,7 +67,7 @@ class Receive extends Component {
           width="100%"
         >
           <QrCodeContainer>
-            <QrCodeText>Your QR Code</QrCodeText>
+            <QrCodeText>{I18n.t('portfolio-receive-qrcode')}</QrCodeText>
             <QRCodeSvg value={checksumAddress} size={120} />
           </QrCodeContainer>
           <QrCodeText>{I18n.t('portfolio-receive-address')}</QrCodeText>

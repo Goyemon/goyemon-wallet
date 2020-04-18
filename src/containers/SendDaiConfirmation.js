@@ -9,11 +9,11 @@ import {
   UntouchableCardContainer,
   HeaderOne,
   FormHeader,
-  GoyemonText,
   Loader,
   IsOnlineMessage
 } from '../components/common/';
 import NetworkFeeContainerConfirmation from '../containers/NetworkFeeContainerConfirmation';
+import I18n from '../i18n/I18n';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import GlobalConfig from '../config.json';
 
@@ -39,30 +39,22 @@ class SendDaiConfirmation extends Component {
     return (
       <RootContainer>
         <HeaderOne marginTop="96">{I18n.t('confirmation')}</HeaderOne>
-        <TotalContainer>
-          <CoinImage source={require('../../assets/dai_icon.png')} />
-          <GoyemonText fontSize="16">You are about to send</GoyemonText>
-          <TotalValueText>
-            {outgoingTransactionData.send.amount} DAI
-          </TotalValueText>
-          <GoyemonText fontSize="16">+ {I18n.t('network-fee')}</GoyemonText>
-        </TotalContainer>
         <UntouchableCardContainer
           alignItems="flex-start"
           borderRadius="0"
           flexDirection="column"
           height="280px"
           justifyContent="flex-start"
-          marginTop="0"
+          marginTop="24"
           textAlign="left"
           width="100%"
         >
           <FormHeader marginBottom="8" marginTop="16">
-            To
+          {I18n.t('to')}
           </FormHeader>
           <To>{outgoingTransactionData.send.toaddress}</To>
           <FormHeader marginBottom="8" marginTop="16">
-            Amount
+          {I18n.t('amount')}
           </FormHeader>
           <Amount>{outgoingTransactionData.send.amount} DAI</Amount>
           <NetworkFeeContainerConfirmation
@@ -71,7 +63,7 @@ class SendDaiConfirmation extends Component {
         </UntouchableCardContainer>
         <ButtonContainer>
           <Button
-            text="Send"
+            text={I18n.t('send')}
             textColor="white"
             backgroundColor="#00A3E2"
             borderColor="#00A3E2"
@@ -102,20 +94,6 @@ class SendDaiConfirmation extends Component {
   }
 }
 
-const TotalContainer = styled.View`
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  margin-bottom: 28;
-  margin-top: 56;
-`;
-
-const CoinImage = styled.Image`
-  border-radius: 20px;
-  height: 40px;
-  width: 40px;
-`;
-
 const To = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Bold';
@@ -124,11 +102,6 @@ const To = styled.Text`
 const Amount = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Bold';
-`;
-
-const TotalValueText = styled.Text`
-  font-family: 'HKGrotesk-Regular';
-  font-size: 24;
 `;
 
 const ButtonContainer = styled.View`

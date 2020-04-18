@@ -14,7 +14,7 @@ import { Container, Button } from '../components/common';
 import I18n from '../i18n/I18n';
 import { FCMMsgs } from '../lib/fcm.js';
 import TxStorage from '../lib/tx';
-import BalanceStack from '../navigators/BalanceStack';
+import PortfolioStack from '../navigators/PortfolioStack';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class WalletCreation extends Component {
@@ -171,7 +171,7 @@ class WalletCreation extends Component {
   }
 
   navigateToPortfolioHome() {
-    BalanceStack.navigationOptions = ({ navigation }) => {
+    PortfolioStack.navigationOptions = ({ navigation }) => {
       const tabBarVisible = true;
       return tabBarVisible;
     };

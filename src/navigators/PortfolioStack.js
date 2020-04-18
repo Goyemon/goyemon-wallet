@@ -20,7 +20,7 @@ import Settings from '../containers/Settings';
 import BackupWords from '../containers/BackupWords';
 import Advanced from '../containers/Advanced';
 
-const BalanceStack = createStackNavigator(
+const PortfolioStack = createStackNavigator(
   {
     Initial: {
       screen: Initial,
@@ -95,7 +95,7 @@ const BalanceStack = createStackNavigator(
       screen: PortfolioHome,
       navigationOptions: () => ({
         headerTransparent: true,
-        headerBackTitle: 'Balance',
+        headerBackTitle: 'Portfolio',
         headerStyle: {
           marginTop: 16,
           marginRight: 16
@@ -176,4 +176,4 @@ const BalanceStack = createStackNavigator(
   }
 );
 
-export default BalanceStack;
+export default PortfolioStack;

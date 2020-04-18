@@ -246,7 +246,7 @@ class Swap extends Component {
             marginTop={0}
             width="100%"
           >
-            <Title>you pay</Title>
+            <Title>{I18n.t('swap-sell-title')}</Title>
             <SwapForm
               borderBottomColor={StyleUtilities.getBorderColor(
                 this.state.ethSoldValidation
@@ -257,7 +257,7 @@ class Swap extends Component {
                 placeholder="0"
                 keyboardType="numeric"
                 clearButtonMode="while-editing"
-                onChangeText={ethSold => {
+                onChangeText={(ethSold) => {
                   if (ethSold) {
                     this.updateEthSoldValidation(
                       this.validateAmount(
@@ -272,7 +272,10 @@ class Swap extends Component {
                 returnKeyType="done"
               />
             </SwapForm>
-              <BalanceText>{I18n.t('balance')}: {ethBalance}</BalanceText>
+            <View>{this.renderInsufficientBalanceMessage()}</View>
+            <BalanceText>
+              {I18n.t('balance')}: {ethBalance}
+            </BalanceText>
           </Container>
           <Container
             alignItems="center"
@@ -285,7 +288,6 @@ class Swap extends Component {
             <CurrencySymbolText>ETH</CurrencySymbolText>
           </Container>
         </UntouchableCardContainer>
-        <View>{this.renderInsufficientBalanceMessage()}</View>
         <Container
           alignItems="center"
           flexDirection="column"
@@ -312,7 +314,7 @@ class Swap extends Component {
             marginTop={0}
             width="100%"
           >
-            <Title>you get at least</Title>
+            <Title>{I18n.t('swap-buy-title')}</Title>
             {this.renderTokenBoughtText()}
           </Container>
           <Container

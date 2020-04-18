@@ -12,6 +12,7 @@ import {
   HeaderThree,
   TouchableCardContainer
 } from '../components/common';
+import I18n from '../i18n/I18n';
 import WalletUtilities from '../utilities/WalletUtilities';
 
 export default class Welcome extends Component {
@@ -106,9 +107,9 @@ export default class Welcome extends Component {
                 marginLeft="8"
                 marginTop="0"
               >
-                Create
+                {I18n.t('welcome-create')}
               </HeaderThree>
-              <CardText>new wallet</CardText>
+              <CardText>{I18n.t('welcome-new-wallet')}</CardText>
             </View>
             <CardImage
               source={require('../../assets/create_wallet_icon.png')}
@@ -130,9 +131,9 @@ export default class Welcome extends Component {
                 marginLeft="8"
                 marginTop="0"
               >
-                Import
+                {I18n.t('welcome-import')}
               </HeaderThree>
-              <CardText>existing wallet</CardText>
+              <CardText>{I18n.t('welcome-existing-wallet')}</CardText>
             </View>
             <CardImage
               source={require('../../assets/import_wallet_icon.png')}

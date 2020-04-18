@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { saveOutgoingTransactionDataSwapSlippage } from '../actions/ActionOutgoingTransactionData';
 import { Container, FormHeader } from '../components/common';
+import I18n from '../i18n/I18n';
 
 class SlippageContainer extends Component {
   constructor(props) {
@@ -31,7 +32,7 @@ class SlippageContainer extends Component {
       <View>
         <SlippageHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
-            Slippage
+            {I18n.t('swap-slippage')}
           </FormHeader>
         </SlippageHeaderContainer>
         <Container
@@ -73,6 +74,7 @@ const SlippageHeaderContainer = styled.View`
   justify-content: flex-start;
   margin: 0 auto;
   margin-top: 24;
+  width: 90%;
 `;
 
 const Slippage = styled.View`

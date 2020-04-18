@@ -147,7 +147,7 @@ const NetworkFeeHeaderContainer = styled.View`
   flex-direction: row;
   margin: 0 auto;
   margin-top: 24px;
-  width: 80%;
+  width: 90%;
 `;
 
 const NetworkFeeSymbolContainer = styled.TouchableOpacity``;

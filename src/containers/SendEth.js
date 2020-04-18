@@ -11,7 +11,6 @@ import { saveOutgoingTransactionDataSend } from '../actions/ActionOutgoingTransa
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
 import { clearQRCodeData } from '../actions/ActionQRCodeData';
 import {
-  RootContainer,
   Button,
   UntouchableCardContainer,
   Form,
@@ -157,7 +156,7 @@ class SendEth extends Component {
     const ethBalance = RoundDownBigNumber(this.state.ethBalance).toFixed(4);
 
     return (
-      <RootContainer>
+      <View>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8px"
@@ -179,7 +178,7 @@ class SendEth extends Component {
         </UntouchableCardContainer>
         <FormHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
-            {I18n.t('send-to')}
+            {I18n.t('to')}
           </FormHeader>
         </FormHeaderContainer>
         <Form
@@ -220,7 +219,7 @@ class SendEth extends Component {
         />
         <FormHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
-            {I18n.t('send-amount')}
+            {I18n.t('amount')}
           </FormHeader>
         </FormHeaderContainer>
         <Form
@@ -269,7 +268,7 @@ class SendEth extends Component {
           <Loader animating={this.state.loading} size="small" />
         </ButtonWrapper>
         <IsOnlineMessage netInfo={this.props.netInfo} />
-      </RootContainer>
+      </View>
     );
   }
 }
@@ -328,7 +327,7 @@ const FormHeaderContainer = styled.View`
   flex-direction: row;
   margin: 0 auto;
   margin-top: 16px;
-  width: 80%;
+  width: 90%;
 `;
 
 function mapStateToProps(state) {
