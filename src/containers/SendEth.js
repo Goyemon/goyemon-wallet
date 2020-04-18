@@ -37,7 +37,7 @@ class SendEth extends Component {
     this.state = {
       ethBalance: Web3.utils.fromWei(props.balance.wei),
       toAddress: '',
-      ethAmount: '',
+      ethAmount: '0',
       toAddressValidation: undefined,
       amountValidation: undefined,
       loading: false,
