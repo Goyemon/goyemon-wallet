@@ -479,7 +479,7 @@ class PersistTxStorageAbstraction {
 
 				if (toplock) { // easy, just insert at the top as last element
 					const bucket_key = `${this.prefix}i${index}${last_bucket_num}`;
-					if (this.counts[index] % storage_bucket_size == 0) { // new bucket
+					if (this.counts[index] % storage_bucket_size == 0 || this.counts[index] == 0) { // new bucket
 						if (this.debug)
 							LogUtilities.toDebugScreen(`PersistTxStorageAbstraction appendTx(top): index:${index} item_num:${this.counts[index]} new bucket, last_bucket_num:${last_bucket_num}`);
 
@@ -505,7 +505,7 @@ class PersistTxStorageAbstraction {
 
 						for (let i = bucket_num; i <= last_bucket_num; ++i) {
 							const bucket_key = `${this.prefix}i${index}${i}`;
-							const x = await this.__getKey(bucket_key, this.__decodeBucket);
+							const x = this.counts[index] > 0 ? await this.__getKey(bucket_key, this.__decodeBucket) : [];
 
 							if (this.debug)
 								LogUtilities.toDebugScreen(`PersistTxStorageAbstraction appendTx(): index:${index} bucket:${i} len:${x.length} carry:${carry !== null}${i == bucket_num ? ` splice_position:${bucket_pos}` : ''}`);
