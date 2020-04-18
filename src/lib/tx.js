@@ -1768,7 +1768,8 @@ class TxStorage {
 				LogUtilities.toDebugScreen('processTxSync(): found tx by hash: ', oldTx);
 				if (oldTx.getState() !== tx.getState()) {
 					LogUtilities.toDebugScreen('processTxSync(): to be replaced with: ', tx);
-					await this.txes.replaceTx(oldTx, tx, nonceKey, tx.getHash(), false);
+					await this.txes.updateTx(oldTx, tx, tx.getHash());
+					// await this.txes.replaceTx(oldTx, tx, tx.getHash(), tx.getHash(), false);
 					changed++;
 				}
 				else
