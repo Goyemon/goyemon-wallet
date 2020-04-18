@@ -15,7 +15,7 @@ import {
   FormHeader,
   Loader,
   IsOnlineMessage,
-  InsufficientEthBalanceMessage,
+  InsufficientWeiBalanceMessage,
   InsufficientDaiBalanceMessage
 } from '../components/common';
 import AdvancedContainer from './AdvancedContainer';
@@ -214,7 +214,7 @@ class DepositFirstDaiToCompound extends Component {
             GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit
           }
         />
-        <InsufficientEthBalanceMessage
+        <InsufficientWeiBalanceMessage
           weiAmountValidation={this.state.weiAmountValidation}
         />
         <ButtonWrapper>

@@ -14,7 +14,7 @@ import {
   FormHeader,
   Loader,
   IsOnlineMessage,
-  InsufficientEthBalanceMessage,
+  InsufficientWeiBalanceMessage,
   InsufficientDaiBalanceMessage
 } from '../components/common';
 import AdvancedContainer from './AdvancedContainer';
@@ -195,7 +195,7 @@ class WithdrawDaiFromPoolTogether extends Component {
         <AdvancedContainer
           gasLimit={GlobalConfig.PoolTogetherWithdrawGasLimit}
         />
-        <InsufficientEthBalanceMessage
+        <InsufficientWeiBalanceMessage
           weiAmountValidation={this.state.weiAmountValidation}
         />
         <ButtonWrapper>

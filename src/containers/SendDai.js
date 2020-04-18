@@ -17,7 +17,7 @@ import {
   FormHeader,
   Loader,
   IsOnlineMessage,
-  InsufficientEthBalanceMessage,
+  InsufficientWeiBalanceMessage,
   InvalidToAddressMessage,
   InsufficientDaiBalanceMessage
 } from '../components/common';
@@ -270,7 +270,7 @@ class SendDai extends Component {
           daiAmountValidation={this.state.daiAmountValidation}
         />
         <AdvancedContainer gasLimit={GlobalConfig.ERC20TransferGasLimit} />
-        <InsufficientEthBalanceMessage
+        <InsufficientWeiBalanceMessage
           weiAmountValidation={this.state.weiAmountValidation}
         />
         <ButtonWrapper>

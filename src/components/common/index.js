@@ -11,7 +11,7 @@ export * from './HeaderTwo';
 export * from './HeaderThree';
 export * from './HeaderFour';
 export * from './InsufficientDaiBalanceMessage';
-export * from './InsufficientEthBalanceMessage';
+export * from './InsufficientWeiBalanceMessage';
 export * from './InvalidToAddressMessage';
 export * from './IsOnlineMessage';
 export * from './Loader';

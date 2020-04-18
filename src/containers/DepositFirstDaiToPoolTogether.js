@@ -16,8 +16,8 @@ import {
   FormHeader,
   Loader,
   IsOnlineMessage,
-  InsufficientEthBalanceMessage,
-  InsufficientDaiBalanceMessage,
+  InsufficientWeiBalanceMessage,
+  InsufficientDaiBalanceMessage
 } from '../components/common';
 import AdvancedContainer from './AdvancedContainer';
 import I18n from '../i18n/I18n';
@@ -225,7 +225,7 @@ class DepositFirstDaiToPoolTogether extends Component {
             GlobalConfig.PoolTogetherDepositPoolGasLimit
           }
         />
-        <InsufficientEthBalanceMessage
+        <InsufficientWeiBalanceMessage
           weiAmountValidation={this.state.weiAmountValidation}
         />
         <ButtonWrapper>
