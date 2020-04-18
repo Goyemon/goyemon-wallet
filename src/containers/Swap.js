@@ -54,6 +54,14 @@ class Swap extends Component {
         ethBalance: Web3.utils.fromWei(this.props.balance.wei)
       });
     }
+    if (this.props.gasChosen != prevProps.gasChosen) {
+      this.updateEthSoldValidation(
+        this.validateAmount(
+          this.state.ethSold,
+          GlobalConfig.UniswapEthToTokenSwapInputGasLimit
+        )
+      );
+    }
   }
 
   getTokenBought(ethSold, weiReserve, tokenReserve) {

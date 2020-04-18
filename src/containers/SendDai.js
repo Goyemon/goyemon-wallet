@@ -62,6 +62,14 @@ class SendDai extends Component {
       this.setState({ toAddress: this.props.qrCodeData });
       this.validateToAddress(this.props.qrCodeData);
     }
+    if (this.props.gasChosen != prevProps.gasChosen) {
+      this.updateWeiAmountValidation(
+        TransactionUtilities.validateWeiAmountForTransactionFee(
+          TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
+          GlobalConfig.ERC20TransferGasLimit
+        )
+      );
+    }
   }
 
   async constructTransactionObject() {
@@ -141,9 +149,17 @@ class SendDai extends Component {
 
   updateWeiAmountValidation(weiAmountValidation) {
     if (weiAmountValidation) {
-      this.setState({ weiAmountValidation: true });
+      this.setState({
+        weiAmountValidation: true,
+        buttonDisabled: false,
+        buttonOpacity: 1
+      });
     } else if (!weiAmountValidation) {
-      this.setState({ weiAmountValidation: false });
+      this.setState({
+        weiAmountValidation: false,
+        buttonDisabled: true,
+        buttonOpacity: 0.5
+      });
     }
   }
 

@@ -51,6 +51,9 @@ class SendEth extends Component {
       this.setState({ toAddress: this.props.qrCodeData });
       this.validateToAddress(this.props.qrCodeData);
     }
+    if (this.props.gasChosen != prevProps.gasChosen) {
+      this.validateAmount(this.state.ethAmount, GlobalConfig.ETHTxGasLimit);
+    }
   }
 
   async constructTransactionObject() {

@@ -38,7 +38,7 @@ class DepositFirstDaiToPoolTogether extends Component {
       weiAmountValidation: undefined,
       loading: false,
       buttonDisabled: true,
-      buttonOpacity: 0.5,
+      buttonOpacity: 0.5
     };
   }
 
@@ -50,6 +50,18 @@ class DepositFirstDaiToPoolTogether extends Component {
           GlobalConfig.PoolTogetherDepositPoolGasLimit
       )
     );
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.gasChosen != prevProps.gasChosen) {
+      this.updateWeiAmountValidation(
+        TransactionUtilities.validateWeiAmountForTransactionFee(
+          TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
+          GlobalConfig.ERC20ApproveGasLimit +
+            GlobalConfig.PoolTogetherDepositPoolGasLimit
+        )
+      );
+    }
   }
 
   async constructDepositPoolTransactionObject() {
@@ -91,22 +103,30 @@ class DepositFirstDaiToPoolTogether extends Component {
       this.setState({
         daiAmountValidation: true,
         buttonDisabled: false,
-        buttonOpacity: 1,
+        buttonOpacity: 1
       });
     } else if (!daiAmountValidation) {
       this.setState({
         daiAmountValidation: false,
         buttonDisabled: true,
-        buttonOpacity: 0.5,
+        buttonOpacity: 0.5
       });
     }
   }
 
   updateWeiAmountValidation(weiAmountValidation) {
     if (weiAmountValidation) {
-      this.setState({ weiAmountValidation: true });
+      this.setState({
+        weiAmountValidation: true,
+        buttonDisabled: false,
+        buttonOpacity: 1
+      });
     } else if (!weiAmountValidation) {
-      this.setState({ weiAmountValidation: false });
+      this.setState({
+        weiAmountValidation: false,
+        buttonDisabled: true,
+        buttonOpacity: 0.5
+      });
     }
   }
 
@@ -124,12 +144,17 @@ class DepositFirstDaiToPoolTogether extends Component {
     if (daiAmountValidation && weiAmountValidation && isOnline) {
       this.setState({ loading: true, buttonDisabled: true });
       LogUtilities.logInfo('validation successful');
-      const approveTransactionObject = await TransactionUtilities.constructApproveTransactionObject(GlobalConfig.DAIPoolTogetherContract, this.props.gasChosen);
+      const approveTransactionObject = await TransactionUtilities.constructApproveTransactionObject(
+        GlobalConfig.DAIPoolTogetherContract,
+        this.props.gasChosen
+      );
       await this.props.saveOutgoingTransactionObject(approveTransactionObject);
       const depositPoolTransactionObject = await this.constructDepositPoolTransactionObject();
-      await this.props.saveOutgoingTransactionObject(depositPoolTransactionObject);
+      await this.props.saveOutgoingTransactionObject(
+        depositPoolTransactionObject
+      );
       await this.props.saveOutgoingTransactionDataPoolTogether({
-        amount: daiAmount,
+        amount: daiAmount
       });
       this.props.navigation.navigate(
         'DepositFirstDaiToPoolTogetherConfirmation'
@@ -140,9 +165,7 @@ class DepositFirstDaiToPoolTogether extends Component {
   };
 
   renderChanceOfWinning() {
-    return (
-        <Text>You have a 1 in 536,100 chance of winning.</Text>
-    );
+    return <Text>You have a 1 in 536,100 chance of winning.</Text>;
   }
 
   render() {
@@ -306,13 +329,13 @@ function mapStateToProps(state) {
     balance: state.ReducerBalance.balance,
     gasChosen: state.ReducerGasPrice.gasChosen,
     gasPrice: state.ReducerGasPrice.gasPrice,
-    netInfo: state.ReducerNetInfo.netInfo,
+    netInfo: state.ReducerNetInfo.netInfo
   };
 }
 
 const mapDispatchToProps = {
   saveOutgoingTransactionObject,
-  saveOutgoingTransactionDataPoolTogether,
+  saveOutgoingTransactionDataPoolTogether
 };
 
 export default connect(

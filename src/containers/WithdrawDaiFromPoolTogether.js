@@ -48,6 +48,17 @@ class WithdrawDaiFromPoolTogether extends Component {
     );
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.gasChosen != prevProps.gasChosen) {
+      this.updateWeiAmountValidation(
+        TransactionUtilities.validateWeiAmountForTransactionFee(
+          TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
+          GlobalConfig.PoolTogetherWithdrawGasLimit
+        )
+      );
+    }
+  }
+
   async constructTransactionObject() {
     const daiWithdrawAmount = this.state.daiWithdrawAmount.split('.').join('');
     const decimalPlaces = TransactionUtilities.decimalPlaces(
@@ -101,9 +112,17 @@ class WithdrawDaiFromPoolTogether extends Component {
 
   updateWeiAmountValidation(weiAmountValidation) {
     if (weiAmountValidation) {
-      this.setState({ weiAmountValidation: true });
+      this.setState({
+        weiAmountValidation: true,
+        buttonDisabled: false,
+        buttonOpacity: 1
+      });
     } else if (!weiAmountValidation) {
-      this.setState({ weiAmountValidation: false });
+      this.setState({
+        weiAmountValidation: false,
+        buttonDisabled: true,
+        buttonOpacity: 0.5
+      });
     }
   }
 
@@ -133,9 +152,7 @@ class WithdrawDaiFromPoolTogether extends Component {
 
   render() {
     const { balance } = this.props;
-    const pooltogetherDaiBalance = RoundDownBigNumber(
-      balance.pooltogetherDai
-    )
+    const pooltogetherDaiBalance = RoundDownBigNumber(balance.pooltogetherDai)
       .div(new RoundDownBigNumber(10).pow(36))
       .toFixed(2);
 
