@@ -4,6 +4,12 @@
   "welcome-new-wallet": "ウォレット",
   "welcome-import": "インポート",
   "welcome-existing-wallet": "別のウォレット",
+  // import options
+  "import-options-title": "バックアップフレーズ",
+  "import-options-description": "文字数を選んでください",
+  // import
+  "import-title": "ウォレットのインポート",
+  "import-description": "バックアップフレーズを入力してください",
   // common
   "wallet-creation-key": "キーを生成中",
   "wallet-creation-address": "アドレスを生成中",
@@ -40,8 +46,9 @@
   "history-incoming": "受金",
   "history-outgoing": "送金",
   "history-swap": "交換",
-  "history-success": "成功",
-  "history-failed": "失敗",
+  "history-pending": "waiting",
+  "history-success": "Success",
+  "history-failed": "Failed",
   "history-approve": "許可",
   "history-empty-tx-msg1": "おっと。まだ取引はないみたいです。",
   "history-empty-tx-msg2": "トランズアクションが発生したらここに表示されます。",
@@ -68,6 +75,7 @@
   "button-cancel": "キャンセル",
   "button-confirm": "確認",
   "button-next": "次へ",
+  "button-enable": "許可する",
   "button-send": "送金",
   "eth-wallet-balance": "eth ウォレット残高",
   "dai-wallet-balance": "dai ウォレット残高",

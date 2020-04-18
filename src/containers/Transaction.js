@@ -270,11 +270,11 @@ class Transaction extends Component {
 
     switch (this.state.transaction.getState()) {
       case TxStorage.TxStates.STATE_NEW:
-        text = 'pending...';
+        text = I18n.t('history-pending') + '...';
         break;
 
       case TxStorage.TxStates.STATE_PENDING:
-        text = 'pending...';
+        text = I18n.t('history-pending') + '...';
         break;
 
       case TxStorage.TxStates.STATE_INCLUDED:

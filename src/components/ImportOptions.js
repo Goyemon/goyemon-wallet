@@ -8,6 +8,7 @@ import {
   Description,
   Button
 } from '../components/common/';
+import I18n from '../i18n/I18n';
 
 export default class ImportOptions extends Component {
   render() {
@@ -22,10 +23,10 @@ export default class ImportOptions extends Component {
           width="0%"
         />
         <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
-          Backup Words Option
+          {I18n.t('import-options-title')}
         </HeaderTwo>
         <Description marginBottom="8" marginLeft="8" marginTop="16">
-          how many backup words do you have?
+          {I18n.t('import-options-description')}
         </Description>
         <ButtonContainer>
           <Button

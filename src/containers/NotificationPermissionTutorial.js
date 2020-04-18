@@ -11,6 +11,7 @@ import {
   Loader
 } from '../components/common';
 import FcmPermissions from '../firebase/FcmPermissions.js';
+import I18n from '../i18n/I18n';
 import LogUtilities from '../utilities/LogUtilities.js';
 
 class NotificationPermissionTutorial extends Component {
@@ -54,10 +55,10 @@ class NotificationPermissionTutorial extends Component {
             Almost Done!
           </HeaderTwo>
           <Description marginBottom="8" marginLeft="0" marginTop="16">
-            we use a notification system to process your transactions
+            we use a notification system to update transactions in real time
           </Description>
           <Button
-            text="Enable Now"
+            text={I18n.t('button-enable')}
             textColor="#00A3E2"
             backgroundColor="#FFF"
             borderColor="#00A3E2"

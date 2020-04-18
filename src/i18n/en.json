@@ -4,6 +4,12 @@
   "welcome-new-wallet": "new wallet",
   "welcome-import": "import",
   "welcome-existing-wallet": "existing wallet",
+  // import options
+  "import-options-title": "Backup Words Option",
+  "import-options-description": "how many backup words do you have?",
+  // import
+  "import-title": "Import Your Wallet",
+  "import-description": "enter your backup words",
   // wallet creation
   "wallet-creation-key": "generating your keys",
   "wallet-creation-address": "generating your address",
@@ -40,6 +46,7 @@
   "history-incoming": "Incoming",
   "history-outgoing": "Outgoing",
   "history-swap": "Swap",
+  "history-pending": "waiting",
   "history-success": "Success",
   "history-failed": "Failed",
   "history-approve": "Authorize",
@@ -68,6 +75,7 @@
   "button-cancel": "Cancel",
   "button-confirm": "Confirm",
   "button-next": "Next",
+  "button-enable": "Enable Now",
   "button-send": "Send",
   "eth-wallet-balance": "eth wallet balance",
   "dai-wallet-balance": "dai wallet balance",
