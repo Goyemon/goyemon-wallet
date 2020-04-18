@@ -1757,7 +1757,8 @@ class TxStorage {
 					LogUtilities.toDebugScreen('processTxSync(): to be replaced with: ', tx);
 					await this.txes.replaceTx(oldTx, tx, nonceKey, tx.getHash(), true);
 					changed++;
-					return;
+
+					continue;
 				}
 			}
 
@@ -1774,17 +1775,14 @@ class TxStorage {
 				}
 				else
 					LogUtilities.toDebugScreen('processTxSync(): replacement has same state, skipping: ', tx);
-				return;
+
+				continue;
 			}
 
 			LogUtilities.toDebugScreen('processTxSync(): inserting new, unknown tx: ', tx);
 
 			await this.txes.appendTx(tx.getHash(), tx, false);
 			changed++;
-			// try to find by txnonce if this is our tx.
-			// if found, replacetx.
-			// if not found, try to find by hash, if it's there perhaps check if same, if not update. or just update(?)
-			// if still not found, just appendTx().
 		}
 		LogUtilities.toDebugScreen(`processTxSync(): removeKeys: ${removeKeys.join()}`);
 		await AsyncStorage.multiRemove(removeKeys);
