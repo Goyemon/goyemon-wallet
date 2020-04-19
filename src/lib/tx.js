@@ -1601,44 +1601,49 @@ class TxStorage {
 		return await this.getVerificationDataXOR();
 	}
 
-	async getVerificationDataXOR() {
-		// TODO: this also counts sent txes and failures. we probably should ignore those. we may need to store the count of failures for the `all' index. we should already have the count of sent (toplocks)
-		function getCheckpoints(count, offset=0) {
-			const hashes = Math.floor(4000 / (32 + 3)); // msg size / hash length (jsoned)
-			const computed_count = count - offset; // we assume [offset] hashes to be correct, so we don't checkpoint those, we only take into account the last count - offset hashes
+	getCheckpoints(count, offset) {
+		const hashes = Math.floor(4000/65);
+		const computed_count = count - offset;
+		const buckets = [];
 
-			const checkpoints = [];
-			let sum = Math.pow(hashes, Math.log10(computed_count)) / computed_count; // val for i[0]
-			for (let i = 1; i <= hashes; ++i) {
-				let val = Math.pow(hashes - i, Math.log10(computed_count)) / computed_count;
-				checkpoints.push(val);
-				sum += val;
-			}
-			const normalization_factor = 1 / sum;
+		if (hashes >= computed_count) {
+			for (let i = offset + 1; i <= count; ++i)
+				buckets.push(i);
 
-			let last = count + 1;
-			for (let i = checkpoints.length - 1; i >= 0; --i) {
-				const diff = Math.round(checkpoints[i] * normalization_factor * computed_count);
-				const val = last - (diff > 0 ? diff : 1);
-				if (val < 1) {
-					return checkpoints.slice(i + 1);
-				}
-				last = checkpoints[i] = val;
-			}
-
-			return checkpoints;
+			return buckets;
 		}
 
-		// TODO: we need to store [last_number_checked(offset), last_hash], so when we get hashes from given offset, we just xor them against last_hash and continue normally.
+		let last = offset + 1;
+		for (let i = 1; i < hashes; ++i) {
+			last = Math.floor(Math.log(i) * computed_count);
+			buckets.push(last);
+		}
+
+		const mult = computed_count / last;
+		last = count + 1;
+		for (let i = buckets.length - 1; i > 0; --i) {
+			buckets[i] = offset + Math.floor(buckets[i] * mult);
+			if (buckets[i] >= last)
+				buckets[i] = last - 1;
+
+			last = buckets[i];
+		}
+
+		buckets[0] = offset + 1;
+
+		return buckets;
+	}
+
+	async getVerificationDataXOR() {
+		// TODO: this also counts sent txes and failures. we probably should ignore those. we may need to store the count of failures for the `all' index. we should already have the count of sent (toplocks)
+				// TODO: we need to store [last_number_checked(offset), last_hash], so when we get hashes from given offset, we just xor them against last_hash and continue normally.
 
 		await this.__lock('txes');
 		const offset = 0;
 
-
-
 		//const hashes = await this.txes.getHashes('all', offset);
 		const hashes = (await this.txes.getHashes('all', offset)).filter(([x, derp]) => (!x.startsWith(txNoncePrefix) && !x.startsWith(txFailPrefix)));
-		const checkpoints = getCheckpoints(hashes.length, offset);
+		const checkpoints = this.getCheckpoints(hashes.length, offset);
 		const ret = [];
 
 		let lasthash = null;
