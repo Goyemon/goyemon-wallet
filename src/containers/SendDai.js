@@ -124,27 +124,37 @@ class SendDai extends Component {
   }
 
   validateDaiAmount(amount) {
-    amount = new BigNumber(10).pow(18).times(amount);
-    const daiBalance = new BigNumber(this.props.balance.dai);
+    const isNumber = /^[0-9]\d*(\.\d+)?$/.test(amount);
+    if (isNumber) {
+      amount = new BigNumber(10).pow(18).times(amount);
+      const daiBalance = new BigNumber(this.props.balance.dai);
 
-    if (
-      daiBalance.isGreaterThanOrEqualTo(amount) &&
-      amount.isGreaterThanOrEqualTo(0)
-    ) {
-      LogUtilities.logInfo('the dai amount validated!');
-      this.setState({ daiAmountValidation: true });
-      if (this.state.toAddressValidation === true) {
-        this.setState({ buttonDisabled: false, buttonOpacity: 1 });
+      if (
+        daiBalance.isGreaterThanOrEqualTo(amount) &&
+        amount.isGreaterThanOrEqualTo(0)
+      ) {
+        LogUtilities.logInfo('the dai amount validated!');
+        this.setState({ daiAmountValidation: true });
+        if (this.state.toAddressValidation === true) {
+          this.setState({ buttonDisabled: false, buttonOpacity: 1 });
+        }
+        return true;
       }
-      return true;
+      LogUtilities.logInfo('wrong dai balance!');
+      this.setState({
+        daiAmountValidation: false,
+        buttonDisabled: true,
+        buttonOpacity: 0.5
+      });
+      return false;
+    } else {
+      this.setState({
+        daiAmountValidation: false,
+        buttonDisabled: true,
+        buttonOpacity: 0.5
+      });
+      return false;
     }
-    LogUtilities.logInfo('wrong dai balance!');
-    this.setState({
-      daiAmountValidation: false,
-      buttonDisabled: true,
-      buttonOpacity: 0.5
-    });
-    return false;
   }
 
   updateWeiAmountValidation(weiAmountValidation) {

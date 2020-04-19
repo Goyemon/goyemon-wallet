@@ -94,32 +94,41 @@ class SendEth extends Component {
   }
 
   validateAmount(ethAmount, gasLimit) {
-    const weiBalance = new BigNumber(this.props.balance.wei);
-    const weiAmount = new BigNumber(Web3.utils.toWei(ethAmount, 'Ether'));
-    const transactionFeeLimitInWei = new BigNumber(
-      TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
-    ).times(gasLimit);
-
-    if (
-      weiBalance.isGreaterThanOrEqualTo(
-        weiAmount.plus(transactionFeeLimitInWei)
-      ) &&
-      weiAmount.isGreaterThanOrEqualTo(0)
-    ) {
-      LogUtilities.logInfo('the amount validated!');
-      this.setState({ amountValidation: true });
-      if (this.state.toAddressValidation === true) {
-        this.setState({ buttonDisabled: false, buttonOpacity: 1 });
+    const isNumber = /^[0-9]\d*(\.\d+)?$/.test(ethAmount);
+    if (isNumber) {
+      const weiBalance = new BigNumber(this.props.balance.wei);
+      const weiAmount = new BigNumber(Web3.utils.toWei(ethAmount, 'Ether'));
+      const transactionFeeLimitInWei = new BigNumber(
+        TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
+      ).times(gasLimit);
+      if (
+        weiBalance.isGreaterThanOrEqualTo(
+          weiAmount.plus(transactionFeeLimitInWei)
+        ) &&
+        weiAmount.isGreaterThanOrEqualTo(0)
+      ) {
+        LogUtilities.logInfo('the amount validated!');
+        this.setState({ amountValidation: true });
+        if (this.state.toAddressValidation === true) {
+          this.setState({ buttonDisabled: false, buttonOpacity: 1 });
+        }
+        return true;
       }
-      return true;
+      LogUtilities.logInfo('wrong balance!');
+      this.setState({
+        amountValidation: false,
+        buttonDisabled: true,
+        buttonOpacity: 0.5
+      });
+      return false;
+    } else {
+      this.setState({
+        amountValidation: false,
+        buttonDisabled: true,
+        buttonOpacity: 0.5
+      });
+      return false;
     }
-    LogUtilities.logInfo('wrong balance!');
-    this.setState({
-      amountValidation: false,
-      buttonDisabled: true,
-      buttonOpacity: 0.5
-    });
-    return false;
   }
 
   renderInsufficientBalanceMessage() {

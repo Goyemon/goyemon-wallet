@@ -164,28 +164,33 @@ class Swap extends Component {
   };
 
   validateAmount(ethSold, gasLimit) {
-    const weiBalance = new BigNumber(this.props.balance.wei);
-    const weiSold = new BigNumber(Web3.utils.toWei(ethSold, 'Ether'));
-    const transactionFeeLimitInWei = new BigNumber(
-      TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
-    ).times(gasLimit);
-    const tokenReserve = new BigNumber(
-      this.props.uniswap.daiExchange.daiReserve,
-      16
-    );
+    const isNumber = /^[0-9]\d*(\.\d+)?$/.test(ethSold);
+    if (isNumber) {
+      const weiBalance = new BigNumber(this.props.balance.wei);
+      const weiSold = new BigNumber(Web3.utils.toWei(ethSold, 'Ether'));
+      const transactionFeeLimitInWei = new BigNumber(
+        TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
+      ).times(gasLimit);
+      const tokenReserve = new BigNumber(
+        this.props.uniswap.daiExchange.daiReserve,
+        16
+      );
 
-    if (
-      weiBalance.isGreaterThanOrEqualTo(
-        weiSold.plus(transactionFeeLimitInWei)
-      ) &&
-      weiSold.isGreaterThanOrEqualTo(0) &&
-      tokenReserve.isGreaterThanOrEqualTo(this.state.tokenBought)
-    ) {
-      LogUtilities.logInfo('the ethSold validated!');
-      return true;
+      if (
+        weiBalance.isGreaterThanOrEqualTo(
+          weiSold.plus(transactionFeeLimitInWei)
+        ) &&
+        weiSold.isGreaterThanOrEqualTo(0) &&
+        tokenReserve.isGreaterThanOrEqualTo(this.state.tokenBought)
+      ) {
+        LogUtilities.logInfo('the ethSold validated!');
+        return true;
+      }
+      LogUtilities.logInfo('wrong balance!');
+      return false;
+    } else {
+      return false;
     }
-    LogUtilities.logInfo('wrong balance!');
-    return false;
   }
 
   updateEthSoldValidation(ethSoldValidation) {
@@ -273,8 +278,10 @@ class Swap extends Component {
                         GlobalConfig.UniswapEthToTokenSwapInputGasLimit
                       )
                     );
-                    this.setState({ ethSold });
-                    this.updateTokenBought(ethSold);
+                    if (this.state.ethSoldValidation) {
+                      this.setState({ ethSold });
+                      this.updateTokenBought(ethSold);
+                    }
                   }
                 }}
                 returnKeyType="done"
