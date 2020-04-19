@@ -69,8 +69,8 @@ export default class Welcome extends Component {
         <WelcomeContainer animation="fadeIn" delay={4000}>
           <Logo>Goyemon</Logo>
           <OneLinerContainer>
-            <OneLiner>new generation bank</OneLiner>
-            <OneLiner>at your fingertips</OneLiner>
+            <OneLiner>access to new generation</OneLiner>
+            <OneLiner>financial services</OneLiner>
           </OneLinerContainer>
           <IconContainer>
             <Icon>
