@@ -3,7 +3,11 @@ import React, { Component } from 'react';
 import { View, TouchableWithoutFeedback } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { FormHeader, ToggleCurrencySymbol } from '../components/common';
+import {
+  ConfirmationHeader,
+  ConfirmationText,
+  ToggleCurrencySymbol
+} from '../components/common';
 import I18n from '../i18n/I18n';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 
@@ -21,7 +25,7 @@ class NetworkFeeContainerConfirmation extends Component {
         gasPriceWei,
         gasLimit
       );
-      return <NetworkFee fontSize="16">${usdValue}</NetworkFee>;
+      return <ConfirmationText>${usdValue}</ConfirmationText>;
     } else if (this.state.currency === 'USD') {
       let ethValue = TransactionUtilities.getTransactionFeeEstimateInEther(
         gasPriceWei,
@@ -29,7 +33,7 @@ class NetworkFeeContainerConfirmation extends Component {
       );
       console.log('ethValue ==>', ethValue);
       ethValue = parseFloat(ethValue).toFixed(5);
-      return <NetworkFee fontSize="16">{ethValue}ETH</NetworkFee>;
+      return <ConfirmationText>{ethValue}ETH</ConfirmationText>;
     }
   }
 
@@ -37,9 +41,7 @@ class NetworkFeeContainerConfirmation extends Component {
     return (
       <View>
         <NetworkFeeContainer>
-          <FormHeader marginBottom="0" marginTop="0">
-          {I18n.t('max-network-fee')}
-          </FormHeader>
+          <ConfirmationHeader>{I18n.t('max-network-fee')}</ConfirmationHeader>
           <TouchableWithoutFeedback
             onPress={() => {
               if (this.state.currency === 'ETH') {
@@ -54,12 +56,12 @@ class NetworkFeeContainerConfirmation extends Component {
             </View>
           </TouchableWithoutFeedback>
         </NetworkFeeContainer>
-        <NetworkFee>
+        <ConfirmationText>
           {this.toggleCurrency(
             TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
             this.props.gasLimit
           )}
-        </NetworkFee>
+        </ConfirmationText>
       </View>
     );
   }
@@ -68,14 +70,6 @@ class NetworkFeeContainerConfirmation extends Component {
 const NetworkFeeContainer = styled.View`
   align-items: center;
   flex-direction: row;
-  justify-content: center;
-  margin-top: 16;
-  margin-bottom: 8;
-`;
-
-const NetworkFee = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Bold';
 `;
 
 function mapStateToProps(state) {

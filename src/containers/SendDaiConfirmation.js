@@ -6,9 +6,10 @@ import styled from 'styled-components/native';
 import {
   RootContainer,
   Button,
+  ConfirmationHeader,
+  ConfirmationText,
   UntouchableCardContainer,
   HeaderOne,
-  FormHeader,
   Loader,
   IsOnlineMessage
 } from '../components/common/';
@@ -49,14 +50,18 @@ class SendDaiConfirmation extends Component {
           textAlign="left"
           width="100%"
         >
-          <FormHeader marginBottom="8" marginTop="16">
-          {I18n.t('to')}
-          </FormHeader>
-          <To>{outgoingTransactionData.send.toaddress}</To>
-          <FormHeader marginBottom="8" marginTop="16">
-          {I18n.t('amount')}
-          </FormHeader>
-          <Amount>{outgoingTransactionData.send.amount} DAI</Amount>
+          <ConfirmationHeader marginBottom="8" marginTop="16">
+            {I18n.t('to')}
+          </ConfirmationHeader>
+          <ConfirmationText>
+            {outgoingTransactionData.send.toaddress}
+          </ConfirmationText>
+          <ConfirmationHeader marginBottom="8" marginTop="16">
+            {I18n.t('amount')}
+          </ConfirmationHeader>
+          <ConfirmationText>
+            {outgoingTransactionData.send.amount} DAI
+          </ConfirmationText>
           <NetworkFeeContainerConfirmation
             gasLimit={GlobalConfig.ERC20TransferGasLimit}
           />
@@ -93,16 +98,6 @@ class SendDaiConfirmation extends Component {
     );
   }
 }
-
-const To = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Bold';
-`;
-
-const Amount = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Bold';
-`;
 
 const ButtonContainer = styled.View`
   align-items: center;

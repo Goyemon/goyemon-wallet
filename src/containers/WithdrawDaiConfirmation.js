@@ -6,9 +6,10 @@ import styled from 'styled-components/native';
 import {
   RootContainer,
   Button,
+  ConfirmationHeader,
+  ConfirmationText,
   UntouchableCardContainer,
   HeaderOne,
-  FormHeader,
   Loader,
   IsOnlineMessage
 } from '../components/common/';
@@ -49,10 +50,10 @@ class WithdrawDaiConfirmation extends Component {
           textAlign="left"
           width="100%"
         >
-          <FormHeader marginBottom="8" marginTop="16">
-            {I18n.t('withdraw-amount')}
-          </FormHeader>
-          <Amount>{outgoingTransactionData.compound.amount} DAI</Amount>
+          <ConfirmationHeader>{I18n.t('withdraw-amount')}</ConfirmationHeader>
+          <ConfirmationText>
+            {outgoingTransactionData.compound.amount} DAI
+          </ConfirmationText>
           <NetworkFeeContainerConfirmation
             gasLimit={GlobalConfig.cTokenRedeemUnderlyingGasLimit}
           />
@@ -89,11 +90,6 @@ class WithdrawDaiConfirmation extends Component {
     );
   }
 }
-
-const Amount = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Bold';
-`;
 
 const ButtonContainer = styled.View`
   align-items: center;

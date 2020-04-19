@@ -6,9 +6,10 @@ import styled from 'styled-components/native';
 import {
   RootContainer,
   Button,
+  ConfirmationHeader,
+  ConfirmationText,
   UntouchableCardContainer,
   HeaderOne,
-  FormHeader,
   Loader,
   IsOnlineMessage
 } from '../components/common/';
@@ -49,16 +50,14 @@ class SwapConfirmation extends Component {
           textAlign="left"
           width="100%"
         >
-          <FormHeader marginBottom="8" marginTop="16">
-            You Pay
-          </FormHeader>
-          <Amount>{outgoingTransactionData.swap.sold} ETH</Amount>
-          <FormHeader marginBottom="8" marginTop="16">
-            You Get at Least
-          </FormHeader>
-          <Amount>
+          <ConfirmationHeader>You Pay</ConfirmationHeader>
+          <ConfirmationText>
+            {outgoingTransactionData.swap.sold} ETH
+          </ConfirmationText>
+          <ConfirmationHeader>You Get at Least</ConfirmationHeader>
+          <ConfirmationText>
             {outgoingTransactionData.swap.minBought.toFixed(4)} DAI
-          </Amount>
+          </ConfirmationText>
           <Amount>*slippage {outgoingTransactionData.swap.slippage} %</Amount>
           <NetworkFeeContainerConfirmation
             gasLimit={GlobalConfig.cTokenRedeemUnderlyingGasLimit}

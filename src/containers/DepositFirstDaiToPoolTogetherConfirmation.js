@@ -6,9 +6,10 @@ import styled from 'styled-components/native';
 import {
   RootContainer,
   Button,
+  ConfirmationHeader,
+  ConfirmationText,
   UntouchableCardContainer,
   HeaderOne,
-  FormHeader,
   Loader,
   IsOnlineMessage
 } from '../components/common/';
@@ -51,10 +52,10 @@ class DepositFirstDaiToPoolTogetherConfirmation extends Component {
           textAlign="left"
           width="100%"
         >
-          <FormHeader marginBottom="8" marginTop="16">
-            {I18n.t('deposit-amount')}
-          </FormHeader>
-          <Amount>{outgoingTransactionData.poolTogether.amount} DAI</Amount>
+          <ConfirmationHeader>{I18n.t('deposit-amount')}</ConfirmationHeader>
+          <ConfirmationText>
+            {outgoingTransactionData.poolTogether.amount} DAI
+          </ConfirmationText>
           <NetworkFeeContainerConfirmation
             gasLimit={
               GlobalConfig.ERC20ApproveGasLimit +
@@ -97,12 +98,6 @@ class DepositFirstDaiToPoolTogetherConfirmation extends Component {
     );
   }
 }
-
-const Amount = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Bold';
-  margin-left: 8;
-`;
 
 const ButtonContainer = styled.View`
   align-items: center;

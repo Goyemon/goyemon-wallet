@@ -1,5 +1,7 @@
 'use strict';
 export * from './Button';
+export * from './ConfirmationHeader';
+export * from './ConfirmationText';
 export * from './Container';
 export * from './GoyemonText';
 export * from './Description';

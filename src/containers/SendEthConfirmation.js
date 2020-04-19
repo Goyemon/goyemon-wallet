@@ -6,9 +6,10 @@ import styled from 'styled-components/native';
 import {
   RootContainer,
   Button,
+  ConfirmationHeader,
+  ConfirmationText,
   UntouchableCardContainer,
   HeaderOne,
-  FormHeader,
   Loader,
   IsOnlineMessage
 } from '../components/common/';
@@ -49,14 +50,14 @@ class SendEthConfirmation extends Component {
           textAlign="left"
           width="100%"
         >
-          <FormHeader marginBottom="8" marginTop="16">
-          {I18n.t('to')}
-          </FormHeader>
-          <ToText>{outgoingTransactionData.send.toaddress}</ToText>
-          <FormHeader marginBottom="8" marginTop="16">
-          {I18n.t('amount')}
-          </FormHeader>
-          <AmountText>{outgoingTransactionData.send.amount} ETH</AmountText>
+          <ConfirmationHeader>{I18n.t('to')}</ConfirmationHeader>
+          <ConfirmationText>
+            {outgoingTransactionData.send.toaddress}
+          </ConfirmationText>
+          <ConfirmationHeader>{I18n.t('amount')}</ConfirmationHeader>
+          <ConfirmationText>
+            {outgoingTransactionData.send.amount} ETH
+          </ConfirmationText>
           <NetworkFeeContainerConfirmation
             gasLimit={GlobalConfig.ETHTxGasLimit}
           />
@@ -93,17 +94,6 @@ class SendEthConfirmation extends Component {
     );
   }
 }
-
-const ToText = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Bold';
-`;
-
-const AmountText = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Bold';
-`;
-
 const ButtonContainer = styled.View`
   align-items: center;
   flex-direction: row;
