@@ -139,9 +139,27 @@ class TransactionUtilities {
       return false;
     }
   }
+
+  validateTicketAmount(daiAmount) {
+    const isInteger = /^[1-9]\d*$/.test(daiAmount);
+    if (isInteger) {
+      const stateTree = store.getState();
+      const balance = stateTree.ReducerBalance.balance;
+      const daiBalance = new BigNumber(balance.dai);
+      daiAmount = new BigNumber(10).pow(18).times(daiAmount);
+
+      if (
+        daiBalance.isGreaterThanOrEqualTo(daiAmount) &&
+        daiAmount.isGreaterThanOrEqualTo(0)
+      ) {
+        LogUtilities.logInfo('the dai amount validated!');
+        return true;
+      }
+      LogUtilities.logInfo('wrong dai balance!');
+      return false;
+    } else {
+      return false;
     }
-    LogUtilities.logInfo('wrong dai balance!');
-    return false;
   }
 
   validateDaiSavingsAmount(daiWithdrawAmount) {
@@ -169,13 +187,18 @@ class TransactionUtilities {
 
   // finish writing this once you get the deposited balance
   validateDaiDepositedAmount(daiWithdrawAmount) {
-    const stateTree = store.getState();
-    const balance = stateTree.ReducerBalance.balance;
+    const isInteger = /^[1-9]\d*$/.test(daiWithdrawAmount);
+    if (isInteger) {
+      const stateTree = store.getState();
+      const balance = stateTree.ReducerBalance.balance;
 
-    daiWithdrawAmount = new BigNumber(10).pow(36).times(daiWithdrawAmount);
+      daiWithdrawAmount = new BigNumber(10).pow(36).times(daiWithdrawAmount);
 
-    LogUtilities.logInfo('wrong dai balance!');
-    return false;
+      LogUtilities.logInfo('wrong dai balance!');
+      return false;
+    } else {
+      return false;
+    }
   }
 
   async constructSignedOutgoingTransactionObject(outgoingTransactionObject) {

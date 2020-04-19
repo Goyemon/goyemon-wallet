@@ -129,7 +129,7 @@ class DepositDaiToPoolTogether extends Component {
   }
 
   validateForm = async (daiAmount) => {
-    const daiAmountValidation = TransactionUtilities.validateDaiAmount(
+    const daiAmountValidation = TransactionUtilities.validateTicketAmount(
       daiAmount
     );
     const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(
@@ -164,7 +164,7 @@ class DepositDaiToPoolTogether extends Component {
 
     const daiFullBalance = RoundDownBigNumber(balance.dai)
       .div(new RoundDownBigNumber(10).pow(18))
-      .toString();
+      .toFixed(0);
 
     return (
       <RootContainer>
@@ -197,7 +197,7 @@ class DepositDaiToPoolTogether extends Component {
             onPress={() => {
               this.setState({ daiAmount: daiFullBalance });
               this.updateDaiAmountValidation(
-                TransactionUtilities.validateDaiAmount(daiFullBalance)
+                TransactionUtilities.validateTicketAmount(daiFullBalance)
               );
             }}
           />
@@ -216,7 +216,7 @@ class DepositDaiToPoolTogether extends Component {
               clearButtonMode="while-editing"
               onChangeText={(daiAmount) => {
                 this.updateDaiAmountValidation(
-                  TransactionUtilities.validateDaiAmount(daiAmount)
+                  TransactionUtilities.validateTicketAmount(daiAmount)
                 );
                 this.setState({ daiAmount });
               }}
