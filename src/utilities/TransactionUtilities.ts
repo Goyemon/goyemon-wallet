@@ -119,38 +119,52 @@ class TransactionUtilities {
   }
 
   validateDaiAmount(daiAmount) {
-    const stateTree = store.getState();
-    const balance = stateTree.ReducerBalance.balance;
-    const daiBalance = new BigNumber(balance.dai);
-    daiAmount = new BigNumber(10).pow(18).times(daiAmount);
+    const isNumber = /^[0-9]\d*(\.\d+)?$/.test(daiAmount);
+    if (isNumber) {
+      const stateTree = store.getState();
+      const balance = stateTree.ReducerBalance.balance;
+      const daiBalance = new BigNumber(balance.dai);
+      daiAmount = new BigNumber(10).pow(18).times(daiAmount);
 
-    if (
-      daiBalance.isGreaterThanOrEqualTo(daiAmount) &&
-      daiAmount.isGreaterThanOrEqualTo(0)
-    ) {
-      LogUtilities.logInfo('the dai amount validated!');
-      return true;
+      if (
+        daiBalance.isGreaterThanOrEqualTo(daiAmount) &&
+        daiAmount.isGreaterThanOrEqualTo(0)
+      ) {
+        LogUtilities.logInfo('the dai amount validated!');
+        return true;
+      }
+      LogUtilities.logInfo('wrong dai balance!');
+      return false;
+    } else {
+      return false;
+    }
+  }
     }
     LogUtilities.logInfo('wrong dai balance!');
     return false;
   }
 
   validateDaiSavingsAmount(daiWithdrawAmount) {
-    const stateTree = store.getState();
-    const balance = stateTree.ReducerBalance.balance;
-    const compoundDaiBalance = new BigNumber(balance.compoundDai);
+    const isNumber = /^[0-9]\d*(\.\d+)?$/.test(daiWithdrawAmount);
+    if (isNumber) {
+      const stateTree = store.getState();
+      const balance = stateTree.ReducerBalance.balance;
+      const compoundDaiBalance = new BigNumber(balance.compoundDai);
 
-    daiWithdrawAmount = new BigNumber(10).pow(36).times(daiWithdrawAmount);
+      daiWithdrawAmount = new BigNumber(10).pow(36).times(daiWithdrawAmount);
 
-    if (
-      compoundDaiBalance.isGreaterThanOrEqualTo(daiWithdrawAmount) &&
-      daiWithdrawAmount.isGreaterThanOrEqualTo(0)
-    ) {
-      LogUtilities.logInfo('the dai savings amount validated!');
-      return true;
+      if (
+        compoundDaiBalance.isGreaterThanOrEqualTo(daiWithdrawAmount) &&
+        daiWithdrawAmount.isGreaterThanOrEqualTo(0)
+      ) {
+        LogUtilities.logInfo('the dai savings amount validated!');
+        return true;
+      }
+      LogUtilities.logInfo('wrong dai balance!');
+      return false;
+    } else {
+      return false;
     }
-    LogUtilities.logInfo('wrong dai balance!');
-    return false;
   }
 
   // finish writing this once you get the deposited balance
