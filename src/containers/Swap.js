@@ -6,6 +6,10 @@ import { connect } from 'react-redux';
 import { View } from 'react-native';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
+import {
+  saveTxConfirmationModalVisibility,
+  updateVisibleType
+} from '../actions/ActionTxConfirmationModal';
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
 import {
   RootContainer,
@@ -20,6 +24,7 @@ import {
 } from '../components/common';
 import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
 import AdvancedContainer from '../containers/AdvancedContainer';
+import TxConfirmationModal from '../containers/TxConfirmationModal';
 import I18n from '../i18n/I18n';
 import ABIEncoder from '../utilities/AbiUtilities';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
@@ -39,7 +44,8 @@ class Swap extends Component {
       ethSoldValidation: undefined,
       loading: false,
       buttonDisabled: true,
-      buttonOpacity: 0.5
+      buttonOpacity: 0.5,
+      transactionObject: {}
     };
   }
 
@@ -150,8 +156,9 @@ class Swap extends Component {
       this.setState({ loading: true, buttonDisabled: false });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
-      await this.props.saveOutgoingTransactionObject(transactionObject);
-      this.props.navigation.navigate('SwapConfirmation');
+      this.setState({ transactionObject });
+      this.props.saveTxConfirmationModalVisibility(true);
+        this.props.updateVisibleType('swap');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }
@@ -235,6 +242,13 @@ class Swap extends Component {
 
     return (
       <RootContainer>
+        <TxConfirmationModal
+          ethSold={this.state.ethSold}
+          minBought={this.getMinTokens(this.state.tokenBought)}
+          slippage={this.props.uniswap.slippage}
+          transactionObject={this.state.transactionObject}
+          gasLimit={GlobalConfig.UniswapEthToTokenSwapInputGasLimit}
+        />
         <HeaderOne marginTop="64">{I18n.t('swap')}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
@@ -424,6 +438,8 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
+  saveTxConfirmationModalVisibility,
+  updateVisibleType,
   saveOutgoingTransactionObject
 };
 
