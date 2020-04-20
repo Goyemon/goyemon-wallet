@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { View } from 'react-native';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
-import { saveOutgoingTransactionDataSwap } from '../actions/ActionOutgoingTransactionData';
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
 import {
   RootContainer,
@@ -152,11 +151,6 @@ class Swap extends Component {
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
-      this.props.saveOutgoingTransactionDataSwap({
-        sold: this.state.ethSold,
-        bought: this.state.tokenBought.toFixed(4),
-        minBought: this.getMinTokens(this.state.tokenBought)
-      });
       this.props.navigation.navigate('SwapConfirmation');
     } else {
       LogUtilities.logInfo('form validation failed!');
@@ -430,7 +424,6 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  saveOutgoingTransactionDataSwap,
   saveOutgoingTransactionObject
 };
 

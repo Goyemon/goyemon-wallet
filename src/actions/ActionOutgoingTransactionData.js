@@ -1,7 +1,6 @@
 'use strict';
 import { SAVE_OUTGOING_TRANSACTION_DATA_COMPOUND } from '../constants/ActionTypes';
 import { SAVE_OUTGOING_TRANSACTION_DATA_POOLTOGETHER } from '../constants/ActionTypes';
-import { SAVE_OUTGOING_TRANSACTION_DATA_SWAP } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
 export function saveOutgoingTransactionDataCompound(compoundData) {
@@ -33,19 +32,3 @@ const saveOutgoingTransactionDataPoolTogetherSuccess = (poolTogether) => ({
   type: SAVE_OUTGOING_TRANSACTION_DATA_POOLTOGETHER,
   payload: poolTogether
 });
-
-export function saveOutgoingTransactionDataSwap(swapData) {
-  return async function (dispatch) {
-    try {
-      dispatch(saveOutgoingTransactionDataSwapSuccess(swapData));
-    } catch (err) {
-      LogUtilities.logError(err);
-    }
-  };
-}
-
-const saveOutgoingTransactionDataSwapSuccess = (swapData) => ({
-  type: SAVE_OUTGOING_TRANSACTION_DATA_SWAP,
-  payload: swapData
-});
-
