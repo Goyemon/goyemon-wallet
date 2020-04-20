@@ -7,8 +7,11 @@ import { TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
+import {
+  saveTxConfirmationModalVisibility,
+  updateVisibleType
+} from '../actions/ActionTxConfirmationModal';
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
-import { saveOutgoingTransactionDataSend } from '../actions/ActionOutgoingTransactionData';
 import { clearQRCodeData } from '../actions/ActionQRCodeData';
 import {
   Button,
@@ -22,6 +25,7 @@ import {
   InsufficientDaiBalanceMessage
 } from '../components/common';
 import AdvancedContainer from '../containers/AdvancedContainer';
+import TxConfirmationModal from '../containers/TxConfirmationModal';
 import I18n from '../i18n/I18n';
 import SendStack from '../navigators/SendStack';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
@@ -44,7 +48,8 @@ class SendDai extends Component {
       currency: 'USD',
       loading: false,
       buttonDisabled: true,
-      buttonOpacity: 0.5
+      buttonOpacity: 0.5,
+      transactionObject: {}
     };
   }
 
@@ -191,12 +196,9 @@ class SendDai extends Component {
       this.setState({ loading: true, buttonDisabled: true });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
-      await this.props.saveOutgoingTransactionObject(transactionObject);
-      this.props.saveOutgoingTransactionDataSend({
-        toaddress: toAddress,
-        amount: amount
-      });
-      this.props.navigation.navigate('SendDaiConfirmation');
+      this.setState({ transactionObject });
+      this.props.saveTxConfirmationModalVisibility(true);
+      this.props.updateVisibleType('send');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }
@@ -209,6 +211,13 @@ class SendDai extends Component {
 
     return (
       <View>
+        <TxConfirmationModal
+          toAddress={this.state.toAddress}
+          amount={this.state.daiAmount}
+          currency="DAI"
+          transactionObject={this.state.transactionObject}
+          gasLimit={GlobalConfig.ERC20TransferGasLimit}
+        />
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8px"
@@ -391,8 +400,9 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
+  saveTxConfirmationModalVisibility,
+  updateVisibleType,
   saveOutgoingTransactionObject,
-  saveOutgoingTransactionDataSend,
   clearQRCodeData
 };
 
