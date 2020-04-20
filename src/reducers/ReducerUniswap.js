@@ -3,6 +3,7 @@ import { SAVE_DAI_EXCHANGE_RESERVE } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
   uniswap: {
+    slippage: '',
     daiExchange: {
       weiReserve: '',
       daiReserve: ''
@@ -12,6 +13,13 @@ const INITIAL_STATE = {
 
 const uniswap = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case SAVE_SWAP_SLIPPAGE:
+      return {
+        uniswap: {
+          ...state.uniswap,
+          slippage: action.payload
+        }
+      };
     case SAVE_DAI_EXCHANGE_RESERVE:
       return {
         uniswap: {
