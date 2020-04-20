@@ -55,7 +55,7 @@ class NotificationPermissionTutorial extends Component {
             Almost Done!
           </HeaderTwo>
           <Description marginBottom="8" marginLeft="0" marginTop="16">
-            we use a notification system to update transactions in real time
+            {I18n.t('notification-tutorial-description')}
           </Description>
           <Button
             text={I18n.t('button-enable')}

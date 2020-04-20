@@ -10,7 +10,9 @@
   // import
   "import-title": "ウォレットのインポート",
   "import-description": "バックアップフレーズを入力してください",
-  // common
+  // notification tutorial
+  "notification-tutorial-description": "通知設定をONにすることでリアルタイムでトランズアクションのアップデートをします",
+  // wallet creation
   "wallet-creation-key": "キーを生成中",
   "wallet-creation-address": "アドレスを生成中",
   "wallet-creation-blockchain-data": "ブロックチェーンデータを取得中",
@@ -77,6 +79,9 @@
   "button-next": "次へ",
   "button-enable": "許可する",
   "button-send": "送金",
+  "button-swap": "交換",
+  "button-12words": "12文字",
+  "button-24words": "24文字",
   "eth-wallet-balance": "eth ウォレット残高",
   "dai-wallet-balance": "dai ウォレット残高",
   "to": "送金先",
