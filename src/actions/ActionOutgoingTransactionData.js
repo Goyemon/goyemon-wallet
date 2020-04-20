@@ -1,24 +1,8 @@
 'use strict';
-import { SAVE_OUTGOING_TRANSACTION_DATA_SEND } from '../constants/ActionTypes';
 import { SAVE_OUTGOING_TRANSACTION_DATA_COMPOUND } from '../constants/ActionTypes';
 import { SAVE_OUTGOING_TRANSACTION_DATA_POOLTOGETHER } from '../constants/ActionTypes';
 import { SAVE_OUTGOING_TRANSACTION_DATA_SWAP } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
-
-export function saveOutgoingTransactionDataSend(sendData) {
-  return async function (dispatch) {
-    try {
-      dispatch(saveOutgoingTransactionDataSendSuccess(sendData));
-    } catch (err) {
-      LogUtilities.logError(err);
-    }
-  };
-}
-
-const saveOutgoingTransactionDataSendSuccess = (sendData) => ({
-  type: SAVE_OUTGOING_TRANSACTION_DATA_SEND,
-  payload: sendData
-});
 
 export function saveOutgoingTransactionDataCompound(compoundData) {
   return async function (dispatch) {

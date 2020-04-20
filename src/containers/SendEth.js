@@ -7,7 +7,6 @@ import { View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
-import { saveOutgoingTransactionDataSend } from '../actions/ActionOutgoingTransactionData';
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
 import { clearQRCodeData } from '../actions/ActionQRCodeData';
 import {
@@ -154,10 +153,6 @@ class SendEth extends Component {
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       await this.props.saveOutgoingTransactionObject(transactionObject);
-      this.props.saveOutgoingTransactionDataSend({
-        toaddress: toAddress,
-        amount: ethAmount
-      });
       this.props.navigation.navigate('SendEthConfirmation');
     } else {
       LogUtilities.logInfo('form validation failed!');
@@ -353,7 +348,6 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  saveOutgoingTransactionDataSend,
   saveOutgoingTransactionObject,
   clearQRCodeData
 };
