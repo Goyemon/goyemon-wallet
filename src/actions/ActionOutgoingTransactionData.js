@@ -3,7 +3,6 @@ import { SAVE_OUTGOING_TRANSACTION_DATA_SEND } from '../constants/ActionTypes';
 import { SAVE_OUTGOING_TRANSACTION_DATA_COMPOUND } from '../constants/ActionTypes';
 import { SAVE_OUTGOING_TRANSACTION_DATA_POOLTOGETHER } from '../constants/ActionTypes';
 import { SAVE_OUTGOING_TRANSACTION_DATA_SWAP } from '../constants/ActionTypes';
-import { SAVE_OUTGOING_TRANSACTION_DATA_SWAP_SLIPPAGE } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
 export function saveOutgoingTransactionDataSend(sendData) {
@@ -66,17 +65,3 @@ const saveOutgoingTransactionDataSwapSuccess = (swapData) => ({
   payload: swapData
 });
 
-export function saveOutgoingTransactionDataSwapSlippage(slippage) {
-  return async function (dispatch) {
-    try {
-      dispatch(saveOutgoingTransactionDataSwapSlippageSuccess(slippage));
-    } catch (err) {
-      LogUtilities.logError(err);
-    }
-  };
-}
-
-const saveOutgoingTransactionDataSwapSlippageSuccess = (slippage) => ({
-  type: SAVE_OUTGOING_TRANSACTION_DATA_SWAP_SLIPPAGE,
-  payload: slippage
-});
