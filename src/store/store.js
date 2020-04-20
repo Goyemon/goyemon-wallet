@@ -18,7 +18,8 @@ const persistConfig = {
     'ReducerOutgoingTransactionObjects',
     'ReducerPermissions',
     'ReducerPrice',
-    'ReducerTransactionsLoaded'
+    'ReducerTransactionsLoaded',
+    'ReducerUniswap'
   ]
 };
 
