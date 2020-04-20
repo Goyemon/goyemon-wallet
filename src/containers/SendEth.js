@@ -7,6 +7,10 @@ import { View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
+import {
+  saveTxConfirmationModalVisibility,
+  updateVisibleType
+} from '../actions/ActionTxConfirmationModal';
 import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
 import { clearQRCodeData } from '../actions/ActionQRCodeData';
 import {
@@ -20,6 +24,7 @@ import {
   ErrorMessage
 } from '../components/common';
 import AdvancedContainer from '../containers/AdvancedContainer';
+import TxConfirmationModal from '../containers/TxConfirmationModal';
 import I18n from '../i18n/I18n';
 import SendStack from '../navigators/SendStack';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
@@ -41,7 +46,8 @@ class SendEth extends Component {
       amountValidation: undefined,
       loading: false,
       buttonDisabled: true,
-      buttonOpacity: 0.5
+      buttonOpacity: 0.5,
+      transactionObject: {}
     };
   }
 
@@ -152,8 +158,9 @@ class SendEth extends Component {
       this.setState({ loading: true, buttonDisabled: true });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
-      await this.props.saveOutgoingTransactionObject(transactionObject);
-      this.props.navigation.navigate('SendEthConfirmation');
+      this.setState({ transactionObject });
+      this.props.saveTxConfirmationModalVisibility(true);
+      this.props.updateVisibleType('send');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }
@@ -164,6 +171,13 @@ class SendEth extends Component {
 
     return (
       <View>
+        <TxConfirmationModal
+          toAddress={this.state.toAddress}
+          amount={this.state.ethAmount}
+          currency="ETH"
+          transactionObject={this.state.transactionObject}
+          gasLimit={GlobalConfig.ETHTxGasLimit}
+        />
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8px"
@@ -348,6 +362,8 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
+  saveTxConfirmationModalVisibility,
+  updateVisibleType,
   saveOutgoingTransactionObject,
   clearQRCodeData
 };
