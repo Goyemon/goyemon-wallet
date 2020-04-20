@@ -108,29 +108,45 @@ class DepositDaiToCompound extends Component {
 
   updateDaiAmountValidation(daiAmountValidation) {
     if (daiAmountValidation) {
-      this.setState({
-        daiAmountValidation: true
-      });
-      this.buttonStateUpdate();
+      this.setState(
+        {
+          daiAmountValidation: true
+        },
+        function () {
+          this.buttonStateUpdate();
+        }
+      );
     } else if (!daiAmountValidation) {
-      this.setState({
-        daiAmountValidation: false
-      });
-      this.buttonStateUpdate();
+      this.setState(
+        {
+          daiAmountValidation: false
+        },
+        function () {
+          this.buttonStateUpdate();
+        }
+      );
     }
   }
 
   updateWeiAmountValidation(weiAmountValidation) {
     if (weiAmountValidation) {
-      this.setState({
-        weiAmountValidation: true
-      });
-      this.buttonStateUpdate();
+      this.setState(
+        {
+          weiAmountValidation: true
+        },
+        function () {
+          this.buttonStateUpdate();
+        }
+      );
     } else if (!weiAmountValidation) {
-      this.setState({
-        weiAmountValidation: false
-      });
-      this.buttonStateUpdate();
+      this.setState(
+        {
+          weiAmountValidation: false
+        },
+        function () {
+          this.buttonStateUpdate();
+        }
+      );
     }
   }
 
@@ -159,6 +175,7 @@ class DepositDaiToCompound extends Component {
   };
 
   render() {
+    console.log('this.state ==>', this.state);
     const { balance, compound } = this.props;
     const currentInterestRate = new BigNumber(compound.dai.currentInterestRate)
       .div(new BigNumber(10).pow(24))

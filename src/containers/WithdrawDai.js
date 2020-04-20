@@ -115,29 +115,45 @@ class WithdrawDai extends Component {
 
   updateDaiSavingsAmountValidation(daiSavingsAmountValidation) {
     if (daiSavingsAmountValidation) {
-      this.setState({
-        daiSavingsAmountValidation: true
-      });
-      this.buttonStateUpdate();
+      this.setState(
+        {
+          daiSavingsAmountValidation: true
+        },
+        function () {
+          this.buttonStateUpdate();
+        }
+      );
     } else if (!daiSavingsAmountValidation) {
-      this.setState({
-        daiSavingsAmountValidation: false
-      });
-      this.buttonStateUpdate();
+      this.setState(
+        {
+          daiSavingsAmountValidation: false
+        },
+        function () {
+          this.buttonStateUpdate();
+        }
+      );
     }
   }
 
   updateWeiAmountValidation(weiAmountValidation) {
     if (weiAmountValidation) {
-      this.setState({
-        weiAmountValidation: true
-      });
-      this.buttonStateUpdate();
+      this.setState(
+        {
+          weiAmountValidation: true
+        },
+        function () {
+          this.buttonStateUpdate();
+        }
+      );
     } else if (!weiAmountValidation) {
-      this.setState({
-        weiAmountValidation: false
-      });
-      this.buttonStateUpdate();
+      this.setState(
+        {
+          weiAmountValidation: false
+        },
+        function () {
+          this.buttonStateUpdate();
+        }
+      );
     }
   }
 

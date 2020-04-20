@@ -113,29 +113,45 @@ class DepositDaiToPoolTogether extends Component {
 
   updateDaiAmountValidation(daiAmountValidation) {
     if (daiAmountValidation) {
-      this.setState({
-        daiAmountValidation: true
-      });
-      this.buttonStateUpdate();
+      this.setState(
+        {
+          daiAmountValidation: true
+        },
+        function () {
+          this.buttonStateUpdate();
+        }
+      );
     } else if (!daiAmountValidation) {
-      this.setState({
-        daiAmountValidation: false
-      });
-      this.buttonStateUpdate();
+      this.setState(
+        {
+          daiAmountValidation: false
+        },
+        function () {
+          this.buttonStateUpdate();
+        }
+      );
     }
   }
 
   updateWeiAmountValidation(weiAmountValidation) {
     if (weiAmountValidation) {
-      this.setState({
-        weiAmountValidation: true
-      });
-      this.buttonStateUpdate();
+      this.setState(
+        {
+          weiAmountValidation: true
+        },
+        function () {
+          this.buttonStateUpdate();
+        }
+      );
     } else if (!weiAmountValidation) {
-      this.setState({
-        weiAmountValidation: false
-      });
-      this.buttonStateUpdate();
+      this.setState(
+        {
+          weiAmountValidation: false
+        },
+        function () {
+          this.buttonStateUpdate();
+        }
+      );
     }
   }
 
@@ -164,7 +180,11 @@ class DepositDaiToPoolTogether extends Component {
   };
 
   renderChanceOfWinning() {
-    return <GoyemonText fontSize={14}>You have a 1 in 536,100 chance of winning.</GoyemonText>;
+    return (
+      <GoyemonText fontSize={14}>
+        You have a 1 in 536,100 chance of winning.
+      </GoyemonText>
+    );
   }
 
   render() {
