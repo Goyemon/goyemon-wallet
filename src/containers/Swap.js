@@ -85,12 +85,17 @@ class Swap extends Component {
   }
 
   updateTokenBought(ethSold) {
-    const tokenBought = this.getTokenBought(
-      ethSold,
-      this.props.uniswap.daiExchange.weiReserve,
-      this.props.uniswap.daiExchange.daiReserve
-    ).div(new RoundDownBigNumber(10).pow(18));
-    this.setState({ tokenBought: tokenBought });
+    const isNumber = /^[0-9]\d*(\.\d+)?$/.test(ethSold);
+    if (isNumber) {
+      const tokenBought = this.getTokenBought(
+        ethSold,
+        this.props.uniswap.daiExchange.weiReserve,
+        this.props.uniswap.daiExchange.daiReserve
+      ).div(new RoundDownBigNumber(10).pow(18));
+      this.setState({ tokenBought: tokenBought });
+    } else {
+      console.log('ethSold is not a number');
+    }
   }
 
   getMinTokens(tokenBought) {
@@ -286,10 +291,8 @@ class Swap extends Component {
                         GlobalConfig.UniswapEthToTokenSwapInputGasLimit
                       )
                     );
-                    if (this.state.ethSoldValidation) {
-                      this.setState({ ethSold });
-                      this.updateTokenBought(ethSold);
-                    }
+                    this.setState({ ethSold });
+                    this.updateTokenBought(ethSold);
                   }
                 }}
                 returnKeyType="done"
