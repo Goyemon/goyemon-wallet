@@ -1,5 +1,8 @@
 'use strict';
-import { SAVE_DAI_EXCHANGE_RESERVE } from '../constants/ActionTypes';
+import {
+  SAVE_SWAP_SLIPPAGE,
+  SAVE_DAI_EXCHANGE_RESERVE
+} from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
   uniswap: {
@@ -23,8 +26,8 @@ const uniswap = (state = INITIAL_STATE, action) => {
     case SAVE_DAI_EXCHANGE_RESERVE:
       return {
         uniswap: {
+          ...state.uniswap,
           daiExchange: {
-            ...state.uniswap.daiExchange,
             weiReserve: action.payload.ETH_balance,
             daiReserve: action.payload.DAI_balance
           }
