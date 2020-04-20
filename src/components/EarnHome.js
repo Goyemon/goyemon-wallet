@@ -89,7 +89,7 @@ class EarnHome extends Component {
             textAlign="left"
             width="90%"
             onPress={() => {
-              navigation.navigate('WithdrawDai');
+              navigation.navigate('WithdrawDaiFromCompound');
             }}
           >
             <GoyemonText fontSize={24}>
