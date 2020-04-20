@@ -41,7 +41,7 @@ class SendDai extends Component {
     super(props);
     this.state = {
       toAddress: '',
-      amount: '',
+      daiAmount: '',
       toAddressValidation: undefined,
       daiAmountValidation: undefined,
       weiAmountValidation: undefined,
@@ -78,16 +78,18 @@ class SendDai extends Component {
   }
 
   async constructTransactionObject() {
-    const amount = this.state.amount.split('.').join('');
-    const decimalPlaces = TransactionUtilities.decimalPlaces(this.state.amount);
+    const daiAmount = this.state.daiAmount.split('.').join('');
+    const decimalPlaces = TransactionUtilities.decimalPlaces(
+      this.state.daiAmount
+    );
     const decimals = 18 - parseInt(decimalPlaces);
     const transferEncodedABI = ABIEncoder.encodeTransfer(
       this.state.toAddress,
-      amount,
+      daiAmount,
       decimals
     );
 
-    const amountWithDecimals = new BigNumber(this.state.amount)
+    const daiAmountWithDecimals = new BigNumber(this.state.daiAmount)
       .times(new BigNumber(10).pow(18))
       .toString(16);
 
@@ -103,7 +105,7 @@ class SendDai extends Component {
       .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.transfer, [
         TxStorage.storage.getOwnAddress(),
         this.state.toAddress,
-        amountWithDecimals
+        daiAmountWithDecimals
       ]);
 
     return transactionObject;
@@ -180,7 +182,7 @@ class SendDai extends Component {
 
   validateForm = async (toAddress, amount) => {
     const toAddressValidation = this.validateToAddress(toAddress);
-    const daiAmountValidation = this.validateDaiAmount(amount);
+    const daiAmountValidation = this.validateDaiAmount(daiAmount);
     const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(
       TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
       GlobalConfig.ERC20TransferGasLimit
@@ -292,9 +294,9 @@ class SendDai extends Component {
               placeholder="0"
               keyboardType="numeric"
               clearButtonMode="while-editing"
-              onChangeText={(amount) => {
-                this.validateDaiAmount(amount);
-                this.setState({ amount });
+              onChangeText={(daiAmount) => {
+                this.validateDaiAmount(daiAmount);
+                this.setState({ daiAmount });
               }}
               returnKeyType="done"
             />

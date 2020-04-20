@@ -8,7 +8,6 @@ import ReducerCompound from './ReducerCompound';
 import ReducerChecksumAddress from './ReducerChecksumAddress';
 import ReducerFcmMsgs from './ReducerFcmMsgs';
 import ReducerDebugInfo from './ReducerDebugInfo';
-import ReducerUniswap from './ReducerUniswap';
 import ReducerGasPrice from './ReducerGasPrice';
 import ReducerMnemonic from './ReducerMnemonic';
 import ReducerMnemonicWordsValidation from './ReducerMnemonicWordsValidation';
@@ -23,6 +22,7 @@ import ReducerRehydration from './ReducerRehydration';
 import ReducerTxConfirmationModal from './ReducerTxConfirmationModal';
 import ReducerTransactionsLoaded from './ReducerTransactionsLoaded';
 import ReducerTransactionHistory from './ReducerTransactionHistory';
+import ReducerUniswap from './ReducerUniswap';
 
 const appReducers = combineReducers({
   ReducerApproval,
@@ -31,7 +31,6 @@ const appReducers = combineReducers({
   ReducerChecksumAddress,
   ReducerFcmMsgs,
   ReducerDebugInfo,
-  ReducerUniswap,
   ReducerGasPrice,
   ReducerMnemonic,
   ReducerMnemonicWordsValidation,
@@ -45,7 +44,8 @@ const appReducers = combineReducers({
   ReducerRehydration,
   ReducerTxConfirmationModal,
   ReducerTransactionsLoaded,
-  ReducerTransactionHistory
+  ReducerTransactionHistory,
+  ReducerUniswap
 });
 
 const rootReducers = (state, action) => {

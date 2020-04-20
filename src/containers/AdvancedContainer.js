@@ -8,6 +8,7 @@ import { getGasPrice, updateGasPriceChosen } from '../actions/ActionGasPrice';
 import {
   Container,
   FormHeader,
+  GoyemonText,
   MenuContainer,
   ToggleCurrencySymbol
 } from '../components/common';
@@ -130,7 +131,7 @@ class AdvancedContainer extends Component {
             this.setState({ showAdvanced: true });
           }}
         >
-          <Text>{I18n.t('advanced')}</Text>
+          <GoyemonText fontSize={14}>{I18n.t('advanced')}</GoyemonText>
           <Icon name="menu-down" color="#000" size={32} />
         </MenuContainer>
       );
@@ -143,7 +144,7 @@ class AdvancedContainer extends Component {
 }
 
 const NetworkFeeHeaderContainer = styled.View`
-  align-items: center;
+  align-items: flex-start;
   flex-direction: row;
   margin: 0 auto;
   margin-top: 24px;

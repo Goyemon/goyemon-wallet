@@ -318,4 +318,7 @@ const mapDispatchToProps = {
   saveOutgoingTransactionDataCompound
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DepositFirstDaiToCompound);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DepositFirstDaiToCompound);

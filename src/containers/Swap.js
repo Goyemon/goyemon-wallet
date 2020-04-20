@@ -95,7 +95,7 @@ class Swap extends Component {
 
   getMinTokens(tokenBought) {
     const minTokens = tokenBought.times(
-      (100 - this.props.outgoingTransactionData.swap.slippage) / 100
+      (100 - this.props.uniswap.slippage) / 100
     );
     return minTokens;
   }
@@ -128,7 +128,7 @@ class Swap extends Component {
       .toString(16);
 
     const transactionObject = (await TxStorage.storage.newTx())
-      .setTo(GlobalConfig.DAIUniswapContract)
+      .setTo(GlobalConfig.DAIUniswapContractV1)
       .setValue(weiSold.toString(16))
       .setGasPrice(
         TransactionUtilities.returnTransactionSpeed(

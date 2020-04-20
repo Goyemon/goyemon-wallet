@@ -9,6 +9,7 @@ import { saveOutgoingTransactionDataPoolTogether } from '../actions/ActionOutgoi
 import {
   RootContainer,
   Button,
+  GoyemonText,
   UseMaxButton,
   UntouchableCardContainer,
   HeaderOne,
@@ -58,7 +59,7 @@ class DepositDaiToPoolTogether extends Component {
           TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
           GlobalConfig.PoolTogetherDepositPoolGasLimit
         )
-      );  
+      );
     }
   }
 
@@ -79,7 +80,7 @@ class DepositDaiToPoolTogether extends Component {
       .toString(16);
 
     const transactionObject = (await TxStorage.storage.newTx())
-      .setTo(GlobalConfig.DAIPoolTogetherContract)
+      .setTo(GlobalConfig.DAIPoolTogetherContractV2)
       .setGasPrice(
         TransactionUtilities.returnTransactionSpeed(
           this.props.gasChosen
@@ -129,7 +130,7 @@ class DepositDaiToPoolTogether extends Component {
   }
 
   validateForm = async (daiAmount) => {
-    const daiAmountValidation = TransactionUtilities.validateTicketAmount(
+    const daiAmountValidation = TransactionUtilities.validateDaiPoolTogetherDepositAmount(
       daiAmount
     );
     const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(
@@ -153,7 +154,7 @@ class DepositDaiToPoolTogether extends Component {
   };
 
   renderChanceOfWinning() {
-    return <Text>You have a 1 in 536,100 chance of winning.</Text>;
+    return <GoyemonText fontSize={14}>You have a 1 in 536,100 chance of winning.</GoyemonText>;
   }
 
   render() {
@@ -197,7 +198,9 @@ class DepositDaiToPoolTogether extends Component {
             onPress={() => {
               this.setState({ daiAmount: daiFullBalance });
               this.updateDaiAmountValidation(
-                TransactionUtilities.validateTicketAmount(daiFullBalance)
+                TransactionUtilities.validateDaiPoolTogetherDepositAmount(
+                  daiFullBalance
+                )
               );
             }}
           />
@@ -216,7 +219,9 @@ class DepositDaiToPoolTogether extends Component {
               clearButtonMode="while-editing"
               onChangeText={(daiAmount) => {
                 this.updateDaiAmountValidation(
-                  TransactionUtilities.validateTicketAmount(daiAmount)
+                  TransactionUtilities.validateDaiPoolTogetherDepositAmount(
+                    daiAmount
+                  )
                 );
                 this.setState({ daiAmount });
               }}

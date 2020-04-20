@@ -78,7 +78,7 @@ class WithdrawDaiFromPoolTogether extends Component {
       .toString(16);
 
     const transactionObject = (await TxStorage.storage.newTx())
-      .setTo(GlobalConfig.DAIPoolTogetherContract)
+      .setTo(GlobalConfig.DAIPoolTogetherContractV2)
       .setGasPrice(
         TransactionUtilities.returnTransactionSpeed(
           this.props.gasChosen
@@ -127,7 +127,7 @@ class WithdrawDaiFromPoolTogether extends Component {
   }
 
   validateForm = async (daiWithdrawAmount) => {
-    const daiDepositedAmountValidation = TransactionUtilities.validateDaiDepositedAmount(
+    const daiDepositedAmountValidation = TransactionUtilities.validateDaiPoolTogetherWithdrawAmount(
       daiWithdrawAmount
     );
     const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(
@@ -195,7 +195,7 @@ class WithdrawDaiFromPoolTogether extends Component {
               clearButtonMode="while-editing"
               onChangeText={(daiWithdrawAmount) => {
                 this.updateDaiDepositedAmountValidation(
-                  TransactionUtilities.validateDaiDepositedAmount(
+                  TransactionUtilities.validateDaiPoolTogetherWithdrawAmount(
                     daiWithdrawAmount
                   )
                 );

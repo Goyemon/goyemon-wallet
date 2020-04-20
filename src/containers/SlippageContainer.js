@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { saveOutgoingTransactionDataSwapSlippage } from '../actions/ActionOutgoingTransactionData';
+import { saveSwapSlippage } from '../actions/ActionUniswap';
 import { Container, FormHeader } from '../components/common';
 import I18n from '../i18n/I18n';
 
@@ -52,7 +52,7 @@ class SlippageContainer extends Component {
                 <UnselectedSlippageTextContainer
                   onPress={() => {
                     this.setState({ checked: key });
-                    this.props.saveOutgoingTransactionDataSwapSlippage(
+                    this.props.saveSwapSlippage(
                       this.state.slippage[key].value
                     );
                   }}
@@ -119,7 +119,7 @@ const UnselectedButton = styled.Text`
 `;
 
 const mapDispatchToProps = {
-  saveOutgoingTransactionDataSwapSlippage
+  saveSwapSlippage
 };
 
 export default connect(null, mapDispatchToProps)(SlippageContainer);

@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { View, TouchableWithoutFeedback } from 'react-native';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import {
@@ -40,9 +40,9 @@ class NetworkFeeContainerConfirmation extends Component {
   render() {
     return (
       <View>
-        <NetworkFeeContainer>
+        <NetworkFeeHeaderContainer>
           <ConfirmationHeader>{I18n.t('max-network-fee')}</ConfirmationHeader>
-          <TouchableWithoutFeedback
+          <NetworkFeeSymbolContainer
             onPress={() => {
               if (this.state.currency === 'ETH') {
                 this.setState({ currency: 'USD' });
@@ -51,11 +51,9 @@ class NetworkFeeContainerConfirmation extends Component {
               }
             }}
           >
-            <View>
-              <ToggleCurrencySymbol currency={this.state.currency} />
-            </View>
-          </TouchableWithoutFeedback>
-        </NetworkFeeContainer>
+            <ToggleCurrencySymbol currency={this.state.currency} />
+          </NetworkFeeSymbolContainer>
+        </NetworkFeeHeaderContainer>
         <ConfirmationText>
           {this.toggleCurrency(
             TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
@@ -67,10 +65,12 @@ class NetworkFeeContainerConfirmation extends Component {
   }
 }
 
-const NetworkFeeContainer = styled.View`
-  align-items: center;
+const NetworkFeeHeaderContainer = styled.View`
+  align-items: flex-start;
   flex-direction: row;
 `;
+
+const NetworkFeeSymbolContainer = styled.TouchableOpacity``;
 
 function mapStateToProps(state) {
   return {

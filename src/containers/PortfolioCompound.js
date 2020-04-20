@@ -10,7 +10,8 @@ import {
   UntouchableCardContainer,
   HeaderOne,
   HeaderThree,
-  HeaderFour
+  HeaderFour,
+  GoyemonText
 } from '../components/common';
 import I18n from '../i18n/I18n';
 import { FCMMsgs } from '../lib/fcm.js';
@@ -65,7 +66,7 @@ class PortfolioCompound extends Component {
                 PriceUtilities.convertDaiToUsd(lifetimeEarnedInDai)
               ).toFixed(4)}
             </InterestEarnedText>
-            <Text> earned! </Text>
+            <GoyemonText fontSize={14}> earned! </GoyemonText>
           </InterestEarnedTextContainer>
         </UntouchableCardContainer>
         <HeaderThree
