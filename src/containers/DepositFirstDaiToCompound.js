@@ -92,29 +92,45 @@ class DepositFirstDaiToCompound extends Component {
     return transactionObject.setNonce(transactionObject.getNonce() + 1);
   }
 
-  updateDaiAmountValidation(daiAmountValidation) {
-    if (daiAmountValidation) {
+  buttonStateUpdate() {
+    if (this.state.daiAmountValidation && this.state.weiAmountValidation) {
       this.setState({
-        daiAmountValidation: true,
         buttonDisabled: false,
         buttonOpacity: 1
       });
-    } else if (!daiAmountValidation) {
+    } else {
       this.setState({
-        daiAmountValidation: false,
         buttonDisabled: true,
         buttonOpacity: 0.5
       });
     }
   }
 
+  updateDaiAmountValidation(daiAmountValidation) {
+    if (daiAmountValidation) {
+      this.setState({
+        daiAmountValidation: true
+      });
+      this.buttonStateUpdate();
+    } else if (!daiAmountValidation) {
+      this.setState({
+        daiAmountValidation: false
+      });
+      this.buttonStateUpdate();
+    }
+  }
+
   updateWeiAmountValidation(weiAmountValidation) {
     if (weiAmountValidation) {
-      this.setState({ weiAmountValidation: true, buttonDisabled: false,
-        buttonOpacity: 1 });
+      this.setState({
+        weiAmountValidation: true
+      });
+      this.buttonStateUpdate();
     } else if (!weiAmountValidation) {
-      this.setState({ weiAmountValidation: false, buttonDisabled: true,
-        buttonOpacity: 0.5 });
+      this.setState({
+        weiAmountValidation: false
+      });
+      this.buttonStateUpdate();
     }
   }
 

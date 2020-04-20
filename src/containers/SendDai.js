@@ -164,23 +164,35 @@ class SendDai extends Component {
     }
   }
 
-  updateWeiAmountValidation(weiAmountValidation) {
-    if (weiAmountValidation) {
+  buttonStateUpdate() {
+    if (this.state.daiAmountValidation && this.state.weiAmountValidation) {
       this.setState({
-        weiAmountValidation: true,
         buttonDisabled: false,
         buttonOpacity: 1
       });
-    } else if (!weiAmountValidation) {
+    } else {
       this.setState({
-        weiAmountValidation: false,
         buttonDisabled: true,
         buttonOpacity: 0.5
       });
     }
   }
 
-  validateForm = async (toAddress, amount) => {
+  updateWeiAmountValidation(weiAmountValidation) {
+    if (weiAmountValidation) {
+      this.setState({
+        weiAmountValidation: true
+      });
+      this.buttonStateUpdate();
+    } else if (!weiAmountValidation) {
+      this.setState({
+        weiAmountValidation: false
+      });
+      this.buttonStateUpdate();
+    }
+  }
+
+  validateForm = async (toAddress, daiAmount) => {
     const toAddressValidation = this.validateToAddress(toAddress);
     const daiAmountValidation = this.validateDaiAmount(daiAmount);
     const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(
@@ -195,7 +207,11 @@ class SendDai extends Component {
       weiAmountValidation &&
       isOnline
     ) {
-      this.setState({ loading: true, buttonDisabled: true });
+      this.setState({
+        loading: true,
+        buttonDisabled: true,
+        buttonOpacity: 0.5
+      });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       this.setState({ transactionObject });
@@ -321,8 +337,15 @@ class SendDai extends Component {
             marginBottom="12px"
             opacity={this.state.buttonOpacity}
             onPress={async () => {
-              await this.validateForm(this.state.toAddress, this.state.amount);
-              this.setState({ loading: false, buttonDisabled: false });
+              await this.validateForm(
+                this.state.toAddress,
+                this.state.daiAmount
+              );
+              this.setState({
+                loading: false,
+                buttonDisabled: false,
+                buttonOpacity: 1
+              });
             }}
           />
           <Loader animating={this.state.loading} size="small" />

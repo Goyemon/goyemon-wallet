@@ -94,35 +94,48 @@ class WithdrawDaiFromPoolTogether extends Component {
     return transactionObject;
   }
 
-  updateDaiDepositedAmountValidation(daiDepositedAmountValidation) {
-    if (daiDepositedAmountValidation) {
+  buttonStateUpdate() {
+    if (
+      this.state.daiDepositedAmountValidation &&
+      this.state.weiAmountValidation
+    ) {
       this.setState({
-        daiDepositedAmountValidation: true,
         buttonDisabled: false,
         buttonOpacity: 1
       });
-    } else if (!daiDepositedAmountValidation) {
+    } else {
       this.setState({
-        daiDepositedAmountValidation: false,
         buttonDisabled: true,
         buttonOpacity: 0.5
       });
     }
   }
 
+  updateDaiDepositedAmountValidation(daiDepositedAmountValidation) {
+    if (daiDepositedAmountValidation) {
+      this.setState({
+        daiDepositedAmountValidation: true
+      });
+      this.buttonStateUpdate();
+    } else if (!daiDepositedAmountValidation) {
+      this.setState({
+        daiDepositedAmountValidation: false
+      });
+      this.buttonStateUpdate();
+    }
+  }
+
   updateWeiAmountValidation(weiAmountValidation) {
     if (weiAmountValidation) {
       this.setState({
-        weiAmountValidation: true,
-        buttonDisabled: false,
-        buttonOpacity: 1
+        weiAmountValidation: true
       });
+      this.buttonStateUpdate();
     } else if (!weiAmountValidation) {
       this.setState({
-        weiAmountValidation: false,
-        buttonDisabled: true,
-        buttonOpacity: 0.5
+        weiAmountValidation: false
       });
+      this.buttonStateUpdate();
     }
   }
 
