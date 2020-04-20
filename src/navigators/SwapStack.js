@@ -1,7 +1,6 @@
 'use strict';
 import { createStackNavigator } from 'react-navigation';
 import Swap from '../containers/Swap';
-import SwapConfirmation from '../containers/SwapConfirmation';
 
 const SwapStack = createStackNavigator(
   {
@@ -10,13 +9,6 @@ const SwapStack = createStackNavigator(
       navigationOptions: () => ({
         headerTransparent: true,
         headerBackTitle: 'Swap'
-      })
-    },
-    SwapConfirmation: {
-      screen: SwapConfirmation,
-      navigationOptions: () => ({
-        headerTransparent: true,
-        headerBackTitle: 'SwapConfirmation'
       })
     }
   },
