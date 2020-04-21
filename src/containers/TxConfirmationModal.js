@@ -32,14 +32,19 @@ class TxConfirmationModal extends Component {
     };
   }
 
+  returnCurrency() {
+    if (this.props.currency === 'ETH') {
+      return 'ETH';
+    } else if (this.props.currency === 'DAI') {
+      return 'DAI';
+    }
+  }
   renderModalContent() {
     const {
       txConfirmationModal,
-      toAddress,
-      amount,
+      outgoingTransactionData,
       currency,
       gasLimit,
-      transactionObject,
       netInfo,
       navigation
     } = this.props;
@@ -49,12 +54,16 @@ class TxConfirmationModal extends Component {
         <View>
           <ConfirmationContainer>
             <ConfirmationHeader>{I18n.t('to')}</ConfirmationHeader>
-            <ConfirmationText>{toAddress}</ConfirmationText>
+            <ConfirmationText>
+              {outgoingTransactionData.send.toaddress}
+            </ConfirmationText>
             <ConfirmationHeader>{I18n.t('amount')}</ConfirmationHeader>
             <ConfirmationText>
-              {amount} {currency}
+              {outgoingTransactionData.send.amount} {this.returnCurrency()}
             </ConfirmationText>
-            <NetworkFeeContainerConfirmation gasLimit={gasLimit} />
+            <NetworkFeeContainerConfirmation
+              gasLimit={outgoingTransactionData.send.gasLimit}
+            />
           </ConfirmationContainer>
           <ButtonContainer>
             <Button
@@ -70,7 +79,7 @@ class TxConfirmationModal extends Component {
                 if (netInfo) {
                   this.setState({ loading: true, buttonDisabled: true });
                   await TransactionUtilities.sendOutgoingTransactionToServer(
-                    transactionObject
+                    outgoingTransactionData.send.transactionObject
                   );
                   navigation.reset(
                     [NavigationActions.navigate({ routeName: 'Send' })],
@@ -92,13 +101,20 @@ class TxConfirmationModal extends Component {
         <View>
           <ConfirmationContainer>
             <ConfirmationHeader>You Pay</ConfirmationHeader>
-            <ConfirmationText>{this.props.ethSold} ETH</ConfirmationText>
+            <ConfirmationText>
+              {outgoingTransactionData.swap.ethSold} ETH
+            </ConfirmationText>
             <ConfirmationHeader>You Get at Least</ConfirmationHeader>
             <ConfirmationText>
-              {this.props.minBought.toFixed(4)} DAI
-              <SlippageText> *slippage {this.props.slippage} %</SlippageText>
+              {outgoingTransactionData.swap.minBought.toFixed(4)} DAI
+              <SlippageText>
+                {' '}
+                *slippage {outgoingTransactionData.swap.slippage} %
+              </SlippageText>
             </ConfirmationText>
-            <NetworkFeeContainerConfirmation gasLimit={gasLimit} />
+            <NetworkFeeContainerConfirmation
+              gasLimit={outgoingTransactionData.swap.gasLimit}
+            />
           </ConfirmationContainer>
           <ButtonContainer>
             <Button
@@ -114,7 +130,7 @@ class TxConfirmationModal extends Component {
                 if (netInfo) {
                   this.setState({ loading: true, buttonDisabled: true });
                   await TransactionUtilities.sendOutgoingTransactionToServer(
-                    transactionObject
+                    outgoingTransactionData.swap.transactionObject
                   );
                   navigation.reset(
                     [NavigationActions.navigate({ routeName: 'Swap' })],
@@ -227,6 +243,8 @@ const ButtonContainer = styled.View`
 function mapStateToProps(state) {
   return {
     netInfo: state.ReducerNetInfo.netInfo,
+    outgoingTransactionData:
+      state.ReducerOutgoingTransactionData.outgoingTransactionData,
     txConfirmationModal: state.ReducerTxConfirmationModal.txConfirmationModal
   };
 }

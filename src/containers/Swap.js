@@ -6,11 +6,11 @@ import { connect } from 'react-redux';
 import { View } from 'react-native';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
+import { saveOutgoingTransactionDataSwap } from '../actions/ActionOutgoingTransactionData';
 import {
   saveTxConfirmationModalVisibility,
   updateVisibleType
 } from '../actions/ActionTxConfirmationModal';
-import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
 import {
   RootContainer,
   Container,
@@ -44,8 +44,7 @@ class Swap extends Component {
       ethSoldValidation: undefined,
       loading: false,
       buttonDisabled: true,
-      buttonOpacity: 0.5,
-      transactionObject: {}
+      buttonOpacity: 0.5
     };
   }
 
@@ -161,9 +160,16 @@ class Swap extends Component {
       this.setState({ loading: true, buttonDisabled: false });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
-      this.setState({ transactionObject });
+      this.props.saveOutgoingTransactionDataSwap({
+        sold: this.state.ethSold,
+        bought: this.state.tokenBought.toFixed(4),
+        minBought: this.getMinTokens(this.state.tokenBought),
+        slippage: this.props.uniswap.slippage,
+        gasLimit: GlobalConfig.UniswapEthToTokenSwapInputGasLimit,
+        transactionObject: transactionObject
+      });
       this.props.saveTxConfirmationModalVisibility(true);
-        this.props.updateVisibleType('swap');
+      this.props.updateVisibleType('swap');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }
@@ -247,13 +253,7 @@ class Swap extends Component {
 
     return (
       <RootContainer>
-        <TxConfirmationModal
-          ethSold={this.state.ethSold}
-          minBought={this.getMinTokens(this.state.tokenBought)}
-          slippage={this.props.uniswap.slippage}
-          transactionObject={this.state.transactionObject}
-          gasLimit={GlobalConfig.UniswapEthToTokenSwapInputGasLimit}
-        />
+        <TxConfirmationModal />
         <HeaderOne marginTop="64">{I18n.t('swap')}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
@@ -443,7 +443,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   saveTxConfirmationModalVisibility,
   updateVisibleType,
-  saveOutgoingTransactionObject
+  saveOutgoingTransactionDataSwap
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Swap);

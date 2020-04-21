@@ -11,7 +11,7 @@ import {
   saveTxConfirmationModalVisibility,
   updateVisibleType
 } from '../actions/ActionTxConfirmationModal';
-import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
+import { saveOutgoingTransactionDataSend } from '../actions/ActionOutgoingTransactionData';
 import { clearQRCodeData } from '../actions/ActionQRCodeData';
 import {
   Button,
@@ -46,8 +46,7 @@ class SendEth extends Component {
       amountValidation: undefined,
       loading: false,
       buttonDisabled: true,
-      buttonOpacity: 0.5,
-      transactionObject: {}
+      buttonOpacity: 0.5
     };
   }
 
@@ -158,7 +157,12 @@ class SendEth extends Component {
       this.setState({ loading: true, buttonDisabled: true });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
-      this.setState({ transactionObject });
+      this.props.saveOutgoingTransactionDataSend({
+        toaddress: toAddress,
+        amount: ethAmount,
+        gasLimit: GlobalConfig.ETHTxGasLimit,
+        transactionObject: transactionObject
+      });
       this.props.saveTxConfirmationModalVisibility(true);
       this.props.updateVisibleType('send');
     } else {
@@ -171,13 +175,7 @@ class SendEth extends Component {
 
     return (
       <View>
-        <TxConfirmationModal
-          toAddress={this.state.toAddress}
-          amount={this.state.ethAmount}
-          currency="ETH"
-          transactionObject={this.state.transactionObject}
-          gasLimit={GlobalConfig.ETHTxGasLimit}
-        />
+        <TxConfirmationModal currency="ETH" />
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8px"
@@ -364,7 +362,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   saveTxConfirmationModalVisibility,
   updateVisibleType,
-  saveOutgoingTransactionObject,
+  saveOutgoingTransactionDataSend,
   clearQRCodeData
 };
 

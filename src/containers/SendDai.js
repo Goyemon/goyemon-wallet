@@ -11,7 +11,7 @@ import {
   saveTxConfirmationModalVisibility,
   updateVisibleType
 } from '../actions/ActionTxConfirmationModal';
-import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
+import { saveOutgoingTransactionDataSend } from '../actions/ActionOutgoingTransactionData';
 import { clearQRCodeData } from '../actions/ActionQRCodeData';
 import {
   Button,
@@ -48,8 +48,7 @@ class SendDai extends Component {
       currency: 'USD',
       loading: false,
       buttonDisabled: true,
-      buttonOpacity: 0.5,
-      transactionObject: {}
+      buttonOpacity: 0.5
     };
   }
 
@@ -214,7 +213,12 @@ class SendDai extends Component {
       });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
-      this.setState({ transactionObject });
+      this.props.saveOutgoingTransactionDataSend({
+        toaddress: toAddress,
+        amount: daiAmount,
+        gasLimit: GlobalConfig.ERC20TransferGasLimit,
+        transactionObject: transactionObject
+      });
       this.props.saveTxConfirmationModalVisibility(true);
       this.props.updateVisibleType('send');
     } else {
@@ -229,13 +233,7 @@ class SendDai extends Component {
 
     return (
       <View>
-        <TxConfirmationModal
-          toAddress={this.state.toAddress}
-          amount={this.state.daiAmount}
-          currency="DAI"
-          transactionObject={this.state.transactionObject}
-          gasLimit={GlobalConfig.ERC20TransferGasLimit}
-        />
+        <TxConfirmationModal currency="DAI" />
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8px"
@@ -427,7 +425,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   saveTxConfirmationModalVisibility,
   updateVisibleType,
-  saveOutgoingTransactionObject,
+  saveOutgoingTransactionDataSend,
   clearQRCodeData
 };
 
