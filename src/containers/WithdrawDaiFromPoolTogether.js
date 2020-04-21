@@ -20,6 +20,7 @@ import {
   InsufficientWeiBalanceMessage,
   InsufficientDaiBalanceMessage
 } from '../components/common';
+import TxConfirmationModal from '../containers/TxConfirmationModal';
 import AdvancedContainer from './AdvancedContainer';
 import I18n from '../i18n/I18n';
 import LogUtilities from '../utilities/LogUtilities.js';
