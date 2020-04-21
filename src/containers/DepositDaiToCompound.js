@@ -174,7 +174,7 @@ class DepositDaiToCompound extends Component {
         transactionObject: transactionObject
       });
       this.props.saveTxConfirmationModalVisibility(true);
-        this.props.updateVisibleType('compound');
+      this.props.updateVisibleType('compound');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }
@@ -196,9 +196,7 @@ class DepositDaiToCompound extends Component {
 
     return (
       <RootContainer>
-        <TxConfirmationModal
-          type="compound-deposit"
-        />
+        <TxConfirmationModal type="compound-deposit" />
         <HeaderOne marginTop="96">{I18n.t('deposit')}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"

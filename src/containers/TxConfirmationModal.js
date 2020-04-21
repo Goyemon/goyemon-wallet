@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import { NavigationActions, withNavigation } from 'react-navigation';
-import { Modal, Alert, View, Text } from 'react-native';
+import { Modal, Alert, View } from 'react-native';
 import styled from 'styled-components';
 import {
   saveTxConfirmationModalVisibility,
