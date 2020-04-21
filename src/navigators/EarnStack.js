@@ -3,7 +3,6 @@ import { createStackNavigator } from 'react-navigation';
 import EarnHome from '../components/EarnHome';
 import DepositDaiToCompound from '../containers/DepositDaiToCompound';
 import DepositFirstDaiToCompound from '../containers/DepositFirstDaiToCompound';
-import DepositFirstDaiToCompoundConfirmation from '../containers/DepositFirstDaiToCompoundConfirmation';
 import WithdrawDaiFromCompound from '../containers/WithdrawDaiFromCompound';
 import DepositDaiToPoolTogether from '../containers/DepositDaiToPoolTogether';
 import DepositFirstDaiToPoolTogether from '../containers/DepositFirstDaiToPoolTogether';
@@ -31,12 +30,6 @@ const EarnStack = createStackNavigator(
       navigationOptions: () => ({
         headerTransparent: true,
         headerBackTitle: 'Deposit'
-      })
-    },
-    DepositFirstDaiToCompoundConfirmation: {
-      screen: DepositFirstDaiToCompoundConfirmation,
-      navigationOptions: () => ({
-        headerTransparent: true
       })
     },
     WithdrawDaiFromCompound: {

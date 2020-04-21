@@ -3,8 +3,11 @@ import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
 import { saveOutgoingTransactionDataCompound } from '../actions/ActionOutgoingTransactionData';
+import {
+  saveTxConfirmationModalVisibility,
+  updateVisibleType
+} from '../actions/ActionTxConfirmationModal';
 import {
   RootContainer,
   Button,
@@ -18,6 +21,7 @@ import {
   InsufficientWeiBalanceMessage,
   InsufficientDaiBalanceMessage
 } from '../components/common';
+import TxConfirmationModal from '../containers/TxConfirmationModal';
 import AdvancedContainer from './AdvancedContainer';
 import I18n from '../i18n/I18n';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
@@ -167,13 +171,15 @@ class DepositFirstDaiToCompound extends Component {
         GlobalConfig.cDAIcontract,
         this.props.gasChosen
       );
-      await this.props.saveOutgoingTransactionObject(approveTransactionObject);
       const mintTransactionObject = await this.constructMintTransactionObject();
-      await this.props.saveOutgoingTransactionObject(mintTransactionObject);
-      await this.props.saveOutgoingTransactionDataCompound({
-        amount: daiAmount
+      this.props.saveOutgoingTransactionDataCompound({
+        amount: daiAmount,
+        gasLimit: GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit,
+        approveTransactionObject: approveTransactionObject,
+        transactionObject: mintTransactionObject
       });
-      this.props.navigation.navigate('DepositFirstDaiToCompoundConfirmation');
+      this.props.saveTxConfirmationModalVisibility(true);
+      this.props.updateVisibleType('compound-approve');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }
@@ -195,6 +201,7 @@ class DepositFirstDaiToCompound extends Component {
 
     return (
       <RootContainer>
+        <TxConfirmationModal type="compound-approve" />
         <HeaderOne marginTop="96">{I18n.t('deposit')}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
@@ -346,8 +353,9 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  saveOutgoingTransactionObject,
-  saveOutgoingTransactionDataCompound
+  saveOutgoingTransactionDataCompound,
+  saveTxConfirmationModalVisibility,
+  updateVisibleType
 };
 
 export default connect(
