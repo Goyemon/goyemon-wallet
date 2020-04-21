@@ -21,6 +21,7 @@ const INITIAL_STATE = {
     poolTogether: {
       amount: '',
       gasLimit: '',
+      approveTransactionObject: {},
       transactionObject: {}
     },
     swap: {

@@ -1,11 +1,13 @@
 'use strict';
 import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
-import { Text } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
 import { saveOutgoingTransactionDataPoolTogether } from '../actions/ActionOutgoingTransactionData';
+import {
+  saveTxConfirmationModalVisibility,
+  updateVisibleType
+} from '../actions/ActionTxConfirmationModal';
 import {
   RootContainer,
   Button,
@@ -20,6 +22,7 @@ import {
   InsufficientWeiBalanceMessage,
   InsufficientDaiBalanceMessage
 } from '../components/common';
+import TxConfirmationModal from '../containers/TxConfirmationModal';
 import AdvancedContainer from './AdvancedContainer';
 import I18n from '../i18n/I18n';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
@@ -158,13 +161,15 @@ class DepositFirstDaiToPoolTogether extends Component {
   }
 
   validateForm = async (daiAmount) => {
+    const gasLimit =
+      GlobalConfig.ERC20ApproveGasLimit +
+      GlobalConfig.PoolTogetherDepositPoolGasLimit;
     const daiAmountValidation = TransactionUtilities.validateDaiPoolTogetherDepositAmount(
       daiAmount
     );
     const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(
       TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
-      GlobalConfig.ERC20ApproveGasLimit +
-        GlobalConfig.PoolTogetherDepositPoolGasLimit
+      gasLimit
     );
     const isOnline = this.props.netInfo;
 
@@ -175,17 +180,15 @@ class DepositFirstDaiToPoolTogether extends Component {
         GlobalConfig.DAIPoolTogetherContractV2,
         this.props.gasChosen
       );
-      await this.props.saveOutgoingTransactionObject(approveTransactionObject);
       const depositPoolTransactionObject = await this.constructDepositPoolTransactionObject();
-      await this.props.saveOutgoingTransactionObject(
-        depositPoolTransactionObject
-      );
       await this.props.saveOutgoingTransactionDataPoolTogether({
-        amount: daiAmount
+        amount: daiAmount,
+        gasLimit: gasLimit,
+        approveTransactionObject: approveTransactionObject,
+        transactionObject: depositPoolTransactionObject
       });
-      this.props.navigation.navigate(
-        'DepositFirstDaiToPoolTogetherConfirmation'
-      );
+      this.props.saveTxConfirmationModalVisibility(true);
+      this.props.updateVisibleType('pool-together-approve');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }
@@ -211,6 +214,7 @@ class DepositFirstDaiToPoolTogether extends Component {
 
     return (
       <RootContainer>
+        <TxConfirmationModal type="pool-together-approve" />
         <HeaderOne marginTop="96">{I18n.t('deposit')}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
@@ -369,8 +373,9 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  saveOutgoingTransactionObject,
-  saveOutgoingTransactionDataPoolTogether
+  saveOutgoingTransactionDataPoolTogether,
+  saveTxConfirmationModalVisibility,
+  updateVisibleType
 };
 
 export default connect(
