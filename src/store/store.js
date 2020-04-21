@@ -15,7 +15,6 @@ const persistConfig = {
     'ReducerGasPrice',
     'ReducerMnemonic',
     'ReducerMnemonicWordsValidation',
-    'ReducerOutgoingTransactionObjects',
     'ReducerPermissions',
     'ReducerPrice',
     'ReducerTransactionsLoaded',
