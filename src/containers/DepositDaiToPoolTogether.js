@@ -4,8 +4,11 @@ import React, { Component } from 'react';
 import { Text } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
 import { saveOutgoingTransactionDataPoolTogether } from '../actions/ActionOutgoingTransactionData';
+import {
+  saveTxConfirmationModalVisibility,
+  updateVisibleType
+} from '../actions/ActionTxConfirmationModal';
 import {
   RootContainer,
   Button,
@@ -169,11 +172,13 @@ class DepositDaiToPoolTogether extends Component {
       this.setState({ loading: true, buttonDisabled: true });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
-      await this.props.saveOutgoingTransactionObject(transactionObject);
-      await this.props.saveOutgoingTransactionDataPoolTogether({
-        amount: daiAmount
+      this.props.saveOutgoingTransactionDataPoolTogether({
+        amount: daiAmount,
+        gasLimit: GlobalConfig.PoolTogetherDepositPoolGasLimit,
+        transactionObject: transactionObject
       });
-      this.props.navigation.navigate('DepositDaiToPoolTogetherConfirmation');
+      this.props.saveTxConfirmationModalVisibility(true);
+      this.props.updateVisibleType('poolTogether');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }
@@ -199,6 +204,7 @@ class DepositDaiToPoolTogether extends Component {
 
     return (
       <RootContainer>
+        <TxConfirmationModal type="pool-together-deposit" />
         <HeaderOne marginTop="96">{I18n.t('deposit')}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
@@ -354,8 +360,9 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  saveOutgoingTransactionObject,
-  saveOutgoingTransactionDataPoolTogether
+  saveOutgoingTransactionDataPoolTogether,
+  saveTxConfirmationModalVisibility,
+  updateVisibleType
 };
 
 export default connect(

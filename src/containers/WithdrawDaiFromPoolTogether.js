@@ -3,8 +3,11 @@ import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
 import { saveOutgoingTransactionDataPoolTogether } from '../actions/ActionOutgoingTransactionData';
+import {
+  saveTxConfirmationModalVisibility,
+  updateVisibleType
+} from '../actions/ActionTxConfirmationModal';
 import {
   RootContainer,
   Button,
@@ -169,11 +172,13 @@ class WithdrawDaiFromPoolTogether extends Component {
       this.setState({ loading: true, buttonDisabled: true });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
-      await this.props.saveOutgoingTransactionObject(transactionObject);
-      await this.props.saveOutgoingTransactionDataPoolTogether({
-        amount: daiWithdrawAmount
+      this.props.saveOutgoingTransactionDataPoolTogether({
+        amount: daiAmount,
+        gasLimit: GlobalConfig.PoolTogetherWithdrawGasLimit,
+        transactionObject: transactionObject
       });
-      this.props.navigation.navigate('WithdrawDaiFromPoolTogetherConfirmation');
+      this.props.saveTxConfirmationModalVisibility(true);
+      this.props.updateVisibleType('poolTogether');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }
@@ -187,6 +192,7 @@ class WithdrawDaiFromPoolTogether extends Component {
 
     return (
       <RootContainer>
+        <TxConfirmationModal type="pool-together-withdraw" />
         <HeaderOne marginTop="96">{I18n.t('withdraw')}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
@@ -327,8 +333,9 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  saveOutgoingTransactionObject,
-  saveOutgoingTransactionDataPoolTogether
+  saveOutgoingTransactionDataPoolTogether,
+  saveTxConfirmationModalVisibility,
+  updateVisibleType
 };
 
 export default connect(

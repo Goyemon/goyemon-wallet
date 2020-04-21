@@ -18,7 +18,10 @@ const INITIAL_STATE = {
       transactionObject: {}
     },
     poolTogether: {
-      amount: ''
+      amount: '',
+      gasLimit: '',
+      transactionObject: {}
+    },
     swap: {
       sold: '',
       bought: '',

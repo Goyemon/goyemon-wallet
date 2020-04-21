@@ -6,11 +6,9 @@ import DepositFirstDaiToCompound from '../containers/DepositFirstDaiToCompound';
 import DepositFirstDaiToCompoundConfirmation from '../containers/DepositFirstDaiToCompoundConfirmation';
 import WithdrawDaiFromCompound from '../containers/WithdrawDaiFromCompound';
 import DepositDaiToPoolTogether from '../containers/DepositDaiToPoolTogether';
-import DepositDaiToPoolTogetherConfirmation from '../containers/DepositDaiToPoolTogetherConfirmation';
 import DepositFirstDaiToPoolTogether from '../containers/DepositFirstDaiToPoolTogether';
 import DepositFirstDaiToPoolTogetherConfirmation from '../containers/DepositFirstDaiToPoolTogetherConfirmation';
 import WithdrawDaiFromPoolTogether from '../containers/WithdrawDaiFromPoolTogether';
-import WithdrawDaiFromPoolTogetherConfirmation from '../containers/WithdrawDaiFromPoolTogetherConfirmation';
 
 const EarnStack = createStackNavigator(
   {
@@ -52,41 +50,29 @@ const EarnStack = createStackNavigator(
       screen: DepositDaiToPoolTogether,
       navigationOptions: () => ({
         headerTransparent: true,
-        headerBackTitle: 'Deposit',
-      }),
-    },
-    DepositDaiToPoolTogetherConfirmation: {
-      screen: DepositDaiToPoolTogetherConfirmation,
-      navigationOptions: () => ({
-        headerTransparent: true,
-      }),
+        headerBackTitle: 'Deposit'
+      })
     },
     DepositFirstDaiToPoolTogether: {
       screen: DepositFirstDaiToPoolTogether,
       navigationOptions: () => ({
         headerTransparent: true,
-        headerBackTitle: 'Deposit',
-      }),
+        headerBackTitle: 'Deposit'
+      })
     },
     DepositFirstDaiToPoolTogetherConfirmation: {
       screen: DepositFirstDaiToPoolTogetherConfirmation,
       navigationOptions: () => ({
-        headerTransparent: true,
-      }),
+        headerTransparent: true
+      })
     },
     WithdrawDaiFromPoolTogether: {
       screen: WithdrawDaiFromPoolTogether,
       navigationOptions: () => ({
         headerTransparent: true,
-        headerBackTitle: 'Deposit',
-      }),
-    },
-    WithdrawDaiFromPoolTogetherConfirmation: {
-      screen: WithdrawDaiFromPoolTogetherConfirmation,
-      navigationOptions: () => ({
-        headerTransparent: true,
-      }),
-    },
+        headerBackTitle: 'Deposit'
+      })
+    }
   },
   {
     initialRouteName: 'EarnHome'

@@ -33,11 +33,12 @@ class TxConfirmationModal extends Component {
   }
 
   returnHeaderType() {
-    if (this.props.type === 'compound-deposit') {
+    if (this.props.type === 'compound-deposit' || 'pool-together-deposit') {
       return (
         <ConfirmationHeader>{I18n.t('deposit-amount')}</ConfirmationHeader>
       );
-    } else if (this.props.type === 'compound-withdraw') {
+    } else if (this.props.type === 'compound-withdraw' ||
+    'pool-together-withdraw') {
       return (
         <ConfirmationHeader>{I18n.t('withdraw-amount')}</ConfirmationHeader>
       );
@@ -53,9 +54,12 @@ class TxConfirmationModal extends Component {
   }
 
   returnButtonType() {
-    if (this.props.type === 'compound-deposit') {
+    if (this.props.type === 'compound-deposit' || 'pool-together-deposit') {
       return I18n.t('deposit');
-    } else if (this.props.type === 'compound-withdraw') {
+    } else if (
+      this.props.type === 'compound-withdraw' ||
+      'pool-together-withdraw'
+    ) {
       return I18n.t('withdraw');
     }
   }
@@ -64,8 +68,6 @@ class TxConfirmationModal extends Component {
     const {
       txConfirmationModal,
       outgoingTransactionData,
-      currency,
-      gasLimit,
       netInfo,
       navigation
     } = this.props;
@@ -144,6 +146,48 @@ class TxConfirmationModal extends Component {
                   this.setState({ loading: true, buttonDisabled: true });
                   await TransactionUtilities.sendOutgoingTransactionToServer(
                     outgoingTransactionData.compound.transactionObject
+                  );
+                  navigation.reset(
+                    [NavigationActions.navigate({ routeName: 'EarnHome' })],
+                    0
+                  );
+                  navigation.navigate('History');
+                  this.setState({ loading: false, buttonDisabled: false });
+                }
+              }}
+            />
+          </ButtonContainer>
+          <Loader animating={this.state.loading} size="small" />
+          <IsOnlineMessage netInfo={netInfo} />
+        </View>
+      );
+    } else if (txConfirmationModal.type === 'poolTogether') {
+      return (
+        <View>
+          <ConfirmationContainer>
+            {this.returnHeaderType()}
+            <ConfirmationText>
+              {outgoingTransactionData.poolTogether.amount} DAI
+            </ConfirmationText>
+            <NetworkFeeContainerConfirmation
+              gasLimit={outgoingTransactionData.poolTogether.gasLimit}
+            />
+          </ConfirmationContainer>
+          <ButtonContainer>
+            <Button
+              text={this.returnButtonType()}
+              textColor="white"
+              backgroundColor="#00A3E2"
+              borderColor="#00A3E2"
+              disabled={this.state.buttonDisabled}
+              margin="8px"
+              marginBottom="12px"
+              opacity="1"
+              onPress={async () => {
+                if (netInfo) {
+                  this.setState({ loading: true, buttonDisabled: true });
+                  await TransactionUtilities.sendOutgoingTransactionToServer(
+                    outgoingTransactionData.poolTogether.transactionObject
                   );
                   navigation.reset(
                     [NavigationActions.navigate({ routeName: 'EarnHome' })],
