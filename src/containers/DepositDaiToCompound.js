@@ -3,8 +3,11 @@ import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
 import { saveOutgoingTransactionDataCompound } from '../actions/ActionOutgoingTransactionData';
+import {
+  saveTxConfirmationModalVisibility,
+  updateVisibleType
+} from '../actions/ActionTxConfirmationModal';
 import {
   RootContainer,
   Button,
@@ -19,6 +22,7 @@ import {
   InsufficientDaiBalanceMessage
 } from '../components/common';
 import AdvancedContainer from './AdvancedContainer';
+import TxConfirmationModal from '../containers/TxConfirmationModal';
 import I18n from '../i18n/I18n';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
@@ -164,18 +168,19 @@ class DepositDaiToCompound extends Component {
       this.setState({ loading: true, buttonDisabled: true });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
-      await this.props.saveOutgoingTransactionObject(transactionObject);
-      await this.props.saveOutgoingTransactionDataCompound({
-        amount: daiAmount
+      this.props.saveOutgoingTransactionDataCompound({
+        amount: daiAmount,
+        gasLimit: GlobalConfig.cTokenMintGasLimit,
+        transactionObject: transactionObject
       });
-      this.props.navigation.navigate('DepositDaiToCompoundConfirmation');
+      this.props.saveTxConfirmationModalVisibility(true);
+        this.props.updateVisibleType('compound');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }
   };
 
   render() {
-    console.log('this.state ==>', this.state);
     const { balance, compound } = this.props;
     const currentInterestRate = new BigNumber(compound.dai.currentInterestRate)
       .div(new BigNumber(10).pow(24))
@@ -191,6 +196,9 @@ class DepositDaiToCompound extends Component {
 
     return (
       <RootContainer>
+        <TxConfirmationModal
+          type="compound-deposit"
+        />
         <HeaderOne marginTop="96">{I18n.t('deposit')}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
@@ -338,8 +346,9 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  saveOutgoingTransactionObject,
-  saveOutgoingTransactionDataCompound
+  saveOutgoingTransactionDataCompound,
+  saveTxConfirmationModalVisibility,
+  updateVisibleType
 };
 
 export default connect(

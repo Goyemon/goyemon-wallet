@@ -3,8 +3,11 @@ import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
 import { saveOutgoingTransactionDataCompound } from '../actions/ActionOutgoingTransactionData';
+import {
+  saveTxConfirmationModalVisibility,
+  updateVisibleType
+} from '../actions/ActionTxConfirmationModal';
 import {
   RootContainer,
   Button,
@@ -18,6 +21,7 @@ import {
   InsufficientDaiBalanceMessage
 } from '../components/common';
 import AdvancedContainer from './AdvancedContainer';
+import TxConfirmationModal from '../containers/TxConfirmationModal';
 import I18n from '../i18n/I18n';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
@@ -171,11 +175,13 @@ class WithdrawDaiFromCompound extends Component {
       this.setState({ loading: true, buttonDisabled: true });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
-      await this.props.saveOutgoingTransactionObject(transactionObject);
-      await this.props.saveOutgoingTransactionDataCompound({
-        amount: daiWithdrawAmount
+      this.props.saveOutgoingTransactionDataCompound({
+        amount: daiWithdrawAmount,
+        gasLimit: GlobalConfig.cTokenRedeemUnderlyingGasLimit,
+        transactionObject: transactionObject
       });
-      this.props.navigation.navigate('WithdrawDaiConfirmation');
+      this.props.saveTxConfirmationModalVisibility(true);
+      this.props.updateVisibleType('compound');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }
@@ -190,6 +196,7 @@ class WithdrawDaiFromCompound extends Component {
 
     return (
       <RootContainer>
+        <TxConfirmationModal type="compound-withdraw" />
         <HeaderOne marginTop="96">{I18n.t('withdraw')}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
@@ -327,8 +334,12 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  saveOutgoingTransactionObject,
-  saveOutgoingTransactionDataCompound
+  saveOutgoingTransactionDataCompound,
+  saveTxConfirmationModalVisibility,
+  updateVisibleType
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(WithdrawDaiFromCompound);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WithdrawDaiFromCompound);

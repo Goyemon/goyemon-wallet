@@ -2,11 +2,9 @@
 import { createStackNavigator } from 'react-navigation';
 import EarnHome from '../components/EarnHome';
 import DepositDaiToCompound from '../containers/DepositDaiToCompound';
-import DepositDaiToCompoundConfirmation from '../containers/DepositDaiToCompoundConfirmation';
 import DepositFirstDaiToCompound from '../containers/DepositFirstDaiToCompound';
 import DepositFirstDaiToCompoundConfirmation from '../containers/DepositFirstDaiToCompoundConfirmation';
 import WithdrawDaiFromCompound from '../containers/WithdrawDaiFromCompound';
-import WithdrawDaiConfirmation from '../containers/WithdrawDaiConfirmation';
 import DepositDaiToPoolTogether from '../containers/DepositDaiToPoolTogether';
 import DepositDaiToPoolTogetherConfirmation from '../containers/DepositDaiToPoolTogetherConfirmation';
 import DepositFirstDaiToPoolTogether from '../containers/DepositFirstDaiToPoolTogether';
@@ -30,12 +28,6 @@ const EarnStack = createStackNavigator(
         headerBackTitle: 'Deposit'
       })
     },
-    DepositDaiToCompoundConfirmation: {
-      screen: DepositDaiToCompoundConfirmation,
-      navigationOptions: () => ({
-        headerTransparent: true
-      })
-    },
     DepositFirstDaiToCompound: {
       screen: DepositFirstDaiToCompound,
       navigationOptions: () => ({
@@ -54,12 +46,6 @@ const EarnStack = createStackNavigator(
       navigationOptions: () => ({
         headerTransparent: true,
         headerBackTitle: 'Withdraw'
-      })
-    },
-    WithdrawDaiConfirmation: {
-      screen: WithdrawDaiConfirmation,
-      navigationOptions: () => ({
-        headerTransparent: true
       })
     },
     DepositDaiToPoolTogether: {

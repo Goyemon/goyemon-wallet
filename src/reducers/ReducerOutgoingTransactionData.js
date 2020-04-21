@@ -13,7 +13,9 @@ const INITIAL_STATE = {
       transactionObject: {}
     },
     compound: {
-      amount: ''
+      amount: '',
+      gasLimit: '',
+      transactionObject: {}
     },
     poolTogether: {
       amount: ''
