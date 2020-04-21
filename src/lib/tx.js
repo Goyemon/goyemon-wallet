@@ -3,9 +3,9 @@
 import LogUtilities from '../utilities/LogUtilities';
 import AsyncStorage from '@react-native-community/async-storage';
 
-const crypto = require('crypto');
+import crypto from 'crypto';
 
-const GlobalConfig = require('../config.json');
+import GlobalConfig from '../config.json';
 
 // ========== consts ==========
 const TxStates = {

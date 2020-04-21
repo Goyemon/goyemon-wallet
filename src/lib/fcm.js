@@ -3,7 +3,7 @@ import firebase from 'react-native-firebase';
 import LogUtilities from '../utilities/LogUtilities.js';
 import zlib from 'react-zlib-js';
 
-const GlobalConfig = require('../config.json');
+import GlobalConfig from '../config.json';
 
 
 function obj_property_default(obj, prop, def) {

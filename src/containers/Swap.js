@@ -14,13 +14,13 @@ import {
 import {
   RootContainer,
   Container,
-  Button,
   UntouchableCardContainer,
   HeaderOne,
   SwapForm,
   Loader,
   IsOnlineMessage,
-  ErrorMessage
+  ErrorMessage,
+  TxNextButton
 } from '../components/common';
 import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
 import AdvancedContainer from '../containers/AdvancedContainer';
@@ -359,14 +359,8 @@ class Swap extends Component {
           swap={true}
         />
         <ButtonWrapper>
-          <Button
-            text={I18n.t('button-next')}
-            textColor="#00A3E2"
-            backgroundColor="#FFF"
-            borderColor="#00A3E2"
+          <TxNextButton
             disabled={this.state.buttonDisabled}
-            margin="40px auto"
-            marginBottom="12px"
             opacity={this.state.buttonOpacity}
             onPress={async () => {
               await this.validateForm();

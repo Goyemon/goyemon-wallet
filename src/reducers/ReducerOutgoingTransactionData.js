@@ -1,8 +1,10 @@
 'use strict';
-import { SAVE_OUTGOING_TRANSACTION_DATA_SEND } from '../constants/ActionTypes';
-import { SAVE_OUTGOING_TRANSACTION_DATA_COMPOUND } from '../constants/ActionTypes';
-import { SAVE_OUTGOING_TRANSACTION_DATA_POOLTOGETHER } from '../constants/ActionTypes';
-import { SAVE_OUTGOING_TRANSACTION_DATA_SWAP } from '../constants/ActionTypes';
+import {
+  SAVE_OUTGOING_TRANSACTION_DATA_SEND,
+  SAVE_OUTGOING_TRANSACTION_DATA_COMPOUND,
+  SAVE_OUTGOING_TRANSACTION_DATA_POOLTOGETHER,
+  SAVE_OUTGOING_TRANSACTION_DATA_SWAP
+} from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
   outgoingTransactionData: {

@@ -36,7 +36,8 @@ class TxConfirmationModal extends Component {
     if (
       this.props.type === 'compound-deposit' ||
       'pool-together-deposit' ||
-      'compound-approve' || 'pool-together-approve'
+      'compound-approve' ||
+      'pool-together-approve'
     ) {
       return (
         <ConfirmationHeader>{I18n.t('deposit-amount')}</ConfirmationHeader>
@@ -63,7 +64,8 @@ class TxConfirmationModal extends Component {
     if (
       this.props.type === 'compound-deposit' ||
       'pool-together-deposit' ||
-      'compound-approve' || 'pool-together-approve'
+      'compound-approve' ||
+      'pool-together-approve'
     ) {
       return I18n.t('deposit');
     } else if (
@@ -242,7 +244,8 @@ class TxConfirmationModal extends Component {
                 if (netInfo) {
                   this.setState({ loading: true, buttonDisabled: true });
                   await TransactionUtilities.sendOutgoingTransactionToServer(
-                    outgoingTransactionData.poolTogether.approveTransactionObject
+                    outgoingTransactionData.poolTogether
+                      .approveTransactionObject
                   );
                   await TransactionUtilities.sendOutgoingTransactionToServer(
                     outgoingTransactionData.poolTogether.transactionObject
@@ -315,8 +318,7 @@ class TxConfirmationModal extends Component {
             <ConfirmationText>
               {outgoingTransactionData.swap.minBought.toFixed(4)} DAI
               <SlippageText>
-                {' '}
-                *slippage {outgoingTransactionData.swap.slippage} %
+                  *slippage {outgoingTransactionData.swap.slippage} %
               </SlippageText>
             </ConfirmationText>
             <NetworkFeeContainerConfirmation

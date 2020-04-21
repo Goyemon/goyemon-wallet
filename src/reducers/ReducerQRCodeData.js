@@ -1,6 +1,5 @@
 'use strict';
-import { CLEAR_QRCODE_DATA } from '../constants/ActionTypes';
-import { SAVE_QRCODE_DATA } from '../constants/ActionTypes';
+import { CLEAR_QRCODE_DATA, SAVE_QRCODE_DATA } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
   qrCodeData: null

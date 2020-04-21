@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import {
@@ -42,7 +42,7 @@ class NetworkFeeContainerConfirmation extends Component {
       <View>
         <NetworkFeeHeaderContainer>
           <ConfirmationHeader>{I18n.t('max-network-fee')}</ConfirmationHeader>
-          <NetworkFeeSymbolContainer
+          <TouchableOpacity
             onPress={() => {
               if (this.state.currency === 'ETH') {
                 this.setState({ currency: 'USD' });
@@ -52,7 +52,7 @@ class NetworkFeeContainerConfirmation extends Component {
             }}
           >
             <ToggleCurrencySymbol currency={this.state.currency} />
-          </NetworkFeeSymbolContainer>
+          </TouchableOpacity>
         </NetworkFeeHeaderContainer>
         <ConfirmationText>
           {this.toggleCurrency(
@@ -69,8 +69,6 @@ const NetworkFeeHeaderContainer = styled.View`
   align-items: flex-start;
   flex-direction: row;
 `;
-
-const NetworkFeeSymbolContainer = styled.TouchableOpacity``;
 
 function mapStateToProps(state) {
   return {

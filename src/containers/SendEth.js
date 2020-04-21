@@ -14,14 +14,14 @@ import {
 import { saveOutgoingTransactionDataSend } from '../actions/ActionOutgoingTransactionData';
 import { clearQRCodeData } from '../actions/ActionQRCodeData';
 import {
-  Button,
   UntouchableCardContainer,
   Form,
   FormHeader,
   Loader,
   IsOnlineMessage,
   InvalidToAddressMessage,
-  ErrorMessage
+  ErrorMessage,
+  TxNextButton
 } from '../components/common';
 import AdvancedContainer from '../containers/AdvancedContainer';
 import TxConfirmationModal from '../containers/TxConfirmationModal';
@@ -267,14 +267,8 @@ class SendEth extends Component {
         <View>{this.renderInsufficientBalanceMessage()}</View>
         <AdvancedContainer gasLimit={GlobalConfig.ETHTxGasLimit} />
         <ButtonWrapper>
-          <Button
-            text={I18n.t('button-next')}
-            textColor="#00A3E2"
-            backgroundColor="#FFF"
-            borderColor="#00A3E2"
+          <TxNextButton
             disabled={this.state.buttonDisabled}
-            margin="40px auto"
-            marginBottom="12px"
             opacity={this.state.buttonOpacity}
             onPress={async () => {
               await this.validateForm(

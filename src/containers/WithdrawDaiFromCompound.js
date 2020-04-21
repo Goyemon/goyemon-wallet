@@ -10,7 +10,6 @@ import {
 } from '../actions/ActionTxConfirmationModal';
 import {
   RootContainer,
-  Button,
   UntouchableCardContainer,
   HeaderOne,
   Form,
@@ -18,7 +17,8 @@ import {
   Loader,
   IsOnlineMessage,
   InsufficientWeiBalanceMessage,
-  InsufficientDaiBalanceMessage
+  InsufficientDaiBalanceMessage,
+  TxNextButton
 } from '../components/common';
 import AdvancedContainer from './AdvancedContainer';
 import TxConfirmationModal from '../containers/TxConfirmationModal';
@@ -252,14 +252,8 @@ class WithdrawDaiFromCompound extends Component {
           weiAmountValidation={this.state.weiAmountValidation}
         />
         <ButtonWrapper>
-          <Button
-            text={I18n.t('button-next')}
-            textColor="#00A3E2"
-            backgroundColor="#FFF"
-            borderColor="#00A3E2"
+          <TxNextButton
             disabled={this.state.buttonDisabled}
-            margin="40px auto"
-            marginBottom="12px"
             opacity={this.state.buttonOpacity}
             onPress={async () => {
               await this.validateForm(this.state.daiWithdrawAmount);

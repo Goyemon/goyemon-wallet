@@ -13,7 +13,7 @@ import {
 } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
-const GlobalConfig = require('../config.json');
+import GlobalConfig from '../config.json';
 
 export function saveEmptyTransaction(emptyTransaction) {
   return function (dispatch) {
