@@ -243,7 +243,7 @@ class Swap extends Component {
       this.state.ethSoldValidation === undefined
     ) {
     } else {
-      return <ErrorMessage>invalid amount!</ErrorMessage>;
+      return <ErrorMessage>not enough ether!</ErrorMessage>;
     }
   }
 

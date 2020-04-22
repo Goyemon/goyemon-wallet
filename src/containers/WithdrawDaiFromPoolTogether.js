@@ -17,7 +17,6 @@ import {
   Loader,
   IsOnlineMessage,
   InsufficientWeiBalanceMessage,
-  InsufficientDaiBalanceMessage,
   TxNextButton
 } from '../components/common';
 import TxConfirmationModal from '../containers/TxConfirmationModal';
@@ -242,9 +241,6 @@ class WithdrawDaiFromPoolTogether extends Component {
             <CurrencySymbolText>DAI</CurrencySymbolText>
           </SendTextInputContainer>
         </Form>
-        <InsufficientDaiBalanceMessage
-          daiAmountValidation={this.state.daiAmountValidation}
-        />
         <AdvancedContainer
           gasLimit={GlobalConfig.PoolTogetherWithdrawGasLimit}
         />

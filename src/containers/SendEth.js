@@ -19,8 +19,6 @@ import {
   FormHeader,
   Loader,
   IsOnlineMessage,
-  InvalidToAddressMessage,
-  ErrorMessage,
   TxNextButton
 } from '../components/common';
 import AdvancedContainer from '../containers/AdvancedContainer';
@@ -135,16 +133,6 @@ class SendEth extends Component {
     }
   }
 
-  renderInsufficientBalanceMessage() {
-    if (
-      this.state.amountValidation ||
-      this.state.amountValidation === undefined
-    ) {
-    } else {
-      return <ErrorMessage>invalid amount!</ErrorMessage>;
-    }
-  }
-
   validateForm = async (toAddress, ethAmount) => {
     const toAddressValidation = this.validateToAddress(toAddress);
     const amountValidation = this.validateAmount(
@@ -233,9 +221,6 @@ class SendEth extends Component {
             </TouchableOpacity>
           </SendTextInputContainer>
         </Form>
-        <InvalidToAddressMessage
-          toAddressValidation={this.state.toAddressValidation}
-        />
         <FormHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
             {I18n.t('amount')}
@@ -264,7 +249,6 @@ class SendEth extends Component {
             <CurrencySymbolText>ETH</CurrencySymbolText>
           </SendTextInputContainer>
         </Form>
-        <View>{this.renderInsufficientBalanceMessage()}</View>
         <AdvancedContainer gasLimit={GlobalConfig.ETHTxGasLimit} />
         <ButtonWrapper>
           <TxNextButton

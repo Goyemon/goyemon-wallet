@@ -19,7 +19,6 @@ import {
   Loader,
   IsOnlineMessage,
   InsufficientWeiBalanceMessage,
-  InsufficientDaiBalanceMessage,
   TxNextButton
 } from '../components/common';
 import TxConfirmationModal from '../containers/TxConfirmationModal';
@@ -277,9 +276,6 @@ class DepositFirstDaiToPoolTogether extends Component {
             <CurrencySymbolText>DAI</CurrencySymbolText>
           </SendTextInputContainer>
         </Form>
-        <InsufficientDaiBalanceMessage
-          daiAmountValidation={this.state.daiAmountValidation}
-        />
         {this.renderChanceOfWinning()}
         <AdvancedContainer
           gasLimit={

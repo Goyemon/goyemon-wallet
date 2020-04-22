@@ -20,8 +20,6 @@ import {
   Loader,
   IsOnlineMessage,
   InsufficientWeiBalanceMessage,
-  InvalidToAddressMessage,
-  InsufficientDaiBalanceMessage,
   TxNextButton
 } from '../components/common';
 import AdvancedContainer from '../containers/AdvancedContainer';
@@ -288,9 +286,6 @@ class SendDai extends Component {
             </TouchableOpacity>
           </SendTextInputContainer>
         </Form>
-        <InvalidToAddressMessage
-          toAddressValidation={this.state.toAddressValidation}
-        />
         <FormHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
             {I18n.t('amount')}
@@ -317,9 +312,6 @@ class SendDai extends Component {
             <CurrencySymbolText>DAI</CurrencySymbolText>
           </SendTextInputContainer>
         </Form>
-        <InsufficientDaiBalanceMessage
-          daiAmountValidation={this.state.daiAmountValidation}
-        />
         <AdvancedContainer gasLimit={GlobalConfig.ERC20TransferGasLimit} />
         <InsufficientWeiBalanceMessage
           weiAmountValidation={this.state.weiAmountValidation}

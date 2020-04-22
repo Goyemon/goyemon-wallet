@@ -20,7 +20,6 @@ import {
   Loader,
   IsOnlineMessage,
   InsufficientWeiBalanceMessage,
-  InsufficientDaiBalanceMessage,
   TxNextButton
 } from '../components/common';
 import AdvancedContainer from './AdvancedContainer';
@@ -267,9 +266,6 @@ class DepositDaiToPoolTogether extends Component {
             <CurrencySymbolText>DAI</CurrencySymbolText>
           </SendTextInputContainer>
         </Form>
-        <InsufficientDaiBalanceMessage
-          daiAmountValidation={this.state.daiAmountValidation}
-        />
         {this.renderChanceOfWinning()}
         <AdvancedContainer
           gasLimit={GlobalConfig.PoolTogetherDepositPoolGasLimit}

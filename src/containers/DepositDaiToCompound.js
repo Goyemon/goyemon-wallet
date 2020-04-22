@@ -18,7 +18,6 @@ import {
   Loader,
   IsOnlineMessage,
   InsufficientWeiBalanceMessage,
-  InsufficientDaiBalanceMessage,
   TxNextButton
 } from '../components/common';
 import AdvancedContainer from './AdvancedContainer';
@@ -253,9 +252,6 @@ class DepositDaiToCompound extends Component {
             <CurrencySymbolText>DAI</CurrencySymbolText>
           </SendTextInputContainer>
         </Form>
-        <InsufficientDaiBalanceMessage
-          daiAmountValidation={this.state.daiAmountValidation}
-        />
         <AdvancedContainer gasLimit={GlobalConfig.cTokenMintGasLimit} />
         <InsufficientWeiBalanceMessage
           weiAmountValidation={this.state.weiAmountValidation}
