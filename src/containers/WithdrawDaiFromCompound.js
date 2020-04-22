@@ -180,7 +180,7 @@ class WithdrawDaiFromCompound extends Component {
         transactionObject: transactionObject
       });
       this.props.saveTxConfirmationModalVisibility(true);
-      this.props.updateVisibleType('compound');
+      this.props.updateVisibleType('compound-withdraw');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }
@@ -195,7 +195,7 @@ class WithdrawDaiFromCompound extends Component {
 
     return (
       <RootContainer>
-        <TxConfirmationModal type="compound-withdraw" />
+        <TxConfirmationModal />
         <HeaderOne marginTop="96">{I18n.t('withdraw')}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"

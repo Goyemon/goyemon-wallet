@@ -177,7 +177,7 @@ class DepositDaiToPoolTogether extends Component {
         transactionObject: transactionObject
       });
       this.props.saveTxConfirmationModalVisibility(true);
-      this.props.updateVisibleType('poolTogether');
+      this.props.updateVisibleType('pool-together-deposit');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }
@@ -203,7 +203,7 @@ class DepositDaiToPoolTogether extends Component {
 
     return (
       <RootContainer>
-        <TxConfirmationModal type="pool-together-deposit" />
+        <TxConfirmationModal />
         <HeaderOne marginTop="96">{I18n.t('deposit')}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"

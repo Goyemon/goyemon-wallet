@@ -213,7 +213,7 @@ class DepositFirstDaiToPoolTogether extends Component {
 
     return (
       <RootContainer>
-        <TxConfirmationModal type="pool-together-approve" />
+        <TxConfirmationModal />
         <HeaderOne marginTop="96">{I18n.t('deposit')}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"

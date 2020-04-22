@@ -178,7 +178,7 @@ class WithdrawDaiFromPoolTogether extends Component {
         transactionObject: transactionObject
       });
       this.props.saveTxConfirmationModalVisibility(true);
-      this.props.updateVisibleType('poolTogether');
+      this.props.updateVisibleType('pool-together-withdraw');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }
@@ -192,7 +192,7 @@ class WithdrawDaiFromPoolTogether extends Component {
 
     return (
       <RootContainer>
-        <TxConfirmationModal type="pool-together-withdraw" />
+        <TxConfirmationModal />
         <HeaderOne marginTop="96">{I18n.t('withdraw')}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"

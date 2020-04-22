@@ -152,7 +152,7 @@ class SendEth extends Component {
         transactionObject: transactionObject
       });
       this.props.saveTxConfirmationModalVisibility(true);
-      this.props.updateVisibleType('send');
+      this.props.updateVisibleType('send-eth');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }
@@ -163,7 +163,7 @@ class SendEth extends Component {
 
     return (
       <View>
-        <TxConfirmationModal currency="ETH" />
+        <TxConfirmationModal />
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8px"

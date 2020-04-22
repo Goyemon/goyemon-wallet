@@ -218,7 +218,7 @@ class SendDai extends Component {
         transactionObject: transactionObject
       });
       this.props.saveTxConfirmationModalVisibility(true);
-      this.props.updateVisibleType('send');
+      this.props.updateVisibleType('send-dai');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }
@@ -231,7 +231,7 @@ class SendDai extends Component {
 
     return (
       <View>
-        <TxConfirmationModal currency="DAI" />
+        <TxConfirmationModal />
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8px"

@@ -200,7 +200,7 @@ class DepositFirstDaiToCompound extends Component {
 
     return (
       <RootContainer>
-        <TxConfirmationModal type="compound-approve" />
+        <TxConfirmationModal />
         <HeaderOne marginTop="96">{I18n.t('deposit')}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"

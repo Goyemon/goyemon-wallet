@@ -26,7 +26,6 @@ class TxConfirmationModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalVisible: false,
       loading: false,
       buttonDisabled: false
     };
@@ -34,7 +33,7 @@ class TxConfirmationModal extends Component {
 
   returnHeaderType() {
     if (
-      this.props.type === 'compound-deposit' ||
+      this.props.txConfirmationModal.type === 'compound-deposit' ||
       'pool-together-deposit' ||
       'compound-approve' ||
       'pool-together-approve'
@@ -43,7 +42,7 @@ class TxConfirmationModal extends Component {
         <ConfirmationHeader>{I18n.t('deposit-amount')}</ConfirmationHeader>
       );
     } else if (
-      this.props.type === 'compound-withdraw' ||
+      this.props.txConfirmationModal.type === 'compound-withdraw' ||
       'pool-together-withdraw'
     ) {
       return (
@@ -53,23 +52,23 @@ class TxConfirmationModal extends Component {
   }
 
   returnCurrency() {
-    if (this.props.currency === 'ETH') {
+    if (this.props.txConfirmationModal.type === 'send-eth') {
       return 'ETH';
-    } else if (this.props.currency === 'DAI') {
+    } else if (this.props.txConfirmationModal.type === 'send-dai') {
       return 'DAI';
     }
   }
 
   returnButtonType() {
     if (
-      this.props.type === 'compound-deposit' ||
+      this.props.txConfirmationModal.type === 'compound-deposit' ||
       'pool-together-deposit' ||
       'compound-approve' ||
       'pool-together-approve'
     ) {
       return I18n.t('deposit');
     } else if (
-      this.props.type === 'compound-withdraw' ||
+      this.props.txConfirmationModal.type === 'compound-withdraw' ||
       'pool-together-withdraw'
     ) {
       return I18n.t('withdraw');
@@ -84,7 +83,7 @@ class TxConfirmationModal extends Component {
       navigation
     } = this.props;
 
-    if (txConfirmationModal.type === 'send') {
+    if (txConfirmationModal.type === 'send-eth' || 'send-dai') {
       return (
         <View>
           <ConfirmationContainer>
@@ -176,7 +175,10 @@ class TxConfirmationModal extends Component {
           <IsOnlineMessage netInfo={netInfo} />
         </View>
       );
-    } else if (txConfirmationModal.type === 'compound') {
+    } else if (
+      txConfirmationModal.type === 'compound-deposit' ||
+      'compound-withdraw'
+    ) {
       return (
         <View>
           <ConfirmationContainer>
@@ -264,7 +266,10 @@ class TxConfirmationModal extends Component {
           <IsOnlineMessage netInfo={netInfo} />
         </View>
       );
-    } else if (txConfirmationModal.type === 'poolTogether') {
+    } else if (
+      txConfirmationModal.type === 'pool-together-deposit' ||
+      'pool-together-withdraw'
+    ) {
       return (
         <View>
           <ConfirmationContainer>
