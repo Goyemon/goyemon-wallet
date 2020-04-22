@@ -324,7 +324,7 @@ class TxConfirmationModal extends Component {
           <ConfirmationContainer>
             <ConfirmationHeader>You Pay</ConfirmationHeader>
             <ConfirmationText>
-              {outgoingTransactionData.swap.ethSold} ETH
+              {outgoingTransactionData.swap.sold} ETH
             </ConfirmationText>
             <ConfirmationHeader>You Get at Least</ConfirmationHeader>
             <ConfirmationText>

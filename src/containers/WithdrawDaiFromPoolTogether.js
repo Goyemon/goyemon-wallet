@@ -173,7 +173,7 @@ class WithdrawDaiFromPoolTogether extends Component {
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       this.props.saveOutgoingTransactionDataPoolTogether({
-        amount: daiAmount,
+        amount: daiWithdrawAmount,
         gasLimit: GlobalConfig.PoolTogetherWithdrawGasLimit,
         transactionObject: transactionObject
       });
