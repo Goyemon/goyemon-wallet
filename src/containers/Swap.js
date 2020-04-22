@@ -39,7 +39,7 @@ class Swap extends Component {
     super(props);
     this.state = {
       ethBalance: Web3.utils.fromWei(props.balance.wei),
-      ethSold: '',
+      ethSold: '0',
       tokenBought: new RoundDownBigNumber(0),
       ethSoldValidation: undefined,
       loading: false,
