@@ -34,16 +34,16 @@ class TxConfirmationModal extends Component {
   returnHeaderType() {
     if (
       this.props.txConfirmationModal.type === 'compound-deposit' ||
-      'pool-together-deposit' ||
-      'compound-approve' ||
-      'pool-together-approve'
+      this.props.txConfirmationModal.type === 'pool-together-deposit' ||
+      this.props.txConfirmationModal.type === 'compound-approve' ||
+      this.props.txConfirmationModal.type === 'pool-together-approve'
     ) {
       return (
         <ConfirmationHeader>{I18n.t('deposit-amount')}</ConfirmationHeader>
       );
     } else if (
       this.props.txConfirmationModal.type === 'compound-withdraw' ||
-      'pool-together-withdraw'
+      this.props.txConfirmationModal.type === 'pool-together-withdraw'
     ) {
       return (
         <ConfirmationHeader>{I18n.t('withdraw-amount')}</ConfirmationHeader>
@@ -62,14 +62,14 @@ class TxConfirmationModal extends Component {
   returnButtonType() {
     if (
       this.props.txConfirmationModal.type === 'compound-deposit' ||
-      'pool-together-deposit' ||
-      'compound-approve' ||
-      'pool-together-approve'
+      this.props.txConfirmationModal.type === 'pool-together-deposit' ||
+      this.props.txConfirmationModal.type === 'compound-approve' ||
+      this.props.txConfirmationModal.type === 'pool-together-approve'
     ) {
       return I18n.t('deposit');
     } else if (
       this.props.txConfirmationModal.type === 'compound-withdraw' ||
-      'pool-together-withdraw'
+      this.props.txConfirmationModal.type === 'pool-together-withdraw'
     ) {
       return I18n.t('withdraw');
     }
@@ -83,7 +83,10 @@ class TxConfirmationModal extends Component {
       navigation
     } = this.props;
 
-    if (txConfirmationModal.type === 'send-eth' || 'send-dai') {
+    if (
+      txConfirmationModal.type === 'send-eth' ||
+      txConfirmationModal.type === 'send-dai'
+    ) {
       return (
         <View>
           <ConfirmationContainer>
@@ -177,7 +180,7 @@ class TxConfirmationModal extends Component {
       );
     } else if (
       txConfirmationModal.type === 'compound-deposit' ||
-      'compound-withdraw'
+      txConfirmationModal.type === 'compound-withdraw'
     ) {
       return (
         <View>
@@ -268,7 +271,7 @@ class TxConfirmationModal extends Component {
       );
     } else if (
       txConfirmationModal.type === 'pool-together-deposit' ||
-      'pool-together-withdraw'
+      txConfirmationModal.type === 'pool-together-withdraw'
     ) {
       return (
         <View>
