@@ -2,6 +2,7 @@
 import firebase from 'react-native-firebase';
 import LogUtilities from '../utilities/LogUtilities.js';
 import zlib from 'react-zlib-js';
+import TxStorage from '../lib/tx.js';
 
 const GlobalConfig = require('../config.json');
 
@@ -196,7 +197,7 @@ class FCMMsgs {
 	}
 
 	checkForUpdates(checksumAddress, checksums, count, offset=0) {
-		this.__sendMessage('request_updates', { address: checksumAddress, sums: JSON.stringify(checksums), items: count.toString(), offset: offset.toString() });
+		this.__sendMessage('request_updates', { address: checksumAddress, sums: checksums.join(','), items: count.toString(), offset: offset.toString(), v: TxStorage.storage.temporary_since_you_wont_add_build_number_i_will.toString() });
 	}
 
 	sendTx(rawTx) {

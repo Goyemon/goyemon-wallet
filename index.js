@@ -26,7 +26,7 @@ AppRegistry.registerHeadlessTask(
 async function FCMcheckForUpdates() {
 	const data = await TxStorage.storage.getVerificationData();
 	// LogUtilities.toDebugScreen('verification data:', JSON.stringify(data));
-	FCM.FCMMsgs.checkForUpdates(TxStorage.storage.getOwnAddress(), data.hashes, data.count, data.offset)
+	FCM.FCMMsgs.checkForUpdates(TxStorage.storage.getOwnAddress(), data.hashes, data.count, data.offset);
 }
 
 TxStorage.storage.isStorageReady().then(() => {

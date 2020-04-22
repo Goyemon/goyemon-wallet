@@ -1240,6 +1240,7 @@ const maxNonceKey = '_tx[maxnonce]';
 const txNoncePrefix = 'nonce_';
 const txFailPrefix = 'fail_';
 const txStatePrefix = 'state_';
+const lastCheckpointKey = '_txsync[checkpoint]';
 
 class TxStorage {
 	constructor (ourAddress) {
@@ -1258,11 +1259,16 @@ class TxStorage {
 
 		LogUtilities.toDebugScreen('TxStorage constructor called');
 		this.our_max_nonce = -1; // for our txes
+		this.last_checkpoint_offset = 0; // TODO: not yet used
 
-		AsyncStorage.getItem(maxNonceKey).then(x => {
-				this.our_max_nonce = parseInt(x);
-				promise_resolves[1]();
-				LogUtilities.toDebugScreen(`MaxNonce: ${this.our_max_nonce}`);
+		AsyncStorage.multiGet([maxNonceKey, lastCheckpointKey]).then(x => {
+			if (x[0] && x[0][1] !== null)
+				this.our_max_nonce = parseInt(x[0][1]);
+			if (x[1] && x[1][1] !== null)
+				this.last_checkpoint_offset = parseInt(x[1][1]);
+
+			promise_resolves[1]();
+			LogUtilities.toDebugScreen(`MaxNonce: ${this.our_max_nonce}, LastCheckpointOffset: ${this.last_checkpoint_offset}`);
 		});
 
 		this.txes = new PersistTxStorageAbstraction('tx_');
@@ -1290,6 +1296,8 @@ class TxStorage {
 
 
 		this.locks = new asyncLocks();
+
+		this.temporary_since_you_wont_add_build_number_i_will = 1;
 	}
 
 	async __lock(name) {
@@ -1602,7 +1610,7 @@ class TxStorage {
 	}
 
 	getCheckpoints(count, offset) {
-		const hashes = Math.floor(4000/65);
+		const hashes = Math.floor(4000/33);
 		const computed_count = count - offset;
 		const buckets = [];
 
