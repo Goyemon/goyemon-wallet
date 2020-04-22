@@ -13,12 +13,12 @@ export default class Send extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currency: 'ether'
+      currency: 'eth'
     };
   }
 
   renderCurrency() {
-    if (this.state.currency === 'ether') {
+    if (this.state.currency === 'eth') {
       return <SendEth />;
     } else if (this.state.currency === 'dai') {
       return <SendDai />;
@@ -40,7 +40,7 @@ export default class Send extends Component {
             width="100%"
           >
             <TouchableOpacity
-              onPress={() => this.setState({ currency: 'ether' })}
+              onPress={() => this.setState({ currency: 'eth' })}
             >
               <CoinImage source={require('../../assets/ether_icon.png')} />
             </TouchableOpacity>

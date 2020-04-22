@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { Clipboard, TouchableWithoutFeedback } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
@@ -13,6 +13,7 @@ import {
   HeaderThree,
   GoyemonText
 } from '../components/common';
+import Copy from '../containers/Copy';
 import GlobalConfig from '../config.json';
 import I18n from '../i18n/I18n';
 import { FCMMsgs } from '../lib/fcm.js';
@@ -23,7 +24,6 @@ class Advanced extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      clipboardContent: null,
       canSendToHttp: true
     };
     this.AnimationRef;
@@ -42,11 +42,6 @@ class Advanced extends Component {
         LogUtilities.logInfo('no fcmToken ');
       }
     });
-  }
-
-  async writeToClipboard() {
-    await Clipboard.setString(this.props.debugInfo.fcmToken);
-    this.setState({ clipboardContent: 'token' });
   }
 
   async postLogToMagicalHttpEndpoint() {
@@ -102,33 +97,6 @@ class Advanced extends Component {
       );
   }
 
-  renderCopyText() {
-    if (this.state.clipboardContent === 'token') {
-      return (
-        <CopiedAddressContainer>
-          <TouchableWithoutFeedback
-            onPress={async () => {
-              await this.writeToClipboard();
-            }}
-          >
-            <CopiedAddressText>Copied</CopiedAddressText>
-          </TouchableWithoutFeedback>
-          <Icon name="check" size={24} color="#00A3E2" />
-        </CopiedAddressContainer>
-      );
-    } else if (this.state.clipboardContent === null) {
-      return (
-        <TouchableWithoutFeedback
-          onPress={async () => {
-            await this.writeToClipboard();
-          }}
-        >
-          <CopyAddressText>{I18n.t('copy')}</CopyAddressText>
-        </TouchableWithoutFeedback>
-      );
-    }
-  }
-
   render() {
     // const otherDebugInfo = JSON.stringify(this.props.debugInfo.others);
     const { debugInfo } = this.props;
@@ -140,9 +108,7 @@ class Advanced extends Component {
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="96">
-          {I18n.t('advanced')}
-        </HeaderOne>
+        <HeaderOne marginTop="96">{I18n.t('advanced')}</HeaderOne>
         <Container
           alignItems="flex-start"
           flexDirection="column"
@@ -187,7 +153,7 @@ class Advanced extends Component {
             {I18n.t('settings-advanced-device-info')}
           </HeaderThree>
           <GoyemonText fontSize="14">{debugInfo.fcmToken}</GoyemonText>
-          {this.renderCopyText()}
+          <Copy text={debugInfo.fcmToken} />
           <HeaderThree
             color="#000"
             marginBottom="0"
@@ -198,15 +164,7 @@ class Advanced extends Component {
           </HeaderThree>
           {this.renderPostLog()}
           <GoyemonText fontSize="14">{otherDebugInfo}</GoyemonText>
-          <TouchableWithoutFeedback
-            onPress={async () => {
-              await Clipboard.setString(otherDebugInfo);
-              this.setState({ clipboardContent: 'debug' });
-            }}
-          >
-            <CopyAddressText>{I18n.t('copy')}</CopyAddressText>
-          </TouchableWithoutFeedback>
-
+          <Copy text={otherDebugInfo} />
           <TouchableWithoutFeedback
             onPress={async () => {
               setTimeout(() => {
@@ -221,19 +179,6 @@ class Advanced extends Component {
     );
   }
 }
-
-const CopiedAddressContainer = styled.View`
-  align-items: center;
-  flex-direction: row;
-  justify-content: center;
-`;
-
-const CopiedAddressText = styled.Text`
-  color: #00a3e2;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 16;
-  margin-right: 4;
-`;
 
 const CopyAddressText = styled.Text`
   color: #00a3e2;

@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { Platform, Linking, Text } from 'react-native';
+import { Platform, Linking } from 'react-native';
 import AndroidOpenSettings from 'react-native-android-open-settings';
 import styled from 'styled-components/native';
 import {

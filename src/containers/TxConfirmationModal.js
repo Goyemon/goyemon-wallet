@@ -10,12 +10,12 @@ import {
   updateVisibleType
 } from '../actions/ActionTxConfirmationModal';
 import {
-  Button,
   ConfirmationHeader,
   ConfirmationText,
   IsOnlineMessage,
   Loader,
-  HeaderTwo
+  HeaderTwo,
+  TxConfirmationButton
 } from '../components/common/';
 import NetworkFeeContainerConfirmation from '../containers/NetworkFeeContainerConfirmation';
 import I18n from '../i18n/I18n';
@@ -103,15 +103,9 @@ class TxConfirmationModal extends Component {
             />
           </ConfirmationContainer>
           <ButtonContainer>
-            <Button
+            <TxConfirmationButton
               text={I18n.t('button-send')}
-              textColor="white"
-              backgroundColor="#00A3E2"
-              borderColor="#00A3E2"
               disabled={this.state.buttonDisabled}
-              margin="0"
-              marginBottom="24px"
-              opacity="1"
               onPress={async () => {
                 if (netInfo) {
                   this.setState({ loading: true, buttonDisabled: true });
@@ -146,15 +140,9 @@ class TxConfirmationModal extends Component {
             />
           </ConfirmationContainer>
           <ButtonContainer>
-            <Button
+            <TxConfirmationButton
               text={this.returnButtonType()}
-              textColor="white"
-              backgroundColor="#00A3E2"
-              borderColor="#00A3E2"
               disabled={this.state.buttonDisabled}
-              margin="8px"
-              marginBottom="12px"
-              opacity="1"
               onPress={async () => {
                 if (netInfo) {
                   this.setState({ loading: true, buttonDisabled: true });
@@ -195,15 +183,9 @@ class TxConfirmationModal extends Component {
             />
           </ConfirmationContainer>
           <ButtonContainer>
-            <Button
+            <TxConfirmationButton
               text={this.returnButtonType()}
-              textColor="white"
-              backgroundColor="#00A3E2"
-              borderColor="#00A3E2"
               disabled={this.state.buttonDisabled}
-              margin="8px"
-              marginBottom="12px"
-              opacity="1"
               onPress={async () => {
                 if (netInfo) {
                   this.setState({ loading: true, buttonDisabled: true });
@@ -238,15 +220,9 @@ class TxConfirmationModal extends Component {
             />
           </ConfirmationContainer>
           <ButtonContainer>
-            <Button
+            <TxConfirmationButton
               text={this.returnButtonType()}
-              textColor="white"
-              backgroundColor="#00A3E2"
-              borderColor="#00A3E2"
               disabled={this.state.buttonDisabled}
-              margin="8px"
-              marginBottom="12px"
-              opacity="1"
               onPress={async () => {
                 if (netInfo) {
                   this.setState({ loading: true, buttonDisabled: true });
@@ -288,15 +264,9 @@ class TxConfirmationModal extends Component {
             />
           </ConfirmationContainer>
           <ButtonContainer>
-            <Button
+            <TxConfirmationButton
               text={this.returnButtonType()}
-              textColor="white"
-              backgroundColor="#00A3E2"
-              borderColor="#00A3E2"
               disabled={this.state.buttonDisabled}
-              margin="8px"
-              marginBottom="12px"
-              opacity="1"
               onPress={async () => {
                 if (netInfo) {
                   this.setState({ loading: true, buttonDisabled: true });
@@ -330,7 +300,7 @@ class TxConfirmationModal extends Component {
             <ConfirmationText>
               {outgoingTransactionData.swap.minBought.toFixed(4)} DAI
               <SlippageText>
-                  *slippage {outgoingTransactionData.swap.slippage} %
+                *slippage {outgoingTransactionData.swap.slippage} %
               </SlippageText>
             </ConfirmationText>
             <NetworkFeeContainerConfirmation
@@ -338,15 +308,9 @@ class TxConfirmationModal extends Component {
             />
           </ConfirmationContainer>
           <ButtonContainer>
-            <Button
+            <TxConfirmationButton
               text={I18n.t('button-swap')}
-              textColor="white"
-              backgroundColor="#00A3E2"
-              borderColor="#00A3E2"
               disabled={this.state.buttonDisabled}
-              margin="0"
-              marginBottom="24px"
-              opacity="1"
               onPress={async () => {
                 if (netInfo) {
                   this.setState({ loading: true, buttonDisabled: true });

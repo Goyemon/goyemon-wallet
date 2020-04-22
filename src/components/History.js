@@ -32,7 +32,7 @@ export default class History extends Component {
           key={filter}
           onPress={() => this.setState({ filter: filter })}
         >
-          <FilterChoiceTextUnelected>{filter}</FilterChoiceTextUnelected>
+          <FilterChoiceTextUnselected>{filter}</FilterChoiceTextUnselected>
         </TouchableOpacity>
       );
     });
@@ -77,7 +77,7 @@ const FilterChoiceTextSelected = styled.Text`
   text-transform: uppercase;
 `;
 
-const FilterChoiceTextUnelected = styled.Text`
+const FilterChoiceTextUnselected = styled.Text`
   font-size: 24;
   font-weight: bold;
   margin-right: 12;
