@@ -3,11 +3,13 @@ import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
 import { saveOutgoingTransactionDataCompound } from '../actions/ActionOutgoingTransactionData';
 import {
+  saveTxConfirmationModalVisibility,
+  updateVisibleType
+} from '../actions/ActionTxConfirmationModal';
+import {
   RootContainer,
-  Button,
   UseMaxButton,
   UntouchableCardContainer,
   HeaderOne,
@@ -16,9 +18,10 @@ import {
   Loader,
   IsOnlineMessage,
   InsufficientWeiBalanceMessage,
-  InsufficientDaiBalanceMessage
+  TxNextButton
 } from '../components/common';
 import AdvancedContainer from './AdvancedContainer';
+import TxConfirmationModal from '../containers/TxConfirmationModal';
 import I18n from '../i18n/I18n';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
@@ -92,35 +95,61 @@ class DepositDaiToCompound extends Component {
     return transactionObject;
   }
 
-  updateDaiAmountValidation(daiAmountValidation) {
-    if (daiAmountValidation) {
+  buttonStateUpdate() {
+    if (this.state.daiAmountValidation && this.state.weiAmountValidation) {
       this.setState({
-        daiAmountValidation: true,
         buttonDisabled: false,
         buttonOpacity: 1
       });
-    } else if (!daiAmountValidation) {
+    } else {
       this.setState({
-        daiAmountValidation: false,
         buttonDisabled: true,
         buttonOpacity: 0.5
       });
     }
   }
 
+  updateDaiAmountValidation(daiAmountValidation) {
+    if (daiAmountValidation) {
+      this.setState(
+        {
+          daiAmountValidation: true
+        },
+        function () {
+          this.buttonStateUpdate();
+        }
+      );
+    } else if (!daiAmountValidation) {
+      this.setState(
+        {
+          daiAmountValidation: false
+        },
+        function () {
+          this.buttonStateUpdate();
+        }
+      );
+    }
+  }
+
   updateWeiAmountValidation(weiAmountValidation) {
     if (weiAmountValidation) {
-      this.setState({
-        weiAmountValidation: true,
-        buttonDisabled: false,
-        buttonOpacity: 1
-      });
+      this.setState(
+        {
+          weiAmountValidation: true
+        },
+        function () {
+          this.buttonStateUpdate();
+        }
+      );
     } else if (!weiAmountValidation) {
-      this.setState({
-        weiAmountValidation: false,
-        buttonDisabled: true,
-        buttonOpacity: 0.5
-      });
+      this.setState(
+        {
+          weiAmountValidation: false
+        },
+        function () {
+          this.buttonStateUpdate();
+        }
+      );
     }
   }
 
@@ -138,11 +167,13 @@ class DepositDaiToCompound extends Component {
       this.setState({ loading: true, buttonDisabled: true });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
-      await this.props.saveOutgoingTransactionObject(transactionObject);
-      await this.props.saveOutgoingTransactionDataCompound({
-        amount: daiAmount
+      this.props.saveOutgoingTransactionDataCompound({
+        amount: daiAmount,
+        gasLimit: GlobalConfig.cTokenMintGasLimit,
+        transactionObject: transactionObject
       });
-      this.props.navigation.navigate('DepositDaiToCompoundConfirmation');
+      this.props.saveTxConfirmationModalVisibility(true);
+      this.props.updateVisibleType('compound');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }
@@ -164,6 +195,7 @@ class DepositDaiToCompound extends Component {
 
     return (
       <RootContainer>
+        <TxConfirmationModal type="compound-deposit" />
         <HeaderOne marginTop="96">{I18n.t('deposit')}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
@@ -220,22 +252,13 @@ class DepositDaiToCompound extends Component {
             <CurrencySymbolText>DAI</CurrencySymbolText>
           </SendTextInputContainer>
         </Form>
-        <InsufficientDaiBalanceMessage
-          daiAmountValidation={this.state.daiAmountValidation}
-        />
         <AdvancedContainer gasLimit={GlobalConfig.cTokenMintGasLimit} />
         <InsufficientWeiBalanceMessage
           weiAmountValidation={this.state.weiAmountValidation}
         />
         <ButtonWrapper>
-          <Button
-            text={I18n.t('button-next')}
-            textColor="#00A3E2"
-            backgroundColor="#FFF"
-            borderColor="#00A3E2"
+          <TxNextButton
             disabled={this.state.buttonDisabled}
-            margin="40px auto"
-            marginBottom="12px"
             opacity={this.state.buttonOpacity}
             onPress={async () => {
               await this.validateForm(this.state.daiAmount);
@@ -311,8 +334,9 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  saveOutgoingTransactionObject,
-  saveOutgoingTransactionDataCompound
+  saveOutgoingTransactionDataCompound,
+  saveTxConfirmationModalVisibility,
+  updateVisibleType
 };
 
 export default connect(

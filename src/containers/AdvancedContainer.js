@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
@@ -8,6 +8,7 @@ import { getGasPrice, updateGasPriceChosen } from '../actions/ActionGasPrice';
 import {
   Container,
   FormHeader,
+  GoyemonText,
   MenuContainer,
   ToggleCurrencySymbol
 } from '../components/common';
@@ -56,6 +57,7 @@ class AdvancedContainer extends Component {
   }
 
   renderAdvancedContainer() {
+    const { gasPrice, gasChosen, gasLimit } = this.props;
     if (this.state.showAdvanced) {
       return (
         <View>
@@ -64,7 +66,7 @@ class AdvancedContainer extends Component {
             <FormHeader marginBottom="0" marginTop="0">
               {I18n.t('network-fee')}
             </FormHeader>
-            <NetworkFeeSymbolContainer
+            <TouchableOpacity
               onPress={() => {
                 // TODO: needs to be switch(), likely.
                 if (this.state.currency === 'ETH') {
@@ -75,7 +77,7 @@ class AdvancedContainer extends Component {
               }}
             >
               <ToggleCurrencySymbol currency={this.state.currency} />
-            </NetworkFeeSymbolContainer>
+            </TouchableOpacity>
           </NetworkFeeHeaderContainer>
           <Container
             alignItems="center"
@@ -84,15 +86,15 @@ class AdvancedContainer extends Component {
             marginTop={24}
             width="90%"
           >
-            {this.props.gasPrice.map((gasPrice, key) => (
+            {gasPrice.map((gasPrice, key) => (
               <NetworkFee key={key}>
-                {this.props.gasChosen === key ? (
+                {gasChosen === key ? (
                   <SpeedContainer>
                     <SelectedSpeedTextContainer>
                       <SelectedSpeedText>{gasPrice.speed}</SelectedSpeedText>
                     </SelectedSpeedTextContainer>
                     <SelectedButton>
-                      {this.toggleCurrency(gasPrice.value, this.props.gasLimit)}
+                      {this.toggleCurrency(gasPrice.value, gasLimit)}
                     </SelectedButton>
                   </SpeedContainer>
                 ) : (
@@ -107,7 +109,7 @@ class AdvancedContainer extends Component {
                       </UnselectedSpeedText>
                     </UnselectedSpeedTextContainer>
                     <UnselectedButton>
-                      {this.toggleCurrency(gasPrice.value, this.props.gasLimit)}
+                      {this.toggleCurrency(gasPrice.value, gasLimit)}
                     </UnselectedButton>
                   </SpeedContainer>
                 )}
@@ -130,7 +132,7 @@ class AdvancedContainer extends Component {
             this.setState({ showAdvanced: true });
           }}
         >
-          <Text>{I18n.t('advanced')}</Text>
+          <GoyemonText fontSize={14}>{I18n.t('advanced')}</GoyemonText>
           <Icon name="menu-down" color="#000" size={32} />
         </MenuContainer>
       );
@@ -143,14 +145,12 @@ class AdvancedContainer extends Component {
 }
 
 const NetworkFeeHeaderContainer = styled.View`
-  align-items: center;
+  align-items: flex-start;
   flex-direction: row;
   margin: 0 auto;
   margin-top: 24px;
   width: 90%;
 `;
-
-const NetworkFeeSymbolContainer = styled.TouchableOpacity``;
 
 const NetworkFee = styled.View`
   margin: 0 4px;

@@ -1,6 +1,8 @@
 'use strict';
-import { SAVE_FCM_TOKEN } from '../constants/ActionTypes';
-import { SAVE_OTHER_DEBUG_INFO } from '../constants/ActionTypes';
+import {
+  SAVE_FCM_TOKEN,
+  SAVE_OTHER_DEBUG_INFO
+} from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
   debugInfo: {

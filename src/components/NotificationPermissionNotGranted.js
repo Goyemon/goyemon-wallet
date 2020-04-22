@@ -46,7 +46,7 @@ export default class NotificationPermissionNotGranted extends Component {
               }
             }}
           />
-          <Text>*relaunch your app once you enable them</Text>
+          <GoyemonText fontSize={12}>*relaunch your app once you enable them</GoyemonText>
         </NoPermissionContainer>
       </RootContainer>
     );

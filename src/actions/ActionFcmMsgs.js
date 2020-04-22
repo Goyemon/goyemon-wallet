@@ -1,6 +1,5 @@
 'use strict';
-import { SAVE_FCM_MSG } from '../constants/ActionTypes';
-import { APPEND_FCM_MSG } from '../constants/ActionTypes';
+import { SAVE_FCM_MSG, APPEND_FCM_MSG } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
 export function saveFcmMsg(fcmMsg) {

@@ -59,7 +59,7 @@ class PortfolioHome extends Component {
   }
 
   render() {
-    const { balance, navigation } = this.props;
+    const { balance, navigation, checksumAddress } = this.props;
 
     let ethBalance = Web3.utils.fromWei(balance.wei);
     ethBalance = RoundDownBigNumber(ethBalance).toFixed(4);
@@ -82,8 +82,8 @@ class PortfolioHome extends Component {
       parseFloat(PriceUtilities.convertDaiToUsd(pooltogetherDaiBalance));
 
     let truncatedAdderss;
-    if (this.props.checksumAddress) {
-      truncatedAdderss = this.props.checksumAddress.substring(0, 24) + '...';
+    if (checksumAddress) {
+      truncatedAdderss = checksumAddress.substring(0, 24) + '...';
     }
 
     return (

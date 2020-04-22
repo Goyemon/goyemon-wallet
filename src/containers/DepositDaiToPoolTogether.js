@@ -4,11 +4,14 @@ import React, { Component } from 'react';
 import { Text } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
 import { saveOutgoingTransactionDataPoolTogether } from '../actions/ActionOutgoingTransactionData';
 import {
+  saveTxConfirmationModalVisibility,
+  updateVisibleType
+} from '../actions/ActionTxConfirmationModal';
+import {
   RootContainer,
-  Button,
+  GoyemonText,
   UseMaxButton,
   UntouchableCardContainer,
   HeaderOne,
@@ -17,7 +20,7 @@ import {
   Loader,
   IsOnlineMessage,
   InsufficientWeiBalanceMessage,
-  InsufficientDaiBalanceMessage
+  TxNextButton
 } from '../components/common';
 import AdvancedContainer from './AdvancedContainer';
 import I18n from '../i18n/I18n';
@@ -58,7 +61,7 @@ class DepositDaiToPoolTogether extends Component {
           TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
           GlobalConfig.PoolTogetherDepositPoolGasLimit
         )
-      );  
+      );
     }
   }
 
@@ -79,7 +82,7 @@ class DepositDaiToPoolTogether extends Component {
       .toString(16);
 
     const transactionObject = (await TxStorage.storage.newTx())
-      .setTo(GlobalConfig.DAIPoolTogetherContract)
+      .setTo(GlobalConfig.DAIPoolTogetherContractV2)
       .setGasPrice(
         TransactionUtilities.returnTransactionSpeed(
           this.props.gasChosen
@@ -96,40 +99,66 @@ class DepositDaiToPoolTogether extends Component {
     return transactionObject;
   }
 
-  updateDaiAmountValidation(daiAmountValidation) {
-    if (daiAmountValidation) {
+  buttonStateUpdate() {
+    if (this.state.daiAmountValidation && this.state.weiAmountValidation) {
       this.setState({
-        daiAmountValidation: true,
         buttonDisabled: false,
         buttonOpacity: 1
       });
-    } else if (!daiAmountValidation) {
+    } else {
       this.setState({
-        daiAmountValidation: false,
         buttonDisabled: true,
         buttonOpacity: 0.5
       });
+    }
+  }
+
+  updateDaiAmountValidation(daiAmountValidation) {
+    if (daiAmountValidation) {
+      this.setState(
+        {
+          daiAmountValidation: true
+        },
+        function () {
+          this.buttonStateUpdate();
+        }
+      );
+    } else if (!daiAmountValidation) {
+      this.setState(
+        {
+          daiAmountValidation: false
+        },
+        function () {
+          this.buttonStateUpdate();
+        }
+      );
     }
   }
 
   updateWeiAmountValidation(weiAmountValidation) {
     if (weiAmountValidation) {
-      this.setState({
-        weiAmountValidation: true,
-        buttonDisabled: false,
-        buttonOpacity: 1
-      });
+      this.setState(
+        {
+          weiAmountValidation: true
+        },
+        function () {
+          this.buttonStateUpdate();
+        }
+      );
     } else if (!weiAmountValidation) {
-      this.setState({
-        weiAmountValidation: false,
-        buttonDisabled: true,
-        buttonOpacity: 0.5
-      });
+      this.setState(
+        {
+          weiAmountValidation: false
+        },
+        function () {
+          this.buttonStateUpdate();
+        }
+      );
     }
   }
 
   validateForm = async (daiAmount) => {
-    const daiAmountValidation = TransactionUtilities.validateTicketAmount(
+    const daiAmountValidation = TransactionUtilities.validateDaiPoolTogetherDepositAmount(
       daiAmount
     );
     const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(
@@ -142,18 +171,24 @@ class DepositDaiToPoolTogether extends Component {
       this.setState({ loading: true, buttonDisabled: true });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
-      await this.props.saveOutgoingTransactionObject(transactionObject);
-      await this.props.saveOutgoingTransactionDataPoolTogether({
-        amount: daiAmount
+      this.props.saveOutgoingTransactionDataPoolTogether({
+        amount: daiAmount,
+        gasLimit: GlobalConfig.PoolTogetherDepositPoolGasLimit,
+        transactionObject: transactionObject
       });
-      this.props.navigation.navigate('DepositDaiToPoolTogetherConfirmation');
+      this.props.saveTxConfirmationModalVisibility(true);
+      this.props.updateVisibleType('poolTogether');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }
   };
 
   renderChanceOfWinning() {
-    return <Text>You have a 1 in 536,100 chance of winning.</Text>;
+    return (
+      <GoyemonText fontSize={14}>
+        You have a 1 in 536,100 chance of winning.
+      </GoyemonText>
+    );
   }
 
   render() {
@@ -168,6 +203,7 @@ class DepositDaiToPoolTogether extends Component {
 
     return (
       <RootContainer>
+        <TxConfirmationModal type="pool-together-deposit" />
         <HeaderOne marginTop="96">{I18n.t('deposit')}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
@@ -197,7 +233,9 @@ class DepositDaiToPoolTogether extends Component {
             onPress={() => {
               this.setState({ daiAmount: daiFullBalance });
               this.updateDaiAmountValidation(
-                TransactionUtilities.validateTicketAmount(daiFullBalance)
+                TransactionUtilities.validateDaiPoolTogetherDepositAmount(
+                  daiFullBalance
+                )
               );
             }}
           />
@@ -216,7 +254,9 @@ class DepositDaiToPoolTogether extends Component {
               clearButtonMode="while-editing"
               onChangeText={(daiAmount) => {
                 this.updateDaiAmountValidation(
-                  TransactionUtilities.validateTicketAmount(daiAmount)
+                  TransactionUtilities.validateDaiPoolTogetherDepositAmount(
+                    daiAmount
+                  )
                 );
                 this.setState({ daiAmount });
               }}
@@ -226,9 +266,6 @@ class DepositDaiToPoolTogether extends Component {
             <CurrencySymbolText>DAI</CurrencySymbolText>
           </SendTextInputContainer>
         </Form>
-        <InsufficientDaiBalanceMessage
-          daiAmountValidation={this.state.daiAmountValidation}
-        />
         {this.renderChanceOfWinning()}
         <AdvancedContainer
           gasLimit={GlobalConfig.PoolTogetherDepositPoolGasLimit}
@@ -237,14 +274,8 @@ class DepositDaiToPoolTogether extends Component {
           weiAmountValidation={this.state.weiAmountValidation}
         />
         <ButtonWrapper>
-          <Button
-            text={I18n.t('button-next')}
-            textColor="#00A3E2"
-            backgroundColor="#FFF"
-            borderColor="#00A3E2"
+          <TxNextButton
             disabled={this.state.buttonDisabled}
-            margin="40px auto"
-            marginBottom="12px"
             opacity={this.state.buttonOpacity}
             onPress={async () => {
               await this.validateForm(this.state.daiAmount);
@@ -319,8 +350,9 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  saveOutgoingTransactionObject,
-  saveOutgoingTransactionDataPoolTogether
+  saveOutgoingTransactionDataPoolTogether,
+  saveTxConfirmationModalVisibility,
+  updateVisibleType
 };
 
 export default connect(

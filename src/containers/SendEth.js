@@ -7,20 +7,22 @@ import { View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
+import {
+  saveTxConfirmationModalVisibility,
+  updateVisibleType
+} from '../actions/ActionTxConfirmationModal';
 import { saveOutgoingTransactionDataSend } from '../actions/ActionOutgoingTransactionData';
-import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
 import { clearQRCodeData } from '../actions/ActionQRCodeData';
 import {
-  Button,
   UntouchableCardContainer,
   Form,
   FormHeader,
   Loader,
   IsOnlineMessage,
-  InvalidToAddressMessage,
-  ErrorMessage
+  TxNextButton
 } from '../components/common';
 import AdvancedContainer from '../containers/AdvancedContainer';
+import TxConfirmationModal from '../containers/TxConfirmationModal';
 import I18n from '../i18n/I18n';
 import SendStack from '../navigators/SendStack';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
@@ -131,16 +133,6 @@ class SendEth extends Component {
     }
   }
 
-  renderInsufficientBalanceMessage() {
-    if (
-      this.state.amountValidation ||
-      this.state.amountValidation === undefined
-    ) {
-    } else {
-      return <ErrorMessage>invalid amount!</ErrorMessage>;
-    }
-  }
-
   validateForm = async (toAddress, ethAmount) => {
     const toAddressValidation = this.validateToAddress(toAddress);
     const amountValidation = this.validateAmount(
@@ -153,12 +145,14 @@ class SendEth extends Component {
       this.setState({ loading: true, buttonDisabled: true });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
-      await this.props.saveOutgoingTransactionObject(transactionObject);
       this.props.saveOutgoingTransactionDataSend({
         toaddress: toAddress,
-        amount: ethAmount
+        amount: ethAmount,
+        gasLimit: GlobalConfig.ETHTxGasLimit,
+        transactionObject: transactionObject
       });
-      this.props.navigation.navigate('SendEthConfirmation');
+      this.props.saveTxConfirmationModalVisibility(true);
+      this.props.updateVisibleType('send');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }
@@ -169,6 +163,7 @@ class SendEth extends Component {
 
     return (
       <View>
+        <TxConfirmationModal currency="ETH" />
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8px"
@@ -226,9 +221,6 @@ class SendEth extends Component {
             </TouchableOpacity>
           </SendTextInputContainer>
         </Form>
-        <InvalidToAddressMessage
-          toAddressValidation={this.state.toAddressValidation}
-        />
         <FormHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
             {I18n.t('amount')}
@@ -257,17 +249,10 @@ class SendEth extends Component {
             <CurrencySymbolText>ETH</CurrencySymbolText>
           </SendTextInputContainer>
         </Form>
-        <View>{this.renderInsufficientBalanceMessage()}</View>
         <AdvancedContainer gasLimit={GlobalConfig.ETHTxGasLimit} />
         <ButtonWrapper>
-          <Button
-            text={I18n.t('button-next')}
-            textColor="#00A3E2"
-            backgroundColor="#FFF"
-            borderColor="#00A3E2"
+          <TxNextButton
             disabled={this.state.buttonDisabled}
-            margin="40px auto"
-            marginBottom="12px"
             opacity={this.state.buttonOpacity}
             onPress={async () => {
               await this.validateForm(
@@ -353,8 +338,9 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
+  saveTxConfirmationModalVisibility,
+  updateVisibleType,
   saveOutgoingTransactionDataSend,
-  saveOutgoingTransactionObject,
   clearQRCodeData
 };
 

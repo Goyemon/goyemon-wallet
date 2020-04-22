@@ -1,6 +1,6 @@
 'use strict';
 import { createStackNavigator } from 'react-navigation';
-import Initial from '../components/Initial';
+import Initial from '../containers/Initial';
 import Welcome from '../components/Welcome';
 import NotificationPermissionTutorial from '../containers/NotificationPermissionTutorial';
 import NotificationPermissionNotGranted from '../components/NotificationPermissionNotGranted';

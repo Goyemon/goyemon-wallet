@@ -4,7 +4,7 @@ import LogUtilities from '../utilities/LogUtilities.js';
 import zlib from 'react-zlib-js';
 import TxStorage from '../lib/tx.js';
 
-const GlobalConfig = require('../config.json');
+import GlobalConfig from '../config.json';
 
 
 function obj_property_default(obj, prop, def) {

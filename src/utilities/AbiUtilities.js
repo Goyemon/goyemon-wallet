@@ -1,5 +1,5 @@
 'use strict';
-const web3 = require('web3');
+import web3 from 'web3';
 // https://web3js.readthedocs.io/en/v1.2.0/web3-utils.html
 // https://github.com/indutny/bn.js/blob/master/lib/bn.js
 

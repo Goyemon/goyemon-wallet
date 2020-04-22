@@ -1,6 +1,5 @@
 'use strict';
-import { SAVE_FCM_MSG } from '../constants/ActionTypes';
-import { APPEND_FCM_MSG } from '../constants/ActionTypes';
+import { SAVE_FCM_MSG, APPEND_FCM_MSG } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
   fcmMsgs: {}

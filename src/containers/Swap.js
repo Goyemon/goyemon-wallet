@@ -7,20 +7,24 @@ import { View } from 'react-native';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
 import { saveOutgoingTransactionDataSwap } from '../actions/ActionOutgoingTransactionData';
-import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
+import {
+  saveTxConfirmationModalVisibility,
+  updateVisibleType
+} from '../actions/ActionTxConfirmationModal';
 import {
   RootContainer,
   Container,
-  Button,
   UntouchableCardContainer,
   HeaderOne,
   SwapForm,
   Loader,
   IsOnlineMessage,
-  ErrorMessage
+  ErrorMessage,
+  TxNextButton
 } from '../components/common';
 import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
 import AdvancedContainer from '../containers/AdvancedContainer';
+import TxConfirmationModal from '../containers/TxConfirmationModal';
 import I18n from '../i18n/I18n';
 import ABIEncoder from '../utilities/AbiUtilities';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
@@ -35,7 +39,7 @@ class Swap extends Component {
     super(props);
     this.state = {
       ethBalance: Web3.utils.fromWei(props.balance.wei),
-      ethSold: '',
+      ethSold: '0',
       tokenBought: new RoundDownBigNumber(0),
       ethSoldValidation: undefined,
       loading: false,
@@ -80,17 +84,22 @@ class Swap extends Component {
   }
 
   updateTokenBought(ethSold) {
-    const tokenBought = this.getTokenBought(
-      ethSold,
-      this.props.uniswap.daiExchange.weiReserve,
-      this.props.uniswap.daiExchange.daiReserve
-    ).div(new RoundDownBigNumber(10).pow(18));
-    this.setState({ tokenBought: tokenBought });
+    const isNumber = /^[0-9]\d*(\.\d+)?$/.test(ethSold);
+    if (isNumber) {
+      const tokenBought = this.getTokenBought(
+        ethSold,
+        this.props.uniswap.daiExchange.weiReserve,
+        this.props.uniswap.daiExchange.daiReserve
+      ).div(new RoundDownBigNumber(10).pow(18));
+      this.setState({ tokenBought: tokenBought });
+    } else {
+      console.log('ethSold is not a number');
+    }
   }
 
   getMinTokens(tokenBought) {
     const minTokens = tokenBought.times(
-      (100 - this.props.outgoingTransactionData.swap.slippage) / 100
+      (100 - this.props.uniswap.slippage) / 100
     );
     return minTokens;
   }
@@ -123,7 +132,7 @@ class Swap extends Component {
       .toString(16);
 
     const transactionObject = (await TxStorage.storage.newTx())
-      .setTo(GlobalConfig.DAIUniswapContract)
+      .setTo(GlobalConfig.DAIUniswapContractV1)
       .setValue(weiSold.toString(16))
       .setGasPrice(
         TransactionUtilities.returnTransactionSpeed(
@@ -151,13 +160,16 @@ class Swap extends Component {
       this.setState({ loading: true, buttonDisabled: false });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
-      await this.props.saveOutgoingTransactionObject(transactionObject);
       this.props.saveOutgoingTransactionDataSwap({
         sold: this.state.ethSold,
         bought: this.state.tokenBought.toFixed(4),
-        minBought: this.getMinTokens(this.state.tokenBought)
+        minBought: this.getMinTokens(this.state.tokenBought),
+        slippage: this.props.uniswap.slippage,
+        gasLimit: GlobalConfig.UniswapEthToTokenSwapInputGasLimit,
+        transactionObject: transactionObject
       });
-      this.props.navigation.navigate('SwapConfirmation');
+      this.props.saveTxConfirmationModalVisibility(true);
+      this.props.updateVisibleType('swap');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }
@@ -231,7 +243,7 @@ class Swap extends Component {
       this.state.ethSoldValidation === undefined
     ) {
     } else {
-      return <ErrorMessage>invalid amount!</ErrorMessage>;
+      return <ErrorMessage>not enough ether!</ErrorMessage>;
     }
   }
 
@@ -241,6 +253,7 @@ class Swap extends Component {
 
     return (
       <RootContainer>
+        <TxConfirmationModal />
         <HeaderOne marginTop="64">{I18n.t('swap')}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
@@ -278,10 +291,8 @@ class Swap extends Component {
                         GlobalConfig.UniswapEthToTokenSwapInputGasLimit
                       )
                     );
-                    if (this.state.ethSoldValidation) {
-                      this.setState({ ethSold });
-                      this.updateTokenBought(ethSold);
-                    }
+                    this.setState({ ethSold });
+                    this.updateTokenBought(ethSold);
                   }
                 }}
                 returnKeyType="done"
@@ -348,14 +359,8 @@ class Swap extends Component {
           swap={true}
         />
         <ButtonWrapper>
-          <Button
-            text={I18n.t('button-next')}
-            textColor="#00A3E2"
-            backgroundColor="#FFF"
-            borderColor="#00A3E2"
+          <TxNextButton
             disabled={this.state.buttonDisabled}
-            margin="40px auto"
-            marginBottom="12px"
             opacity={this.state.buttonOpacity}
             onPress={async () => {
               await this.validateForm();
@@ -430,8 +435,9 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  saveOutgoingTransactionDataSwap,
-  saveOutgoingTransactionObject
+  saveTxConfirmationModalVisibility,
+  updateVisibleType,
+  saveOutgoingTransactionDataSwap
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Swap);

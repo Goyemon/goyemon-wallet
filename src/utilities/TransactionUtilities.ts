@@ -140,7 +140,7 @@ class TransactionUtilities {
     }
   }
 
-  validateTicketAmount(daiAmount) {
+  validateDaiPoolTogetherDepositAmount(daiAmount) {
     const isInteger = /^[1-9]\d*$/.test(daiAmount);
     if (isInteger) {
       const stateTree = store.getState();
@@ -162,7 +162,7 @@ class TransactionUtilities {
     }
   }
 
-  validateDaiSavingsAmount(daiWithdrawAmount) {
+  validateDaiCompoundWithdrawAmount(daiWithdrawAmount) {
     const isNumber = /^[0-9]\d*(\.\d+)?$/.test(daiWithdrawAmount);
     if (isNumber) {
       const stateTree = store.getState();
@@ -186,7 +186,7 @@ class TransactionUtilities {
   }
 
   // finish writing this once you get the deposited balance
-  validateDaiDepositedAmount(daiWithdrawAmount) {
+  validateDaiPoolTogetherWithdrawAmount(daiWithdrawAmount) {
     const isInteger = /^[1-9]\d*$/.test(daiWithdrawAmount);
     if (isInteger) {
       const stateTree = store.getState();

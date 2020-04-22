@@ -10,7 +10,7 @@ const ConfirmationHeader = (props) => (
 
 const Header = styled.View`
   flex-direction: row;
-  margin-bottom: 8;
+  width: 80%;
 `;
 
 const HeaderText = styled.Text`

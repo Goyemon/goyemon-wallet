@@ -30,7 +30,7 @@ export default class ImportOptions extends Component {
         </Description>
         <ButtonContainer>
           <Button
-            text="12 Words"
+            text={I18n.t('button-12words')}
             textColor="#00A3E2"
             backgroundColor="#FFF"
             borderColor="#00A3E2"
@@ -42,7 +42,7 @@ export default class ImportOptions extends Component {
             }}
           />
           <Button
-            text="24 Words"
+            text={I18n.t('button-24words')}
             textColor="#00A3E2"
             backgroundColor="#FFF"
             borderColor="#00A3E2"

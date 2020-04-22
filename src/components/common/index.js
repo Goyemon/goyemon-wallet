@@ -25,5 +25,6 @@ export * from './RootContainer';
 export * from './SettingsListCard';
 export * from './ToggleCurrencySymbol';
 export * from './TouchableCardContainer';
+export * from './TxNextButton';
 export * from './UntouchableCardContainer';
 export * from './UseMaxButton';

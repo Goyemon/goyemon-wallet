@@ -13,7 +13,7 @@ import {
   TouchableCardContainer,
   HeaderOne,
   GoyemonText
-} from './common';
+} from '../components/common';
 import I18n from '../i18n/I18n';
 import TxStorage from '../lib/tx.js';
 import LogUtilities from '../utilities/LogUtilities';
@@ -89,7 +89,7 @@ class EarnHome extends Component {
             textAlign="left"
             width="90%"
             onPress={() => {
-              navigation.navigate('WithdrawDai');
+              navigation.navigate('WithdrawDaiFromCompound');
             }}
           >
             <GoyemonText fontSize={24}>

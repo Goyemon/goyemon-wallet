@@ -7,21 +7,23 @@ import { TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
-import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
+import {
+  saveTxConfirmationModalVisibility,
+  updateVisibleType
+} from '../actions/ActionTxConfirmationModal';
 import { saveOutgoingTransactionDataSend } from '../actions/ActionOutgoingTransactionData';
 import { clearQRCodeData } from '../actions/ActionQRCodeData';
 import {
-  Button,
   UntouchableCardContainer,
   Form,
   FormHeader,
   Loader,
   IsOnlineMessage,
   InsufficientWeiBalanceMessage,
-  InvalidToAddressMessage,
-  InsufficientDaiBalanceMessage
+  TxNextButton
 } from '../components/common';
 import AdvancedContainer from '../containers/AdvancedContainer';
+import TxConfirmationModal from '../containers/TxConfirmationModal';
 import I18n from '../i18n/I18n';
 import SendStack from '../navigators/SendStack';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
@@ -37,7 +39,7 @@ class SendDai extends Component {
     super(props);
     this.state = {
       toAddress: '',
-      amount: '',
+      daiAmount: '',
       toAddressValidation: undefined,
       daiAmountValidation: undefined,
       weiAmountValidation: undefined,
@@ -73,16 +75,18 @@ class SendDai extends Component {
   }
 
   async constructTransactionObject() {
-    const amount = this.state.amount.split('.').join('');
-    const decimalPlaces = TransactionUtilities.decimalPlaces(this.state.amount);
+    const daiAmount = this.state.daiAmount.split('.').join('');
+    const decimalPlaces = TransactionUtilities.decimalPlaces(
+      this.state.daiAmount
+    );
     const decimals = 18 - parseInt(decimalPlaces);
     const transferEncodedABI = ABIEncoder.encodeTransfer(
       this.state.toAddress,
-      amount,
+      daiAmount,
       decimals
     );
 
-    const amountWithDecimals = new BigNumber(this.state.amount)
+    const daiAmountWithDecimals = new BigNumber(this.state.daiAmount)
       .times(new BigNumber(10).pow(18))
       .toString(16);
 
@@ -98,7 +102,7 @@ class SendDai extends Component {
       .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.transfer, [
         TxStorage.storage.getOwnAddress(),
         this.state.toAddress,
-        amountWithDecimals
+        daiAmountWithDecimals
       ]);
 
     return transactionObject;
@@ -157,25 +161,37 @@ class SendDai extends Component {
     }
   }
 
-  updateWeiAmountValidation(weiAmountValidation) {
-    if (weiAmountValidation) {
+  buttonStateUpdate() {
+    if (this.state.daiAmountValidation && this.state.weiAmountValidation) {
       this.setState({
-        weiAmountValidation: true,
         buttonDisabled: false,
         buttonOpacity: 1
       });
-    } else if (!weiAmountValidation) {
+    } else {
       this.setState({
-        weiAmountValidation: false,
         buttonDisabled: true,
         buttonOpacity: 0.5
       });
     }
   }
 
-  validateForm = async (toAddress, amount) => {
+  updateWeiAmountValidation(weiAmountValidation) {
+    if (weiAmountValidation) {
+      this.setState({
+        weiAmountValidation: true
+      });
+      this.buttonStateUpdate();
+    } else if (!weiAmountValidation) {
+      this.setState({
+        weiAmountValidation: false
+      });
+      this.buttonStateUpdate();
+    }
+  }
+
+  validateForm = async (toAddress, daiAmount) => {
     const toAddressValidation = this.validateToAddress(toAddress);
-    const daiAmountValidation = this.validateDaiAmount(amount);
+    const daiAmountValidation = this.validateDaiAmount(daiAmount);
     const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(
       TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
       GlobalConfig.ERC20TransferGasLimit
@@ -188,15 +204,21 @@ class SendDai extends Component {
       weiAmountValidation &&
       isOnline
     ) {
-      this.setState({ loading: true, buttonDisabled: true });
+      this.setState({
+        loading: true,
+        buttonDisabled: true,
+        buttonOpacity: 0.5
+      });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
-      await this.props.saveOutgoingTransactionObject(transactionObject);
       this.props.saveOutgoingTransactionDataSend({
         toaddress: toAddress,
-        amount: amount
+        amount: daiAmount,
+        gasLimit: GlobalConfig.ERC20TransferGasLimit,
+        transactionObject: transactionObject
       });
-      this.props.navigation.navigate('SendDaiConfirmation');
+      this.props.saveTxConfirmationModalVisibility(true);
+      this.props.updateVisibleType('send');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }
@@ -209,6 +231,7 @@ class SendDai extends Component {
 
     return (
       <View>
+        <TxConfirmationModal currency="DAI" />
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8px"
@@ -263,9 +286,6 @@ class SendDai extends Component {
             </TouchableOpacity>
           </SendTextInputContainer>
         </Form>
-        <InvalidToAddressMessage
-          toAddressValidation={this.state.toAddressValidation}
-        />
         <FormHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
             {I18n.t('amount')}
@@ -283,35 +303,33 @@ class SendDai extends Component {
               placeholder="0"
               keyboardType="numeric"
               clearButtonMode="while-editing"
-              onChangeText={(amount) => {
-                this.validateDaiAmount(amount);
-                this.setState({ amount });
+              onChangeText={(daiAmount) => {
+                this.validateDaiAmount(daiAmount);
+                this.setState({ daiAmount });
               }}
               returnKeyType="done"
             />
             <CurrencySymbolText>DAI</CurrencySymbolText>
           </SendTextInputContainer>
         </Form>
-        <InsufficientDaiBalanceMessage
-          daiAmountValidation={this.state.daiAmountValidation}
-        />
         <AdvancedContainer gasLimit={GlobalConfig.ERC20TransferGasLimit} />
         <InsufficientWeiBalanceMessage
           weiAmountValidation={this.state.weiAmountValidation}
         />
         <ButtonWrapper>
-          <Button
-            text={I18n.t('button-next')}
-            textColor="#00A3E2"
-            backgroundColor="#FFF"
-            borderColor="#00A3E2"
+          <TxNextButton
             disabled={this.state.buttonDisabled}
-            margin="40px auto"
-            marginBottom="12px"
             opacity={this.state.buttonOpacity}
             onPress={async () => {
-              await this.validateForm(this.state.toAddress, this.state.amount);
-              this.setState({ loading: false, buttonDisabled: false });
+              await this.validateForm(
+                this.state.toAddress,
+                this.state.daiAmount
+              );
+              this.setState({
+                loading: false,
+                buttonDisabled: false,
+                buttonOpacity: 1
+              });
             }}
           />
           <Loader animating={this.state.loading} size="small" />
@@ -391,7 +409,8 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  saveOutgoingTransactionObject,
+  saveTxConfirmationModalVisibility,
+  updateVisibleType,
   saveOutgoingTransactionDataSend,
   clearQRCodeData
 };

@@ -2,7 +2,7 @@
 import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, RefreshControl, Modal, View, Text } from 'react-native';
+import { ScrollView, RefreshControl, Modal } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { StackActions, NavigationActions } from 'react-navigation';
