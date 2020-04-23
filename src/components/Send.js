@@ -1,7 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { TouchableOpacity } from 'react-native';
-import { ScrollView } from 'react-native';
+import { TouchableOpacity, ScrollView } from 'react-native';
 import styled from 'styled-components';
 import { RootContainer, Container, HeaderOne } from './common';
 import SendEth from '../containers/SendEth';
