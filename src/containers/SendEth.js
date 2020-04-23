@@ -9,8 +9,8 @@ import styled from 'styled-components/native';
 import Web3 from 'web3';
 import {
   saveTxConfirmationModalVisibility,
-  updateVisibleType
-} from '../actions/ActionTxConfirmationModal';
+  updateTxConfirmationModalVisibleType
+} from '../actions/ActionModal';
 import { saveOutgoingTransactionDataSend } from '../actions/ActionOutgoingTransactionData';
 import { clearQRCodeData } from '../actions/ActionQRCodeData';
 import {
@@ -152,7 +152,7 @@ class SendEth extends Component {
         transactionObject: transactionObject
       });
       this.props.saveTxConfirmationModalVisibility(true);
-      this.props.updateVisibleType('send-eth');
+      this.props.updateTxConfirmationModalVisibleType('send-eth');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }
@@ -339,7 +339,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   saveTxConfirmationModalVisibility,
-  updateVisibleType,
+  updateTxConfirmationModalVisibleType,
   saveOutgoingTransactionDataSend,
   clearQRCodeData
 };

@@ -9,8 +9,8 @@ import Web3 from 'web3';
 import { saveOutgoingTransactionDataSwap } from '../actions/ActionOutgoingTransactionData';
 import {
   saveTxConfirmationModalVisibility,
-  updateVisibleType
-} from '../actions/ActionTxConfirmationModal';
+  updateTxConfirmationModalVisibleType
+} from '../actions/ActionModal';
 import {
   RootContainer,
   Container,
@@ -169,7 +169,7 @@ class Swap extends Component {
         transactionObject: transactionObject
       });
       this.props.saveTxConfirmationModalVisibility(true);
-      this.props.updateVisibleType('swap');
+      this.props.updateTxConfirmationModalVisibleType('swap');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }
@@ -436,7 +436,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   saveTxConfirmationModalVisibility,
-  updateVisibleType,
+  updateTxConfirmationModalVisibleType,
   saveOutgoingTransactionDataSwap
 };
 

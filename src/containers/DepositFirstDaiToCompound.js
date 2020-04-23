@@ -6,8 +6,8 @@ import styled from 'styled-components/native';
 import { saveOutgoingTransactionDataCompound } from '../actions/ActionOutgoingTransactionData';
 import {
   saveTxConfirmationModalVisibility,
-  updateVisibleType
-} from '../actions/ActionTxConfirmationModal';
+  updateTxConfirmationModalVisibleType
+} from '../actions/ActionModal';
 import {
   RootContainer,
   UseMaxButton,
@@ -178,7 +178,7 @@ class DepositFirstDaiToCompound extends Component {
         transactionObject: mintTransactionObject
       });
       this.props.saveTxConfirmationModalVisibility(true);
-      this.props.updateVisibleType('compound-approve');
+      this.props.updateTxConfirmationModalVisibleType('compound-approve');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }
@@ -345,7 +345,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   saveOutgoingTransactionDataCompound,
   saveTxConfirmationModalVisibility,
-  updateVisibleType
+  updateTxConfirmationModalVisibleType
 };
 
 export default connect(

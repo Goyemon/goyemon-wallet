@@ -7,8 +7,8 @@ import styled from 'styled-components/native';
 import { saveOutgoingTransactionDataPoolTogether } from '../actions/ActionOutgoingTransactionData';
 import {
   saveTxConfirmationModalVisibility,
-  updateVisibleType
-} from '../actions/ActionTxConfirmationModal';
+  updateTxConfirmationModalVisibleType
+} from '../actions/ActionModal';
 import {
   RootContainer,
   GoyemonText,
@@ -177,7 +177,7 @@ class DepositDaiToPoolTogether extends Component {
         transactionObject: transactionObject
       });
       this.props.saveTxConfirmationModalVisibility(true);
-      this.props.updateVisibleType('pool-together-deposit');
+      this.props.updateTxConfirmationModalVisibleType('pool-together-deposit');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }
@@ -352,7 +352,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   saveOutgoingTransactionDataPoolTogether,
   saveTxConfirmationModalVisibility,
-  updateVisibleType
+  updateTxConfirmationModalVisibleType
 };
 
 export default connect(

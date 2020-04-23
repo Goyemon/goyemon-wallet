@@ -6,8 +6,8 @@ import styled from 'styled-components/native';
 import { saveOutgoingTransactionDataCompound } from '../actions/ActionOutgoingTransactionData';
 import {
   saveTxConfirmationModalVisibility,
-  updateVisibleType
-} from '../actions/ActionTxConfirmationModal';
+  updateTxConfirmationModalVisibleType
+} from '../actions/ActionModal';
 import {
   RootContainer,
   UntouchableCardContainer,
@@ -180,7 +180,7 @@ class WithdrawDaiFromCompound extends Component {
         transactionObject: transactionObject
       });
       this.props.saveTxConfirmationModalVisibility(true);
-      this.props.updateVisibleType('compound-withdraw');
+      this.props.updateTxConfirmationModalVisibleType('compound-withdraw');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }
@@ -326,7 +326,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   saveOutgoingTransactionDataCompound,
   saveTxConfirmationModalVisibility,
-  updateVisibleType
+  updateTxConfirmationModalVisibleType
 };
 
 export default connect(
