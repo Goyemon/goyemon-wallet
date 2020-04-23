@@ -7,7 +7,8 @@ const INITIAL_STATE = {
       estimatedPrize: '',
       ticketsSold: '',
       players: '',
-      countdown: ''
+      countdown: '',
+      winner: ''
     }
   }
 };
@@ -22,7 +23,8 @@ const poolTogether = (state = INITIAL_STATE, action) => {
             estimatedPrize: action.payload.estimatedPrize,
             ticketsSold: action.payload.tickets_sold,
             players: action.payload.players,
-            countdown: action.payload.countdown
+            countdown: action.payload.countdown,
+            winner: action.payload.winner,
           }
         }
       };
