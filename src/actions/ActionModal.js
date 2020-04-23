@@ -1,7 +1,8 @@
 'use strict';
 import {
   SAVE_TX_CONFIRMATION_MODAL_VISIBILITY,
-  UPDATE_VISIBLE_TYPE
+  UPDATE_TX_CONFIRMATION_MODAL_VISIBLE_TYPE,
+  SAVE_POP_UP_MODAL_VISIBILITY
 } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
@@ -20,17 +21,32 @@ const saveTxConfirmationModalVisibilitySuccess = (visibility) => ({
   payload: visibility
 });
 
-export function updateVisibleType(type) {
+export function updateTxConfirmationModalVisibleType(type) {
   return async function (dispatch) {
     try {
-      dispatch(updateVisibleTypeSuccess(type));
+      dispatch(updateTxConfirmationModalVisibleTypeSuccess(type));
     } catch (err) {
       LogUtilities.logError(err);
     }
   };
 }
 
-const updateVisibleTypeSuccess = (type) => ({
-  type: UPDATE_VISIBLE_TYPE,
+const updateTxConfirmationModalVisibleTypeSuccess = (type) => ({
+  type: UPDATE_TX_CONFIRMATION_MODAL_VISIBLE_TYPE,
   payload: type
+});
+
+export function savePopUpModalVisibility(visibility) {
+  return async function (dispatch) {
+    try {
+      dispatch(savePopUpModalVisibilitySuccess(visibility));
+    } catch (err) {
+      LogUtilities.logError(err);
+    }
+  };
+}
+
+const savePopUpModalVisibilitySuccess = (visibility) => ({
+  type: SAVE_POP_UP_MODAL_VISIBILITY,
+  payload: visibility
 });
