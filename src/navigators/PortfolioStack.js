@@ -16,6 +16,8 @@ import Receive from '../containers/Receive';
 import PortfolioWallet from '../containers/PortfolioWallet';
 import PortfolioCompound from '../containers/PortfolioCompound';
 import PortfolioPoolTogether from '../containers/PortfolioPoolTogether';
+import PortfolioPoolTogetherNext from '../containers/PortfolioPoolTogetherNext';
+import PortfolioPoolTogetherOngoing from '../containers/PortfolioPoolTogetherOngoing';
 import Settings from '../containers/Settings';
 import BackupWords from '../containers/BackupWords';
 import Advanced from '../containers/Advanced';
@@ -134,6 +136,26 @@ const PortfolioStack = createStackNavigator(
     },
     PortfolioPoolTogether: {
       screen: PortfolioPoolTogether,
+      navigationOptions: () => ({
+        headerTransparent: true,
+        headerStyle: {
+          marginTop: 16,
+          marginRight: 16
+        }
+      })
+    },
+    PortfolioPoolTogetherNext: {
+      screen: PortfolioPoolTogetherNext,
+      navigationOptions: () => ({
+        headerTransparent: true,
+        headerStyle: {
+          marginTop: 16,
+          marginRight: 16
+        }
+      })
+    },    
+    PortfolioPoolTogetherOngoing: {
+      screen: PortfolioPoolTogetherOngoing,
       navigationOptions: () => ({
         headerTransparent: true,
         headerStyle: {
