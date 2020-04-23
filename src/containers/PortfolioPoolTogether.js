@@ -1,96 +1,102 @@
 'use strict';
 import React, { Component } from 'react';
+import { TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
 import { withNavigation } from 'react-navigation';
+import { savePopUpModalVisibility } from '../actions/ActionModal';
 import {
   RootContainer,
-  UntouchableCardContainer,
+  Button,
+  Container,
   HeaderOne,
-  HeaderFour,
+  GoyemonText
 } from '../components/common';
+import PopUpModal from './common/PopUpModal';
+import PortfolioPoolTogetherNext from './PortfolioPoolTogetherNext';
+import PortfolioPoolTogetherOngoing from './PortfolioPoolTogetherOngoing';
+import LogUtilities from '../utilities/LogUtilities.js';
 
 class PortfolioPoolTogether extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      draw: 'next'
+    };
+  }
+
+  renderDraw() {
+    if (this.state.draw === 'next') {
+      return <PortfolioPoolTogetherNext />;
+    } else if (this.state.draw === 'ongoing') {
+      return <PortfolioPoolTogetherOngoing />;
+    } else {
+      LogUtilities.logInfo('no draw matches');
+    }
+  }
+
+  renderModalContent() {
+    if (this.props.poolTogether.dai.winner === this.props.checksumAddress) {
+      return (
+        <PopUpModal buttonText="withdraw your winning">
+          <GoyemonText fontSize={16}>you won baby</GoyemonText>
+        </PopUpModal>
+      );
+    } else {
+      return (
+        <PopUpModal buttonText="deposit for the next round">
+          <GoyemonText fontSize={16}>sorry</GoyemonText>
+        </PopUpModal>
+      );
+    }
+  }
+
   render() {
     return (
       <RootContainer>
+        {this.renderModalContent()}
         <HeaderOne marginTop="112">PoolTogether</HeaderOne>
-        <UntouchableCardContainer
+        <Container
           alignItems="center"
-          borderRadius="8"
-          flexDirection="column"
-          height="176px"
-          justifyContent="center"
-          marginTop="24px"
-          textAlign="center"
-          width="90%"
-        >
-          <HeaderFour marginTop="24">the number of tickets</HeaderFour>
-          <BalanceText></BalanceText>
-        </UntouchableCardContainer>
-        <UntouchableCardContainer
-          alignItems="center"
-          borderRadius="8"
           flexDirection="row"
-          height="144px"
-          justifyContent="space-between"
-          marginTop={8}
-          textAlign="left"
-          width="90%"
+          justifyContent="center"
+          marginTop={16}
+          width="100%"
         >
-          <CoinImageContainer>
-            <CoinImage source={require('../../assets/dai_icon.png')} />
-            <CoinText>DAI</CoinText>
-          </CoinImageContainer>
-          <TitleContainer>prize estimated</TitleContainer>
-          <TitleContainer>balance in an open draw</TitleContainer>
-          <TitleContainer>balance in a committed draw</TitleContainer>
-          <TitleContainer>the number of tickets</TitleContainer>
-          <TitleContainer>the number of players</TitleContainer>
-          <TitleContainer>time until the next prize</TitleContainer>
-          <ValueContainer></ValueContainer>
-        </UntouchableCardContainer>
+          <TouchableOpacity onPress={() => this.setState({ draw: 'next' })}>
+            <GoyemonText fontSize={16}>next</GoyemonText>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.setState({ draw: 'ongoing' })}>
+            <GoyemonText fontSize={16}>ongoing</GoyemonText>
+          </TouchableOpacity>
+        </Container>
+        {this.renderDraw()}
+        <Button
+          text="reveal the last result"
+          textColor="#00A3E2"
+          backgroundColor="#FFF"
+          borderColor="#00A3E2"
+          margin="8px auto"
+          marginBottom="12px"
+          opacity="1"
+          onPress={() => {
+            this.props.savePopUpModalVisibility(true);
+          }}
+        />
       </RootContainer>
     );
   }
 }
 
-const BalanceText = styled.Text`
-  color: #000;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 32;
-`;
-
-const CoinImageContainer = styled.View`
-  align-items: center;
-  width: 15%;
-`;
-
-const CoinImage = styled.Image`
-  border-radius: 20px;
-  height: 40px;
-  width: 40px;
-`;
-
-const CoinText = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 16;
-  margin-top: 4;
-`;
-
-const TitleContainer = styled.Text`
-  margin-left: 16;
-  width: 42.5%;
-`;
-
-const ValueContainer = styled.View`
-  margin-left: 12;
-  width: 42.5%;
-`;
-
 const mapStateToProps = (state) => ({
-  balance: state.ReducerBalance.balance
+  balance: state.ReducerBalance.balance,
+  checksumAddress: state.ReducerChecksumAddress.checksumAddress,
+  poolTogether: state.ReducerPoolTogether.poolTogether
 });
 
-export default withNavigation(connect(mapStateToProps)(PortfolioPoolTogether));
+const mapDispatchToProps = {
+  savePopUpModalVisibility
+};
+
+export default withNavigation(
+  connect(mapStateToProps, mapDispatchToProps)(PortfolioPoolTogether)
+);
