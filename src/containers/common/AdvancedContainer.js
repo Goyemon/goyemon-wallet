@@ -4,18 +4,18 @@ import { View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { getGasPrice, updateGasPriceChosen } from '../actions/ActionGasPrice';
+import { getGasPrice, updateGasPriceChosen } from '../../actions/ActionGasPrice';
 import {
   Container,
   FormHeader,
   GoyemonText,
   MenuContainer,
   ToggleCurrencySymbol
-} from '../components/common';
+} from '../../components/common';
 import SlippageContainer from './SlippageContainer';
-import I18n from '../i18n/I18n';
-import LogUtilities from '../utilities/LogUtilities.js';
-import TransactionUtilities from '../utilities/TransactionUtilities.ts';
+import I18n from '../../i18n/I18n';
+import LogUtilities from '../../utilities/LogUtilities.js';
+import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
 
 class AdvancedContainer extends Component {
   constructor(props) {

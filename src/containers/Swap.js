@@ -23,8 +23,8 @@ import {
   TxNextButton
 } from '../components/common';
 import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
-import AdvancedContainer from '../containers/AdvancedContainer';
-import TxConfirmationModal from '../containers/TxConfirmationModal';
+import AdvancedContainer from '../containers/common/AdvancedContainer';
+import TxConfirmationModal from '../containers/common/TxConfirmationModal';
 import I18n from '../i18n/I18n';
 import ABIEncoder from '../utilities/AbiUtilities';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';

@@ -7,9 +7,9 @@ import {
   ConfirmationHeader,
   ConfirmationText,
   ToggleCurrencySymbol
-} from '../components/common';
-import I18n from '../i18n/I18n';
-import TransactionUtilities from '../utilities/TransactionUtilities.ts';
+} from '../../components/common';
+import I18n from '../../i18n/I18n';
+import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
 
 class NetworkFeeContainerConfirmation extends Component {
   constructor(props) {

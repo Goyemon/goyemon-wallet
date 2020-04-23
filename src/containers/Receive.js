@@ -8,7 +8,7 @@ import {
   UntouchableCardContainer,
   GoyemonText
 } from '../components/common';
-import Copy from '../containers/Copy';
+import Copy from '../containers/common/Copy';
 import I18n from '../i18n/I18n';
 
 class Receive extends Component {

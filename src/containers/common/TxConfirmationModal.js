@@ -7,8 +7,8 @@ import { Modal, Alert, View } from 'react-native';
 import styled from 'styled-components';
 import {
   saveTxConfirmationModalVisibility,
-  updateVisibleType
-} from '../actions/ActionTxConfirmationModal';
+  updateTxConfirmationModalVisibleType
+} from '../../actions/ActionModal';
 import {
   ConfirmationHeader,
   ConfirmationText,
@@ -16,11 +16,11 @@ import {
   Loader,
   HeaderTwo,
   TxConfirmationButton
-} from '../components/common/';
-import NetworkFeeContainerConfirmation from '../containers/NetworkFeeContainerConfirmation';
-import I18n from '../i18n/I18n';
-import LogUtilities from '../utilities/LogUtilities.js';
-import TransactionUtilities from '../utilities/TransactionUtilities.ts';
+} from '../../components/common';
+import NetworkFeeContainerConfirmation from './NetworkFeeContainerConfirmation';
+import I18n from '../../i18n/I18n';
+import LogUtilities from '../../utilities/LogUtilities.js';
+import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
 
 class TxConfirmationModal extends Component {
   constructor(props) {
@@ -33,17 +33,17 @@ class TxConfirmationModal extends Component {
 
   returnHeaderType() {
     if (
-      this.props.txConfirmationModal.type === 'compound-deposit' ||
-      this.props.txConfirmationModal.type === 'pool-together-deposit' ||
-      this.props.txConfirmationModal.type === 'compound-approve' ||
-      this.props.txConfirmationModal.type === 'pool-together-approve'
+      this.props.modal.txConfirmationModalType === 'compound-deposit' ||
+      this.props.modal.txConfirmationModalType === 'pool-together-deposit' ||
+      this.props.modal.txConfirmationModalType === 'compound-approve' ||
+      this.props.modal.txConfirmationModalType === 'pool-together-approve'
     ) {
       return (
         <ConfirmationHeader>{I18n.t('deposit-amount')}</ConfirmationHeader>
       );
     } else if (
-      this.props.txConfirmationModal.type === 'compound-withdraw' ||
-      this.props.txConfirmationModal.type === 'pool-together-withdraw'
+      this.props.modal.txConfirmationModalType === 'compound-withdraw' ||
+      this.props.modal.txConfirmationModalType === 'pool-together-withdraw'
     ) {
       return (
         <ConfirmationHeader>{I18n.t('withdraw-amount')}</ConfirmationHeader>
@@ -52,24 +52,24 @@ class TxConfirmationModal extends Component {
   }
 
   returnCurrency() {
-    if (this.props.txConfirmationModal.type === 'send-eth') {
+    if (this.props.modal.txConfirmationModalType === 'send-eth') {
       return 'ETH';
-    } else if (this.props.txConfirmationModal.type === 'send-dai') {
+    } else if (this.props.modal.txConfirmationModalType === 'send-dai') {
       return 'DAI';
     }
   }
 
   returnButtonType() {
     if (
-      this.props.txConfirmationModal.type === 'compound-deposit' ||
-      this.props.txConfirmationModal.type === 'pool-together-deposit' ||
-      this.props.txConfirmationModal.type === 'compound-approve' ||
-      this.props.txConfirmationModal.type === 'pool-together-approve'
+      this.props.modal.txConfirmationModalType === 'compound-deposit' ||
+      this.props.modal.txConfirmationModalType === 'pool-together-deposit' ||
+      this.props.modal.txConfirmationModalType === 'compound-approve' ||
+      this.props.modal.txConfirmationModalType === 'pool-together-approve'
     ) {
       return I18n.t('deposit');
     } else if (
-      this.props.txConfirmationModal.type === 'compound-withdraw' ||
-      this.props.txConfirmationModal.type === 'pool-together-withdraw'
+      this.props.modal.txConfirmationModalType === 'compound-withdraw' ||
+      this.props.modal.txConfirmationModalType === 'pool-together-withdraw'
     ) {
       return I18n.t('withdraw');
     }
@@ -77,15 +77,15 @@ class TxConfirmationModal extends Component {
 
   renderModalContent() {
     const {
-      txConfirmationModal,
+      modal,
       outgoingTransactionData,
       netInfo,
       navigation
     } = this.props;
 
     if (
-      txConfirmationModal.type === 'send-eth' ||
-      txConfirmationModal.type === 'send-dai'
+      modal.txConfirmationModalType === 'send-eth' ||
+      modal.txConfirmationModalType === 'send-dai'
     ) {
       return (
         <View>
@@ -127,7 +127,7 @@ class TxConfirmationModal extends Component {
           <IsOnlineMessage netInfo={netInfo} />
         </View>
       );
-    } else if (txConfirmationModal.type === 'compound-approve') {
+    } else if (modal.txConfirmationModalType === 'compound-approve') {
       return (
         <View>
           <ConfirmationContainer>
@@ -168,8 +168,8 @@ class TxConfirmationModal extends Component {
         </View>
       );
     } else if (
-      txConfirmationModal.type === 'compound-deposit' ||
-      txConfirmationModal.type === 'compound-withdraw'
+      modal.txConfirmationModalType === 'compound-deposit' ||
+      modal.txConfirmationModalType === 'compound-withdraw'
     ) {
       return (
         <View>
@@ -207,7 +207,7 @@ class TxConfirmationModal extends Component {
           <IsOnlineMessage netInfo={netInfo} />
         </View>
       );
-    } else if (txConfirmationModal.type === 'pool-together-approve') {
+    } else if (modal.txConfirmationModalType === 'pool-together-approve') {
       return (
         <View>
           <ConfirmationContainer>
@@ -249,8 +249,8 @@ class TxConfirmationModal extends Component {
         </View>
       );
     } else if (
-      txConfirmationModal.type === 'pool-together-deposit' ||
-      txConfirmationModal.type === 'pool-together-withdraw'
+      modal.txConfirmationModalType === 'pool-together-deposit' ||
+      modal.txConfirmationModalType === 'pool-together-withdraw'
     ) {
       return (
         <View>
@@ -288,7 +288,7 @@ class TxConfirmationModal extends Component {
           <IsOnlineMessage netInfo={netInfo} />
         </View>
       );
-    } else if (txConfirmationModal.type === 'swap') {
+    } else if (modal.txConfirmationModalType === 'swap') {
       return (
         <View>
           <ConfirmationContainer>
@@ -342,7 +342,7 @@ class TxConfirmationModal extends Component {
       <Modal
         animationType="slide"
         transparent
-        visible={this.props.txConfirmationModal.visibility}
+        visible={this.props.modal.txConfirmationModalVisibility}
         onRequestClose={() => {
           Alert.alert('Modal has been closed.');
         }}
@@ -352,7 +352,7 @@ class TxConfirmationModal extends Component {
             <CloseButton
               onPress={() => {
                 this.props.saveTxConfirmationModalVisibility(false);
-                this.props.updateVisibleType(null);
+                this.props.updateTxConfirmationModalVisibleType(null);
               }}
             >
               <Icon name="chevron-down" color="#5F5F5F" size={24} />
@@ -430,13 +430,13 @@ function mapStateToProps(state) {
     netInfo: state.ReducerNetInfo.netInfo,
     outgoingTransactionData:
       state.ReducerOutgoingTransactionData.outgoingTransactionData,
-    txConfirmationModal: state.ReducerTxConfirmationModal.txConfirmationModal
+    modal: state.ReducerModal.modal
   };
 }
 
 const mapDispatchToProps = {
   saveTxConfirmationModalVisibility,
-  updateVisibleType
+  updateTxConfirmationModalVisibleType
 };
 
 export default withNavigation(

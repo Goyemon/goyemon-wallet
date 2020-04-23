@@ -13,7 +13,7 @@ import {
   HeaderThree,
   GoyemonText
 } from '../components/common';
-import Copy from '../containers/Copy';
+import Copy from '../containers/common/Copy';
 import GlobalConfig from '../config.json';
 import I18n from '../i18n/I18n';
 import { FCMMsgs } from '../lib/fcm.js';

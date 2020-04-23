@@ -22,7 +22,7 @@ import {
   InsufficientWeiBalanceMessage,
   TxNextButton
 } from '../components/common';
-import AdvancedContainer from './AdvancedContainer';
+import AdvancedContainer from './common/AdvancedContainer';
 import I18n from '../i18n/I18n';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';

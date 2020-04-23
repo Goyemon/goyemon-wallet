@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Clipboard, TouchableWithoutFeedback, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
-import I18n from '../i18n/I18n';
+import I18n from '../../i18n/I18n';
 
 class Copy extends Component {
   constructor(props) {

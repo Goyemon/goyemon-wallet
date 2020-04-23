@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { saveSwapSlippage } from '../actions/ActionUniswap';
-import { Container, FormHeader } from '../components/common';
-import I18n from '../i18n/I18n';
+import { saveSwapSlippage } from '../../actions/ActionUniswap';
+import { Container, FormHeader } from '../../components/common';
+import I18n from '../../i18n/I18n';
 
 class SlippageContainer extends Component {
   constructor(props) {

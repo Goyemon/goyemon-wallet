@@ -6,7 +6,7 @@ import { HeaderOne } from '../components/common/';
 // TODO: git rm those two:
 //import Transactions from '../containers/Transactions';
 //import TransactionsDai from '../containers/TransactionsDai';
-import OfflineNotice from '../containers/OfflineNotice';
+import OfflineNotice from '../containers/common/OfflineNotice';
 import TransactionList from '../containers/TransactionList';
 import I18n from '../i18n/I18n';
 
