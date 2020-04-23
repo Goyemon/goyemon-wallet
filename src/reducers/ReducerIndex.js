@@ -18,7 +18,7 @@ import ReducerOutgoingTransactionData from './ReducerOutgoingTransactionData';
 import ReducerPoolTogether from './ReducerPoolTogether';
 import ReducerPrice from './ReducerPrice';
 import ReducerRehydration from './ReducerRehydration';
-import ReducerTxConfirmationModal from './ReducerTxConfirmationModal';
+import ReducerModal from './ReducerModal';
 import ReducerTransactionsLoaded from './ReducerTransactionsLoaded';
 import ReducerTransactionHistory from './ReducerTransactionHistory';
 import ReducerUniswap from './ReducerUniswap';
@@ -33,6 +33,7 @@ const appReducers = combineReducers({
   ReducerGasPrice,
   ReducerMnemonic,
   ReducerMnemonicWordsValidation,
+  ReducerModal,
   ReducerNetInfo,
   ReducerQRCodeData,
   ReducerPermissions,
@@ -40,7 +41,6 @@ const appReducers = combineReducers({
   ReducerOutgoingTransactionData,
   ReducerPrice,
   ReducerRehydration,
-  ReducerTxConfirmationModal,
   ReducerTransactionsLoaded,
   ReducerTransactionHistory,
   ReducerUniswap
