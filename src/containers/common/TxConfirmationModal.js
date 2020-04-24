@@ -2,7 +2,11 @@
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
-import { NavigationActions, withNavigation } from 'react-navigation';
+import {
+  NavigationActions,
+  StackActions,
+  withNavigation
+} from 'react-navigation';
 import { Modal, Alert, View } from 'react-native';
 import styled from 'styled-components';
 import {
@@ -30,6 +34,15 @@ class TxConfirmationModal extends Component {
       buttonDisabled: false
     };
   }
+
+  resetNavigation = (routeName) => {
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName })],
+      key: null
+    });
+    this.props.navigation.dispatch(resetAction);
+  };
 
   returnHeaderType() {
     if (
@@ -76,12 +89,7 @@ class TxConfirmationModal extends Component {
   }
 
   renderModalContent() {
-    const {
-      modal,
-      outgoingTransactionData,
-      netInfo,
-      navigation
-    } = this.props;
+    const { modal, outgoingTransactionData, netInfo, navigation } = this.props;
 
     if (
       modal.txConfirmationModalType === 'send-eth' ||
@@ -112,10 +120,7 @@ class TxConfirmationModal extends Component {
                   await TransactionUtilities.sendOutgoingTransactionToServer(
                     outgoingTransactionData.send.transactionObject
                   );
-                  navigation.reset(
-                    [NavigationActions.navigate({ routeName: 'Send' })],
-                    0
-                  );
+                  this.resetNavigation('Send');
                   navigation.navigate('History');
                   this.setState({ loading: false, buttonDisabled: false });
                   this.props.saveTxConfirmationModalVisibility(false);
@@ -152,10 +157,7 @@ class TxConfirmationModal extends Component {
                   await TransactionUtilities.sendOutgoingTransactionToServer(
                     outgoingTransactionData.compound.transactionObject
                   );
-                  navigation.reset(
-                    [NavigationActions.navigate({ routeName: 'EarnHome' })],
-                    0
-                  );
+                  this.resetNavigation('EarnHome');
                   navigation.navigate('History');
                   this.setState({ loading: false, buttonDisabled: false });
                   this.props.saveTxConfirmationModalVisibility(false);
@@ -192,10 +194,7 @@ class TxConfirmationModal extends Component {
                   await TransactionUtilities.sendOutgoingTransactionToServer(
                     outgoingTransactionData.compound.transactionObject
                   );
-                  navigation.reset(
-                    [NavigationActions.navigate({ routeName: 'EarnHome' })],
-                    0
-                  );
+                  this.resetNavigation('EarnHome');
                   navigation.navigate('History');
                   this.setState({ loading: false, buttonDisabled: false });
                   this.props.saveTxConfirmationModalVisibility(false);
@@ -233,10 +232,7 @@ class TxConfirmationModal extends Component {
                   await TransactionUtilities.sendOutgoingTransactionToServer(
                     outgoingTransactionData.poolTogether.transactionObject
                   );
-                  navigation.reset(
-                    [NavigationActions.navigate({ routeName: 'EarnHome' })],
-                    0
-                  );
+                  this.resetNavigation('EarnHome');
                   navigation.navigate('History');
                   this.setState({ loading: false, buttonDisabled: false });
                   this.props.saveTxConfirmationModalVisibility(false);
@@ -273,10 +269,7 @@ class TxConfirmationModal extends Component {
                   await TransactionUtilities.sendOutgoingTransactionToServer(
                     outgoingTransactionData.poolTogether.transactionObject
                   );
-                  navigation.reset(
-                    [NavigationActions.navigate({ routeName: 'EarnHome' })],
-                    0
-                  );
+                  this.resetNavigation('EarnHome');
                   navigation.navigate('History');
                   this.setState({ loading: false, buttonDisabled: false });
                   this.props.saveTxConfirmationModalVisibility(false);
@@ -317,10 +310,7 @@ class TxConfirmationModal extends Component {
                   await TransactionUtilities.sendOutgoingTransactionToServer(
                     outgoingTransactionData.swap.transactionObject
                   );
-                  navigation.reset(
-                    [NavigationActions.navigate({ routeName: 'Swap' })],
-                    0
-                  );
+                  this.resetNavigation('Swap');
                   navigation.navigate('History');
                   this.setState({ loading: false, buttonDisabled: false });
                   this.props.saveTxConfirmationModalVisibility(false);
