@@ -4,7 +4,7 @@ import { View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import {
-  ConfirmationHeader,
+  HeaderFive,
   ConfirmationText,
   ToggleCurrencySymbol
 } from '../../components/common';
@@ -41,7 +41,7 @@ class NetworkFeeContainerConfirmation extends Component {
     return (
       <View>
         <NetworkFeeHeaderContainer>
-          <ConfirmationHeader>{I18n.t('max-network-fee')}</ConfirmationHeader>
+          <HeaderFive>{I18n.t('max-network-fee')}</HeaderFive>
           <TouchableOpacity
             onPress={() => {
               if (this.state.currency === 'ETH') {

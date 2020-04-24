@@ -2,7 +2,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 
-const ConfirmationHeader = (props) => (
+const HeaderFive = (props) => (
   <Header>
     <HeaderText>{props.children}</HeaderText>
   </Header>
@@ -19,4 +19,4 @@ const HeaderText = styled.Text`
   text-transform: uppercase;
 `;
 
-export { ConfirmationHeader };
+export { HeaderFive };

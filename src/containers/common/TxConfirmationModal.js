@@ -10,7 +10,7 @@ import {
   updateTxConfirmationModalVisibleType
 } from '../../actions/ActionModal';
 import {
-  ConfirmationHeader,
+  HeaderFive,
   ConfirmationText,
   IsOnlineMessage,
   Loader,
@@ -39,14 +39,14 @@ class TxConfirmationModal extends Component {
       this.props.modal.txConfirmationModalType === 'pool-together-approve'
     ) {
       return (
-        <ConfirmationHeader>{I18n.t('deposit-amount')}</ConfirmationHeader>
+        <HeaderFive>{I18n.t('deposit-amount')}</HeaderFive>
       );
     } else if (
       this.props.modal.txConfirmationModalType === 'compound-withdraw' ||
       this.props.modal.txConfirmationModalType === 'pool-together-withdraw'
     ) {
       return (
-        <ConfirmationHeader>{I18n.t('withdraw-amount')}</ConfirmationHeader>
+        <HeaderFive>{I18n.t('withdraw-amount')}</HeaderFive>
       );
     }
   }
@@ -90,11 +90,11 @@ class TxConfirmationModal extends Component {
       return (
         <View>
           <ConfirmationContainer>
-            <ConfirmationHeader>{I18n.t('to')}</ConfirmationHeader>
+            <HeaderFive>{I18n.t('to')}</HeaderFive>
             <ConfirmationText>
               {outgoingTransactionData.send.toaddress}
             </ConfirmationText>
-            <ConfirmationHeader>{I18n.t('amount')}</ConfirmationHeader>
+            <HeaderFive>{I18n.t('amount')}</HeaderFive>
             <ConfirmationText>
               {outgoingTransactionData.send.amount} {this.returnCurrency()}
             </ConfirmationText>
@@ -292,11 +292,11 @@ class TxConfirmationModal extends Component {
       return (
         <View>
           <ConfirmationContainer>
-            <ConfirmationHeader>You Pay</ConfirmationHeader>
+            <HeaderFive>You Pay</HeaderFive>
             <ConfirmationText>
               {outgoingTransactionData.swap.sold} ETH
             </ConfirmationText>
-            <ConfirmationHeader>You Get at Least</ConfirmationHeader>
+            <HeaderFive>You Get at Least</HeaderFive>
             <ConfirmationText>
               {outgoingTransactionData.swap.minBought.toFixed(4)} DAI
               <SlippageText>
