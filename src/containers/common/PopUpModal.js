@@ -5,12 +5,11 @@ import { connect } from 'react-redux';
 import { Alert, Modal } from 'react-native';
 import styled from 'styled-components/native';
 import { savePopUpModalVisibility } from '../../actions/ActionModal';
-import { RootContainer, Button } from '../../components/common';
+import { RootContainer } from '../../components/common';
 import I18n from '../../i18n/I18n';
 
 class PopUpModal extends Component {
   render() {
-    const { navigation } = this.props;
     return (
       <RootContainer>
         <Modal
@@ -32,21 +31,6 @@ class PopUpModal extends Component {
                   <Icon name="chevron-down" color="#5F5F5F" size={24} />
                 </CloseButton>
                 {this.props.children}
-                <ButtonContainer>
-                  <Button
-                    text={this.props.buttonText}
-                    textColor="#00A3E2"
-                    backgroundColor="#FFF"
-                    borderColor="#00A3E2"
-                    margin="8px auto"
-                    marginBottom="12px"
-                    opacity="1"
-                    onPress={async () => {
-                      this.props.savePopUpModalVisibility(false);
-                      navigation.navigate('');
-                    }}
-                  />
-                </ButtonContainer>
               </MondalInner>
             </ModalBackground>
           </ModalContainer>
@@ -81,13 +65,6 @@ const MondalInner = styled.View`
 
 const CloseButton = styled.TouchableOpacity`
   margin-left: 16;
-  margin-top: 16;
-`;
-
-const ButtonContainer = styled.View`
-  flex-direction: row;
-  justify-content: center;
-  margin-top: 16;
 `;
 
 function mapStateToProps(state) {
