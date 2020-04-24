@@ -1,10 +1,10 @@
 'use strict';
 import moment from 'moment';
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import { RootContainer } from '../../components/common';
+import styled from 'styled-components';
 
 class Countdown extends Component {
   constructor(props) {
@@ -12,7 +12,7 @@ class Countdown extends Component {
     this.state = {
       eventDate: moment
         .duration()
-        .add({ days: 7, hours: 3, minutes: 40, seconds: 50 }),
+        .add({ days: 7, hours: 0, minutes: 0, seconds: 0 }),
       days: 0,
       hours: 0,
       mins: 0,
@@ -51,14 +51,46 @@ class Countdown extends Component {
   render() {
     const { days, hours, mins, secs } = this.state;
     return (
-      <RootContainer>
-        <View>
-          <Text>{`${days} : ${hours} : ${mins} : ${secs}`}</Text>
-        </View>
-      </RootContainer>
+      <View>
+        <CountdownContainer>
+          <CountdownText>{`${days}`}</CountdownText>
+          <CountdownText>:</CountdownText>
+          <CountdownText>{`${hours}`}</CountdownText>
+          <CountdownText>:</CountdownText>
+          <CountdownText>{`${mins}`}</CountdownText>
+          <CountdownText>:</CountdownText>
+          <CountdownText>{`${secs}`}</CountdownText>
+        </CountdownContainer>
+        <CountdownContainer>
+          <CountdownDateText>days</CountdownDateText>
+          <CountdownDateText>hours</CountdownDateText>
+          <CountdownDateText>mins</CountdownDateText>
+          <CountdownDateText>secs</CountdownDateText>
+        </CountdownContainer>
+      </View>
     );
   }
 }
+
+const CountdownContainer = styled.View`
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+`;
+
+const CountdownText = styled.Text`
+  color: #000;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 24;
+  margin: 8px 12px;
+`;
+
+const CountdownDateText = styled.Text`
+  color: #5f5f5f;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 16;
+  margin: 0 20px;
+`;
 
 const mapStateToProps = (state) => ({
   balance: state.ReducerBalance.balance
