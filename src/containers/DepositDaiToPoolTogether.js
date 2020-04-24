@@ -1,7 +1,6 @@
 'use strict';
 import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
-import { Text } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { saveOutgoingTransactionDataPoolTogether } from '../actions/ActionOutgoingTransactionData';
@@ -23,6 +22,7 @@ import {
   TxNextButton
 } from '../components/common';
 import AdvancedContainer from './common/AdvancedContainer';
+import TxConfirmationModal from '../containers/common/TxConfirmationModal';
 import I18n from '../i18n/I18n';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
