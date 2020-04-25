@@ -21,7 +21,6 @@ class Initial extends Component {
 
   async componentDidMount() {
     await this.conditionalNavigation();
-    this.animation.play();
   }
 
   async conditionalNavigation() {
@@ -164,6 +163,7 @@ class Initial extends Component {
               width: 120,
               height: 120
             }}
+            autoPlay
             loop={true}
             source={Loader}
           />
