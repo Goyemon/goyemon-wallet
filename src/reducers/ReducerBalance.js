@@ -3,7 +3,8 @@ import {
   SAVE_WEI_BALANCE,
   SAVE_DAI_BALANCE,
   SAVE_C_DAI_BALANCE,
-  SAVE_COMPOUND_DAI_BALANCE
+  SAVE_COMPOUND_DAI_BALANCE,
+  SAVE_POOL_TOGETHER_DAI_BALANCE,
 } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
@@ -25,6 +26,10 @@ const balance = (state = INITIAL_STATE, action) => {
     case SAVE_COMPOUND_DAI_BALANCE:
       return {
         balance: { ...state.balance, compoundDai: action.payload }
+      };
+    case SAVE_POOL_TOGETHER_DAI_BALANCE:
+      return {
+        balance: { ...state.balance, pooltogetherDai: action.payload }
       };
     case SAVE_WEI_BALANCE:
       return { balance: { ...state.balance, wei: action.payload } };
