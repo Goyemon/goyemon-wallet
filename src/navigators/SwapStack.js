@@ -1,5 +1,5 @@
 'use strict';
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 import Swap from '../containers/Swap';
 
 const SwapStack = createStackNavigator(

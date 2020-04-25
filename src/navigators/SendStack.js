@@ -1,5 +1,5 @@
 'use strict';
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 import Send from '../components/Send';
 import SendEth from '../containers/SendEth';
 import QRCodeScan from '../containers/QRCodeScan';

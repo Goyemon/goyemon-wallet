@@ -2,7 +2,8 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
+import { createAppContainer } from 'react-navigation';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { PersistGate } from 'redux-persist/integration/react';
 import { rehydrationComplete } from '../actions/ActionRehydration';
 import '../firebase/FcmTokenMonitor';
