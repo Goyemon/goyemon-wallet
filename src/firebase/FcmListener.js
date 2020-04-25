@@ -5,6 +5,7 @@ import {
   saveCDaiBalance,
   saveDaiBalance,
   saveCompoundDaiBalance,
+  savePoolTogetherDaiBalance,
   saveWeiBalance
 } from '../actions/ActionBalance';
 import {
@@ -80,6 +81,10 @@ async function downstreamMessageHandler(type, data) {
 				FcmUpstreamMsgs.requestCompoundDaiInfo(stateTree.ReducerChecksumAddress.checksumAddress);
 		  		store.dispatch(saveCDaiBalance(new BigNumber(data.cdai).toString(10)));
 			}
+
+			if (data.hasOwnProperty('pooltogetherDai'))
+				store.dispatch(savePoolTogetherDaiBalance(new BigNumber(data.pooltogetherDai).toString(10)));
+
 			break;
 
 		case 'cDai_lending_info':
