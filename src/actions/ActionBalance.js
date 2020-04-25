@@ -4,6 +4,7 @@ import {
   SAVE_C_DAI_BALANCE,
   SAVE_DAI_BALANCE,
   SAVE_COMPOUND_DAI_BALANCE,
+  SAVE_POOL_TOGETHER_DAI_BALANCE,
   SAVE_WEI_BALANCE
 } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
@@ -55,6 +56,21 @@ export function saveCompoundDaiBalance(cDaiBalance, currentExchangeRate) {
 const saveCompoundDaiBalanceSuccess = (compoundDaiBalance) => ({
   type: SAVE_COMPOUND_DAI_BALANCE,
   payload: compoundDaiBalance
+});
+
+export function savePoolTogetherDaiBalance(daiBalance) {
+  return async function (dispatch) {
+    try {
+      dispatch(savePoolTogetherDaiBalanceSuccess(daiBalance));
+    } catch (err) {
+      LogUtilities.logError(err);
+    }
+  };
+}
+
+const savePoolTogetherDaiBalanceSuccess = (daiBalance) => ({
+  type: SAVE_POOL_TOGETHER_DAI_BALANCE,
+  payload: daiBalance
 });
 
 export function saveWeiBalance(weiBalance) {
