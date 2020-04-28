@@ -19,10 +19,12 @@ const INITIAL_STATE = {
 
 const balance = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case SAVE_C_DAI_BALANCE:
-      return { balance: { ...state.balance, cDai: action.payload } };
+    case SAVE_WEI_BALANCE:
+      return { balance: { ...state.balance, wei: action.payload } };
     case SAVE_DAI_BALANCE:
       return { balance: { ...state.balance, dai: action.payload } };
+    case SAVE_C_DAI_BALANCE:
+      return { balance: { ...state.balance, cDai: action.payload } };
     case SAVE_COMPOUND_DAI_BALANCE:
       return {
         balance: { ...state.balance, compoundDai: action.payload }
@@ -31,8 +33,6 @@ const balance = (state = INITIAL_STATE, action) => {
       return {
         balance: { ...state.balance, pooltogetherDai: action.payload }
       };
-    case SAVE_WEI_BALANCE:
-      return { balance: { ...state.balance, wei: action.payload } };
     default:
       return state || INITIAL_STATE;
   }

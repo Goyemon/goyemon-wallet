@@ -1,13 +1,28 @@
 'use strict';
 import BigNumber from 'bignumber.js';
 import {
-  SAVE_C_DAI_BALANCE,
+  SAVE_WEI_BALANCE,
   SAVE_DAI_BALANCE,
+  SAVE_C_DAI_BALANCE,
   SAVE_COMPOUND_DAI_BALANCE,
-  SAVE_POOL_TOGETHER_DAI_BALANCE,
-  SAVE_WEI_BALANCE
 } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
+
+export function saveWeiBalance(weiBalance) {
+  return async function (dispatch) {
+    try {
+      console.log('weiBalance ==>', weiBalance);
+      dispatch(saveWeiBalanceSuccess(weiBalance));
+    } catch (err) {
+      LogUtilities.logError(err);
+    }
+  };
+}
+
+const saveWeiBalanceSuccess = (weiBalance) => ({
+  type: SAVE_WEI_BALANCE,
+  payload: weiBalance
+});
 
 export function saveCDaiBalance(cDaiBalance) {
   return async function (dispatch) {
@@ -71,19 +86,4 @@ export function savePoolTogetherDaiBalance(daiBalance) {
 const savePoolTogetherDaiBalanceSuccess = (daiBalance) => ({
   type: SAVE_POOL_TOGETHER_DAI_BALANCE,
   payload: daiBalance
-});
-
-export function saveWeiBalance(weiBalance) {
-  return async function (dispatch) {
-    try {
-      dispatch(saveWeiBalanceSuccess(weiBalance));
-    } catch (err) {
-      LogUtilities.logError(err);
-    }
-  };
-}
-
-const saveWeiBalanceSuccess = (weiBalance) => ({
-  type: SAVE_WEI_BALANCE,
-  payload: weiBalance
 });
