@@ -5,6 +5,7 @@ import {
   SAVE_DAI_BALANCE,
   SAVE_C_DAI_BALANCE,
   SAVE_COMPOUND_DAI_BALANCE,
+  SAVE_POOL_TOGETHER_DAI_BALANCE
 } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
