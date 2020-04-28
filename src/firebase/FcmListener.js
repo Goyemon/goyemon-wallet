@@ -72,18 +72,18 @@ async function downstreamMessageHandler(type, data) {
 
 		case 'balance':
 			if (data.hasOwnProperty('eth'))
-				store.dispatch(saveWeiBalance(new BigNumber(data.eth).toString(10)));
+				store.dispatch(saveWeiBalance(new BigNumber(`0x${data.eth}`).toString(10)));
 
 			if (data.hasOwnProperty('dai'))
-				store.dispatch(saveDaiBalance(new BigNumber(data.dai).toString(10)));
+				store.dispatch(saveDaiBalance(new BigNumber(`0x${data.dai}`).toString(10)));
 
 			if (data.hasOwnProperty('cdai')) {
 				FcmUpstreamMsgs.requestCompoundDaiInfo(stateTree.ReducerChecksumAddress.checksumAddress);
-		  		store.dispatch(saveCDaiBalance(new BigNumber(data.cdai).toString(10)));
+		  		store.dispatch(saveCDaiBalance(new BigNumber(`0x${data.cdai}`).toString(10)));
 			}
 
 			if (data.hasOwnProperty('pooltogetherDai'))
-				store.dispatch(savePoolTogetherDaiBalance(new BigNumber(data.pooltogetherDai).toString(10)));
+				store.dispatch(savePoolTogetherDaiBalance(new BigNumber(`0x${data.pooltogetherDai}`).toString(10)));
 
 			break;
 
