@@ -174,6 +174,20 @@ class Advanced extends Component {
           >
             <CopyAddressText>dump all txes (careful!)</CopyAddressText>
           </TouchableWithoutFeedback>
+          <HeaderThree
+            color="#000"
+            marginBottom="0"
+            marginLeft="0"
+            marginTop="24"
+          >
+            {I18n.t('settings-advanced-credit')}
+          </HeaderThree>
+          <GoyemonText fontSize="14">
+            "Dino Loading" by aan hamdani is licensed under CC BY 2.0
+          </GoyemonText>
+          <GoyemonText fontSize="14">
+            "Trophy Success" by Brett Bertola is licensed under CC BY 2.0
+          </GoyemonText>
         </Container>
       </RootContainer>
     );
