@@ -26,10 +26,10 @@ class PortfolioPoolTogetherNext extends Component {
           </CoinImageContainer>
           <HeaderFive>time until the next prize</HeaderFive>
           <Countdown />
+          <HeaderFive>the pool balance</HeaderFive>
           <HeaderFive>prize estimated</HeaderFive>
           <HeaderFive>balance in an open draw</HeaderFive>
           <HeaderFive>the number of tickets</HeaderFive>
-          <HeaderFive>the number of players</HeaderFive>
         </UntouchableCardContainer>
       </RootContainer>
     );

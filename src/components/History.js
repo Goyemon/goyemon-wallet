@@ -20,7 +20,7 @@ export default class History extends Component {
 
   toggleFilterChoiceText() {
     const choices = ['All', 'Dai'].map((filter) => {
-      if (filter == this.state.filter)
+      if (filter === this.state.filter)
         return (
           <FilterChoiceTextSelected key={filter}>
             {filter}
@@ -30,7 +30,7 @@ export default class History extends Component {
       return (
         <TouchableOpacity
           key={filter}
-          onPress={() => this.setState({ filter: filter })}
+          onPress={() => this.setState({ filter })}
         >
           <FilterChoiceTextUnselected>{filter}</FilterChoiceTextUnselected>
         </TouchableOpacity>

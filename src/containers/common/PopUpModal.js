@@ -6,7 +6,6 @@ import { Alert, Modal } from 'react-native';
 import styled from 'styled-components/native';
 import { savePopUpModalVisibility } from '../../actions/ActionModal';
 import { RootContainer } from '../../components/common';
-import I18n from '../../i18n/I18n';
 
 class PopUpModal extends Component {
   render() {
@@ -28,7 +27,7 @@ class PopUpModal extends Component {
                     this.props.savePopUpModalVisibility(false);
                   }}
                 >
-                  <Icon name="chevron-down" color="#5F5F5F" size={24} />
+                  <Icon name="close" color="#5F5F5F" size={24} />
                 </CloseButton>
                 {this.props.children}
               </MondalInner>
