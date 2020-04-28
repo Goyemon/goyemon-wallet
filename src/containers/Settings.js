@@ -6,6 +6,7 @@ import { Linking, TouchableHighlight, Alert, Modal } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import { clearState } from '../actions/ActionClearState';
+import { savePopUpModalVisibility } from '../actions/ActionModal';
 import { rehydrationComplete } from '../actions/ActionRehydration';
 import {
   RootContainer,
@@ -15,6 +16,7 @@ import {
   Description,
   SettingsListCard
 } from '../components/common';
+import PopUpModal from './common/PopUpModal';
 import I18n from '../i18n/I18n';
 import TxStorage from '../lib/tx';
 import PortfolioStack from '../navigators/PortfolioStack';
@@ -26,7 +28,6 @@ class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalVisible: false,
       deleteTextValidation: false,
       buttonDisabled: true,
       buttonOpacity: 0.5
@@ -68,14 +69,6 @@ class Settings extends Component {
     };
   }
 
-  setModalVisible(visible) {
-    this.setState({
-      modalVisible: visible,
-      buttonDisabled: true,
-      buttonOpacity: 0.5
-    });
-  }
-
   validateDeleteText(deleteText) {
     if (deleteText === 'delete') {
       LogUtilities.logInfo('the delete text validated!');
@@ -100,75 +93,62 @@ class Settings extends Component {
     return (
       <RootContainer>
         <HeaderOne marginTop="112">{I18n.t('settings-header')}</HeaderOne>
-        <Modal
-          animationType="fade"
-          transparent
-          visible={this.state.modalVisible}
-          onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
-          }}
-        >
-          <ModalContainer>
-            <ModalBackground>
-              <MondalInner>
-                <ModalTextContainer>
-                  <ResetWalletHeader>
-                    {I18n.t('settings-reset-title')}
-                  </ResetWalletHeader>
-                  <Description marginBottom="0" marginLeft="0" marginTop="8">
-                  {I18n.t('settings-reset-warning')}
-                  </Description>
-                </ModalTextContainer>
-                <DeleteTextInputContainer>
-                  <Description marginBottom="8" marginLeft="0" marginTop="16">
-                  {I18n.t('settings-reset-instruction')}
-                  </Description>
-                  <DeleteTextInput
-                    autoCapitalize="none"
-                    clearButtonMode="while-editing"
-                    onChangeText={(deleteText) => {
-                      this.validateDeleteText(deleteText);
-                    }}
-                  />
-                </DeleteTextInputContainer>
-                <ButtonContainer>
-                  <Button
-                    text={I18n.t('button-cancel')}
-                    textColor="#5F5F5F"
-                    backgroundColor="#EEEEEE"
-                    borderColor="#EEEEEE"
-                    margin="8px"
-                    marginBottom="12px"
-                    opacity="1"
-                    onPress={() => {
-                      this.setModalVisible(false);
-                    }}
-                  />
-                  <Button
-                    text={I18n.t('button-confirm')}
-                    textColor="#FFF"
-                    backgroundColor="#E41B13"
-                    borderColor="#E41B13"
-                    disabled={this.state.buttonDisabled}
-                    margin="8px"
-                    marginBottom="12px"
-                    opacity={this.state.buttonOpacity}
-                    onPress={async () => {
-                      await WalletUtilities.resetKeychainData();
-                      await persistor.purge();
-                      await TxStorage.storage.clear();
-                      this.props.clearState();
-                      // reset notification settings using https://github.com/zo0r/react-native-push-notification
-                      this.setModalVisible(false);
-                      navigation.navigate('Initial');
-                      store.dispatch(rehydrationComplete(true));
-                    }}
-                  />
-                </ButtonContainer>
-              </MondalInner>
-            </ModalBackground>
-          </ModalContainer>
-        </Modal>
+        <PopUpModal>
+          <ModalTextContainer>
+            <ResetWalletHeader>
+              {I18n.t('settings-reset-title')}
+            </ResetWalletHeader>
+            <Description marginBottom="0" marginLeft="0" marginTop="8">
+              {I18n.t('settings-reset-warning')}
+            </Description>
+          </ModalTextContainer>
+          <DeleteTextInputContainer>
+            <Description marginBottom="8" marginLeft="0" marginTop="16">
+              {I18n.t('settings-reset-instruction')}
+            </Description>
+            <DeleteTextInput
+              autoCapitalize="none"
+              clearButtonMode="while-editing"
+              onChangeText={(deleteText) => {
+                this.validateDeleteText(deleteText);
+              }}
+            />
+          </DeleteTextInputContainer>
+          <ButtonContainer>
+            <Button
+              text={I18n.t('button-cancel')}
+              textColor="#5F5F5F"
+              backgroundColor="#EEEEEE"
+              borderColor="#EEEEEE"
+              margin="8px"
+              marginBottom="12px"
+              opacity="1"
+              onPress={() => {
+                this.props.savePopUpModalVisibility(false);
+              }}
+            />
+            <Button
+              text={I18n.t('button-confirm')}
+              textColor="#FFF"
+              backgroundColor="#E41B13"
+              borderColor="#E41B13"
+              disabled={this.state.buttonDisabled}
+              margin="8px"
+              marginBottom="12px"
+              opacity={this.state.buttonOpacity}
+              onPress={async () => {
+                await WalletUtilities.resetKeychainData();
+                await persistor.purge();
+                await TxStorage.storage.clear();
+                this.props.clearState();
+                // reset notification settings using https://github.com/zo0r/react-native-push-notification
+                this.props.savePopUpModalVisibility(false);
+                navigation.navigate('Initial');
+                store.dispatch(rehydrationComplete(true));
+              }}
+            />
+          </ButtonContainer>
+        </PopUpModal>
         <CommunityIconContainer>
           <CommunityIcon>
             <IconOpacity>
@@ -241,7 +221,7 @@ class Settings extends Component {
           <TouchableHighlight
             underlayColor="#FFF"
             onPress={() => {
-              this.setModalVisible(true);
+              this.props.savePopUpModalVisibility(true);
             }}
           >
             <ResetWalletText>{I18n.t('settings-reset-wallet')}</ResetWalletText>
@@ -260,29 +240,6 @@ class Settings extends Component {
 const BackButtonContainer = styled.TouchableWithoutFeedback`
   align-items: center;
   flex-direction: row;
-`;
-
-const ModalContainer = styled.View`
-  background-color: rgba(0, 0, 0, 0.5);
-  flex-direction: row;
-  justify-content: center;
-  height: 100%;
-`;
-
-const ModalBackground = styled.View`
-  background-color: #f8f8f8;
-  border-radius: 16px;
-  height: 40%;
-  min-height: 320px
-  margin-top: 80;
-  width: 90%;
-`;
-
-const MondalInner = styled.View`
-  justify-content: center;
-  flex: 1;
-  flex-direction: column;
-  width: 100%;
 `;
 
 const ModalTextContainer = styled.View`
@@ -372,7 +329,8 @@ const LoveText = styled.Text`
 `;
 
 const mapDispatchToProps = {
-  clearState
+  clearState,
+  savePopUpModalVisibility
 };
 
 export default connect(null, mapDispatchToProps)(Settings);
