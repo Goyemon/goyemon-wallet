@@ -1754,6 +1754,7 @@ class TxStorage {
 		const removeKeys = [];
 
 		let changed = 0;
+		let newNonce = this.our_max_nonce;
 
 		for (let i = 0; i < data.length; ++i) {
 			const tx = data[i];
@@ -1762,6 +1763,9 @@ class TxStorage {
 			removeKeys.push(`tx_${txStatePrefix}${tx.getHash()}`);
 
 			if (ourTx) {
+				if (tx.getNonce() > newNonce)
+					newNonce = tx.getNonce();
+
 				const nonceKey = `${txNoncePrefix}${tx.getNonce()}`;
 				oldTx = await this.txes.getTxByHash(nonceKey);
 				if (oldTx) {
@@ -1799,6 +1803,12 @@ class TxStorage {
 		}
 		LogUtilities.toDebugScreen(`processTxSync(): removeKeys: ${removeKeys.join()}`);
 		await AsyncStorage.multiRemove(removeKeys);
+
+		if (newNonce != this.our_max_nonce) {
+			this.our_max_nonce = newNonce;
+			await AsyncStorage.setItem(maxNonceKey, this.our_max_nonce.toString());
+			LogUtilities.toDebugScreen(`processTxSync(): our_max_nonce changed to ${this.our_max_nonce}`);
+		}
 
 		this.__unlock('txes');
 
