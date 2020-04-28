@@ -124,6 +124,7 @@ class TxConfirmationModal extends Component {
                   navigation.navigate('History');
                   this.setState({ loading: false, buttonDisabled: false });
                   this.props.saveTxConfirmationModalVisibility(false);
+                  this.props.updateTxConfirmationModalVisibleType(null);
                 }
               }}
             />
@@ -161,6 +162,7 @@ class TxConfirmationModal extends Component {
                   navigation.navigate('History');
                   this.setState({ loading: false, buttonDisabled: false });
                   this.props.saveTxConfirmationModalVisibility(false);
+                  this.props.updateTxConfirmationModalVisibleType(null);
                 }
               }}
             />
@@ -198,6 +200,7 @@ class TxConfirmationModal extends Component {
                   navigation.navigate('History');
                   this.setState({ loading: false, buttonDisabled: false });
                   this.props.saveTxConfirmationModalVisibility(false);
+                  this.props.updateTxConfirmationModalVisibleType(null);
                 }
               }}
             />
@@ -236,6 +239,7 @@ class TxConfirmationModal extends Component {
                   navigation.navigate('History');
                   this.setState({ loading: false, buttonDisabled: false });
                   this.props.saveTxConfirmationModalVisibility(false);
+                  this.props.updateTxConfirmationModalVisibleType(null);
                 }
               }}
             />
@@ -273,6 +277,7 @@ class TxConfirmationModal extends Component {
                   navigation.navigate('History');
                   this.setState({ loading: false, buttonDisabled: false });
                   this.props.saveTxConfirmationModalVisibility(false);
+                  this.props.updateTxConfirmationModalVisibleType(null);
                 }
               }}
             />
@@ -314,6 +319,7 @@ class TxConfirmationModal extends Component {
                   navigation.navigate('History');
                   this.setState({ loading: false, buttonDisabled: false });
                   this.props.saveTxConfirmationModalVisibility(false);
+                  this.props.updateTxConfirmationModalVisibleType(null);
                 }
               }}
             />
