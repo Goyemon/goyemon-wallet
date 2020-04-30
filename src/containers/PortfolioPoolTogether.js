@@ -17,6 +17,7 @@ import {
 } from '../components/common';
 import PopUpModal from './common/PopUpModal';
 import I18n from '../i18n/I18n';
+import { FCMMsgs } from '../lib/fcm.js';
 import PortfolioPoolTogetherNext from './PortfolioPoolTogetherNext';
 import PortfolioPoolTogetherOngoing from './PortfolioPoolTogetherOngoing';
 import LogUtilities from '../utilities/LogUtilities.js';
@@ -27,6 +28,10 @@ class PortfolioPoolTogether extends Component {
     this.state = {
       draw: 'next'
     };
+  }
+
+  componentDidMount() {
+    FCMMsgs.requestPoolTogetherDaiInfo(this.props.checksumAddress);
   }
 
   renderDraw() {

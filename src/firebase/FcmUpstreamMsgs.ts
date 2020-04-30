@@ -35,7 +35,7 @@ class FcmUpstreamMsgs {
     this.__sendMessage('cDai_lending_info', checksumAddress);
   }
 
-  requestPoolTogetherDAIInfo(checksumAddress) {
+  requestPoolTogetherDaiInfo(checksumAddress) {
     this.__sendMessage('pool_together_DAI_info', checksumAddress);
   }
 

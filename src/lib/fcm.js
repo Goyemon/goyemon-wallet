@@ -192,6 +192,10 @@ class FCMMsgs {
 		this.__sendMessage('cDai_lending_info', { address: checksumAddress });
 	}
 
+	requestPoolTogetherDaiInfo(checksumAddress) {
+		this.__sendMessage('pool_together_DAI_info', { address: checksumAddress });
+	}
+
 	requestUniswapETHDAIBalances() {
 		this.__sendMessage('uniswap_ETHDAI_info');
 	}
