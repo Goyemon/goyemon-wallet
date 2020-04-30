@@ -6,9 +6,11 @@ import { withNavigation } from 'react-navigation';
 import {
   RootContainer,
   UntouchableCardContainer,
-  HeaderFive
+  HeaderFive,
+  GoyemonText
 } from '../components/common';
 import Countdown from './common/Countdown';
+import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 
 class PortfolioPoolTogetherOngoing extends Component {
   render() {
@@ -16,6 +18,23 @@ class PortfolioPoolTogetherOngoing extends Component {
       this.props.balance.pooltogetherDai.committed
     )
       .div(new RoundDownBigNumber(10).pow(18))
+      .toFixed(2);
+
+    const ticketsSold = RoundDownBigNumber(
+      this.props.poolTogether.dai.committedSupply
+    )
+      .div(new RoundDownBigNumber(10).pow(18))
+      .toFixed(2);
+
+    const estimatedPrize = RoundDownBigNumber(
+      this.props.poolTogether.dai.estimatedInterestRate
+    )
+      .times(
+        RoundDownBigNumber(this.props.poolTogether.dai.totalBalance).minus(
+          this.props.poolTogether.dai.openSupply
+        )
+      )
+      .div(new RoundDownBigNumber(10).pow(36))
       .toFixed(2);
 
     return (
@@ -37,8 +56,9 @@ class PortfolioPoolTogetherOngoing extends Component {
           <HeaderFive>time until the next prize</HeaderFive>
           <Countdown />
           <HeaderFive>the pool balance</HeaderFive>
+          <GoyemonText fontSize={14}>{ticketsSold} DAI</GoyemonText>
           <HeaderFive>prize estimated</HeaderFive>
-          <HeaderFive>the number of tickets</HeaderFive>
+          <GoyemonText fontSize={14}>{estimatedPrize} DAI</GoyemonText>
           <HeaderFive>your balance in a committed draw</HeaderFive>
           <GoyemonText fontSize={14}>
             {pooltogetherDaiCommittedBalance} DAI
@@ -67,6 +87,7 @@ const CoinText = styled.Text`
 
 const mapStateToProps = (state) => ({
   balance: state.ReducerBalance.balance,
+  poolTogether: state.ReducerPoolTogether.poolTogether
 });
 
 export default withNavigation(
