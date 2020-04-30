@@ -3,8 +3,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { withNavigation } from 'react-navigation';
-import { RootContainer, UntouchableCardContainer, HeaderFive } from '../components/common';
+import {
+  RootContainer,
+  UntouchableCardContainer,
+  HeaderFive,
+  GoyemonText
+} from '../components/common';
 import Countdown from './common/Countdown';
+import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 
 class PortfolioPoolTogetherNext extends Component {
   render() {
@@ -30,11 +36,8 @@ class PortfolioPoolTogetherNext extends Component {
             <CoinImage source={require('../../assets/dai_icon.png')} />
             <CoinText>DAI</CoinText>
           </CoinImageContainer>
-          <HeaderFive>time until the next prize</HeaderFive>
+          <HeaderFive>time until the open round ends</HeaderFive>
           <Countdown />
-          <HeaderFive>the pool balance</HeaderFive>
-          <HeaderFive>prize estimated</HeaderFive>
-          <HeaderFive>the number of tickets</HeaderFive>
           <HeaderFive>your balance in an open draw</HeaderFive>
           <GoyemonText fontSize={14}>{pooltogetherDaiOpenBalance} DAI</GoyemonText>
         </UntouchableCardContainer>

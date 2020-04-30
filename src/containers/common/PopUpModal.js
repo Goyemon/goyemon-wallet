@@ -56,7 +56,8 @@ const ModalBackground = styled.View`
 `;
 
 const MondalInner = styled.View`
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
   flex: 1;
   flex-direction: column;
   width: 100%;

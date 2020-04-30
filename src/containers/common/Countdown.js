@@ -54,11 +54,8 @@ class Countdown extends Component {
       <View>
         <CountdownContainer>
           <CountdownText>{`${days}`}</CountdownText>
-          <CountdownText>:</CountdownText>
           <CountdownText>{`${hours}`}</CountdownText>
-          <CountdownText>:</CountdownText>
           <CountdownText>{`${mins}`}</CountdownText>
-          <CountdownText>:</CountdownText>
           <CountdownText>{`${secs}`}</CountdownText>
         </CountdownContainer>
         <CountdownContainer>
@@ -89,7 +86,7 @@ const CountdownDateText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
   font-size: 16;
-  margin: 0 20px;
+  margin: 0 8px;
 `;
 
 const mapStateToProps = (state) => ({

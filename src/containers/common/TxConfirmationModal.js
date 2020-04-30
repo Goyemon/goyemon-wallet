@@ -389,7 +389,7 @@ const ModalBackground = styled.View`
   border-radius: 16px;
   height: 50%;
   min-height: 200px;
-  width: 100%;
+  width: 98%;
 `;
 
 const CloseButton = styled.TouchableOpacity`

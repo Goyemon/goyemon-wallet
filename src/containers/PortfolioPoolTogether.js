@@ -2,7 +2,7 @@
 import Animation from 'lottie-react-native';
 import React, { Component } from 'react';
 import * as Animatable from 'react-native-animatable';
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import styled from 'styled-components/native';
@@ -26,7 +26,7 @@ class PortfolioPoolTogether extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      draw: 'next'
+      draw: 'open'
     };
   }
 
@@ -35,9 +35,9 @@ class PortfolioPoolTogether extends Component {
   }
 
   renderDraw() {
-    if (this.state.draw === 'next') {
+    if (this.state.draw === 'open') {
       return <PortfolioPoolTogetherNext />;
-    } else if (this.state.draw === 'ongoing') {
+    } else if (this.state.draw === 'committed') {
       return <PortfolioPoolTogetherOngoing />;
     } else {
       LogUtilities.logInfo('no draw matches');
@@ -127,25 +127,25 @@ class PortfolioPoolTogether extends Component {
   }
 
   toggleFilterChoiceText() {
-    if (this.state.draw === 'next') {
+    if (this.state.draw === 'open') {
       return (
         <FilterChoiceContainer>
-          <TouchableOpacity onPress={() => this.setState({ draw: 'next' })}>
-            <FilterChoiceTextSelected>next</FilterChoiceTextSelected>
+          <TouchableOpacity onPress={() => this.setState({ draw: 'open' })}>
+            <FilterChoiceTextSelected>open</FilterChoiceTextSelected>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.setState({ draw: 'ongoing' })}>
-            <FilterChoiceTextUnselected>ongoing</FilterChoiceTextUnselected>
+          <TouchableOpacity onPress={() => this.setState({ draw: 'committed' })}>
+            <FilterChoiceTextUnselected>committed</FilterChoiceTextUnselected>
           </TouchableOpacity>
         </FilterChoiceContainer>
       );
-    } else if (this.state.draw === 'ongoing') {
+    } else if (this.state.draw === 'committed') {
       return (
         <FilterChoiceContainer>
-          <TouchableOpacity onPress={() => this.setState({ draw: 'next' })}>
-            <FilterChoiceTextUnselected>next</FilterChoiceTextUnselected>
+          <TouchableOpacity onPress={() => this.setState({ draw: 'open' })}>
+            <FilterChoiceTextUnselected>open</FilterChoiceTextUnselected>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.setState({ draw: 'ongoing' })}>
-            <FilterChoiceTextSelected>ongoing</FilterChoiceTextSelected>
+          <TouchableOpacity onPress={() => this.setState({ draw: 'committed' })}>
+            <FilterChoiceTextSelected>committed</FilterChoiceTextSelected>
           </TouchableOpacity>
         </FilterChoiceContainer>
       );
