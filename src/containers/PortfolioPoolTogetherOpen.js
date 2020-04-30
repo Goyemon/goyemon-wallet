@@ -12,7 +12,7 @@ import {
 import Countdown from './common/Countdown';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 
-class PortfolioPoolTogetherNext extends Component {
+class PortfolioPoolTogetherOpen extends Component {
   render() {
     const pooltogetherDaiOpenBalance = RoundDownBigNumber(
       this.props.balance.pooltogetherDai.open
@@ -67,5 +67,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default withNavigation(
-  connect(mapStateToProps)(PortfolioPoolTogetherNext)
+  connect(mapStateToProps)(PortfolioPoolTogetherOpen)
 );
