@@ -72,7 +72,11 @@ class PortfolioHome extends Component {
       .div(new RoundDownBigNumber(10).pow(36))
       .toString();
 
-    const pooltogetherDaiBalance = RoundDownBigNumber(balance.pooltogetherDai)
+    const pooltogetherDaiBalance = RoundDownBigNumber(
+      balance.pooltogetherDai.open
+    )
+      .plus(balance.pooltogetherDai.committed)
+      .plus(balance.pooltogetherDai.sponsored)
       .div(new RoundDownBigNumber(10).pow(18))
       .toFixed(2);
 
@@ -329,7 +333,7 @@ const ApplicationBalanceText = styled.Text`
   font-size: 20;
 `;
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   balance: state.ReducerBalance.balance,
   checksumAddress: state.ReducerChecksumAddress.checksumAddress,
   price: state.ReducerPrice.price
