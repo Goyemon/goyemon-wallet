@@ -8,7 +8,7 @@ const INITIAL_STATE = {
   approval: {
     dai: {
       compound: null,
-      poolTogether: null
+      pooltogether: null
     }
   }
 };
@@ -29,7 +29,7 @@ const approval = (state = INITIAL_STATE, action) => {
         approval: {
           dai: {
             ...state.approval.dai,
-            poolTogether: action.payload
+            pooltogether: action.payload
           }
         }
       };

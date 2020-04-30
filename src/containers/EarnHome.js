@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
-import { saveDaiCompoundApproval } from '../actions/ActionApproval';
+import {
+  saveDaiCompoundApproval,
+  saveDaiPoolTogetherApproval
+} from '../actions/ActionApproval';
 import CompoundIcon from '../../assets/CompoundIcon.js';
 import PoolTogetherIcon from '../../assets/PoolTogetherIcon.js';
 import {
@@ -24,6 +27,9 @@ class EarnHome extends Component {
     const txChangeCallback = (() => {
       TxStorage.storage.isDAIApprovedForCDAI().then((x) => {
         this.props.saveDaiCompoundApproval(x);
+      });
+      TxStorage.storage.isDAIApprovedForPT().then((x) => {
+        this.props.saveDaiPoolTogetherApproval(x);
       });
     }).bind(this);
 
@@ -115,9 +121,9 @@ class EarnHome extends Component {
             textAlign="left"
             width="90%"
             onPress={() => {
-              if (approval.dai.poolTogether) {
+              if (approval.dai.pooltogether) {
                 navigation.navigate('DepositDaiToPoolTogether');
-              } else if (!approval.dai.poolTogether) {
+              } else if (!approval.dai.pooltogether) {
                 navigation.navigate('DepositFirstDaiToPoolTogether');
               } else {
                 LogUtilities.logInfo('invalid approval value');
@@ -196,7 +202,8 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  saveDaiCompoundApproval
+  saveDaiCompoundApproval,
+  saveDaiPoolTogetherApproval
 };
 
 export default withNavigation(

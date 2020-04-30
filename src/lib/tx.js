@@ -1276,6 +1276,7 @@ class TxStorage {
 		this.txes.init_storage({
 			'dai': this.txfilter_isRelevantToDai, // doesn't use this, no need for .bind(this)
 			'odcda': this.txfilter_ourDAIForCDAIApprovals.bind(this),
+			'odpta': this.txfilter_ourDAIForPTApprovals.bind(this),
 		}, (x) => { if (x === undefined) promise_resolves[0](); })
 
 		if (ourAddress)
@@ -1408,6 +1409,15 @@ class TxStorage {
 		);
 	}
 
+	txfilter_ourDAIForPTApprovals(tx) {
+		console.log('tx ==>', tx);
+		const our_hex_address = this.our_address.toString('hex');
+		const pooltogether_address = GlobalConfig.DAIPoolTogetherContractV2.startsWith('0x') ? GlobalConfig.DAIPoolTogetherContractV2.substr(2).toLowerCase() : GlobalConfig.DAIPoolTogetherContractV2.toLowerCase();
+		return tx.getTokenOperations('dai', TxTokenOpTypeToName.approval).some(
+			x => (x.spender == pooltogether_address && x.approver == our_hex_address)
+		);
+	}
+
 	async saveTx(tx) { // used now only to save our own sent txes, therefore those wont have anything but the nonce.
 		await this.__lock('txes');
 		const nonceKey = `${txNoncePrefix}${tx.getNonce()}`;
@@ -1463,6 +1473,7 @@ class TxStorage {
 
 			this.__unlock('txes');
 			this._isDAIApprovedForCDAI_cached = undefined;
+			this._isDAIApprovedForPT_cached = undefined;
 			this.__onUpdate();
 			return;
 		}
@@ -1507,6 +1518,7 @@ class TxStorage {
 
 					this.__unlock('txes');
 					this._isDAIApprovedForCDAI_cached = undefined;
+					this._isDAIApprovedForPT_cached = undefined;
 					this.__onUpdate();
 					return;
 				}
@@ -1527,6 +1539,7 @@ class TxStorage {
 
 			this.__unlock('txes');
 			this._isDAIApprovedForCDAI_cached = undefined;
+			this._isDAIApprovedForPT_cached = undefined;
 			this.__onUpdate();
 			return;
 		}
@@ -1590,6 +1603,7 @@ class TxStorage {
 			this.__onUpdate();
 
 		this._isDAIApprovedForCDAI_cached = undefined;
+		this._isDAIApprovedForPT_cached = undefined;
 
 		return this;
 	}
@@ -1605,6 +1619,17 @@ class TxStorage {
 		return this._isDAIApprovedForCDAI_cached;
 	}
 
+	async isDAIApprovedForPT() { // TODO: this function should not be here
+		if (!this._isDAIApprovedForPT_cached) {
+			const last_odpta_tx = await this.txes.getLastTx('odpta');
+			this._isDAIApprovedForPT_cached = !!last_odpta_tx && last_odpta_tx.getTokenOperations('dai', TxTokenOpTypeToName.approval).some(
+				x => (x.amount == "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")			
+			);
+		}
+
+		return this._isDAIApprovedForPT_cached;
+	}
+	
 	async getVerificationData() {
 		return await this.getVerificationDataXOR();
 	}
