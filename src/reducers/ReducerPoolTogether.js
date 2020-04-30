@@ -1,14 +1,18 @@
 'use strict';
-import { SAVE_POOLTOGETHER_DAI_INFO } from '../constants/ActionTypes';
+import {
+  SAVE_POOLTOGETHER_DAI_INFO,
+  SAVE_POOLTOGETHER_DAI_WINNER
+} from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
   poolTogether: {
     dai: {
-      estimatedPrize: '',
-      ticketsSold: '',
-      players: '',
-      countdown: '',
-      winner: ''
+      totalBalance: '',
+      openSupply: '',
+      committedSupply: '',
+      estimatedInterestRate: '',
+      winner: '',
+      winningAmount: ''
     }
   }
 };
@@ -20,11 +24,21 @@ const poolTogether = (state = INITIAL_STATE, action) => {
         poolTogether: {
           dai: {
             ...state.poolTogether.dai,
-            estimatedPrize: action.payload.estimatedPrize,
-            ticketsSold: action.payload.tickets_sold,
-            players: action.payload.players,
-            countdown: action.payload.countdown,
+            totalBalance: action.payload.pooltogether_accounted_balance,
+            openSupply: action.payload.pooltogether_open_supply,
+            committedSupply: action.payload.pooltogether_committed_supply,
+            estimatedInterestRate:
+              action.payload.pooltoogether_estimated_interest_rate
+          }
+        }
+      };
+    case SAVE_POOLTOGETHER_DAI_WINNER:
+      return {
+        poolTogether: {
+          dai: {
+            ...state.poolTogether.dai,
             winner: action.payload.winner,
+            winningAmount: action.payload.amount
           }
         }
       };
