@@ -186,8 +186,12 @@ class WithdrawDaiFromPoolTogether extends Component {
 
   render() {
     const { balance } = this.props;
-    const pooltogetherDaiBalance = RoundDownBigNumber(balance.pooltogetherDai)
-      .div(new RoundDownBigNumber(10).pow(36))
+    const pooltogetherDaiBalance = RoundDownBigNumber(
+      balance.pooltogetherDai.open
+    )
+      .plus(balance.pooltogetherDai.committed)
+      .plus(balance.pooltogetherDai.sponsored)
+      .div(new RoundDownBigNumber(10).pow(18))
       .toFixed(2);
 
     return (

@@ -13,7 +13,11 @@ const INITIAL_STATE = {
     dai: '',
     cDai: '',
     compoundDai: '',
-    pooltogetherDai: ''
+    pooltogetherDai: {
+      open: '',
+      committed: '',
+      sponsored: ''
+    }
   }
 };
 
@@ -31,7 +35,14 @@ const balance = (state = INITIAL_STATE, action) => {
       };
     case SAVE_POOL_TOGETHER_DAI_BALANCE:
       return {
-        balance: { ...state.balance, pooltogetherDai: action.payload }
+        balance: { 
+          ...state.balance,
+          pooltogetherDai: {
+            open: action.payload[0],
+            committed: action.payload[1],
+            sponsored: action.payload[2]
+          }
+        }
       };
     default:
       return state || INITIAL_STATE;

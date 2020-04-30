@@ -8,6 +8,12 @@ import Countdown from './common/Countdown';
 
 class PortfolioPoolTogetherNext extends Component {
   render() {
+    const pooltogetherDaiOpenBalance = RoundDownBigNumber(
+      this.props.balance.pooltogetherDai.open
+    )
+      .div(new RoundDownBigNumber(10).pow(18))
+      .toFixed(2);
+
     return (
       <RootContainer>
         <UntouchableCardContainer
@@ -28,8 +34,9 @@ class PortfolioPoolTogetherNext extends Component {
           <Countdown />
           <HeaderFive>the pool balance</HeaderFive>
           <HeaderFive>prize estimated</HeaderFive>
-          <HeaderFive>balance in an open draw</HeaderFive>
           <HeaderFive>the number of tickets</HeaderFive>
+          <HeaderFive>your balance in an open draw</HeaderFive>
+          <GoyemonText fontSize={14}>{pooltogetherDaiOpenBalance} DAI</GoyemonText>
         </UntouchableCardContainer>
       </RootContainer>
     );

@@ -12,6 +12,12 @@ import Countdown from './common/Countdown';
 
 class PortfolioPoolTogetherOngoing extends Component {
   render() {
+    const pooltogetherDaiCommittedBalance = RoundDownBigNumber(
+      this.props.balance.pooltogetherDai.committed
+    )
+      .div(new RoundDownBigNumber(10).pow(18))
+      .toFixed(2);
+
     return (
       <RootContainer>
         <UntouchableCardContainer
@@ -32,8 +38,11 @@ class PortfolioPoolTogetherOngoing extends Component {
           <Countdown />
           <HeaderFive>the pool balance</HeaderFive>
           <HeaderFive>prize estimated</HeaderFive>
-          <HeaderFive>balance in a committed draw</HeaderFive>
           <HeaderFive>the number of tickets</HeaderFive>
+          <HeaderFive>your balance in a committed draw</HeaderFive>
+          <GoyemonText fontSize={14}>
+            {pooltogetherDaiCommittedBalance} DAI
+          </GoyemonText>
         </UntouchableCardContainer>
       </RootContainer>
     );
@@ -57,7 +66,7 @@ const CoinText = styled.Text`
 `;
 
 const mapStateToProps = (state) => ({
-  balance: state.ReducerBalance.balance
+  balance: state.ReducerBalance.balance,
 });
 
 export default withNavigation(
