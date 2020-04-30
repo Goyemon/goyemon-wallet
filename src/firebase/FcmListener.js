@@ -119,6 +119,10 @@ async function downstreamMessageHandler(type, data) {
 			store.dispatch(savePoolTogetherDaiInfo(pooltogetherDaiInfo));
 			break;
 	
+		case 'PTrew':
+			store.dispatch(savePoolTogetherDaiWinner(data));
+			break;
+
 		case 'uniswap_ETHDAI_info':
 			store.dispatch(saveDaiExchangeReserve(data));
 			break;
