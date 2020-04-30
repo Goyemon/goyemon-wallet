@@ -82,8 +82,11 @@ async function downstreamMessageHandler(type, data) {
 		  		store.dispatch(saveCDaiBalance(new BigNumber(`0x${data.cdai}`).toString(10)));
 			}
 
-			if (data.hasOwnProperty('pooltogetherDai'))
-				store.dispatch(savePoolTogetherDaiBalance(new BigNumber(`0x${data.pooltogetherDai}`).toString(10)));
+			if (data.hasOwnProperty('pooltogether')) {
+				const pooltogetherDaiBalance = data.pooltogether;
+				const pooltogetherDaiBalanceArray = pooltogetherDaiBalance.split('|');
+				store.dispatch(savePoolTogetherDaiBalance(pooltogetherDaiBalanceArray));
+			}
 
 			break;
 
