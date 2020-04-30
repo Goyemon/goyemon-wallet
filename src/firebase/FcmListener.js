@@ -11,6 +11,7 @@ import {
 import {
   saveCompoundDaiInfo
 } from '../actions/ActionCompound';
+import { savePoolTogetherDaiInfo } from '../actions/ActionPoolTogether';
 import { saveDaiExchangeReserve } from '../actions/ActionUniswap';
 import {
   saveTransactionsLoaded
@@ -107,6 +108,17 @@ async function downstreamMessageHandler(type, data) {
 
 			break;
 
+		case 'pool_together_DAI_info':
+　　　　　　　const pooltogetherDaiInfo = {
+				...data,
+				pooltogether_accounted_balance: new BigNumber(`0x${data.pooltogether_accounted_balance}`).toString(10),
+				pooltogether_open_supply: new BigNumber(`0x${data.pooltogether_open_supply}`).toString(10),
+				pooltogether_committed_supply: new BigNumber(`0x${data.pooltogether_committed_supply}`).toString(10),
+				pooltoogether_estimated_interest_rate: new BigNumber(`0x${data.pooltoogether_estimated_interest_rate}`).toString(10)
+			}
+			store.dispatch(savePoolTogetherDaiInfo(pooltogetherDaiInfo));
+			break;
+	
 		case 'uniswap_ETHDAI_info':
 			store.dispatch(saveDaiExchangeReserve(data));
 			break;
