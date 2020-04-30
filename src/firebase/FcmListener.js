@@ -103,7 +103,6 @@ async function downstreamMessageHandler(type, data) {
 			break;
 
 		case 'transactionError':
-			if (data.error.message === 'nonce too low') // why only this if that transaction is guaranteed not to be propagated?
 				TxStorage.storage.markNotIncludedTxAsErrorByNonce(parseInt(data.nonce));
 
 			break;
