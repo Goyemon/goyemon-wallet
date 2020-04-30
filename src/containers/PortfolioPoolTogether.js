@@ -19,7 +19,7 @@ import PopUpModal from './common/PopUpModal';
 import I18n from '../i18n/I18n';
 import { FCMMsgs } from '../lib/fcm.js';
 import PortfolioPoolTogetherOpen from './PortfolioPoolTogetherOpen';
-import PortfolioPoolTogetherOngoing from './PortfolioPoolTogetherOngoing';
+import PortfolioPoolTogetherCommitted from './PortfolioPoolTogetherCommitted';
 import LogUtilities from '../utilities/LogUtilities.js';
 
 class PortfolioPoolTogether extends Component {
@@ -38,7 +38,7 @@ class PortfolioPoolTogether extends Component {
     if (this.state.draw === 'open') {
       return <PortfolioPoolTogetherOpen />;
     } else if (this.state.draw === 'committed') {
-      return <PortfolioPoolTogetherOngoing />;
+      return <PortfolioPoolTogetherCommitted />;
     } else {
       LogUtilities.logInfo('no draw matches');
     }
