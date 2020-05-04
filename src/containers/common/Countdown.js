@@ -9,67 +9,105 @@ class Countdown extends Component {
   constructor(props) {
     super();
     this.state = {
-      days: 0,
-      hours: 0,
-      mins: 0,
-      secs: 0
+      remainingDay: 0,
+      remainingHours: 0,
+      remainingMins: 0,
+      remainingSecs: 0
     };
   }
 
   componentDidMount() {
-    this.countdown('05/10/2020 04:00:00 AM');     
-    // specify the next end time in pacific time or something
-    // get the next end time in user local time
-    // get user's current local time
-    // calculate
-    // repeat. 
+    this.getTimeRemaining();
   }
 
-  countdown(endDate) {
-    endDate = new Date(endDate).getTime();
-
-    if (isNaN(endDate)) {
-      return;
-    }
-
+  getTimeRemaining() {
     setInterval(() => {
-      let days, hours, mins, secs;
-      let startDate = new Date().getTime();
-      let timeRemaining = parseInt((endDate - startDate) / 1000);
+      let dateObject = new Date();
 
-      if (timeRemaining >= 0) {
-        days = parseInt(timeRemaining / 86400);
-        timeRemaining = timeRemaining % 86400;
+      let currentUTCTime = Date.UTC(
+        dateObject.getUTCFullYear(),
+        dateObject.getUTCMonth(),
+        dateObject.getUTCDate(),
+        dateObject.getUTCHours(),
+        dateObject.getUTCMinutes(),
+        dateObject.getUTCSeconds(),
+        dateObject.getUTCMilliseconds()
+      );
+      let targetUTCDate = new Date(
+        Date.UTC(
+          dateObject.getUTCFullYear(),
+          dateObject.getUTCMonth(),
+          dateObject.getUTCDate(),
+          19,
+          0,
+          0
+        )
+      );
+      let targetUTCTime = targetUTCDate.getTime();
+      let timeRemaining = parseInt((targetUTCTime - currentUTCTime) / 1000);
 
-        hours = parseInt(timeRemaining / 3600);
-        timeRemaining = timeRemaining % 3600;
+      let remainingDay;
+      let targetDay = 6; // 0 is for Sunday and 6 is for Saturday
 
-        mins = parseInt(timeRemaining / 60);
-        timeRemaining = timeRemaining % 60;
-
-        secs = parseInt(timeRemaining);
-
-        this.setState({
-          days,
-          hours,
-          mins,
-          secs
-        });
+      if (timeRemaining > 0) {
+        remainingDay = targetDay - dateObject.getDay();
       } else {
-        return;
+        remainingDay = targetDay - dateObject.getDay() - 1;
       }
+      if (remainingDay < 0) {
+        remainingDay += 7;
+      }
+      if (timeRemaining <= 0) {
+        timeRemaining += 86400 * 7;
+      }
+      this.tick(timeRemaining, remainingDay);
     }, 1000);
   }
 
+  tick(timeRemaining, remainingDay) {
+    if (timeRemaining > 0) {
+      timeRemaining--;
+    } else {
+      clearInterval(this.getTimeRemaining());
+      this.getTimeRemaining();
+    }
+
+    let days, remainingHours, remainingMins, remainingSecs;
+    days = parseInt(timeRemaining / 86400);
+    timeRemaining %= 86400;
+    remainingHours = parseInt(timeRemaining / 3600);
+    timeRemaining %= 3600;
+    remainingMins = parseInt(timeRemaining / 60);
+    timeRemaining %= 60;
+    remainingSecs = parseInt(timeRemaining);
+    this.setState({
+      remainingDay,
+      remainingHours,
+      remainingMins,
+      remainingSecs
+    });
+  }
+
   render() {
-    const { days, hours, mins, secs } = this.state;
+    const {
+      remainingDay,
+      remainingHours,
+      remainingMins,
+      remainingSecs
+    } = this.state;
     return (
       <View>
         <CountdownContainer>
-          <CountdownText>{`${parseInt(days, 10)}`}</CountdownText>
-          <CountdownText>{`${hours < 10 ? '0' + hours : hours}`}</CountdownText>
-          <CountdownText>{`${mins < 10 ? '0' + mins : mins}`}</CountdownText>
-          <CountdownText>{`${secs < 10 ? '0' + secs : secs}`}</CountdownText>
+          <CountdownText>{`${remainingDay}`}</CountdownText>
+          <CountdownText>{`${
+            (remainingHours < 10 ? '0' : '') + remainingHours
+          }`}</CountdownText>
+          <CountdownText>{`${
+            (remainingMins < 10 ? '0' : '') + remainingMins
+          }`}</CountdownText>
+          <CountdownText>{`${
+            (remainingSecs < 10 ? '0' : '') + remainingSecs
+          }`}</CountdownText>
         </CountdownContainer>
         <CountdownContainer>
           <CountdownDateText>days</CountdownDateText>
