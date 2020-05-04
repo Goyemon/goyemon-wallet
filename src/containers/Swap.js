@@ -223,11 +223,7 @@ class Swap extends Component {
 
   renderTokenBoughtText() {
     if (this.state.tokenBought.toFixed() === '0') {
-      return (
-        <MinTokenBoughtGrayText>
-          {this.getMinTokens(this.state.tokenBought).toFixed()}
-        </MinTokenBoughtGrayText>
-      );
+      return <MinTokenBoughtGrayText>0</MinTokenBoughtGrayText>;
     } else {
       return (
         <MinTokenBoughtBlackText>
