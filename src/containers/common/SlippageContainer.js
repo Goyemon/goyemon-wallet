@@ -3,30 +3,11 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { saveSwapSlippage } from '../../actions/ActionUniswap';
+import { updateSlippageChosen } from '../../actions/ActionUniswap';
 import { Container, FormHeader } from '../../components/common';
 import I18n from '../../i18n/I18n';
 
 class SlippageContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      slippage: [
-        {
-          value: 0.1
-        },
-        {
-          label: 'recommended',
-          value: 0.5
-        },
-        {
-          value: 1
-        }
-      ],
-      checked: 1
-    };
-  }
-
   render() {
     return (
       <View>
@@ -42,19 +23,16 @@ class SlippageContainer extends Component {
           marginTop={24}
           width="90%"
         >
-          {this.state.slippage.map((slippage, key) => (
+          {this.props.uniswap.slippage.map((slippage, key) => (
             <Slippage key={key}>
-              {this.state.checked === key ? (
+              {this.props.uniswap.slippageChosen === key ? (
                 <SelectedSlippageTextContainer>
                   <SelectedButton>{slippage.value}%</SelectedButton>
                 </SelectedSlippageTextContainer>
               ) : (
                 <UnselectedSlippageTextContainer
                   onPress={() => {
-                    this.setState({ checked: key });
-                    this.props.saveSwapSlippage(
-                      this.state.slippage[key].value
-                    );
+                    this.props.updateSlippageChosen(key);
                   }}
                 >
                   <UnselectedButton>{slippage.value}%</UnselectedButton>
@@ -118,8 +96,14 @@ const UnselectedButton = styled.Text`
   font-size: 16;
 `;
 
+function mapStateToProps(state) {
+  return {
+    uniswap: state.ReducerUniswap.uniswap
+  };
+}
+
 const mapDispatchToProps = {
-  saveSwapSlippage
+  updateSlippageChosen
 };
 
-export default connect(null, mapDispatchToProps)(SlippageContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(SlippageContainer);

@@ -1,5 +1,8 @@
 'use strict';
-import { SAVE_DAI_EXCHANGE_RESERVE, SAVE_SWAP_SLIPPAGE } from '../constants/ActionTypes';
+import {
+  SAVE_DAI_EXCHANGE_RESERVE,
+  UPDATE_SLIPPAGE_CHOSEN
+} from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
 export function saveDaiExchangeReserve(daiExchangeReserve) {
@@ -17,17 +20,17 @@ const saveDaiExchangeReserveSuccess = (daiExchangeReserve) => ({
   payload: daiExchangeReserve
 });
 
-export function saveSwapSlippage(slippage) {
+export function updateSlippageChosen(key) {
   return async function (dispatch) {
     try {
-      dispatch(saveSwapSlippageSuccess(slippage));
+      dispatch(updateSlippageChosenSuccess(key));
     } catch (err) {
       LogUtilities.logError(err);
     }
   };
 }
 
-const saveSwapSlippageSuccess = (slippage) => ({
-  type: SAVE_SWAP_SLIPPAGE,
-  payload: slippage
+const updateSlippageChosenSuccess = (key) => ({
+  type: UPDATE_SLIPPAGE_CHOSEN,
+  payload: key
 });

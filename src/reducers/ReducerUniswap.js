@@ -1,12 +1,23 @@
 'use strict';
 import {
-  SAVE_SWAP_SLIPPAGE,
+  UPDATE_SLIPPAGE_CHOSEN,
   SAVE_DAI_EXCHANGE_RESERVE
 } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
   uniswap: {
-    slippage: '',
+    slippage: [
+      {
+        value: 0.1
+      },
+      {
+        value: 0.5
+      },
+      {
+        value: 1
+      }
+    ],
+    slippageChosen: 1,
     daiExchange: {
       weiReserve: '',
       daiReserve: ''
@@ -16,13 +27,6 @@ const INITIAL_STATE = {
 
 const uniswap = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case SAVE_SWAP_SLIPPAGE:
-      return {
-        uniswap: {
-          ...state.uniswap,
-          slippage: action.payload
-        }
-      };
     case SAVE_DAI_EXCHANGE_RESERVE:
       return {
         uniswap: {
@@ -31,6 +35,13 @@ const uniswap = (state = INITIAL_STATE, action) => {
             weiReserve: action.payload.ETH_balance,
             daiReserve: action.payload.DAI_balance
           }
+        }
+      };
+    case UPDATE_SLIPPAGE_CHOSEN:
+      return {
+        uniswap: {
+          ...state.uniswap,
+          slippageChosen: action.payload
         }
       };
     default:

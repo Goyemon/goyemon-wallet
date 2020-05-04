@@ -99,7 +99,7 @@ class Swap extends Component {
 
   getMinTokens(tokenBought) {
     const minTokens = tokenBought.times(
-      (100 - this.props.uniswap.slippage) / 100
+      (100 - this.props.uniswap.slippage[this.props.uniswap.slippageChosen].value) / 100
     );
     return minTokens;
   }
@@ -164,7 +164,7 @@ class Swap extends Component {
         sold: this.state.ethSold,
         bought: this.state.tokenBought.toFixed(4),
         minBought: this.getMinTokens(this.state.tokenBought),
-        slippage: this.props.uniswap.slippage,
+        slippage: this.props.uniswap.slippage[this.props.uniswap.slippageChosen].value,
         gasLimit: GlobalConfig.UniswapEthToTokenSwapInputGasLimit,
         transactionObject: transactionObject
       });
