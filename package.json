@@ -28,7 +28,6 @@
     "i18n-js": "^3.5.1",
     "jetifier": "^1.6.4",
     "lottie-react-native": "^3.2.1",
-    "moment": "^2.24.0",
     "process": "^0.11.10",
     "react": "16.11.0",
     "react-native": "0.62.0",
