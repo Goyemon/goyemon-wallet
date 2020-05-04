@@ -11,6 +11,9 @@ From your command line:
 # clone this repository
 $ git clone https://github.com/taisukemino/Goyemon.git
 
+# checkout to the develop branch
+$ cd Goyemon && git checkout develop
+
 # in the repository, install dependencies
 $ npm install
 
