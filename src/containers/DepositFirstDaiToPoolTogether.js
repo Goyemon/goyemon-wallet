@@ -21,6 +21,7 @@ import {
   InsufficientWeiBalanceMessage,
   TxNextButton
 } from '../components/common';
+import Countdown from './common/Countdown';
 import TxConfirmationModal from '../containers/common/TxConfirmationModal';
 import AdvancedContainer from './common/AdvancedContainer';
 import I18n from '../i18n/I18n';
@@ -219,7 +220,7 @@ class DepositFirstDaiToPoolTogether extends Component {
           alignItems="center"
           borderRadius="8px"
           flexDirection="column"
-          height="200px"
+          height="240px"
           justifyContent="center"
           marginTop="56"
           textAlign="center"
@@ -228,8 +229,8 @@ class DepositFirstDaiToPoolTogether extends Component {
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <Title>{I18n.t('dai-wallet-balance')}</Title>
           <Value>{daiBalance} DAI</Value>
-          <Title>time until the next prize</Title>
-          <Value>days hours minutes</Value>
+          <Title>time until the open round ends</Title>
+          <Countdown />
         </UntouchableCardContainer>
         <DepositAmountHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
