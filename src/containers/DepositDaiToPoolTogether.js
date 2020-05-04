@@ -184,14 +184,6 @@ class DepositDaiToPoolTogether extends Component {
     }
   };
 
-  renderChanceOfWinning() {
-    return (
-      <GoyemonText fontSize={14}>
-        You have a 1 in 536,100 chance of winning.
-      </GoyemonText>
-    );
-  }
-
   render() {
     const { balance } = this.props;
     const daiBalance = RoundDownBigNumber(balance.dai)
@@ -265,7 +257,6 @@ class DepositDaiToPoolTogether extends Component {
             <CurrencySymbolText>DAI</CurrencySymbolText>
           </SendTextInputContainer>
         </Form>
-        {this.renderChanceOfWinning()}
         <AdvancedContainer
           gasLimit={GlobalConfig.PoolTogetherDepositPoolGasLimit}
         />

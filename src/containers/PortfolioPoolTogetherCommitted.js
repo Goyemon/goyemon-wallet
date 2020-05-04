@@ -16,9 +16,13 @@ class PortfolioPoolTogetherCommitted extends Component {
   render() {
     const pooltogetherDaiCommittedBalance = RoundDownBigNumber(
       this.props.balance.pooltogetherDai.committed
-    )
-      .div(new RoundDownBigNumber(10).pow(18))
-      .toFixed(2);
+    ).div(new RoundDownBigNumber(10).pow(18));
+
+    const ticketsSold = RoundDownBigNumber(
+      this.props.poolTogether.dai.committedSupply
+    ).div(new RoundDownBigNumber(10).pow(18));
+
+    const chanceOfWinning = ticketsSold.div(pooltogetherDaiCommittedBalance).toFixed(0);
 
     const poolBalance = RoundDownBigNumber(
       this.props.poolTogether.dai.totalBalance
@@ -60,9 +64,11 @@ class PortfolioPoolTogetherCommitted extends Component {
           <GoyemonText fontSize={14}>{poolBalance} DAI</GoyemonText>
           <HeaderFive>prize estimated</HeaderFive>
           <GoyemonText fontSize={14}>{estimatedPrize} DAI</GoyemonText>
+          <HeaderFive>your chance of winning</HeaderFive>
+          <GoyemonText fontSize={14}>1 / {chanceOfWinning} </GoyemonText>
           <HeaderFive>your balance in a committed draw</HeaderFive>
           <GoyemonText fontSize={14}>
-            {pooltogetherDaiCommittedBalance} DAI
+            {pooltogetherDaiCommittedBalance.toFixed(0)} DAI
           </GoyemonText>
         </UntouchableCardContainer>
       </RootContainer>
