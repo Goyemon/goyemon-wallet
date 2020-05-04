@@ -130,23 +130,27 @@ class PortfolioPoolTogether extends Component {
     if (this.state.draw === 'open') {
       return (
         <FilterChoiceContainer>
-          <TouchableOpacity onPress={() => this.setState({ draw: 'open' })}>
+          <FilterChoiceSelected onPress={() => this.setState({ draw: 'open' })}>
             <FilterChoiceTextSelected>open</FilterChoiceTextSelected>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.setState({ draw: 'committed' })}>
+          </FilterChoiceSelected>
+          <FilterChoiceUnselected
+            onPress={() => this.setState({ draw: 'committed' })}
+          >
             <FilterChoiceTextUnselected>committed</FilterChoiceTextUnselected>
-          </TouchableOpacity>
+          </FilterChoiceUnselected>
         </FilterChoiceContainer>
       );
     } else if (this.state.draw === 'committed') {
       return (
         <FilterChoiceContainer>
-          <TouchableOpacity onPress={() => this.setState({ draw: 'open' })}>
+          <FilterChoiceUnselected onPress={() => this.setState({ draw: 'open' })}>
             <FilterChoiceTextUnselected>open</FilterChoiceTextUnselected>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.setState({ draw: 'committed' })}>
+          </FilterChoiceUnselected>
+          <FilterChoiceSelected
+            onPress={() => this.setState({ draw: 'committed' })}
+          >
             <FilterChoiceTextSelected>committed</FilterChoiceTextSelected>
-          </TouchableOpacity>
+          </FilterChoiceSelected>
         </FilterChoiceContainer>
       );
     } else {
@@ -205,20 +209,37 @@ const FilterChoiceContainer = styled.View`
   margin-left: 16;
 `;
 
+const FilterChoiceSelected = styled.TouchableOpacity`
+  background-color: #000;
+  border-color: #000;
+  border-radius: 24px;
+  border-width: 1;
+  margin-left: 4px;
+  margin-right: 4px;
+`;
+
+const FilterChoiceUnselected = styled.TouchableOpacity`
+  background-color: #fff;
+  border-color: #fff;
+  border-radius: 24px;
+  border-width: 1;
+  margin-left: 4px;
+  margin-right: 4px;
+`;
+
 const FilterChoiceTextSelected = styled.Text`
-  color: #000;
-  font-size: 24;
+  color: #fff;
+  font-size: 20;
   font-weight: bold;
-  margin-right: 12;
-  text-transform: uppercase;
+  padding: 4px 12px;
 `;
 
 const FilterChoiceTextUnselected = styled.Text`
-  font-size: 24;
+  color: #000;
+  font-size: 20;
   font-weight: bold;
-  margin-right: 12;
   opacity: 0.4;
-  text-transform: uppercase;
+  padding: 4px 16px;
 `;
 
 const mapStateToProps = (state) => ({
