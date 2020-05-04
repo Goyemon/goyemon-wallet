@@ -1,5 +1,4 @@
 'use strict';
-import moment from 'moment';
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
@@ -10,9 +9,6 @@ class Countdown extends Component {
   constructor(props) {
     super();
     this.state = {
-      eventDate: moment
-        .duration()
-        .add({ days: 7, hours: 0, minutes: 0, seconds: 0 }),
       days: 0,
       hours: 0,
       mins: 0,
@@ -21,42 +17,59 @@ class Countdown extends Component {
   }
 
   componentDidMount() {
-    this.updateTimer();
+    this.countdown('05/10/2020 04:00:00 AM');     
+    // specify the next end time in pacific time or something
+    // get the next end time in user local time
+    // get user's current local time
+    // calculate
+    // repeat. 
   }
 
-  updateTimer = () => {
-    const x = setInterval(() => {
-      let { eventDate } = this.state;
+  countdown(endDate) {
+    endDate = new Date(endDate).getTime();
 
-      if (eventDate <= 0) {
-        clearInterval(x);
-      } else {
-        eventDate = eventDate.subtract(1, 's');
-        const days = eventDate.days();
-        const hours = eventDate.hours();
-        const mins = eventDate.minutes();
-        const secs = eventDate.seconds();
+    if (isNaN(endDate)) {
+      return;
+    }
+
+    setInterval(() => {
+      let days, hours, mins, secs;
+      let startDate = new Date().getTime();
+      let timeRemaining = parseInt((endDate - startDate) / 1000);
+
+      if (timeRemaining >= 0) {
+        days = parseInt(timeRemaining / 86400);
+        timeRemaining = timeRemaining % 86400;
+
+        hours = parseInt(timeRemaining / 3600);
+        timeRemaining = timeRemaining % 3600;
+
+        mins = parseInt(timeRemaining / 60);
+        timeRemaining = timeRemaining % 60;
+
+        secs = parseInt(timeRemaining);
 
         this.setState({
           days,
           hours,
           mins,
-          secs,
-          eventDate
+          secs
         });
+      } else {
+        return;
       }
     }, 1000);
-  };
+  }
 
   render() {
     const { days, hours, mins, secs } = this.state;
     return (
       <View>
         <CountdownContainer>
-          <CountdownText>{`${days}`}</CountdownText>
-          <CountdownText>{`${hours}`}</CountdownText>
-          <CountdownText>{`${mins}`}</CountdownText>
-          <CountdownText>{`${secs}`}</CountdownText>
+          <CountdownText>{`${parseInt(days, 10)}`}</CountdownText>
+          <CountdownText>{`${hours < 10 ? '0' + hours : hours}`}</CountdownText>
+          <CountdownText>{`${mins < 10 ? '0' + mins : mins}`}</CountdownText>
+          <CountdownText>{`${secs < 10 ? '0' + secs : secs}`}</CountdownText>
         </CountdownContainer>
         <CountdownContainer>
           <CountdownDateText>days</CountdownDateText>
