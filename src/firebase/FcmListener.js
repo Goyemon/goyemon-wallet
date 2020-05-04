@@ -113,7 +113,8 @@ async function downstreamMessageHandler(type, data) {
 				pooltogether_accounted_balance: new BigNumber(`0x${data.pooltogether_accounted_balance}`).toString(10),
 				pooltogether_open_supply: new BigNumber(`0x${data.pooltogether_open_supply}`).toString(10),
 				pooltogether_committed_supply: new BigNumber(`0x${data.pooltogether_committed_supply}`).toString(10),
-				pooltoogether_estimated_interest_rate: new BigNumber(`0x${data.pooltoogether_estimated_interest_rate}`).toString(10)
+				pooltoogether_estimated_interest_rate: new BigNumber(`0x${data.pooltoogether_estimated_interest_rate}`).toString(10),
+				pooltogether_committed_drawid: data.pooltogether_committed_drawid
 			}
 			store.dispatch(savePoolTogetherDaiInfo(pooltogetherDaiInfo));
 			break;
