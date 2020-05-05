@@ -17,7 +17,8 @@ import {
   Loader,
   IsOnlineMessage,
   InsufficientWeiBalanceMessage,
-  TxNextButton
+  TxNextButton,
+  UseMaxButton
 } from '../components/common';
 import TxConfirmationModal from '../containers/common/TxConfirmationModal';
 import AdvancedContainer from './common/AdvancedContainer';
@@ -34,7 +35,7 @@ class WithdrawDaiFromPoolTogether extends Component {
     super(props);
     this.state = {
       daiWithdrawAmount: '',
-      daiDepositedAmountValidation: undefined,
+      daiWithdrawAmountValidation: undefined,
       weiAmountValidation: undefined,
       loading: false,
       buttonDisabled: true,
@@ -99,7 +100,7 @@ class WithdrawDaiFromPoolTogether extends Component {
 
   buttonStateUpdate() {
     if (
-      this.state.daiDepositedAmountValidation &&
+      this.state.daiWithdrawAmountValidation &&
       this.state.weiAmountValidation
     ) {
       this.setState({
@@ -114,20 +115,20 @@ class WithdrawDaiFromPoolTogether extends Component {
     }
   }
 
-  updateDaiDepositedAmountValidation(daiDepositedAmountValidation) {
-    if (daiDepositedAmountValidation) {
+  updateDaiWithdrawAmountValidation(daiWithdrawAmountValidation) {
+    if (daiWithdrawAmountValidation) {
       this.setState(
         {
-          daiDepositedAmountValidation: true
+          daiWithdrawAmountValidation: true
         },
         function () {
           this.buttonStateUpdate();
         }
       );
-    } else if (!daiDepositedAmountValidation) {
+    } else if (!daiWithdrawAmountValidation) {
       this.setState(
         {
-          daiDepositedAmountValidation: false
+          daiWithdrawAmountValidation: false
         },
         function () {
           this.buttonStateUpdate();
@@ -159,7 +160,7 @@ class WithdrawDaiFromPoolTogether extends Component {
   }
 
   validateForm = async (daiWithdrawAmount) => {
-    const daiDepositedAmountValidation = TransactionUtilities.validateDaiPoolTogetherWithdrawAmount(
+    const daiWithdrawAmountValidation = TransactionUtilities.validateDaiPoolTogetherWithdrawAmount(
       daiWithdrawAmount
     );
     const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(
@@ -168,7 +169,7 @@ class WithdrawDaiFromPoolTogether extends Component {
     );
     const isOnline = this.props.netInfo;
 
-    if (daiDepositedAmountValidation && weiAmountValidation && isOnline) {
+    if (daiWithdrawAmountValidation && weiAmountValidation && isOnline) {
       this.setState({ loading: true, buttonDisabled: true });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
@@ -218,11 +219,22 @@ class WithdrawDaiFromPoolTogether extends Component {
           <FormHeader marginBottom="0" marginTop="0">
             {I18n.t('withdraw-amount')}
           </FormHeader>
-          <Title>{I18n.t('use-max')}</Title>
+          <UseMaxButton
+            text={I18n.t('use-max')}
+            textColor="#00A3E2"
+            onPress={() => {
+              this.setState({ daiWithdrawAmount: pooltogetherDaiBalance });
+              this.updateDaiWithdrawAmountValidation(
+                TransactionUtilities.validateDaiPoolTogetherWithdrawAmount(
+                  pooltogetherDaiBalance
+                )
+              );
+            }}
+          />
         </WithDrawAmountHeaderContainer>
         <Form
           borderColor={StyleUtilities.getBorderColor(
-            this.state.daiDepositedAmountValidation
+            this.state.daiWithdrawAmountValidation
           )}
           borderWidth={1}
           height="56px"
@@ -233,7 +245,7 @@ class WithdrawDaiFromPoolTogether extends Component {
               keyboardType="numeric"
               clearButtonMode="while-editing"
               onChangeText={(daiWithdrawAmount) => {
-                this.updateDaiDepositedAmountValidation(
+                this.updateDaiWithdrawAmountValidation(
                   TransactionUtilities.validateDaiPoolTogetherWithdrawAmount(
                     daiWithdrawAmount
                   )
@@ -241,6 +253,7 @@ class WithdrawDaiFromPoolTogether extends Component {
                 this.setState({ daiWithdrawAmount });
               }}
               returnKeyType="done"
+              value={this.state.daiWithdrawAmount}
             />
             <CurrencySymbolText>DAI</CurrencySymbolText>
           </SendTextInputContainer>
