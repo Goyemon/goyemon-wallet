@@ -88,7 +88,7 @@ class ABIEncoder {
 	}
 
 	static encodeWithdraw(amount, decimals=18) {
-		return new RuDataBuilder([0xb3, 0x87, 0x00, 0xc6], 1, decimals).putUint256Scaled(amount).get();
+		return new RuDataBuilder([0x2e, 0x1a, 0x7d, 0x4d], 1, decimals).putUint256Scaled(amount).get();
 	}
 }
 
