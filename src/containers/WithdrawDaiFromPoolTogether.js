@@ -90,10 +90,11 @@ class WithdrawDaiFromPoolTogether extends Component {
       )
       .setGas(GlobalConfig.PoolTogetherWithdrawGasLimit.toString(16))
       .tempSetData(withdrawEncodedABI)
-      .addTokenOperation('poolTogether', TxStorage.TxTokenOpTypeToName.withdraw, [
-        TxStorage.storage.getOwnAddress(),
-        daiWithdrawAmountWithDecimals
-      ]);
+      .addTokenOperation(
+        'pooltogether',
+        TxStorage.TxTokenOpTypeToName.PTwdrw,
+        [TxStorage.storage.getOwnAddress(), daiWithdrawAmountWithDecimals]
+      );
 
     return transactionObject;
   }
