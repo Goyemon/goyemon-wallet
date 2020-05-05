@@ -185,14 +185,26 @@ class TransactionUtilities {
     }
   }
 
-  // finish writing this once you get the deposited balance
   validateDaiPoolTogetherWithdrawAmount(daiWithdrawAmount) {
     const isInteger = /^[1-9]\d*$/.test(daiWithdrawAmount);
     if (isInteger) {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
+      const pooltogetherDaiBalance = RoundDownBigNumber(
+        balance.pooltogetherDai.open
+      )
+        .plus(balance.pooltogetherDai.committed)
+        .plus(balance.pooltogetherDai.sponsored);
 
-      daiWithdrawAmount = new BigNumber(10).pow(36).times(daiWithdrawAmount);
+      daiWithdrawAmount = new BigNumber(10).pow(18).times(daiWithdrawAmount);
+
+      if (
+        pooltogetherDaiBalance.isGreaterThanOrEqualTo(daiWithdrawAmount) &&
+        daiWithdrawAmount.isGreaterThanOrEqualTo(0)
+      ) {
+        LogUtilities.logInfo('the dai withdraw amount validated!');
+        return true;
+      }
 
       LogUtilities.logInfo('wrong dai balance!');
       return false;
