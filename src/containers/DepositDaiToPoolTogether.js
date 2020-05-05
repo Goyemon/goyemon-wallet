@@ -92,8 +92,8 @@ class DepositDaiToPoolTogether extends Component {
       .setGas(GlobalConfig.PoolTogetherDepositPoolGasLimit.toString(16))
       .tempSetData(depositPoolEncodedABI)
       .addTokenOperation(
-        'poolTogether',
-        TxStorage.TxTokenOpTypeToName.depositPool,
+        'pooltogether',
+        TxStorage.TxTokenOpTypeToName.PTdep,
         [TxStorage.storage.getOwnAddress(), daiAmountWithDecimals]
       );
 
