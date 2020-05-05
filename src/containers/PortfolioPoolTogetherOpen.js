@@ -18,7 +18,7 @@ class PortfolioPoolTogetherOpen extends Component {
       this.props.balance.pooltogetherDai.open
     )
       .div(new RoundDownBigNumber(10).pow(18))
-      .toFixed(2);
+      .toFixed(0);
 
     return (
       <RootContainer>

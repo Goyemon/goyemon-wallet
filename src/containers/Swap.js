@@ -91,7 +91,7 @@ class Swap extends Component {
         this.props.uniswap.daiExchange.weiReserve,
         this.props.uniswap.daiExchange.daiReserve
       ).div(new RoundDownBigNumber(10).pow(18));
-      this.setState({ tokenBought: tokenBought });
+      this.setState({ tokenBought });
     } else {
       console.log('ethSold is not a number');
     }
@@ -239,7 +239,7 @@ class Swap extends Component {
       this.state.ethSoldValidation === undefined
     ) {
     } else {
-      return <ErrorMessage>not enough ether!</ErrorMessage>;
+      return <ErrorMessage>invalid amount!</ErrorMessage>;
     }
   }
 

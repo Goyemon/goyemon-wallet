@@ -7,7 +7,7 @@ import {
 const INITIAL_STATE = {
   permissions: {
     notification: null,
-    photoLibrary: ''
+    photoLibrary: null
   }
 };
 

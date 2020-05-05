@@ -193,7 +193,7 @@ class WithdrawDaiFromPoolTogether extends Component {
       .plus(balance.pooltogetherDai.committed)
       .plus(balance.pooltogetherDai.sponsored)
       .div(new RoundDownBigNumber(10).pow(18))
-      .toFixed(2);
+      .toFixed(0);
 
     return (
       <RootContainer>
@@ -210,10 +210,8 @@ class WithdrawDaiFromPoolTogether extends Component {
           width="90%"
         >
           <CoinImage source={require('../../assets/dai_icon.png')} />
-          <Title>dai balance in pooltogether</Title>
+          <Title>dai pooltogether balance</Title>
           <Value>{pooltogetherDaiBalance}DAI</Value>
-          <Title>open and committed</Title>
-          <Value>DAI</Value>
         </UntouchableCardContainer>
         <WithDrawAmountHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
