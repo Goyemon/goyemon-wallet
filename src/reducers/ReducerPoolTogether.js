@@ -29,7 +29,7 @@ const poolTogether = (state = INITIAL_STATE, action) => {
             openSupply: action.payload.pooltogether_open_supply,
             committedSupply: action.payload.pooltogether_committed_supply,
             estimatedInterestRate:
-              action.payload.pooltoogether_estimated_interest_rate,
+              action.payload.pooltogether_estimated_interest_rate,
             committedDrawId: action.payload.pooltogether_committed_drawid
 
           }
