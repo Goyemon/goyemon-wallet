@@ -24,10 +24,15 @@ const TxTokenOpTypeToName = { // names inside txhistory object
 	redeem: 'redeem',
 	eth2tok: 'eth2tok',
 	tok2eth: 'tok2eth',
-	depositPool: 'depositPool',
-	withdraw: 'withdraw'
+	PTdep: 'PTdep',
+	PTdepc: 'PTdepc',
+	PTspdep: 'PTspdep',
+	PTwdrw: 'PTwdrw',
+	PTopdepwi: 'PTopdepwi',
+	PTspafwi: 'PTspafwi',
+	PTcodewi: 'PTcodewi',
+	PTrew: 'PTrew'
 };
-
 
 // ========== helper functions ==========
 function dropHexPrefix(hex) {
@@ -971,7 +976,7 @@ class TxTokenTok2EthOp extends TxTokenOp {
 	}
 }
 
-class TxTokenDepositPoolOp extends TxTokenOp {
+class TxTokenPTdepOp extends TxTokenOp {
 	constructor (arr) {
 		super();
 		[this.depositor, this.depositPoolAmount] = arr;
@@ -979,11 +984,35 @@ class TxTokenDepositPoolOp extends TxTokenOp {
 	}
 
 	toJSON() {
-		return { [TxTokenOpTypeToName.depositPool]: [this.depositor, this.depositPoolAmount] };
+		return { [TxTokenOpTypeToName.PTdep]: [this.depositor, this.depositPoolAmount] };
 	}
 }
 
-class TxTokenWithdrawOp extends TxTokenOp {
+class TxTokenPTdepcOp extends TxTokenOp {
+	constructor (arr) {
+		super();
+		[this.depositor, this.depositPoolAmount] = arr;
+		// this.depositor = arr[0]; this.depositPoolAmount = arr[1];
+	}
+
+	toJSON() {
+		return { [TxTokenOpTypeToName.PTdepc]: [this.depositor, this.depositPoolAmount] };
+	}
+}
+
+class TxTokenPTspdepOp extends TxTokenOp {
+	constructor (arr) {
+		super();
+		[this.depositor, this.depositPoolAmount] = arr;
+		// this.depositor = arr[0]; this.depositPoolAmount = arr[1];
+	}
+
+	toJSON() {
+		return { [TxTokenOpTypeToName.PTspdep]: [this.depositor, this.depositPoolAmount] };
+	}
+}
+
+class TxTokenPTwdrwOp extends TxTokenOp {
 	constructor (arr) {
 		super();
 		[this.withdrawer, this.withdrawAmount] = arr;
@@ -991,7 +1020,55 @@ class TxTokenWithdrawOp extends TxTokenOp {
 	}
 
 	toJSON() {
-		return { [TxTokenOpTypeToName.withdraw]: [this.withdrawer, this.withdrawAmount] };
+		return { [TxTokenOpTypeToName.PTwdrw]: [this.withdrawer, this.withdrawAmount] };
+	}
+}
+
+class TxTokenPTopdepwiOp extends TxTokenOp {
+	constructor (arr) {
+		super();
+		[this.withdrawer, this.withdrawAmount] = arr;
+		// this.withdrawer = arr[0]; this.withdrawAmount = arr[1];
+	}
+
+	toJSON() {
+		return { [TxTokenOpTypeToName.PTopdepwi]: [this.withdrawer, this.withdrawAmount] };
+	}
+}
+
+class TxTokenPTspafwiOp extends TxTokenOp {
+	constructor (arr) {
+		super();
+		[this.withdrawer, this.withdrawAmount] = arr;
+		// this.withdrawer = arr[0]; this.withdrawAmount = arr[1];
+	}
+
+	toJSON() {
+		return { [TxTokenOpTypeToName.PTspafwi]: [this.withdrawer, this.withdrawAmount] };
+	}
+}
+
+class TxTokenPTcodewiOp extends TxTokenOp {
+	constructor (arr) {
+		super();
+		[this.withdrawer, this.withdrawAmount] = arr;
+		// this.withdrawer = arr[0]; this.withdrawAmount = arr[1];
+	}
+
+	toJSON() {
+		return { [TxTokenOpTypeToName.PTcodewi]: [this.withdrawer, this.withdrawAmount] };
+	}
+}
+
+class TxTokenPTrewOp extends TxTokenOp {
+	constructor (arr) {
+		super();
+		[this.winner, this.winnings] = arr;
+		// this.winner = arr[0]; this.winnings = arr[1];
+	}
+
+	toJSON() {
+		return { [TxTokenOpTypeToName.PTrew]: [this.winner, this.winnings] };
 	}
 }
 
@@ -1026,8 +1103,14 @@ const TxTokenOpNameToClass = { // name -> tokenop storage class
 	[TxTokenOpTypeToName.redeem]: TxTokenRedeemOp,
 	[TxTokenOpTypeToName.eth2tok]: TxTokenEth2TokOp,
 	[TxTokenOpTypeToName.tok2eth]: TxTokenTok2EthOp,
-	[TxTokenOpTypeToName.depositPool]: TxTokenDepositPoolOp,
-	[TxTokenOpTypeToName.withdraw]: TxTokenWithdrawOp
+	[TxTokenOpTypeToName.PTdep]: TxTokenPTdepOp,
+	[TxTokenOpTypeToName.PTdepc]: TxTokenPTdepcOp,
+	[TxTokenOpTypeToName.PTspdep]: TxTokenPTspdepOp,
+	[TxTokenOpTypeToName.PTwdrw]: TxTokenPTwdrwOp,
+	[TxTokenOpTypeToName.PTopdepwi]: TxTokenPTopdepwiOp,
+	[TxTokenOpTypeToName.PTspafwi]: TxTokenPTspafwiOp,
+	[TxTokenOpTypeToName.PTcodewi]: TxTokenPTcodewiOp,
+	[TxTokenOpTypeToName.PTrew]: TxTokenPTrewOp
 }
 
 class Tx {
@@ -1154,7 +1237,6 @@ class Tx {
 	getTokenOperations(token, operation) { // TODO: retink. we shouldnt iterate, even though those aren't huge arrays.
 		if (!this.tokenData.hasOwnProperty(token))
 			return [];
-
 		const cls = operation ? TxTokenOpNameToClass[operation] : null;
 		return this.tokenData[token].filter((x) => (operation == null || x instanceof cls));
 	}
@@ -1394,10 +1476,15 @@ class TxStorage {
 			return tx.hasTokenOperation('uniswap', TxTokenOpTypeToName.eth2tok) ||
 				tx.hasTokenOperation('uniswap', TxTokenOpTypeToName.tok2eth);
 
-		if (tx.hasTokenOperations('poolTogether'))
-			return tx.hasTokenOperation('poolTogether', TxTokenOpTypeToName.depositPool) ||
-				tx.hasTokenOperation('poolTogether', TxTokenOpTypeToName.withdraw)
-
+		if (tx.hasTokenOperations('pooltogether'))
+		return tx.hasTokenOperation('pooltogether', TxTokenOpTypeToName.PTdep) ||
+		tx.hasTokenOperation('pooltogether', TxTokenOpTypeToName.PTdepc) ||
+		tx.hasTokenOperation('pooltogether', TxTokenOpTypeToName.PTspdep) ||
+		tx.hasTokenOperation('pooltogether', TxTokenOpTypeToName.PTwdrw) ||
+		tx.hasTokenOperation('pooltogether', TxTokenOpTypeToName.PTopdepwi) ||
+		tx.hasTokenOperation('pooltogether', TxTokenOpTypeToName.PTspafwi) ||
+		tx.hasTokenOperation('pooltogether', TxTokenOpTypeToName.PTcodewi) ||
+		tx.hasTokenOperation('pooltogether', TxTokenOpTypeToName.PTrew) 
 		return false;
 	}
 
