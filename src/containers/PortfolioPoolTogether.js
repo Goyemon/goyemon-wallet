@@ -5,6 +5,7 @@ import * as Animatable from 'react-native-animatable';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import styled from 'styled-components/native';
+import Web3 from 'web3';
 import { savePopUpModalVisibility } from '../actions/ActionModal';
 import Congrats from '../../assets/congrats_animation.json';
 import {
@@ -44,10 +45,10 @@ class PortfolioPoolTogether extends Component {
   }
 
   renderModalContent() {
-    if (this.props.poolTogether.dai.winner === this.props.checksumAddress) {
+    if (Web3.utils.toChecksumAddress(`0x${this.props.poolTogether.dai.lastWinner}`) === this.props.checksumAddress) {
       return (
         <PopUpModal>
-          <AnimationContainer animation="fadeIn" delay={1500}>
+          <AnimationContainer animation="fadeIn" delay={500}>
             <Animation
               ref={(animation) => {
                 this.animation = animation;
@@ -60,13 +61,13 @@ class PortfolioPoolTogether extends Component {
               loop={true}
               source={Congrats}
             />
-            <GoyemonText fontSize={16}>you won baby!</GoyemonText>
+            <GoyemonText fontSize={16}>you won the lottery!</GoyemonText>
           </AnimationContainer>
-          <AnimationContainer animation="fadeIn" delay={3000}>
+          <AnimationContainer animation="fadeIn" delay={1000}>
             <GoyemonText fontSize={16}>
-              your winning is staying in the current pool
+              your winning is in the committed pool
             </GoyemonText>
-            <GoyemonText fontSize={16}>you can keep it or withdraw</GoyemonText>
+            <GoyemonText fontSize={16}>you can keep it there or withdraw</GoyemonText>
             <ButtonContainer>
               <Button
                 text={I18n.t('withdraw')}
@@ -88,10 +89,10 @@ class PortfolioPoolTogether extends Component {
     } else {
       return (
         <PopUpModal>
-          <AnimationContainer animation="fadeIn" delay={1500}>
+          <AnimationContainer animation="fadeIn" delay={500}>
             <GoyemonText fontSize={16}>the last winner was...</GoyemonText>
             <GoyemonText fontSize={16}>
-              {this.props.poolTogether.dai.winner}
+              {`0x${this.props.poolTogether.dai.lastWinner}`}
             </GoyemonText>
             <GoyemonText fontSize={16}>
               your last deposit stays in the committed pool
@@ -168,7 +169,7 @@ class PortfolioPoolTogether extends Component {
         </Container>
         {this.renderDraw()}
         <Button
-          text="reveal the last result"
+          text="reveal the last winner"
           textColor="#00A3E2"
           backgroundColor="#FFF"
           borderColor="#00A3E2"
@@ -187,6 +188,7 @@ class PortfolioPoolTogether extends Component {
 const AnimationContainer = Animatable.createAnimatableComponent(styled.View`
   align-items: center;
   flex-direction: column;
+  margin: 0 auto;
 `);
 
 const ButtonContainer = styled.View`
