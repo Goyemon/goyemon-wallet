@@ -404,12 +404,14 @@ class Transaction extends Component {
 
       let style;
       style = styles.valueStyleGreen;
+      const roundedEthValue = parseFloat(this.state.ethSold).toFixed(4);
+
       return (
         <SwapValueContainer>
           <SwapValueTextContainer>
             <Icon name="minus" size={16} color="#F1860E" />
             <GoyemonText fontSize={16} style={style}>
-              {this.state.ethSold} ETH
+              {roundedEthValue} ETH
             </GoyemonText>
           </SwapValueTextContainer>
           <Icon name="swap-vertical" size={16} color="#1BA548" />
