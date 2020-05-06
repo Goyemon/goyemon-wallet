@@ -8,8 +8,8 @@ const INITIAL_STATE = {
       openSupply: '',
       committedSupply: '',
       estimatedInterestRate: '',
-      committedDrawId: '',
-      winner: '',
+      currentCommittedDrawId: '',
+      lastWinner: '',
       winningAmount: ''
     }
   }
@@ -27,11 +27,9 @@ const poolTogether = (state = INITIAL_STATE, action) => {
             committedSupply: action.payload.pooltogether_committed_supply,
             estimatedInterestRate:
               action.payload.pooltogether_estimated_interest_rate,
-            committedDrawId: action.payload.pooltogether_committed_drawid
-
-          }
-        }
-      };
+            currentCommittedDrawId:
+              action.payload.pooltogether_committed_drawid,
+            lastWinner: action.payload.pooltogether_rewarded
           }
         }
       };
