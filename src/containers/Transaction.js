@@ -1,17 +1,16 @@
 'use strict';
+import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
 import Web3 from 'web3';
-import { GoyemonText } from '../components/common';
-import { TouchableCardContainer } from '../components/common';
+import { GoyemonText, TouchableCardContainer } from '../components/common';
 import I18n from '../i18n/I18n';
-import TransactionUtilities from '../utilities/TransactionUtilities.ts';
-
 import TxStorage from '../lib/tx.js';
 import LogUtilities from '../utilities/LogUtilities';
+import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 
 /*	=======================================================
   2020-03-02 13:19:12
@@ -32,11 +31,6 @@ class Transaction extends Component {
     if (tx instanceof TxStorage.Tx) {
       newState.transaction = tx;
       try {
-        const poolTogethers = tx.getTokenOperations(
-          'poolTogether',
-          TxStorage.TxTokenOpTypeToName.depositPool
-        );
-
         const uniswaps = tx.getTokenOperations(
           'uniswap',
           TxStorage.TxTokenOpTypeToName.eth2tok
@@ -57,6 +51,104 @@ class Transaction extends Component {
           'dai',
           TxStorage.TxTokenOpTypeToName.approval
         );
+
+        const PTdeps = tx.getTokenOperations(
+          'pooltogether',
+          TxStorage.TxTokenOpTypeToName.PTdep
+        );
+        newState.isPTdepositTx = PTdeps.length > 0;
+        newState.PTdepositValue;
+        if (newState.isPTdepositTx)
+          newState.PTdepositValue = TransactionUtilities.parseHexDaiValue(
+            `0x${PTdeps[0].depositPoolAmount}`
+          );
+
+        const PTdepcs = tx.getTokenOperations(
+          'pooltogether',
+          TxStorage.TxTokenOpTypeToName.PTdepc
+        );
+        newState.isPTdepositTx = PTdepcs.length > 0;
+        newState.PTdepositValue;
+        if (newState.isPTdepositTx)
+          newState.PTdepositValue = TransactionUtilities.parseHexDaiValue(
+            `0x${PTdepcs[0].depositPoolAmount}`
+          );
+
+        const PTspdeps = tx.getTokenOperations(
+          'pooltogether',
+          TxStorage.TxTokenOpTypeToName.PTspdep
+        );
+        newState.isPTdepositTx = PTspdeps.length > 0;
+        newState.PTdepositValue;
+        if (newState.isPTdepositTx)
+          newState.PTdepositValue = TransactionUtilities.parseHexDaiValue(
+            `0x${PTspdeps[0].depositPoolAmount}`
+          );
+
+        const PTwdrws = tx.getTokenOperations(
+          'pooltogether',
+          TxStorage.TxTokenOpTypeToName.PTwdrw
+        );
+        const PTopdepwis = tx.getTokenOperations(
+          'pooltogether',
+          TxStorage.TxTokenOpTypeToName.PTopdepwi
+        );
+        const PTspafwis = tx.getTokenOperations(
+          'pooltogether',
+          TxStorage.TxTokenOpTypeToName.PTspafwi
+        );
+        const PTcodewis = tx.getTokenOperations(
+          'pooltogether',
+          TxStorage.TxTokenOpTypeToName.PTcodewi
+        );
+
+        newState.isPTwithdrawTx =
+          PTwdrws.length > 0 ||
+          PTopdepwis.length > 0 ||
+          PTspafwis.length > 0 ||
+          PTcodewis.length > 0;
+        newState.PTwithdrawValue = 0;
+        if (newState.isPTwithdrawTx) {
+          if (PTwdrws.length > 0) {
+            newState.PTwithdrawValue = TransactionUtilities.parseHexDaiValue(
+              `0x${PTwdrws[0].withdrawAmount}`
+            );
+          } else if (
+            PTopdepwis.length > 0 ||
+            PTspafwis.length > 0 ||
+            PTcodewis.length > 0
+          ) {
+            if (PTopdepwis[0]) {
+              newState.PTwithdrawValue = new BigNumber(
+                newState.PTwithdrawValue
+              ).plus(PTopdepwis[0].withdrawAmount, 16);
+            }
+            if (PTspafwis[0]) {
+              newState.PTwithdrawValue = new BigNumber(
+                newState.PTwithdrawValue
+              ).plus(PTspafwis[0].withdrawAmount, 16);
+            }
+            if (PTcodewis[0]) {
+              newState.PTwithdrawValue = new BigNumber(
+                newState.PTwithdrawValue
+              ).plus(PTcodewis[0].withdrawAmount, 16);
+            }
+            newState.PTwithdrawValue = TransactionUtilities.parseHexDaiValue(
+              `0x${newState.PTwithdrawValue.toString(16)}`
+            );
+          }
+        }
+
+        const PTrew = tx.getTokenOperations(
+          'pooltogether',
+          TxStorage.TxTokenOpTypeToName.PTrew
+        );
+        newState.isPTRewardTx = PTrew.length > 0;
+        newState.PTrewardValue;
+        if (newState.isPTRewardTx)
+          newState.PTrewardValue = TransactionUtilities.parseHexDaiValue(
+            `0x${PTrew[0].winnings}`
+          );
 
         const cDaiMints = tx.getTokenOperations(
           'cdai',
@@ -186,6 +278,28 @@ class Transaction extends Component {
       );
     }
 
+    if (
+      this.state.isDaiApproveTx ||
+      this.state.isCDaiMintTx ||
+      this.state.isPTdepositTx
+    )
+      return (
+        <GoyemonText fontSize={16}>
+          <Icon name="call-made" size={20} color="#F1860E" />
+        </GoyemonText>
+      );
+
+    if (
+      this.state.isCDaiRedeemUnderlyingTx ||
+      this.state.isPTwithdrawTx ||
+      this.state.isPTRewardTx
+    )
+      return (
+        <GoyemonText fontSize={16}>
+          <Icon name="call-received" size={20} color="#1BA548" />
+        </GoyemonText>
+      );
+
     if (this.state.isDaiTransferTx) {
       if (this.state.isOutgoingDaiTx && this.state.isIncomingDaiTx)
         return (
@@ -226,20 +340,6 @@ class Transaction extends Component {
       return (
         <GoyemonText fontSize={16}>
           <Icon name="alert-circle-outline" size={20} color="#E41B13" />
-        </GoyemonText>
-      );
-
-    if (this.state.isDaiApproveTx || this.state.isCDaiMintTx)
-      return (
-        <GoyemonText fontSize={16}>
-          <Icon name="call-made" size={20} color="#F1860E" />
-        </GoyemonText>
-      );
-
-    if (this.state.isCDaiRedeemUnderlyingTx)
-      return (
-        <GoyemonText fontSize={16}>
-          <Icon name="call-received" size={20} color="#1BA548" />
         </GoyemonText>
       );
 
@@ -304,6 +404,13 @@ class Transaction extends Component {
 
   renderType() {
     let txType;
+    if (this.state.isDaiApproveTx) txType = I18n.t('history-approve');
+    else if (this.state.isCDaiMintTx || this.state.isPTdepositTx)
+      txType = I18n.t('deposit');
+    else if (this.state.isCDaiRedeemUnderlyingTx || this.state.isPTwithdrawTx)
+      txType = I18n.t('withdraw');
+    else if (this.state.isPTRewardTx) txType = 'Rewarded';
+
     if (this.state.isUniswapTx) {
       txType = I18n.t('history-swap');
       return <GoyemonText fontSize={18}>{txType}</GoyemonText>;
@@ -332,10 +439,6 @@ class Transaction extends Component {
 
     if (txType) return <GoyemonText fontSize="14">{txType}</GoyemonText>;
 
-    if (this.state.isDaiApproveTx) txType = I18n.t('history-approve');
-    else if (this.state.isCDaiMintTx) txType = I18n.t('deposit');
-    else if (this.state.isCDaiRedeemUnderlyingTx) txType = I18n.t('withdraw');
-
     if (txType) return <GoyemonText fontSize={18}>{txType}</GoyemonText>;
 
     if (this.state.isOutgoingEthTx && this.state.isIncomingEthTx)
@@ -351,6 +454,18 @@ class Transaction extends Component {
   }
 
   renderPlusOrMinusTransactionIcon() {
+    if (this.state.isCDaiFailedTx) return null;
+
+    if (this.state.isCDaiMintTx || this.state.isPTdepositTx)
+      return <Icon name="minus" size={16} color="#F1860E" />;
+
+    if (
+      this.state.isCDaiRedeemUnderlyingTx ||
+      this.state.isPTwithdrawTx ||
+      this.state.isPTRewardTx
+    )
+      return <Icon name="plus" size={16} color="#1BA548" />;
+
     if (this.state.isUniswapTx) {
       return null;
     }
@@ -373,14 +488,6 @@ class Transaction extends Component {
 
     if (this.state.isDaiApproveTx) return;
 
-    if (this.state.isCDaiFailedTx) return null;
-
-    if (this.state.isCDaiMintTx)
-      return <Icon name="minus" size={16} color="#F1860E" />;
-
-    if (this.state.isCDaiRedeemUnderlyingTx)
-      return <Icon name="plus" size={16} color="#1BA548" />;
-
     if (this.state.isOutgoingEthTx && this.state.isIncomingEthTx)
       return <Icon name="plus-minus" size={16} color="#5F5F5F" />;
     else if (
@@ -393,6 +500,44 @@ class Transaction extends Component {
   }
 
   renderValue() {
+    if (this.state.isCDaiFailedTx)
+      return <GoyemonText fontSize={16}>0</GoyemonText>;
+
+    if (this.state.isCDaiMintTx)
+      return (
+        <GoyemonText fontSize={16} style={styles.valueStyleRed}>
+          {this.state.cDaiMintValue} DAI
+        </GoyemonText>
+      );
+
+    if (this.state.isCDaiRedeemUnderlyingTx)
+      return (
+        <GoyemonText fontSize={16} style={styles.valueStyleGreen}>
+          {this.state.cDaiRedeemValue} DAI
+        </GoyemonText>
+      );
+
+    if (this.state.isPTdepositTx)
+      return (
+        <GoyemonText fontSize={16} style={styles.valueStyleRed}>
+          {this.state.PTdepositValue} DAI
+        </GoyemonText>
+      );
+
+    if (this.state.isPTwithdrawTx)
+      return (
+        <GoyemonText fontSize={16} style={styles.valueStyleGreen}>
+          {this.state.PTwithdrawValue} DAI
+        </GoyemonText>
+      );
+
+    if (this.state.isPTRewardTx)
+      return (
+        <GoyemonText fontSize={16} style={styles.valueStyleGreen}>
+          {this.state.PTRewardValue} DAI
+        </GoyemonText>
+      );
+
     if (this.state.isUniswapTx) {
       const uniswaps = this.state.transaction.getTokenOperations(
         'uniswap',
@@ -454,23 +599,6 @@ class Transaction extends Component {
     }
 
     if (this.state.isDaiApproveTx) return null;
-
-    if (this.state.isCDaiFailedTx)
-      return <GoyemonText fontSize={16}>0</GoyemonText>;
-
-    if (this.state.isCDaiMintTx)
-      return (
-        <GoyemonText fontSize={16} style={styles.valueStyleRed}>
-          {this.state.cDaiMintValue} DAI
-        </GoyemonText>
-      );
-
-    if (this.state.isCDaiRedeemUnderlyingTx)
-      return (
-        <GoyemonText fontSize={16} style={styles.valueStyleGreen}>
-          {this.state.cDaiRedeemValue} DAI
-        </GoyemonText>
-      );
 
     if (this.state.transaction.getFrom() === null)
       return <GoyemonText fontSize={16}>Token Transfer</GoyemonText>;
