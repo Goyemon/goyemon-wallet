@@ -2,7 +2,6 @@
 import Animation from 'lottie-react-native';
 import React, { Component } from 'react';
 import * as Animatable from 'react-native-animatable';
-import { TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import styled from 'styled-components/native';
@@ -94,16 +93,11 @@ class PortfolioPoolTogether extends Component {
             <GoyemonText fontSize={16}>
               {this.props.poolTogether.dai.winner}
             </GoyemonText>
-          </AnimationContainer>
-          <AnimationContainer animation="fadeIn" delay={3000}>
             <GoyemonText fontSize={16}>
-              let's go for the next round!
+              your last deposit stays in the committed pool
             </GoyemonText>
             <GoyemonText fontSize={16}>
-              your deposit stays in the current pool
-            </GoyemonText>
-            <GoyemonText fontSize={16}>
-              you can deposit more to increase your chance of winning
+              you can deposit for the next round
             </GoyemonText>
             <ButtonContainer>
               <Button
@@ -192,6 +186,7 @@ class PortfolioPoolTogether extends Component {
 
 const AnimationContainer = Animatable.createAnimatableComponent(styled.View`
   align-items: center;
+  flex-direction: column;
 `);
 
 const ButtonContainer = styled.View`

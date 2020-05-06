@@ -10,7 +10,6 @@ import {
 } from '../actions/ActionModal';
 import {
   RootContainer,
-  GoyemonText,
   UseMaxButton,
   UntouchableCardContainer,
   HeaderOne,
