@@ -74,7 +74,7 @@ class WalletCreation extends Component {
       },
       async () => {
         await this.createWallet();
-        await this.fetchTokenInfo();
+        await this.fetchProtocolInfo();
         await this.fetchPriceInfo();
         await this.isWalletReady();
         this.setState({
@@ -88,7 +88,7 @@ class WalletCreation extends Component {
     this.props.getGasPrice();
     await this.createWallet();
     await this.fetchPriceInfo();
-    await this.fetchTokenInfo();
+    await this.fetchProtocolInfo();
     setTimeout(async () => {
       await this.isWalletReady();
     }, 8000);
@@ -109,8 +109,9 @@ class WalletCreation extends Component {
     await this.props.getDaiPrice();
   }
 
-  fetchTokenInfo() {
+  fetchProtocolInfo() {
     FCMMsgs.requestCompoundDaiInfo(this.props.checksumAddress);
+    FCMMsgs.requestPoolTogetherDaiInfo(this.props.checksumAddress);
   }
 
   async isWalletReady() {
