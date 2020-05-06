@@ -16,6 +16,7 @@ const persistConfig = {
     'ReducerMnemonic',
     'ReducerMnemonicWordsValidation',
     'ReducerPermissions',
+    'ReducerPoolTogether',
     'ReducerPrice',
     'ReducerTransactionsLoaded',
     'ReducerUniswap'
