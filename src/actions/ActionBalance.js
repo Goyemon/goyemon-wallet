@@ -5,7 +5,8 @@ import {
   SAVE_DAI_BALANCE,
   SAVE_C_DAI_BALANCE,
   SAVE_COMPOUND_DAI_BALANCE,
-  SAVE_POOL_TOGETHER_DAI_BALANCE
+  SAVE_POOL_TOGETHER_DAI_BALANCE,
+  MOVE_POOL_TOGETHER_DAI_BALANCE
 } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
@@ -87,4 +88,18 @@ export function savePoolTogetherDaiBalance(daiBalance) {
 const savePoolTogetherDaiBalanceSuccess = (daiBalance) => ({
   type: SAVE_POOL_TOGETHER_DAI_BALANCE,
   payload: daiBalance
+});
+
+export function movePoolTogetherDaiBalance() {
+  return async function (dispatch) {
+    try {
+      dispatch(movePoolTogetherDaiBalanceSuccess());
+    } catch (err) {
+      LogUtilities.logError(err);
+    }
+  };
+}
+
+const movePoolTogetherDaiBalanceSuccess = () => ({
+  type: MOVE_POOL_TOGETHER_DAI_BALANCE
 });

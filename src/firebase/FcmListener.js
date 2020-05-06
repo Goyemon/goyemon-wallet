@@ -6,7 +6,8 @@ import {
   saveDaiBalance,
   saveCompoundDaiBalance,
   savePoolTogetherDaiBalance,
-  saveWeiBalance
+  saveWeiBalance,
+  movePoolTogetherDaiBalance
 } from '../actions/ActionBalance';
 import {
   saveCompoundDaiInfo
@@ -118,6 +119,9 @@ async function downstreamMessageHandler(type, data) {
 				pooltogether_rewarded: data.pooltogether_rewarded,
 			}
 			store.dispatch(savePoolTogetherDaiInfo(pooltogetherDaiInfo));
+			if(stateTree.ReducerPoolTogether.poolTogether.dai.currentCommittedDrawId != data.pooltogether_committed_drawid) {
+				store.dispatch(movePoolTogetherDaiBalance());
+			}
 			break;
 
 		case 'uniswap_ETHDAI_info':
