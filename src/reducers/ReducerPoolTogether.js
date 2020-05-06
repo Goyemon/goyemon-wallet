@@ -1,8 +1,5 @@
 'use strict';
-import {
-  SAVE_POOLTOGETHER_DAI_INFO,
-  SAVE_POOLTOGETHER_DAI_WINNER
-} from '../constants/ActionTypes';
+import { SAVE_POOLTOGETHER_DAI_INFO } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
   poolTogether: {
@@ -35,13 +32,6 @@ const poolTogether = (state = INITIAL_STATE, action) => {
           }
         }
       };
-    case SAVE_POOLTOGETHER_DAI_WINNER:
-      return {
-        poolTogether: {
-          dai: {
-            ...state.poolTogether.dai,
-            winner: action.payload.winner,
-            winningAmount: action.payload.amount
           }
         }
       };
