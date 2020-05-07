@@ -13,7 +13,7 @@ import LogUtilities from '../utilities/LogUtilities.js';
 export function saveWeiBalance(weiBalance) {
   return async function (dispatch) {
     try {
-      console.log('weiBalance ==>', weiBalance);
+      LogUtilities.logInfo('weiBalance ==>', weiBalance);
       dispatch(saveWeiBalanceSuccess(weiBalance));
     } catch (err) {
       LogUtilities.logError(err);

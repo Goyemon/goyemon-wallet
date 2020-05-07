@@ -9,6 +9,7 @@ import {
   ToggleCurrencySymbol
 } from '../../components/common';
 import I18n from '../../i18n/I18n';
+import LogUtilities from '../../utilities/LogUtilities.js';
 import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
 
 class NetworkFeeContainerConfirmation extends Component {
@@ -31,7 +32,7 @@ class NetworkFeeContainerConfirmation extends Component {
         gasPriceWei,
         gasLimit
       );
-      console.log('ethValue ==>', ethValue);
+      LogUtilities.logInfo('ethValue ==>', ethValue);
       ethValue = parseFloat(ethValue).toFixed(5);
       return <ConfirmationText>{ethValue}ETH</ConfirmationText>;
     }

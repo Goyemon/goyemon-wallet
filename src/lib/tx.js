@@ -1497,7 +1497,6 @@ class TxStorage {
 	}
 
 	txfilter_ourDAIForPTApprovals(tx) {
-		console.log('tx ==>', tx);
 		const our_hex_address = this.our_address.toString('hex');
 		const pooltogether_address = GlobalConfig.DAIPoolTogetherContractV2.startsWith('0x') ? GlobalConfig.DAIPoolTogetherContractV2.substr(2).toLowerCase() : GlobalConfig.DAIPoolTogetherContractV2.toLowerCase();
 		return tx.getTokenOperations('dai', TxTokenOpTypeToName.approval).some(

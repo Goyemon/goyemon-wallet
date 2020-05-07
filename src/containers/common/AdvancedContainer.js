@@ -42,7 +42,7 @@ class AdvancedContainer extends Component {
         gasPriceWei,
         gasLimit
       );
-      console.log('ethValue ==>', ethValue);
+      LogUtilities.logInfo('ethValue ==>', ethValue);
       ethValue = parseFloat(ethValue).toFixed(5);
       return <NetworkFeeText>{ethValue}ETH</NetworkFeeText>;
     }

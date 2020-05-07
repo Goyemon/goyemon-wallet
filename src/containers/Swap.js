@@ -93,7 +93,7 @@ class Swap extends Component {
       ).div(new RoundDownBigNumber(10).pow(18));
       this.setState({ tokenBought });
     } else {
-      console.log('ethSold is not a number');
+      LogUtilities.logInfo('ethSold is not a number');
     }
   }
 
