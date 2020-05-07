@@ -24,8 +24,8 @@ const poolTogether = (state = INITIAL_STATE, action) => {
     case SAVE_POOLTOGETHER_DAI_INFO:
       return {
         poolTogether: {
+          ...state.poolTogether,
           dai: {
-            ...state.poolTogether.dai,
             totalBalance: action.payload.pooltogether_accounted_balance,
             openSupply: action.payload.pooltogether_open_supply,
             committedSupply: action.payload.pooltogether_committed_supply,
