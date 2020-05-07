@@ -96,9 +96,9 @@ class Countdown extends Component {
       remainingSecs
     } = this.state;
     return (
-      <View>
-        <CountdownContainer>
-          <CountdownText>{`${remainingDay}`}</CountdownText>
+      <CountdownContainer>
+        <CountdownInner>
+          <CountdownText>  {`${remainingDay}`}</CountdownText>
           <CountdownText>{`${
             (remainingHours < 10 ? '0' : '') + remainingHours
           }`}</CountdownText>
@@ -108,29 +108,32 @@ class Countdown extends Component {
           <CountdownText>{`${
             (remainingSecs < 10 ? '0' : '') + remainingSecs
           }`}</CountdownText>
-        </CountdownContainer>
-        <CountdownContainer>
+        </CountdownInner>
+        <CountdownInner>
           <CountdownDateText>days</CountdownDateText>
           <CountdownDateText>hours</CountdownDateText>
           <CountdownDateText>mins</CountdownDateText>
           <CountdownDateText>secs</CountdownDateText>
-        </CountdownContainer>
-      </View>
+        </CountdownInner>
+      </CountdownContainer>
     );
   }
 }
 
 const CountdownContainer = styled.View`
+  margin-top: 8px;
+`;
+
+const CountdownInner = styled.View`
   align-items: center;
   flex-direction: row;
   justify-content: center;
 `;
-
 const CountdownText = styled.Text`
   color: #000;
   font-family: 'HKGrotesk-Regular';
   font-size: 24;
-  margin: 8px 12px;
+  margin: 2px 12px;
 `;
 
 const CountdownDateText = styled.Text`

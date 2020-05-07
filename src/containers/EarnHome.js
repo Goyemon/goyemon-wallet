@@ -80,7 +80,7 @@ class EarnHome extends Component {
                 <CardImage source={require('../../assets/dai_icon.png')} />
               </IconImage>
               <IconImage>
-                <Icon name="arrow-right-bold" size={20} color="#5F5F5F" />
+                <Icon name="arrow-right-bold" size={28} color="#5F5F5F" />
               </IconImage>
               <IconImage>
                 <CompoundIcon />
@@ -106,7 +106,7 @@ class EarnHome extends Component {
                 <CardImage source={require('../../assets/dai_icon.png')} />
               </IconImage>
               <IconImage>
-                <Icon name="arrow-left-bold" size={20} color="#5F5F5F" />
+                <Icon name="arrow-left-bold" size={28} color="#5F5F5F" />
               </IconImage>
               <IconImage>
                 <CompoundIcon />
@@ -138,7 +138,7 @@ class EarnHome extends Component {
                 <CardImage source={require('../../assets/dai_icon.png')} />
               </IconImage>
               <IconImage>
-                <Icon name="arrow-right-bold" size={20} color="#5F5F5F" />
+                <Icon name="arrow-right-bold" size={28} color="#5F5F5F" />
               </IconImage>
               <IconImage>
                 <PoolTogetherIcon />
@@ -164,7 +164,7 @@ class EarnHome extends Component {
                 <CardImage source={require('../../assets/dai_icon.png')} />
               </IconImage>
               <IconImage>
-                <Icon name="arrow-left-bold" size={20} color="#5F5F5F" />
+                <Icon name="arrow-left-bold" size={28} color="#5F5F5F" />
               </IconImage>
               <IconImage>
                 <PoolTogetherIcon />

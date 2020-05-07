@@ -217,7 +217,7 @@ class SendEth extends Component {
                 this.props.navigation.navigate('QRCodeScan');
               }}
             >
-              <Icon name="qrcode-scan" size={16} color="#5f5f5f" />
+              <Icon name="qrcode-scan" size={20} color="#5f5f5f" />
             </TouchableOpacity>
           </SendTextInputContainer>
         </Form>

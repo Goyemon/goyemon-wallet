@@ -7,7 +7,6 @@ import styled from 'styled-components';
 import Web3 from 'web3';
 import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
 import CompoundIcon from '../../assets/CompoundIcon.js';
-import WalletIcon from '../../assets/WalletIcon.js';
 import PoolTogetherIcon from '../../assets/PoolTogetherIcon.js';
 import {
   RootContainer,
@@ -175,7 +174,7 @@ class PortfolioHome extends Component {
           onPress={() => navigation.navigate('PortfolioWallet')}
         >
           <IconImageContainer>
-            <WalletIcon />
+            <Icon name="wallet-outline" size={40} color="#5f5f5f" />
           </IconImageContainer>
           <NameContainer>
             <NameText>{I18n.t('portfolio-home-wallet')}</NameText>

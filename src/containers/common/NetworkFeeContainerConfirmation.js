@@ -41,7 +41,7 @@ class NetworkFeeContainerConfirmation extends Component {
     return (
       <View>
         <NetworkFeeHeaderContainer>
-          <HeaderFive>{I18n.t('max-network-fee')}</HeaderFive>
+          <HeaderFive width="80%">{I18n.t('max-network-fee')}</HeaderFive>
           <TouchableOpacity
             onPress={() => {
               if (this.state.currency === 'ETH') {

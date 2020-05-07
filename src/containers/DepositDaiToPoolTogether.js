@@ -210,7 +210,7 @@ class DepositDaiToPoolTogether extends Component {
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <Title>{I18n.t('dai-wallet-balance')}</Title>
           <Value>{daiBalance} DAI</Value>
-          <Title>time until the open round ends</Title>
+          <Title>until the open round ends</Title>
           <Countdown />
         </UntouchableCardContainer>
         <DepositAmountHeaderContainer>

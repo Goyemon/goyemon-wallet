@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import CompoundIcon from '../../assets/CompoundIcon.js';
 import PoolTogetherIcon from '../../assets/PoolTogetherIcon.js';
@@ -73,21 +74,21 @@ export default class Welcome extends Component {
             <OneLiner>financial services</OneLiner>
           </OneLinerContainer>
           <IconContainer>
-            <Icon>
+            <IconImage>
               <CoinImage source={require('../../assets/ether_icon.png')} />
-            </Icon>
-            <Icon>
+            </IconImage>
+            <IconImage>
               <CoinImage source={require('../../assets/dai_icon.png')} />
-            </Icon>
-            <Icon>
+            </IconImage>
+            <IconImage>
               <CompoundIcon />
-            </Icon>
-            <Icon>
+            </IconImage>
+            <IconImage>
               <UniswapIcon />
-            </Icon>
-            <Icon>
+            </IconImage>
+            <IconImage>
               <PoolTogetherIcon />
-            </Icon>
+            </IconImage>
           </IconContainer>
           <TouchableCardContainer
             alignItems="center"
@@ -111,9 +112,9 @@ export default class Welcome extends Component {
               </HeaderThree>
               <CardText>{I18n.t('welcome-new-wallet')}</CardText>
             </View>
-            <CardImage
-              source={require('../../assets/create_wallet_icon.png')}
-            />
+            <CardImage>
+              <Icon name="account-plus-outline" size={48} color="#5f5f5f" />
+            </CardImage>
           </TouchableCardContainer>
           <TouchableCardContainer
             alignItems="center"
@@ -135,9 +136,9 @@ export default class Welcome extends Component {
               </HeaderThree>
               <CardText>{I18n.t('welcome-existing-wallet')}</CardText>
             </View>
-            <CardImage
-              source={require('../../assets/import_wallet_icon.png')}
-            />
+            <CardImage>
+              <Icon name="account-search-outline" size={48} color="#5f5f5f" />
+            </CardImage>
           </TouchableCardContainer>
         </WelcomeContainer>
       </RootContainer>
@@ -189,7 +190,7 @@ const IconContainer = styled.View`
   margin-bottom: 40;
 `;
 
-const Icon = styled.View`
+const IconImage = styled.View`
   margin-right: 8px;
   margin-left: 8px;
 `;
@@ -224,10 +225,6 @@ const CardText = styled.Text`
   text-align: left;
 `;
 
-const CardImage = styled.Image`
-  height: 64px;
+const CardImage = styled.View`
   margin-right: 8;
-  padding: 16px;
-  resize-mode: contain;
-  width: 64px;
 `;

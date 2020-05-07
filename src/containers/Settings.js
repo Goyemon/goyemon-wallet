@@ -93,7 +93,11 @@ class Settings extends Component {
     return (
       <RootContainer>
         <HeaderOne marginTop="112">{I18n.t('settings-header')}</HeaderOne>
-        <PopUpModal>
+        <PopUpModal
+          onPress={() => {
+            this.props.savePopUpModalVisibility(false);
+          }}
+        >
           <ModalTextContainer>
             <ResetWalletHeader>
               {I18n.t('settings-reset-title')}
@@ -151,32 +155,30 @@ class Settings extends Component {
         </PopUpModal>
         <CommunityIconContainer>
           <CommunityIcon>
-            <IconOpacity>
-              <Icon
-                onPress={() => {
-                  Linking.openURL('#').catch((err) =>
-                    LogUtilities.logError('An error occurred', err)
-                  );
-                }}
-                name="twitter"
-                color="#5f5f5f"
-                size={40}
-              />
-            </IconOpacity>
+            <Icon
+              onPress={() => {
+                Linking.openURL(
+                  'https://twitter.com/GoyemonOfficial'
+                ).catch((err) =>
+                  LogUtilities.logError('An error occurred', err)
+                );
+              }}
+              name="twitter"
+              color="#1DA1F2"
+              size={40}
+            />
           </CommunityIcon>
           <CommunityIcon>
-            <IconOpacity>
-              <Icon
-                onPress={() => {
-                  Linking.openURL('#').catch((err) =>
-                    LogUtilities.logError('An error occurred', err)
-                  );
-                }}
-                name="github-circle"
-                color="#5f5f5f"
-                size={40}
-              />
-            </IconOpacity>
+            <Icon
+              onPress={() => {
+                Linking.openURL('https://github.com/Goyemon').catch((err) =>
+                  LogUtilities.logError('An error occurred', err)
+                );
+              }}
+              name="github-circle"
+              color="#333"
+              size={40}
+            />
           </CommunityIcon>
           <CommunityIcon>
             <Icon
@@ -202,7 +204,7 @@ class Settings extends Component {
             {I18n.t('settings-backup-words')}
           </SettingsListCard>
           <SettingsListCard
-            iconName="crosshairs"
+            iconName="wrench-outline"
             onPress={() => navigation.navigate('Advanced')}
           >
             {I18n.t('advanced')}
@@ -258,10 +260,6 @@ const CommunityIcon = styled.View`
   margin-right: 8;
 `;
 
-const IconOpacity = styled.View`
-  opacity: 0.4;
-`;
-
 const SettingsListContainer = styled.View`
   background: #fff;
   border-color: rgba(95, 95, 95, 0.3);
@@ -306,6 +304,7 @@ const DeleteTextInput = styled.TextInput`
 const ButtonContainer = styled.View`
   flex-direction: row;
   justify-content: center;
+  margin: 0 auto;
   margin-top: 16;
 `;
 

@@ -9,9 +9,6 @@ import { rehydrationComplete } from '../actions/ActionRehydration';
 import '../firebase/FcmTokenMonitor';
 import I18n from '../i18n/I18n';
 import '../netinfo/NetInfoListener';
-import SaveIcon from '../../assets/SaveIcon.js';
-import HistoryIcon from '../../assets/HistoryIcon.js';
-import WalletIcon from '../../assets/WalletIcon.js';
 import PortfolioStack from './PortfolioStack';
 import EarnStack from './EarnStack';
 import HistoryStack from './HistoryStack';
@@ -22,11 +19,13 @@ import { store, persistor } from '../store/store.js';
 
 const AppTab = createBottomTabNavigator(
   {
-    Balance: {
+    Portfolio: {
       screen: PortfolioStack,
       navigationOptions: {
         tabBarLabel: I18n.t('portfolio'),
-        tabBarIcon: ({ tintColor }) => <WalletIcon fill={tintColor} />
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="chart-pie" size={28} color={tintColor} />
+        )
       }
     },
     Send: {
@@ -34,7 +33,7 @@ const AppTab = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: I18n.t('send'),
         tabBarIcon: ({ tintColor }) => (
-          <Icon name="send" size={32} color={tintColor} />
+          <Icon name="send" size={28} color={tintColor} />
         )
       }
     },
@@ -42,7 +41,9 @@ const AppTab = createBottomTabNavigator(
       screen: EarnStack,
       navigationOptions: {
         tabBarLabel: I18n.t('earn'),
-        tabBarIcon: ({ tintColor }) => <SaveIcon fill={tintColor} />
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="sprout" size={28} color={tintColor} />
+        )
       }
     },
     Swap: {
@@ -50,7 +51,7 @@ const AppTab = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: I18n.t('swap'),
         tabBarIcon: ({ tintColor }) => (
-          <Icon name="swap-horizontal" size={32} color={tintColor} />
+          <Icon name="swap-horizontal" size={28} color={tintColor} />
         )
       }
     },
@@ -58,7 +59,9 @@ const AppTab = createBottomTabNavigator(
       screen: HistoryStack,
       navigationOptions: {
         tabBarLabel: I18n.t('history'),
-        tabBarIcon: ({ tintColor }) => <HistoryIcon fill={tintColor} />
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="script-text-outline" size={28} color={tintColor} />
+        )
       }
     }
   },
@@ -66,8 +69,7 @@ const AppTab = createBottomTabNavigator(
     tabBarOptions: {
       activeTintColor: '#00A3E2',
       style: {
-        height: 60,
-        marginTop: 8
+        height: 56
       },
       labelStyle: {
         fontSize: 12,
@@ -80,7 +82,7 @@ const AppTab = createBottomTabNavigator(
     }
   },
   {
-    initialRouteName: 'Balance'
+    initialRouteName: 'Portfolio'
   }
 );
 

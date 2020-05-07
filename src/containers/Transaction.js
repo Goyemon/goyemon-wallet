@@ -269,7 +269,7 @@ class Transaction extends Component {
         .then((x) => this.recomputeAllTheWeirdoConstsAndStuff(x));
   }
 
-  renderInOrOutTransactionIcon() {
+  renderTransactionIcon() {
     if (this.state.isUniswapTx) {
       return (
         <GoyemonText fontSize={16}>
@@ -285,7 +285,7 @@ class Transaction extends Component {
     )
       return (
         <GoyemonText fontSize={16}>
-          <Icon name="call-made" size={20} color="#F1860E" />
+          <Icon name="arrow-top-right-bold-outline" size={20} color="#F1860E" />
         </GoyemonText>
       );
 
@@ -296,7 +296,7 @@ class Transaction extends Component {
     )
       return (
         <GoyemonText fontSize={16}>
-          <Icon name="call-received" size={20} color="#1BA548" />
+          <Icon name="arrow-bottom-left-bold-outline" size={20} color="#1BA548" />
         </GoyemonText>
       );
 
@@ -310,13 +310,13 @@ class Transaction extends Component {
       else if (this.state.isOutgoingDaiTx)
         return (
           <GoyemonText fontSize={16}>
-            <Icon name="call-made" size={20} color="#F1860E" />
+            <Icon name="arrow-top-right-bold-outline" size={20} color="#F1860E" />
           </GoyemonText>
         );
       else if (this.state.isIncomingDaiTx)
         return (
           <GoyemonText fontSize={16}>
-            <Icon name="call-received" size={20} color="#1BA548" />
+            <Icon name="arrow-bottom-left-bold-outline" size={20} color="#1BA548" />
           </GoyemonText>
         );
     }
@@ -325,13 +325,13 @@ class Transaction extends Component {
       if (this.state.isOutgoingAmeTx)
         return (
           <GoyemonText fontSize={16}>
-            <Icon name="call-made" size={20} color="#F1860E" />
+            <Icon name="arrow-top-right-bold-outline" size={20} color="#F1860E" />
           </GoyemonText>
         );
       else if (this.state.isIncomingAmeTx)
         return (
           <GoyemonText fontSize={16}>
-            <Icon name="call-received" size={20} color="#1BA548" />
+            <Icon name="arrow-bottom-left-bold-outline" size={20} color="#1BA548" />
           </GoyemonText>
         );
     }
@@ -353,14 +353,14 @@ class Transaction extends Component {
     if (this.state.transaction.getFrom() == null || this.state.isOutgoingEthTx)
       return (
         <GoyemonText fontSize={16}>
-          <Icon name="call-made" size={20} color="#F1860E" />
+          <Icon name="arrow-top-right-bold-outline" size={20} color="#F1860E" />
         </GoyemonText>
       );
 
     if (this.state.isIncomingEthTx)
       return (
         <GoyemonText fontSize={16}>
-          <Icon name="call-received" size={20} color="#1BA548" />
+          <Icon name="arrow-bottom-left-bold-outline" size={20} color="#1BA548" />
         </GoyemonText>
       );
   }
@@ -437,7 +437,7 @@ class Transaction extends Component {
     else if (this.state.isCDaiRedeemUnderlyingFailedTx)
       txType = I18n.t('withdraw') + ' ' + I18n.t('history-failed');
 
-    if (txType) return <GoyemonText fontSize="14">{txType}</GoyemonText>;
+    if (txType) return <GoyemonText fontSize={18}>{txType}</GoyemonText>;
 
     if (txType) return <GoyemonText fontSize={18}>{txType}</GoyemonText>;
 
@@ -559,7 +559,7 @@ class Transaction extends Component {
               {roundedEthValue} ETH
             </GoyemonText>
           </SwapValueTextContainer>
-          <Icon name="swap-vertical" size={16} color="#1BA548" />
+          <Icon name="swap-vertical" size={16} color="#5f5f5f" />
           <SwapValueTextContainer>
             <Icon name="plus" size={16} color="#1BA548" />
             <GoyemonText fontSize={16} style={style}>
@@ -653,7 +653,7 @@ class Transaction extends Component {
         >
           <TransactionList>
             <InOrOutTransactionContainer>
-              {this.renderInOrOutTransactionIcon()}
+              {this.renderTransactionIcon()}
             </InOrOutTransactionContainer>
             <TypeTimeContainer>
               <Type>{this.renderType()}</Type>

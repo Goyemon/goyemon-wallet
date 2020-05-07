@@ -1,6 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { connect } from 'react-redux';
 import {
   NavigationActions,
@@ -52,14 +53,14 @@ class TxConfirmationModal extends Component {
       this.props.modal.txConfirmationModalType === 'pool-together-approve'
     ) {
       return (
-        <HeaderFive>{I18n.t('deposit-amount')}</HeaderFive>
+        <HeaderFive width="80%">{I18n.t('deposit-amount')}</HeaderFive>
       );
     } else if (
       this.props.modal.txConfirmationModalType === 'compound-withdraw' ||
       this.props.modal.txConfirmationModalType === 'pool-together-withdraw'
     ) {
       return (
-        <HeaderFive>{I18n.t('withdraw-amount')}</HeaderFive>
+        <HeaderFive width="80%">{I18n.t('withdraw-amount')}</HeaderFive>
       );
     }
   }
@@ -98,11 +99,11 @@ class TxConfirmationModal extends Component {
       return (
         <View>
           <ConfirmationContainer>
-            <HeaderFive>{I18n.t('to')}</HeaderFive>
+            <HeaderFive width="80%">{I18n.t('to')}</HeaderFive>
             <ConfirmationText>
               {outgoingTransactionData.send.toaddress}
             </ConfirmationText>
-            <HeaderFive>{I18n.t('amount')}</HeaderFive>
+            <HeaderFive width="80%">{I18n.t('amount')}</HeaderFive>
             <ConfirmationText>
               {outgoingTransactionData.send.amount} {this.returnCurrency()}
             </ConfirmationText>
@@ -290,11 +291,11 @@ class TxConfirmationModal extends Component {
       return (
         <View>
           <ConfirmationContainer>
-            <HeaderFive>You Pay</HeaderFive>
+            <HeaderFive width="80%">You Pay</HeaderFive>
             <ConfirmationText>
               {outgoingTransactionData.swap.sold} ETH
             </ConfirmationText>
-            <HeaderFive>You Get at Least</HeaderFive>
+            <HeaderFive width="80%">You Get at Least</HeaderFive>
             <ConfirmationText>
               {outgoingTransactionData.swap.minBought.toFixed(4)} DAI
               <SlippageText>
@@ -358,7 +359,7 @@ class TxConfirmationModal extends Component {
                 Confirm Your Transaction
               </HeaderTwo>
             </HeaderContainer>
-            <MondalInner>{this.renderModalContent()}</MondalInner>
+            <ModalInner>{this.renderModalContent()}</ModalInner>
           </ModalBackground>
         </ModalContainer>
       </Modal>
@@ -387,8 +388,8 @@ const ModalContainer = styled.View`
 const ModalBackground = styled.View`
   background-color: #fff;
   border-radius: 16px;
-  height: 50%;
-  min-height: 200px;
+  height: ${hp('40%')};
+  min-height: 400px;
   width: 98%;
 `;
 
@@ -401,7 +402,7 @@ const HeaderContainer = styled.View`
   align-items: center;
 `;
 
-const MondalInner = styled.View`
+const ModalInner = styled.View`
   align-items: center;
   justify-content: center;
   flex: 1;
