@@ -12,6 +12,7 @@ import I18n from '../i18n/I18n';
 import TxStorage from '../lib/tx.js';
 import LogUtilities from '../utilities/LogUtilities';
 import TransactionUtilities from '../utilities/TransactionUtilities';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 class TaiPleaseChangeNameOfThisModal extends Component {
 	constructor(props) {
