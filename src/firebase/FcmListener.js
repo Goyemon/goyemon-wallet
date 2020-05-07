@@ -117,6 +117,7 @@ async function downstreamMessageHandler(type, data) {
 				pooltogether_estimated_interest_rate: new BigNumber(`0x${data.pooltogether_estimated_interest_rate}`).toString(10),
 				pooltogether_committed_drawid: data.pooltogether_committed_drawid,
 				pooltogether_rewarded: data.pooltogether_rewarded,
+				pooltogether_winnings: data.pooltogether_winnings
 			}
 			store.dispatch(savePoolTogetherDaiInfo(pooltogetherDaiInfo));
 			if(stateTree.ReducerPoolTogether.poolTogether.dai.currentCommittedDrawId != '' &&

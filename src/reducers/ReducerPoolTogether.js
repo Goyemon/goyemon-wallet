@@ -33,7 +33,8 @@ const poolTogether = (state = INITIAL_STATE, action) => {
               action.payload.pooltogether_estimated_interest_rate,
             currentCommittedDrawId:
               action.payload.pooltogether_committed_drawid,
-            lastWinner: action.payload.pooltogether_rewarded
+            lastWinner: action.payload.pooltogether_rewarded,
+            winningAmount: action.payload.pooltogether_winnings
           }
         }
       };
