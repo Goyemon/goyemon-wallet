@@ -1,15 +1,11 @@
 'use strict';
 import React, { Component } from 'react';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
 import { withNavigation } from 'react-navigation';
-import {
-  RootContainer,
-  UntouchableCardContainer,
-  HeaderFive,
-  GoyemonText
-} from '../components/common';
-import Countdown from './common/Countdown';
+import { RootContainer, HeaderFive, GoyemonText } from '../components/common';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 
 class PortfolioPoolTogetherCommitted extends Component {
@@ -22,7 +18,9 @@ class PortfolioPoolTogetherCommitted extends Component {
       this.props.poolTogether.dai.committedSupply
     ).div(new RoundDownBigNumber(10).pow(18));
 
-    const chanceOfWinning = ticketsSold.div(pooltogetherDaiCommittedBalance).toFixed(0);
+    const chanceOfWinning = ticketsSold
+      .div(pooltogetherDaiCommittedBalance)
+      .toFixed(0);
 
     const poolBalance = RoundDownBigNumber(
       this.props.poolTogether.dai.totalBalance
@@ -44,52 +42,79 @@ class PortfolioPoolTogetherCommitted extends Component {
 
     return (
       <RootContainer>
-        <UntouchableCardContainer
-          alignItems="center"
-          borderRadius="8"
-          flexDirection="column"
-          height="320px"
-          justifyContent="space-between"
-          marginTop={8}
-          textAlign="left"
-          width="90%"
-        >
-          <CoinImageContainer>
-            <CoinImage source={require('../../assets/dai_icon.png')} />
-            <CoinText>DAI</CoinText>
-          </CoinImageContainer>
-          <HeaderFive>time until the next prize</HeaderFive>
-          <Countdown />
-          <HeaderFive>the pool balance</HeaderFive>
-          <GoyemonText fontSize={14}>{poolBalance} DAI</GoyemonText>
-          <HeaderFive>prize estimated</HeaderFive>
-          <GoyemonText fontSize={14}>{estimatedPrize} DAI</GoyemonText>
-          <HeaderFive>your chance of winning</HeaderFive>
-          <GoyemonText fontSize={14}>1 / {chanceOfWinning} </GoyemonText>
-          <HeaderFive>your balance in a committed draw</HeaderFive>
-          <GoyemonText fontSize={14}>
-            {pooltogetherDaiCommittedBalance.toFixed(0)} DAI
-          </GoyemonText>
-        </UntouchableCardContainer>
+        <PoolTogetherContainer>
+          <RoundInfoContainer>
+            <RoundInfo>
+              <IconContainer>
+                <Icon name="opacity" size={32} color="#5f5f5f" />
+              </IconContainer>
+              <View>
+                <HeaderFive width="100%">pool balance</HeaderFive>
+                <GoyemonText fontSize={14}>{poolBalance} DAI</GoyemonText>
+              </View>
+            </RoundInfo>
+            <RoundInfo>
+              <IconContainer>
+                <Icon name="trophy-outline" size={32} color="#5f5f5f" />
+              </IconContainer>
+              <View>
+                <HeaderFive width="100%">prize estimated</HeaderFive>
+                <GoyemonText fontSize={14}>{estimatedPrize} DAI</GoyemonText>
+              </View>
+            </RoundInfo>
+            <RoundInfo>
+              <IconContainer>
+                <Icon name="circle-slice-1" size={32} color="#5f5f5f" />
+              </IconContainer>
+              <View>
+                <HeaderFive width="100%">chance of winning</HeaderFive>
+                <GoyemonText fontSize={14}>1 / {chanceOfWinning} </GoyemonText>
+              </View>
+            </RoundInfo>
+            <RoundInfo>
+              <IconContainer>
+                <Icon name="account-outline" size={32} color="#5f5f5f" />
+              </IconContainer>
+              <View>
+                <HeaderFive width="100%">your balance</HeaderFive>
+                <GoyemonText fontSize={14}>
+                  {pooltogetherDaiCommittedBalance.toFixed(0)} DAI
+                </GoyemonText>
+              </View>
+            </RoundInfo>
+          </RoundInfoContainer>
+        </PoolTogetherContainer>
       </RootContainer>
     );
   }
 }
 
-const CoinImageContainer = styled.View`
-  align-items: center;
+const PoolTogetherContainer = styled.View`
+  background: #fff;
+  margin: 16px auto;
+  padding: 16px 32px;
+  border-radius: 8;
 `;
 
-const CoinImage = styled.Image`
-  border-radius: 20px;
-  height: 40px;
-  width: 40px;
+const RoundInfoContainer = styled.View`
+  align-items: flex-start;
+  background-color: #fff;
+  border-radius: 8px;
+  flex-direction: column;
+  justify-content: center;
 `;
 
-const CoinText = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 16;
+const RoundInfo = styled.View`
+  align-items: flex-start;
+  background-color: #fff;
+  border-radius: 8px;
+  flex-direction: row;
+  margin-bottom: 12;
+  justify-content: flex-start;
+`;
+
+const IconContainer = styled.View`
+  margin-right: 8;
 `;
 
 const mapStateToProps = (state) => ({
