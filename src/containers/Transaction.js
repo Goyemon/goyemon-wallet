@@ -649,7 +649,7 @@ class Transaction extends Component {
           marginTop="0"
           textAlign="left"
           width="90%"
-          onPress={() => LogUtilities.dumpObject('tx', this.state.transaction)}
+          onPress={() => this.props.onTxTapped(this.state.transaction)}
         >
           <TransactionList>
             <InOrOutTransactionContainer>

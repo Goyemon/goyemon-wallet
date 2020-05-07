@@ -251,6 +251,14 @@ class PersistTxStorageAbstraction {
 	__encodeBucket(ba) {
 		return ba.join(',');
 	}
+	__decodeTx(hash, data) {
+		if (!data)
+			return null;
+
+		data = JSON.parse(data);
+
+		return new Tx(data[7]).setHash(hash).fromDataArray(data, false);
+	}
 
 	async getTxByNum(num, index='all') {
 		const bucket_num = Math.floor(num / storage_bucket_size);
@@ -269,7 +277,7 @@ class PersistTxStorageAbstraction {
 	}
 
 	async getTxByHash(hash) {
-		return await this.__getKey(`${this.prefix}_${hash}`, (data) => { if (!data) return null; data = JSON.parse(data); return new Tx(data[7]).setHash(hash).fromDataArray(data, false); });
+		return await this.__getKey(`${this.prefix}_${hash}`, (data) => this.__decodeTx(hash, data));
 	}
 
 	async getLastTx(index='all') {
@@ -461,6 +469,18 @@ class PersistTxStorageAbstraction {
 		return hashes_in_order;
 	}
 	*/
+
+	async updateTxDataIfExists(hash, tx) {
+		// TODO: does not re-check indices, so be careful if anything can change there.
+
+		const key = `${this.prefix}_${hash}`;
+		if (await this.__getKey(key, (data) => this.__decodeTx(hash, data))) {
+			await this.__setKey(key, tx, JSON.stringify);
+			return true;
+		}
+
+		return false;
+	}
 
 	async appendTx(hash, tx, toplock=false) {
 		// run filters to see which indices this goes in. for each index, append to the last bucket (make sure we create a new one if it spills)
@@ -840,8 +860,6 @@ class PersistTxStorageAbstraction {
 
 
 	async debugDumpAllTxes(index='all') {
-		// const loadTx = (data) => { if (!data) return null; data = JSON.parse(data); return new Tx(data[7]).setHash(hash).fromDataArray(data, false); }
-
 		const bucket_count = Math.floor((this.counts[index] - 1) / storage_bucket_size);
 		const bucketnames = [];
 		for (let i = 0; i <= bucket_count; ++i)
@@ -1269,6 +1287,10 @@ class Tx {
 	getNonce() {
 		return this.nonce;
 	}
+	getGasPrice() {
+		return this.gasPrice;
+	}
+
 
 	toTransactionDict() {
 		return {
@@ -1514,6 +1536,15 @@ class TxStorage {
 			LogUtilities.toDebugScreen(`saveTx(): our_max_nonce changed to ${this.our_max_nonce}`);
 		}
 
+		this.__unlock('txes');
+		this.__onUpdate();
+	}
+
+	async updateTx(tx) { // done when resending
+		await this.__lock('txes');
+		const nonceKey = `${txNoncePrefix}${tx.getNonce()}`;
+		const updated = await this.txes.updateTxDataIfExists(nonceKey, tx);
+		LogUtilities.toDebugScreen(`updateTx(): tx ${updated ? "updated" : "NOT updated"} (key:${nonceKey}): `, tx);
 		this.__unlock('txes');
 		this.__onUpdate();
 	}

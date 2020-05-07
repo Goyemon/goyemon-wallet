@@ -86,8 +86,9 @@ class TransactionList extends Component {
           getItemCount={this.getItemCount.bind(this)}
           renderItem={({ item }) => (
             <Transaction
-              transaction={item}
-              updateCounter={this.state.transactions_update_counter}
+				onTxTapped={this.props.onTxTapped /* TODO: do i need to do it or does this prop propagate to all the children? */}
+				transaction={item}
+				updateCounter={this.state.transactions_update_counter}
             />
           )}
           keyExtractor={(item) => item.index.toString()}
