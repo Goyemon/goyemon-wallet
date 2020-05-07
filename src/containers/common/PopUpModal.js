@@ -4,7 +4,6 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import { Alert, Modal } from 'react-native';
 import styled from 'styled-components/native';
-import { savePopUpModalVisibility } from '../../actions/ActionModal';
 import { RootContainer } from '../../components/common';
 
 class PopUpModal extends Component {
@@ -22,11 +21,7 @@ class PopUpModal extends Component {
           <ModalContainer>
             <ModalBackground>
               <MondalInner>
-                <CloseButton
-                  onPress={() => {
-                    this.props.savePopUpModalVisibility(false);
-                  }}
-                >
+                <CloseButton onPress={this.props.onPress}>
                   <Icon name="close" color="#5F5F5F" size={24} />
                 </CloseButton>
                 {this.props.children}
@@ -73,8 +68,4 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = {
-  savePopUpModalVisibility
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(PopUpModal);
+export default connect(mapStateToProps)(PopUpModal);
