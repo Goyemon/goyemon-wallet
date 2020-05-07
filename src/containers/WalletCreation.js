@@ -186,7 +186,11 @@ class WalletCreation extends Component {
   render() {
     if (this.state.isWalletReady === true) {
       if (!this.state.modalVisible) {
-        this.setState({ modalVisible: true });
+        this.setState({ modalVisible: true }, () => {
+          setTimeout(() => {
+            this.navigateToPortfolioHome();
+          }, 2000);
+        });
       }
     }
 
@@ -216,20 +220,8 @@ class WalletCreation extends Component {
           >
             <ModalBackground>
               <ModalInner>
-                <ModalText>You are all set!</ModalText>
+                <ModalText>Your wallet is ready! 🙌</ModalText>
               </ModalInner>
-              <Button
-                text="High Five! 🙌"
-                textColor="#00A3E2"
-                backgroundColor="#FFF"
-                borderColor="#00A3E2"
-                margin="120px auto"
-                marginBottom="12px"
-                opacity="1"
-                onPress={() => {
-                  this.navigateToPortfolioHome();
-                }}
-              />
             </ModalBackground>
           </Modal>
         </Container>
@@ -239,7 +231,7 @@ class WalletCreation extends Component {
 }
 
 const ModalBackground = styled.View`
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.7);
   height: 100%;
 `;
 
@@ -314,13 +306,10 @@ const ModalInner = styled.View`
 `;
 
 const ModalText = styled.Text`
-  background-color: #fff;
-  border-radius: 8;
+  color: #fff;
   font-family: 'HKGrotesk-Regular';
-  font-size: 18;
-  margin-top: 70%;
-  padding: 8px 24px;
-  text-align: center;
+  font-size: 24;
+  margin-top: 80%;
 `;
 
 function mapStateToProps(state) {
