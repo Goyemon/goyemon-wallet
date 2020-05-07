@@ -93,7 +93,7 @@ class WithdrawDaiFromPoolTogether extends Component {
       .tempSetData(withdrawEncodedABI)
       .addTokenOperation(
         'pooltogether',
-        TxStorage.TxTokenOpTypeToName.PTwdrw,
+        TxStorage.TxTokenOpTypeToName.PTwithdrawn,
         [TxStorage.storage.getOwnAddress(), daiWithdrawAmountWithDecimals]
       );
 

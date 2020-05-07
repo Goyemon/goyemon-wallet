@@ -95,7 +95,7 @@ class DepositFirstDaiToPoolTogether extends Component {
       .tempSetData(depositPoolEncodedABI)
       .addTokenOperation(
         'pooltogether',
-        TxStorage.TxTokenOpTypeToName.PTdep,
+        TxStorage.TxTokenOpTypeToName.PTdepositted,
         [TxStorage.storage.getOwnAddress(), daiAmountWithDecimals]
       );
 

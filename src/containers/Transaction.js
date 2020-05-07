@@ -54,7 +54,7 @@ class Transaction extends Component {
 
         const PTdeps = tx.getTokenOperations(
           'pooltogether',
-          TxStorage.TxTokenOpTypeToName.PTdep
+          TxStorage.TxTokenOpTypeToName.PTdepositted
         );
         newState.isPTdepositTx = PTdeps.length > 0;
         newState.PTdepositValue;
@@ -65,7 +65,7 @@ class Transaction extends Component {
 
         const PTdepcs = tx.getTokenOperations(
           'pooltogether',
-          TxStorage.TxTokenOpTypeToName.PTdepc
+          TxStorage.TxTokenOpTypeToName.PTdeposittedAndCommitted
         );
         newState.isPTdepositTx = PTdepcs.length > 0;
         newState.PTdepositValue;
@@ -76,7 +76,7 @@ class Transaction extends Component {
 
         const PTspdeps = tx.getTokenOperations(
           'pooltogether',
-          TxStorage.TxTokenOpTypeToName.PTspdep
+          TxStorage.TxTokenOpTypeToName.PTsponsorshipDeposited
         );
         newState.isPTdepositTx = PTspdeps.length > 0;
         newState.PTdepositValue;
@@ -87,19 +87,19 @@ class Transaction extends Component {
 
         const PTwdrws = tx.getTokenOperations(
           'pooltogether',
-          TxStorage.TxTokenOpTypeToName.PTwdrw
+          TxStorage.TxTokenOpTypeToName.PTwithdrawn
         );
         const PTopdepwis = tx.getTokenOperations(
           'pooltogether',
-          TxStorage.TxTokenOpTypeToName.PTopdepwi
+          TxStorage.TxTokenOpTypeToName.PTopenDepositWithdrawn
         );
         const PTspafwis = tx.getTokenOperations(
           'pooltogether',
-          TxStorage.TxTokenOpTypeToName.PTspafwi
+          TxStorage.TxTokenOpTypeToName.PTsponsorshipAndFeesWithdrawn
         );
         const PTcodewis = tx.getTokenOperations(
           'pooltogether',
-          TxStorage.TxTokenOpTypeToName.PTcodewi
+          TxStorage.TxTokenOpTypeToName.PTcommittedDepositWithdrawn
         );
 
         newState.isPTwithdrawTx =
@@ -141,7 +141,7 @@ class Transaction extends Component {
 
         const PTrew = tx.getTokenOperations(
           'pooltogether',
-          TxStorage.TxTokenOpTypeToName.PTrew
+          TxStorage.TxTokenOpTypeToName.PTrewarded
         );
         newState.isPTRewardTx = PTrew.length > 0;
         newState.PTrewardValue;

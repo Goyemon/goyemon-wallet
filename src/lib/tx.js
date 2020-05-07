@@ -24,14 +24,14 @@ const TxTokenOpTypeToName = { // names inside txhistory object
 	redeem: 'redeem',
 	eth2tok: 'eth2tok',
 	tok2eth: 'tok2eth',
-	PTdep: 'PTdep',
-	PTdepc: 'PTdepc',
-	PTspdep: 'PTspdep',
-	PTwdrw: 'PTwdrw',
-	PTopdepwi: 'PTopdepwi',
-	PTspafwi: 'PTspafwi',
-	PTcodewi: 'PTcodewi',
-	PTrew: 'PTrew'
+	PTdeposited: 'PTdep',
+	PTdepositedAndCommitted: 'PTdepc',
+	PTsponsorshipDeposited: 'PTspdep',
+	PTwithdrawn: 'PTwdrw',
+	PTopenDepositWithdrawn: 'PTopdepwi',
+	PTsponsorshipAndFeesWithdrawn: 'PTspafwi',
+	PTcommittedDepositWithdrawn: 'PTcodewi',
+	PTrewarded: 'PTrew'
 };
 
 // ========== helper functions ==========
@@ -976,7 +976,7 @@ class TxTokenTok2EthOp extends TxTokenOp {
 	}
 }
 
-class TxTokenPTdepOp extends TxTokenOp {
+class TxTokenPTdepositedOp extends TxTokenOp {
 	constructor (arr) {
 		super();
 		[this.depositor, this.depositPoolAmount] = arr;
@@ -984,11 +984,11 @@ class TxTokenPTdepOp extends TxTokenOp {
 	}
 
 	toJSON() {
-		return { [TxTokenOpTypeToName.PTdep]: [this.depositor, this.depositPoolAmount] };
+		return { [TxTokenOpTypeToName.PTdeposited]: [this.depositor, this.depositPoolAmount] };
 	}
 }
 
-class TxTokenPTdepcOp extends TxTokenOp {
+class TxTokenPTdepositedAndCommittedOp extends TxTokenOp {
 	constructor (arr) {
 		super();
 		[this.depositor, this.depositPoolAmount] = arr;
@@ -996,11 +996,11 @@ class TxTokenPTdepcOp extends TxTokenOp {
 	}
 
 	toJSON() {
-		return { [TxTokenOpTypeToName.PTdepc]: [this.depositor, this.depositPoolAmount] };
+		return { [TxTokenOpTypeToName.PTdepositedAndCommitted]: [this.depositor, this.depositPoolAmount] };
 	}
 }
 
-class TxTokenPTspdepOp extends TxTokenOp {
+class TxTokenPTsponsorshipDepositedOp extends TxTokenOp {
 	constructor (arr) {
 		super();
 		[this.depositor, this.depositPoolAmount] = arr;
@@ -1008,11 +1008,11 @@ class TxTokenPTspdepOp extends TxTokenOp {
 	}
 
 	toJSON() {
-		return { [TxTokenOpTypeToName.PTspdep]: [this.depositor, this.depositPoolAmount] };
+		return { [TxTokenOpTypeToName.PTsponsorshipDeposited]: [this.depositor, this.depositPoolAmount] };
 	}
 }
 
-class TxTokenPTwdrwOp extends TxTokenOp {
+class TxTokenPTwithdrawnOp extends TxTokenOp {
 	constructor (arr) {
 		super();
 		[this.withdrawer, this.withdrawAmount] = arr;
@@ -1020,11 +1020,11 @@ class TxTokenPTwdrwOp extends TxTokenOp {
 	}
 
 	toJSON() {
-		return { [TxTokenOpTypeToName.PTwdrw]: [this.withdrawer, this.withdrawAmount] };
+		return { [TxTokenOpTypeToName.PTwithdrawn]: [this.withdrawer, this.withdrawAmount] };
 	}
 }
 
-class TxTokenPTopdepwiOp extends TxTokenOp {
+class TxTokenPTopenDepositWithdrawnOp extends TxTokenOp {
 	constructor (arr) {
 		super();
 		[this.withdrawer, this.withdrawAmount] = arr;
@@ -1032,11 +1032,11 @@ class TxTokenPTopdepwiOp extends TxTokenOp {
 	}
 
 	toJSON() {
-		return { [TxTokenOpTypeToName.PTopdepwi]: [this.withdrawer, this.withdrawAmount] };
+		return { [TxTokenOpTypeToName.PTopenDepositWithdrawn]: [this.withdrawer, this.withdrawAmount] };
 	}
 }
 
-class TxTokenPTspafwiOp extends TxTokenOp {
+class TxTokenPTsponsorshipAndFeesWithdrawnOp extends TxTokenOp {
 	constructor (arr) {
 		super();
 		[this.withdrawer, this.withdrawAmount] = arr;
@@ -1044,11 +1044,11 @@ class TxTokenPTspafwiOp extends TxTokenOp {
 	}
 
 	toJSON() {
-		return { [TxTokenOpTypeToName.PTspafwi]: [this.withdrawer, this.withdrawAmount] };
+		return { [TxTokenOpTypeToName.PTsponsorshipAndFeesWithdrawn]: [this.withdrawer, this.withdrawAmount] };
 	}
 }
 
-class TxTokenPTcodewiOp extends TxTokenOp {
+class TxTokenPTcommittedDepositWithdrawnOp extends TxTokenOp {
 	constructor (arr) {
 		super();
 		[this.withdrawer, this.withdrawAmount] = arr;
@@ -1056,11 +1056,11 @@ class TxTokenPTcodewiOp extends TxTokenOp {
 	}
 
 	toJSON() {
-		return { [TxTokenOpTypeToName.PTcodewi]: [this.withdrawer, this.withdrawAmount] };
+		return { [TxTokenOpTypeToName.PTcommittedDepositWithdrawn]: [this.withdrawer, this.withdrawAmount] };
 	}
 }
 
-class TxTokenPTrewOp extends TxTokenOp {
+class TxTokenPTrewardedOp extends TxTokenOp {
 	constructor (arr) {
 		super();
 		[this.winner, this.winnings] = arr;
@@ -1068,7 +1068,7 @@ class TxTokenPTrewOp extends TxTokenOp {
 	}
 
 	toJSON() {
-		return { [TxTokenOpTypeToName.PTrew]: [this.winner, this.winnings] };
+		return { [TxTokenOpTypeToName.PTrewarded]: [this.winner, this.winnings] };
 	}
 }
 
@@ -1103,14 +1103,14 @@ const TxTokenOpNameToClass = { // name -> tokenop storage class
 	[TxTokenOpTypeToName.redeem]: TxTokenRedeemOp,
 	[TxTokenOpTypeToName.eth2tok]: TxTokenEth2TokOp,
 	[TxTokenOpTypeToName.tok2eth]: TxTokenTok2EthOp,
-	[TxTokenOpTypeToName.PTdep]: TxTokenPTdepOp,
-	[TxTokenOpTypeToName.PTdepc]: TxTokenPTdepcOp,
-	[TxTokenOpTypeToName.PTspdep]: TxTokenPTspdepOp,
-	[TxTokenOpTypeToName.PTwdrw]: TxTokenPTwdrwOp,
-	[TxTokenOpTypeToName.PTopdepwi]: TxTokenPTopdepwiOp,
-	[TxTokenOpTypeToName.PTspafwi]: TxTokenPTspafwiOp,
-	[TxTokenOpTypeToName.PTcodewi]: TxTokenPTcodewiOp,
-	[TxTokenOpTypeToName.PTrew]: TxTokenPTrewOp
+	[TxTokenOpTypeToName.PTdeposited]: TxTokenPTdepositedOp,
+	[TxTokenOpTypeToName.PTdepositedAndCommitted]: TxTokenPTdepositedAndCommittedOp,
+	[TxTokenOpTypeToName.PTsponsorshipDeposited]: TxTokenPTsponsorshipDepositedOp,
+	[TxTokenOpTypeToName.PTwithdrawn]: TxTokenPTwithdrawnOp,
+	[TxTokenOpTypeToName.PTopenDepositWithdrawn]: TxTokenPTopenDepositWithdrawnOp,
+	[TxTokenOpTypeToName.PTsponsorshipAndFeesWithdrawn]: TxTokenPTsponsorshipAndFeesWithdrawnOp,
+	[TxTokenOpTypeToName.PTcommittedDepositWithdrawn]: TxTokenPTcommittedDepositWithdrawnOp,
+	[TxTokenOpTypeToName.PTrewarded]: TxTokenPTrewardedOp
 }
 
 class Tx {
@@ -1464,28 +1464,28 @@ class TxStorage {
 	}
 
 	txfilter_isRelevantToDai(tx) {
-		if (tx.hasTokenOperations('dai'))
-			return true;
+		return	tx.hasTokenOperations('dai')
 
-		if (tx.hasTokenOperations('cdai'))
-			return tx.hasTokenOperation('cdai', TxTokenOpTypeToName.mint) ||
-				tx.hasTokenOperation('cdai', TxTokenOpTypeToName.redeem) ||
-				tx.hasTokenOperation('cdai', TxTokenOpTypeToName.failure);
+				|| (tx.hasTokenOperations('cdai') &&
+					(tx.hasTokenOperation('cdai', TxTokenOpTypeToName.mint) ||
+					tx.hasTokenOperation('cdai', TxTokenOpTypeToName.redeem) ||
+					tx.hasTokenOperation('cdai', TxTokenOpTypeToName.failure)))
 
-		if (tx.hasTokenOperations('uniswap'))
-			return tx.hasTokenOperation('uniswap', TxTokenOpTypeToName.eth2tok) ||
-				tx.hasTokenOperation('uniswap', TxTokenOpTypeToName.tok2eth);
+				|| (tx.hasTokenOperations('uniswap') &&
+					(tx.hasTokenOperation('uniswap', TxTokenOpTypeToName.eth2tok) ||
+					tx.hasTokenOperation('uniswap', TxTokenOpTypeToName.tok2eth)))
 
-		if (tx.hasTokenOperations('pooltogether'))
-		return tx.hasTokenOperation('pooltogether', TxTokenOpTypeToName.PTdep) ||
-		tx.hasTokenOperation('pooltogether', TxTokenOpTypeToName.PTdepc) ||
-		tx.hasTokenOperation('pooltogether', TxTokenOpTypeToName.PTspdep) ||
-		tx.hasTokenOperation('pooltogether', TxTokenOpTypeToName.PTwdrw) ||
-		tx.hasTokenOperation('pooltogether', TxTokenOpTypeToName.PTopdepwi) ||
-		tx.hasTokenOperation('pooltogether', TxTokenOpTypeToName.PTspafwi) ||
-		tx.hasTokenOperation('pooltogether', TxTokenOpTypeToName.PTcodewi) ||
-		tx.hasTokenOperation('pooltogether', TxTokenOpTypeToName.PTrew) 
-		return false;
+				|| (tx.hasTokenOperations('pooltogether') &&
+					(tx.hasTokenOperation('pooltogether', TxTokenOpTypeToName.PTdeposited) ||
+					tx.hasTokenOperation('pooltogether', TxTokenOpTypeToName.PTdepositedAndCommitted) ||
+					tx.hasTokenOperation('pooltogether', TxTokenOpTypeToName.PTsponsorshipDeposited) ||
+					tx.hasTokenOperation('pooltogether', TxTokenOpTypeToName.PTwithdrawn) ||
+					tx.hasTokenOperation('pooltogether', TxTokenOpTypeToName.PTopenDepositWithdrawn) ||
+					tx.hasTokenOperation('pooltogether', TxTokenOpTypeToName.PTsponsorshipAndFeesWithdrawn) ||
+					tx.hasTokenOperation('pooltogether', TxTokenOpTypeToName.PTcommittedDepositWithdrawn) ||
+					tx.hasTokenOperation('pooltogether', TxTokenOpTypeToName.PTrewarded)));
+
+		// return false;
 	}
 
 	txfilter_ourDAIForCDAIApprovals(tx) {
@@ -1710,13 +1710,13 @@ class TxStorage {
 		if (!this._isDAIApprovedForPT_cached) {
 			const last_odpta_tx = await this.txes.getLastTx('odpta');
 			this._isDAIApprovedForPT_cached = !!last_odpta_tx && last_odpta_tx.getTokenOperations('dai', TxTokenOpTypeToName.approval).some(
-				x => (x.amount == "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")			
+				x => (x.amount == "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")
 			);
 		}
 
 		return this._isDAIApprovedForPT_cached;
 	}
-	
+
 	async getVerificationData() {
 		return await this.getVerificationDataXOR();
 	}
