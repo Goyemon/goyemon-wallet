@@ -1,15 +1,17 @@
 'use strict';
 import React, { Component } from 'react';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
 import { withNavigation } from 'react-navigation';
 import {
   RootContainer,
-  UntouchableCardContainer,
   HeaderFive,
-  GoyemonText
+  GoyemonText,
+  Button
 } from '../components/common';
-import Countdown from './common/Countdown';
+import I18n from '../i18n/I18n';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 
 class PortfolioPoolTogetherOpen extends Component {
@@ -22,44 +24,61 @@ class PortfolioPoolTogetherOpen extends Component {
 
     return (
       <RootContainer>
-        <UntouchableCardContainer
-          alignItems="center"
-          borderRadius="8"
-          flexDirection="column"
-          height="320px"
-          justifyContent="space-between"
-          marginTop={8}
-          textAlign="left"
-          width="90%"
-        >
-          <CoinImageContainer>
-            <CoinImage source={require('../../assets/dai_icon.png')} />
-            <CoinText>DAI</CoinText>
-          </CoinImageContainer>
-          <HeaderFive>time until the open round ends</HeaderFive>
-          <Countdown />
-          <HeaderFive>your balance in an open draw</HeaderFive>
-          <GoyemonText fontSize={14}>{pooltogetherDaiOpenBalance} DAI</GoyemonText>
-        </UntouchableCardContainer>
+        <PoolTogetherContainer>
+          <RoundInfoContainer>
+            <IconContainer>
+              <Icon name="account-outline" size={32} color="#5f5f5f" />
+            </IconContainer>
+            <View>
+              <HeaderFive width="100%">your balance</HeaderFive>
+              <GoyemonText fontSize={14}>
+                {pooltogetherDaiOpenBalance} DAI
+              </GoyemonText>
+            </View>
+          </RoundInfoContainer>
+        </PoolTogetherContainer>
+        <ButtonContainer>
+          <Button
+            text={I18n.t('deposit')}
+            textColor="#00A3E2"
+            backgroundColor="#FFF"
+            borderColor="#00A3E2"
+            margin="8px auto"
+            marginBottom="12px"
+            opacity="1"
+            onPress={async () => {
+              this.props.navigation.navigate('DepositDaiToPoolTogether');
+            }}
+          />
+        </ButtonContainer>
       </RootContainer>
     );
   }
 }
 
-const CoinImageContainer = styled.View`
+const PoolTogetherContainer = styled.View`
+  background: #fff;
+  margin: 16px auto;
+  padding: 16px 32px;
+  border-radius: 8;
+`;
+
+const RoundInfoContainer = styled.View`
   align-items: center;
+  background-color: #fff;
+  border-radius: 8px;
+  flex-direction: row;
+  justify-content: center;
 `;
 
-const CoinImage = styled.Image`
-  border-radius: 20px;
-  height: 40px;
-  width: 40px;
+const IconContainer = styled.View`
+  margin-right: 8;
 `;
 
-const CoinText = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 16;
+const ButtonContainer = styled.View`
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 16;
 `;
 
 const mapStateToProps = (state) => ({
