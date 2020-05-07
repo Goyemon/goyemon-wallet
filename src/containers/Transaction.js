@@ -54,7 +54,7 @@ class Transaction extends Component {
 
         const PTdeps = tx.getTokenOperations(
           'pooltogether',
-          TxStorage.TxTokenOpTypeToName.PTdepositted
+          TxStorage.TxTokenOpTypeToName.PTdeposited
         );
         newState.isPTdepositTx = PTdeps.length > 0;
         newState.PTdepositValue;
@@ -65,7 +65,7 @@ class Transaction extends Component {
 
         const PTdepcs = tx.getTokenOperations(
           'pooltogether',
-          TxStorage.TxTokenOpTypeToName.PTdeposittedAndCommitted
+          TxStorage.TxTokenOpTypeToName.PTdepositedAndCommitted
         );
         newState.isPTdepositTx = PTdepcs.length > 0;
         newState.PTdepositValue;
