@@ -119,7 +119,8 @@ async function downstreamMessageHandler(type, data) {
 				pooltogether_rewarded: data.pooltogether_rewarded,
 			}
 			store.dispatch(savePoolTogetherDaiInfo(pooltogetherDaiInfo));
-			if(stateTree.ReducerPoolTogether.poolTogether.dai.currentCommittedDrawId != data.pooltogether_committed_drawid) {
+			if(stateTree.ReducerPoolTogether.poolTogether.dai.currentCommittedDrawId != '' &&
+			stateTree.ReducerPoolTogether.poolTogether.dai.currentCommittedDrawId != data.pooltogether_committed_drawid) {
 				store.dispatch(movePoolTogetherDaiBalance());
 				store.dispatch(togglePoolTogetherWinnerRevealed(false));
 			}
