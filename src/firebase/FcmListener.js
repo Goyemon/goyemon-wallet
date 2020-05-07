@@ -12,7 +12,7 @@ import {
 import {
   saveCompoundDaiInfo
 } from '../actions/ActionCompound';
-import { savePoolTogetherDaiInfo } from '../actions/ActionPoolTogether';
+import { savePoolTogetherDaiInfo, togglePoolTogetherWinnerRevealed } from '../actions/ActionPoolTogether';
 import { saveDaiExchangeReserve } from '../actions/ActionUniswap';
 import {
   saveTransactionsLoaded
@@ -121,6 +121,7 @@ async function downstreamMessageHandler(type, data) {
 			store.dispatch(savePoolTogetherDaiInfo(pooltogetherDaiInfo));
 			if(stateTree.ReducerPoolTogether.poolTogether.dai.currentCommittedDrawId != data.pooltogether_committed_drawid) {
 				store.dispatch(movePoolTogetherDaiBalance());
+				store.dispatch(togglePoolTogetherWinnerRevealed(false));
 			}
 			break;
 
