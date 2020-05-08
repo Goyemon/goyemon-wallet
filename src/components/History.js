@@ -30,11 +30,14 @@ class TaiPleaseChangeNameOfThisModal extends Component {
 
 	async resendTx() {
 		// update gas
-		const newTx = this.state.txToUpdate.clone();
+		const newTx = this.state.txToUpdate.deepClone();
 		newTx.setGasPrice(TransactionUtilities.returnTransactionSpeed(2).toString(16));
 
-		if (await TxStorage.storage.updateTx(newTx))
-			await TransactionUtilities.sendTransactionToServer(newTx);
+		await TxStorage.storage.updateTx(newTx); // temporarily no if
+		await TransactionUtilities.sendTransactionToServer(newTx);
+
+		// if (await TxStorage.storage.updateTx(newTx))
+		// 	await TransactionUtilities.sendTransactionToServer(newTx);
 	}
 
 
