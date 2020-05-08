@@ -116,13 +116,16 @@ class AdvancedContainer extends Component {
               </NetworkFee>
             ))}
           </Container>
-          <MenuContainer
-            onPress={() => {
-              this.setState({ showAdvanced: false });
-            }}
-          >
-            <Icon name="menu-up" color="#000" size={32} />
-          </MenuContainer>
+          {!this.props.expandByDefault ?
+		  	<MenuContainer
+            	onPress={() => {
+              		this.setState({ showAdvanced: false });
+            	}}
+          	>
+            	<Icon name="menu-up" color="#000" size={32} />
+          	</MenuContainer>
+			:
+			null}
         </View>
       );
     } else {

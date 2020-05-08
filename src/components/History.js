@@ -59,7 +59,7 @@ class TaiPleaseChangeNameOfThisModal extends Component {
 								<Icon name="chevron-down" color="#5F5F5F" size={24} />
 							</CloseButton>
 							<HeaderOne marginTop="64">I like pancakes; current gas price: {this.state.txToUpdate.getGasPrice()}</HeaderOne>
-							<AdvancedContainer gasLimit={this.state.txToUpdate.getGas()} expandByDefault={true} />
+							<AdvancedContainer gasLimit={parseInt(this.state.txToUpdate.getGas(), 16)} expandByDefault={true} />
 							<TxConfirmationButton
 								text={"Resend (needs i18n)"}
 								disabled={false}
