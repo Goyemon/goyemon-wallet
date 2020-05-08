@@ -44,9 +44,8 @@ const ModalContainer = styled.View`
 const ModalBackground = styled.View`
   background-color: #f8f8f8;
   border-radius: 16px;
-  height: 40%;
-  min-height: 320px
-  margin-top: 80;
+  margin-top: 40%;
+  max-height: 40%;
   width: 90%;
 `;
 
@@ -60,6 +59,7 @@ const MondalInner = styled.View`
 
 const CloseButton = styled.TouchableOpacity`
   margin-left: 16;
+  margin-top: 16;
 `;
 
 function mapStateToProps(state) {

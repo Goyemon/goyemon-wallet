@@ -27,7 +27,7 @@ class PortfolioPoolTogetherOpen extends Component {
         <PoolTogetherContainer>
           <RoundInfoContainer>
             <IconContainer>
-              <Icon name="account-outline" size={32} color="#5f5f5f" />
+              <CoinImage source={require('../../assets/dai_icon.png')} />
             </IconContainer>
             <View>
               <HeaderFive width="100%">your balance</HeaderFive>
@@ -73,6 +73,12 @@ const RoundInfoContainer = styled.View`
 
 const IconContainer = styled.View`
   margin-right: 8;
+`;
+
+const CoinImage = styled.Image`
+  border-radius: 20px;
+  height: 32px;
+  width: 32px;
 `;
 
 const ButtonContainer = styled.View`

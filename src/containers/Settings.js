@@ -274,7 +274,6 @@ const ResetWalletHeader = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Bold';
   font-size: 24;
-  margin-top: 16;
   text-align: center;
 `;
 

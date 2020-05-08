@@ -248,7 +248,7 @@ const FilterContainer = styled.View`
   margin: 0 auto;
   margin-top: 16;
   margin-bottom: 12;
-  width: 70%;
+  width: 80%;
 `;
 
 const FilterChoiceContainer = styled.View`
