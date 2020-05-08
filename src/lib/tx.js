@@ -1290,6 +1290,9 @@ class Tx {
 	getGasPrice() {
 		return this.gasPrice;
 	}
+	getGas() {
+		return this.gas;
+	}
 
 
 	toTransactionDict() {
@@ -1546,7 +1549,9 @@ class TxStorage {
 		const updated = await this.txes.updateTxDataIfExists(nonceKey, tx);
 		LogUtilities.toDebugScreen(`updateTx(): tx ${updated ? "updated" : "NOT updated"} (key:${nonceKey}): `, tx);
 		this.__unlock('txes');
-		this.__onUpdate();
+		if (updated)
+			this.__onUpdate();
+		return updated;
 	}
 
 	async parseTxHistory(histObj) {

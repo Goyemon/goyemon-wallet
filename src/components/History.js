@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, Modal, Alert } from 'react-native';
 import styled from 'styled-components';
-import { HeaderOne } from '../components/common/';
+import { HeaderOne, TxConfirmationButton } from '../components/common/';
 // TODO: git rm those two:
 //import Transactions from '../containers/Transactions';
 //import TransactionsDai from '../containers/TransactionsDai';
@@ -13,6 +13,7 @@ import TxStorage from '../lib/tx.js';
 import LogUtilities from '../utilities/LogUtilities';
 import TransactionUtilities from '../utilities/TransactionUtilities';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import AdvancedContainer from '../containers/common/AdvancedContainer';
 
 class TaiPleaseChangeNameOfThisModal extends Component {
 	constructor(props) {
@@ -27,37 +28,46 @@ class TaiPleaseChangeNameOfThisModal extends Component {
 			this.setState({ txToUpdate: this.props.txToUpdate });
 	  }
 
-	resendTx() {
+	async resendTx() {
 		// update gas
-		const newTx = this.txToUpdate.clone();
+		const newTx = this.state.txToUpdate.clone();
 		newTx.setGasPrice(TransactionUtilities.returnTransactionSpeed(2).toString(16));
 
-		TransactionUtilities.sendTransactionToServer(newTx);
-		TxStorage.storage.updateTx(newTx);
+		if (await TxStorage.storage.updateTx(newTx))
+			await TransactionUtilities.sendTransactionToServer(newTx);
 	}
 
 
 
 	render() {
-		return (
-			<Modal
-				animationType="slide"
-				transparent
-				visible={this.props.txToUpdate != null}
-				onRequestClose={() => {
-					Alert.alert('Modal has been closed.');
-				}}
-			>
-				<ModalContainer>
-					<ModalBackground>
-						<CloseButton onPress={() => { this.props.onClose(); }}>
-							<Icon name="chevron-down" color="#5F5F5F" size={24} />
-						</CloseButton>
-						<HeaderOne marginTop="64">I like pancakes; current gas price: {this.state.txToUpdate ? this.state.txToUpdate.getGasPrice() : '???'}</HeaderOne>
-					</ModalBackground>
-				</ModalContainer>
-			</Modal>
-		);
+		if (this.state.txToUpdate != null)
+			return (
+				<Modal
+					animationType="slide"
+					transparent
+					visible={true}
+					onRequestClose={() => {
+						Alert.alert('Modal has been closed.');
+					}}
+				>
+					<ModalContainer>
+						<ModalBackground>
+							<CloseButton onPress={() => { this.props.onClose(); }}>
+								<Icon name="chevron-down" color="#5F5F5F" size={24} />
+							</CloseButton>
+							<HeaderOne marginTop="64">I like pancakes; current gas price: {this.state.txToUpdate.getGasPrice()}</HeaderOne>
+							<AdvancedContainer gasLimit={this.state.txToUpdate.getGas()} expandByDefault={true} />
+							<TxConfirmationButton
+								text={"Resend (needs i18n)"}
+								disabled={false}
+								onPress={this.resendTx.bind(this)}
+							/>
+						</ModalBackground>
+					</ModalContainer>
+				</Modal>
+			);
+
+		return null;
 	}
 }
 
@@ -82,7 +92,7 @@ const CloseButton = styled.TouchableOpacity`
 `;
 
 
-class History extends Component {
+export default class History extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -171,6 +181,3 @@ const FilterChoiceTextUnselected = styled.Text`
   opacity: 0.4;
   text-transform: uppercase;
 `;
-
-// Redux sucks. Just sayin'.
-export default History;

@@ -58,7 +58,7 @@ class AdvancedContainer extends Component {
 
   renderAdvancedContainer() {
     const { gasPrice, gasChosen, gasLimit } = this.props;
-    if (this.state.showAdvanced) {
+    if (this.state.showAdvanced || this.props.expandByDefault) {
       return (
         <View>
           {this.renderSlippageContainer()}
@@ -125,7 +125,7 @@ class AdvancedContainer extends Component {
           </MenuContainer>
         </View>
       );
-    } else if (!this.state.showAdvanced) {
+    } else {
       return (
         <MenuContainer
           onPress={() => {
