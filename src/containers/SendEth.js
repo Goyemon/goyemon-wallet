@@ -21,7 +21,7 @@ import {
   IsOnlineMessage,
   TxNextButton
 } from '../components/common';
-import AdvancedContainer from '../containers/common/AdvancedContainer';
+import { AdvancedContainer } from '../containers/common/AdvancedContainer';
 import TxConfirmationModal from '../containers/common/TxConfirmationModal';
 import I18n from '../i18n/I18n';
 import SendStack from '../navigators/SendStack';

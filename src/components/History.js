@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { TouchableOpacity, Modal, Alert } from 'react-native';
+import { TouchableOpacity, Modal, View } from 'react-native';
 import styled from 'styled-components';
 import { HeaderOne, TxConfirmationButton } from '../components/common/';
 // TODO: git rm those two:
@@ -13,7 +13,7 @@ import TxStorage from '../lib/tx.js';
 import LogUtilities from '../utilities/LogUtilities';
 import TransactionUtilities from '../utilities/TransactionUtilities';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import AdvancedContainer from '../containers/common/AdvancedContainer';
+import { TxSpeedSelectionContainer } from '../containers/common/AdvancedContainer';
 
 class TaiPleaseChangeNameOfThisModal extends Component {
 	constructor(props) {
@@ -51,12 +51,19 @@ class TaiPleaseChangeNameOfThisModal extends Component {
 							<CloseButton onPress={() => { this.props.onClose(); }}>
 								<Icon name="chevron-down" color="#5F5F5F" size={24} />
 							</CloseButton>
-							<HeaderOne marginTop="64">I like pancakes; current gas price: {this.state.txToUpdate.getGasPrice()}</HeaderOne>
-							<AdvancedContainer gasLimit={parseInt(this.state.txToUpdate.getGas(), 16)} expandByDefault={true} />
-							<Text>But do pancakes like me?</Text>
+							<View>
+								<TxSpeedSelectionContainer gasLimit={parseInt(this.state.txToUpdate.getGas(), 16)} expandByDefault={true} />
+							</View>
 							<TxConfirmationButton
 								text={"Resend (needs i18n)"}
-								disabled={false}
+								onPress={this.resendTx.bind(this)}
+							/>
+							<TxConfirmationButton
+								text={"Resend again"}
+								onPress={this.resendTx.bind(this)}
+							/>
+							<TxConfirmationButton
+								text={"Derp"}
 								onPress={this.resendTx.bind(this)}
 							/>
 						</ModalBackground>
@@ -79,7 +86,6 @@ const ModalContainer = styled.View`
 const ModalBackground = styled.View`
 	background-color: #fff;
 	border-radius: 16px;
-	height: 50%;
 	min-height: 200px;
 	width: 98%;
 `;
