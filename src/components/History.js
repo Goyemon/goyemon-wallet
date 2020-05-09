@@ -45,14 +45,7 @@ class TaiPleaseChangeNameOfThisModal extends Component {
 	render() {
 		if (this.state.txToUpdate != null)
 			return (
-				<Modal
-					animationType="slide"
-					transparent
-					visible={true}
-					onRequestClose={() => {
-						Alert.alert('Modal has been closed.');
-					}}
-				>
+				<Modal animationType="slide" transparent visible={true}>
 					<ModalContainer>
 						<ModalBackground>
 							<CloseButton onPress={() => { this.props.onClose(); }}>
@@ -60,6 +53,7 @@ class TaiPleaseChangeNameOfThisModal extends Component {
 							</CloseButton>
 							<HeaderOne marginTop="64">I like pancakes; current gas price: {this.state.txToUpdate.getGasPrice()}</HeaderOne>
 							<AdvancedContainer gasLimit={parseInt(this.state.txToUpdate.getGas(), 16)} expandByDefault={true} />
+							<Text>But do pancakes like me?</Text>
 							<TxConfirmationButton
 								text={"Resend (needs i18n)"}
 								disabled={false}

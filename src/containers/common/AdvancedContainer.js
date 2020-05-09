@@ -117,24 +117,15 @@ class AdvancedContainer extends Component {
             ))}
           </Container>
           {!this.props.expandByDefault ?
-		  	<MenuContainer
-            	onPress={() => {
-              		this.setState({ showAdvanced: false });
-            	}}
-          	>
+		  	<MenuContainer onPress={() => { this.setState({ showAdvanced: false }); }}>
             	<Icon name="menu-up" color="#000" size={32} />
           	</MenuContainer>
-			:
-			null}
+			: null}
         </View>
       );
     } else {
       return (
-        <MenuContainer
-          onPress={() => {
-            this.setState({ showAdvanced: true });
-          }}
-        >
+        <MenuContainer onPress={() => { this.setState({ showAdvanced: true }); }}>
           <GoyemonText fontSize={14}>{I18n.t('advanced')}</GoyemonText>
           <Icon name="menu-down" color="#000" size={32} />
         </MenuContainer>
