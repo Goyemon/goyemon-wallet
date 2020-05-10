@@ -56,34 +56,34 @@ class Transaction extends Component {
           'pooltogether',
           TxStorage.TxTokenOpTypeToName.PTdeposited
         );
-        newState.isPTdepositTx = PTdeps.length > 0;
-        newState.PTdepositValue;
-        if (newState.isPTdepositTx)
-          newState.PTdepositValue = TransactionUtilities.parseHexDaiValue(
-            `0x${PTdeps[0].depositPoolAmount}`
-          );
-
         const PTdepcs = tx.getTokenOperations(
           'pooltogether',
           TxStorage.TxTokenOpTypeToName.PTdepositedAndCommitted
         );
-        newState.isPTdepositTx = PTdepcs.length > 0;
-        newState.PTdepositValue;
-        if (newState.isPTdepositTx)
-          newState.PTdepositValue = TransactionUtilities.parseHexDaiValue(
-            `0x${PTdepcs[0].depositPoolAmount}`
-          );
-
         const PTspdeps = tx.getTokenOperations(
           'pooltogether',
           TxStorage.TxTokenOpTypeToName.PTsponsorshipDeposited
         );
-        newState.isPTdepositTx = PTspdeps.length > 0;
-        newState.PTdepositValue;
-        if (newState.isPTdepositTx)
-          newState.PTdepositValue = TransactionUtilities.parseHexDaiValue(
-            `0x${PTspdeps[0].depositPoolAmount}`
-          );
+
+        newState.isPTdepositTx =
+          PTdeps.length > 0 || PTdepcs.length > 0 || PTspdeps.length > 0;
+
+        newState.PTdepositValue = 0;
+        if (newState.isPTdepositTx) {
+          if (PTdeps.length > 0) {
+            newState.PTdepositValue = TransactionUtilities.parseHexDaiValue(
+              `0x${PTdeps[0].depositPoolAmount}`
+            );
+          } else if (PTdepcs.length > 0) {
+            newState.PTdepositValue = TransactionUtilities.parseHexDaiValue(
+              `0x${PTdepcs[0].depositPoolAmount}`
+            );
+          } else if (PTspdeps.length > 0) {
+            newState.PTdepositValue = TransactionUtilities.parseHexDaiValue(
+              `0x${PTspdeps[0].depositPoolAmount}`
+            );
+          }
+        }
 
         const PTwdrws = tx.getTokenOperations(
           'pooltogether',
