@@ -19,11 +19,11 @@ class PopUpModal extends Component {
           }}
         >
           <ModalContainer>
-            <ModalBackground>
-              <MondalInner>
-                <CloseButton onPress={this.props.onPress}>
+            <ModalBackground maxHeight={this.props.maxHeight}>
+            <CloseButton onPress={this.props.onPress}>
                   <Icon name="close" color="#5F5F5F" size={24} />
                 </CloseButton>
+              <MondalInner>
                 {this.props.children}
               </MondalInner>
             </ModalBackground>
@@ -45,12 +45,12 @@ const ModalBackground = styled.View`
   background-color: #f8f8f8;
   border-radius: 16px;
   margin-top: 40%;
-  max-height: 40%;
+  max-height: ${(props) => props.maxHeight};
   width: 90%;
 `;
 
 const MondalInner = styled.View`
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
   flex: 1;
   flex-direction: column;
@@ -58,6 +58,7 @@ const MondalInner = styled.View`
 `;
 
 const CloseButton = styled.TouchableOpacity`
+  align-items: flex-start;
   margin-left: 16;
   margin-top: 16;
 `;
