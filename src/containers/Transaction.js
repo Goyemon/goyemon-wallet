@@ -1,7 +1,7 @@
 'use strict';
 import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import { View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
@@ -25,7 +25,7 @@ class Transaction extends Component {
   }
 
   recomputeAllTheWeirdoConstsAndStuff(tx) {
-    const { checksumAddress } = this.props;
+    const { ourAddress } = this.props;
     let newState = {};
 
     if (tx instanceof TxStorage.Tx) {
@@ -206,10 +206,10 @@ class Transaction extends Component {
             `0x${ameTrs[0].amount}`
           );
           newState.isOutgoingAmeTx = ameTrs.some(
-            (x) => Web3.utils.toChecksumAddress(x.from_addr) === checksumAddress
+            (x) => Web3.utils.toChecksumAddress(x.from_addr) === ourAddress
           );
           newState.isIncomingAmeTx = ameTrs.some(
-            (x) => Web3.utils.toChecksumAddress(x.to_addr) === checksumAddress
+            (x) => Web3.utils.toChecksumAddress(x.to_addr) === ourAddress
           );
         }
 
@@ -226,18 +226,18 @@ class Transaction extends Component {
             `0x${daiTrs[0].amount}`
           );
           newState.isOutgoingDaiTx = daiTrs.some(
-            (x) => Web3.utils.toChecksumAddress(x.from_addr) === checksumAddress
+            (x) => Web3.utils.toChecksumAddress(x.from_addr) === ourAddress
           );
           newState.isIncomingDaiTx = daiTrs.some(
-            (x) => Web3.utils.toChecksumAddress(x.to_addr) === checksumAddress
+            (x) => Web3.utils.toChecksumAddress(x.to_addr) === ourAddress
           );
         }
 
         if (tx.getFrom() != null && tx.getTo() != null) {
           newState.isOutgoingEthTx =
-            Web3.utils.toChecksumAddress(tx.getFrom()) === checksumAddress;
+            Web3.utils.toChecksumAddress(tx.getFrom()) === ourAddress;
           newState.isIncomingEthTx =
-            Web3.utils.toChecksumAddress(tx.getTo()) === checksumAddress;
+            Web3.utils.toChecksumAddress(tx.getTo()) === ourAddress;
         }
       } catch (e) {
         newState.derpbugexception = `Transaction() exception: ${e.message} @ ${
@@ -437,9 +437,9 @@ class Transaction extends Component {
     else if (this.state.isCDaiRedeemUnderlyingFailedTx)
       txType = I18n.t('withdraw') + ' ' + I18n.t('history-failed');
 
-    if (txType) return <GoyemonText fontSize={18}>{txType}</GoyemonText>;
+    if (txType) return <GoyemonText fontSize={18}>{txType}</GoyemonText>; // what happened here we have
 
-    if (txType) return <GoyemonText fontSize={18}>{txType}</GoyemonText>;
+    if (txType) return <GoyemonText fontSize={18}>{txType}</GoyemonText>; // that twice?
 
     if (this.state.isOutgoingEthTx && this.state.isIncomingEthTx)
       txType = 'Self';
@@ -744,8 +744,8 @@ const SwapValueTextContainer = styled.View`
   flex-direction: row;
 `;
 
-const mapStateToProps = (state) => ({
-  checksumAddress: state.ReducerChecksumAddress.checksumAddress
-});
+// const mapStateToProps = (state) => ({
+//   checksumAddress: state.ReducerChecksumAddress.checksumAddress
+// });
 
-export default connect(mapStateToProps)(Transaction);
+export default Transaction;

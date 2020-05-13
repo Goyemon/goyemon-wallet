@@ -1979,6 +1979,7 @@ module.exports =  {
 	// TxStorage: TxStorage, // nope, one instance to rule them all, let's not allow people to instantiate this.
 	TxStates: TxStates,
 	TxTokenOpTypeToName: TxTokenOpTypeToName,
+	TxTokenOpNameToClass: TxTokenOpNameToClass,
 
 	TxException: TxException,
 	NoSuchTxException: NoSuchTxException,
