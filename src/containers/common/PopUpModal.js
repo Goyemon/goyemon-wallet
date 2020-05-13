@@ -20,12 +20,10 @@ class PopUpModal extends Component {
         >
           <ModalContainer>
             <ModalBackground maxHeight={this.props.maxHeight}>
-            <CloseButton onPress={this.props.onPress}>
-                  <Icon name="close" color="#5F5F5F" size={24} />
-                </CloseButton>
-              <MondalInner>
-                {this.props.children}
-              </MondalInner>
+              <CloseButton onPress={this.props.onPress}>
+                <Icon name="close" color="#5F5F5F" size={24} />
+              </CloseButton>
+              <MondalInner>{this.props.children}</MondalInner>
             </ModalBackground>
           </ModalContainer>
         </Modal>

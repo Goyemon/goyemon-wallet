@@ -296,7 +296,11 @@ class Transaction extends Component {
     )
       return (
         <GoyemonText fontSize={16}>
-          <Icon name="arrow-bottom-left-bold-outline" size={20} color="#1BA548" />
+          <Icon
+            name="arrow-bottom-left-bold-outline"
+            size={20}
+            color="#1BA548"
+          />
         </GoyemonText>
       );
 
@@ -310,13 +314,21 @@ class Transaction extends Component {
       else if (this.state.isOutgoingDaiTx)
         return (
           <GoyemonText fontSize={16}>
-            <Icon name="arrow-top-right-bold-outline" size={20} color="#F1860E" />
+            <Icon
+              name="arrow-top-right-bold-outline"
+              size={20}
+              color="#F1860E"
+            />
           </GoyemonText>
         );
       else if (this.state.isIncomingDaiTx)
         return (
           <GoyemonText fontSize={16}>
-            <Icon name="arrow-bottom-left-bold-outline" size={20} color="#1BA548" />
+            <Icon
+              name="arrow-bottom-left-bold-outline"
+              size={20}
+              color="#1BA548"
+            />
           </GoyemonText>
         );
     }
@@ -325,13 +337,21 @@ class Transaction extends Component {
       if (this.state.isOutgoingAmeTx)
         return (
           <GoyemonText fontSize={16}>
-            <Icon name="arrow-top-right-bold-outline" size={20} color="#F1860E" />
+            <Icon
+              name="arrow-top-right-bold-outline"
+              size={20}
+              color="#F1860E"
+            />
           </GoyemonText>
         );
       else if (this.state.isIncomingAmeTx)
         return (
           <GoyemonText fontSize={16}>
-            <Icon name="arrow-bottom-left-bold-outline" size={20} color="#1BA548" />
+            <Icon
+              name="arrow-bottom-left-bold-outline"
+              size={20}
+              color="#1BA548"
+            />
           </GoyemonText>
         );
     }
@@ -360,7 +380,11 @@ class Transaction extends Component {
     if (this.state.isIncomingEthTx)
       return (
         <GoyemonText fontSize={16}>
-          <Icon name="arrow-bottom-left-bold-outline" size={20} color="#1BA548" />
+          <Icon
+            name="arrow-bottom-left-bold-outline"
+            size={20}
+            color="#1BA548"
+          />
         </GoyemonText>
       );
   }

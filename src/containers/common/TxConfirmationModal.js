@@ -356,7 +356,7 @@ class TxConfirmationModal extends Component {
             </CloseButton>
             <HeaderContainer>
               <HeaderTwo marginBottom="0" marginLeft="0" marginTop="0">
-                Confirm Your Transaction
+                Confirm Transaction
               </HeaderTwo>
             </HeaderContainer>
             <ModalInner>{this.renderModalContent()}</ModalInner>
