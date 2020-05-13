@@ -196,8 +196,8 @@ class DescriptiveNameOfTheTransactionDetailShowingStupidComponentWhichIsBasicall
 
 
 		const ethdirection =
-			(tx.getFrom() && tx.getFrom() === our_reasonably_stored_address ? 1 : 0) +
-			(tx.getTo() && tx.getTo() === our_reasonably_stored_address ? 2 : 0);
+			(tx.getFrom() && tx.getFrom() === `0x${our_reasonably_stored_address}` ? 1 : 0) +
+			(tx.getTo() && tx.getTo() === `0x${our_reasonably_stored_address}` ? 2 : 0);
 		if (ethdirection > 0)
 			return {
 				type: 'transfer',
