@@ -7,20 +7,25 @@ import { View } from 'react-native';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
 import { saveOutgoingTransactionDataSwap } from '../actions/ActionOutgoingTransactionData';
-import { saveOutgoingTransactionObject } from '../actions/ActionOutgoingTransactionObjects';
+import {
+  saveTxConfirmationModalVisibility,
+  updateTxConfirmationModalVisibleType
+} from '../actions/ActionModal';
 import {
   RootContainer,
   Container,
-  Button,
   UntouchableCardContainer,
   HeaderOne,
   SwapForm,
   Loader,
   IsOnlineMessage,
-  ErrorMessage
+  ErrorMessage,
+  TxNextButton
 } from '../components/common';
 import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
-import AdvancedContainer from '../containers/AdvancedContainer';
+import AdvancedContainer from '../containers/common/AdvancedContainer';
+import TxConfirmationModal from '../containers/common/TxConfirmationModal';
+import I18n from '../i18n/I18n';
 import ABIEncoder from '../utilities/AbiUtilities';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
@@ -33,7 +38,7 @@ class Swap extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ethBalance: Web3.utils.fromWei(props.balance.weiBalance),
+      ethBalance: Web3.utils.fromWei(props.balance.wei),
       ethSold: '',
       tokenBought: new RoundDownBigNumber(0),
       ethSoldValidation: undefined,
@@ -50,8 +55,16 @@ class Swap extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.balance != prevProps.balance) {
       this.setState({
-        ethBalance: Web3.utils.fromWei(this.props.balance.weiBalance)
+        ethBalance: Web3.utils.fromWei(this.props.balance.wei)
       });
+    }
+    if (this.props.gasChosen != prevProps.gasChosen) {
+      this.updateEthSoldValidation(
+        this.validateAmount(
+          this.state.ethSold,
+          GlobalConfig.UniswapEthToTokenSwapInputGasLimit
+        )
+      );
     }
   }
 
@@ -71,17 +84,22 @@ class Swap extends Component {
   }
 
   updateTokenBought(ethSold) {
-    const tokenBought = this.getTokenBought(
-      ethSold,
-      this.props.exchangeReserve.daiExchange.weiReserve,
-      this.props.exchangeReserve.daiExchange.daiReserve
-    ).div(new RoundDownBigNumber(10).pow(18));
-    this.setState({ tokenBought: tokenBought });
+    const isNumber = /^[0-9]\d*(\.\d+)?$/.test(ethSold);
+    if (isNumber) {
+      const tokenBought = this.getTokenBought(
+        ethSold,
+        this.props.uniswap.daiExchange.weiReserve,
+        this.props.uniswap.daiExchange.daiReserve
+      ).div(new RoundDownBigNumber(10).pow(18));
+      this.setState({ tokenBought });
+    } else {
+      LogUtilities.logInfo('ethSold is not a number');
+    }
   }
 
   getMinTokens(tokenBought) {
     const minTokens = tokenBought.times(
-      (100 - this.props.outgoingTransactionData.swap.slippage) / 100
+      (100 - this.props.uniswap.slippage[this.props.uniswap.slippageChosen].value) / 100
     );
     return minTokens;
   }
@@ -114,7 +132,7 @@ class Swap extends Component {
       .toString(16);
 
     const transactionObject = (await TxStorage.storage.newTx())
-      .setTo(GlobalConfig.DAIUniswapContract)
+      .setTo(GlobalConfig.DAIUniswapContractV1)
       .setValue(weiSold.toString(16))
       .setGasPrice(
         TransactionUtilities.returnTransactionSpeed(
@@ -142,41 +160,49 @@ class Swap extends Component {
       this.setState({ loading: true, buttonDisabled: false });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
-      await this.props.saveOutgoingTransactionObject(transactionObject);
       this.props.saveOutgoingTransactionDataSwap({
         sold: this.state.ethSold,
         bought: this.state.tokenBought.toFixed(4),
-        minBought: this.getMinTokens(this.state.tokenBought)
+        minBought: this.getMinTokens(this.state.tokenBought),
+        slippage: this.props.uniswap.slippage[this.props.uniswap.slippageChosen].value,
+        gasLimit: GlobalConfig.UniswapEthToTokenSwapInputGasLimit,
+        transactionObject: transactionObject
       });
-      this.props.navigation.navigate('SwapConfirmation');
+      this.props.saveTxConfirmationModalVisibility(true);
+      this.props.updateTxConfirmationModalVisibleType('swap');
     } else {
       LogUtilities.logInfo('form validation failed!');
     }
   };
 
   validateAmount(ethSold, gasLimit) {
-    const weiBalance = new BigNumber(this.props.balance.weiBalance);
-    const weiSold = new BigNumber(Web3.utils.toWei(ethSold, 'Ether'));
-    const transactionFeeLimitInWei = new BigNumber(
-      TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
-    ).times(gasLimit);
-    const tokenReserve = new BigNumber(
-      this.props.exchangeReserve.daiExchange.daiReserve,
-      16
-    );
+    const isNumber = /^[0-9]\d*(\.\d+)?$/.test(ethSold);
+    if (isNumber) {
+      const weiBalance = new BigNumber(this.props.balance.wei);
+      const weiSold = new BigNumber(Web3.utils.toWei(ethSold, 'Ether'));
+      const transactionFeeLimitInWei = new BigNumber(
+        TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
+      ).times(gasLimit);
+      const tokenReserve = new BigNumber(
+        this.props.uniswap.daiExchange.daiReserve,
+        16
+      );
 
-    if (
-      weiBalance.isGreaterThanOrEqualTo(
-        weiSold.plus(transactionFeeLimitInWei)
-      ) &&
-      weiSold.isGreaterThanOrEqualTo(0) &&
-      tokenReserve.isGreaterThanOrEqualTo(this.state.tokenBought)
-    ) {
-      LogUtilities.logInfo('the ethSold validated!');
-      return true;
+      if (
+        weiBalance.isGreaterThanOrEqualTo(
+          weiSold.plus(transactionFeeLimitInWei)
+        ) &&
+        weiSold.isGreaterThanOrEqualTo(0) &&
+        tokenReserve.isGreaterThanOrEqualTo(this.state.tokenBought)
+      ) {
+        LogUtilities.logInfo('the ethSold validated!');
+        return true;
+      }
+      LogUtilities.logInfo('wrong balance!');
+      return false;
+    } else {
+      return false;
     }
-    LogUtilities.logInfo('wrong balance!');
-    return false;
   }
 
   updateEthSoldValidation(ethSoldValidation) {
@@ -197,11 +223,7 @@ class Swap extends Component {
 
   renderTokenBoughtText() {
     if (this.state.tokenBought.toFixed() === '0') {
-      return (
-        <MinTokenBoughtGrayText>
-          {this.getMinTokens(this.state.tokenBought).toFixed()}
-        </MinTokenBoughtGrayText>
-      );
+      return <MinTokenBoughtGrayText>0</MinTokenBoughtGrayText>;
     } else {
       return (
         <MinTokenBoughtBlackText>
@@ -222,12 +244,13 @@ class Swap extends Component {
   }
 
   render() {
-    let ethBalance = Web3.utils.fromWei(this.props.balance.weiBalance);
+    let ethBalance = Web3.utils.fromWei(this.props.balance.wei);
     ethBalance = RoundDownBigNumber(ethBalance).toFixed(4);
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="64">Swap</HeaderOne>
+        <TxConfirmationModal />
+        <HeaderOne marginTop="64">{I18n.t('swap')}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8px"
@@ -236,7 +259,7 @@ class Swap extends Component {
           justifyContent="center"
           marginTop="24px"
           textAlign="left"
-          width="80%"
+          width="90%"
         >
           <Container
             alignItems="flex-start"
@@ -245,7 +268,7 @@ class Swap extends Component {
             marginTop={0}
             width="100%"
           >
-            <Title>you pay</Title>
+            <Title>{I18n.t('swap-sell-title')}</Title>
             <SwapForm
               borderBottomColor={StyleUtilities.getBorderColor(
                 this.state.ethSoldValidation
@@ -256,7 +279,7 @@ class Swap extends Component {
                 placeholder="0"
                 keyboardType="numeric"
                 clearButtonMode="while-editing"
-                onChangeText={ethSold => {
+                onChangeText={(ethSold) => {
                   if (ethSold) {
                     this.updateEthSoldValidation(
                       this.validateAmount(
@@ -271,7 +294,10 @@ class Swap extends Component {
                 returnKeyType="done"
               />
             </SwapForm>
-              <BalanceText>Balance: {ethBalance}</BalanceText>
+            <View>{this.renderInsufficientBalanceMessage()}</View>
+            <BalanceText>
+              {I18n.t('balance')}: {ethBalance}
+            </BalanceText>
           </Container>
           <Container
             alignItems="center"
@@ -284,7 +310,6 @@ class Swap extends Component {
             <CurrencySymbolText>ETH</CurrencySymbolText>
           </Container>
         </UntouchableCardContainer>
-        <View>{this.renderInsufficientBalanceMessage()}</View>
         <Container
           alignItems="center"
           flexDirection="column"
@@ -302,7 +327,7 @@ class Swap extends Component {
           justifyContent="center"
           marginTop="16"
           textAlign="left"
-          width="80%"
+          width="90%"
         >
           <Container
             alignItems="flex-start"
@@ -311,7 +336,7 @@ class Swap extends Component {
             marginTop={0}
             width="100%"
           >
-            <Title>you get at least</Title>
+            <Title>{I18n.t('swap-buy-title')}</Title>
             {this.renderTokenBoughtText()}
           </Container>
           <Container
@@ -330,14 +355,8 @@ class Swap extends Component {
           swap={true}
         />
         <ButtonWrapper>
-          <Button
-            text="Next"
-            textColor="#00A3E2"
-            backgroundColor="#FFF"
-            borderColor="#00A3E2"
+          <TxNextButton
             disabled={this.state.buttonDisabled}
-            margin="40px auto"
-            marginBottom="12px"
             opacity={this.state.buttonOpacity}
             onPress={async () => {
               await this.validateForm();
@@ -402,7 +421,7 @@ function mapStateToProps(state) {
   return {
     balance: state.ReducerBalance.balance,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
-    exchangeReserve: state.ReducerExchangeReserve.exchangeReserve,
+    uniswap: state.ReducerUniswap.uniswap,
     gasPrice: state.ReducerGasPrice.gasPrice,
     gasChosen: state.ReducerGasPrice.gasChosen,
     netInfo: state.ReducerNetInfo.netInfo,
@@ -412,8 +431,9 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  saveOutgoingTransactionDataSwap,
-  saveOutgoingTransactionObject
+  saveTxConfirmationModalVisibility,
+  updateTxConfirmationModalVisibleType,
+  saveOutgoingTransactionDataSwap
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Swap);

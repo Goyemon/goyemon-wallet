@@ -25,7 +25,7 @@ const transactions = (state = INITIAL_STATE, action) => {
 
       let removeSentTx;
       removeSentTx = transactions
-        .map(transaction => transaction.state)
+        .map((transaction) => transaction.state)
         .indexOf('sent');
       if (removeSentTx === -1) {
         removeSentTx = 0;
@@ -78,7 +78,7 @@ const transactions = (state = INITIAL_STATE, action) => {
       };
     case UPDATE_CONFIRMED_TRANSACTION_DATA:
       return {
-        transactions: state.transactions.map(transaction => {
+        transactions: state.transactions.map((transaction) => {
           if (action.payload.hash === transaction.hash) {
             return { ...transaction, ...action.payload, state: 'confirmed' };
           }
@@ -87,7 +87,7 @@ const transactions = (state = INITIAL_STATE, action) => {
       };
     case REMOVE_EXISTING_TRANSACTION_OBJECT:
       return {
-        transactions: state.transactions.filter(transaction => {
+        transactions: state.transactions.filter((transaction) => {
           if (
             (transaction.nonce === action.payload.nonce &&
               transaction.state === 'sent') ||

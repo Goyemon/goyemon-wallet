@@ -13,10 +13,10 @@ import {
 } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
-const GlobalConfig = require('../config.json');
+import GlobalConfig from '../config.json';
 
 export function saveEmptyTransaction(emptyTransaction) {
-  return function(dispatch) {
+  return function (dispatch) {
     try {
       const parsedEmptyTransaction = JSON.parse(emptyTransaction);
       dispatch(saveEmptyTransactionSuccess(parsedEmptyTransaction));
@@ -26,13 +26,13 @@ export function saveEmptyTransaction(emptyTransaction) {
   };
 }
 
-const saveEmptyTransactionSuccess = parsedEmptyTransaction => ({
+const saveEmptyTransactionSuccess = (parsedEmptyTransaction) => ({
   type: SAVE_EMPTY_TRANSACTION,
   payload: parsedEmptyTransaction
 });
 
 export function saveExistingTransactions(transactions) {
-  return function(dispatch) {
+  return function (dispatch) {
     try {
       dispatch(saveExistingTransactionsSuccess(transactions));
     } catch (err) {
@@ -41,13 +41,13 @@ export function saveExistingTransactions(transactions) {
   };
 }
 
-const saveExistingTransactionsSuccess = transactions => ({
+const saveExistingTransactionsSuccess = (transactions) => ({
   type: SAVE_EXISTING_TRANSACTIONS,
   payload: transactions
 });
 
 export function addSentTransaction(transactionObject) {
-  return async function(dispatch) {
+  return async function (dispatch) {
     const isToDaiTokenContract =
       transactionObject.to === GlobalConfig.DAITokenContract;
     const isToCDaiContract = transactionObject.to === GlobalConfig.cDAIcontract;
@@ -93,13 +93,13 @@ export function addSentTransaction(transactionObject) {
   };
 }
 
-const addSentTransactionSuccess = parsedSentTransaction => ({
+const addSentTransactionSuccess = (parsedSentTransaction) => ({
   type: ADD_SENT_TRANSACTION,
   payload: parsedSentTransaction
 });
 
 export function addPendingOrIncludedTransaction(transactionObject) {
-  return function(dispatch) {
+  return function (dispatch) {
     try {
       dispatch(addPendingOrIncludedTransactionSuccess(transactionObject));
     } catch (err) {
@@ -108,13 +108,13 @@ export function addPendingOrIncludedTransaction(transactionObject) {
   };
 }
 
-const addPendingOrIncludedTransactionSuccess = transactionObject => ({
+const addPendingOrIncludedTransactionSuccess = (transactionObject) => ({
   type: ADD_PENDING_OR_INCLUDED_TRANSACTION,
   payload: transactionObject
 });
 
 export function updateWithPendingOrIncludedTransaction(transactionObject) {
-  return function(dispatch) {
+  return function (dispatch) {
     try {
       dispatch(
         updateWithPendingOrIncludedTransactionSuccess(transactionObject)
@@ -125,13 +125,13 @@ export function updateWithPendingOrIncludedTransaction(transactionObject) {
   };
 }
 
-const updateWithPendingOrIncludedTransactionSuccess = transactionObject => ({
+const updateWithPendingOrIncludedTransactionSuccess = (transactionObject) => ({
   type: UPDATE_PENDING_OR_INCLUDED_TRANSACTION,
   payload: transactionObject
 });
 
 export function updateTransactionState(updatedTransaction) {
-  return function(dispatch) {
+  return function (dispatch) {
     try {
       dispatch(updateTransactionStateSuccess(updatedTransaction));
     } catch (err) {
@@ -140,13 +140,13 @@ export function updateTransactionState(updatedTransaction) {
   };
 }
 
-const updateTransactionStateSuccess = updatedTransaction => ({
+const updateTransactionStateSuccess = (updatedTransaction) => ({
   type: UPDATE_TRANSACTION_STATE,
   payload: updatedTransaction
 });
 
 export function addConfirmedTransaction(transactionObject) {
-  return function(dispatch) {
+  return function (dispatch) {
     try {
       dispatch(addConfirmedTransactionSuccess(transactionObject));
     } catch (err) {
@@ -155,13 +155,13 @@ export function addConfirmedTransaction(transactionObject) {
   };
 }
 
-const addConfirmedTransactionSuccess = transactionObject => ({
+const addConfirmedTransactionSuccess = (transactionObject) => ({
   type: ADD_CONFIRMED_TRANSACTION,
   payload: transactionObject
 });
 
 export function updateConfirmedTransactionData(transactionObject) {
-  return function(dispatch) {
+  return function (dispatch) {
     try {
       dispatch(updateConfirmedTransactionDataSuccess(transactionObject));
     } catch (err) {
@@ -170,13 +170,13 @@ export function updateConfirmedTransactionData(transactionObject) {
   };
 }
 
-const updateConfirmedTransactionDataSuccess = transactionObject => ({
+const updateConfirmedTransactionDataSuccess = (transactionObject) => ({
   type: UPDATE_CONFIRMED_TRANSACTION_DATA,
   payload: transactionObject
 });
 
 export function removeExistingTransactionObject(transactionObject) {
-  return async function(dispatch) {
+  return async function (dispatch) {
     try {
       dispatch(removeExistingTransactionObjectSuccess(transactionObject));
     } catch (err) {
@@ -185,13 +185,13 @@ export function removeExistingTransactionObject(transactionObject) {
   };
 }
 
-const removeExistingTransactionObjectSuccess = transactionObject => ({
+const removeExistingTransactionObjectSuccess = (transactionObject) => ({
   type: REMOVE_EXISTING_TRANSACTION_OBJECT,
   payload: transactionObject
 });
 
 export function updateErrorSentTransaction(nonce) {
-  return async function(dispatch) {
+  return async function (dispatch) {
     try {
       dispatch(updateErrorSentTransactionSuccess(nonce));
     } catch (err) {
@@ -200,7 +200,7 @@ export function updateErrorSentTransaction(nonce) {
   };
 }
 
-const updateErrorSentTransactionSuccess = nonce => ({
+const updateErrorSentTransactionSuccess = (nonce) => ({
   type: UPDATE_ERROR_SENT_TRANSACTION,
   payload: nonce
 });

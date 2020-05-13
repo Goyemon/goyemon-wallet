@@ -3,7 +3,7 @@ import { CLEAR_STATE } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
 export function clearState() {
-  return async function(dispatch) {
+  return async function (dispatch) {
     try {
       dispatch(clearStateSuccess());
     } catch (err) {

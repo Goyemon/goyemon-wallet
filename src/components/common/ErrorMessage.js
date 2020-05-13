@@ -2,7 +2,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 
-const ErrorMessage = props => (
+const ErrorMessage = (props) => (
   <ErrorMessageText>{props.children}</ErrorMessageText>
 );
 

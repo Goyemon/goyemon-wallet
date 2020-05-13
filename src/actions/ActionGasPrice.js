@@ -1,5 +1,4 @@
 'use strict';
-import axios from 'axios';
 import {
   GET_GAS_PRICE,
   UPDATE_GAS_PRICE_CHOSEN
@@ -7,25 +6,26 @@ import {
 import LogUtilities from '../utilities/LogUtilities.js';
 
 export function getGasPrice() {
-  return async function(dispatch) {
+  return async function (dispatch) {
     try {
-      const gasPrice = await axios.get(
+      let gasPrice = await fetch(
         'https://ethgasstation.info/json/ethgasAPI.json'
       );
-      dispatch(getGasPriceSuccess(gasPrice.data));
+      gasPrice = await gasPrice.json();
+      dispatch(getGasPriceSuccess(gasPrice));
     } catch (err) {
       LogUtilities.logError(err);
     }
   };
 }
 
-const getGasPriceSuccess = gasPrice => ({
+const getGasPriceSuccess = (gasPrice) => ({
   type: GET_GAS_PRICE,
   payload: gasPrice
 });
 
 export function updateGasPriceChosen(key) {
-  return async function(dispatch) {
+  return async function (dispatch) {
     try {
       dispatch(updateGasPriceChosenSuccess(key));
     } catch (err) {
@@ -34,7 +34,7 @@ export function updateGasPriceChosen(key) {
   };
 }
 
-const updateGasPriceChosenSuccess = key => ({
+const updateGasPriceChosenSuccess = (key) => ({
   type: UPDATE_GAS_PRICE_CHOSEN,
   payload: key
 });

@@ -30,7 +30,6 @@ android/app/gradle/
 android/app/gradlew
 android/app/gradlew.bat
 /ReactAndroid/build/
-android/gradle.properties
 
 # Buck
 .buckd

@@ -1,9 +1,9 @@
 'use strict';
 import React from 'react';
 import styled from 'styled-components/native';
-import OfflineNotice from '../../containers/OfflineNotice';
+import OfflineNotice from '../../containers/common/OfflineNotice';
 
-const RootContainer = props => (
+const RootContainer = (props) => (
   <RootContainerStyle>
     <OfflineNotice />
     {props.children}

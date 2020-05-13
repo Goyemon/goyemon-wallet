@@ -9,15 +9,15 @@ import LogUtilities from '../utilities/LogUtilities.js';
 const INITIAL_STATE = {
   gasPrice: [
     {
+      speed: 'super fast',
+      value: 0
+    },
+    {
       speed: 'fast',
       value: 0
     },
     {
-      speed: 'average',
-      value: 0
-    },
-    {
-      speed: 'slow',
+      speed: 'normal',
       value: 0
     }
   ],
@@ -27,21 +27,21 @@ const INITIAL_STATE = {
 const gasPrice = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case GET_GAS_PRICE:
-      const gasPriceFastGwei = (action.payload.fast / 10).toString();
+      const gasPriceSuperFastGwei = (action.payload.fast / 10).toString();
+      const gasPriceSuperFastWei = Web3.utils.toWei(gasPriceSuperFastGwei, 'Gwei');
+      const gasPriceFastGwei = (action.payload.average / 10).toString();
       const gasPriceFastWei = Web3.utils.toWei(gasPriceFastGwei, 'Gwei');
-      const gasPriceAverageGwei = (action.payload.average / 10).toString();
-      const gasPriceAverageWei = Web3.utils.toWei(gasPriceAverageGwei, 'Gwei');
-      const gasPriceSlowGwei = (action.payload.safeLow / 10).toString();
-      const gasPriceSlowWei = Web3.utils.toWei(gasPriceSlowGwei, 'Gwei');
+      const gasPriceNormalGwei = (action.payload.safeLow / 10).toString();
+      const gasPriceNormalWei = Web3.utils.toWei(gasPriceNormalGwei, 'Gwei');
 
       return {
-        gasPrice: state.gasPrice.map(gasPrice => {
-          if (gasPrice.speed === 'fast') {
+        gasPrice: state.gasPrice.map((gasPrice) => {
+          if (gasPrice.speed === 'super fast') {
+            return { speed: 'super fast', value: gasPriceSuperFastWei };
+          } else if (gasPrice.speed === 'fast') {
             return { speed: 'fast', value: gasPriceFastWei };
-          } else if (gasPrice.speed === 'average') {
-            return { speed: 'average', value: gasPriceAverageWei };
-          } else if (gasPrice.speed === 'slow') {
-            return { speed: 'slow', value: gasPriceSlowWei };
+          } else if (gasPrice.speed === 'normal') {
+            return { speed: 'normal', value: gasPriceNormalWei };
           } else {
             LogUtilities.logInfo('no gas speed matches');
           }

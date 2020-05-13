@@ -2,15 +2,14 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
+import { createAppContainer } from 'react-navigation';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { PersistGate } from 'redux-persist/integration/react';
 import { rehydrationComplete } from '../actions/ActionRehydration';
 import '../firebase/FcmTokenMonitor';
+import I18n from '../i18n/I18n';
 import '../netinfo/NetInfoListener';
-import SaveIcon from '../../assets/SaveIcon.js';
-import HistoryIcon from '../../assets/HistoryIcon.js';
-import WalletIcon from '../../assets/WalletIcon.js';
-import BalanceStack from './BalanceStack';
+import PortfolioStack from './PortfolioStack';
 import EarnStack from './EarnStack';
 import HistoryStack from './HistoryStack';
 import SendStack from './SendStack';
@@ -20,43 +19,49 @@ import { store, persistor } from '../store/store.js';
 
 const AppTab = createBottomTabNavigator(
   {
-    Balance: {
-      screen: BalanceStack,
+    Portfolio: {
+      screen: PortfolioStack,
       navigationOptions: {
-        tabBarLabel: 'Balance',
-        tabBarIcon: ({ tintColor }) => <WalletIcon fill={tintColor} />
+        tabBarLabel: I18n.t('portfolio'),
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="chart-pie" size={28} color={tintColor} />
+        )
       }
     },
     Send: {
       screen: SendStack,
       navigationOptions: {
-        tabBarLabel: 'Send',
+        tabBarLabel: I18n.t('send'),
         tabBarIcon: ({ tintColor }) => (
-          <Icon name="send" size={32} color={tintColor} />
+          <Icon name="send" size={28} color={tintColor} />
         )
       }
     },
     Earn: {
       screen: EarnStack,
       navigationOptions: {
-        tabBarLabel: 'Earn',
-        tabBarIcon: ({ tintColor }) => <SaveIcon fill={tintColor} />
+        tabBarLabel: I18n.t('earn'),
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="sprout" size={28} color={tintColor} />
+        )
       }
     },
     Swap: {
       screen: SwapStack,
       navigationOptions: {
-        tabBarLabel: 'Swap',
+        tabBarLabel: I18n.t('swap'),
         tabBarIcon: ({ tintColor }) => (
-          <Icon name="swap-horizontal" size={32} color={tintColor} />
+          <Icon name="swap-horizontal" size={28} color={tintColor} />
         )
       }
     },
     History: {
       screen: HistoryStack,
       navigationOptions: {
-        tabBarLabel: 'History',
-        tabBarIcon: ({ tintColor }) => <HistoryIcon fill={tintColor} />
+        tabBarLabel: I18n.t('history'),
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="script-text-outline" size={28} color={tintColor} />
+        )
       }
     }
   },
@@ -64,8 +69,7 @@ const AppTab = createBottomTabNavigator(
     tabBarOptions: {
       activeTintColor: '#00A3E2',
       style: {
-        height: 60,
-        marginTop: 8
+        height: 56
       },
       labelStyle: {
         fontSize: 12,
@@ -78,7 +82,7 @@ const AppTab = createBottomTabNavigator(
     }
   },
   {
-    initialRouteName: 'Balance'
+    initialRouteName: 'Portfolio'
   }
 );
 

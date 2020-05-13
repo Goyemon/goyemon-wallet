@@ -2,7 +2,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 
-const TouchableCardContainer = props => (
+const TouchableCardContainer = (props) => (
   <CardContainer
     onPress={props.onPress}
     alignItems={props.alignItems}
@@ -17,17 +17,17 @@ const TouchableCardContainer = props => (
 );
 
 const CardContainer = styled.TouchableOpacity`
-  align-items: ${props => props.alignItems};
+  align-items: ${(props) => props.alignItems};
   background: #fff;
   border-radius: 8px;
-  flex-direction: ${props => props.flexDirection};
+  flex-direction: ${(props) => props.flexDirection};
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  height: ${props => props.height};
-  justify-content: ${props => props.justifyContent};
+  height: ${(props) => props.height};
+  justify-content: ${(props) => props.justifyContent};
   margin: 8px auto;
   padding: 16px;
-  text-align: ${props => props.textAlign};
-  width: ${props => props.width};
+  text-align: ${(props) => props.textAlign};
+  width: ${(props) => props.width};
 `;
 
 export { TouchableCardContainer };

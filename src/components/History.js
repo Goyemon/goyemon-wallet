@@ -6,8 +6,9 @@ import { HeaderOne } from '../components/common/';
 // TODO: git rm those two:
 //import Transactions from '../containers/Transactions';
 //import TransactionsDai from '../containers/TransactionsDai';
-import OfflineNotice from '../containers/OfflineNotice';
+import OfflineNotice from '../containers/common/OfflineNotice';
 import TransactionList from '../containers/TransactionList';
+import I18n from '../i18n/I18n';
 
 export default class History extends Component {
   constructor(props) {
@@ -18,8 +19,8 @@ export default class History extends Component {
   }
 
   toggleFilterChoiceText() {
-    const choices = ['All', 'Dai'].map(filter => {
-      if (filter == this.state.filter)
+    const choices = ['All', 'Dai'].map((filter) => {
+      if (filter === this.state.filter)
         return (
           <FilterChoiceTextSelected key={filter}>
             {filter}
@@ -29,9 +30,9 @@ export default class History extends Component {
       return (
         <TouchableOpacity
           key={filter}
-          onPress={() => this.setState({ filter: filter })}
+          onPress={() => this.setState({ filter })}
         >
-          <FilterChoiceTextUnelected>{filter}</FilterChoiceTextUnelected>
+          <FilterChoiceTextUnselected>{filter}</FilterChoiceTextUnselected>
         </TouchableOpacity>
       );
     });
@@ -43,7 +44,7 @@ export default class History extends Component {
     return (
       <HistoryContainer>
         <OfflineNotice />
-        <HeaderOne marginTop="64">History</HeaderOne>
+        <HeaderOne marginTop="64">{I18n.t('history')}</HeaderOne>
         {this.toggleFilterChoiceText()}
         <TransactionList
           tokenFilter={this.state.filter}
@@ -76,7 +77,7 @@ const FilterChoiceTextSelected = styled.Text`
   text-transform: uppercase;
 `;
 
-const FilterChoiceTextUnelected = styled.Text`
+const FilterChoiceTextUnselected = styled.Text`
   font-size: 24;
   font-weight: bold;
   margin-right: 12;

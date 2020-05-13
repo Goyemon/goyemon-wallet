@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { Linking } from 'react-native';
+import { Linking, View } from 'react-native';
 import AndroidOpenSettings from 'react-native-android-open-settings';
 import CameraRoll from '@react-native-community/cameraroll';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
@@ -18,6 +18,7 @@ import {
   GoyemonText
 } from '../components/common';
 import ShowMnemonicWords from './ShowMnemonicWords';
+import I18n from '../i18n/I18n';
 import LogUtilities from '../utilities/LogUtilities.js';
 
 class ShowMnemonic extends Component {
@@ -38,12 +39,12 @@ class ShowMnemonic extends Component {
 
   requestPhotoLibraryPermission() {
     if (Platform.OS === 'ios') {
-      request(PERMISSIONS.IOS.PHOTO_LIBRARY).then(result => {
+      request(PERMISSIONS.IOS.PHOTO_LIBRARY).then((result) => {
         this.checkPhotoLibraryPermission();
         LogUtilities.logInfo('result ===>', result);
       });
     } else if (Platform.OS === 'android') {
-      request(PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE).then(result => {
+      request(PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE).then((result) => {
         this.checkPhotoLibraryPermission();
         LogUtilities.logInfo('result ===>', result);
       });
@@ -51,81 +52,88 @@ class ShowMnemonic extends Component {
   }
 
   checkPhotoLibraryPermission() {
+    const { savePhotoLibraryPermission } = this.props;
     if (Platform.OS === 'ios') {
       check(PERMISSIONS.IOS.PHOTO_LIBRARY)
-        .then(result => {
+        .then((result) => {
           switch (result) {
             case RESULTS.UNAVAILABLE:
-              this.props.savePhotoLibraryPermission('unavailable');
+              savePhotoLibraryPermission('unavailable');
               LogUtilities.logInfo(
                 'This feature is not available (on this device / in this context)'
               );
               break;
             case RESULTS.DENIED:
-              this.props.savePhotoLibraryPermission('denied');
+              savePhotoLibraryPermission('denied');
               LogUtilities.logInfo(
                 'The permission has not been requested / is denied but requestable'
               );
               break;
             case RESULTS.GRANTED:
-              this.props.savePhotoLibraryPermission('granted');
+              savePhotoLibraryPermission('granted');
               LogUtilities.logInfo('The permission is granted');
               break;
             case RESULTS.BLOCKED:
-              this.props.savePhotoLibraryPermission('blocked');
+              savePhotoLibraryPermission('blocked');
               LogUtilities.logInfo(
                 'The permission is denied and not requestable anymore'
               );
               break;
           }
         })
-        .catch(error => {
+        .catch((error) => {
           LogUtilities.logInfo('error ===>', error);
         });
     } else if (Platform.OS === 'android') {
       check(PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE)
-        .then(result => {
+        .then((result) => {
           switch (result) {
             case RESULTS.UNAVAILABLE:
-              this.props.savePhotoLibraryPermission('unavailable');
+              savePhotoLibraryPermission('unavailable');
               LogUtilities.logInfo(
                 'This feature is not available (on this device / in this context)'
               );
               break;
             case RESULTS.DENIED:
-              this.props.savePhotoLibraryPermission('denied');
+              savePhotoLibraryPermission('denied');
               LogUtilities.logInfo(
                 'The permission has not been requested / is denied but requestable'
               );
               break;
             case RESULTS.GRANTED:
-              this.props.savePhotoLibraryPermission('granted');
+              savePhotoLibraryPermission('granted');
               LogUtilities.logInfo('The permission is granted');
               break;
             case RESULTS.BLOCKED:
-              this.props.savePhotoLibraryPermission('blocked');
+              savePhotoLibraryPermission('blocked');
               LogUtilities.logInfo(
                 'The permission is denied and not requestable anymore'
               );
               break;
           }
         })
-        .catch(error => {
+        .catch((error) => {
           LogUtilities.logInfo('error ===>', error);
         });
     }
   }
 
-  renderScreenshotSavedMessage() {
+  renderScreenshotSavedContainer() {
     if (this.state.screenshotTaken === true) {
-      return <GoyemonText fontSize="14">Screenshot Saved!</GoyemonText>;
+      return (
+        <ScreenshotContainer>
+          <ScreenshotImage source={{ uri: this.state.imageURI }} />
+          <GoyemonText fontSize="14">Screenshot Saved!</GoyemonText>
+        </ScreenshotContainer>
+      );
     }
   }
 
   renderScreenshotButtons() {
+    const { permissions } = this.props;
     if (
-      this.props.permissions.photoLibrary === '' ||
-      this.props.permissions.photoLibrary === 'denied'
+      permissions.photoLibrary === '' ||
+      permissions.photoLibrary === 'denied'
     ) {
       return (
         <Button
@@ -142,8 +150,8 @@ class ShowMnemonic extends Component {
         />
       );
     } else if (
-      this.props.permissions.photoLibrary === 'unavailable' ||
-      this.props.permissions.photoLibrary === 'blocked'
+      permissions.photoLibrary === 'unavailable' ||
+      permissions.photoLibrary === 'blocked'
     ) {
       return (
         <Button
@@ -164,7 +172,7 @@ class ShowMnemonic extends Component {
           }}
         />
       );
-    } else if (this.props.permissions.photoLibrary === 'granted') {
+    } else if (permissions.photoLibrary === 'granted') {
       return (
         <Button
           text="Tap to Capture!"
@@ -185,7 +193,7 @@ class ShowMnemonic extends Component {
 
   takeScreenShot() {
     captureScreen().then(
-      uri => {
+      (uri) => {
         this.setState({
           imageURI: uri,
           screenshotTaken: true,
@@ -195,7 +203,7 @@ class ShowMnemonic extends Component {
         });
         CameraRoll.saveToCameraRoll(uri);
       },
-      error => LogUtilities.logError('Oops, Something Went Wrong', error)
+      (error) => LogUtilities.logError('Oops, Something Went Wrong', error)
     );
   }
 
@@ -203,7 +211,7 @@ class ShowMnemonic extends Component {
     if (this.state.nextButtonShown) {
       return (
         <Button
-          text="Next"
+          text={I18n.t('button-next')}
           textColor="#00A3E2"
           backgroundColor="#F8F8F8"
           borderColor="#F8F8F8"
@@ -250,22 +258,19 @@ class ShowMnemonic extends Component {
           width="100%"
         >
           {this.renderScreenshotButtons()}
+          {this.renderScreenshotSavedContainer()}
+          {this.renderNextButton()}
           <GoyemonText fontSize="14">OR</GoyemonText>
           <Button
             text="Verify Backup Words"
             textColor="#00A3E2"
             backgroundColor="#FFF"
             borderColor="#00A3E2"
-            margin="8px auto"
+            margin="24px auto"
             marginBottom="8px"
             opacity="1"
             onPress={() => this.props.navigation.navigate('VerifyMnemonic')}
           />
-          <ScreenshotContainer>
-            <ScreenshotImage source={{ uri: this.state.imageURI }} />
-            {this.renderScreenshotSavedMessage()}
-          </ScreenshotContainer>
-          {this.renderNextButton()}
         </Container>
       </RootContainer>
     );

@@ -1,23 +1,38 @@
 'use strict';
-import { SAVE_OUTGOING_TRANSACTION_DATA_SEND } from '../constants/ActionTypes';
-import { SAVE_OUTGOING_TRANSACTION_DATA_COMPOUND } from '../constants/ActionTypes';
-import { SAVE_OUTGOING_TRANSACTION_DATA_SWAP } from '../constants/ActionTypes';
-import { SAVE_OUTGOING_TRANSACTION_DATA_SWAP_SLIPPAGE } from '../constants/ActionTypes';
+import {
+  SAVE_OUTGOING_TRANSACTION_DATA_SEND,
+  SAVE_OUTGOING_TRANSACTION_DATA_COMPOUND,
+  SAVE_OUTGOING_TRANSACTION_DATA_POOLTOGETHER,
+  SAVE_OUTGOING_TRANSACTION_DATA_SWAP
+} from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
   outgoingTransactionData: {
     send: {
       toaddress: '',
-      amount: ''
+      amount: '',
+      gasLimit: '',
+      transactionObject: {}
     },
     compound: {
-      amount: ''
+      amount: '',
+      gasLimit: '',
+      approveTransactionObject: {},
+      transactionObject: {}
+    },
+    poolTogether: {
+      amount: '',
+      gasLimit: '',
+      approveTransactionObject: {},
+      transactionObject: {}
     },
     swap: {
       sold: '',
       bought: '',
-      slippage: 0.5,
-      minBought: ''
+      minBought: '',
+      slippage: '',
+      gasLimit: '',
+      transactionObject: {}
     }
   }
 };
@@ -38,6 +53,13 @@ const outgoingTransactionData = (state = INITIAL_STATE, action) => {
           compound: action.payload
         }
       };
+    case SAVE_OUTGOING_TRANSACTION_DATA_POOLTOGETHER:
+      return {
+        outgoingTransactionData: {
+          ...state.outgoingTransactionData,
+          poolTogether: action.payload
+        }
+      };
     case SAVE_OUTGOING_TRANSACTION_DATA_SWAP:
       return {
         outgoingTransactionData: {
@@ -47,15 +69,7 @@ const outgoingTransactionData = (state = INITIAL_STATE, action) => {
           }
         }
       };
-    case SAVE_OUTGOING_TRANSACTION_DATA_SWAP_SLIPPAGE:
-      return {
-        outgoingTransactionData: {
-          swap: {
-            ...state.outgoingTransactionData.swap,
-            slippage: action.payload
-          }
-        }
-      };
+
     default:
       return state || INITIAL_STATE;
   }

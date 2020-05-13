@@ -2,8 +2,9 @@
 import firebase from 'react-native-firebase';
 import LogUtilities from '../utilities/LogUtilities.js';
 import zlib from 'react-zlib-js';
+import TxStorage from '../lib/tx.js';
 
-const GlobalConfig = require('../config.json');
+import GlobalConfig from '../config.json';
 
 
 function obj_property_default(obj, prop, def) {
@@ -22,7 +23,8 @@ function obj_property_default(obj, prop, def) {
 
 const msgtype_compressed = {
 	'txhistory': true,
-	'txstate': true
+	'txstate': true,
+	'txsync': true
 };
 
 class Msg {
@@ -123,7 +125,7 @@ class FCMMsgs {
 		  });
 
 		firebase.messaging().sendMessage(upstreamMessage);
-	  }
+	}
 
 
 	__on_msg(id, type, num, count, data) {
@@ -186,21 +188,27 @@ class FCMMsgs {
 		this.__sendMessage('resync_wallet', { address: checksumAddress });
 	}
 
-	requestCDaiLendingInfo(checksumAddress) {
+	requestCompoundDaiInfo(checksumAddress) {
 		this.__sendMessage('cDai_lending_info', { address: checksumAddress });
+	}
+
+	requestPoolTogetherDaiInfo(checksumAddress) {
+		this.__sendMessage('pool_together_DAI_info', { address: checksumAddress });
 	}
 
 	requestUniswapETHDAIBalances() {
 		this.__sendMessage('uniswap_ETHDAI_info');
 	}
 
-	checkForUpdates(checksumAddress, lastConfirmedTstamp) {
-		this.__sendMessage('request_updates', { address: checksumAddress, lastTstamp: lastConfirmedTstamp });
+	checkForUpdates(checksumAddress, checksums, count, offset=0) {
+		this.__sendMessage('request_updates', { address: checksumAddress, sums: checksums.join(','), items: count.toString(), offset: offset.toString(), v: TxStorage.storage.temporary_since_you_wont_add_build_number_i_will.toString() });
 	}
 
 	sendTx(rawTx) {
 
 	}
+
+
 
 }
 

@@ -1,14 +1,14 @@
 'use strict';
 import React from 'react';
-import { Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
+import { GoyemonText } from '../common';
 
-const ToggleCurrencySymbol = props => {
+const ToggleCurrencySymbol = (props) => {
   if (props.currency === 'ETH') {
     return (
       <CurrencySymbol>
-        <Text>ETH</Text>
+        <GoyemonText fontSize={14}>ETH</GoyemonText>
         <Icon name="swap-horizontal" size={16} color="#5f5f5f" />
         <CurrencySymbolTextChosen>USD</CurrencySymbolTextChosen>
       </CurrencySymbol>
@@ -18,7 +18,7 @@ const ToggleCurrencySymbol = props => {
       <CurrencySymbol>
         <CurrencySymbolTextChosen>ETH</CurrencySymbolTextChosen>
         <Icon name="swap-horizontal" size={16} color="#5f5f5f" />
-        <Text>USD</Text>
+        <GoyemonText fontSize={14}>USD</GoyemonText>
       </CurrencySymbol>
     );
   }
@@ -27,7 +27,6 @@ const ToggleCurrencySymbol = props => {
 const CurrencySymbol = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 16;
-  margin-left: 8;
 `;
 
 const CurrencySymbolTextChosen = styled.Text`

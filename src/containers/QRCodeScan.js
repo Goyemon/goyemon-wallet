@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { saveQRCodeData } from '../actions/ActionQRCodeData';
 import { Container } from '../components/common';
+import I18n from '../i18n/I18n';
 import SendStack from '../navigators/SendStack';
 
 class QRCodeScan extends Component {
@@ -63,7 +64,7 @@ class QRCodeScan extends Component {
                 this.props.navigation.goBack();
               }}
             >
-              <GoBackText>go back</GoBackText>
+              <GoBackText>{I18n.t('go-back')}</GoBackText>
             </GoBackContainer>
           }
         />

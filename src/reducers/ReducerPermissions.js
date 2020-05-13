@@ -1,11 +1,13 @@
 'use strict';
-import { SAVE_NOTIFICATION_PERMISSION } from '../constants/ActionTypes';
-import { SAVE_PHOTO_LIBRARY_PERMISSION } from '../constants/ActionTypes';
+import {
+  SAVE_NOTIFICATION_PERMISSION,
+  SAVE_PHOTO_LIBRARY_PERMISSION
+} from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
   permissions: {
     notification: null,
-    photoLibrary: ''
+    photoLibrary: null
   }
 };
 

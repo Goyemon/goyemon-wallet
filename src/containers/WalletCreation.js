@@ -2,7 +2,7 @@
 import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, RefreshControl, Modal, View, Text } from 'react-native';
+import { ScrollView, RefreshControl, Modal } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { StackActions, NavigationActions } from 'react-navigation';
@@ -11,9 +11,10 @@ import { createChecksumAddress } from '../actions/ActionChecksumAddress';
 import { getGasPrice } from '../actions/ActionGasPrice';
 import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
 import { Container, Button } from '../components/common';
+import I18n from '../i18n/I18n';
 import { FCMMsgs } from '../lib/fcm.js';
 import TxStorage from '../lib/tx';
-import BalanceStack from '../navigators/BalanceStack';
+import PortfolioStack from '../navigators/PortfolioStack';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class WalletCreation extends Component {
@@ -30,24 +31,28 @@ class WalletCreation extends Component {
     return (
       <FadeInMessageContainer>
         <FadeInMessageOne animation="fadeInDown" delay={2500}>
-          <FadeInMessageOneText>generating your keys...</FadeInMessageOneText>
+          <FadeInMessageOneText>
+            {I18n.t('wallet-creation-key')}...
+          </FadeInMessageOneText>
         </FadeInMessageOne>
         <FadeInMessageTwo animation="fadeInDown" delay={4000}>
           <FadeInMessageTwoText>
-            generating your address...
+            {I18n.t('wallet-creation-address')}...
           </FadeInMessageTwoText>
         </FadeInMessageTwo>
         <FadeInMessageThree animation="fadeInDown" delay={5500}>
           <FadeInMessageThreeText>
-            fetching blockchain data...
+            {I18n.t('wallet-creation-blockchain-data')}...
           </FadeInMessageThreeText>
         </FadeInMessageThree>
         <FadeInMessageFour animation="fadeInDown" delay={7000}>
-          <FadeInMessageFourText>getting price data...</FadeInMessageFourText>
+          <FadeInMessageFourText>
+            {I18n.t('wallet-creation-price-data')}...
+          </FadeInMessageFourText>
         </FadeInMessageFour>
         <FadeInMessageFive animation="fadeInDown" delay={9500}>
           <FadeInMessageFiveText>
-            this shouldn't take too long...
+            {I18n.t('wallet-creation-caution')}...
           </FadeInMessageFiveText>
         </FadeInMessageFive>
       </FadeInMessageContainer>
@@ -69,7 +74,7 @@ class WalletCreation extends Component {
       },
       async () => {
         await this.createWallet();
-        await this.fetchTokenInfo();
+        await this.fetchProtocolInfo();
         await this.fetchPriceInfo();
         await this.isWalletReady();
         this.setState({
@@ -83,7 +88,7 @@ class WalletCreation extends Component {
     this.props.getGasPrice();
     await this.createWallet();
     await this.fetchPriceInfo();
-    await this.fetchTokenInfo();
+    await this.fetchProtocolInfo();
     setTimeout(async () => {
       await this.isWalletReady();
     }, 8000);
@@ -104,8 +109,9 @@ class WalletCreation extends Component {
     await this.props.getDaiPrice();
   }
 
-  fetchTokenInfo() {
-    FCMMsgs.requestCDaiLendingInfo(this.props.checksumAddress);
+  fetchProtocolInfo() {
+    FCMMsgs.requestCompoundDaiInfo(this.props.checksumAddress);
+    FCMMsgs.requestPoolTogetherDaiInfo(this.props.checksumAddress);
   }
 
   async isWalletReady() {
@@ -138,14 +144,12 @@ class WalletCreation extends Component {
   }
 
   hasBalance() {
-    const cDaiBalance = new BigNumber(this.props.balance.cDaiBalance);
-    const daiBalance = new BigNumber(this.props.balance.daiBalance);
-    const weiBalance = new BigNumber(this.props.balance.weiBalance);
+    const { balance } = this.props;
 
     return (
-      cDaiBalance.isGreaterThanOrEqualTo(0) &&
-      daiBalance.isGreaterThanOrEqualTo(0) &&
-      weiBalance.isGreaterThanOrEqualTo(0)
+      new BigNumber(balance.cDai).isGreaterThanOrEqualTo(0) &&
+      new BigNumber(balance.dai).isGreaterThanOrEqualTo(0) &&
+      new BigNumber(balance.wei).isGreaterThanOrEqualTo(0)
     );
   }
 
@@ -158,22 +162,23 @@ class WalletCreation extends Component {
   }
 
   hasPrice() {
+    const { price } = this.props;
     return (
-      this.props.price.eth >= 0 &&
-      this.props.price.eth.length != 0 &&
-      this.props.price.dai >= 0 &&
-      this.props.price.dai.length != 0
+      price.eth >= 0 &&
+      price.eth.length != 0 &&
+      price.dai >= 0 &&
+      price.dai.length != 0
     );
   }
 
-  navigateToBalanceHome() {
-    BalanceStack.navigationOptions = ({ navigation }) => {
+  navigateToPortfolioHome() {
+    PortfolioStack.navigationOptions = ({ navigation }) => {
       const tabBarVisible = true;
       return tabBarVisible;
     };
     const resetAction = StackActions.reset({
       index: 0,
-      actions: [NavigationActions.navigate({ routeName: 'BalanceHome' })]
+      actions: [NavigationActions.navigate({ routeName: 'PortfolioHome' })]
     });
     this.props.navigation.dispatch(resetAction);
   }
@@ -181,7 +186,11 @@ class WalletCreation extends Component {
   render() {
     if (this.state.isWalletReady === true) {
       if (!this.state.modalVisible) {
-        this.setState({ modalVisible: true });
+        this.setState({ modalVisible: true }, () => {
+          setTimeout(() => {
+            this.navigateToPortfolioHome();
+          }, 2000);
+        });
       }
     }
 
@@ -211,20 +220,8 @@ class WalletCreation extends Component {
           >
             <ModalBackground>
               <ModalInner>
-                <ModalText>You are all set!</ModalText>
+                <ModalText>Your wallet is ready! 🙌</ModalText>
               </ModalInner>
-              <Button
-                text="High Five! 🙌"
-                textColor="#00A3E2"
-                backgroundColor="#FFF"
-                borderColor="#00A3E2"
-                margin="120px auto"
-                marginBottom="12px"
-                opacity="1"
-                onPress={() => {
-                  this.navigateToBalanceHome();
-                }}
-              />
             </ModalBackground>
           </Modal>
         </Container>
@@ -234,7 +231,7 @@ class WalletCreation extends Component {
 }
 
 const ModalBackground = styled.View`
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.7);
   height: 100%;
 `;
 
@@ -304,24 +301,22 @@ const FadeInMessageSixText = styled.Text`
 
 const ModalInner = styled.View`
   align-items: center;
+  flex: 1;
   flex-direction: column;
   justify-content: center;
 `;
 
 const ModalText = styled.Text`
-  background-color: #fff;
-  border-radius: 8;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 18;
-  margin-top: 70%;
-  padding: 8px 24px;
+  color: #fff;
+  font-family: 'HKGrotesk-Bold';
+  font-size: 24;
   text-align: center;
 `;
 
 function mapStateToProps(state) {
   return {
     balance: state.ReducerBalance.balance,
-    cDaiLendingInfo: state.ReducerCDaiLendingInfo.cDaiLendingInfo,
+    compound: state.ReducerCompound.compound,
     mnemonicWords: state.ReducerMnemonic.mnemonicWords,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
     price: state.ReducerPrice.price,

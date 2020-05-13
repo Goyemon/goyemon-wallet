@@ -2,12 +2,12 @@
 import { combineReducers } from 'redux';
 import { CLEAR_STATE } from '../constants/ActionTypes';
 
+import ReducerApproval from './ReducerApproval';
 import ReducerBalance from './ReducerBalance';
-import ReducerCDaiLendingInfo from './ReducerCDaiLendingInfo';
+import ReducerCompound from './ReducerCompound';
 import ReducerChecksumAddress from './ReducerChecksumAddress';
 import ReducerFcmMsgs from './ReducerFcmMsgs';
 import ReducerDebugInfo from './ReducerDebugInfo';
-import ReducerExchangeReserve from './ReducerExchangeReserve';
 import ReducerGasPrice from './ReducerGasPrice';
 import ReducerMnemonic from './ReducerMnemonic';
 import ReducerMnemonicWordsValidation from './ReducerMnemonicWordsValidation';
@@ -15,31 +15,35 @@ import ReducerNetInfo from './ReducerNetInfo';
 import ReducerPermissions from './ReducerPermissions';
 import ReducerQRCodeData from './ReducerQRCodeData';
 import ReducerOutgoingTransactionData from './ReducerOutgoingTransactionData';
-import ReducerOutgoingTransactionObjects from './ReducerOutgoingTransactionObjects';
+import ReducerPoolTogether from './ReducerPoolTogether';
 import ReducerPrice from './ReducerPrice';
 import ReducerRehydration from './ReducerRehydration';
+import ReducerModal from './ReducerModal';
 import ReducerTransactionsLoaded from './ReducerTransactionsLoaded';
 import ReducerTransactionHistory from './ReducerTransactionHistory';
+import ReducerUniswap from './ReducerUniswap';
 
 const appReducers = combineReducers({
+  ReducerApproval,
   ReducerBalance,
-  ReducerCDaiLendingInfo,
+  ReducerCompound,
   ReducerChecksumAddress,
   ReducerFcmMsgs,
   ReducerDebugInfo,
-  ReducerExchangeReserve,
   ReducerGasPrice,
   ReducerMnemonic,
   ReducerMnemonicWordsValidation,
+  ReducerModal,
   ReducerNetInfo,
   ReducerQRCodeData,
   ReducerPermissions,
+  ReducerPoolTogether,
   ReducerOutgoingTransactionData,
-  ReducerOutgoingTransactionObjects,
   ReducerPrice,
   ReducerRehydration,
   ReducerTransactionsLoaded,
   ReducerTransactionHistory,
+  ReducerUniswap
 });
 
 const rootReducers = (state, action) => {

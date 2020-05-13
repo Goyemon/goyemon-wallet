@@ -14,7 +14,8 @@ import {
   ErrorMessage,
   Loader
 } from '../components/common';
-import LogUtilities from '../utilities/LogUtilities.js';
+import I18n from '../i18n/I18n';
+import LogUtilities from '../utilities/LogUtilities';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class ImportTwentyFourMnemonicWords extends Component {
@@ -105,10 +106,10 @@ class ImportTwentyFourMnemonicWords extends Component {
             width="40%"
           />
           <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
-            Import Your Wallet
+            {I18n.t('import-title')}
           </HeaderTwo>
           <Description marginBottom="8" marginLeft="8" marginTop="16">
-            enter your backup words
+            {I18n.t('import-description')}
           </Description>
           <MnemonicWordsContainer style={styles.table}>
             {this.state.mnemonicWords.map((word, id) => (
@@ -120,7 +121,7 @@ class ImportTwentyFourMnemonicWords extends Component {
                     placeholder={(id + 1).toString()}
                     autoCapitalize="none"
                     maxLength={15}
-                    onChangeText={text => {
+                    onChangeText={(text) => {
                       this.handleTextChange(text, id);
                     }}
                     onSubmitEditing={
@@ -137,7 +138,7 @@ class ImportTwentyFourMnemonicWords extends Component {
           <View>{this.renderInvalidMnemonicWordsMessage()}</View>
           <ButtonContainer>
             <Button
-              text="Next"
+              text={I18n.t('button-next')}
               textColor="#00A3E2"
               backgroundColor="#FFF"
               borderColor="#00A3E2"

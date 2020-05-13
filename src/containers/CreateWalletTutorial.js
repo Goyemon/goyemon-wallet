@@ -2,7 +2,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { saveMnemonicWords } from '../actions/ActionMnemonic';
-import { RootContainer, Container, Button, HeaderTwo, Description, Loader } from '../components/common';
+import {
+  RootContainer,
+  Container,
+  Button,
+  HeaderTwo,
+  Description,
+  Loader
+} from '../components/common';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class CreateWalletTutorial extends Component {
@@ -10,12 +17,15 @@ class CreateWalletTutorial extends Component {
     super();
     this.state = {
       loading: false,
-      buttonDisabled: false,
+      buttonDisabled: false
     };
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.mnemonicWords != null && this.props.mnemonicWords != prevProps.mnemonicWords) {
+    if (
+      this.props.mnemonicWords != null &&
+      this.props.mnemonicWords != prevProps.mnemonicWords
+    ) {
       this.setState({ loading: false, buttonDisabled: false });
       this.props.navigation.navigate('ShowMnemonic');
     }
@@ -24,7 +34,13 @@ class CreateWalletTutorial extends Component {
   render() {
     return (
       <RootContainer>
-        <Container alignItems="center" flexDirection="column" justifyContent="center" marginTop={0} width="90%">
+        <Container
+          alignItems="center"
+          flexDirection="column"
+          justifyContent="center"
+          marginTop={0}
+          width="90%"
+        >
           <HeaderTwo marginBottom="24" marginLeft="0" marginTop="112">
             With Great Power Comes Great Responsibility
           </HeaderTwo>
@@ -52,7 +68,7 @@ class CreateWalletTutorial extends Component {
               await this.props.saveMnemonicWords();
             }}
           />
-          <Loader animating={this.state.loading} size="small"/>
+          <Loader animating={this.state.loading} size="small" />
         </Container>
       </RootContainer>
     );

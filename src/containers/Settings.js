@@ -1,11 +1,12 @@
 'use strict';
 import React, { Component } from 'react';
-import { BackHandler, TouchableWithoutFeedback, Text } from 'react-native';
+import { BackHandler } from 'react-native';
 import { connect } from 'react-redux';
 import { Linking, TouchableHighlight, Alert, Modal } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import { clearState } from '../actions/ActionClearState';
+import { savePopUpModalVisibility } from '../actions/ActionModal';
 import { rehydrationComplete } from '../actions/ActionRehydration';
 import {
   RootContainer,
@@ -13,11 +14,12 @@ import {
   UntouchableCardContainer,
   Button,
   Description,
-  GoyemonText
+  SettingsListCard
 } from '../components/common';
+import PopUpModal from './common/PopUpModal';
 import I18n from '../i18n/I18n';
 import TxStorage from '../lib/tx';
-import BalanceStack from '../navigators/BalanceStack';
+import PortfolioStack from '../navigators/PortfolioStack';
 import { persistor, store } from '../store/store.js';
 import LogUtilities from '../utilities/LogUtilities.js';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
@@ -26,7 +28,6 @@ class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalVisible: false,
       deleteTextValidation: false,
       buttonDisabled: true,
       buttonOpacity: 0.5
@@ -37,8 +38,8 @@ class Settings extends Component {
     headerLeft: (
       <BackButtonContainer
         onPress={() => {
-          navigation.navigate('BalanceHome');
-          BalanceStack.navigationOptions = () => {
+          navigation.navigate('PortfolioHome');
+          PortfolioStack.navigationOptions = () => {
             const tabBarVisible = true;
             return {
               tabBarVisible
@@ -60,20 +61,12 @@ class Settings extends Component {
   }
 
   handleBackButton() {
-    BalanceStack.navigationOptions = () => {
+    PortfolioStack.navigationOptions = () => {
       const tabBarVisible = true;
       return {
         tabBarVisible
       };
     };
-  }
-
-  setModalVisible(visible) {
-    this.setState({
-      modalVisible: visible,
-      buttonDisabled: true,
-      buttonOpacity: 0.5
-    });
   }
 
   validateDeleteText(deleteText) {
@@ -96,112 +89,102 @@ class Settings extends Component {
   }
 
   render() {
+    const { navigation } = this.props;
     return (
       <RootContainer>
-        <HeaderOne marginTop="112">Settings</HeaderOne>
-        <Modal
-          animationType="fade"
-          transparent
-          visible={this.state.modalVisible}
-          onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
+        <HeaderOne marginTop="112">{I18n.t('settings-header')}</HeaderOne>
+        <PopUpModal
+          maxHeight="40%"
+          onPress={() => {
+            this.props.savePopUpModalVisibility(false);
           }}
         >
-          <ModalContainer>
-            <ModalBackground>
-              <MondalInner>
-                <ModalTextContainer>
-                  <ResetWalletHeader>
-                    {I18n.t('Are you sure?')}
-                  </ResetWalletHeader>
-                  <Description marginBottom="0" marginLeft="0" marginTop="8">
-                    Did you save your backup words? Otherwise, you will lose
-                    your funds.
-                  </Description>
-                </ModalTextContainer>
-                <DeleteTextInputContainer>
-                  <Description marginBottom="8" marginLeft="0" marginTop="16">
-                    type "delete" to confirm
-                  </Description>
-                  <DeleteTextInput
-                    autoCapitalize="none"
-                    clearButtonMode="while-editing"
-                    onChangeText={deleteText => {
-                      this.validateDeleteText(deleteText);
-                    }}
-                  />
-                </DeleteTextInputContainer>
-                <ButtonContainer>
-                  <Button
-                    text="Cancel"
-                    textColor="#5F5F5F"
-                    backgroundColor="#EEEEEE"
-                    borderColor="#EEEEEE"
-                    margin="8px"
-                    marginBottom="12px"
-                    opacity="1"
-                    onPress={() => {
-                      this.setModalVisible(false);
-                    }}
-                  />
-                  <Button
-                    text="Confirm"
-                    textColor="#FFF"
-                    backgroundColor="#E41B13"
-                    borderColor="#E41B13"
-                    disabled={this.state.buttonDisabled}
-                    margin="8px"
-                    marginBottom="12px"
-                    opacity={this.state.buttonOpacity}
-                    onPress={async () => {
-                      await WalletUtilities.resetKeychainData();
-                      await persistor.purge();
-                      await TxStorage.storage.clear();
-                      this.props.clearState();
-                      // reset notification settings using https://github.com/zo0r/react-native-push-notification
-                      this.setModalVisible(false);
-                      this.props.navigation.navigate('Initial');
-                      store.dispatch(rehydrationComplete(true));
-                    }}
-                  />
-                </ButtonContainer>
-              </MondalInner>
-            </ModalBackground>
-          </ModalContainer>
-        </Modal>
+          <ModalTextContainer>
+            <ResetWalletHeader>
+              {I18n.t('settings-reset-title')}
+            </ResetWalletHeader>
+            <Description marginBottom="0" marginLeft="0" marginTop="8">
+              {I18n.t('settings-reset-warning')}
+            </Description>
+          </ModalTextContainer>
+          <DeleteTextInputContainer>
+            <Description marginBottom="8" marginLeft="0" marginTop="16">
+              {I18n.t('settings-reset-instruction')}
+            </Description>
+            <DeleteTextInput
+              autoCapitalize="none"
+              clearButtonMode="while-editing"
+              onChangeText={(deleteText) => {
+                this.validateDeleteText(deleteText);
+              }}
+            />
+          </DeleteTextInputContainer>
+          <ButtonContainer>
+            <Button
+              text={I18n.t('button-cancel')}
+              textColor="#5F5F5F"
+              backgroundColor="#EEEEEE"
+              borderColor="#EEEEEE"
+              margin="8px"
+              marginBottom="12px"
+              opacity="1"
+              onPress={() => {
+                this.props.savePopUpModalVisibility(false);
+              }}
+            />
+            <Button
+              text={I18n.t('button-confirm')}
+              textColor="#FFF"
+              backgroundColor="#E41B13"
+              borderColor="#E41B13"
+              disabled={this.state.buttonDisabled}
+              margin="8px"
+              marginBottom="12px"
+              opacity={this.state.buttonOpacity}
+              onPress={async () => {
+                await WalletUtilities.resetKeychainData();
+                await persistor.purge();
+                await TxStorage.storage.clear();
+                this.props.clearState();
+                // reset notification settings using https://github.com/zo0r/react-native-push-notification
+                this.props.savePopUpModalVisibility(false);
+                navigation.navigate('Initial');
+                store.dispatch(rehydrationComplete(true));
+              }}
+            />
+          </ButtonContainer>
+        </PopUpModal>
         <CommunityIconContainer>
           <CommunityIcon>
-            <IconOpacity>
-              <Icon
-                onPress={() => {
-                  Linking.openURL('#').catch(err =>
-                    LogUtilities.logError('An error occurred', err)
-                  );
-                }}
-                name="twitter"
-                color="#5f5f5f"
-                size={40}
-              />
-            </IconOpacity>
-          </CommunityIcon>
-          <CommunityIcon>
-            <IconOpacity>
-              <Icon
-                onPress={() => {
-                  Linking.openURL('#').catch(err =>
-                    LogUtilities.logError('An error occurred', err)
-                  );
-                }}
-                name="github-circle"
-                color="#5f5f5f"
-                size={40}
-              />
-            </IconOpacity>
+            <Icon
+              onPress={() => {
+                Linking.openURL(
+                  'https://twitter.com/GoyemonOfficial'
+                ).catch((err) =>
+                  LogUtilities.logError('An error occurred', err)
+                );
+              }}
+              name="twitter"
+              color="#1DA1F2"
+              size={40}
+            />
           </CommunityIcon>
           <CommunityIcon>
             <Icon
               onPress={() => {
-                Linking.openURL('https://discord.gg/MXGfnJG').catch(err =>
+                Linking.openURL('https://github.com/Goyemon').catch((err) =>
+                  LogUtilities.logError('An error occurred', err)
+                );
+              }}
+              name="github-circle"
+              color="#333"
+              size={40}
+            />
+          </CommunityIcon>
+          <CommunityIcon>
+            <Icon
+              onPress={() => {
+                Linking.openURL('https://discord.gg/MXGfnJG').catch((err) =>
                   LogUtilities.logError('An error occurred', err)
                 );
               }}
@@ -212,29 +195,21 @@ class Settings extends Component {
           </CommunityIcon>
         </CommunityIconContainer>
         <Description marginBottom="40" marginLeft="8" marginTop="16">
-          Join the community
+          {I18n.t('settings-community')}
         </Description>
         <SettingsListContainer>
-          <TouchableHighlight
-            underlayColor="#FFF"
-            onPress={() => this.props.navigation.navigate('BackupWords')}
+          <SettingsListCard
+            iconName="key-outline"
+            onPress={() => navigation.navigate('BackupWords')}
           >
-            <SettingsList>
-              <Icon name="key-outline" color="#5F5F5F" size={28} />
-              <SettingsListText>Backup Words</SettingsListText>
-              <Icon name="chevron-right" color="#5F5F5F" size={28} />
-            </SettingsList>
-          </TouchableHighlight>
-          <TouchableHighlight
-            underlayColor="#FFF"
-            onPress={() => this.props.navigation.navigate('Advanced')}
+            {I18n.t('settings-backup-words')}
+          </SettingsListCard>
+          <SettingsListCard
+            iconName="wrench-outline"
+            onPress={() => navigation.navigate('Advanced')}
           >
-            <SettingsList>
-              <Icon name="crosshairs" color="#5F5F5F" size={28} />
-              <SettingsListText>Advanced</SettingsListText>
-              <Icon name="chevron-right" color="#5F5F5F" size={28} />
-            </SettingsList>
-          </TouchableHighlight>
+            {I18n.t('advanced')}
+          </SettingsListCard>
         </SettingsListContainer>
         <UntouchableCardContainer
           alignItems="center"
@@ -249,10 +224,10 @@ class Settings extends Component {
           <TouchableHighlight
             underlayColor="#FFF"
             onPress={() => {
-              this.setModalVisible(true);
+              this.props.savePopUpModalVisibility(true);
             }}
           >
-            <ResetWalletText>Reset Wallet</ResetWalletText>
+            <ResetWalletText>{I18n.t('settings-reset-wallet')}</ResetWalletText>
           </TouchableHighlight>
         </UntouchableCardContainer>
         <BottomText>
@@ -266,31 +241,8 @@ class Settings extends Component {
 }
 
 const BackButtonContainer = styled.TouchableWithoutFeedback`
-  align-items: center;  
+  align-items: center;
   flex-direction: row;
-`;
-
-const ModalContainer = styled.View`
-  background-color: rgba(0, 0, 0, 0.5);
-  flex-direction: row;
-  justify-content: center;
-  height: 100%;
-`;
-
-const ModalBackground = styled.View`
-  background-color: #f8f8f8;
-  border-radius: 16px;
-  height: 40%;
-  min-height: 320px
-  margin-top: 80;
-  width: 90%;
-`;
-
-const MondalInner = styled.View`
-  justify-content: center;
-  flex: 1;
-  flex-direction: column;
-  width: 100%;
 `;
 
 const ModalTextContainer = styled.View`
@@ -309,10 +261,6 @@ const CommunityIcon = styled.View`
   margin-right: 8;
 `;
 
-const IconOpacity = styled.View`
-  opacity: 0.4;
-`;
-
 const SettingsListContainer = styled.View`
   background: #fff;
   border-color: rgba(95, 95, 95, 0.3);
@@ -323,33 +271,10 @@ const SettingsListContainer = styled.View`
   width: 100%;
 `;
 
-const SettingsList = styled.View`
-  align-items: center;
-  border-color: rgba(95, 95, 95, 0.3);
-  border-top-width: 0.5;
-  border-bottom-width: 0.5;
-  flex-direction: row;
-  justify-content: space-between;
-  padding-bottom: 16px;
-  padding-left: 16px;
-  padding-right: 16px;
-  padding-top: 16px;
-  width: 100%;
-`;
-
-const SettingsListText = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 20;
-  margin-left: 16;
-  width: 80%;
-`;
-
 const ResetWalletHeader = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Bold';
   font-size: 24;
-  margin-top: 16;
   text-align: center;
 `;
 
@@ -379,6 +304,7 @@ const DeleteTextInput = styled.TextInput`
 const ButtonContainer = styled.View`
   flex-direction: row;
   justify-content: center;
+  margin: 0 auto;
   margin-top: 16;
 `;
 
@@ -402,7 +328,8 @@ const LoveText = styled.Text`
 `;
 
 const mapDispatchToProps = {
-  clearState
+  clearState,
+  savePopUpModalVisibility
 };
 
 export default connect(null, mapDispatchToProps)(Settings);

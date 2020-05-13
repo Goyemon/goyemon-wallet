@@ -11,6 +11,7 @@ import {
   Loader
 } from '../components/common';
 import FcmPermissions from '../firebase/FcmPermissions.js';
+import I18n from '../i18n/I18n';
 import LogUtilities from '../utilities/LogUtilities.js';
 
 class NotificationPermissionTutorial extends Component {
@@ -23,12 +24,13 @@ class NotificationPermissionTutorial extends Component {
   }
 
   notificationPermissionNavigation() {
-    if (this.props.permissions.notification === null) {
+    const { permissions, navigation } = this.props;
+    if (permissions.notification === null) {
       LogUtilities.logInfo('notification permission is not set');
-    } else if (this.props.permissions.notification === true) {
-      this.props.navigation.navigate('WalletCreation');
-    } else if (this.props.permissions.notification === false) {
-      this.props.navigation.navigate('NotificationPermissionNotGranted');
+    } else if (permissions.notification === true) {
+      navigation.navigate('WalletCreation');
+    } else if (permissions.notification === false) {
+      navigation.navigate('NotificationPermissionNotGranted');
     }
   }
 
@@ -53,10 +55,10 @@ class NotificationPermissionTutorial extends Component {
             Almost Done!
           </HeaderTwo>
           <Description marginBottom="8" marginLeft="0" marginTop="16">
-            we use a notification system to process your transactions
+            {I18n.t('notification-tutorial-description')}
           </Description>
           <Button
-            text="Enable Now"
+            text={I18n.t('button-enable')}
             textColor="#00A3E2"
             backgroundColor="#FFF"
             borderColor="#00A3E2"
@@ -78,7 +80,7 @@ class NotificationPermissionTutorial extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   permissions: state.ReducerPermissions.permissions
 });
 

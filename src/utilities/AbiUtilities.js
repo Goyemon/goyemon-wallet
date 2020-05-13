@@ -1,5 +1,5 @@
 'use strict';
-const web3 = require('web3');
+import web3 from 'web3';
 // https://web3js.readthedocs.io/en/v1.2.0/web3-utils.html
 // https://github.com/indutny/bn.js/blob/master/lib/bn.js
 
@@ -82,8 +82,15 @@ class ABIEncoder {
 	static encodeEthToTokenSwapInput(minTokens, deadline, decimals=18) {
 		return new RuDataBuilder([0xf3, 0x39, 0xb5, 0x9b], 2, decimals).putUint256Scaled(minTokens).putUint256Unscaled(deadline).get();
 	}
-}
 
+	static encodeDepositPool(amount, decimals=18) {
+		return new RuDataBuilder([0x23, 0x44, 0x09, 0x44], 1, decimals).putUint256Scaled(amount).get();
+	}
+
+	static encodeWithdraw(amount, decimals=18) {
+		return new RuDataBuilder([0x2e, 0x1a, 0x7d, 0x4d], 1, decimals).putUint256Scaled(amount).get();
+	}
+}
 
 export default ABIEncoder;
 /*
