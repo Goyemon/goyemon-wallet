@@ -47,6 +47,8 @@ $ python --version
 Python 3.7.0
 $ node --version
 v11.6.0
+$ npm --version
+6.14.0
 $ ruby --version
 ruby 2.6.0p0 (2018-12-25 revision 66547) [x86_64-darwin17]
 $ pod --version
