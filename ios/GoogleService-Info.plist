@@ -4,38 +4,38 @@
 <dict>
 	<key>CLIENT_ID</key>
 	<!-- Ropsten -->
-	<string>687286274439-3epagfiamneumqo7ke0c2c2pdhlvsr0o.apps.googleusercontent.com</string>
+	<!-- <string>687286274439-3epagfiamneumqo7ke0c2c2pdhlvsr0o.apps.googleusercontent.com</string> -->
 	<!-- Mainnet -->
-	<!-- <string>1050179785740-gcm1vsfvk9dioocdjk7am1ev3hnoneis.apps.googleusercontent.com</string> -->
+	<string>1050179785740-gcm1vsfvk9dioocdjk7am1ev3hnoneis.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
 	<!-- Ropsten -->
-	<string>com.googleusercontent.apps.687286274439-3epagfiamneumqo7ke0c2c2pdhlvsr0o</string>
+	<!-- <string>com.googleusercontent.apps.687286274439-3epagfiamneumqo7ke0c2c2pdhlvsr0o</string> -->
 	<!-- Mainnet -->
-	<!-- <string>com.googleusercontent.apps.1050179785740-gcm1vsfvk9dioocdjk7am1ev3hnoneis</string> -->
+	<string>com.googleusercontent.apps.1050179785740-gcm1vsfvk9dioocdjk7am1ev3hnoneis</string>
 	<key>API_KEY</key>
 	<!-- Ropsten -->
-	<string>AIzaSyBMUBLLGPV_WlyCnRkC4lLRQfPcV6o7gaU</string>
+	<!-- <string>AIzaSyBMUBLLGPV_WlyCnRkC4lLRQfPcV6o7gaU</string> -->
 	<!-- Mainnet -->
-	<!-- <string>AIzaSyA-Fp8qN1ipN3KG8CKWSx8hSgwL0RVricA</string> -->
+	<string>AIzaSyA-Fp8qN1ipN3KG8CKWSx8hSgwL0RVricA</string>
 	<key>GCM_SENDER_ID</key>
 	<!-- Ropsten -->
-	<string>687286274439</string>
+	<!-- <string>687286274439</string> -->
 	<!-- Mainnet -->
-	<!-- <string>1050179785740</string> -->
+	<string>1050179785740</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.swarm.goyemon</string>
 	<key>PROJECT_ID</key>
 	<!-- Ropsten -->
-	<string>goyemon-ropsten</string>
+	<!-- <string>goyemon-ropsten</string> -->
 	<!-- Mainnet -->
-	<!-- <string>goyemon-main</string> -->
+	<string>goyemon-main</string>
 	<key>STORAGE_BUCKET</key>
 	<!-- Ropsten -->
-	<string>goyemon-ropsten.appspot.com</string>
+	<!-- <string>goyemon-ropsten.appspot.com</string> -->
 	<!-- Mainnet -->
-	<!-- <string>goyemon-main.appspot.com</string> -->
+	<string>goyemon-main.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -48,13 +48,13 @@
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
 	<!-- Ropsten -->
-	<string>1:687286274439:ios:bac41f3eaf65a24c622b22</string>
+	<!-- <string>1:687286274439:ios:bac41f3eaf65a24c622b22</string> -->
 	<!-- Mainnet -->
-	<!-- <string>1:1050179785740:ios:fde229c0825f6f03ca8a29</string> -->
+	<string>1:1050179785740:ios:fde229c0825f6f03ca8a29</string>
 	<key>DATABASE_URL</key>
 	<!-- Ropsten -->
-	<string>https://goyemon-ropsten.firebaseio.com</string>
+	<!-- <string>https://goyemon-ropsten.firebaseio.com</string> -->
 	<!-- Mainnet -->
-	<!-- <string>https://goyemon-main.firebaseio.com</string> -->
+	<string>https://goyemon-main.firebaseio.com</string>
 </dict>
 </plist>
