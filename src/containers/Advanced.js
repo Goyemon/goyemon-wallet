@@ -162,10 +162,10 @@ class Advanced extends Component {
           >
             {I18n.t('settings-advanced-other-device-info')}
           </HeaderThree>
-          {this.renderPostLog()}
+          {/* {this.renderPostLog()} */}
           <GoyemonText fontSize="14">{otherDebugInfo}</GoyemonText>
           <Copy text={otherDebugInfo} />
-          <TouchableWithoutFeedback
+          {/* <TouchableWithoutFeedback
             onPress={async () => {
               setTimeout(() => {
                 TxStorage.storage.debugDumpAllTxes();
@@ -173,7 +173,7 @@ class Advanced extends Component {
             }}
           >
             <CopyAddressText>dump all txes (careful!)</CopyAddressText>
-          </TouchableWithoutFeedback>
+          </TouchableWithoutFeedback> */}
           <HeaderThree
             color="#000"
             marginBottom="0"
