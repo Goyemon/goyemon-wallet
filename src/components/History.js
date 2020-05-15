@@ -34,177 +34,153 @@ class DescriptiveNameOfTheTransactionDetailShowingStupidComponentWhichIsBasicall
 		if (!tx)
 			return null;
 
-		// looking at Transaction.js, the classification of transaction type priority looks like this:
-		// this.state.isUniswapTx, txType = I18n.t('history-swap');
+		const istPtWithdraw = (x) => (x instanceof TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.PTwithdrawn]
+			|| x instanceof TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.PTopenDepositWithdrawn]
+			|| x instanceof TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.PTsponsorshipAndFeesWithdrawn]
+			|| x instanceof TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.PTcommittedDepositWithdrawn]);
 
-		// this.state.isDaiTransferTx,
-		// 	this.state.isOutgoingDaiTx && this.state.isIncomingDaiTx, txType = 'Self'
-		// 	this.state.isOutgoingDaiTx, txType = I18n.t('history-outgoing')
-		// 	this.state.isIncomingDaiTx, txType = I18n.t('history-incoming')
+		const tops = tx.getAllTokenOperations();
 
-		// this.state.isAmeTransferTx,
-		// 	this.state.isOutgoingAmeTx, txType = I18n.t('history-outgoing')
-		// 	this.state.isIncomingAmeTx, txType = I18n.t('history-incoming')
+		if (Object.keys(tops).length == 0) { // no token operations.
+			const ethdirection =
+				(tx.getFrom() && tx.getFrom() === `0x${our_reasonably_stored_address}` ? 1 : 0) +
+				(tx.getTo() && tx.getTo() === `0x${our_reasonably_stored_address}` ? 2 : 0);
 
-		// this.state.isCDaiMintFailedTx, txType = I18n.t('deposit') + ' ' + I18n.t('history-failed');
-		// this.state.isCDaiRedeemUnderlyingFailedTx, txType = I18n.t('withdraw') + ' ' + I18n.t('history-failed');
-
-
-		// this.state.isDaiApproveTx, txType = I18n.t('history-approve')
-		// this.state.isCDaiMintTx || this.state.isPTdepositTx,  txType = I18n.t('deposit')
-		// this.state.isCDaiRedeemUnderlyingTx || this.state.isPTwithdrawTx, txType = I18n.t('withdraw')
-		// this.state.isPTRewardTx, txType = 'Rewarded'
-
-
-		// this.state.isOutgoingEthTx && this.state.isIncomingEthTx, txType = 'Self';
-
-		// this.state.transaction.getFrom() === null || this.state.isOutgoingEthTx, txType = I18n.t('history-outgoing');
-		// this.state.isIncomingEthTx, txType = I18n.t('history-incoming');
+			if (ethdirection > 0)
+				return {
+					type: 'transfer',
+					direction: (ethdirection == 1 ? 'outgoing' : (ethdirection == 2 ? 'incoming' : 'self')),
+					amount: tx.getValue(),
+					token: 'eth'
+				}
+		}
 
 
-		// These need to be reordered to match the order from above
-		let topdata = tx.getTokenOperations('uniswap', TxStorage.TxTokenOpTypeToName.eth2tok);
-		if (topdata.length > 0)
+		if (Object.keys(tops).length > 1 || // two different tokens operated on or
+			(
+				Object.values(tops)[0].length > 1 && // more than one token op for givne token,
+				(!tops.pooltogether || tops.pooltogether.filter(x => !istPtWithdraw(x)).length > 0) // and the token is not pooltogether or it's all withdraws in PT.
+			)
+		)
 			return {
-				type: 'swap',
-				eth_sold: TransactionUtilities.parseEthValue(`0x${topdata[0].eth_sold}`),
-				tokens_bought: TransactionUtilities.parseHexDaiValue(`0x${topdata[0].tok_bought}`),
-				token: 'DAI'
+				type: 'multicontract'
 			};
 
 
-		topdata = tx.hasTokenOperation('dai', TxStorage.TxTokenOpTypeToName.approval);
-		if (topdata.length > 0)
-			return {
-				type: 'approval',
-				token: 'DAI'
+		// at this point we should have either single token operation or a bunch of PT withdraws.
+		// currently out of known operations, only PT withdraw emits multiple operations normally
+
+		let top, toptok;
+		if (tops.pooltogether) {
+			if (isPtWithdraw(tops.pooltogether[0])) {
+				//TransactionUtilities.parseHexDaiValue(`0x${topdata.reduce((x, y) => x.plus(y.withdrawAmount, 16), new BigNumber(0)).toString(16)}`)
+				return {
+					type: 'withdraw',
+					token: toptok,
+					amount: TransactionUtilities.parseHexDaiValue(`0x${tops.pooltogether.reduce((sum, x) => {
+							if (isPtWithdraw(x))
+								return sum.plus(x.withdrawAmount, 16);
+
+							return sum;
+						}, new BigNumber(0)).toString(16)}`) // TODO: why do we convert this to hex and then back? wouldnt it be better to just divide the BigNumber by decimal places of DAI?
+				};
 			}
+		}
+
+		[toptok, top] = Object.entries(tops).map(([toptok, toparr]) => [toptok, toparr[0]])[0]; // changes {x:[1]} to [x, 1], so extracts token name and the first token op (should only be one at this point anyway)
+
+		if (top instanceof TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.eth2tok])
+			return {
+				type: 'swap',
+				eth_sold: TransactionUtilities.parseEthValue(`0x${top.eth_sold}`),
+				tokens_bought: TransactionUtilities.parseHexDaiValue(`0x${top.tok_bought}`),
+				token: toptok
+			};
 
 
-		topdata = tx.getTokenOperations('pooltogether', TxStorage.TxTokenOpTypeToName.PTdeposited)
-			.concat(tx.getTokenOperations('pooltogether', TxStorage.TxTokenOpTypeToName.PTdepositedAndCommitted))
-			.concat(tx.getTokenOperations('pooltogether', TxStorage.TxTokenOpTypeToName.PTsponsorshipDeposited));
-		if (topdata.length > 0)
+		if (top instanceof TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.PTdeposited] ||
+			top instanceof TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.PTdepositedAndCommitted] ||
+			top instanceof TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.PTsponsorshipDeposited])
 			return {
 				type: 'deposit',
-				amount: TransactionUtilities.parseHexDaiValue(`0x${topdata[0].depositPoolAmount}`),
+				amount: TransactionUtilities.parseHexDaiValue(`0x${top.depositPoolAmount}`),
 				token: 'DAI'
-			}
-
-
-		topdata = tx.getTokenOperations('pooltogether', TxStorage.TxTokenOpTypeToName.PTwithdrawn)
-			.concat(tx.getTokenOperations('pooltogether', TxStorage.TxTokenOpTypeToName.PTopenDepositWithdrawn))
-			.concat(tx.getTokenOperations('pooltogether', TxStorage.TxTokenOpTypeToName.PTsponsorshipAndFeesWithdrawn))
-			.concat(tx.getTokenOperations('pooltogether', TxStorage.TxTokenOpTypeToName.PTcommittedDepositWithdrawn));
-		if (topdata.length > 0)
-			return {
-				type: 'withdraw',
-				token: 'DAI',
-				amount: (
-					topdata[0] instanceof TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.PTwithdrawn]
-						? TransactionUtilities.parseHexDaiValue(`0x${topdata[0].withdrawAmount}`)
-						: TransactionUtilities.parseHexDaiValue(`0x${topdata.reduce((x, y) => x.plus(y.withdrawAmount, 16), new BigNumber(0)).toString(16)}`) // TODO: why do we convert this to hex and then back? wouldnt it be better to just divide the BigNumber by decimal places of DAI?
-				)
-			}
-
-
-		topdata = tx.getTokenOperations('pooltogether', TxStorage.TxTokenOpTypeToName.PTrewarded);
-		if (topdata.length > 0)
-			return {
-				type: 'rewarded',
-				amount: TransactionUtilities.parseHexDaiValue(`0x${topdata[0].winnings}`),
-				token: 'DAI'
-			}
-
-
-		topdata = tx.getTokenOperations('cdai', TxStorage.TxTokenOpTypeToName.mint);
-		if (topdata.length > 0)
-			return {
-				type: 'deposit',
-				amount: TransactionUtilities.parseHexDaiValue(`0x${topdata[0].mintUnderlying}`),
-				token: 'DAI'
-			}
-
-		topdata = tx.getTokenOperations('cdai', TxStorage.TxTokenOpTypeToName.redeem);
-		if (topdata.length > 0)
-			return {
-				type: 'withdraw',
-				amount: TransactionUtilities.parseHexDaiValue(`0x${topdata[0].redeemUnderlying}`),
-				token: 'DAI'
-			}
-
-
-		topdata = tx.getTokenOperations('cdai', TxStorage.TxTokenOpTypeToName.failure);
-		if (topdata.length > 0)
-			return {
-				type: 'failure',
-				failop: (
-					topdata.some(x => parseInt(x.info, 16) == 38)
-					? 'mint'
-					: (
-						topdata.some(x => [42, 45, 46].contains(parseInt(x.info, 16)))
-						? 'redeem'
-						: 'unknown'
-					)
-				)
 			}
 
 
 		const our_reasonably_stored_address = (this.props.checksumAddress.substr(0, 2) == '0x' ? this.props.checksumAddress.substr(2) : this.props.checksumAddress).toLowerCase();
-		topdata = tx.getTokenOperations('ame_ropsten', TxStorage.TxTokenOpTypeToName.transfer);
-		if (topdata.length > 0)
+
+		if (top instanceof TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.transfer])
 			return {
 				type: 'transfer',
-				amount: TransactionUtilities.parseHexDaiValue(`0x${topdata[0].amount}`),
+				amount: TransactionUtilities.parseHexDaiValue(`0x${top.amount}`),
 				direction: (
-					topdata[0].from_addr === our_reasonably_stored_address
+					top.from_addr === our_reasonably_stored_address
 					? (
-						topdata[0].to_addr === our_reasonably_stored_address
+						top.to_addr === our_reasonably_stored_address
 						? 'self'
 						: 'outgoing'
 					)
 					: (
-						topdata[0].to_addr === our_reasonably_stored_address
+						top.to_addr === our_reasonably_stored_address
 						? 'incoming'
 						: 'unknown'
 					)
 				),
-				token: 'AME'
+				token: toptok
 			}
 
 
-		topdata = tx.getTokenOperations('DAI', TxStorage.TxTokenOpTypeToName.transfer);
-		if (topdata.length > 0)
+
+		if (top instanceof TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.failure])
 			return {
-				type: 'transfer',
-				amount: TransactionUtilities.parseHexDaiValue(`0x${topdata[0].amount}`),
-				direction: (
-					topdata[0].from_addr === our_reasonably_stored_address
-					? (
-						topdata[0].to_addr === our_reasonably_stored_address
-						? 'self'
-						: 'outgoing'
-					)
+				type: 'failure',
+				failop: (
+					parseInt(top.info, 16) == 38
+					? 'mint'
 					: (
-						topdata[0].to_addr === our_reasonably_stored_address
-						? 'incoming'
+						[42, 45, 46].contains(parseInt(top.info, 16))
+						? 'redeem'
 						: 'unknown'
 					)
 				),
-				token: 'DAI'
+				token: toptok
 			}
 
 
-		const ethdirection =
-			(tx.getFrom() && tx.getFrom() === `0x${our_reasonably_stored_address}` ? 1 : 0) +
-			(tx.getTo() && tx.getTo() === `0x${our_reasonably_stored_address}` ? 2 : 0);
-		if (ethdirection > 0)
+		if (top instanceof TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.approval])
 			return {
-				type: 'transfer',
-				direction: (ethdirection == 1 ? 'outgoing' : (ethdirection == 2 ? 'incoming' : 'self')),
-				amount: tx.getValue(),
-				token: 'eth'
+				type: 'approval',
+				token: toptok
 			}
+
+
+		if (top instanceof TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.mint])
+			return {
+				type: 'deposit',
+				amount: TransactionUtilities.parseHexDaiValue(`0x${top.mintUnderlying}`),
+				token: toptok
+			}
+
+
+		if (top instanceof TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.redeem])
+			return {
+				type: 'withdraw',
+				amount: TransactionUtilities.parseHexDaiValue(`0x${top.redeemUnderlying}`),
+				token: toptok
+			}
+
+
+		if (top instanceof TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.PTrewarded])
+			return {
+				type: 'rewarded',
+				amount: TransactionUtilities.parseHexDaiValue(`0x${top.winnings}`),
+				token: toptok
+			}
+
+		return {
+			type: 'oops'
+		}
 	}
 
 	componentDidUpdate(prevProps) {
@@ -216,7 +192,7 @@ class DescriptiveNameOfTheTransactionDetailShowingStupidComponentWhichIsBasicall
 		if (!this.state.txData)
 			return <RandomText>nothink!</RandomText>;
 
-		return <RandomText>{JSON.stringify(this.state.txData, null, 1)}</RandomText>;
+		return <RandomText>{JSON.stringify(this.state.txData, null, 1)}{JSON.stringify(this.props.tx)}</RandomText>;
 	}
 }
 ); // connect()
