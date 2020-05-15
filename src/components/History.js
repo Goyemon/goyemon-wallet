@@ -34,6 +34,10 @@ class DescriptiveNameOfTheTransactionDetailShowingStupidComponentWhichIsBasicall
 		if (!tx)
 			return null;
 
+		const topType = (top) => {
+
+		}
+
 		const istPtWithdraw = (x) => (x instanceof TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.PTwithdrawn]
 			|| x instanceof TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.PTopenDepositWithdrawn]
 			|| x instanceof TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.PTsponsorshipAndFeesWithdrawn]
@@ -42,6 +46,12 @@ class DescriptiveNameOfTheTransactionDetailShowingStupidComponentWhichIsBasicall
 		const tops = tx.getAllTokenOperations();
 
 		if (Object.keys(tops).length == 0) { // no token operations.
+			if (tx.getFrom() == null)
+				return {
+					type: 'contract_creation'
+				};
+
+			const our_reasonably_stored_address = (this.props.ourAddress.substr(0, 2) == '0x' ? this.props.ourAddress.substr(2) : this.props.ourAddress).toLowerCase();
 			const ethdirection =
 				(tx.getFrom() && tx.getFrom() === `0x${our_reasonably_stored_address}` ? 1 : 0) +
 				(tx.getTo() && tx.getTo() === `0x${our_reasonably_stored_address}` ? 2 : 0);
@@ -50,7 +60,7 @@ class DescriptiveNameOfTheTransactionDetailShowingStupidComponentWhichIsBasicall
 				return {
 					type: 'transfer',
 					direction: (ethdirection == 1 ? 'outgoing' : (ethdirection == 2 ? 'incoming' : 'self')),
-					amount: tx.getValue(),
+					amount: parseFloat(TransactionUtilities.parseEthValue(`0x${tx.getValue()}`)).toFixed(4),
 					token: 'eth'
 				}
 		}
@@ -58,6 +68,7 @@ class DescriptiveNameOfTheTransactionDetailShowingStupidComponentWhichIsBasicall
 
 		if (Object.keys(tops).length > 1 || // two different tokens operated on or
 			(
+				Object.values(tops).length > 0 && // we have a token operation
 				Object.values(tops)[0].length > 1 && // more than one token op for givne token,
 				(!tops.pooltogether || tops.pooltogether.filter(x => !istPtWithdraw(x)).length > 0) // and the token is not pooltogether or it's all withdraws in PT.
 			)
@@ -92,7 +103,7 @@ class DescriptiveNameOfTheTransactionDetailShowingStupidComponentWhichIsBasicall
 		if (top instanceof TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.eth2tok])
 			return {
 				type: 'swap',
-				eth_sold: TransactionUtilities.parseEthValue(`0x${top.eth_sold}`),
+				eth_sold: parseFloat(TransactionUtilities.parseEthValue(`0x${top.eth_sold}`)).toFixed(4),
 				tokens_bought: TransactionUtilities.parseHexDaiValue(`0x${top.tok_bought}`),
 				token: toptok
 			};
@@ -107,8 +118,7 @@ class DescriptiveNameOfTheTransactionDetailShowingStupidComponentWhichIsBasicall
 				token: 'DAI'
 			}
 
-
-		const our_reasonably_stored_address = (this.props.checksumAddress.substr(0, 2) == '0x' ? this.props.checksumAddress.substr(2) : this.props.checksumAddress).toLowerCase();
+		const our_reasonably_stored_address = (this.props.ourAddress.substr(0, 2) == '0x' ? this.props.ourAddress.substr(2) : this.props.ourAddress).toLowerCase();
 
 		if (top instanceof TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.transfer])
 			return {
