@@ -10,12 +10,6 @@ import I18n from '../i18n/I18n';
 import TxStorage from '../lib/tx.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 
-/*	=======================================================
-  2020-03-02 13:19:12
-  TODO: this needs a lot of simplification. A litany of if()elseif()s is not easy to follow. There are much simplified logical conditions which can do that.
-  Additionally, a lot of stuff just ends without returning any value potentially (no default case when none of if()s matches).
-  ======================================================= */
-
 class Transaction extends Component {
 	constructor(props) {
 		super(props);
@@ -156,7 +150,7 @@ class Transaction extends Component {
 								case 'failure':		return null;
 							}
 						})()}
-						<View>{(() => {
+						{(() => {
 							switch (data.type) {
 								case 'deposit':		return <GoyemonText fontSize={16} style={styles.valueStyleRed}>{data.amount} DAI</GoyemonText>;
 
@@ -189,7 +183,7 @@ class Transaction extends Component {
 								if (this.state.transaction.getTo() === null)
 								return <GoyemonText fontSize={16}>Contract Creation</GoyemonText>;
 							*/
-						})()}</View>
+						})()}
 					</ValueContainer>
 
 				</TransactionList>
