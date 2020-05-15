@@ -1259,6 +1259,11 @@ class Tx {
 		return this.tokenData[token].filter((x) => (operation == null || x instanceof cls));
 	}
 
+	getAllTokenOperations() {
+		return this.tokenData;
+
+	}
+
 	getFrom() {
 		return this.from_addr ? `0x${this.from_addr.toString('hex')}` : null;
 	}
