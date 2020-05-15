@@ -15,6 +15,7 @@ import { saveOutgoingTransactionDataSend } from '../actions/ActionOutgoingTransa
 import { clearQRCodeData } from '../actions/ActionQRCodeData';
 import {
   UntouchableCardContainer,
+  UseMaxButton,
   Form,
   FormHeader,
   Loader,
@@ -127,42 +128,12 @@ class SendDai extends Component {
     }
   }
 
-  validateDaiAmount(amount) {
-    const isNumber = /^[0-9]\d*(\.\d+)?$/.test(amount);
-    if (isNumber) {
-      amount = new BigNumber(10).pow(18).times(amount);
-      const daiBalance = new BigNumber(this.props.balance.dai);
-
-      if (
-        daiBalance.isGreaterThanOrEqualTo(amount) &&
-        amount.isGreaterThanOrEqualTo(0)
-      ) {
-        LogUtilities.logInfo('the dai amount validated!');
-        this.setState({ daiAmountValidation: true });
-        if (this.state.toAddressValidation === true) {
-          this.setState({ buttonDisabled: false, buttonOpacity: 1 });
-        }
-        return true;
-      }
-      LogUtilities.logInfo('wrong dai balance!');
-      this.setState({
-        daiAmountValidation: false,
-        buttonDisabled: true,
-        buttonOpacity: 0.5
-      });
-      return false;
-    } else {
-      this.setState({
-        daiAmountValidation: false,
-        buttonDisabled: true,
-        buttonOpacity: 0.5
-      });
-      return false;
-    }
-  }
-
   buttonStateUpdate() {
-    if (this.state.daiAmountValidation && this.state.weiAmountValidation) {
+    if (
+      this.state.daiAmountValidation &&
+      this.state.weiAmountValidation &&
+      this.state.toAddressValidation
+    ) {
       this.setState({
         buttonDisabled: false,
         buttonOpacity: 1
@@ -172,6 +143,31 @@ class SendDai extends Component {
         buttonDisabled: true,
         buttonOpacity: 0.5
       });
+    }
+  }
+
+  updateDaiAmountValidation(daiAmountValidation) {
+    if (daiAmountValidation) {
+      this.setState(
+        {
+          daiAmountValidation: true
+        },
+        function () {
+          if (this.state.toAddressValidation === true) {
+            this.setState({ buttonDisabled: false, buttonOpacity: 1 });
+          }
+          this.buttonStateUpdate();
+        }
+      );
+    } else if (!daiAmountValidation) {
+      this.setState(
+        {
+          daiAmountValidation: false
+        },
+        function () {
+          this.buttonStateUpdate();
+        }
+      );
     }
   }
 
@@ -191,7 +187,9 @@ class SendDai extends Component {
 
   validateForm = async (toAddress, daiAmount) => {
     const toAddressValidation = this.validateToAddress(toAddress);
-    const daiAmountValidation = this.validateDaiAmount(daiAmount);
+    const daiAmountValidation = TransactionUtilities.validateDaiAmount(
+      daiAmount
+    );
     const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(
       TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
       GlobalConfig.ERC20TransferGasLimit
@@ -225,9 +223,15 @@ class SendDai extends Component {
   };
 
   render() {
-    const daiBalance = RoundDownBigNumber(this.props.balance.dai)
+    const { balance } = this.props;
+
+    const daiBalance = RoundDownBigNumber(balance.dai)
       .div(new RoundDownBigNumber(10).pow(18))
       .toFixed(2);
+
+    const daiFullBalance = RoundDownBigNumber(balance.dai)
+      .div(new RoundDownBigNumber(10).pow(18))
+      .toString();
 
     return (
       <View>
@@ -290,6 +294,16 @@ class SendDai extends Component {
           <FormHeader marginBottom="0" marginTop="0">
             {I18n.t('amount')}
           </FormHeader>
+          <UseMaxButton
+            text={I18n.t('use-max')}
+            textColor="#00A3E2"
+            onPress={() => {
+              this.setState({ daiAmount: daiFullBalance });
+              this.updateDaiAmountValidation(
+                TransactionUtilities.validateDaiAmount(daiFullBalance)
+              );
+            }}
+          />
         </FormHeaderContainer>
         <Form
           borderColor={StyleUtilities.getBorderColor(
@@ -304,10 +318,13 @@ class SendDai extends Component {
               keyboardType="numeric"
               clearButtonMode="while-editing"
               onChangeText={(daiAmount) => {
-                this.validateDaiAmount(daiAmount);
+                this.updateDaiAmountValidation(
+                  TransactionUtilities.validateDaiAmount(daiAmount)
+                );
                 this.setState({ daiAmount });
               }}
               returnKeyType="done"
+              value={this.state.daiAmount}
             />
             <CurrencySymbolText>DAI</CurrencySymbolText>
           </SendTextInputContainer>
