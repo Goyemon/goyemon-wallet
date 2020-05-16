@@ -195,7 +195,7 @@ class Transaction extends Component {
 		if (!tx)
 			return null;
 
-		const our_reasonably_stored_address = (this.props.ourAddress.substr(0, 2) == '0x' ? this.props.ourAddress.substr(2) : this.props.ourAddress).toLowerCase();
+		const our_reasonably_stored_address = (this.props.checksumAddress.substr(0, 2) == '0x' ? this.props.checksumAddress.substr(2) : this.props.checksumAddress).toLowerCase();
 
 		const topType = (top, toptok) => {
 			if (top instanceof TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.eth2tok])

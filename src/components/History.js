@@ -195,7 +195,46 @@ class DescriptiveNameOfTheTransactionDetailShowingStupidComponentWhichIsBasicall
 		if (!this.state.txData)
 			return <RandomText>nothink!</RandomText>;
 
-		return <RandomText>{JSON.stringify(this.state.txData, null, 1)}{JSON.stringify(this.props.tx)}</RandomText>;
+		// return <RandomText>{JSON.stringify(this.state.txData, null, 1)}{JSON.stringify(this.props.tx)}</RandomText>;
+
+		return <>
+				{this.state.txData.map(x => {
+					return <>
+						<RandomText>{x.type}</RandomText>
+						{x.direction ? <RandomText>{x.direction}</RandomText> : null}
+						{x.amount ? <RandomText>{x.amount}{x.token}</RandomText> : null}
+					</>;
+
+					switch (x.type) {
+
+					}
+				})}
+				<RandomText>Status</RandomText>
+				<RandomTextValue>{this.props.tx.getState()}</RandomTextValue>
+
+				<RandomText>Hash</RandomText>
+				<RandomTextValue>{this.props.tx.getHash()}</RandomTextValue>
+
+				<RandomText>From</RandomText>
+				<RandomTextValue>{this.props.tx.getFrom()}</RandomTextValue>
+
+				<RandomText>To</RandomText>
+				<RandomTextValue>{this.props.tx.getTo()}</RandomTextValue>
+
+				<RandomText>Value</RandomText>
+				<RandomTextValue>{this.props.tx.getValue()}</RandomTextValue>
+
+				<RandomText>gasPrice</RandomText>
+				<RandomTextValue>{this.props.tx.getGasPrice()}</RandomTextValue>
+
+				<RandomText>gas</RandomText>
+				<RandomTextValue>{this.props.tx.getGas()}</RandomTextValue>
+
+				<RandomText>nonce</RandomText>
+				<RandomTextValue>{this.props.tx.getNonce()}</RandomTextValue>
+
+				<RandomText>{JSON.stringify(this.state.txData, null, 1)}{JSON.stringify(this.props.tx)}</RandomText>
+			</>;
 	}
 }
 ); // connect()
@@ -276,6 +315,12 @@ const RandomText = styled.Text`
 	color: #aaaaaa;
   	font-size: 18;
   	font-weight: bold;
+`;
+
+const RandomTextValue = styled.Text`
+	color: #aaaaaa;
+  	font-size: 18;
+	margin-left: 24;
 `;
 
 
