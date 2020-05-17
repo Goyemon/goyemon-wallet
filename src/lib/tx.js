@@ -1136,6 +1136,7 @@ class Tx {
 		this.from_addr = this.to_addr = this.value = this.gas = this.gasPrice = this.timestamp = this.nonce = this.hash = null;
 		this.state = state !== undefined ? state : null;
 		this.tokenData = {};
+		this.data = {}; // for additional items, such as transaction input field
 	}
 
 	setFrom(addr) {
@@ -1184,8 +1185,13 @@ class Tx {
 		return this;
 	}
 
-	tempSetData(data) {
-		this.data = data;
+	tempSetData(data) { // misleading now; means transaction input field
+		this.data.data = data;
+		return this;
+	}
+
+	tempDropData() {
+		delete(this.data.data);
 		return this;
 	}
 
@@ -1221,6 +1227,9 @@ class Tx {
 				);
 			}
 		}
+
+		if (data.length > 9)
+			this.data = data[9];
 
 		return this.setFrom(data[0])
 			.setTo(data[1])
@@ -1308,12 +1317,12 @@ class Tx {
 			gasLimit: `0x${this.gas}`,
 			value: `0x${this.getValue()}`,
 			chainId: GlobalConfig.network_id,
-			data: this.data
+			data: this.data.data
 		  };
 	}
 
 	toJSON() {
-		return [this.getFrom(), this.getTo(), this.gas, this.gasPrice, this.value, this.nonce, this.timestamp, this.state, this.tokenData];
+		return [this.getFrom(), this.getTo(), this.gas, this.gasPrice, this.value, this.nonce, this.timestamp, this.state, this.tokenData, this.data];
 	}
 
 	shallowClone() {
@@ -1326,6 +1335,8 @@ class Tx {
 	deepClone() {
 		let ntx = Object.assign(new Tx(), this);
 		ntx.tokenData = Object.assign({}, ntx.tokenData);
+		ntx.data = Object.assign({}, ntx.data); // expected to be a simple key => value map, so a shallow clone of this should be sufficient for now.
+
 		for (let n of Object.getOwnPropertyNames(ntx.tokenData))
 			ntx.tokenData[n] = ntx.tokenData[n].map(x => x.deepClone());
 
@@ -1337,6 +1348,7 @@ class Tx {
 			this.tokenData[n].forEach(x => x.freeze());
 			Object.freeze(this.tokenData[n]);
 		}
+		Object.freeze(this.data);
 		Object.freeze(this.tokenData);
 		Object.freeze(this);
 
@@ -1633,7 +1645,8 @@ class TxStorage {
 					let newtx = tx.deepClone();
 					// LogUtilities.toDebugScreen(`processTxState(hash:${hash}) deep clone: `, JSON.stringify(newtx));
 					newtx.setHash(hash)
-						.fromDataArray(data);
+						.fromDataArray(data)
+						.tempDropData();
 
 					if (savedState)
 						newtx.upgradeState(savedState[7], savedState[6]);
@@ -1836,61 +1849,6 @@ class TxStorage {
 		};
 	}
 
-	// async getVerificationDataMD5() {
-	// 	function getCheckpoints(count, offset=0) {
-	// 		const hashes = Math.floor(4000 / (32 + 3)); // msg size / hash length (jsoned)
-	// 		const computed_count = count - offset; // we assume [offset] hashes to be correct, so we don't checkpoint those, we only take into account the last count - offset hashes
-	//
-	// 		const checkpoints = [];
-	// 		let sum = Math.pow(hashes, Math.log10(computed_count)) / computed_count; // val for i[0]
-	// 		for (let i = 1; i <= hashes; ++i) {
-	// 			let val = Math.pow(hashes - i, Math.log10(computed_count)) / computed_count;
-	// 			checkpoints.push(val);
-	// 			sum += val;
-	// 		}
-	// 		const normalization_factor = 1 / sum;
-	//
-	// 		let last = count + 1;
-	// 		for (let i = checkpoints.length - 1; i >= 0; --i) {
-	// 			const diff = Math.round(checkpoints[i] * normalization_factor * computed_count);
-	// 			const val = last - (diff > 0 ? diff : 1);
-	// 			if (val < 1) {
-	// 				return checkpoints.slice(i + 1);
-	// 			}
-	// 			last = checkpoints[i] = val;
-	// 		}
-	//
-	// 		return checkpoints;
-	// 	}
-	//
-	// 	const count = this.txes.getItemCount('all');
-	// 	const checkpoints = getCheckpoints(count, 0);
-	//
-	// 	LogUtilities.toDebugScreen(`TxStorage getVerificationData() checkpoints (cnt:${count} off:0):`, checkpoints);
-	//
-	// 	// const hashes = await this.txes.getHashesAt(checkpoints, 'all');
-	// 	const hashes = await this.txes.getHashes('all');
-	// 	const ret = [];
-	// 	let lasthash = null;
-	// 	let checkpoint = 0;
-	// 	hashes.forEach((h, idx) => {
-	// 		const ch = crypto.createHash('md5').update(lasthash ? `${lasthash}${h}` : h).digest('hex');
-	// 		if (checkpoints[checkpoint] === idx + 1) {
-	// 			ret.push(ch);
-	// 			++checkpoint;
-	// 		}
-	// 		lasthash = ch;
-	// 	});
-	//
-	// 	return {
-	// 		//'hashes': hashes,
-	// 		'hashes': ret,
-	// 		'count': count,
-	// 		'offset': 0
-	// 	};
-	// }
-
-
 	async processTxSync(data) {
 		// LogUtilities.toDebugScreen('processTxSync(): received txsync data:', data);
 		if ('_contracts' in data)
@@ -1924,7 +1882,7 @@ class TxStorage {
 					// replacetx
 					LogUtilities.toDebugScreen('processTxSync(): found OUR tx by nonce: ', oldTx);
 					LogUtilities.toDebugScreen('processTxSync(): to be replaced with: ', tx);
-					await this.txes.replaceTx(oldTx, tx, nonceKey, tx.getHash(), true);
+					await this.txes.replaceTx(oldTx, tx, nonceKey, tx.getHash(), true); // since we're replacing with server data, there is no 'input' field already, no need to drop anything.
 					changed++;
 
 					continue;
