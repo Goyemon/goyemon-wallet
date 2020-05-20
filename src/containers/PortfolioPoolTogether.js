@@ -12,8 +12,9 @@ import Congrats from '../../assets/congrats_animation.json';
 import {
   RootContainer,
   Button,
-  Container,
+  Description,
   HeaderOne,
+  HeaderFour,
   HeaderFive,
   GoyemonText
 } from '../components/common';
@@ -85,29 +86,31 @@ class PortfolioPoolTogether extends Component {
       ) {
         return (
           <PopUpModal
+            maxHeight="40%"
             onPress={() => {
               this.props.savePopUpModalVisibility(false);
               this.props.togglePoolTogetherWinnerRevealed(true);
             }}
           >
-            <AnimationContainer animation="fadeIn" delay={500}>
+            <AnimationContainer animation="fadeIn" delay={1000}>
+              <HeaderFour marginTop={8}>
+                you won {winningAmount} DAI!
+              </HeaderFour>
               <Animation
                 ref={(animation) => {
                   this.animation = animation;
                 }}
                 style={{
                   width: 120,
-                  height: 120
+                  height: 120,
+                  marginBottom: 12
                 }}
                 autoPlay
                 loop={true}
                 source={Congrats}
               />
-              <GoyemonText fontSize={16}>
-                you won {winningAmount} DAI!
-              </GoyemonText>
             </AnimationContainer>
-            <AnimationContainer animation="fadeIn" delay={1000}>
+            <AnimationContainer animation="fadeIn" delay={2500}>
               <GoyemonText fontSize={16}>
                 your winning is in the committed pool
               </GoyemonText>
@@ -138,38 +141,22 @@ class PortfolioPoolTogether extends Component {
       } else {
         return (
           <PopUpModal
+            maxHeight="25%"
             onPress={() => {
               this.props.savePopUpModalVisibility(false);
               this.props.togglePoolTogetherWinnerRevealed(true);
             }}
           >
-            <AnimationContainer animation="fadeIn" delay={500}>
-              <GoyemonText fontSize={16}>the last winner was...</GoyemonText>
-              <GoyemonText fontSize={16}>
+            <HeaderFour marginTop={8}>the last winner was...</HeaderFour>
+            <AnimationContainer animation="fadeIn" delay={1000}>
+              <GoyemonText fontSize={12}>
                 {`0x${this.props.poolTogether.dai.lastWinner}`}
               </GoyemonText>
-              <GoyemonText fontSize={16}>
-                your last deposit stays in the committed pool
-              </GoyemonText>
-              <GoyemonText fontSize={16}>
-                you can deposit for the next round
-              </GoyemonText>
-              <ButtonContainer>
-                <Button
-                  text={I18n.t('deposit')}
-                  textColor="#00A3E2"
-                  backgroundColor="#FFF"
-                  borderColor="#00A3E2"
-                  margin="8px auto"
-                  marginBottom="12px"
-                  opacity="1"
-                  onPress={async () => {
-                    this.props.savePopUpModalVisibility(false);
-                    this.props.togglePoolTogetherWinnerRevealed(true);
-                    this.props.navigation.navigate('DepositDaiToPoolTogether');
-                  }}
-                />
-              </ButtonContainer>
+            </AnimationContainer>
+            <AnimationContainer animation="fadeIn" delay={2500}>
+              <Description marginBottom="8" marginLeft="8" marginTop="16">
+                your deposit is still in the committed round for the next prize!
+              </Description>
             </AnimationContainer>
           </PopUpModal>
         );
@@ -248,7 +235,7 @@ const FilterContainer = styled.View`
   margin: 0 auto;
   margin-top: 16;
   margin-bottom: 12;
-  width: 70%;
+  width: 80%;
 `;
 
 const FilterChoiceContainer = styled.View`

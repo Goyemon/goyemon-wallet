@@ -94,6 +94,7 @@ class Settings extends Component {
       <RootContainer>
         <HeaderOne marginTop="112">{I18n.t('settings-header')}</HeaderOne>
         <PopUpModal
+          maxHeight="40%"
           onPress={() => {
             this.props.savePopUpModalVisibility(false);
           }}
@@ -274,7 +275,6 @@ const ResetWalletHeader = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Bold';
   font-size: 24;
-  margin-top: 16;
   text-align: center;
 `;
 

@@ -61,7 +61,7 @@
   "settings-reset-wallet": "ウォレットを削除",
   "settings-reset-title": "本当に削除しますか？",
   "settings-reset-warning": "バックアップをとっていないと資産を失います。",
-  "settings-reset-instruction": "'delete'と打ち込んで確認してください",
+  "settings-reset-instruction": "「delete」と打ち込んで確認してください",
   "settings-backup-words-header": "バックアップ",
   "settings-backup-words-description": "以下の文字を順番に書き出して、安全な場所に保管してください",
   "settings-advanced-network": "ネットワーク",

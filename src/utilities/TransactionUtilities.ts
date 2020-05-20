@@ -118,6 +118,34 @@ class TransactionUtilities {
     return false;
   }
 
+  validateWeiAmount(weiAmount) {
+    const isNumber = /^[0-9]\d*(\.\d+)?$/.test(weiAmount);
+
+    if (isNumber) {
+      const stateTree = store.getState();
+      const balance = stateTree.ReducerBalance.balance;
+      const gasChosen = stateTree.ReducerGasPrice.gasChosen;
+      const weiBalance = new BigNumber(balance.wei);
+      weiAmount = new BigNumber(weiAmount);
+      const transactionFeeLimitInWei = new BigNumber(
+        this.returnTransactionSpeed(gasChosen)
+      ).times(GlobalConfig.ETHTxGasLimit);
+      
+      if (
+        weiBalance.isGreaterThanOrEqualTo(
+          weiAmount.plus(transactionFeeLimitInWei)
+        ) &&
+        weiAmount.isGreaterThanOrEqualTo(0)
+      ) {
+        return true;
+      }
+      LogUtilities.logInfo('wrong balance!');
+      return false;
+    } else {
+      return false;
+    }
+  }
+
   validateDaiAmount(daiAmount) {
     const isNumber = /^[0-9]\d*(\.\d+)?$/.test(daiAmount);
     if (isNumber) {
@@ -295,7 +323,6 @@ class TransactionUtilities {
 
     return approveTransactionObject;
   }
-
 }
 
 export default new TransactionUtilities();

@@ -67,7 +67,7 @@ export default class Welcome extends Component {
     return (
       <RootContainer>
         {this.hollaFadeInOut()}
-        <WelcomeContainer animation="fadeIn" delay={4000}>
+        <WelcomeFirstContainer animation="fadeIn" delay={4000}>
           <Logo>Goyemon</Logo>
           <OneLinerContainer>
             <OneLiner>access to new generation</OneLiner>
@@ -90,6 +90,8 @@ export default class Welcome extends Component {
               <PoolTogetherIcon />
             </IconImage>
           </IconContainer>
+        </WelcomeFirstContainer>
+        <WelcomeSecondContainer animation="fadeIn" delay={5000}>
           <TouchableCardContainer
             alignItems="center"
             flexDirection="row"
@@ -140,7 +142,7 @@ export default class Welcome extends Component {
               <Icon name="account-search-outline" size={48} color="#5f5f5f" />
             </CardImage>
           </TouchableCardContainer>
-        </WelcomeContainer>
+        </WelcomeSecondContainer>
       </RootContainer>
     );
   }
@@ -150,10 +152,16 @@ const HollaContainer = Animatable.createAnimatableComponent(styled.View`
   margin-top: ${hp('40%')};
 `);
 
-const WelcomeContainer = Animatable.createAnimatableComponent(styled.View`
+const WelcomeFirstContainer = Animatable.createAnimatableComponent(styled.View`
   align-items: center;
   flex: 1;
   margin-top: ${hp('-40%')};
+`);
+
+const WelcomeSecondContainer = Animatable.createAnimatableComponent(styled.View`
+  align-items: center;
+  flex: 1;
+  margin-top: ${hp('0%')};
 `);
 
 const Title = Animatable.createAnimatableComponent(styled.Text`

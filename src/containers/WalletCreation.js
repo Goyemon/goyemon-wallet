@@ -301,15 +301,16 @@ const FadeInMessageSixText = styled.Text`
 
 const ModalInner = styled.View`
   align-items: center;
+  flex: 1;
   flex-direction: column;
   justify-content: center;
 `;
 
 const ModalText = styled.Text`
   color: #fff;
-  font-family: 'HKGrotesk-Regular';
+  font-family: 'HKGrotesk-Bold';
   font-size: 24;
-  margin-top: 80%;
+  text-align: center;
 `;
 
 function mapStateToProps(state) {

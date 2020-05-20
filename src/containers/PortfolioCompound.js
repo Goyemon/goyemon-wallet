@@ -2,7 +2,8 @@
 import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Text } from 'react-native';
+import { View } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
 import { withNavigation } from 'react-navigation';
 import {
@@ -11,6 +12,7 @@ import {
   HeaderOne,
   HeaderThree,
   HeaderFour,
+  HeaderFive,
   GoyemonText
 } from '../components/common';
 import I18n from '../i18n/I18n';
@@ -81,29 +83,48 @@ class PortfolioCompound extends Component {
           alignItems="center"
           borderRadius="8"
           flexDirection="row"
-          height="144px"
+          height="200px"
           justifyContent="space-between"
           marginTop={8}
           textAlign="left"
           width="90%"
         >
-          <CoinImageContainer>
-            <CoinImage source={require('../../assets/dai_icon.png')} />
-            <CoinText>DAI</CoinText>
-          </CoinImageContainer>
-          <TitleContainer>
-            <TitleText>{I18n.t('portfolio-compound-dai-savings')}</TitleText>
-            <TitleText>{I18n.t('portfolio-compound-yearly-rate')}</TitleText>
-            <TitleText>
-              {I18n.t('portfolio-compound-interest-earned')}
-            </TitleText>
-          </TitleContainer>
           <ValueContainer>
-            <ValueText>{compoundDaiBalance} DAI</ValueText>
-            <ValueText>{currentInterestRate}%</ValueText>
-            <DaiInterestEarnedText>
-              {lifetimeEarnedInDai} DAI
-            </DaiInterestEarnedText>
+            <ValueContainerInner>
+              <IconContainer>
+                <CoinImage source={require('../../assets/dai_icon.png')} />
+              </IconContainer>
+              <View>
+                <HeaderFive>
+                  {I18n.t('portfolio-compound-dai-savings')}
+                </HeaderFive>
+                <ValueText>{compoundDaiBalance} DAI</ValueText>
+              </View>
+            </ValueContainerInner>
+            <ValueContainerInner>
+              <IconContainer>
+                <Icon name="chart-line" size={40} color="#5f5f5f" />
+              </IconContainer>
+              <View>
+                <HeaderFive>
+                  {I18n.t('portfolio-compound-yearly-rate')}
+                </HeaderFive>
+                <ValueText>{currentInterestRate}%</ValueText>
+              </View>
+            </ValueContainerInner>
+            <ValueContainerInner>
+              <IconContainer>
+                <Icon name="slope-uphill" size={40} color="#5f5f5f" />
+              </IconContainer>
+              <View>
+                <HeaderFive>
+                  {I18n.t('portfolio-compound-interest-earned')}
+                </HeaderFive>
+                <DaiInterestEarnedText>
+                  {lifetimeEarnedInDai} DAI
+                </DaiInterestEarnedText>
+              </View>
+            </ValueContainerInner>
           </ValueContainer>
         </UntouchableCardContainer>
       </RootContainer>
@@ -129,39 +150,24 @@ const InterestEarnedText = styled.Text`
   font-weight: bold;
 `;
 
-const CoinImageContainer = styled.View`
-  align-items: center;
-  width: 15%;
-`;
-
 const CoinImage = styled.Image`
   border-radius: 20px;
   height: 40px;
   width: 40px;
 `;
 
-const CoinText = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 16;
-  margin-top: 4;
-`;
-
-const TitleContainer = styled.View`
-  margin-left: 16;
-  width: 42.5%;
-`;
-
-const TitleText = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 18;
-  margin-bottom: 8;
+const IconContainer = styled.View`
+  margin-right: 16;
 `;
 
 const ValueContainer = styled.View`
-  margin-left: 12;
-  width: 42.5%;
+  align-items: flex-start;
+`;
+
+const ValueContainerInner = styled.View`
+  align-items: center;
+  flex-direction: row;
+  margin-bottom: 4;
 `;
 
 const ValueText = styled.Text`
