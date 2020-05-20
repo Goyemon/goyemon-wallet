@@ -69,7 +69,7 @@ class Transaction extends Component {
 											return <Icon name="arrow-top-right-bold-outline" size={20} color="#F1860E" />;
 										return <Icon name="arrow-bottom-left-bold-outline" size={20} color="#1BA548" />;
 
-									case 'approve':
+									case 'approval':
 									case 'deposit':
 										return <Icon name="arrow-top-right-bold-outline" size={20} color="#F1860E" />;
 
@@ -91,7 +91,7 @@ class Transaction extends Component {
 								switch (data.type) {
 									case 'contract_creation':	return 'Contract creation';
 									case 'multicontract':	return 'Multi';
-									case 'approve':		return I18n.t('history-approve');
+									case 'approval':		return I18n.t('history-approve');
 									case 'deposit':		return I18n.t('deposit');
 									case 'withdraw':	return I18n.t('withdraw');
 									case 'rewarded':	return 'Rewarded';
@@ -147,7 +147,7 @@ class Transaction extends Component {
 								case 'withdraw':	return <Icon name="plus" size={16} color="#1BA548" />;
 
 								case 'swap':
-								case 'approve':
+								case 'approval':
 								case 'failure':		return null;
 							}
 						})()}
@@ -172,7 +172,7 @@ class Transaction extends Component {
 														</SwapValueTextContainer>
 														</SwapValueContainer>;
 
-								case 'approve':		return null;
+								case 'approval':		return null;
 
 								case 'failure':		return <GoyemonText fontSize={16}>0</GoyemonText>;
 							}

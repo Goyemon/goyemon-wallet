@@ -139,6 +139,7 @@ class PersistTxStorageAbstraction {
 
 	init_storage(name_to_filter_map, init_finish_callback) {
 		let load_count = 0;
+		const failed_nonces = {};
 
 		const checkFinish = () => {
 			load_count--;
@@ -170,15 +171,18 @@ class PersistTxStorageAbstraction {
 				}
 
 				if (init_finish_callback)
-					init_finish_callback();
+					init_finish_callback(failed_nonces);
 			}
 		};
 
-		const countToplocked = (name, bucketnum) => {
+		const countToplocked = (name, bucketnum) => { // also gets failed nonces until first included
 			this.__getKey(`${this.prefix}i${name}${bucketnum}`, this.__decodeBucket).then(x => {
 				for (let i = x.length - 1; i >= 0; --i) {
 					if (x[i].startsWith(txNoncePrefix))
 						this.toplocked_per_filter[name]++;
+
+					else if (x[i].startsWith(txFailPrefix)) // ${txFailPrefix}${nonce}_${blah}
+						failed_nonces[parseInt(x[i].slice(txFailPrefix.length, x[i].indexOf('_') - 1))] = true;
 
 					else {
 						checkFinish();
@@ -1356,6 +1360,18 @@ class Tx {
 	}
 }
 
+function arraySortUnique(x, sortfunc) { // modifies input array
+	x.sort(sortfunc);
+
+	for (let lastElement, i = x.length - 1; i >= 0; i--) {
+		if (x[i] === lastElement)
+			x.splice(i, 1);
+		else
+			lastElement = x[i];
+	}
+
+	return x;
+}
 
 // ========== storage class for all transactions ==========
 // this is the one we instantiate (once) to use the TX data in storage.
@@ -1383,6 +1399,7 @@ class TxStorage {
 
 		LogUtilities.toDebugScreen('TxStorage constructor called');
 		this.our_max_nonce = -1; // for our txes
+		this.failed_nonces = null;
 		this.last_checkpoint_offset = 0; // TODO: not yet used
 
 		AsyncStorage.multiGet([maxNonceKey, lastCheckpointKey]).then(x => {
@@ -1401,7 +1418,7 @@ class TxStorage {
 			'dai': this.txfilter_isRelevantToDai, // doesn't use this, no need for .bind(this)
 			'odcda': this.txfilter_ourDAIForCDAIApprovals.bind(this),
 			'odpta': this.txfilter_ourDAIForPTApprovals.bind(this),
-		}, (x) => { if (x === undefined) promise_resolves[0](); })
+		}, (x) => { this.failed_nonces = x; promise_resolves[0](); });
 
 		if (ourAddress)
 			this.our_address = hexToBuf(ourAddress);
@@ -1556,6 +1573,9 @@ class TxStorage {
 			LogUtilities.toDebugScreen(`saveTx(): our_max_nonce changed to ${this.our_max_nonce}`);
 		}
 
+		if (this.failed_nonces.hasOwnProperty(tx.getNonce()))
+			delete this.failed_nonces[tx.getNonce()];
+
 		this.__unlock('txes');
 		this.__onUpdate();
 	}
@@ -1584,6 +1604,7 @@ class TxStorage {
 
 		AsyncStorage.setItem(maxNonceKey, this.our_max_nonce.toString());
 		LogUtilities.toDebugScreen(`parseTxHistory(): our_max_nonce changed to ${this.our_max_nonce}`);
+		this.failed_nonces = {};
 
 		this.__unlock('txes');
 		this.__onUpdate();
@@ -1636,11 +1657,16 @@ class TxStorage {
 					this.our_max_nonce = nonce;
 					await AsyncStorage.setItem(maxNonceKey, this.our_max_nonce.toString());
 					LogUtilities.toDebugScreen(`processTxState(): our_max_nonce changed to ${this.our_max_nonce}`);
+
+					this.failed_nonces = {}; // since it's a nonce higher than all our known nonces, clearly everything below went through
 				}
 
 				tx = await this.txes.getTxByHash(nonceKey);
 				if (tx) {
 					LogUtilities.toDebugScreen(`processTxState(hash:${hash}) known OUR tx by nonce: `, tx);
+
+					if (this.failed_nonces.hasOwnProperty(nonce))
+						delete this.failed_nonces[nonce];
 
 					let newtx = tx.deepClone();
 					// LogUtilities.toDebugScreen(`processTxState(hash:${hash}) deep clone: `, JSON.stringify(newtx));
@@ -1703,10 +1729,12 @@ class TxStorage {
 
 		let tx = await this.txes.getTxByHash(nonceKey);
 		if (tx) {
+			this.failed_nonces[nonce] = true;
+
 			let newtx = tx.deepClone();
 			newtx.setState(TxStates.STATE_ERROR);
 
-			await this.txes.replaceTx(tx, newtx, nonceKey, `${txFailPrefix}${this.txes.getItemCount('all')}`, true);
+			await this.txes.replaceTx(tx, newtx, nonceKey, `${txFailPrefix}${nonce}_${this.txes.getItemCount('all')}`, true);
 
 			this.__unlock('txes');
 			LogUtilities.toDebugScreen(`markNotIncludedTxAsErrorByNonce(nonce:${nonce}) state updated`);
@@ -1721,6 +1749,7 @@ class TxStorage {
 	}
 
 	async getNextNonce() {
+		// TODO: look at failed nonces first, this.failed_nonces; probably Object.keys(this.failed_nonces).reduce((a, b) => (a ? (a > b ? b : a) : b), null) <- min(Object.keys(this.failed_nonces))
 		LogUtilities.toDebugScreen(`getNextNonce(): next nonce: ${this.our_max_nonce + 1}`);
 		return this.our_max_nonce + 1;
 	}
@@ -1736,6 +1765,7 @@ class TxStorage {
 		// after this.txes.wipe() ends, we may wanna iterate all the keys and remove rogue tx_state_...
 
 		this.our_max_nonce = -1;
+		this.failed_nonces = {};
 
 		this.__unlock('txes');
 
@@ -1851,7 +1881,7 @@ class TxStorage {
 
 	async processTxSync(data) {
 		// LogUtilities.toDebugScreen('processTxSync(): received txsync data:', data);
-		if ('_contracts' in data)
+		if ('_contracts' in data) // TODO: we really should use it at one point
 			delete data['_contracts'];
 
 		data = Object.entries(data).map(([hash, txdata]) => new Tx(txdata[7]).setHash(hash).fromDataArray(txdata));
@@ -1915,6 +1945,7 @@ class TxStorage {
 		await AsyncStorage.multiRemove(removeKeys);
 
 		if (newNonce != this.our_max_nonce) {
+			this.failed_nonces = {};
 			this.our_max_nonce = newNonce;
 			await AsyncStorage.setItem(maxNonceKey, this.our_max_nonce.toString());
 			LogUtilities.toDebugScreen(`processTxSync(): our_max_nonce changed to ${this.our_max_nonce}`);
