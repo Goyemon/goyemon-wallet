@@ -253,13 +253,18 @@ class TransactionUtilities {
     return signedTransaction;
   }
 
-  async sendOutgoingTransactionToServer(outgoingTransactionObject) {
+  async sendOutgoingTransactionToServer(outgoingTransactionObject) { // should be renamed cause it also does .saveTx()
+    await this.sendTransactionToServer(outgoingTransactionObject);
+    await TxStorage.storage.saveTx(outgoingTransactionObject);
+  }
+
+  async sendTransactionToServer(txObject) { // should be renamed cause it also does .saveTx()
     const messageId = uuidv4();
     const serverAddress = GlobalConfig.FCM_server_address;
     const signedTransaction = await this.constructSignedOutgoingTransactionObject(
-      outgoingTransactionObject
+		txObject
     );
-    const nonce = outgoingTransactionObject.getNonce();
+    const nonce = txObject.getNonce();
 
     const upstreamMessage = new firebase.messaging.RemoteMessage()
       .setMessageId(messageId)
@@ -271,8 +276,6 @@ class TransactionUtilities {
       });
 
     firebase.messaging().sendMessage(upstreamMessage);
-
-    await TxStorage.storage.saveTx(outgoingTransactionObject);
   }
 
   getTransactionFeeEstimateInEther(gasPriceWei, gasLimit) {

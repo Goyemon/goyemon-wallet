@@ -20,7 +20,7 @@ import {
   InsufficientWeiBalanceMessage,
   TxNextButton
 } from '../components/common';
-import AdvancedContainer from './common/AdvancedContainer';
+import { AdvancedContainer } from './common/AdvancedContainer';
 import Countdown from './common/Countdown';
 import TxConfirmationModal from '../containers/common/TxConfirmationModal';
 import I18n from '../i18n/I18n';

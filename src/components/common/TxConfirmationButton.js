@@ -18,23 +18,12 @@ const ButtonContainer = styled.TouchableOpacity`
   min-width: 120px;
 `;
 
-let ButtonText;
-// if (I18n.locale === 'ja-US') {
-//   ButtonText = styled.Text`
-//     color: #fff;
-//     font-family: 'HKGrotesk-Bold';
-//     font-size: 18;
-//     padding: 14px 24px 8px 24px;
-//     text-align: center;
-//   `;
-// } else {
-  ButtonText = styled.Text`
-    color: #fff;
-    font-family: 'HKGrotesk-Bold';
-    font-size: 20;
-    padding: 12px 24px;
-    text-align: center;
-  `;
-// }
+const ButtonText = styled.Text`
+	color: #fff;
+	font-family: 'HKGrotesk-Bold';
+	font-size: ${I18n.locale == 'ja-US' ? 18 : 20};
+	padding: ${I18n.locale == 'ja-US' ? '14px 24px 8px 24px' : '12px 24px'};
+	text-align: center;
+`;
 
 export { TxConfirmationButton };

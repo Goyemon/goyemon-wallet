@@ -17,127 +17,128 @@ import I18n from '../../i18n/I18n';
 import LogUtilities from '../../utilities/LogUtilities.js';
 import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
 
+class __TxSpeedSelectionContainer extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			currency: 'USD',
+		};
+	}
+
+	componentDidMount() {
+		this.props.getGasPrice();
+	}
+
+	toggleCurrency(gasPriceWei, gasLimit) {
+	if (this.state.currency === 'ETH') {
+		const usdValue = TransactionUtilities.getTransactionFeeEstimateInUsd(
+		gasPriceWei,
+		gasLimit
+		);
+		return <NetworkFeeText>${usdValue}</NetworkFeeText>;
+	} else if (this.state.currency === 'USD') {
+		let ethValue = TransactionUtilities.getTransactionFeeEstimateInEther(
+		gasPriceWei,
+		gasLimit
+		);
+		LogUtilities.logInfo('ethValue ==>', ethValue);
+		ethValue = parseFloat(ethValue).toFixed(5);
+		return <NetworkFeeText>{ethValue}ETH</NetworkFeeText>;
+	}
+	}
+
+	renderSlippageContainer() {
+	if (this.props.swap) {
+		return <SlippageContainer />;
+	} else {
+		LogUtilities.logInfo('this is not the swap component');
+	}
+	}
+
+	render() {
+		const { gasPrice, gasChosen, gasLimit } = this.props;
+		return <View>
+				{this.renderSlippageContainer()}
+				<NetworkFeeHeaderContainer>
+				<FormHeader marginBottom="0" marginTop="0">
+					{I18n.t('network-fee')}
+				</FormHeader>
+				<TouchableOpacity
+					onPress={() => {
+					// TODO: needs to be switch(), likely.
+					if (this.state.currency === 'ETH') {
+						this.setState({ currency: 'USD' });
+					} else if (this.state.currency === 'USD') {
+						this.setState({ currency: 'ETH' });
+					}
+					}}
+				>
+					<ToggleCurrencySymbol currency={this.state.currency} />
+				</TouchableOpacity>
+				</NetworkFeeHeaderContainer>
+				<Container
+				alignItems="center"
+				flexDirection="row"
+				justifyContent="center"
+				marginTop={24}
+				width="90%"
+				>
+				{gasPrice.map((gasPrice, key) => (
+					<NetworkFee key={key}>
+					{gasChosen === key ? (
+						<SpeedContainer>
+						<SelectedSpeedTextContainer>
+							<SelectedSpeedText>{gasPrice.speed}</SelectedSpeedText>
+						</SelectedSpeedTextContainer>
+						<SelectedButton>
+							{this.toggleCurrency(gasPrice.value, gasLimit)}
+						</SelectedButton>
+						</SpeedContainer>
+					) : (
+						<SpeedContainer
+						onPress={() => {
+							this.props.updateGasPriceChosen(key);
+						}}
+						>
+						<UnselectedSpeedTextContainer>
+							<UnselectedSpeedText>
+							{gasPrice.speed}
+							</UnselectedSpeedText>
+						</UnselectedSpeedTextContainer>
+						<UnselectedButton>
+							{this.toggleCurrency(gasPrice.value, gasLimit)}
+						</UnselectedButton>
+						</SpeedContainer>
+					)}
+					</NetworkFee>
+				))}
+				</Container>
+			</View>;
+	}
+}
+
+
+
+
 class AdvancedContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currency: 'USD',
-      showAdvanced: false
-    };
-  }
+	constructor(props) {
+		super(props);
+		this.state = {
+			showAdvanced: false
+		};
+	}
 
-  componentDidMount() {
-    this.props.getGasPrice();
-  }
-
-  toggleCurrency(gasPriceWei, gasLimit) {
-    if (this.state.currency === 'ETH') {
-      const usdValue = TransactionUtilities.getTransactionFeeEstimateInUsd(
-        gasPriceWei,
-        gasLimit
-      );
-      return <NetworkFeeText>${usdValue}</NetworkFeeText>;
-    } else if (this.state.currency === 'USD') {
-      let ethValue = TransactionUtilities.getTransactionFeeEstimateInEther(
-        gasPriceWei,
-        gasLimit
-      );
-      LogUtilities.logInfo('ethValue ==>', ethValue);
-      ethValue = parseFloat(ethValue).toFixed(5);
-      return <NetworkFeeText>{ethValue}ETH</NetworkFeeText>;
-    }
-  }
-
-  renderSlippageContainer() {
-    if (this.props.swap) {
-      return <SlippageContainer />;
-    } else {
-      LogUtilities.logInfo('this is not the swap component');
-    }
-  }
-
-  renderAdvancedContainer() {
-    const { gasPrice, gasChosen, gasLimit } = this.props;
-    if (this.state.showAdvanced) {
-      return (
-        <View>
-          {this.renderSlippageContainer()}
-          <NetworkFeeHeaderContainer>
-            <FormHeader marginBottom="0" marginTop="0">
-              {I18n.t('network-fee')}
-            </FormHeader>
-            <TouchableOpacity
-              onPress={() => {
-                // TODO: needs to be switch(), likely.
-                if (this.state.currency === 'ETH') {
-                  this.setState({ currency: 'USD' });
-                } else if (this.state.currency === 'USD') {
-                  this.setState({ currency: 'ETH' });
-                }
-              }}
-            >
-              <ToggleCurrencySymbol currency={this.state.currency} />
-            </TouchableOpacity>
-          </NetworkFeeHeaderContainer>
-          <Container
-            alignItems="center"
-            flexDirection="row"
-            justifyContent="center"
-            marginTop={24}
-            width="90%"
-          >
-            {gasPrice.map((gasPrice, key) => (
-              <NetworkFee key={key}>
-                {gasChosen === key ? (
-                  <SpeedContainer>
-                    <SelectedSpeedTextContainer>
-                      <SelectedSpeedText>{gasPrice.speed}</SelectedSpeedText>
-                    </SelectedSpeedTextContainer>
-                    <SelectedButton>
-                      {this.toggleCurrency(gasPrice.value, gasLimit)}
-                    </SelectedButton>
-                  </SpeedContainer>
-                ) : (
-                  <SpeedContainer
-                    onPress={() => {
-                      this.props.updateGasPriceChosen(key);
-                    }}
-                  >
-                    <UnselectedSpeedTextContainer>
-                      <UnselectedSpeedText>
-                        {gasPrice.speed}
-                      </UnselectedSpeedText>
-                    </UnselectedSpeedTextContainer>
-                    <UnselectedButton>
-                      {this.toggleCurrency(gasPrice.value, gasLimit)}
-                    </UnselectedButton>
-                  </SpeedContainer>
-                )}
-              </NetworkFee>
-            ))}
-          </Container>
-          <MenuContainer
-            onPress={() => {
-              this.setState({ showAdvanced: false });
-            }}
-          >
-            <Icon name="menu-up" color="#000" size={32} />
-          </MenuContainer>
-        </View>
-      );
-    } else if (!this.state.showAdvanced) {
-      return (
-        <MenuContainer
-          onPress={() => {
-            this.setState({ showAdvanced: true });
-          }}
-        >
-          <GoyemonText fontSize={14}>{I18n.t('advanced')}</GoyemonText>
-          <Icon name="menu-down" color="#000" size={32} />
-        </MenuContainer>
-      );
-    }
-  }
+	renderAdvancedContainer() {
+		if (this.state.showAdvanced)
+			return <TxSpeedSelectionContainer gasPrice={this.props.gasPrice} gasChosen={this.props.gasChosen} gasLimit={this.props.gasLimit} swap={this.props.swap} />;
+		else
+			return (
+				<MenuContainer onPress={() => { this.setState({ showAdvanced: true }); }}>
+					<GoyemonText fontSize={14}>{I18n.t('advanced')}</GoyemonText>
+					<Icon name="menu-down" color="#000" size={32} />
+				</MenuContainer>
+			);
+	}
 
   render() {
     return <View>{this.renderAdvancedContainer()}</View>;
@@ -221,4 +222,9 @@ const mapDispatchToProps = {
   updateGasPriceChosen
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdvancedContainer);
+const TxSpeedSelectionContainer = connect(mapStateToProps, mapDispatchToProps)(__TxSpeedSelectionContainer);
+
+module.exports = {
+	TxSpeedSelectionContainer,
+	AdvancedContainer
+};
