@@ -290,7 +290,7 @@ class Transaction extends Component {
 			}
 		}
 
-		const istPtWithdraw = (x) => (x instanceof TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.PTwithdrawn]
+		const isPtWithdraw = (x) => (x instanceof TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.PTwithdrawn]
 			|| x instanceof TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.PTopenDepositWithdrawn]
 			|| x instanceof TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.PTsponsorshipAndFeesWithdrawn]
 			|| x instanceof TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.PTcommittedDepositWithdrawn]);
