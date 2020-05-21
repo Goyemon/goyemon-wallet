@@ -118,7 +118,7 @@ class TransactionUtilities {
     return false;
   }
 
-  validateWeiAmount(weiAmount) {
+  validateWeiAmount(weiAmount, gasLimit) {
     const isNumber = /^[0-9]\d*(\.\d+)?$/.test(weiAmount);
 
     if (isNumber) {
@@ -129,7 +129,7 @@ class TransactionUtilities {
       weiAmount = new BigNumber(weiAmount);
       const transactionFeeLimitInWei = new BigNumber(
         this.returnTransactionSpeed(gasChosen)
-      ).times(GlobalConfig.ETHTxGasLimit);
+      ).times(gasLimit);
       
       if (
         weiBalance.isGreaterThanOrEqualTo(
@@ -283,7 +283,7 @@ class TransactionUtilities {
       .toBN(gasPriceWei)
       .mul(Web3.utils.toBN(gasLimit));
     const transactionFeeEstimateInEther = Web3.utils
-      .fromWei(transactionFeeEstimateWei, 'Ether')
+      .fromWei(transactionFeeEstimateWei)
       .toString();
     return transactionFeeEstimateInEther;
   }

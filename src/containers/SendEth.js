@@ -55,7 +55,8 @@ class SendEth extends Component {
     }
     if (this.props.gasChosen != prevProps.gasChosen) {
       this.updateWeiAmountValidation(
-        TransactionUtilities.validateWeiAmount(this.state.weiAmount)
+        TransactionUtilities.validateWeiAmount,
+        GlobalConfig.ETHTxGasLimit
       );
     }
   }
@@ -101,7 +102,8 @@ class SendEth extends Component {
   validateForm = async (toAddress, weiAmount) => {
     const toAddressValidation = this.validateToAddress(toAddress);
     const weiAmountValidation = TransactionUtilities.validateWeiAmount(
-      weiAmount
+      weiAmount,
+      GlobalConfig.ETHTxGasLimit
     );
     const isOnline = this.props.netInfo;
 
@@ -207,7 +209,10 @@ class SendEth extends Component {
                 ethAmount: Web3.utils.fromWei(weiFullAmount)
               });
               this.updateWeiAmountValidation(
-                TransactionUtilities.validateWeiAmount(weiFullAmount)
+                TransactionUtilities.validateWeiAmount(
+                  weiFullAmount,
+                  GlobalConfig.ETHTxGasLimit
+                )
               );
             }}
           />
@@ -230,7 +235,8 @@ class SendEth extends Component {
                 if (isNumber) {
                   this.updateWeiAmountValidation(
                     TransactionUtilities.validateWeiAmount(
-                      Web3.utils.toWei(ethAmount)
+                      Web3.utils.toWei(ethAmount),
+                      GlobalConfig.ETHTxGasLimit
                     )
                   );
                   this.setState({
@@ -250,10 +256,11 @@ class SendEth extends Component {
         <ButtonWrapper>
           <TxNextButton
             disabled={
-              !(this.state.weiAmountValidation &&
+              !(
+                this.state.weiAmountValidation &&
                 this.state.toAddressValidation &&
-                isOnline) ||
-              this.state.loading
+                isOnline
+              ) || this.state.loading
                 ? true
                 : false
             }
