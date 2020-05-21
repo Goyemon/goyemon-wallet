@@ -97,6 +97,11 @@ class Settings extends Component {
           maxHeight="40%"
           onPress={() => {
             this.props.savePopUpModalVisibility(false);
+            this.setState({
+              deleteTextValidation: false,
+              buttonDisabled: true,
+              buttonOpacity: 0.5
+            });
           }}
         >
           <ModalTextContainer>
@@ -130,6 +135,11 @@ class Settings extends Component {
               opacity="1"
               onPress={() => {
                 this.props.savePopUpModalVisibility(false);
+                this.setState({
+                  deleteTextValidation: false,
+                  buttonDisabled: true,
+                  buttonOpacity: 0.5
+                });
               }}
             />
             <Button
