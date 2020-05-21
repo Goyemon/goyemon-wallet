@@ -20,7 +20,8 @@ import {
   Loader,
   IsOnlineMessage,
   ErrorMessage,
-  TxNextButton
+  TxNextButton,
+  UseMaxButton
 } from '../components/common';
 import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
 import { AdvancedContainer } from '../containers/common/AdvancedContainer';
@@ -57,19 +58,14 @@ class Swap extends Component {
       });
     }
     if (this.props.gasChosen != prevProps.gasChosen) {
-      this.updateEthSoldValidation(
-        this.validateAmount(
-          this.state.ethSold,
-          GlobalConfig.UniswapEthToTokenSwapInputGasLimit
-        )
-      );
+      this.updateEthSoldValidation(this.validateAmount(this.state.ethSold));
     }
   }
 
   getTokenBought(ethSold, weiReserve, tokenReserve) {
     weiReserve = new BigNumber(weiReserve, 16);
     tokenReserve = new BigNumber(tokenReserve, 16);
-    let weiSold = Web3.utils.toWei(ethSold.toString(), 'Ether');
+    let weiSold = Web3.utils.toWei(ethSold.toString());
     weiSold = new BigNumber(weiSold);
     const weiSoldWithFee = weiSold.times(997);
     const numerator = weiSoldWithFee.times(tokenReserve);
@@ -111,7 +107,7 @@ class Swap extends Component {
   }
 
   async constructTransactionObject() {
-    const weiSold = parseFloat(Web3.utils.toWei(this.state.ethSold, 'Ether'));
+    const weiSold = parseFloat(Web3.utils.toWei(this.state.ethSold));
 
     const minTokens = this.getMinTokens(this.state.tokenBought)
       .toString()
@@ -150,10 +146,7 @@ class Swap extends Component {
   }
 
   validateForm = async () => {
-    const ethSoldValidation = this.validateAmount(
-      this.state.ethSold,
-      GlobalConfig.UniswapEthToTokenSwapInputGasLimit
-    );
+    const ethSoldValidation = this.validateAmount(this.state.ethSold);
     const isOnline = this.props.netInfo;
 
     if (ethSoldValidation && isOnline) {
@@ -176,14 +169,14 @@ class Swap extends Component {
     }
   };
 
-  validateAmount(ethSold, gasLimit) {
+  validateAmount(ethSold) {
     const isNumber = /^[0-9]\d*(\.\d+)?$/.test(ethSold);
     if (isNumber) {
       const weiBalance = new BigNumber(this.props.balance.wei);
-      const weiSold = new BigNumber(Web3.utils.toWei(ethSold, 'Ether'));
+      const weiSold = new BigNumber(Web3.utils.toWei(ethSold));
       const transactionFeeLimitInWei = new BigNumber(
         TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
-      ).times(gasLimit);
+      ).times(GlobalConfig.UniswapEthToTokenSwapInputGasLimit);
       const tokenReserve = new BigNumber(
         this.props.uniswap.daiExchange.daiReserve,
         16
@@ -242,9 +235,17 @@ class Swap extends Component {
   }
 
   render() {
+    const isOnline = this.props.netInfo;
     let ethBalance = Web3.utils.fromWei(this.props.balance.wei);
     ethBalance = RoundDownBigNumber(ethBalance).toFixed(4);
-    const isOnline = this.props.netInfo;
+
+    const weiFullAmount = new BigNumber(this.props.balance.wei)
+      .minus(
+        new BigNumber(
+          TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
+        ).times(GlobalConfig.UniswapEthToTokenSwapInputGasLimit)
+      )
+      .toString();
 
     return (
       <RootContainer>
@@ -280,23 +281,35 @@ class Swap extends Component {
                 clearButtonMode="while-editing"
                 onChangeText={(ethSold) => {
                   if (ethSold) {
-                    this.updateEthSoldValidation(
-                      this.validateAmount(
-                        ethSold,
-                        GlobalConfig.UniswapEthToTokenSwapInputGasLimit
-                      )
-                    );
+                    this.updateEthSoldValidation(this.validateAmount(ethSold));
                     this.setState({ ethSold });
                     this.updateTokenBought(ethSold);
                   }
                 }}
                 returnKeyType="done"
+                value={this.state.ethSold}
               />
             </SwapForm>
             <View>{this.renderInsufficientBalanceMessage()}</View>
             <BalanceText>
               {I18n.t('balance')}: {ethBalance}
             </BalanceText>
+            <UseMaxButton
+              text={I18n.t('use-max')}
+              textColor="#00A3E2"
+              onPress={() => {
+                this.setState({
+                  ethSold: Web3.utils.fromWei(weiFullAmount)
+                });
+                this.updateEthSoldValidation(
+                  TransactionUtilities.validateWeiAmount(
+                    weiFullAmount,
+                    GlobalConfig.UniswapEthToTokenSwapInputGasLimit
+                  )
+                );
+                this.updateTokenBought(Web3.utils.fromWei(weiFullAmount));
+              }}
+            />
           </Container>
           <Container
             alignItems="center"
