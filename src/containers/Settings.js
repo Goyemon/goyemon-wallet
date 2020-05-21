@@ -28,9 +28,7 @@ class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      deleteTextValidation: false,
-      buttonDisabled: true,
-      buttonOpacity: 0.5
+      deleteTextValidation: false
     };
   }
 
@@ -73,17 +71,13 @@ class Settings extends Component {
     if (deleteText === 'delete') {
       LogUtilities.logInfo('the delete text validated!');
       this.setState({
-        deleteTextValidation: true,
-        buttonDisabled: false,
-        buttonOpacity: 1
+        deleteTextValidation: true
       });
       return true;
     }
     LogUtilities.logInfo('wrong delete text!');
     this.setState({
-      deleteTextValidation: false,
-      buttonDisabled: true,
-      buttonOpacity: 0.5
+      deleteTextValidation: false
     });
     return false;
   }
@@ -98,9 +92,7 @@ class Settings extends Component {
           onPress={() => {
             this.props.savePopUpModalVisibility(false);
             this.setState({
-              deleteTextValidation: false,
-              buttonDisabled: true,
-              buttonOpacity: 0.5
+              deleteTextValidation: false
             });
           }}
         >
@@ -136,9 +128,7 @@ class Settings extends Component {
               onPress={() => {
                 this.props.savePopUpModalVisibility(false);
                 this.setState({
-                  deleteTextValidation: false,
-                  buttonDisabled: true,
-                  buttonOpacity: 0.5
+                  deleteTextValidation: false
                 });
               }}
             />
@@ -147,10 +137,10 @@ class Settings extends Component {
               textColor="#FFF"
               backgroundColor="#E41B13"
               borderColor="#E41B13"
-              disabled={this.state.buttonDisabled}
+              disabled={this.state.deleteTextValidation ? false : true}
               margin="8px"
               marginBottom="12px"
-              opacity={this.state.buttonOpacity}
+              opacity={this.state.deleteTextValidation ? 1 : 0.5}
               onPress={async () => {
                 await WalletUtilities.resetKeychainData();
                 await persistor.purge();
