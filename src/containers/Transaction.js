@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
-import { GoyemonText, TouchableCardContainer } from '../components/common';
+import { GoyemonText, UntouchableCardContainer } from '../components/common';
 import I18n from '../i18n/I18n';
 import TxStorage from '../lib/tx.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
@@ -44,7 +44,7 @@ class Transaction extends Component {
 		const data = this.computeTxData(tx);
 		const time = TransactionUtilities.parseTransactionTime(tx.getTimestamp());
 
-		return <TouchableCardContainer
+		return <UntouchableCardContainer
 			alignItems="center"
 			borderRadius="0"
 			flexDirection="row"
@@ -188,7 +188,7 @@ class Transaction extends Component {
 					</ValueContainer>
 
 				</TransactionList>
-			</TouchableCardContainer>;
+			</UntouchableCardContainer>;
 	}
 
 	computeTxData(tx) {
