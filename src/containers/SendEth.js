@@ -41,6 +41,7 @@ class SendEth extends Component {
       ethBalance: Web3.utils.fromWei(props.balance.wei),
       toAddress: '',
       weiAmount: '0',
+      ethAmount: '',
       toAddressValidation: undefined,
       weiAmountValidation: undefined,
       loading: false,
@@ -225,7 +226,7 @@ class SendEth extends Component {
             text={I18n.t('use-max')}
             textColor="#00A3E2"
             onPress={() => {
-              this.setState({ weiAmount: weiFullAmount });
+              this.setState({ weiAmount: weiFullAmount, ethAmount: Web3.utils.fromWei(weiFullAmount) });
               this.updateWeiAmountValidation(
                 TransactionUtilities.validateWeiAmount(weiFullAmount)
               );
@@ -245,19 +246,23 @@ class SendEth extends Component {
               keyboardType="numeric"
               clearButtonMode="while-editing"
               onChangeText={(ethAmount) => {
-                if (ethAmount) {
+                const isNumber = /^[0-9]\d*(\.\d+)?$/.test(ethAmount);
+                this.setState({ethAmount})
+                if (isNumber) {
                   this.updateWeiAmountValidation(
                     TransactionUtilities.validateWeiAmount(
-                      Web3.utils.toWei(ethAmount.toString(16))
+                      Web3.utils.toWei(ethAmount)
                     )
                   );
                   this.setState({
-                    weiAmount: Web3.utils.toWei(ethAmount.toString(16))
+                    weiAmount: Web3.utils.toWei(ethAmount)
                   });
+                } else {
+                  this.updateWeiAmountValidation(false);
                 }
               }}
               returnKeyType="done"
-              value={Web3.utils.fromWei(this.state.weiAmount.toString(16))}
+              value={this.state.ethAmount}
             />
             <CurrencySymbolText>ETH</CurrencySymbolText>
           </SendTextInputContainer>
