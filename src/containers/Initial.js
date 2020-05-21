@@ -6,6 +6,7 @@ import { StackActions, NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { Container } from '../components/common';
+import FcmPermissions from '../firebase/FcmPermissions.js';
 import PortfolioStack from '../navigators/PortfolioStack';
 import LogUtilities from '../utilities/LogUtilities.js';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
@@ -20,6 +21,7 @@ class Initial extends Component {
   }
 
   async componentDidMount() {
+    await FcmPermissions.checkFcmPermissions();
     await this.conditionalNavigation();
   }
 
