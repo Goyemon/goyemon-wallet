@@ -495,7 +495,7 @@ class PersistTxStorageAbstraction {
 		});
 
 		if (this.debug)
-			LogUtilities.toDebugScreen(`appendTx(${hash}): matches indices:${append_indices.map(x => `${x}: ${this.counts[x]}`).join()}; tx:${JSON.stringify(tx)})`)
+			LogUtilities.toDebugScreen(`appendTx(${hash}): matches indices:${append_indices.map(x => `${x}: ${this.counts[x]}`).join()}; tx:${JSON.stringify(tx)})`);
 
 		let tasks = [this.__setKey(`${this.prefix}_${hash}`, tx, JSON.stringify)];
 
@@ -1739,7 +1739,6 @@ class TxStorage {
 			this.__unlock('txes');
 			LogUtilities.toDebugScreen(`markNotIncludedTxAsErrorByNonce(nonce:${nonce}) state updated`);
 			this.__onUpdate();
-			// TODO: what happens to our_max_nonce now?
 		}
 		else {
 			this.__unlock('txes');

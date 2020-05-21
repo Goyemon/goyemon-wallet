@@ -2,6 +2,7 @@
 
 import { saveOtherDebugInfo } from '../actions/ActionDebugInfo';
 import { store } from '../store/store';
+import PersistentLogging from '../lib/logging.js';
 
 const DUMPOBJECT_DEFAULT_DEPTH = 4;
 
@@ -28,6 +29,8 @@ class LogUtilities {
 		let out = `[${log_line_number++}] ${LogUtilities.__getFormattedDate()}`;
 		for (let i = 0; i < arguments.length; ++i)
 			out += ` ${arguments[i] instanceof Object && typeof(arguments[i]) != 'string' ? LogUtilities.__dumpObjectRecursively(arguments[i]) : arguments[i]}`;
+
+		PersistentLogging.timed_dump_str(out);
 
 		store.dispatch(saveOtherDebugInfo(out));
 		LogUtilities.logInfo(out); // because certain individual wont see it if it's not spammed on his screen
