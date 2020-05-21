@@ -42,9 +42,7 @@ class Swap extends Component {
       ethSold: '',
       tokenBought: new RoundDownBigNumber(0),
       ethSoldValidation: undefined,
-      loading: false,
-      buttonDisabled: true,
-      buttonOpacity: 0.5
+      loading: false
     };
   }
 
@@ -99,7 +97,9 @@ class Swap extends Component {
 
   getMinTokens(tokenBought) {
     const minTokens = tokenBought.times(
-      (100 - this.props.uniswap.slippage[this.props.uniswap.slippageChosen].value) / 100
+      (100 -
+        this.props.uniswap.slippage[this.props.uniswap.slippageChosen].value) /
+        100
     );
     return minTokens;
   }
@@ -157,14 +157,15 @@ class Swap extends Component {
     const isOnline = this.props.netInfo;
 
     if (ethSoldValidation && isOnline) {
-      this.setState({ loading: true, buttonDisabled: false });
+      this.setState({ loading: true });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       this.props.saveOutgoingTransactionDataSwap({
         sold: this.state.ethSold,
         bought: this.state.tokenBought.toFixed(4),
         minBought: this.getMinTokens(this.state.tokenBought),
-        slippage: this.props.uniswap.slippage[this.props.uniswap.slippageChosen].value,
+        slippage: this.props.uniswap.slippage[this.props.uniswap.slippageChosen]
+          .value,
         gasLimit: GlobalConfig.UniswapEthToTokenSwapInputGasLimit,
         transactionObject: transactionObject
       });
@@ -206,17 +207,14 @@ class Swap extends Component {
   }
 
   updateEthSoldValidation(ethSoldValidation) {
-    if (ethSoldValidation) {
+    const isOnline = this.props.netInfo;
+    if (ethSoldValidation && isOnline) {
       this.setState({
-        ethSoldValidation: true,
-        buttonDisabled: false,
-        buttonOpacity: 1
+        ethSoldValidation: true
       });
-    } else if (!ethSoldValidation) {
+    } else if (!ethSoldValidation || !isOnline) {
       this.setState({
-        ethSoldValidation: false,
-        buttonDisabled: true,
-        buttonOpacity: 0.5
+        ethSoldValidation: false
       });
     }
   }
@@ -246,6 +244,7 @@ class Swap extends Component {
   render() {
     let ethBalance = Web3.utils.fromWei(this.props.balance.wei);
     ethBalance = RoundDownBigNumber(ethBalance).toFixed(4);
+    const isOnline = this.props.netInfo;
 
     return (
       <RootContainer>
@@ -356,11 +355,15 @@ class Swap extends Component {
         />
         <ButtonWrapper>
           <TxNextButton
-            disabled={this.state.buttonDisabled}
-            opacity={this.state.buttonOpacity}
+            disabled={
+              !(this.state.ethSoldValidation && isOnline) || this.state.loading
+                ? true
+                : false
+            }
+            opacity={this.state.ethSoldValidation && isOnline ? 1 : 0.5}
             onPress={async () => {
               await this.validateForm();
-              this.setState({ loading: false, buttonDisabled: false });
+              this.setState({ loading: false });
             }}
           />
           <Loader animating={this.state.loading} size="small" />

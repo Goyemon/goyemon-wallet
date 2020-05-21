@@ -44,9 +44,7 @@ class SendEth extends Component {
       ethAmount: '',
       toAddressValidation: undefined,
       weiAmountValidation: undefined,
-      loading: false,
-      buttonDisabled: true,
-      buttonOpacity: 0.5
+      loading: false
     };
   }
 
@@ -80,32 +78,11 @@ class SendEth extends Component {
     if (Web3.utils.isAddress(toAddress)) {
       LogUtilities.logInfo('address validated!');
       this.setState({ toAddressValidation: true });
-      if (this.state.weiAmountValidation === true) {
-        this.setState({ buttonDisabled: false, buttonOpacity: 1 });
-      }
       return true;
     } else if (!Web3.utils.isAddress(toAddress)) {
       LogUtilities.logInfo('invalid address');
-      this.setState({
-        toAddressValidation: false,
-        buttonDisabled: true,
-        buttonOpacity: 0.5
-      });
+      this.setState({ toAddressValidation: false });
       return false;
-    }
-  }
-
-  buttonStateUpdate() {
-    if (this.state.weiAmountValidation && this.state.toAddressValidation) {
-      this.setState({
-        buttonDisabled: false,
-        buttonOpacity: 1
-      });
-    } else {
-      this.setState({
-        buttonDisabled: true,
-        buttonOpacity: 0.5
-      });
     }
   }
 
@@ -114,12 +91,10 @@ class SendEth extends Component {
       this.setState({
         weiAmountValidation: true
       });
-      this.buttonStateUpdate();
     } else if (!weiAmountValidation) {
       this.setState({
         weiAmountValidation: false
       });
-      this.buttonStateUpdate();
     }
   }
 
@@ -131,7 +106,7 @@ class SendEth extends Component {
     const isOnline = this.props.netInfo;
 
     if (toAddressValidation && weiAmountValidation && isOnline) {
-      this.setState({ loading: true, buttonDisabled: true });
+      this.setState({ loading: true });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       this.props.saveOutgoingTransactionDataSend({
@@ -148,6 +123,7 @@ class SendEth extends Component {
   };
 
   render() {
+    const isOnline = this.props.netInfo;
     const ethBalance = RoundDownBigNumber(this.state.ethBalance).toFixed(4);
 
     const weiFullAmount = new BigNumber(this.props.balance.wei)
@@ -226,7 +202,10 @@ class SendEth extends Component {
             text={I18n.t('use-max')}
             textColor="#00A3E2"
             onPress={() => {
-              this.setState({ weiAmount: weiFullAmount, ethAmount: Web3.utils.fromWei(weiFullAmount) });
+              this.setState({
+                weiAmount: weiFullAmount,
+                ethAmount: Web3.utils.fromWei(weiFullAmount)
+              });
               this.updateWeiAmountValidation(
                 TransactionUtilities.validateWeiAmount(weiFullAmount)
               );
@@ -247,7 +226,7 @@ class SendEth extends Component {
               clearButtonMode="while-editing"
               onChangeText={(ethAmount) => {
                 const isNumber = /^[0-9]\d*(\.\d+)?$/.test(ethAmount);
-                this.setState({ethAmount})
+                this.setState({ ethAmount });
                 if (isNumber) {
                   this.updateWeiAmountValidation(
                     TransactionUtilities.validateWeiAmount(
@@ -270,14 +249,27 @@ class SendEth extends Component {
         <AdvancedContainer gasLimit={GlobalConfig.ETHTxGasLimit} />
         <ButtonWrapper>
           <TxNextButton
-            disabled={this.state.buttonDisabled}
-            opacity={this.state.buttonOpacity}
+            disabled={
+              !(this.state.weiAmountValidation &&
+                this.state.toAddressValidation &&
+                isOnline) ||
+              this.state.loading
+                ? true
+                : false
+            }
+            opacity={
+              this.state.weiAmountValidation &&
+              this.state.toAddressValidation &&
+              isOnline
+                ? 1
+                : 0.5
+            }
             onPress={async () => {
               await this.validateForm(
                 this.state.toAddress,
                 this.state.weiAmount
               );
-              this.setState({ loading: false, buttonDisabled: false });
+              this.setState({ loading: false });
             }}
           />
           <Loader animating={this.state.loading} size="small" />
