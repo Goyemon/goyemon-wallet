@@ -52,16 +52,12 @@ class TxConfirmationModal extends Component {
       this.props.modal.txConfirmationModalType === 'compound-approve' ||
       this.props.modal.txConfirmationModalType === 'pool-together-approve'
     ) {
-      return (
-        <HeaderFive width="80%">{I18n.t('deposit-amount')}</HeaderFive>
-      );
+      return <HeaderFive width="80%">{I18n.t('deposit-amount')}</HeaderFive>;
     } else if (
       this.props.modal.txConfirmationModalType === 'compound-withdraw' ||
       this.props.modal.txConfirmationModalType === 'pool-together-withdraw'
     ) {
-      return (
-        <HeaderFive width="80%">{I18n.t('withdraw-amount')}</HeaderFive>
-      );
+      return <HeaderFive width="80%">{I18n.t('withdraw-amount')}</HeaderFive>;
     }
   }
 

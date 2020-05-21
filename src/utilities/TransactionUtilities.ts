@@ -130,7 +130,7 @@ class TransactionUtilities {
       const transactionFeeLimitInWei = new BigNumber(
         this.returnTransactionSpeed(gasChosen)
       ).times(gasLimit);
-      
+
       if (
         weiBalance.isGreaterThanOrEqualTo(
           weiAmount.plus(transactionFeeLimitInWei)
@@ -253,16 +253,18 @@ class TransactionUtilities {
     return signedTransaction;
   }
 
-  async sendOutgoingTransactionToServer(outgoingTransactionObject) { // should be renamed cause it also does .saveTx()
+  async sendOutgoingTransactionToServer(outgoingTransactionObject) {
+    // should be renamed cause it also does .saveTx()
     await this.sendTransactionToServer(outgoingTransactionObject);
     await TxStorage.storage.saveTx(outgoingTransactionObject);
   }
 
-  async sendTransactionToServer(txObject) { // should be renamed cause it also does .saveTx()
+  async sendTransactionToServer(txObject) {
+    // should be renamed cause it also does .saveTx()
     const messageId = uuidv4();
     const serverAddress = GlobalConfig.FCM_server_address;
     const signedTransaction = await this.constructSignedOutgoingTransactionObject(
-		txObject
+      txObject
     );
     const nonce = txObject.getNonce();
 

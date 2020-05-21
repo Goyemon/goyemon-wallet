@@ -19,7 +19,9 @@ class Copy extends Component {
     this.view
       .fadeOutUp(800)
       .then((endState) =>
-        console.log(endState.finished ? 'fadeOutUp finished' : 'fadeOutUp cancelled')
+        console.log(
+          endState.finished ? 'fadeOutUp finished' : 'fadeOutUp cancelled'
+        )
       );
 
   async writeToClipboard(clipboardContent) {

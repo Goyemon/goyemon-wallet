@@ -212,10 +212,11 @@ class WithdrawDaiFromCompound extends Component {
         <ButtonWrapper>
           <TxNextButton
             disabled={
-              !(this.state.daiSavingsAmountValidation &&
+              !(
+                this.state.daiSavingsAmountValidation &&
                 this.state.weiAmountValidation &&
-                isOnline) ||
-              this.state.loading
+                isOnline
+              ) || this.state.loading
                 ? true
                 : false
             }

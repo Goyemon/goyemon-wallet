@@ -295,11 +295,12 @@ class SendDai extends Component {
         <ButtonWrapper>
           <TxNextButton
             disabled={
-              !(this.state.daiAmountValidation &&
+              !(
+                this.state.daiAmountValidation &&
                 this.state.weiAmountValidation &&
                 this.state.toAddressValidation &&
-                isOnline) ||
-              this.state.loading
+                isOnline
+              ) || this.state.loading
                 ? true
                 : false
             }

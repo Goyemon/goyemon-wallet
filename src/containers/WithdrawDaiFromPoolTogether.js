@@ -230,10 +230,11 @@ class WithdrawDaiFromPoolTogether extends Component {
         <ButtonWrapper>
           <TxNextButton
             disabled={
-              !(this.state.daiWithdrawAmountValidation &&
+              !(
+                this.state.daiWithdrawAmountValidation &&
                 this.state.weiAmountValidation &&
-                isOnline) ||
-              this.state.loading
+                isOnline
+              ) || this.state.loading
                 ? true
                 : false
             }

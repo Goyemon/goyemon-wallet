@@ -98,7 +98,7 @@ class Countdown extends Component {
     return (
       <CountdownContainer>
         <CountdownInner>
-          <CountdownText>  {`${remainingDay}`}</CountdownText>
+          <CountdownText> {`${remainingDay}`}</CountdownText>
           <CountdownText>{`${
             (remainingHours < 10 ? '0' : '') + remainingHours
           }`}</CountdownText>

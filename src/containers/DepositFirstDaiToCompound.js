@@ -235,10 +235,11 @@ class DepositFirstDaiToCompound extends Component {
         <ButtonWrapper>
           <TxNextButton
             disabled={
-              !(this.state.daiAmountValidation &&
+              !(
+                this.state.daiAmountValidation &&
                 this.state.weiAmountValidation &&
-                isOnline) ||
-              this.state.loading
+                isOnline
+              ) || this.state.loading
                 ? true
                 : false
             }
