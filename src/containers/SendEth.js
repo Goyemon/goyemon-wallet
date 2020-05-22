@@ -55,8 +55,10 @@ class SendEth extends Component {
     }
     if (this.props.gasChosen != prevProps.gasChosen) {
       this.updateWeiAmountValidation(
-        TransactionUtilities.validateWeiAmount,
-        GlobalConfig.ETHTxGasLimit
+        TransactionUtilities.validateWeiAmount(
+          this.state.weiAmount,
+          GlobalConfig.ETHTxGasLimit
+        )
       );
     }
   }
