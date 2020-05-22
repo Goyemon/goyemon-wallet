@@ -16,6 +16,7 @@ import {
   Container,
   UntouchableCardContainer,
   HeaderOne,
+  GoyemonText,
   SwapForm,
   Loader,
   IsOnlineMessage,
@@ -230,7 +231,12 @@ class Swap extends Component {
       this.state.ethSoldValidation === undefined
     ) {
     } else {
-      return <ErrorMessage>invalid amount!</ErrorMessage>;
+      return (
+        <View>
+          <ErrorMessage textAlign="left">invalid amount!</ErrorMessage>
+          <GoyemonText fontSize="12px">*beware that network fee is paid with ether</GoyemonText>
+        </View>
+      );
     }
   }
 
@@ -258,7 +264,7 @@ class Swap extends Component {
           height="160px"
           justifyContent="center"
           marginTop="24px"
-          textAlign="left"
+          textAlign="center"
           width="90%"
         >
           <Container
@@ -266,7 +272,7 @@ class Swap extends Component {
             flexDirection="column"
             justifyContent="center"
             marginTop={0}
-            width="100%"
+            width="50%"
           >
             <Title>{I18n.t('swap-sell-title')}</Title>
             <SwapForm
@@ -291,9 +297,6 @@ class Swap extends Component {
               />
             </SwapForm>
             <View>{this.renderInsufficientBalanceMessage()}</View>
-            <BalanceText>
-              {I18n.t('balance')}: {ethBalance}
-            </BalanceText>
             <UseMaxButton
               text={I18n.t('use-max')}
               textColor="#00A3E2"
@@ -312,14 +315,19 @@ class Swap extends Component {
             />
           </Container>
           <Container
-            alignItems="center"
-            flexDirection="row"
-            justifyContent="flex-start"
+            alignItems="flex-start"
+            flexDirection="column"
+            justifyContent="center"
             marginTop={0}
-            width="100%"
+            width="50%"
           >
-            <CoinImage source={require('../../assets/ether_icon.png')} />
-            <CurrencySymbolText>ETH</CurrencySymbolText>
+            <CurrencyContainer>
+              <CoinImage source={require('../../assets/ether_icon.png')} />
+              <CurrencySymbolText>ETH</CurrencySymbolText>
+            </CurrencyContainer>
+            <BalanceText>
+              {I18n.t('balance')}: {ethBalance}
+            </BalanceText>
           </Container>
         </UntouchableCardContainer>
         <Container
@@ -346,7 +354,7 @@ class Swap extends Component {
             flexDirection="column"
             justifyContent="center"
             marginTop={0}
-            width="100%"
+            width="50%"
           >
             <Title>{I18n.t('swap-buy-title')}</Title>
             {this.renderTokenBoughtText()}
@@ -356,7 +364,7 @@ class Swap extends Component {
             flexDirection="row"
             justifyContent="flex-start"
             marginTop={0}
-            width="100%"
+            width="50%"
           >
             <CoinImage source={require('../../assets/dai_icon.png')} />
             <CurrencySymbolText>DAI</CurrencySymbolText>
@@ -408,6 +416,16 @@ const CoinImage = styled.Image`
   width: 40px;
 `;
 
+const CurrencySymbolText = styled.Text`
+  color: #5f5f5f;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 28;
+`;
+
+const CurrencyContainer = styled.View`
+  flex-direction: row;
+`;
+
 const Title = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
@@ -421,12 +439,6 @@ const BalanceText = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 16;
   margin-top: 8;
-`;
-
-const CurrencySymbolText = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 28;
 `;
 
 const ButtonWrapper = styled.View`
