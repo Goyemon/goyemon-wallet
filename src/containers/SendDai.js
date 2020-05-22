@@ -154,7 +154,7 @@ class SendDai extends Component {
       TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
       GlobalConfig.ERC20TransferGasLimit
     );
-    const isOnline = this.props.netInfo;
+    const isOnline = this.props.isOnline;
 
     if (
       toAddressValidation &&
@@ -182,7 +182,7 @@ class SendDai extends Component {
 
   render() {
     const { balance } = this.props;
-    const isOnline = this.props.netInfo;
+    const isOnline = this.props.isOnline;
 
     const daiBalance = RoundDownBigNumber(balance.dai)
       .div(new RoundDownBigNumber(10).pow(18))
@@ -324,7 +324,7 @@ class SendDai extends Component {
           />
           <Loader animating={this.state.loading} size="small" />
         </ButtonWrapper>
-        <IsOnlineMessage netInfo={this.props.netInfo} />
+        <IsOnlineMessage isOnline={this.props.isOnline} />
       </View>
     );
   }
@@ -393,7 +393,7 @@ function mapStateToProps(state) {
     gasPrice: state.ReducerGasPrice.gasPrice,
     gasChosen: state.ReducerGasPrice.gasChosen,
     balance: state.ReducerBalance.balance,
-    netInfo: state.ReducerNetInfo.netInfo,
+    isOnline: state.ReducerNetInfo.isOnline,
     qrCodeData: state.ReducerQRCodeData.qrCodeData
   };
 }

@@ -107,7 +107,7 @@ class SendEth extends Component {
       weiAmount,
       GlobalConfig.ETHTxGasLimit
     );
-    const isOnline = this.props.netInfo;
+    const isOnline = this.props.isOnline;
 
     if (toAddressValidation && weiAmountValidation && isOnline) {
       this.setState({ loading: true });
@@ -127,7 +127,7 @@ class SendEth extends Component {
   };
 
   render() {
-    const isOnline = this.props.netInfo;
+    const isOnline = this.props.isOnline;
     const ethBalance = RoundDownBigNumber(this.state.ethBalance).toFixed(4);
 
     let weiFullAmount;
@@ -287,7 +287,7 @@ class SendEth extends Component {
           />
           <Loader animating={this.state.loading} size="small" />
         </ButtonWrapper>
-        <IsOnlineMessage netInfo={this.props.netInfo} />
+        <IsOnlineMessage isOnline={this.props.isOnline} />
       </View>
     );
   }
@@ -355,7 +355,7 @@ function mapStateToProps(state) {
     gasPrice: state.ReducerGasPrice.gasPrice,
     gasChosen: state.ReducerGasPrice.gasChosen,
     balance: state.ReducerBalance.balance,
-    netInfo: state.ReducerNetInfo.netInfo,
+    isOnline: state.ReducerNetInfo.isOnline,
     qrCodeData: state.ReducerQRCodeData.qrCodeData
   };
 }

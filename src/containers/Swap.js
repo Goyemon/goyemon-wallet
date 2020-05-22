@@ -148,7 +148,7 @@ class Swap extends Component {
 
   validateForm = async () => {
     const ethSoldValidation = this.validateAmount(this.state.ethSold);
-    const isOnline = this.props.netInfo;
+    const isOnline = this.props.isOnline;
 
     if (ethSoldValidation && isOnline) {
       this.setState({ loading: true });
@@ -201,7 +201,7 @@ class Swap extends Component {
   }
 
   updateEthSoldValidation(ethSoldValidation) {
-    const isOnline = this.props.netInfo;
+    const isOnline = this.props.isOnline;
     if (ethSoldValidation && isOnline) {
       this.setState({
         ethSoldValidation: true
@@ -241,7 +241,7 @@ class Swap extends Component {
   }
 
   render() {
-    const isOnline = this.props.netInfo;
+    const isOnline = this.props.isOnline;
     let ethBalance = Web3.utils.fromWei(this.props.balance.wei);
     ethBalance = RoundDownBigNumber(ethBalance).toFixed(4);
 
@@ -393,7 +393,7 @@ class Swap extends Component {
           />
           <Loader animating={this.state.loading} size="small" />
         </ButtonWrapper>
-        <IsOnlineMessage netInfo={this.props.netInfo} />
+        <IsOnlineMessage isOnline={this.props.isOnline} />
       </RootContainer>
     );
   }
@@ -456,7 +456,7 @@ function mapStateToProps(state) {
     uniswap: state.ReducerUniswap.uniswap,
     gasPrice: state.ReducerGasPrice.gasPrice,
     gasChosen: state.ReducerGasPrice.gasChosen,
-    netInfo: state.ReducerNetInfo.netInfo,
+    isOnline: state.ReducerNetInfo.isOnline,
     outgoingTransactionData:
       state.ReducerOutgoingTransactionData.outgoingTransactionData
   };

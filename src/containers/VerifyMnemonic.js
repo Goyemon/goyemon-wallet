@@ -117,7 +117,7 @@ class VerifyMnemonic extends Component {
             type in your backup words in order
           </Description>
           <MnemonicWordsContainer style={styles.table}>
-            {this.state.mnemonicWords.map((word, id) => (
+            {mnemonicWords.map((word, id) => (
               <View style={styles.cell} key={id}>
                 <MnemonicWordWrapper>
                   <TextInput

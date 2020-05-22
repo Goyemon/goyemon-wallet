@@ -14,12 +14,12 @@ class OfflineNotice extends Component {
   }
 
   componentDidMount() {
-    this.setState({ isConnected: this.props.netInfo });
+    this.setState({ isConnected: this.props.isOnline });
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.netInfo != prevProps.netInfo) {
-      this.setState({ isConnected: this.props.netInfo });
+  componentDidUpdate(prevProps) {
+    if (this.props.isOnline != prevProps.isOnline) {
+      this.setState({ isConnected: this.props.isOnline });
     }
   }
 
@@ -57,7 +57,7 @@ const OfflineText = styled.Text`
 
 function mapStateToProps(state) {
   return {
-    netInfo: state.ReducerNetInfo.netInfo
+    isOnline: state.ReducerNetInfo.isOnline
   };
 }
 

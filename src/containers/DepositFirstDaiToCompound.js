@@ -125,7 +125,7 @@ class DepositFirstDaiToCompound extends Component {
       TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
       GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit
     );
-    const isOnline = this.props.netInfo;
+    const isOnline = this.props.isOnline;
 
     if (daiAmountValidation && weiAmountValidation && isOnline) {
       this.setState({ loading: true });
@@ -151,7 +151,7 @@ class DepositFirstDaiToCompound extends Component {
 
   render() {
     const { balance, compound } = this.props;
-    const isOnline = this.props.netInfo;
+    const isOnline = this.props.isOnline;
 
     const currentInterestRate = new BigNumber(compound.dai.currentInterestRate)
       .div(new BigNumber(10).pow(24))
@@ -257,7 +257,7 @@ class DepositFirstDaiToCompound extends Component {
           />
           <Loader animating={this.state.loading} size="small" />
         </ButtonWrapper>
-        <IsOnlineMessage netInfo={this.props.netInfo} />
+        <IsOnlineMessage isOnline={this.props.isOnline} />
       </RootContainer>
     );
   }
@@ -319,7 +319,7 @@ function mapStateToProps(state) {
     gasPrice: state.ReducerGasPrice.gasPrice,
     gasChosen: state.ReducerGasPrice.gasChosen,
     balance: state.ReducerBalance.balance,
-    netInfo: state.ReducerNetInfo.netInfo
+    isOnline: state.ReducerNetInfo.isOnline
   };
 }
 

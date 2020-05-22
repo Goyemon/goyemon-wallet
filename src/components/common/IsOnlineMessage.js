@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import { ErrorMessage } from '../common';
 
 const IsOnlineMessage = (props) => {
-  if (props.netInfo) {
+  if (props.isOnline) {
     return <View />;
   }
   return <ErrorMessage textAlign="center">you are offline 😟</ErrorMessage>;

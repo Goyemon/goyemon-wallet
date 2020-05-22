@@ -53,7 +53,9 @@ const balance = (state = INITIAL_STATE, action) => {
           pooltogetherDai: {
             ...state.balance.pooltogetherDai,
             open: '0',
-            committed: new BigNumber(state.balance.pooltogetherDai.open).plus(state.balance.pooltogetherDai.committed).toString(10)
+            committed: new BigNumber(state.balance.pooltogetherDai.open)
+              .plus(state.balance.pooltogetherDai.committed)
+              .toString(10)
           }
         }
       };

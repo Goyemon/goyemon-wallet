@@ -1,6 +1,5 @@
 'use strict';
 import React, { Component } from 'react';
-import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import styled from 'styled-components';

@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { BackHandler } from 'react-native';
 import { connect } from 'react-redux';
-import { Linking, TouchableHighlight, Alert, Modal } from 'react-native';
+import { Linking, TouchableHighlight } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import { clearState } from '../actions/ActionClearState';
@@ -233,7 +233,7 @@ class Settings extends Component {
         <BottomText>
           <VersionText>v0.0.1</VersionText>
           <Icon name="heart-outline" color="#5f5f5f" size={24} />
-          <LoveText>Made with love by Goyemon</LoveText>
+          <LoveText>Made with love by Swarm</LoveText>
         </BottomText>
       </RootContainer>
     );

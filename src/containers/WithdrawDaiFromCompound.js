@@ -129,7 +129,7 @@ class WithdrawDaiFromCompound extends Component {
       TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
       GlobalConfig.cTokenRedeemUnderlyingGasLimit
     );
-    const isOnline = this.props.netInfo;
+    const isOnline = this.props.isOnline;
 
     if (daiSavingsAmountValidation && weiAmountValidation && isOnline) {
       this.setState({ loading: true });
@@ -149,7 +149,7 @@ class WithdrawDaiFromCompound extends Component {
 
   render() {
     const { balance } = this.props;
-    const isOnline = this.props.netInfo;
+    const isOnline = this.props.isOnline;
 
     const compoundDaiBalance = RoundDownBigNumber(balance.compoundDai)
       .div(new RoundDownBigNumber(10).pow(36))
@@ -234,7 +234,7 @@ class WithdrawDaiFromCompound extends Component {
           />
           <Loader animating={this.state.loading} size="small" />
         </ButtonWrapper>
-        <IsOnlineMessage netInfo={this.props.netInfo} />
+        <IsOnlineMessage isOnline={this.props.isOnline} />
       </RootContainer>
     );
   }
@@ -295,7 +295,7 @@ function mapStateToProps(state) {
     balance: state.ReducerBalance.balance,
     gasPrice: state.ReducerGasPrice.gasPrice,
     gasChosen: state.ReducerGasPrice.gasChosen,
-    netInfo: state.ReducerNetInfo.netInfo
+    isOnline: state.ReducerNetInfo.isOnline
   };
 }
 

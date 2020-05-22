@@ -130,7 +130,7 @@ class WithdrawDaiFromPoolTogether extends Component {
       TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
       GlobalConfig.PoolTogetherWithdrawGasLimit
     );
-    const isOnline = this.props.netInfo;
+    const isOnline = this.props.isOnline;
 
     if (daiWithdrawAmountValidation && weiAmountValidation && isOnline) {
       this.setState({ loading: true });
@@ -150,7 +150,7 @@ class WithdrawDaiFromPoolTogether extends Component {
 
   render() {
     const { balance } = this.props;
-    const isOnline = this.props.netInfo;
+    const isOnline = this.props.isOnline;
 
     const pooltogetherDaiBalance = RoundDownBigNumber(
       balance.pooltogetherDai.open
@@ -252,7 +252,7 @@ class WithdrawDaiFromPoolTogether extends Component {
           />
           <Loader animating={this.state.loading} size="small" />
         </ButtonWrapper>
-        <IsOnlineMessage netInfo={this.props.netInfo} />
+        <IsOnlineMessage isOnline={this.props.isOnline} />
       </RootContainer>
     );
   }
@@ -313,7 +313,7 @@ function mapStateToProps(state) {
     balance: state.ReducerBalance.balance,
     gasPrice: state.ReducerGasPrice.gasPrice,
     gasChosen: state.ReducerGasPrice.gasChosen,
-    netInfo: state.ReducerNetInfo.netInfo
+    isOnline: state.ReducerNetInfo.isOnline
   };
 }
 

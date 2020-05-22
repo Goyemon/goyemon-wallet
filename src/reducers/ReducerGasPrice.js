@@ -28,7 +28,10 @@ const gasPrice = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case GET_GAS_PRICE:
       const gasPriceSuperFastGwei = (action.payload.fast / 10).toString();
-      const gasPriceSuperFastWei = Web3.utils.toWei(gasPriceSuperFastGwei, 'Gwei');
+      const gasPriceSuperFastWei = Web3.utils.toWei(
+        gasPriceSuperFastGwei,
+        'Gwei'
+      );
       const gasPriceFastGwei = (action.payload.average / 10).toString();
       const gasPriceFastWei = Web3.utils.toWei(gasPriceFastGwei, 'Gwei');
       const gasPriceNormalGwei = (action.payload.safeLow / 10).toString();
