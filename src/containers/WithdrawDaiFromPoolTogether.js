@@ -38,9 +38,7 @@ class WithdrawDaiFromPoolTogether extends Component {
       daiWithdrawAmount: '',
       daiWithdrawAmountValidation: undefined,
       weiAmountValidation: undefined,
-      loading: false,
-      buttonDisabled: true,
-      buttonOpacity: 0.5
+      loading: false
     };
   }
 
@@ -100,64 +98,27 @@ class WithdrawDaiFromPoolTogether extends Component {
     return transactionObject;
   }
 
-  buttonStateUpdate() {
-    if (
-      this.state.daiWithdrawAmountValidation &&
-      this.state.weiAmountValidation
-    ) {
-      this.setState({
-        buttonDisabled: false,
-        buttonOpacity: 1
-      });
-    } else {
-      this.setState({
-        buttonDisabled: true,
-        buttonOpacity: 0.5
-      });
-    }
-  }
-
   updateDaiWithdrawAmountValidation(daiWithdrawAmountValidation) {
     if (daiWithdrawAmountValidation) {
-      this.setState(
-        {
-          daiWithdrawAmountValidation: true
-        },
-        function () {
-          this.buttonStateUpdate();
-        }
-      );
+      this.setState({
+        daiWithdrawAmountValidation: true
+      });
     } else if (!daiWithdrawAmountValidation) {
-      this.setState(
-        {
-          daiWithdrawAmountValidation: false
-        },
-        function () {
-          this.buttonStateUpdate();
-        }
-      );
+      this.setState({
+        daiWithdrawAmountValidation: false
+      });
     }
   }
 
   updateWeiAmountValidation(weiAmountValidation) {
     if (weiAmountValidation) {
-      this.setState(
-        {
-          weiAmountValidation: true
-        },
-        function () {
-          this.buttonStateUpdate();
-        }
-      );
+      this.setState({
+        weiAmountValidation: true
+      });
     } else if (!weiAmountValidation) {
-      this.setState(
-        {
-          weiAmountValidation: false
-        },
-        function () {
-          this.buttonStateUpdate();
-        }
-      );
+      this.setState({
+        weiAmountValidation: false
+      });
     }
   }
 
@@ -172,7 +133,7 @@ class WithdrawDaiFromPoolTogether extends Component {
     const isOnline = this.props.netInfo;
 
     if (daiWithdrawAmountValidation && weiAmountValidation && isOnline) {
-      this.setState({ loading: true, buttonDisabled: true });
+      this.setState({ loading: true });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       this.props.saveOutgoingTransactionDataPoolTogether({
@@ -189,6 +150,8 @@ class WithdrawDaiFromPoolTogether extends Component {
 
   render() {
     const { balance } = this.props;
+    const isOnline = this.props.netInfo;
+
     const pooltogetherDaiBalance = RoundDownBigNumber(
       balance.pooltogetherDai.open
     )
@@ -266,11 +229,25 @@ class WithdrawDaiFromPoolTogether extends Component {
         />
         <ButtonWrapper>
           <TxNextButton
-            disabled={this.state.buttonDisabled}
-            opacity={this.state.buttonOpacity}
+            disabled={
+              !(
+                this.state.daiWithdrawAmountValidation &&
+                this.state.weiAmountValidation &&
+                isOnline
+              ) || this.state.loading
+                ? true
+                : false
+            }
+            opacity={
+              this.state.daiWithdrawAmountValidation &&
+              this.state.weiAmountValidation &&
+              isOnline
+                ? 1
+                : 0.5
+            }
             onPress={async () => {
               await this.validateForm(this.state.daiWithdrawAmount);
-              this.setState({ loading: false, buttonDisabled: false });
+              this.setState({ loading: false });
             }}
           />
           <Loader animating={this.state.loading} size="small" />

@@ -16,11 +16,13 @@ import {
   Container,
   UntouchableCardContainer,
   HeaderOne,
+  GoyemonText,
   SwapForm,
   Loader,
   IsOnlineMessage,
   ErrorMessage,
-  TxNextButton
+  TxNextButton,
+  UseMaxButton
 } from '../components/common';
 import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
 import { AdvancedContainer } from '../containers/common/AdvancedContainer';
@@ -42,9 +44,7 @@ class Swap extends Component {
       ethSold: '',
       tokenBought: new RoundDownBigNumber(0),
       ethSoldValidation: undefined,
-      loading: false,
-      buttonDisabled: true,
-      buttonOpacity: 0.5
+      loading: false
     };
   }
 
@@ -59,19 +59,14 @@ class Swap extends Component {
       });
     }
     if (this.props.gasChosen != prevProps.gasChosen) {
-      this.updateEthSoldValidation(
-        this.validateAmount(
-          this.state.ethSold,
-          GlobalConfig.UniswapEthToTokenSwapInputGasLimit
-        )
-      );
+      this.updateEthSoldValidation(this.validateAmount(this.state.ethSold));
     }
   }
 
   getTokenBought(ethSold, weiReserve, tokenReserve) {
     weiReserve = new BigNumber(weiReserve, 16);
     tokenReserve = new BigNumber(tokenReserve, 16);
-    let weiSold = Web3.utils.toWei(ethSold.toString(), 'Ether');
+    let weiSold = Web3.utils.toWei(ethSold.toString());
     weiSold = new BigNumber(weiSold);
     const weiSoldWithFee = weiSold.times(997);
     const numerator = weiSoldWithFee.times(tokenReserve);
@@ -99,7 +94,9 @@ class Swap extends Component {
 
   getMinTokens(tokenBought) {
     const minTokens = tokenBought.times(
-      (100 - this.props.uniswap.slippage[this.props.uniswap.slippageChosen].value) / 100
+      (100 -
+        this.props.uniswap.slippage[this.props.uniswap.slippageChosen].value) /
+        100
     );
     return minTokens;
   }
@@ -111,7 +108,7 @@ class Swap extends Component {
   }
 
   async constructTransactionObject() {
-    const weiSold = parseFloat(Web3.utils.toWei(this.state.ethSold, 'Ether'));
+    const weiSold = parseFloat(Web3.utils.toWei(this.state.ethSold));
 
     const minTokens = this.getMinTokens(this.state.tokenBought)
       .toString()
@@ -150,21 +147,19 @@ class Swap extends Component {
   }
 
   validateForm = async () => {
-    const ethSoldValidation = this.validateAmount(
-      this.state.ethSold,
-      GlobalConfig.UniswapEthToTokenSwapInputGasLimit
-    );
+    const ethSoldValidation = this.validateAmount(this.state.ethSold);
     const isOnline = this.props.netInfo;
 
     if (ethSoldValidation && isOnline) {
-      this.setState({ loading: true, buttonDisabled: false });
+      this.setState({ loading: true });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       this.props.saveOutgoingTransactionDataSwap({
         sold: this.state.ethSold,
         bought: this.state.tokenBought.toFixed(4),
         minBought: this.getMinTokens(this.state.tokenBought),
-        slippage: this.props.uniswap.slippage[this.props.uniswap.slippageChosen].value,
+        slippage: this.props.uniswap.slippage[this.props.uniswap.slippageChosen]
+          .value,
         gasLimit: GlobalConfig.UniswapEthToTokenSwapInputGasLimit,
         transactionObject: transactionObject
       });
@@ -175,14 +170,14 @@ class Swap extends Component {
     }
   };
 
-  validateAmount(ethSold, gasLimit) {
+  validateAmount(ethSold) {
     const isNumber = /^[0-9]\d*(\.\d+)?$/.test(ethSold);
     if (isNumber) {
       const weiBalance = new BigNumber(this.props.balance.wei);
-      const weiSold = new BigNumber(Web3.utils.toWei(ethSold, 'Ether'));
+      const weiSold = new BigNumber(Web3.utils.toWei(ethSold));
       const transactionFeeLimitInWei = new BigNumber(
         TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
-      ).times(gasLimit);
+      ).times(GlobalConfig.UniswapEthToTokenSwapInputGasLimit);
       const tokenReserve = new BigNumber(
         this.props.uniswap.daiExchange.daiReserve,
         16
@@ -206,17 +201,14 @@ class Swap extends Component {
   }
 
   updateEthSoldValidation(ethSoldValidation) {
-    if (ethSoldValidation) {
+    const isOnline = this.props.netInfo;
+    if (ethSoldValidation && isOnline) {
       this.setState({
-        ethSoldValidation: true,
-        buttonDisabled: false,
-        buttonOpacity: 1
+        ethSoldValidation: true
       });
-    } else if (!ethSoldValidation) {
+    } else if (!ethSoldValidation || !isOnline) {
       this.setState({
-        ethSoldValidation: false,
-        buttonDisabled: true,
-        buttonOpacity: 0.5
+        ethSoldValidation: false
       });
     }
   }
@@ -239,13 +231,31 @@ class Swap extends Component {
       this.state.ethSoldValidation === undefined
     ) {
     } else {
-      return <ErrorMessage>invalid amount!</ErrorMessage>;
+      return (
+        <View>
+          <ErrorMessage textAlign="left">invalid amount!</ErrorMessage>
+          <GoyemonText fontSize="12px">*beware that network fee is paid with ether</GoyemonText>
+        </View>
+      );
     }
   }
 
   render() {
+    const isOnline = this.props.netInfo;
     let ethBalance = Web3.utils.fromWei(this.props.balance.wei);
     ethBalance = RoundDownBigNumber(ethBalance).toFixed(4);
+
+    let weiFullAmount;
+    const weiBalance = new BigNumber(this.props.balance.wei);
+    const networkFeeLimit = new BigNumber(
+      TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
+    ).times(GlobalConfig.UniswapEthToTokenSwapInputGasLimit);
+
+    if (weiBalance.isLessThanOrEqualTo(networkFeeLimit)) {
+      weiFullAmount = '0';
+    } else if (weiBalance.isGreaterThan(networkFeeLimit)) {
+      weiFullAmount = weiBalance.minus(networkFeeLimit).toString();
+    }
 
     return (
       <RootContainer>
@@ -258,7 +268,7 @@ class Swap extends Component {
           height="160px"
           justifyContent="center"
           marginTop="24px"
-          textAlign="left"
+          textAlign="center"
           width="90%"
         >
           <Container
@@ -266,7 +276,7 @@ class Swap extends Component {
             flexDirection="column"
             justifyContent="center"
             marginTop={0}
-            width="100%"
+            width="50%"
           >
             <Title>{I18n.t('swap-sell-title')}</Title>
             <SwapForm
@@ -281,33 +291,47 @@ class Swap extends Component {
                 clearButtonMode="while-editing"
                 onChangeText={(ethSold) => {
                   if (ethSold) {
-                    this.updateEthSoldValidation(
-                      this.validateAmount(
-                        ethSold,
-                        GlobalConfig.UniswapEthToTokenSwapInputGasLimit
-                      )
-                    );
+                    this.updateEthSoldValidation(this.validateAmount(ethSold));
                     this.setState({ ethSold });
                     this.updateTokenBought(ethSold);
                   }
                 }}
                 returnKeyType="done"
+                value={this.state.ethSold}
               />
             </SwapForm>
             <View>{this.renderInsufficientBalanceMessage()}</View>
+            <UseMaxButton
+              text={I18n.t('use-max')}
+              textColor="#00A3E2"
+              onPress={() => {
+                this.setState({
+                  ethSold: Web3.utils.fromWei(weiFullAmount)
+                });
+                this.updateEthSoldValidation(
+                  TransactionUtilities.validateWeiAmount(
+                    weiFullAmount,
+                    GlobalConfig.UniswapEthToTokenSwapInputGasLimit
+                  )
+                );
+                this.updateTokenBought(Web3.utils.fromWei(weiFullAmount));
+              }}
+            />
+          </Container>
+          <Container
+            alignItems="flex-start"
+            flexDirection="column"
+            justifyContent="center"
+            marginTop={0}
+            width="50%"
+          >
+            <CurrencyContainer>
+              <CoinImage source={require('../../assets/ether_icon.png')} />
+              <CurrencySymbolText>ETH</CurrencySymbolText>
+            </CurrencyContainer>
             <BalanceText>
               {I18n.t('balance')}: {ethBalance}
             </BalanceText>
-          </Container>
-          <Container
-            alignItems="center"
-            flexDirection="row"
-            justifyContent="flex-start"
-            marginTop={0}
-            width="100%"
-          >
-            <CoinImage source={require('../../assets/ether_icon.png')} />
-            <CurrencySymbolText>ETH</CurrencySymbolText>
           </Container>
         </UntouchableCardContainer>
         <Container
@@ -334,7 +358,7 @@ class Swap extends Component {
             flexDirection="column"
             justifyContent="center"
             marginTop={0}
-            width="100%"
+            width="50%"
           >
             <Title>{I18n.t('swap-buy-title')}</Title>
             {this.renderTokenBoughtText()}
@@ -344,7 +368,7 @@ class Swap extends Component {
             flexDirection="row"
             justifyContent="flex-start"
             marginTop={0}
-            width="100%"
+            width="50%"
           >
             <CoinImage source={require('../../assets/dai_icon.png')} />
             <CurrencySymbolText>DAI</CurrencySymbolText>
@@ -356,11 +380,15 @@ class Swap extends Component {
         />
         <ButtonWrapper>
           <TxNextButton
-            disabled={this.state.buttonDisabled}
-            opacity={this.state.buttonOpacity}
+            disabled={
+              !(this.state.ethSoldValidation && isOnline) || this.state.loading
+                ? true
+                : false
+            }
+            opacity={this.state.ethSoldValidation && isOnline ? 1 : 0.5}
             onPress={async () => {
               await this.validateForm();
-              this.setState({ loading: false, buttonDisabled: false });
+              this.setState({ loading: false });
             }}
           />
           <Loader animating={this.state.loading} size="small" />
@@ -392,6 +420,16 @@ const CoinImage = styled.Image`
   width: 40px;
 `;
 
+const CurrencySymbolText = styled.Text`
+  color: #5f5f5f;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 28;
+`;
+
+const CurrencyContainer = styled.View`
+  flex-direction: row;
+`;
+
 const Title = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
@@ -405,12 +443,6 @@ const BalanceText = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 16;
   margin-top: 8;
-`;
-
-const CurrencySymbolText = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 28;
 `;
 
 const ButtonWrapper = styled.View`

@@ -38,9 +38,7 @@ class DepositFirstDaiToCompound extends Component {
       daiAmount: '',
       daiAmountValidation: undefined,
       weiAmountValidation: undefined,
-      loading: false,
-      buttonDisabled: true,
-      buttonOpacity: 0.5
+      loading: false
     };
   }
 
@@ -95,61 +93,27 @@ class DepositFirstDaiToCompound extends Component {
     return transactionObject.setNonce(transactionObject.getNonce() + 1);
   }
 
-  buttonStateUpdate() {
-    if (this.state.daiAmountValidation && this.state.weiAmountValidation) {
-      this.setState({
-        buttonDisabled: false,
-        buttonOpacity: 1
-      });
-    } else {
-      this.setState({
-        buttonDisabled: true,
-        buttonOpacity: 0.5
-      });
-    }
-  }
-
   updateDaiAmountValidation(daiAmountValidation) {
     if (daiAmountValidation) {
-      this.setState(
-        {
-          daiAmountValidation: true
-        },
-        function () {
-          this.buttonStateUpdate();
-        }
-      );
+      this.setState({
+        daiAmountValidation: true
+      });
     } else if (!daiAmountValidation) {
-      this.setState(
-        {
-          daiAmountValidation: false
-        },
-        function () {
-          this.buttonStateUpdate();
-        }
-      );
+      this.setState({
+        daiAmountValidation: false
+      });
     }
   }
 
   updateWeiAmountValidation(weiAmountValidation) {
     if (weiAmountValidation) {
-      this.setState(
-        {
-          weiAmountValidation: true
-        },
-        function () {
-          this.buttonStateUpdate();
-        }
-      );
+      this.setState({
+        weiAmountValidation: true
+      });
     } else if (!weiAmountValidation) {
-      this.setState(
-        {
-          weiAmountValidation: false
-        },
-        function () {
-          this.buttonStateUpdate();
-        }
-      );
+      this.setState({
+        weiAmountValidation: false
+      });
     }
   }
 
@@ -164,7 +128,7 @@ class DepositFirstDaiToCompound extends Component {
     const isOnline = this.props.netInfo;
 
     if (daiAmountValidation && weiAmountValidation && isOnline) {
-      this.setState({ loading: true, buttonDisabled: true });
+      this.setState({ loading: true });
       LogUtilities.logInfo('validation successful');
       const approveTransactionObject = await TransactionUtilities.constructApproveTransactionObject(
         GlobalConfig.cDAIcontract,
@@ -173,7 +137,8 @@ class DepositFirstDaiToCompound extends Component {
       const mintTransactionObject = await this.constructMintTransactionObject();
       this.props.saveOutgoingTransactionDataCompound({
         amount: daiAmount,
-        gasLimit: GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit,
+        gasLimit:
+          GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit,
         approveTransactionObject: approveTransactionObject,
         transactionObject: mintTransactionObject
       });
@@ -186,6 +151,8 @@ class DepositFirstDaiToCompound extends Component {
 
   render() {
     const { balance, compound } = this.props;
+    const isOnline = this.props.netInfo;
+
     const currentInterestRate = new BigNumber(compound.dai.currentInterestRate)
       .div(new BigNumber(10).pow(24))
       .toFixed(2);
@@ -267,11 +234,25 @@ class DepositFirstDaiToCompound extends Component {
         />
         <ButtonWrapper>
           <TxNextButton
-            disabled={this.state.buttonDisabled}
-            opacity={this.state.buttonOpacity}
+            disabled={
+              !(
+                this.state.daiAmountValidation &&
+                this.state.weiAmountValidation &&
+                isOnline
+              ) || this.state.loading
+                ? true
+                : false
+            }
+            opacity={
+              this.state.daiAmountValidation &&
+              this.state.weiAmountValidation &&
+              isOnline
+                ? 1
+                : 0.5
+            }
             onPress={async () => {
               await this.validateForm(this.state.daiAmount);
-              this.setState({ loading: false, buttonDisabled: false });
+              this.setState({ loading: false });
             }}
           />
           <Loader animating={this.state.loading} size="small" />

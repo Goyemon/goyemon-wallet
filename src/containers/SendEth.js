@@ -41,11 +41,10 @@ class SendEth extends Component {
       ethBalance: Web3.utils.fromWei(props.balance.wei),
       toAddress: '',
       weiAmount: '0',
+      ethAmount: '',
       toAddressValidation: undefined,
       weiAmountValidation: undefined,
-      loading: false,
-      buttonDisabled: true,
-      buttonOpacity: 0.5
+      loading: false
     };
   }
 
@@ -56,7 +55,10 @@ class SendEth extends Component {
     }
     if (this.props.gasChosen != prevProps.gasChosen) {
       this.updateWeiAmountValidation(
-        TransactionUtilities.validateWeiAmount(this.state.weiAmount)
+        TransactionUtilities.validateWeiAmount(
+          this.state.weiAmount,
+          GlobalConfig.ETHTxGasLimit
+        )
       );
     }
   }
@@ -79,32 +81,11 @@ class SendEth extends Component {
     if (Web3.utils.isAddress(toAddress)) {
       LogUtilities.logInfo('address validated!');
       this.setState({ toAddressValidation: true });
-      if (this.state.weiAmountValidation === true) {
-        this.setState({ buttonDisabled: false, buttonOpacity: 1 });
-      }
       return true;
     } else if (!Web3.utils.isAddress(toAddress)) {
       LogUtilities.logInfo('invalid address');
-      this.setState({
-        toAddressValidation: false,
-        buttonDisabled: true,
-        buttonOpacity: 0.5
-      });
+      this.setState({ toAddressValidation: false });
       return false;
-    }
-  }
-
-  buttonStateUpdate() {
-    if (this.state.weiAmountValidation && this.state.toAddressValidation) {
-      this.setState({
-        buttonDisabled: false,
-        buttonOpacity: 1
-      });
-    } else {
-      this.setState({
-        buttonDisabled: true,
-        buttonOpacity: 0.5
-      });
     }
   }
 
@@ -113,24 +94,23 @@ class SendEth extends Component {
       this.setState({
         weiAmountValidation: true
       });
-      this.buttonStateUpdate();
     } else if (!weiAmountValidation) {
       this.setState({
         weiAmountValidation: false
       });
-      this.buttonStateUpdate();
     }
   }
 
   validateForm = async (toAddress, weiAmount) => {
     const toAddressValidation = this.validateToAddress(toAddress);
     const weiAmountValidation = TransactionUtilities.validateWeiAmount(
-      weiAmount
+      weiAmount,
+      GlobalConfig.ETHTxGasLimit
     );
     const isOnline = this.props.netInfo;
 
     if (toAddressValidation && weiAmountValidation && isOnline) {
-      this.setState({ loading: true, buttonDisabled: true });
+      this.setState({ loading: true });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       this.props.saveOutgoingTransactionDataSend({
@@ -147,15 +127,20 @@ class SendEth extends Component {
   };
 
   render() {
+    const isOnline = this.props.netInfo;
     const ethBalance = RoundDownBigNumber(this.state.ethBalance).toFixed(4);
 
-    const weiFullAmount = new BigNumber(this.props.balance.wei)
-      .minus(
-        new BigNumber(
-          TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
-        ).times(GlobalConfig.ETHTxGasLimit)
-      )
-      .toString();
+    let weiFullAmount;
+    const weiBalance = new BigNumber(this.props.balance.wei);
+    const networkFeeLimit = new BigNumber(
+      TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
+    ).times(GlobalConfig.ETHTxGasLimit);
+
+    if (weiBalance.isLessThanOrEqualTo(networkFeeLimit)) {
+      weiFullAmount = '0';
+    } else if (weiBalance.isGreaterThan(networkFeeLimit)) {
+      weiFullAmount = weiBalance.minus(networkFeeLimit).toString();
+    }
 
     return (
       <View>
@@ -225,9 +210,15 @@ class SendEth extends Component {
             text={I18n.t('use-max')}
             textColor="#00A3E2"
             onPress={() => {
-              this.setState({ weiAmount: weiFullAmount });
+              this.setState({
+                weiAmount: weiFullAmount,
+                ethAmount: Web3.utils.fromWei(weiFullAmount)
+              });
               this.updateWeiAmountValidation(
-                TransactionUtilities.validateWeiAmount(weiFullAmount)
+                TransactionUtilities.validateWeiAmount(
+                  weiFullAmount,
+                  GlobalConfig.ETHTxGasLimit
+                )
               );
             }}
           />
@@ -245,19 +236,24 @@ class SendEth extends Component {
               keyboardType="numeric"
               clearButtonMode="while-editing"
               onChangeText={(ethAmount) => {
-                if (ethAmount) {
+                const isNumber = /^[0-9]\d*(\.\d+)?$/.test(ethAmount);
+                this.setState({ ethAmount });
+                if (isNumber) {
                   this.updateWeiAmountValidation(
                     TransactionUtilities.validateWeiAmount(
-                      Web3.utils.toWei(ethAmount.toString(16))
+                      Web3.utils.toWei(ethAmount),
+                      GlobalConfig.ETHTxGasLimit
                     )
                   );
                   this.setState({
-                    weiAmount: Web3.utils.toWei(ethAmount.toString(16))
+                    weiAmount: Web3.utils.toWei(ethAmount)
                   });
+                } else {
+                  this.updateWeiAmountValidation(false);
                 }
               }}
               returnKeyType="done"
-              value={Web3.utils.fromWei(this.state.weiAmount.toString(16))}
+              value={this.state.ethAmount}
             />
             <CurrencySymbolText>ETH</CurrencySymbolText>
           </SendTextInputContainer>
@@ -265,14 +261,28 @@ class SendEth extends Component {
         <AdvancedContainer gasLimit={GlobalConfig.ETHTxGasLimit} />
         <ButtonWrapper>
           <TxNextButton
-            disabled={this.state.buttonDisabled}
-            opacity={this.state.buttonOpacity}
+            disabled={
+              !(
+                this.state.weiAmountValidation &&
+                this.state.toAddressValidation &&
+                isOnline
+              ) || this.state.loading
+                ? true
+                : false
+            }
+            opacity={
+              this.state.weiAmountValidation &&
+              this.state.toAddressValidation &&
+              isOnline
+                ? 1
+                : 0.5
+            }
             onPress={async () => {
               await this.validateForm(
                 this.state.toAddress,
                 this.state.weiAmount
               );
-              this.setState({ loading: false, buttonDisabled: false });
+              this.setState({ loading: false });
             }}
           />
           <Loader animating={this.state.loading} size="small" />

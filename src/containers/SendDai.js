@@ -45,9 +45,7 @@ class SendDai extends Component {
       daiAmountValidation: undefined,
       weiAmountValidation: undefined,
       currency: 'USD',
-      loading: false,
-      buttonDisabled: true,
-      buttonOpacity: 0.5
+      loading: false
     };
   }
 
@@ -113,61 +111,25 @@ class SendDai extends Component {
     if (Web3.utils.isAddress(toAddress)) {
       LogUtilities.logInfo('address validated!');
       this.setState({ toAddressValidation: true });
-      if (this.state.daiAmountValidation === true) {
-        this.setState({ buttonDisabled: false, buttonOpacity: 1 });
-      }
       return true;
     } else if (!Web3.utils.isAddress(toAddress)) {
       LogUtilities.logInfo('invalid address');
       this.setState({
-        toAddressValidation: false,
-        buttonDisabled: true,
-        buttonOpacity: 0.5
+        toAddressValidation: false
       });
       return false;
     }
   }
 
-  buttonStateUpdate() {
-    if (
-      this.state.daiAmountValidation &&
-      this.state.weiAmountValidation &&
-      this.state.toAddressValidation
-    ) {
-      this.setState({
-        buttonDisabled: false,
-        buttonOpacity: 1
-      });
-    } else {
-      this.setState({
-        buttonDisabled: true,
-        buttonOpacity: 0.5
-      });
-    }
-  }
-
   updateDaiAmountValidation(daiAmountValidation) {
     if (daiAmountValidation) {
-      this.setState(
-        {
-          daiAmountValidation: true
-        },
-        function () {
-          if (this.state.toAddressValidation === true) {
-            this.setState({ buttonDisabled: false, buttonOpacity: 1 });
-          }
-          this.buttonStateUpdate();
-        }
-      );
+      this.setState({
+        daiAmountValidation: true
+      });
     } else if (!daiAmountValidation) {
-      this.setState(
-        {
-          daiAmountValidation: false
-        },
-        function () {
-          this.buttonStateUpdate();
-        }
-      );
+      this.setState({
+        daiAmountValidation: false
+      });
     }
   }
 
@@ -176,12 +138,10 @@ class SendDai extends Component {
       this.setState({
         weiAmountValidation: true
       });
-      this.buttonStateUpdate();
     } else if (!weiAmountValidation) {
       this.setState({
         weiAmountValidation: false
       });
-      this.buttonStateUpdate();
     }
   }
 
@@ -203,9 +163,7 @@ class SendDai extends Component {
       isOnline
     ) {
       this.setState({
-        loading: true,
-        buttonDisabled: true,
-        buttonOpacity: 0.5
+        loading: true
       });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
@@ -224,6 +182,7 @@ class SendDai extends Component {
 
   render() {
     const { balance } = this.props;
+    const isOnline = this.props.netInfo;
 
     const daiBalance = RoundDownBigNumber(balance.dai)
       .div(new RoundDownBigNumber(10).pow(18))
@@ -335,17 +294,31 @@ class SendDai extends Component {
         />
         <ButtonWrapper>
           <TxNextButton
-            disabled={this.state.buttonDisabled}
-            opacity={this.state.buttonOpacity}
+            disabled={
+              !(
+                this.state.daiAmountValidation &&
+                this.state.weiAmountValidation &&
+                this.state.toAddressValidation &&
+                isOnline
+              ) || this.state.loading
+                ? true
+                : false
+            }
+            opacity={
+              this.state.daiAmountValidation &&
+              this.state.weiAmountValidation &&
+              this.state.toAddressValidation &&
+              isOnline
+                ? 1
+                : 0.5
+            }
             onPress={async () => {
               await this.validateForm(
                 this.state.toAddress,
                 this.state.daiAmount
               );
               this.setState({
-                loading: false,
-                buttonDisabled: false,
-                buttonOpacity: 1
+                loading: false
               });
             }}
           />

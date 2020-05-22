@@ -3,13 +3,15 @@ import React from 'react';
 import styled from 'styled-components/native';
 
 const ErrorMessage = (props) => (
-  <ErrorMessageText>{props.children}</ErrorMessageText>
+  <ErrorMessageText textAlign={props.textAlign}>
+    {props.children}
+  </ErrorMessageText>
 );
 
 const ErrorMessageText = styled.Text`
   color: #e41b13;
   font-family: 'HKGrotesk-Regular';
-  text-align: center;
+  text-align: ${(props) => props.textAlign};
   width: 100%;
 `;
 

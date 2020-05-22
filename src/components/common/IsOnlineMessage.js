@@ -7,7 +7,7 @@ const IsOnlineMessage = (props) => {
   if (props.netInfo) {
     return <View />;
   }
-  return <ErrorMessage>you are offline 😟</ErrorMessage>;
+  return <ErrorMessage textAlign="center">you are offline 😟</ErrorMessage>;
 };
 
 export { IsOnlineMessage };

@@ -4,7 +4,10 @@ import { View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { getGasPrice, updateGasPriceChosen } from '../../actions/ActionGasPrice';
+import {
+  getGasPrice,
+  updateGasPriceChosen
+} from '../../actions/ActionGasPrice';
 import {
   Container,
   FormHeader,
@@ -18,127 +21,135 @@ import LogUtilities from '../../utilities/LogUtilities.js';
 import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
 
 class __TxSpeedSelectionContainer extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			currency: 'USD',
-		};
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      currency: 'USD'
+    };
+  }
 
-	componentDidMount() {
-		this.props.getGasPrice();
-	}
+  componentDidMount() {
+    this.props.getGasPrice();
+  }
 
-	toggleCurrency(gasPriceWei, gasLimit) {
-	if (this.state.currency === 'ETH') {
-		const usdValue = TransactionUtilities.getTransactionFeeEstimateInUsd(
-		gasPriceWei,
-		gasLimit
-		);
-		return <NetworkFeeText>${usdValue}</NetworkFeeText>;
-	} else if (this.state.currency === 'USD') {
-		let ethValue = TransactionUtilities.getTransactionFeeEstimateInEther(
-		gasPriceWei,
-		gasLimit
-		);
-		LogUtilities.logInfo('ethValue ==>', ethValue);
-		ethValue = parseFloat(ethValue).toFixed(5);
-		return <NetworkFeeText>{ethValue}ETH</NetworkFeeText>;
-	}
-	}
+  toggleCurrency(gasPriceWei, gasLimit) {
+    if (this.state.currency === 'ETH') {
+      const usdValue = TransactionUtilities.getTransactionFeeEstimateInUsd(
+        gasPriceWei,
+        gasLimit
+      );
+      return <NetworkFeeText>${usdValue}</NetworkFeeText>;
+    } else if (this.state.currency === 'USD') {
+      let ethValue = TransactionUtilities.getTransactionFeeEstimateInEther(
+        gasPriceWei,
+        gasLimit
+      );
+      LogUtilities.logInfo('ethValue ==>', ethValue);
+      ethValue = parseFloat(ethValue).toFixed(5);
+      return <NetworkFeeText>{ethValue}ETH</NetworkFeeText>;
+    }
+  }
 
-	renderSlippageContainer() {
-	if (this.props.swap) {
-		return <SlippageContainer />;
-	} else {
-		LogUtilities.logInfo('this is not the swap component');
-	}
-	}
+  renderSlippageContainer() {
+    if (this.props.swap) {
+      return <SlippageContainer />;
+    } else {
+      LogUtilities.logInfo('this is not the swap component');
+    }
+  }
 
-	render() {
-		const { gasPrice, gasChosen, gasLimit } = this.props;
-		return <View>
-				{this.renderSlippageContainer()}
-				<NetworkFeeHeaderContainer>
-				<FormHeader marginBottom="0" marginTop="0">
-					{I18n.t('network-fee')}
-				</FormHeader>
-				<TouchableOpacity
-					onPress={() => {
-					// TODO: needs to be switch(), likely.
-					if (this.state.currency === 'ETH') {
-						this.setState({ currency: 'USD' });
-					} else if (this.state.currency === 'USD') {
-						this.setState({ currency: 'ETH' });
-					}
-					}}
-				>
-					<ToggleCurrencySymbol currency={this.state.currency} />
-				</TouchableOpacity>
-				</NetworkFeeHeaderContainer>
-				<Container
-				alignItems="center"
-				flexDirection="row"
-				justifyContent="center"
-				marginTop={24}
-				width="90%"
-				>
-				{gasPrice.map((gasPrice, key) => (
-					<NetworkFee key={key}>
-					{gasChosen === key ? (
-						<SpeedContainer>
-						<SelectedSpeedTextContainer>
-							<SelectedSpeedText>{gasPrice.speed}</SelectedSpeedText>
-						</SelectedSpeedTextContainer>
-						<SelectedButton>
-							{this.toggleCurrency(gasPrice.value, gasLimit)}
-						</SelectedButton>
-						</SpeedContainer>
-					) : (
-						<SpeedContainer
-						onPress={() => {
-							this.props.updateGasPriceChosen(key);
-						}}
-						>
-						<UnselectedSpeedTextContainer>
-							<UnselectedSpeedText>
-							{gasPrice.speed}
-							</UnselectedSpeedText>
-						</UnselectedSpeedTextContainer>
-						<UnselectedButton>
-							{this.toggleCurrency(gasPrice.value, gasLimit)}
-						</UnselectedButton>
-						</SpeedContainer>
-					)}
-					</NetworkFee>
-				))}
-				</Container>
-			</View>;
-	}
+  render() {
+    const { gasPrice, gasChosen, gasLimit } = this.props;
+    return (
+      <View>
+        {this.renderSlippageContainer()}
+        <NetworkFeeHeaderContainer>
+          <FormHeader marginBottom="0" marginTop="0">
+            {I18n.t('network-fee')}
+          </FormHeader>
+          <TouchableOpacity
+            onPress={() => {
+              // TODO: needs to be switch(), likely.
+              if (this.state.currency === 'ETH') {
+                this.setState({ currency: 'USD' });
+              } else if (this.state.currency === 'USD') {
+                this.setState({ currency: 'ETH' });
+              }
+            }}
+          >
+            <ToggleCurrencySymbol currency={this.state.currency} />
+          </TouchableOpacity>
+        </NetworkFeeHeaderContainer>
+        <Container
+          alignItems="center"
+          flexDirection="row"
+          justifyContent="center"
+          marginTop={24}
+          width="90%"
+        >
+          {gasPrice.map((gasPrice, key) => (
+            <NetworkFee key={key}>
+              {gasChosen === key ? (
+                <SpeedContainer>
+                  <SelectedSpeedTextContainer>
+                    <SelectedSpeedText>{gasPrice.speed}</SelectedSpeedText>
+                  </SelectedSpeedTextContainer>
+                  <SelectedButton>
+                    {this.toggleCurrency(gasPrice.value, gasLimit)}
+                  </SelectedButton>
+                </SpeedContainer>
+              ) : (
+                <SpeedContainer
+                  onPress={() => {
+                    this.props.updateGasPriceChosen(key);
+                  }}
+                >
+                  <UnselectedSpeedTextContainer>
+                    <UnselectedSpeedText>{gasPrice.speed}</UnselectedSpeedText>
+                  </UnselectedSpeedTextContainer>
+                  <UnselectedButton>
+                    {this.toggleCurrency(gasPrice.value, gasLimit)}
+                  </UnselectedButton>
+                </SpeedContainer>
+              )}
+            </NetworkFee>
+          ))}
+        </Container>
+      </View>
+    );
+  }
 }
 
-
-
-
 class AdvancedContainer extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			showAdvanced: false
-		};
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      showAdvanced: false
+    };
+  }
 
-	renderAdvancedContainer() {
-		if (this.state.showAdvanced)
-			return <TxSpeedSelectionContainer gasPrice={this.props.gasPrice} gasChosen={this.props.gasChosen} gasLimit={this.props.gasLimit} swap={this.props.swap} />;
-		else
-			return (
-				<MenuContainer onPress={() => { this.setState({ showAdvanced: true }); }}>
-					<GoyemonText fontSize={14}>{I18n.t('advanced')}</GoyemonText>
-					<Icon name="menu-down" color="#000" size={32} />
-				</MenuContainer>
-			);
-	}
+  renderAdvancedContainer() {
+    if (this.state.showAdvanced)
+      return (
+        <TxSpeedSelectionContainer
+          gasPrice={this.props.gasPrice}
+          gasChosen={this.props.gasChosen}
+          gasLimit={this.props.gasLimit}
+          swap={this.props.swap}
+        />
+      );
+    else
+      return (
+        <MenuContainer
+          onPress={() => {
+            this.setState({ showAdvanced: true });
+          }}
+        >
+          <GoyemonText fontSize={14}>{I18n.t('advanced')}</GoyemonText>
+          <Icon name="menu-down" color="#000" size={32} />
+        </MenuContainer>
+      );
+  }
 
   render() {
     return <View>{this.renderAdvancedContainer()}</View>;
@@ -222,9 +233,12 @@ const mapDispatchToProps = {
   updateGasPriceChosen
 };
 
-const TxSpeedSelectionContainer = connect(mapStateToProps, mapDispatchToProps)(__TxSpeedSelectionContainer);
+const TxSpeedSelectionContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(__TxSpeedSelectionContainer);
 
 module.exports = {
-	TxSpeedSelectionContainer,
-	AdvancedContainer
+  TxSpeedSelectionContainer,
+  AdvancedContainer
 };

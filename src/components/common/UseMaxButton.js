@@ -10,7 +10,6 @@ const UseMaxButton = (props) => (
 
 const ButtonContainer = styled.TouchableOpacity`
   align-items: flex-end;
-  flex: 1;
 `;
 
 const ButtonText = styled.Text`

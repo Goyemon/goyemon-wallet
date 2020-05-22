@@ -8,10 +8,10 @@ FCM.FCMMsgs.setMsgCallback(FcmListener.downstreamMessageHandler); // so now FcmL
 
 // var bgmsgcnt = 0;
 
-export default async downstreamMessage => {
-	//await AsyncStorage.setItem(`bgmsg_${bgmsgcnt++}`, JSON.stringify(downstreamMessage));
+export default async (downstreamMessage) => {
+  //await AsyncStorage.setItem(`bgmsg_${bgmsgcnt++}`, JSON.stringify(downstreamMessage));
 
-	await FCM.downstreamMessageHandler(downstreamMessage, true);
+  await FCM.downstreamMessageHandler(downstreamMessage, true);
 
-	return Promise.resolve();
-}
+  return Promise.resolve();
+};

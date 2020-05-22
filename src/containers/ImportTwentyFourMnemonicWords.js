@@ -76,7 +76,7 @@ class ImportTwentyFourMnemonicWords extends Component {
     if (this.state.mnemonicWordsValidation) {
       return;
     }
-    return <ErrorMessage>invalid mnemonic words!</ErrorMessage>;
+    return <ErrorMessage textAlign="center">invalid mnemonic words!</ErrorMessage>;
   }
 
   handleTextChange = (text, id) => {

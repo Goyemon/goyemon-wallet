@@ -73,7 +73,7 @@ class PortfolioPoolTogetherCommitted extends Component {
             </RoundInfo>
             <RoundInfo>
               <IconContainer>
-              <CoinImage source={require('../../assets/dai_icon.png')} />
+                <CoinImage source={require('../../assets/dai_icon.png')} />
               </IconContainer>
               <View>
                 <HeaderFive width="100%">your balance</HeaderFive>
