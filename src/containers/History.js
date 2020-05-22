@@ -2,20 +2,20 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, Modal, View } from 'react-native';
 import styled from 'styled-components';
-import { HeaderOne, TxConfirmationButton } from '../components/common/';
+import { HeaderOne, TxConfirmationButton } from '../components/common';
 import { connect } from 'react-redux';
 
 // TODO: git rm those two:
 //import Transactions from '../containers/Transactions';
 //import TransactionsDai from '../containers/TransactionsDai';
-import OfflineNotice from '../containers/common/OfflineNotice';
-import TransactionList from '../containers/TransactionList';
+import OfflineNotice from './common/OfflineNotice';
+import TransactionList from './TransactionList';
 import I18n from '../i18n/I18n';
 import TxStorage from '../lib/tx.js';
 import LogUtilities from '../utilities/LogUtilities';
 import TransactionUtilities from '../utilities/TransactionUtilities';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { TxSpeedSelectionContainer } from '../containers/common/AdvancedContainer';
+import { TxSpeedSelectionContainer } from './common/AdvancedContainer';
 
 const propsToStateChecksumAddr = (state) => ({
   checksumAddress: state.ReducerChecksumAddress.checksumAddress

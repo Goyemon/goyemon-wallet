@@ -1,6 +1,6 @@
 'use strict';
 import { createStackNavigator } from 'react-navigation-stack';
-import History from '../components/History';
+import History from '../containers/History';
 
 const HistoryStack = createStackNavigator(
   {
