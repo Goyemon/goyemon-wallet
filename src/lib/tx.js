@@ -771,22 +771,39 @@ class PersistTxStorageAbstraction {
 	}
 
 	async removeKey(oldkey, index='all') {
-		// TODO: this'll have to rewrite all the buckets...
-		throw new Error("not implemented yet");
 		await this.__lock(index);
-		let bucket_count = Math.ceil(this.counts[index] / storage_bucket_size) - 1; // not exactly count, more like index and those go from 0
 
-		while (bucket_count >= 0) {
-			let bucket = await this.__getKey(`${this.prefix}i${index}${bucket_count}`);
+		const last_bucket_index = Math.floor((this.counts[index] - 1) / storage_bucket_size); // not exactly count, more like index and those go from 0
+		const bgtasks = [];
+
+		let current_bucket = last_bucket_index;
+		const buckets = {}; // since those arent huge, let's just precache them
+		while (current_bucket >= 0) {
+			let bucket = await this.__getKey(`${this.prefix}i${index}${current_bucket}`);
 			let pos = bucket.indexOf(oldkey);
-			if (pos >= 0) {
-				// TODO.
+
+			if (pos >= 0) { // item found
+				// TODO: this needs to check if the item is toplocked, i.e. our absolute position is >= this.counts[index] - this.toplocked_per_filter[index] - 1, if it is, we need to decremet toplocked count
+				// TODO: also needs some logging.
+				bucket.splice(pos, 1); // we remove that item and
+				for (; current_bucket < last_bucket_index; ++current_bucket) { // for each bucket counting up from current,
+					bucket.push(buckets[current_bucket + 1].unshift()); // we push an item unshifted from the next bucket (so, we're basically shifting them by one item left to make buckets full again)
+					bgtasks.push(this.__setKey(`${this.prefix}i${index}${current_bucket}`, bucket, this.__encodeBucket));
+					bucket = buckets[current_bucket + 1];
+				}
+				bgtasks.push(this.__setKey(`${this.prefix}i${index}${current_bucket}`, bucket, this.__encodeBucket));
+
+				this.counts[index]--;
+				bgtasks.push(AsyncStorage.setItem(`${this.prefix}i${index}c`, this.counts[index].toString()));
+
+				await Promise.all(bgtasks); // now write it all.
 
 				this.__unlock(index);
 				return;
 			}
 
-			bucket_count--;
+			buckets[current_bucket] = bucket;
+			current_bucket--;
 		}
 
 		this.__unlock(index);
@@ -830,6 +847,7 @@ class PersistTxStorageAbstraction {
 
 		// let indexDiff = this.__indexDiff(oldtx, newtx);
 		// TODO: index differences disregarded for now.
+		// also, what if new tx goes into new indices? at which position should it be?
 
 		if (this.debug) {
 			LogUtilities.toDebugScreen(`PersistTxStorageAbstraction replaceTx(): replace oldtx ${oldhash} -> newtx ${newhash}`);
