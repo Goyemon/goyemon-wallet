@@ -245,13 +245,17 @@ class Swap extends Component {
     let ethBalance = Web3.utils.fromWei(this.props.balance.wei);
     ethBalance = RoundDownBigNumber(ethBalance).toFixed(4);
 
-    const weiFullAmount = new BigNumber(this.props.balance.wei)
-      .minus(
-        new BigNumber(
-          TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
-        ).times(GlobalConfig.UniswapEthToTokenSwapInputGasLimit)
-      )
-      .toString();
+    let weiFullAmount;
+    const weiBalance = new BigNumber(this.props.balance.wei);
+    const networkFeeLimit = new BigNumber(
+      TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
+    ).times(GlobalConfig.UniswapEthToTokenSwapInputGasLimit);
+
+    if (weiBalance.isLessThanOrEqualTo(networkFeeLimit)) {
+      weiFullAmount = '0';
+    } else if (weiBalance.isGreaterThan(networkFeeLimit)) {
+      weiFullAmount = weiBalance.minus(networkFeeLimit).toString();
+    }
 
     return (
       <RootContainer>

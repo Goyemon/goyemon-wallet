@@ -128,13 +128,17 @@ class SendEth extends Component {
     const isOnline = this.props.netInfo;
     const ethBalance = RoundDownBigNumber(this.state.ethBalance).toFixed(4);
 
-    const weiFullAmount = new BigNumber(this.props.balance.wei)
-      .minus(
-        new BigNumber(
-          TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
-        ).times(GlobalConfig.ETHTxGasLimit)
-      )
-      .toString();
+    let weiFullAmount;
+    const weiBalance = new BigNumber(this.props.balance.wei);
+    const networkFeeLimit = new BigNumber(
+      TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
+    ).times(GlobalConfig.ETHTxGasLimit);
+
+    if (weiBalance.isLessThanOrEqualTo(networkFeeLimit)) {
+      weiFullAmount = '0';
+    } else if (weiBalance.isGreaterThan(networkFeeLimit)) {
+      weiFullAmount = weiBalance.minus(networkFeeLimit).toString();
+    }
 
     return (
       <View>
