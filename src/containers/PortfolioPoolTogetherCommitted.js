@@ -9,7 +9,7 @@ import { RootContainer, HeaderFive, GoyemonText } from '../components/common';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 
 class PortfolioPoolTogetherCommitted extends Component {
-  render() {
+  renderChanceOfWinning() {
     const pooltogetherDaiCommittedBalance = RoundDownBigNumber(
       this.props.balance.pooltogetherDai.committed
     ).div(new RoundDownBigNumber(10).pow(18));
@@ -21,6 +21,28 @@ class PortfolioPoolTogetherCommitted extends Component {
     const chanceOfWinning = ticketsSold
       .div(pooltogetherDaiCommittedBalance)
       .toFixed(0);
+
+    if (pooltogetherDaiCommittedBalance.isGreaterThan(0)) {
+      return (
+        <RoundInfo>
+          <IconContainer>
+            <Icon name="circle-slice-1" size={32} color="#5f5f5f" />
+          </IconContainer>
+          <View>
+            <HeaderFive width="100%">chance of winning</HeaderFive>
+            <GoyemonText fontSize={14}>1 / {chanceOfWinning} </GoyemonText>
+          </View>
+        </RoundInfo>
+      );
+    } else if (pooltogetherDaiCommittedBalance.isLessThanOrEqualTo(0)) {
+      return null;
+    }
+  }
+
+  render() {
+    const pooltogetherDaiCommittedBalance = RoundDownBigNumber(
+      this.props.balance.pooltogetherDai.committed
+    ).div(new RoundDownBigNumber(10).pow(18));
 
     const poolBalance = RoundDownBigNumber(
       this.props.poolTogether.dai.totalBalance
@@ -62,15 +84,7 @@ class PortfolioPoolTogetherCommitted extends Component {
                 <GoyemonText fontSize={14}>{estimatedPrize} DAI</GoyemonText>
               </View>
             </RoundInfo>
-            <RoundInfo>
-              <IconContainer>
-                <Icon name="circle-slice-1" size={32} color="#5f5f5f" />
-              </IconContainer>
-              <View>
-                <HeaderFive width="100%">chance of winning</HeaderFive>
-                <GoyemonText fontSize={14}>1 / {chanceOfWinning} </GoyemonText>
-              </View>
-            </RoundInfo>
+            {this.renderChanceOfWinning()}
             <RoundInfo>
               <IconContainer>
                 <CoinImage source={require('../../assets/dai_icon.png')} />
