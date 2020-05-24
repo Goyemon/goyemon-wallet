@@ -35,6 +35,11 @@ class WithdrawDaiFromPoolTogether extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      pooltogetherDaiBalance: RoundDownBigNumber(props.balance.pooltogetherDai.open)
+        .plus(props.balance.pooltogetherDai.committed)
+        .plus(props.balance.pooltogetherDai.sponsored)
+        .div(new RoundDownBigNumber(10).pow(18))
+        .toFixed(0),
       daiWithdrawAmount: '',
       daiWithdrawAmountValidation: undefined,
       weiAmountValidation: undefined,
@@ -59,6 +64,17 @@ class WithdrawDaiFromPoolTogether extends Component {
           GlobalConfig.PoolTogetherWithdrawGasLimit
         )
       );
+    }
+    if (
+      this.props.balance.pooltogetherDai != prevProps.balance.pooltogetherDai
+    ) {
+      this.setState({
+        pooltogetherDaiBalance: RoundDownBigNumber(this.props.balance.pooltogetherDai.open)
+          .plus(this.props.balance.pooltogetherDai.committed)
+          .plus(this.props.balance.pooltogetherDai.sponsored)
+          .div(new RoundDownBigNumber(10).pow(18))
+          .toFixed(0)
+      });
     }
   }
 
@@ -149,16 +165,7 @@ class WithdrawDaiFromPoolTogether extends Component {
   };
 
   render() {
-    const { balance } = this.props;
     const isOnline = this.props.isOnline;
-
-    const pooltogetherDaiBalance = RoundDownBigNumber(
-      balance.pooltogetherDai.open
-    )
-      .plus(balance.pooltogetherDai.committed)
-      .plus(balance.pooltogetherDai.sponsored)
-      .div(new RoundDownBigNumber(10).pow(18))
-      .toFixed(0);
 
     return (
       <RootContainer>
@@ -176,7 +183,7 @@ class WithdrawDaiFromPoolTogether extends Component {
         >
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <Title>dai pooltogether balance</Title>
-          <Value>{pooltogetherDaiBalance}DAI</Value>
+          <Value>{this.state.pooltogetherDaiBalance}DAI</Value>
         </UntouchableCardContainer>
         <WithDrawAmountHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
@@ -186,10 +193,12 @@ class WithdrawDaiFromPoolTogether extends Component {
             text={I18n.t('use-max')}
             textColor="#00A3E2"
             onPress={() => {
-              this.setState({ daiWithdrawAmount: pooltogetherDaiBalance });
+              this.setState({
+                daiWithdrawAmount: this.state.pooltogetherDaiBalance
+              });
               this.updateDaiWithdrawAmountValidation(
                 TransactionUtilities.validateDaiPoolTogetherWithdrawAmount(
-                  pooltogetherDaiBalance
+                  this.state.pooltogetherDaiBalance
                 )
               );
             }}

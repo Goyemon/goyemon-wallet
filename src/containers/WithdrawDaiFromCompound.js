@@ -34,6 +34,9 @@ class WithdrawDaiFromCompound extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      compoundDaiBalance: RoundDownBigNumber(props.balance.compoundDai)
+        .div(new RoundDownBigNumber(10).pow(36))
+        .toFixed(2),
       daiWithdrawAmount: '',
       daiSavingsAmountValidation: undefined,
       weiAmountValidation: undefined,
@@ -58,6 +61,13 @@ class WithdrawDaiFromCompound extends Component {
           GlobalConfig.cTokenRedeemUnderlyingGasLimit
         )
       );
+    }
+    if (this.props.balance.compoundDai != prevProps.balance.compoundDai) {
+      this.setState({
+        compoundDaiBalance: RoundDownBigNumber(this.props.balance.compoundDai)
+          .div(new RoundDownBigNumber(10).pow(18))
+          .toFixed(2)
+      });
     }
   }
 
@@ -148,12 +158,7 @@ class WithdrawDaiFromCompound extends Component {
   };
 
   render() {
-    const { balance } = this.props;
     const isOnline = this.props.isOnline;
-
-    const compoundDaiBalance = RoundDownBigNumber(balance.compoundDai)
-      .div(new RoundDownBigNumber(10).pow(36))
-      .toFixed(2);
 
     return (
       <RootContainer>
@@ -171,7 +176,7 @@ class WithdrawDaiFromCompound extends Component {
         >
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <Title>dai savings</Title>
-          <Value>{compoundDaiBalance} DAI</Value>
+          <Value>{this.state.compoundDaiBalance} DAI</Value>
         </UntouchableCardContainer>
         <WithDrawAmountHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">

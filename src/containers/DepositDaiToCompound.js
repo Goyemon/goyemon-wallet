@@ -35,6 +35,9 @@ class DepositDaiToCompound extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      daiBalance: RoundDownBigNumber(props.balance.dai)
+        .div(new RoundDownBigNumber(10).pow(18))
+        .toFixed(2),
       daiAmount: '',
       daiAmountValidation: undefined,
       weiAmountValidation: undefined,
@@ -59,6 +62,13 @@ class DepositDaiToCompound extends Component {
           GlobalConfig.cTokenMintGasLimit
         )
       );
+    }
+    if (this.props.balance.dai != prevProps.balance.dai) {
+      this.setState({
+        daiBalance: RoundDownBigNumber(this.props.balance.dai)
+          .div(new RoundDownBigNumber(10).pow(18))
+          .toFixed(2)
+      });
     }
   }
 
@@ -151,10 +161,6 @@ class DepositDaiToCompound extends Component {
       .div(new BigNumber(10).pow(24))
       .toFixed(2);
 
-    const daiBalance = RoundDownBigNumber(balance.dai)
-      .div(new RoundDownBigNumber(10).pow(18))
-      .toFixed(2);
-
     const daiFullBalance = RoundDownBigNumber(balance.dai)
       .div(new RoundDownBigNumber(10).pow(18))
       .toString();
@@ -175,7 +181,7 @@ class DepositDaiToCompound extends Component {
         >
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <Title>{I18n.t('dai-wallet-balance')}</Title>
-          <Value>{daiBalance} DAI</Value>
+          <Value>{this.state.daiBalance} DAI</Value>
           <Title>interest rate</Title>
           <Value>{currentInterestRate} %</Value>
         </UntouchableCardContainer>

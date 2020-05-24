@@ -39,6 +39,9 @@ class SendDai extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      daiBalance: RoundDownBigNumber(props.balance.dai)
+        .div(new RoundDownBigNumber(10).pow(18))
+        .toFixed(2),
       toAddress: '',
       daiAmount: '',
       toAddressValidation: undefined,
@@ -70,6 +73,13 @@ class SendDai extends Component {
           GlobalConfig.ERC20TransferGasLimit
         )
       );
+    }
+    if (this.props.balance.dai != prevProps.balance.dai) {
+      this.setState({
+        daiBalance: RoundDownBigNumber(this.props.balance.dai)
+          .div(new RoundDownBigNumber(10).pow(18))
+          .toFixed(2)
+      });
     }
   }
 
@@ -184,10 +194,6 @@ class SendDai extends Component {
     const { balance } = this.props;
     const isOnline = this.props.isOnline;
 
-    const daiBalance = RoundDownBigNumber(balance.dai)
-      .div(new RoundDownBigNumber(10).pow(18))
-      .toFixed(2);
-
     const daiFullBalance = RoundDownBigNumber(balance.dai)
       .div(new RoundDownBigNumber(10).pow(18))
       .toString();
@@ -208,7 +214,7 @@ class SendDai extends Component {
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <Title>{I18n.t('dai-wallet-balance')}</Title>
           <BalanceContainer>
-            <Value>{daiBalance} DAI</Value>
+            <Value>{this.state.daiBalance} DAI</Value>
           </BalanceContainer>
         </UntouchableCardContainer>
         <FormHeaderContainer>

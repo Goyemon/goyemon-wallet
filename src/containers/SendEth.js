@@ -61,6 +61,9 @@ class SendEth extends Component {
         )
       );
     }
+    if (this.props.balance.wei != prevProps.balance.wei) {
+      this.setState({ ethBalance: Web3.utils.fromWei(this.props.balance.wei) });
+    }
   }
 
   async constructTransactionObject() {

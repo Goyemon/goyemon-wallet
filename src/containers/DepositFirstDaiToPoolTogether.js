@@ -10,7 +10,6 @@ import {
 } from '../actions/ActionModal';
 import {
   RootContainer,
-  GoyemonText,
   UseMaxButton,
   UntouchableCardContainer,
   HeaderOne,
@@ -37,6 +36,9 @@ class DepositFirstDaiToPoolTogether extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      daiBalance: RoundDownBigNumber(props.balance.dai)
+        .div(new RoundDownBigNumber(10).pow(18))
+        .toFixed(2),
       daiAmount: '',
       daiAmountValidation: undefined,
       weiAmountValidation: undefined,
@@ -63,6 +65,13 @@ class DepositFirstDaiToPoolTogether extends Component {
             GlobalConfig.PoolTogetherDepositPoolGasLimit
         )
       );
+    }
+    if (this.props.balance.dai != prevProps.balance.dai) {
+      this.setState({
+        daiBalance: RoundDownBigNumber(this.props.balance.dai)
+          .div(new RoundDownBigNumber(10).pow(18))
+          .toFixed(2)
+      });
     }
   }
 
@@ -161,9 +170,6 @@ class DepositFirstDaiToPoolTogether extends Component {
   render() {
     const { balance } = this.props;
     const isOnline = this.props.isOnline;
-    const daiBalance = RoundDownBigNumber(balance.dai)
-      .div(new RoundDownBigNumber(10).pow(18))
-      .toString();
 
     const daiFullBalance = RoundDownBigNumber(balance.dai)
       .div(new RoundDownBigNumber(10).pow(18))
@@ -185,7 +191,7 @@ class DepositFirstDaiToPoolTogether extends Component {
         >
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <Title>{I18n.t('dai-wallet-balance')}</Title>
-          <Value>{daiBalance} DAI</Value>
+          <Value>{this.state.daiBalance} DAI</Value>
           <Title>until the open round ends</Title>
           <Countdown />
         </UntouchableCardContainer>
