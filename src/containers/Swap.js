@@ -234,7 +234,9 @@ class Swap extends Component {
       return (
         <View>
           <ErrorMessage textAlign="left">invalid amount!</ErrorMessage>
-          <GoyemonText fontSize="12px">*beware that network fee is paid with ether</GoyemonText>
+          <GoyemonText fontSize="12px">
+            *beware that network fee is paid with ether
+          </GoyemonText>
         </View>
       );
     }
@@ -290,11 +292,9 @@ class Swap extends Component {
                 keyboardType="numeric"
                 clearButtonMode="while-editing"
                 onChangeText={(ethSold) => {
-                  if (ethSold) {
-                    this.updateEthSoldValidation(this.validateAmount(ethSold));
-                    this.setState({ ethSold });
-                    this.updateTokenBought(ethSold);
-                  }
+                  this.setState({ ethSold });
+                  this.updateEthSoldValidation(this.validateAmount(ethSold));
+                  this.updateTokenBought(ethSold);
                 }}
                 returnKeyType="done"
                 value={this.state.ethSold}
