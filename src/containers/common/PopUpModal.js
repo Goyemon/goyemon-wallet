@@ -19,7 +19,7 @@ class PopUpModal extends Component {
           }}
         >
           <ModalContainer>
-            <ModalBackground maxHeight={this.props.maxHeight}>
+            <ModalBackground height={this.props.height}>
               <CloseButton onPress={this.props.onPress}>
                 <Icon name="close" color="#5F5F5F" size={24} />
               </CloseButton>
@@ -43,7 +43,7 @@ const ModalBackground = styled.View`
   background-color: #f8f8f8;
   border-radius: 16px;
   margin-top: 40%;
-  max-height: ${(props) => props.maxHeight};
+  height: ${(props) => props.height};
   width: 90%;
 `;
 

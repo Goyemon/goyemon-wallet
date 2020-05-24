@@ -88,7 +88,7 @@ class Settings extends Component {
       <RootContainer>
         <HeaderOne marginTop="112">{I18n.t('settings-header')}</HeaderOne>
         <PopUpModal
-          maxHeight="40%"
+          height="50%"
           onPress={() => {
             this.props.savePopUpModalVisibility(false);
             this.setState({
