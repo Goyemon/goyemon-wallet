@@ -139,6 +139,7 @@ class PersistTxStorageAbstraction {
 
 	init_storage(name_to_filter_map, init_finish_callback) {
 		let load_count = 0;
+		const failed_nonces = {};
 
 		const checkFinish = () => {
 			load_count--;
@@ -170,15 +171,18 @@ class PersistTxStorageAbstraction {
 				}
 
 				if (init_finish_callback)
-					init_finish_callback();
+					init_finish_callback(failed_nonces);
 			}
 		};
 
-		const countToplocked = (name, bucketnum) => {
+		const countToplocked = (name, bucketnum) => { // also gets failed nonces until first included
 			this.__getKey(`${this.prefix}i${name}${bucketnum}`, this.__decodeBucket).then(x => {
 				for (let i = x.length - 1; i >= 0; --i) {
 					if (x[i].startsWith(txNoncePrefix))
 						this.toplocked_per_filter[name]++;
+
+					else if (x[i].startsWith(txFailPrefix)) // ${txFailPrefix}${nonce}_${blah}
+						failed_nonces[parseInt(x[i].slice(txFailPrefix.length, x[i].indexOf('_') - 1))] = true;
 
 					else {
 						checkFinish();
@@ -251,6 +255,14 @@ class PersistTxStorageAbstraction {
 	__encodeBucket(ba) {
 		return ba.join(',');
 	}
+	__decodeTx(hash, data) {
+		if (!data)
+			return null;
+
+		data = JSON.parse(data);
+
+		return new Tx(data[7]).setHash(hash).fromDataArray(data, false);
+	}
 
 	async getTxByNum(num, index='all') {
 		const bucket_num = Math.floor(num / storage_bucket_size);
@@ -269,7 +281,7 @@ class PersistTxStorageAbstraction {
 	}
 
 	async getTxByHash(hash) {
-		return await this.__getKey(`${this.prefix}_${hash}`, (data) => { if (!data) return null; data = JSON.parse(data); return new Tx(data[7]).setHash(hash).fromDataArray(data, false); });
+		return await this.__getKey(`${this.prefix}_${hash}`, (data) => this.__decodeTx(hash, data));
 	}
 
 	async getLastTx(index='all') {
@@ -462,6 +474,18 @@ class PersistTxStorageAbstraction {
 	}
 	*/
 
+	async updateTxDataIfExists(hash, tx) {
+		// TODO: does not re-check indices, so be careful if anything can change there.
+
+		const key = `${this.prefix}_${hash}`;
+		if (await this.__getKey(key, (data) => this.__decodeTx(hash, data))) {
+			await this.__setKey(key, tx, JSON.stringify);
+			return true;
+		}
+
+		return false;
+	}
+
 	async appendTx(hash, tx, toplock=false) {
 		// run filters to see which indices this goes in. for each index, append to the last bucket (make sure we create a new one if it spills)
 		let append_indices = ['all'];
@@ -471,7 +495,7 @@ class PersistTxStorageAbstraction {
 		});
 
 		if (this.debug)
-			LogUtilities.toDebugScreen(`appendTx(${hash}): matches indices:${append_indices.map(x => `${x}: ${this.counts[x]}`).join()}; tx:${JSON.stringify(tx)})`)
+			LogUtilities.toDebugScreen(`appendTx(${hash}): matches indices:${append_indices.map(x => `${x}: ${this.counts[x]}`).join()}; tx:${JSON.stringify(tx)})`);
 
 		let tasks = [this.__setKey(`${this.prefix}_${hash}`, tx, JSON.stringify)];
 
@@ -747,22 +771,39 @@ class PersistTxStorageAbstraction {
 	}
 
 	async removeKey(oldkey, index='all') {
-		// TODO: this'll have to rewrite all the buckets...
-		throw new Error("not implemented yet");
 		await this.__lock(index);
-		let bucket_count = Math.ceil(this.counts[index] / storage_bucket_size) - 1; // not exactly count, more like index and those go from 0
 
-		while (bucket_count >= 0) {
-			let bucket = await this.__getKey(`${this.prefix}i${index}${bucket_count}`);
+		const last_bucket_index = Math.floor((this.counts[index] - 1) / storage_bucket_size); // not exactly count, more like index and those go from 0
+		const bgtasks = [];
+
+		let current_bucket = last_bucket_index;
+		const buckets = {}; // since those arent huge, let's just precache them
+		while (current_bucket >= 0) {
+			let bucket = await this.__getKey(`${this.prefix}i${index}${current_bucket}`);
 			let pos = bucket.indexOf(oldkey);
-			if (pos >= 0) {
-				// TODO.
+
+			if (pos >= 0) { // item found
+				// TODO: this needs to check if the item is toplocked, i.e. our absolute position is >= this.counts[index] - this.toplocked_per_filter[index] - 1, if it is, we need to decremet toplocked count
+				// TODO: also needs some logging.
+				bucket.splice(pos, 1); // we remove that item and
+				for (; current_bucket < last_bucket_index; ++current_bucket) { // for each bucket counting up from current,
+					bucket.push(buckets[current_bucket + 1].unshift()); // we push an item unshifted from the next bucket (so, we're basically shifting them by one item left to make buckets full again)
+					bgtasks.push(this.__setKey(`${this.prefix}i${index}${current_bucket}`, bucket, this.__encodeBucket));
+					bucket = buckets[current_bucket + 1];
+				}
+				bgtasks.push(this.__setKey(`${this.prefix}i${index}${current_bucket}`, bucket, this.__encodeBucket));
+
+				this.counts[index]--;
+				bgtasks.push(AsyncStorage.setItem(`${this.prefix}i${index}c`, this.counts[index].toString()));
+
+				await Promise.all(bgtasks); // now write it all.
 
 				this.__unlock(index);
 				return;
 			}
 
-			bucket_count--;
+			buckets[current_bucket] = bucket;
+			current_bucket--;
 		}
 
 		this.__unlock(index);
@@ -806,6 +847,7 @@ class PersistTxStorageAbstraction {
 
 		// let indexDiff = this.__indexDiff(oldtx, newtx);
 		// TODO: index differences disregarded for now.
+		// also, what if new tx goes into new indices? at which position should it be?
 
 		if (this.debug) {
 			LogUtilities.toDebugScreen(`PersistTxStorageAbstraction replaceTx(): replace oldtx ${oldhash} -> newtx ${newhash}`);
@@ -840,8 +882,6 @@ class PersistTxStorageAbstraction {
 
 
 	async debugDumpAllTxes(index='all') {
-		// const loadTx = (data) => { if (!data) return null; data = JSON.parse(data); return new Tx(data[7]).setHash(hash).fromDataArray(data, false); }
-
 		const bucket_count = Math.floor((this.counts[index] - 1) / storage_bucket_size);
 		const bucketnames = [];
 		for (let i = 0; i <= bucket_count; ++i)
@@ -1118,6 +1158,7 @@ class Tx {
 		this.from_addr = this.to_addr = this.value = this.gas = this.gasPrice = this.timestamp = this.nonce = this.hash = null;
 		this.state = state !== undefined ? state : null;
 		this.tokenData = {};
+		this.data = {}; // for additional items, such as transaction input field
 	}
 
 	setFrom(addr) {
@@ -1166,8 +1207,13 @@ class Tx {
 		return this;
 	}
 
-	tempSetData(data) {
-		this.data = data;
+	tempSetData(data) { // misleading now; means transaction input field
+		this.data.data = data;
+		return this;
+	}
+
+	tempDropData() {
+		delete(this.data.data);
 		return this;
 	}
 
@@ -1203,6 +1249,9 @@ class Tx {
 				);
 			}
 		}
+
+		if (data.length > 9)
+			this.data = data[9];
 
 		return this.setFrom(data[0])
 			.setTo(data[1])
@@ -1241,6 +1290,11 @@ class Tx {
 		return this.tokenData[token].filter((x) => (operation == null || x instanceof cls));
 	}
 
+	getAllTokenOperations() {
+		return this.tokenData;
+
+	}
+
 	getFrom() {
 		return this.from_addr ? `0x${this.from_addr.toString('hex')}` : null;
 	}
@@ -1269,6 +1323,13 @@ class Tx {
 	getNonce() {
 		return this.nonce;
 	}
+	getGasPrice() {
+		return this.gasPrice;
+	}
+	getGas() {
+		return this.gas;
+	}
+
 
 	toTransactionDict() {
 		return {
@@ -1278,12 +1339,12 @@ class Tx {
 			gasLimit: `0x${this.gas}`,
 			value: `0x${this.getValue()}`,
 			chainId: GlobalConfig.network_id,
-			data: this.data
+			data: this.data.data
 		  };
 	}
 
 	toJSON() {
-		return [this.getFrom(), this.getTo(), this.gas, this.gasPrice, this.value, this.nonce, this.timestamp, this.state, this.tokenData];
+		return [this.getFrom(), this.getTo(), this.gas, this.gasPrice, this.value, this.nonce, this.timestamp, this.state, this.tokenData, this.data];
 	}
 
 	shallowClone() {
@@ -1296,6 +1357,8 @@ class Tx {
 	deepClone() {
 		let ntx = Object.assign(new Tx(), this);
 		ntx.tokenData = Object.assign({}, ntx.tokenData);
+		ntx.data = Object.assign({}, ntx.data); // expected to be a simple key => value map, so a shallow clone of this should be sufficient for now.
+
 		for (let n of Object.getOwnPropertyNames(ntx.tokenData))
 			ntx.tokenData[n] = ntx.tokenData[n].map(x => x.deepClone());
 
@@ -1307,6 +1370,7 @@ class Tx {
 			this.tokenData[n].forEach(x => x.freeze());
 			Object.freeze(this.tokenData[n]);
 		}
+		Object.freeze(this.data);
 		Object.freeze(this.tokenData);
 		Object.freeze(this);
 
@@ -1314,6 +1378,18 @@ class Tx {
 	}
 }
 
+function arraySortUnique(x, sortfunc) { // modifies input array
+	x.sort(sortfunc);
+
+	for (let lastElement, i = x.length - 1; i >= 0; i--) {
+		if (x[i] === lastElement)
+			x.splice(i, 1);
+		else
+			lastElement = x[i];
+	}
+
+	return x;
+}
 
 // ========== storage class for all transactions ==========
 // this is the one we instantiate (once) to use the TX data in storage.
@@ -1341,6 +1417,7 @@ class TxStorage {
 
 		LogUtilities.toDebugScreen('TxStorage constructor called');
 		this.our_max_nonce = -1; // for our txes
+		this.failed_nonces = null;
 		this.last_checkpoint_offset = 0; // TODO: not yet used
 
 		AsyncStorage.multiGet([maxNonceKey, lastCheckpointKey]).then(x => {
@@ -1359,7 +1436,7 @@ class TxStorage {
 			'dai': this.txfilter_isRelevantToDai, // doesn't use this, no need for .bind(this)
 			'odcda': this.txfilter_ourDAIForCDAIApprovals.bind(this),
 			'odpta': this.txfilter_ourDAIForPTApprovals.bind(this),
-		}, (x) => { if (x === undefined) promise_resolves[0](); })
+		}, (x) => { this.failed_nonces = x; promise_resolves[0](); });
 
 		if (ourAddress)
 			this.our_address = hexToBuf(ourAddress);
@@ -1514,8 +1591,22 @@ class TxStorage {
 			LogUtilities.toDebugScreen(`saveTx(): our_max_nonce changed to ${this.our_max_nonce}`);
 		}
 
+		if (this.failed_nonces.hasOwnProperty(tx.getNonce()))
+			delete this.failed_nonces[tx.getNonce()];
+
 		this.__unlock('txes');
 		this.__onUpdate();
+	}
+
+	async updateTx(tx) { // done when resending
+		await this.__lock('txes');
+		const nonceKey = `${txNoncePrefix}${tx.getNonce()}`;
+		const updated = await this.txes.updateTxDataIfExists(nonceKey, tx);
+		LogUtilities.toDebugScreen(`updateTx(): tx ${updated ? "updated" : "NOT updated"} (key:${nonceKey}): `, tx);
+		this.__unlock('txes');
+		if (updated)
+			this.__onUpdate();
+		return updated;
 	}
 
 	async parseTxHistory(histObj) {
@@ -1531,6 +1622,7 @@ class TxStorage {
 
 		AsyncStorage.setItem(maxNonceKey, this.our_max_nonce.toString());
 		LogUtilities.toDebugScreen(`parseTxHistory(): our_max_nonce changed to ${this.our_max_nonce}`);
+		this.failed_nonces = {};
 
 		this.__unlock('txes');
 		this.__onUpdate();
@@ -1583,16 +1675,22 @@ class TxStorage {
 					this.our_max_nonce = nonce;
 					await AsyncStorage.setItem(maxNonceKey, this.our_max_nonce.toString());
 					LogUtilities.toDebugScreen(`processTxState(): our_max_nonce changed to ${this.our_max_nonce}`);
+
+					this.failed_nonces = {}; // since it's a nonce higher than all our known nonces, clearly everything below went through
 				}
 
 				tx = await this.txes.getTxByHash(nonceKey);
 				if (tx) {
 					LogUtilities.toDebugScreen(`processTxState(hash:${hash}) known OUR tx by nonce: `, tx);
 
+					if (this.failed_nonces.hasOwnProperty(nonce))
+						delete this.failed_nonces[nonce];
+
 					let newtx = tx.deepClone();
 					// LogUtilities.toDebugScreen(`processTxState(hash:${hash}) deep clone: `, JSON.stringify(newtx));
 					newtx.setHash(hash)
-						.fromDataArray(data);
+						.fromDataArray(data)
+						.tempDropData();
 
 					if (savedState)
 						newtx.upgradeState(savedState[7], savedState[6]);
@@ -1649,15 +1747,16 @@ class TxStorage {
 
 		let tx = await this.txes.getTxByHash(nonceKey);
 		if (tx) {
+			this.failed_nonces[nonce] = true;
+
 			let newtx = tx.deepClone();
 			newtx.setState(TxStates.STATE_ERROR);
 
-			await this.txes.replaceTx(tx, newtx, nonceKey, `${txFailPrefix}${this.txes.getItemCount('all')}`, true);
+			await this.txes.replaceTx(tx, newtx, nonceKey, `${txFailPrefix}${nonce}_${this.txes.getItemCount('all')}`, true);
 
 			this.__unlock('txes');
 			LogUtilities.toDebugScreen(`markNotIncludedTxAsErrorByNonce(nonce:${nonce}) state updated`);
 			this.__onUpdate();
-			// TODO: what happens to our_max_nonce now?
 		}
 		else {
 			this.__unlock('txes');
@@ -1667,6 +1766,7 @@ class TxStorage {
 	}
 
 	async getNextNonce() {
+		// TODO: look at failed nonces first, this.failed_nonces; probably Object.keys(this.failed_nonces).reduce((a, b) => (a ? (a > b ? b : a) : b), null) <- min(Object.keys(this.failed_nonces))
 		LogUtilities.toDebugScreen(`getNextNonce(): next nonce: ${this.our_max_nonce + 1}`);
 		return this.our_max_nonce + 1;
 	}
@@ -1682,6 +1782,7 @@ class TxStorage {
 		// after this.txes.wipe() ends, we may wanna iterate all the keys and remove rogue tx_state_...
 
 		this.our_max_nonce = -1;
+		this.failed_nonces = {};
 
 		this.__unlock('txes');
 
@@ -1795,64 +1896,9 @@ class TxStorage {
 		};
 	}
 
-	// async getVerificationDataMD5() {
-	// 	function getCheckpoints(count, offset=0) {
-	// 		const hashes = Math.floor(4000 / (32 + 3)); // msg size / hash length (jsoned)
-	// 		const computed_count = count - offset; // we assume [offset] hashes to be correct, so we don't checkpoint those, we only take into account the last count - offset hashes
-	//
-	// 		const checkpoints = [];
-	// 		let sum = Math.pow(hashes, Math.log10(computed_count)) / computed_count; // val for i[0]
-	// 		for (let i = 1; i <= hashes; ++i) {
-	// 			let val = Math.pow(hashes - i, Math.log10(computed_count)) / computed_count;
-	// 			checkpoints.push(val);
-	// 			sum += val;
-	// 		}
-	// 		const normalization_factor = 1 / sum;
-	//
-	// 		let last = count + 1;
-	// 		for (let i = checkpoints.length - 1; i >= 0; --i) {
-	// 			const diff = Math.round(checkpoints[i] * normalization_factor * computed_count);
-	// 			const val = last - (diff > 0 ? diff : 1);
-	// 			if (val < 1) {
-	// 				return checkpoints.slice(i + 1);
-	// 			}
-	// 			last = checkpoints[i] = val;
-	// 		}
-	//
-	// 		return checkpoints;
-	// 	}
-	//
-	// 	const count = this.txes.getItemCount('all');
-	// 	const checkpoints = getCheckpoints(count, 0);
-	//
-	// 	LogUtilities.toDebugScreen(`TxStorage getVerificationData() checkpoints (cnt:${count} off:0):`, checkpoints);
-	//
-	// 	// const hashes = await this.txes.getHashesAt(checkpoints, 'all');
-	// 	const hashes = await this.txes.getHashes('all');
-	// 	const ret = [];
-	// 	let lasthash = null;
-	// 	let checkpoint = 0;
-	// 	hashes.forEach((h, idx) => {
-	// 		const ch = crypto.createHash('md5').update(lasthash ? `${lasthash}${h}` : h).digest('hex');
-	// 		if (checkpoints[checkpoint] === idx + 1) {
-	// 			ret.push(ch);
-	// 			++checkpoint;
-	// 		}
-	// 		lasthash = ch;
-	// 	});
-	//
-	// 	return {
-	// 		//'hashes': hashes,
-	// 		'hashes': ret,
-	// 		'count': count,
-	// 		'offset': 0
-	// 	};
-	// }
-
-
 	async processTxSync(data) {
 		// LogUtilities.toDebugScreen('processTxSync(): received txsync data:', data);
-		if ('_contracts' in data)
+		if ('_contracts' in data) // TODO: we really should use it at one point
 			delete data['_contracts'];
 
 		data = Object.entries(data).map(([hash, txdata]) => new Tx(txdata[7]).setHash(hash).fromDataArray(txdata));
@@ -1883,7 +1929,7 @@ class TxStorage {
 					// replacetx
 					LogUtilities.toDebugScreen('processTxSync(): found OUR tx by nonce: ', oldTx);
 					LogUtilities.toDebugScreen('processTxSync(): to be replaced with: ', tx);
-					await this.txes.replaceTx(oldTx, tx, nonceKey, tx.getHash(), true);
+					await this.txes.replaceTx(oldTx, tx, nonceKey, tx.getHash(), true); // since we're replacing with server data, there is no 'input' field already, no need to drop anything.
 					changed++;
 
 					continue;
@@ -1916,6 +1962,7 @@ class TxStorage {
 		await AsyncStorage.multiRemove(removeKeys);
 
 		if (newNonce != this.our_max_nonce) {
+			this.failed_nonces = {};
 			this.our_max_nonce = newNonce;
 			await AsyncStorage.setItem(maxNonceKey, this.our_max_nonce.toString());
 			LogUtilities.toDebugScreen(`processTxSync(): our_max_nonce changed to ${this.our_max_nonce}`);
@@ -1943,6 +1990,7 @@ module.exports =  {
 	// TxStorage: TxStorage, // nope, one instance to rule them all, let's not allow people to instantiate this.
 	TxStates: TxStates,
 	TxTokenOpTypeToName: TxTokenOpTypeToName,
+	TxTokenOpNameToClass: TxTokenOpNameToClass,
 
 	TxException: TxException,
 	NoSuchTxException: NoSuchTxException,

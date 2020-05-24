@@ -4,7 +4,10 @@ import { View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { getGasPrice, updateGasPriceChosen } from '../../actions/ActionGasPrice';
+import {
+  getGasPrice,
+  updateGasPriceChosen
+} from '../../actions/ActionGasPrice';
 import {
   Container,
   FormHeader,
@@ -17,12 +20,11 @@ import I18n from '../../i18n/I18n';
 import LogUtilities from '../../utilities/LogUtilities.js';
 import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
 
-class AdvancedContainer extends Component {
+class __TxSpeedSelectionContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currency: 'USD',
-      showAdvanced: false
+      currency: 'USD'
     };
   }
 
@@ -56,76 +58,87 @@ class AdvancedContainer extends Component {
     }
   }
 
-  renderAdvancedContainer() {
+  render() {
     const { gasPrice, gasChosen, gasLimit } = this.props;
-    if (this.state.showAdvanced) {
-      return (
-        <View>
-          {this.renderSlippageContainer()}
-          <NetworkFeeHeaderContainer>
-            <FormHeader marginBottom="0" marginTop="0">
-              {I18n.t('network-fee')}
-            </FormHeader>
-            <TouchableOpacity
-              onPress={() => {
-                // TODO: needs to be switch(), likely.
-                if (this.state.currency === 'ETH') {
-                  this.setState({ currency: 'USD' });
-                } else if (this.state.currency === 'USD') {
-                  this.setState({ currency: 'ETH' });
-                }
-              }}
-            >
-              <ToggleCurrencySymbol currency={this.state.currency} />
-            </TouchableOpacity>
-          </NetworkFeeHeaderContainer>
-          <Container
-            alignItems="center"
-            flexDirection="row"
-            justifyContent="center"
-            marginTop={24}
-            width="90%"
-          >
-            {gasPrice.map((gasPrice, key) => (
-              <NetworkFee key={key}>
-                {gasChosen === key ? (
-                  <SpeedContainer>
-                    <SelectedSpeedTextContainer>
-                      <SelectedSpeedText>{gasPrice.speed}</SelectedSpeedText>
-                    </SelectedSpeedTextContainer>
-                    <SelectedButton>
-                      {this.toggleCurrency(gasPrice.value, gasLimit)}
-                    </SelectedButton>
-                  </SpeedContainer>
-                ) : (
-                  <SpeedContainer
-                    onPress={() => {
-                      this.props.updateGasPriceChosen(key);
-                    }}
-                  >
-                    <UnselectedSpeedTextContainer>
-                      <UnselectedSpeedText>
-                        {gasPrice.speed}
-                      </UnselectedSpeedText>
-                    </UnselectedSpeedTextContainer>
-                    <UnselectedButton>
-                      {this.toggleCurrency(gasPrice.value, gasLimit)}
-                    </UnselectedButton>
-                  </SpeedContainer>
-                )}
-              </NetworkFee>
-            ))}
-          </Container>
-          <MenuContainer
+    return (
+      <View>
+        {this.renderSlippageContainer()}
+        <NetworkFeeHeaderContainer>
+          <FormHeader marginBottom="0" marginTop="0">
+            {I18n.t('network-fee')}
+          </FormHeader>
+          <TouchableOpacity
             onPress={() => {
-              this.setState({ showAdvanced: false });
+              // TODO: needs to be switch(), likely.
+              if (this.state.currency === 'ETH') {
+                this.setState({ currency: 'USD' });
+              } else if (this.state.currency === 'USD') {
+                this.setState({ currency: 'ETH' });
+              }
             }}
           >
-            <Icon name="menu-up" color="#000" size={32} />
-          </MenuContainer>
-        </View>
+            <ToggleCurrencySymbol currency={this.state.currency} />
+          </TouchableOpacity>
+        </NetworkFeeHeaderContainer>
+        <Container
+          alignItems="center"
+          flexDirection="row"
+          justifyContent="center"
+          marginTop={24}
+          width="90%"
+        >
+          {gasPrice.map((gasPrice, key) => (
+            <NetworkFee key={key}>
+              {gasChosen === key ? (
+                <SpeedContainer>
+                  <SelectedSpeedTextContainer>
+                    <SelectedSpeedText>{gasPrice.speed}</SelectedSpeedText>
+                  </SelectedSpeedTextContainer>
+                  <SelectedButton>
+                    {this.toggleCurrency(gasPrice.value, gasLimit)}
+                  </SelectedButton>
+                </SpeedContainer>
+              ) : (
+                <SpeedContainer
+                  onPress={() => {
+                    this.props.updateGasPriceChosen(key);
+                  }}
+                >
+                  <UnselectedSpeedTextContainer>
+                    <UnselectedSpeedText>{gasPrice.speed}</UnselectedSpeedText>
+                  </UnselectedSpeedTextContainer>
+                  <UnselectedButton>
+                    {this.toggleCurrency(gasPrice.value, gasLimit)}
+                  </UnselectedButton>
+                </SpeedContainer>
+              )}
+            </NetworkFee>
+          ))}
+        </Container>
+      </View>
+    );
+  }
+}
+
+class AdvancedContainer extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showAdvanced: false
+    };
+  }
+
+  renderAdvancedContainer() {
+    if (this.state.showAdvanced)
+      return (
+        <TxSpeedSelectionContainer
+          gasPrice={this.props.gasPrice}
+          gasChosen={this.props.gasChosen}
+          gasLimit={this.props.gasLimit}
+          swap={this.props.swap}
+        />
       );
-    } else if (!this.state.showAdvanced) {
+    else
       return (
         <MenuContainer
           onPress={() => {
@@ -136,7 +149,6 @@ class AdvancedContainer extends Component {
           <Icon name="menu-down" color="#000" size={32} />
         </MenuContainer>
       );
-    }
   }
 
   render() {
@@ -154,6 +166,7 @@ const NetworkFeeHeaderContainer = styled.View`
 
 const NetworkFee = styled.View`
   margin: 0 4px;
+  margin-bottom: 12px;
   width: 33.3%;
 `;
 
@@ -221,4 +234,12 @@ const mapDispatchToProps = {
   updateGasPriceChosen
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdvancedContainer);
+const TxSpeedSelectionContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(__TxSpeedSelectionContainer);
+
+module.exports = {
+  TxSpeedSelectionContainer,
+  AdvancedContainer
+};

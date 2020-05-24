@@ -52,16 +52,12 @@ class TxConfirmationModal extends Component {
       this.props.modal.txConfirmationModalType === 'compound-approve' ||
       this.props.modal.txConfirmationModalType === 'pool-together-approve'
     ) {
-      return (
-        <HeaderFive width="80%">{I18n.t('deposit-amount')}</HeaderFive>
-      );
+      return <HeaderFive width="80%">{I18n.t('deposit-amount')}</HeaderFive>;
     } else if (
       this.props.modal.txConfirmationModalType === 'compound-withdraw' ||
       this.props.modal.txConfirmationModalType === 'pool-together-withdraw'
     ) {
-      return (
-        <HeaderFive width="80%">{I18n.t('withdraw-amount')}</HeaderFive>
-      );
+      return <HeaderFive width="80%">{I18n.t('withdraw-amount')}</HeaderFive>;
     }
   }
 
@@ -90,7 +86,7 @@ class TxConfirmationModal extends Component {
   }
 
   renderModalContent() {
-    const { modal, outgoingTransactionData, netInfo, navigation } = this.props;
+    const { modal, outgoingTransactionData, isOnline, navigation } = this.props;
 
     if (
       modal.txConfirmationModalType === 'send-eth' ||
@@ -116,7 +112,7 @@ class TxConfirmationModal extends Component {
               text={I18n.t('button-send')}
               disabled={this.state.buttonDisabled}
               onPress={async () => {
-                if (netInfo) {
+                if (isOnline) {
                   this.setState({ loading: true, buttonDisabled: true });
                   await TransactionUtilities.sendOutgoingTransactionToServer(
                     outgoingTransactionData.send.transactionObject
@@ -131,7 +127,7 @@ class TxConfirmationModal extends Component {
             />
           </ButtonContainer>
           <Loader animating={this.state.loading} size="small" />
-          <IsOnlineMessage netInfo={netInfo} />
+          <IsOnlineMessage isOnline={isOnline} />
         </View>
       );
     } else if (modal.txConfirmationModalType === 'compound-approve') {
@@ -151,7 +147,7 @@ class TxConfirmationModal extends Component {
               text={this.returnButtonType()}
               disabled={this.state.buttonDisabled}
               onPress={async () => {
-                if (netInfo) {
+                if (isOnline) {
                   this.setState({ loading: true, buttonDisabled: true });
                   await TransactionUtilities.sendOutgoingTransactionToServer(
                     outgoingTransactionData.compound.approveTransactionObject
@@ -169,7 +165,7 @@ class TxConfirmationModal extends Component {
             />
           </ButtonContainer>
           <Loader animating={this.state.loading} size="small" />
-          <IsOnlineMessage netInfo={netInfo} />
+          <IsOnlineMessage isOnline={isOnline} />
         </View>
       );
     } else if (
@@ -192,7 +188,7 @@ class TxConfirmationModal extends Component {
               text={this.returnButtonType()}
               disabled={this.state.buttonDisabled}
               onPress={async () => {
-                if (netInfo) {
+                if (isOnline) {
                   this.setState({ loading: true, buttonDisabled: true });
                   await TransactionUtilities.sendOutgoingTransactionToServer(
                     outgoingTransactionData.compound.transactionObject
@@ -207,7 +203,7 @@ class TxConfirmationModal extends Component {
             />
           </ButtonContainer>
           <Loader animating={this.state.loading} size="small" />
-          <IsOnlineMessage netInfo={netInfo} />
+          <IsOnlineMessage isOnline={isOnline} />
         </View>
       );
     } else if (modal.txConfirmationModalType === 'pool-together-approve') {
@@ -227,7 +223,7 @@ class TxConfirmationModal extends Component {
               text={this.returnButtonType()}
               disabled={this.state.buttonDisabled}
               onPress={async () => {
-                if (netInfo) {
+                if (isOnline) {
                   this.setState({ loading: true, buttonDisabled: true });
                   await TransactionUtilities.sendOutgoingTransactionToServer(
                     outgoingTransactionData.poolTogether
@@ -246,7 +242,7 @@ class TxConfirmationModal extends Component {
             />
           </ButtonContainer>
           <Loader animating={this.state.loading} size="small" />
-          <IsOnlineMessage netInfo={netInfo} />
+          <IsOnlineMessage isOnline={isOnline} />
         </View>
       );
     } else if (
@@ -269,7 +265,7 @@ class TxConfirmationModal extends Component {
               text={this.returnButtonType()}
               disabled={this.state.buttonDisabled}
               onPress={async () => {
-                if (netInfo) {
+                if (isOnline) {
                   this.setState({ loading: true, buttonDisabled: true });
                   await TransactionUtilities.sendOutgoingTransactionToServer(
                     outgoingTransactionData.poolTogether.transactionObject
@@ -284,7 +280,7 @@ class TxConfirmationModal extends Component {
             />
           </ButtonContainer>
           <Loader animating={this.state.loading} size="small" />
-          <IsOnlineMessage netInfo={netInfo} />
+          <IsOnlineMessage isOnline={isOnline} />
         </View>
       );
     } else if (modal.txConfirmationModalType === 'swap') {
@@ -311,7 +307,7 @@ class TxConfirmationModal extends Component {
               text={I18n.t('button-swap')}
               disabled={this.state.buttonDisabled}
               onPress={async () => {
-                if (netInfo) {
+                if (isOnline) {
                   this.setState({ loading: true, buttonDisabled: true });
                   await TransactionUtilities.sendOutgoingTransactionToServer(
                     outgoingTransactionData.swap.transactionObject
@@ -326,7 +322,7 @@ class TxConfirmationModal extends Component {
             />
           </ButtonContainer>
           <Loader animating={this.state.loading} size="small" />
-          <IsOnlineMessage netInfo={netInfo} />
+          <IsOnlineMessage isOnline={isOnline} />
         </View>
       );
     } else {
@@ -424,7 +420,7 @@ const ButtonContainer = styled.View`
 
 function mapStateToProps(state) {
   return {
-    netInfo: state.ReducerNetInfo.netInfo,
+    isOnline: state.ReducerNetInfo.isOnline,
     outgoingTransactionData:
       state.ReducerOutgoingTransactionData.outgoingTransactionData,
     modal: state.ReducerModal.modal

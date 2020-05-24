@@ -214,7 +214,7 @@ class ShowMnemonic extends Component {
           text={I18n.t('button-next')}
           textColor="#00A3E2"
           backgroundColor="#F8F8F8"
-          borderColor="#F8F8F8"
+          borderColor="#00A3E2"
           disabled={false}
           margin="8px auto"
           marginBottom="12px"
@@ -260,7 +260,7 @@ class ShowMnemonic extends Component {
           {this.renderScreenshotButtons()}
           {this.renderScreenshotSavedContainer()}
           {this.renderNextButton()}
-          <GoyemonText fontSize="14">OR</GoyemonText>
+          {/* <GoyemonText fontSize="14">OR</GoyemonText>
           <Button
             text="Verify Backup Words"
             textColor="#00A3E2"
@@ -270,7 +270,7 @@ class ShowMnemonic extends Component {
             marginBottom="8px"
             opacity="1"
             onPress={() => this.props.navigation.navigate('VerifyMnemonic')}
-          />
+          /> */}
         </Container>
       </RootContainer>
     );

@@ -1,13 +1,13 @@
 'use strict';
 import React from 'react';
 import { View } from 'react-native';
-import { ErrorMessage } from '.';
+import { ErrorMessage } from './ErrorMessage';
 
 const InsufficientWeiBalanceMessage = (props) => {
   if (props.weiAmountValidation || props.weiAmountValidation === undefined) {
     return <View />;
   } else if (!props.weiAmountValidation) {
-    return <ErrorMessage>not enough ether!</ErrorMessage>;
+    return <ErrorMessage textAlign="center">not enough ether!</ErrorMessage>;
   }
 };
 

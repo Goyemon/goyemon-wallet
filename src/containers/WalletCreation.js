@@ -10,7 +10,7 @@ import styled from 'styled-components/native';
 import { createChecksumAddress } from '../actions/ActionChecksumAddress';
 import { getGasPrice } from '../actions/ActionGasPrice';
 import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
-import { Container, Button } from '../components/common';
+import { Container } from '../components/common';
 import I18n from '../i18n/I18n';
 import { FCMMsgs } from '../lib/fcm.js';
 import TxStorage from '../lib/tx';

@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { BackHandler } from 'react-native';
 import { connect } from 'react-redux';
-import { Linking, TouchableHighlight, Alert, Modal } from 'react-native';
+import { Linking, TouchableHighlight } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import { clearState } from '../actions/ActionClearState';
@@ -28,9 +28,7 @@ class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      deleteTextValidation: false,
-      buttonDisabled: true,
-      buttonOpacity: 0.5
+      deleteTextValidation: false
     };
   }
 
@@ -73,17 +71,13 @@ class Settings extends Component {
     if (deleteText === 'delete') {
       LogUtilities.logInfo('the delete text validated!');
       this.setState({
-        deleteTextValidation: true,
-        buttonDisabled: false,
-        buttonOpacity: 1
+        deleteTextValidation: true
       });
       return true;
     }
     LogUtilities.logInfo('wrong delete text!');
     this.setState({
-      deleteTextValidation: false,
-      buttonDisabled: true,
-      buttonOpacity: 0.5
+      deleteTextValidation: false
     });
     return false;
   }
@@ -94,9 +88,12 @@ class Settings extends Component {
       <RootContainer>
         <HeaderOne marginTop="112">{I18n.t('settings-header')}</HeaderOne>
         <PopUpModal
-          maxHeight="40%"
+          height="50%"
           onPress={() => {
             this.props.savePopUpModalVisibility(false);
+            this.setState({
+              deleteTextValidation: false
+            });
           }}
         >
           <ModalTextContainer>
@@ -130,6 +127,9 @@ class Settings extends Component {
               opacity="1"
               onPress={() => {
                 this.props.savePopUpModalVisibility(false);
+                this.setState({
+                  deleteTextValidation: false
+                });
               }}
             />
             <Button
@@ -137,10 +137,10 @@ class Settings extends Component {
               textColor="#FFF"
               backgroundColor="#E41B13"
               borderColor="#E41B13"
-              disabled={this.state.buttonDisabled}
+              disabled={this.state.deleteTextValidation ? false : true}
               margin="8px"
               marginBottom="12px"
-              opacity={this.state.buttonOpacity}
+              opacity={this.state.deleteTextValidation ? 1 : 0.5}
               onPress={async () => {
                 await WalletUtilities.resetKeychainData();
                 await persistor.purge();
@@ -233,7 +233,7 @@ class Settings extends Component {
         <BottomText>
           <VersionText>v0.0.1</VersionText>
           <Icon name="heart-outline" color="#5f5f5f" size={24} />
-          <LoveText>Made with love by Goyemon</LoveText>
+          <LoveText>Made with love by Swarm</LoveText>
         </BottomText>
       </RootContainer>
     );

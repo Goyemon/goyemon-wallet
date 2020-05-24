@@ -7,7 +7,8 @@ import {
   RootContainer,
   Button,
   HeaderTwo,
-  Description
+  Description,
+  GoyemonText
 } from '../components/common';
 
 export default class NotificationPermissionNotGranted extends Component {
@@ -46,7 +47,9 @@ export default class NotificationPermissionNotGranted extends Component {
               }
             }}
           />
-          <GoyemonText fontSize={12}>*relaunch your app once you enable them</GoyemonText>
+          <GoyemonText fontSize={12}>
+            *relaunch your app once you enable them
+          </GoyemonText>
         </NoPermissionContainer>
       </RootContainer>
     );

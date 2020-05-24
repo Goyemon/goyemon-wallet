@@ -17,6 +17,7 @@ import {
   HeaderFour,
   GoyemonText
 } from '../components/common';
+import Copy from '../containers/common/Copy';
 import FcmPermissions from '../firebase/FcmPermissions.js';
 import I18n from '../i18n/I18n';
 import PortfolioStack from '../navigators/PortfolioStack';
@@ -96,24 +97,28 @@ class PortfolioHome extends Component {
           alignItems="center"
           borderRadius="8"
           flexDirection="column"
-          height="176px"
+          height="200px"
           justifyContent="center"
           marginTop="24px"
           textAlign="left"
           width="90%"
         >
-          <HeaderFour marginTop="24">
+          <HeaderFour marginTop="0">
             {I18n.t('portfolio-home-totalbalance')}
           </HeaderFour>
           <UsdBalance>${totalBalance.toFixed(2)}</UsdBalance>
-          <AddressContainer
-            onPress={() => {
-              navigation.navigate('Receive');
-            }}
-          >
-            <Icon name="qrcode" size={20} color="#5f5f5f" />
-            <Address>{truncatedAdderss}</Address>
-          </AddressContainer>
+          <GoyemonText fontSize={16}>{truncatedAdderss}</GoyemonText>
+          <AddressActionContainer>
+            <Receive
+              onPress={() => {
+                navigation.navigate('Receive');
+              }}
+            >
+              <Icon name="qrcode" size={20} color="#00a3e2" />
+              <ReceiveText>Receive</ReceiveText>
+            </Receive>
+            <Copy text={checksumAddress} animation={true} />
+          </AddressActionContainer>
         </UntouchableCardContainer>
         <HeaderThree
           color="#000"
@@ -245,21 +250,27 @@ const UsdBalance = styled.Text`
   color: #000;
   font-family: 'HKGrotesk-Regular';
   font-size: 32;
+  margin-bottom: 12px;
 `;
 
-const Address = styled.Text`
-  color: #000;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 12;
-  margin-left: 8;
-`;
-
-const AddressContainer = styled.TouchableOpacity`
+const AddressActionContainer = styled.View`
   align-items: center;
   flex-direction: row;
   justify-content: center;
-  margin: 12px auto;
-  width: 80%;
+`;
+
+const Receive = styled.TouchableOpacity`
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 8px;
+  margin-right: 8;
+`;
+
+const ReceiveText = styled.Text`
+  color: #00a3e2;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 16;
 `;
 
 const CurrencyContainer = styled.View`

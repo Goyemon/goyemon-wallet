@@ -29,7 +29,7 @@ class FcmMsgsParser {
     const sortedFcmMsgs = fcmMsgs[fcmMsg.uid].sort(
       (a, b) => parseInt(a.no) - parseInt(b.no)
     );
-    let transactions = sortedFcmMsgs.map(el => el.data).join('');
+    let transactions = sortedFcmMsgs.map((el) => el.data).join('');
     transactions = JSON.parse(transactions);
     return transactions;
   }

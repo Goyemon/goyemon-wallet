@@ -9,6 +9,8 @@ import I18n from '../../i18n/I18n';
 
 class SlippageContainer extends Component {
   render() {
+    const { uniswap } = this.props;
+
     return (
       <View>
         <SlippageHeaderContainer>
@@ -23,9 +25,9 @@ class SlippageContainer extends Component {
           marginTop={24}
           width="90%"
         >
-          {this.props.uniswap.slippage.map((slippage, key) => (
+          {uniswap.slippage.map((slippage, key) => (
             <Slippage key={key}>
-              {this.props.uniswap.slippageChosen === key ? (
+              {uniswap.slippageChosen === key ? (
                 <SelectedSlippageTextContainer>
                   <SelectedButton>{slippage.value}%</SelectedButton>
                 </SelectedSlippageTextContainer>

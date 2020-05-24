@@ -118,6 +118,34 @@ class TransactionUtilities {
     return false;
   }
 
+  validateWeiAmount(weiAmount, gasLimit) {
+    const isNumber = /^[0-9]\d*(\.\d+)?$/.test(weiAmount);
+
+    if (isNumber) {
+      const stateTree = store.getState();
+      const balance = stateTree.ReducerBalance.balance;
+      const gasChosen = stateTree.ReducerGasPrice.gasChosen;
+      const weiBalance = new BigNumber(balance.wei);
+      weiAmount = new BigNumber(weiAmount);
+      const transactionFeeLimitInWei = new BigNumber(
+        this.returnTransactionSpeed(gasChosen)
+      ).times(gasLimit);
+
+      if (
+        weiBalance.isGreaterThanOrEqualTo(
+          weiAmount.plus(transactionFeeLimitInWei)
+        ) &&
+        weiAmount.isGreaterThanOrEqualTo(0)
+      ) {
+        return true;
+      }
+      LogUtilities.logInfo('wrong balance!');
+      return false;
+    } else {
+      return false;
+    }
+  }
+
   validateDaiAmount(daiAmount) {
     const isNumber = /^[0-9]\d*(\.\d+)?$/.test(daiAmount);
     if (isNumber) {
@@ -226,12 +254,19 @@ class TransactionUtilities {
   }
 
   async sendOutgoingTransactionToServer(outgoingTransactionObject) {
+    // should be renamed cause it also does .saveTx()
+    await this.sendTransactionToServer(outgoingTransactionObject);
+    await TxStorage.storage.saveTx(outgoingTransactionObject);
+  }
+
+  async sendTransactionToServer(txObject) {
+    // should be renamed cause it also does .saveTx()
     const messageId = uuidv4();
     const serverAddress = GlobalConfig.FCM_server_address;
     const signedTransaction = await this.constructSignedOutgoingTransactionObject(
-      outgoingTransactionObject
+      txObject
     );
-    const nonce = outgoingTransactionObject.getNonce();
+    const nonce = txObject.getNonce();
 
     const upstreamMessage = new firebase.messaging.RemoteMessage()
       .setMessageId(messageId)
@@ -243,8 +278,6 @@ class TransactionUtilities {
       });
 
     firebase.messaging().sendMessage(upstreamMessage);
-
-    await TxStorage.storage.saveTx(outgoingTransactionObject);
   }
 
   getTransactionFeeEstimateInEther(gasPriceWei, gasLimit) {
@@ -252,7 +285,7 @@ class TransactionUtilities {
       .toBN(gasPriceWei)
       .mul(Web3.utils.toBN(gasLimit));
     const transactionFeeEstimateInEther = Web3.utils
-      .fromWei(transactionFeeEstimateWei, 'Ether')
+      .fromWei(transactionFeeEstimateWei)
       .toString();
     return transactionFeeEstimateInEther;
   }
@@ -292,7 +325,6 @@ class TransactionUtilities {
 
     return approveTransactionObject;
   }
-
 }
 
 export default new TransactionUtilities();

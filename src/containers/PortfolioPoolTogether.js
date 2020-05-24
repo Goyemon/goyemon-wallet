@@ -86,7 +86,7 @@ class PortfolioPoolTogether extends Component {
       ) {
         return (
           <PopUpModal
-            maxHeight="40%"
+            height="40%"
             onPress={() => {
               this.props.savePopUpModalVisibility(false);
               this.props.togglePoolTogetherWinnerRevealed(true);
@@ -141,7 +141,7 @@ class PortfolioPoolTogether extends Component {
       } else {
         return (
           <PopUpModal
-            maxHeight="25%"
+            height="25%"
             onPress={() => {
               this.props.savePopUpModalVisibility(false);
               this.props.togglePoolTogetherWinnerRevealed(true);

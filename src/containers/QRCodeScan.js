@@ -26,7 +26,7 @@ class QRCodeScan extends Component {
     };
   }
 
-  onScanSuccess = e => {
+  onScanSuccess = (e) => {
     this.props.saveQRCodeData(e.data);
     this.props.navigation.pop();
 

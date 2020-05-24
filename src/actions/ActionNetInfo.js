@@ -2,17 +2,17 @@
 import { SAVE_NET_INFO } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
-export function saveNetInfo(netInfo) {
+export function saveNetInfo(isOnline) {
   return async function (dispatch) {
     try {
-      dispatch(saveNetInfoSuccess(netInfo));
+      dispatch(saveNetInfoSuccess(isOnline));
     } catch (err) {
       LogUtilities.logError(err);
     }
   };
 }
 
-const saveNetInfoSuccess = (netInfo) => ({
+const saveNetInfoSuccess = (isOnline) => ({
   type: SAVE_NET_INFO,
-  payload: netInfo
+  payload: isOnline
 });

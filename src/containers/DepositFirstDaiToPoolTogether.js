@@ -10,7 +10,6 @@ import {
 } from '../actions/ActionModal';
 import {
   RootContainer,
-  GoyemonText,
   UseMaxButton,
   UntouchableCardContainer,
   HeaderOne,
@@ -23,7 +22,7 @@ import {
 } from '../components/common';
 import Countdown from './common/Countdown';
 import TxConfirmationModal from '../containers/common/TxConfirmationModal';
-import AdvancedContainer from './common/AdvancedContainer';
+import { AdvancedContainer } from './common/AdvancedContainer';
 import I18n from '../i18n/I18n';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
@@ -37,12 +36,13 @@ class DepositFirstDaiToPoolTogether extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      daiBalance: RoundDownBigNumber(props.balance.dai)
+        .div(new RoundDownBigNumber(10).pow(18))
+        .toFixed(2),
       daiAmount: '',
       daiAmountValidation: undefined,
       weiAmountValidation: undefined,
-      loading: false,
-      buttonDisabled: true,
-      buttonOpacity: 0.5
+      loading: false
     };
   }
 
@@ -65,6 +65,13 @@ class DepositFirstDaiToPoolTogether extends Component {
             GlobalConfig.PoolTogetherDepositPoolGasLimit
         )
       );
+    }
+    if (this.props.balance.dai != prevProps.balance.dai) {
+      this.setState({
+        daiBalance: RoundDownBigNumber(this.props.balance.dai)
+          .div(new RoundDownBigNumber(10).pow(18))
+          .toFixed(2)
+      });
     }
   }
 
@@ -102,61 +109,27 @@ class DepositFirstDaiToPoolTogether extends Component {
     return transactionObject.setNonce(transactionObject.getNonce() + 1);
   }
 
-  buttonStateUpdate() {
-    if (this.state.daiAmountValidation && this.state.weiAmountValidation) {
-      this.setState({
-        buttonDisabled: false,
-        buttonOpacity: 1
-      });
-    } else {
-      this.setState({
-        buttonDisabled: true,
-        buttonOpacity: 0.5
-      });
-    }
-  }
-
   updateDaiAmountValidation(daiAmountValidation) {
     if (daiAmountValidation) {
-      this.setState(
-        {
-          daiAmountValidation: true
-        },
-        function () {
-          this.buttonStateUpdate();
-        }
-      );
+      this.setState({
+        daiAmountValidation: true
+      });
     } else if (!daiAmountValidation) {
-      this.setState(
-        {
-          daiAmountValidation: false
-        },
-        function () {
-          this.buttonStateUpdate();
-        }
-      );
+      this.setState({
+        daiAmountValidation: false
+      });
     }
   }
 
   updateWeiAmountValidation(weiAmountValidation) {
     if (weiAmountValidation) {
-      this.setState(
-        {
-          weiAmountValidation: true
-        },
-        function () {
-          this.buttonStateUpdate();
-        }
-      );
+      this.setState({
+        weiAmountValidation: true
+      });
     } else if (!weiAmountValidation) {
-      this.setState(
-        {
-          weiAmountValidation: false
-        },
-        function () {
-          this.buttonStateUpdate();
-        }
-      );
+      this.setState({
+        weiAmountValidation: false
+      });
     }
   }
 
@@ -171,10 +144,10 @@ class DepositFirstDaiToPoolTogether extends Component {
       TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
       gasLimit
     );
-    const isOnline = this.props.netInfo;
+    const isOnline = this.props.isOnline;
 
     if (daiAmountValidation && weiAmountValidation && isOnline) {
-      this.setState({ loading: true, buttonDisabled: true });
+      this.setState({ loading: true });
       LogUtilities.logInfo('validation successful');
       const approveTransactionObject = await TransactionUtilities.constructApproveTransactionObject(
         GlobalConfig.DAIPoolTogetherContractV2,
@@ -196,9 +169,7 @@ class DepositFirstDaiToPoolTogether extends Component {
 
   render() {
     const { balance } = this.props;
-    const daiBalance = RoundDownBigNumber(balance.dai)
-      .div(new RoundDownBigNumber(10).pow(18))
-      .toString();
+    const isOnline = this.props.isOnline;
 
     const daiFullBalance = RoundDownBigNumber(balance.dai)
       .div(new RoundDownBigNumber(10).pow(18))
@@ -220,7 +191,7 @@ class DepositFirstDaiToPoolTogether extends Component {
         >
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <Title>{I18n.t('dai-wallet-balance')}</Title>
-          <Value>{daiBalance} DAI</Value>
+          <Value>{this.state.daiBalance} DAI</Value>
           <Title>until the open round ends</Title>
           <Countdown />
         </UntouchableCardContainer>
@@ -278,16 +249,30 @@ class DepositFirstDaiToPoolTogether extends Component {
         />
         <ButtonWrapper>
           <TxNextButton
-            disabled={this.state.buttonDisabled}
-            opacity={this.state.buttonOpacity}
+            disabled={
+              !(
+                this.state.daiAmountValidation &&
+                this.state.weiAmountValidation &&
+                isOnline
+              ) || this.state.loading
+                ? true
+                : false
+            }
+            opacity={
+              this.state.daiAmountValidation &&
+              this.state.weiAmountValidation &&
+              isOnline
+                ? 1
+                : 0.5
+            }
             onPress={async () => {
               await this.validateForm(this.state.daiAmount);
-              this.setState({ loading: false, buttonDisabled: false });
+              this.setState({ loading: false });
             }}
           />
           <Loader animating={this.state.loading} size="small" />
         </ButtonWrapper>
-        <IsOnlineMessage netInfo={this.props.netInfo} />
+        <IsOnlineMessage isOnline={this.props.isOnline} />
       </RootContainer>
     );
   }
@@ -348,7 +333,7 @@ function mapStateToProps(state) {
     balance: state.ReducerBalance.balance,
     gasChosen: state.ReducerGasPrice.gasChosen,
     gasPrice: state.ReducerGasPrice.gasPrice,
-    netInfo: state.ReducerNetInfo.netInfo
+    isOnline: state.ReducerNetInfo.isOnline
   };
 }
 
