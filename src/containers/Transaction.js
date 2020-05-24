@@ -481,7 +481,7 @@ class Transaction extends Component {
       Object.keys(tops).length > 1 || // two different tokens operated on or
       (Object.values(tops)[0].length > 1 && // more than one token op for givne token,
         (!tops.pooltogether ||
-          tops.pooltogether.filter((x) => !istPtWithdraw(x)).length > 0)) // and the token is not pooltogether or it's all withdraws in PT.
+          tops.pooltogether.filter((x) => !isPtWithdraw(x)).length > 0)) // and the token is not pooltogether or it's all withdraws in PT.
     )
       return {
         type: 'multicontract'
