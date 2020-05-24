@@ -166,6 +166,7 @@ const NetworkFeeHeaderContainer = styled.View`
 
 const NetworkFee = styled.View`
   margin: 0 4px;
+  margin-bottom: 12px;
   width: 33.3%;
 `;
 
