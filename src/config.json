@@ -13,8 +13,8 @@
 //   "cTokenMintGasLimit": 350000,
 //   "cTokenRedeemUnderlyingGasLimit": 650000,
 //   "UniswapEthToTokenSwapInputGasLimit": 75000,
-//   "PoolTogetherDepositPoolGasLimit": 700000,
-//   "PoolTogetherWithdrawGasLimit": 700000
+//   "PoolTogetherDepositPoolGasLimit": 900000,
+//   "PoolTogetherWithdrawGasLimit": 1200000
 // }
 
 // Mainnet
@@ -32,8 +32,9 @@
     "cTokenMintGasLimit": 350000,
     "cTokenRedeemUnderlyingGasLimit": 650000,
     "UniswapEthToTokenSwapInputGasLimit": 75000,
-    "PoolTogetherDepositPoolGasLimit": 600000,
-    "PoolTogetherWithdrawGasLimit": 800000
+    "PoolTogetherDepositPoolGasLimit": 900000,
+    "PoolTogetherWithdrawGasLimit": 1200000
+
 }
 
 // the usd price of currencies is always the mainnet data
