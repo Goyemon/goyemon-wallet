@@ -88,7 +88,23 @@ class PersistentLogging {
 			if (x.startsWith(log_prefix))
 				keys.push(x);
 		});
+		/*
+		keys.sort((a, b) => {
+			const ta = a.substr(log_prefix.length).split('_').map(x => parseInt(x));
+			const tb = b.substr(log_prefix.length).split('_').map(x => parseInt(x));;
 
+			if (ta[0] != tb[0])
+				return ta[0] - tb[0];
+
+			if (ta[1] && tb[1])
+				return ta[1] - tb[1];
+
+			if (ta[1])
+				return 1;
+
+			return -1;
+		});
+		*/
 		(await AsyncStorage.multiGet(keys)).forEach(([k, v]) => {
 			ret[k.slice(log_prefix.length)] = v;
 		});
