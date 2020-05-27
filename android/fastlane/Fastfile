@@ -46,4 +46,7 @@ platform :android do
     #   track: 'internal'
     # )
   end
+  desc "Submit a new release Build to Play Store"
+  lane :playstore do
+  end
 end
