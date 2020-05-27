@@ -21,7 +21,9 @@ class Initial extends Component {
   }
 
   async componentDidMount() {
-    await FcmPermissions.checkFcmPermissions();
+    if (this.props.permissions.notification === false) {
+      await FcmPermissions.checkFcmPermissions();
+    }
     await this.conditionalNavigation();
   }
 
