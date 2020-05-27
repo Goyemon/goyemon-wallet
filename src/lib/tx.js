@@ -378,7 +378,8 @@ class PersistTxStorageAbstraction {
 	}
 	*/
 
-	async getHashes(index='all', offset=0) {
+	async getHashes(index='all', offset=0) { // currently also precaches top 128 txes.
+		// TODO: this perhaps could use cache.
 		await this.__lock(index);
 
 		const high_bucket = Math.floor((this.counts[index] - 1) / storage_bucket_size);
@@ -396,6 +397,7 @@ class PersistTxStorageAbstraction {
 		for (let i = 0; i < bucketnames.length; ++i) {
 			let add_items;
 			const bd = this.__decodeBucket(bucketdata[i][1]);
+			this.cache[bucketdata[i][0]] = bd; // precache all the buckets
 
 			//LogUtilities.toDebugScreen(`getHashRanges(): bucketdata[${i}] = ${bd}`);
 
@@ -416,6 +418,11 @@ class PersistTxStorageAbstraction {
 		for (let i = 0; i < ret.length; ++i) {
 			try {
 				const tx = JSON.parse(txdata[i][1]);
+				// precache top 64 txes
+				if (i >= ret.length - 128) {
+					this.cache[txdata[i][0]] = new Tx(tx[7]).setHash(txdata[i][0].slice(this.prefix.length + 1)).fromDataArray(tx, false);
+				}
+				// /precache
 				ret[i] = [ret[i], tx[7]];
 			}
 			catch (e) {
