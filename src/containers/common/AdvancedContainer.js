@@ -131,12 +131,17 @@ class AdvancedContainer extends Component {
   renderAdvancedContainer() {
     if (this.state.showAdvanced)
       return (
+		<>
         <TxSpeedSelectionContainer
           gasPrice={this.props.gasPrice}
           gasChosen={this.props.gasChosen}
           gasLimit={this.props.gasLimit}
           swap={this.props.swap}
         />
+		<MenuContainer onPress={() => { this.setState({ showAdvanced: false }); }}>
+			<Icon name="menu-up" color="#000" size={32} />
+		</MenuContainer>
+		</>
       );
     else
       return (
