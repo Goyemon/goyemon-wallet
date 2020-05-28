@@ -37,6 +37,16 @@
          </BuildableReference>
       </MacroExpansion>
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "339526C0247C0534000F9691"
+               BuildableName = "GoyemonUITests.xctest"
+               BlueprintName = "GoyemonUITests"
+               ReferencedContainer = "container:Goyemon.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
