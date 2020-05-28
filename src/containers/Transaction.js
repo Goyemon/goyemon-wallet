@@ -2,7 +2,6 @@
 import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 // import { connect } from 'react-redux';
-import { View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
 import { GoyemonText, UntouchableCardContainer } from '../components/common';

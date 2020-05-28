@@ -35,7 +35,9 @@ class WithdrawDaiFromPoolTogether extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pooltogetherDaiBalance: RoundDownBigNumber(props.balance.pooltogetherDai.open)
+      pooltogetherDaiBalance: RoundDownBigNumber(
+        props.balance.pooltogetherDai.open
+      )
         .plus(props.balance.pooltogetherDai.committed)
         .plus(props.balance.pooltogetherDai.sponsored)
         .div(new RoundDownBigNumber(10).pow(18))
@@ -69,7 +71,9 @@ class WithdrawDaiFromPoolTogether extends Component {
       this.props.balance.pooltogetherDai != prevProps.balance.pooltogetherDai
     ) {
       this.setState({
-        pooltogetherDaiBalance: RoundDownBigNumber(this.props.balance.pooltogetherDai.open)
+        pooltogetherDaiBalance: RoundDownBigNumber(
+          this.props.balance.pooltogetherDai.open
+        )
           .plus(this.props.balance.pooltogetherDai.committed)
           .plus(this.props.balance.pooltogetherDai.sponsored)
           .div(new RoundDownBigNumber(10).pow(18))
