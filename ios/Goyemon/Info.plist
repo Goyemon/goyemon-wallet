@@ -55,11 +55,11 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Our app need your permission to use your camera phone</string>
+	<string>$(PRODUCT_NAME) needs your permission to use your camera phone so that you can scan a QRCode.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Our app need your permission to use your photo library</string>
+	<string>$(PRODUCT_NAME) needs your permission to use your photo library so that you know if you saved your mnemonic words.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Our app need your permission to save to your photo library</string>
+	<string>$(PRODUCT_NAME) needs your permission to save to your photo library so that you can save your mnemonic words.</string>
 	<key>NSMainNibFile</key>
 	<string>LaunchScreen</string>
 	<key>UIAppFonts</key>
