@@ -129,7 +129,7 @@ class Swap extends Component {
       .toString(16);
 
     const transactionObject = (await TxStorage.storage.newTx())
-      .setTo(GlobalConfig.DAIUniswapContractV1)
+      .setTo(GlobalConfig.WETHxDAIUniswapV2)
       .setValue(weiSold.toString(16))
       .setGasPrice(
         TransactionUtilities.returnTransactionSpeed(
