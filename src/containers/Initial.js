@@ -5,8 +5,11 @@ import * as Animatable from 'react-native-animatable';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
+import { getGasPrice } from '../actions/ActionGasPrice';
+import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
 import { Container } from '../components/common';
 import FcmPermissions from '../firebase/FcmPermissions.js';
+import { FCMMsgs } from '../lib/fcm.js';
 import PortfolioStack from '../navigators/PortfolioStack';
 import LogUtilities from '../utilities/LogUtilities.js';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
@@ -21,6 +24,13 @@ class Initial extends Component {
   }
 
   async componentDidMount() {
+    await this.props.getEthPrice();
+    await this.props.getDaiPrice();
+    this.props.getGasPrice();
+    FCMMsgs.requestCompoundDaiInfo(this.props.checksumAddress);
+    FCMMsgs.requestPoolTogetherDaiInfo(this.props.checksumAddress);
+    FCMMsgs.requestUniswapETHDAIBalances(this.props.checksumAddress);
+
     if (this.props.permissions.notification === false) {
       await FcmPermissions.checkFcmPermissions();
     }
@@ -203,4 +213,10 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Initial);
+const mapDispatchToProps = {
+  getEthPrice,
+  getDaiPrice,
+  getGasPrice
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Initial);

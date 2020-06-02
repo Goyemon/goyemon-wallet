@@ -16,15 +16,10 @@ import {
   GoyemonText
 } from '../components/common';
 import I18n from '../i18n/I18n';
-import { FCMMsgs } from '../lib/fcm.js';
 import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class PortfolioCompound extends Component {
-  componentDidMount() {
-    FCMMsgs.requestCompoundDaiInfo(this.props.checksumAddress);
-  }
-
   render() {
     const { balance, compound } = this.props;
     const currentInterestRate = new BigNumber(compound.dai.currentInterestRate)

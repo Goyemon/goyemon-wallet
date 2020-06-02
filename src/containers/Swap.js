@@ -24,7 +24,6 @@ import {
   TxNextButton,
   UseMaxButton
 } from '../components/common';
-import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
 import { AdvancedContainer } from '../containers/common/AdvancedContainer';
 import TxConfirmationModal from '../containers/common/TxConfirmationModal';
 import I18n from '../i18n/I18n';
@@ -46,10 +45,6 @@ class Swap extends Component {
       ethSoldValidation: undefined,
       loading: false
     };
-  }
-
-  componentDidMount() {
-    FcmUpstreamMsgs.requestUniswapETHDAIBalances(this.props.checksumAddress);
   }
 
   componentDidUpdate(prevProps) {
