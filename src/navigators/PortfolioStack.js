@@ -5,9 +5,6 @@ import Welcome from '../components/Welcome';
 import NotificationPermissionTutorial from '../containers/NotificationPermissionTutorial';
 import NotificationPermissionNotGranted from '../components/NotificationPermissionNotGranted';
 import WalletCreation from '../containers/WalletCreation';
-import ImportOptions from '../components/ImportOptions';
-import ImportTwentyFourMnemonicWords from '../containers/ImportTwentyFourMnemonicWords';
-import ImportTwelveMnemonicWords from '../containers/ImportTwelveMnemonicWords';
 import CreateWalletTutorial from '../containers/CreateWalletTutorial';
 import ShowMnemonic from '../containers/ShowMnemonic';
 import VerifyMnemonic from '../containers/VerifyMnemonic';
@@ -54,22 +51,6 @@ const PortfolioStack = createStackNavigator(
         header: null
       })
     },
-    ImportOptions: {
-      screen: ImportOptions,
-      navigationOptions: () => ({
-        headerTransparent: true,
-        headerBackTitle: 'ImportOptions'
-      })
-    },
-    ImportTwentyFourMnemonicWords: {
-      screen: ImportTwentyFourMnemonicWords,
-      navigationOptions: () => ({
-        headerTransparent: true,
-        headerBackTitle: 'Import'
-      })
-    },
-    ImportTwelveMnemonicWords: {
-      screen: ImportTwelveMnemonicWords,
       navigationOptions: () => ({
         headerTransparent: true,
         headerBackTitle: 'Import'
