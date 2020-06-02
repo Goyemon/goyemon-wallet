@@ -125,7 +125,7 @@ export default class Welcome extends Component {
             justifyContent="space-between"
             textAlign="left"
             width="80%"
-            onPress={() => navigation.navigate('ImportOptions')}
+            onPress={() => navigation.navigate('ImportMnemonicWords')}
           >
             <View>
               <HeaderThree

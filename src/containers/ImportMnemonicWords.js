@@ -1,40 +1,42 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { KeyboardAvoidingView, Platform, View, TextInput } from 'react-native';
+import { KeyboardAvoidingView, Platform, View, Clipboard } from 'react-native';
 import styled from 'styled-components/native';
 import { saveMnemonicWords } from '../actions/ActionMnemonic';
 import { updateMnemonicWordsValidation } from '../actions/ActionMnemonicWordsValidation';
 import {
   RootContainer,
+  Container,
   ProgressBar,
   HeaderTwo,
   Description,
   Button,
   ErrorMessage,
-  Loader
+  Loader,
+  GoyemonText
 } from '../components/common';
 import I18n from '../i18n/I18n';
 import LogUtilities from '../utilities/LogUtilities.js';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
-class ImportTwelveMnemonicWords extends Component {
+class ImportMnemonicWords extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mnemonicWords: ['', '', '', '', '', '', '', '', '', '', '', ''],
+      mnemonicWords: '',
       mnemonicWordsValidation: true,
-      loading: false
+      loading: false,
+      copiedText: ''
     };
   }
 
   async validateForm() {
-    const mnemonicWords = this.state.mnemonicWords.join(' ');
-    if (WalletUtilities.validateMnemonic(mnemonicWords)) {
+    if (WalletUtilities.validateMnemonic(this.state.mnemonicWords)) {
       this.setState({ loading: true });
       this.setState({ mnemonicWordsValidation: true });
       this.props.updateMnemonicWordsValidation(true);
-      await WalletUtilities.setMnemonic(mnemonicWords);
+      await WalletUtilities.setMnemonic(this.state.mnemonicWords);
       await this.props.saveMnemonicWords();
       if (Platform.OS === 'ios') {
         this.props.navigation.navigate('NotificationPermissionTutorial');
@@ -56,16 +58,10 @@ class ImportTwelveMnemonicWords extends Component {
     );
   }
 
-  handleTextChange = (text, id) => {
-    const mnemonicWords = this.state.mnemonicWords;
-    mnemonicWords[id] = text.trim().toLowerCase();
-
-    this.setState({ mnemonicWords });
+  fetchCopiedText = async () => {
+    const copiedText = await Clipboard.getString();
+    this.setState({ mnemonicWords: copiedText });
   };
-
-  focusNextInput(nextInput) {
-    this.refs[nextInput].focus();
-  }
 
   render() {
     return (
@@ -82,38 +78,38 @@ class ImportTwelveMnemonicWords extends Component {
             marginRight="40%"
             width="40%"
           />
-          <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
-            {I18n.t('import-title')}
-          </HeaderTwo>
-          <Description marginBottom="8" marginLeft="8" marginTop="16">
-            {I18n.t('import-description')}
-          </Description>
-          <MnemonicWordsContainer style={styles.table}>
-            {this.state.mnemonicWords.map((word, id) => (
-              <View style={styles.cell} key={id}>
-                <MnemonicWordWrapper>
-                  <TextInput
-                    ref={id}
-                    style={{ textAlign: 'center', padding: 4 }}
-                    placeholder={(id + 1).toString()}
-                    autoCapitalize="none"
-                    maxLength={15}
-                    onChangeText={(text) => {
-                      this.handleTextChange(text, id);
-                    }}
-                    onSubmitEditing={
-                      id === 11
-                        ? LogUtilities.logInfo('done')
-                        : () => this.focusNextInput((id + 1).toString())
-                    }
-                    returnKeyType={id === 11 ? 'done' : 'next'}
-                  />
-                </MnemonicWordWrapper>
-              </View>
-            ))}
-          </MnemonicWordsContainer>
-          <View>{this.renderInvalidMnemonicWordsMessage()}</View>
-          <ButtonContainer>
+          <Container
+            alignItems="center"
+            flexDirection="column"
+            justifyContent="center"
+            marginTop={16}
+            width="95%"
+          >
+            <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
+              {I18n.t('import-title')}
+            </HeaderTwo>
+            <Description marginBottom="8" marginLeft="8" marginTop="16">
+              {I18n.t('import-description')}
+            </Description>
+            <MnemonicWordsContainer>
+              <MnemonicWordsInput
+                autoCapitalize="none"
+                multiline={true}
+                textAlignVertical="top"
+                onChangeText={(mnemonicWords) => {
+                  mnemonicWords = mnemonicWords.toLowerCase();
+                  this.setState({ mnemonicWords });
+                }}
+                placeholder="this is sample backup words type in your own backup words here"
+                value={this.state.mnemonicWords}
+              />
+              <PasteContainer onPress={() => this.fetchCopiedText()}>
+                <PasteText>PASTE</PasteText>
+              </PasteContainer>
+            </MnemonicWordsContainer>
+            <GoyemonText fontSize={16}>
+              typically 12 or 24 words seperated by single spaces
+            </GoyemonText>
             <Button
               text={I18n.t('button-next')}
               textColor="#00A3E2"
@@ -127,8 +123,9 @@ class ImportTwelveMnemonicWords extends Component {
                 this.setState({ loading: false });
               }}
             />
+            <View>{this.renderInvalidMnemonicWordsMessage()}</View>
             <Loader animating={this.state.loading} size="small" />
-          </ButtonContainer>
+          </Container>
         </RootContainer>
       </KeyboardAvoidingView>
     );
@@ -136,15 +133,6 @@ class ImportTwelveMnemonicWords extends Component {
 }
 
 const styles = {
-  table: {
-    flexWrap: 'wrap',
-    flexDirection: 'row'
-  },
-  cell: {
-    flexBasis: '25%',
-    flex: 1,
-    marginBottom: 8
-  },
   avoidKeyboard: {
     flex: 1,
     flexDirection: 'column',
@@ -153,22 +141,29 @@ const styles = {
 };
 
 const MnemonicWordsContainer = styled.View`
-  margin-bottom: 24;
-  margin-top: 24;
-  width: 95%;
-`;
-
-const MnemonicWordWrapper = styled.View`
   background: #fff;
   border-color: #f8f8f8;
   border-radius: 16px;
   border-width: 4px;
-  text-align: center;
+  margin: 24px auto;
+  padding: 16px;
+  width: 100%;
 `;
 
-const ButtonContainer = styled.View`
-  align-items: center;
-  justify-content: center;
+const MnemonicWordsInput = styled.TextInput`
+  font-family: 'HKGrotesk-Regular';
+  font-size: 20;
+  height: 180px;
+`;
+
+const PasteContainer = styled.TouchableOpacity`
+  align-items: flex-end;
+`;
+
+const PasteText = styled.Text`
+  color: #00a3e2;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 16;
 `;
 
 const mapDispatchToProps = {
@@ -176,4 +171,4 @@ const mapDispatchToProps = {
   updateMnemonicWordsValidation
 };
 
-export default connect(null, mapDispatchToProps)(ImportTwelveMnemonicWords);
+export default connect(null, mapDispatchToProps)(ImportMnemonicWords);
