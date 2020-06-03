@@ -36,6 +36,17 @@ $ npm run start
 _you should see the shim.js in a home directory.
 nodeJS core modules cannot be used in React Native, and thus you have to use some hacks: we use rn-nodeify module to use nodeJS core modules._
 
+We also added a method in the npm module. In `react-native-firebase/dist/modules/messaging/index.js`, add the method below the constructor:
+```js
+  stupid_shit_initialized() {
+    if (Platform.OS === 'ios') {
+      getNativeModule(this).jsInitialised();
+    }
+  }
+```
+
+
+
 Contact somebody in our team if the build fails.
 
 ## Version Info
