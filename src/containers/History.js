@@ -15,7 +15,7 @@ import TxStorage from '../lib/tx.js';
 import LogUtilities from '../utilities/LogUtilities';
 import TransactionUtilities from '../utilities/TransactionUtilities';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { TxSpeedSelectionContainer } from './common/AdvancedContainer';
+import { Slider } from 'react-native-elements';
 
 const propsToStateChecksumAddr = (state) => ({
   checksumAddress: state.ReducerChecksumAddress.checksumAddress
@@ -355,6 +355,10 @@ class TaiPleaseChangeNameOfThisModal extends Component {
     // 	await TransactionUtilities.sendTransactionToServer(newTx);
   }
 
+  sliderValueChange(v) {
+	// TODO: update display, also convert to USD and update that too.
+  }
+
   render() {
     if (this.state.txToUpdate != null)
       return (
@@ -368,11 +372,11 @@ class TaiPleaseChangeNameOfThisModal extends Component {
               >
                 <Icon name="chevron-down" color="#5F5F5F" size={24} />
               </CloseButton>
-
-              <TxSpeedSelectionContainer
-                gasLimit={parseInt(this.state.txToUpdate.getGas(), 16)}
-                expandByDefault={true}
-              />
+				<Slider
+					value={parseInt(this.state.txToUpdate.getGas(), 16)}
+					minimumValue={parseInt(this.state.txToUpdate.getGas(), 16)}
+					maximumValue={Math.floor(1.2 * 1111) /* TODO: fast gas price * 1.20 */}
+					onValueChange={this.sliderValueChange} />
 
               <TxConfirmationButton
                 text={'Resend (needs i18n)'}
