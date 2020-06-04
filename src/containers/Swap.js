@@ -49,7 +49,7 @@ class Swap extends Component {
   }
 
   componentDidMount() {
-    FcmUpstreamMsgs.requestUniswapETHDAIBalances(this.props.checksumAddress);
+    FcmUpstreamMsgs.requestUniswapV2WETHxDAIReserves(this.props.checksumAddress);
   }
 
   componentDidUpdate(prevProps) {
