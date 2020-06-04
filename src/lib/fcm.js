@@ -211,7 +211,7 @@ const handler = (x, frombg) => instance.__fcm_msg(x, frombg);
 function registerHandler() {
   LogUtilities.toDebugScreen('FCM registerHandler called');
   firebase.messaging().onMessage(handler);
-  firebase.messaging().stupid_shit_initialized();
+  // firebase.messaging().stupid_shit_initialized();
 }
 
 module.exports = {
