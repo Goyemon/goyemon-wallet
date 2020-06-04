@@ -21,6 +21,17 @@ class RuDataBuilder {
     return this;
   }
 
+  putAddressArray(addrs) {
+    this.__numToUint256(addrs.length, false).copy(this.buf, this.current_offset);
+    this.current_offset += 32;
+    for (let i = 0; i < addrs.length; i ++) {
+      this.__addrToBuf(addrs[i]).copy(this.buf, this.current_offset);
+      this.current_offset += 32;
+    }
+
+    return this;
+  }
+
   putUint256Scaled(val) {
     this.__numToUint256(val, true).copy(this.buf, this.current_offset);
     this.current_offset += 32;
@@ -29,6 +40,20 @@ class RuDataBuilder {
   }
 
   putUint256Unscaled(val) {
+    this.__numToUint256(val, false).copy(this.buf, this.current_offset);
+    this.current_offset += 32;
+
+    return this;
+  }
+
+  tempMinToken() {
+    this.__numToUint256(10000000000000000, false).copy(this.buf, this.current_offset);
+    this.current_offset += 32;
+
+    return this;
+  }
+
+  putPrefix(val) {
     this.__numToUint256(val, false).copy(this.buf, this.current_offset);
     this.current_offset += 32;
 
@@ -98,6 +123,17 @@ class ABIEncoder {
       .putUint256Scaled(minTokens)
       .putUint256Unscaled(deadline)
       .get();
+  }
+
+  static encodeSwapExactETHForTokens(minTokens, path, recipient, deadline, decimals = 18) {
+    let fields = 5 + path.length
+    return new RuDataBuilder([0x7f, 0xf3, 0x6a, 0xb5], fields, decimals)
+    .tempMinToken()
+    .putPrefix(128)
+    .putAddress(recipient)
+    .putUint256Unscaled(deadline)
+    .putAddressArray(path)
+    .get();
   }
 
   static encodeDepositPool(amount, decimals = 18) {

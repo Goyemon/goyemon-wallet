@@ -124,25 +124,42 @@ class Swap extends Component {
       decimals
     );
 
+    const wethExchangeAddress = "0xc778417E063141139Fce010982780140Aa0cD5Ab"
+    const daiExchangeAddress = "0xb5e5d0f8c0cba267cd3d7035d6adc8eba7df7cdd"
+    const path = [wethExchangeAddress, daiExchangeAddress]
+    const swapExactETHForTokensInputEncodedABI = ABIEncoder.encodeSwapExactETHForTokens(
+      // this should be replaced by reserve function
+      minTokens,
+      path,
+      this.props.checksumAddress,
+      deadline,
+      decimals
+    )
+    LogUtilities.logInfo('this is encoded abi')
+    LogUtilities.logInfo(swapExactETHForTokensInputEncodedABI)
+    LogUtilities.logInfo('global config is')
+    LogUtilities.logInfo(minTokens / 10)
+
     const minTokensWithDecimals = this.state.tokenBought
       .times(new RoundDownBigNumber(10).pow(18))
       .toString(16);
 
     const transactionObject = (await TxStorage.storage.newTx())
-      .setTo(GlobalConfig.WETHxDAIUniswapV2)
+      .setTo(GlobalConfig.RouterUniswapV2)
       .setValue(weiSold.toString(16))
       .setGasPrice(
         TransactionUtilities.returnTransactionSpeed(
-          this.props.gasChosen
-        ).toString(16)
+        this.props.gasChosen
+      ).toString(16)
       )
       .setGas(GlobalConfig.UniswapEthToTokenSwapInputGasLimit.toString(16))
-      .tempSetData(ethToTokenSwapInputEncodedABI)
+      .tempSetData(swapExactETHForTokensInputEncodedABI)
       .addTokenOperation('uniswap', TxStorage.TxTokenOpTypeToName.eth2tok, [
         this.props.checksumAddress,
         weiSold.toString(16),
         minTokensWithDecimals
       ]);
+      LogUtilities.logInfo(transactionObject);
     return transactionObject;
   }
 
