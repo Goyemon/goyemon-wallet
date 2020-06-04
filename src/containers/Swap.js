@@ -128,7 +128,8 @@ class Swap extends Component {
     const daiExchangeAddress = "0xb5e5d0f8c0cba267cd3d7035d6adc8eba7df7cdd"
     const path = [wethExchangeAddress, daiExchangeAddress]
     const swapExactETHForTokensInputEncodedABI = ABIEncoder.encodeSwapExactETHForTokens(
-      (0.1 * 10 ** 18),
+      // this should be replaced by reserve function
+      minTokens,
       path,
       this.props.checksumAddress,
       deadline,
@@ -137,7 +138,7 @@ class Swap extends Component {
     LogUtilities.logInfo('this is encoded abi')
     LogUtilities.logInfo(swapExactETHForTokensInputEncodedABI)
     LogUtilities.logInfo('global config is')
-    LogUtilities.logInfo(minTokens)
+    LogUtilities.logInfo(minTokens / 10)
 
     const minTokensWithDecimals = this.state.tokenBought
       .times(new RoundDownBigNumber(10).pow(18))
@@ -146,8 +147,12 @@ class Swap extends Component {
     const transactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.RouterUniswapV2)
       .setValue(weiSold.toString(16))
-      .setGasPrice('0x2540be400')
-      .setGas('0x5b8d80')
+      .setGasPrice(
+        TransactionUtilities.returnTransactionSpeed(
+        this.props.gasChosen
+      ).toString(16)
+      )
+      .setGas(GlobalConfig.UniswapEthToTokenSwapInputGasLimit.toString(16))
       .tempSetData(swapExactETHForTokensInputEncodedABI)
       .addTokenOperation('uniswap', TxStorage.TxTokenOpTypeToName.eth2tok, [
         this.props.checksumAddress,
