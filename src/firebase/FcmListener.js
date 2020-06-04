@@ -149,7 +149,7 @@ async function downstreamMessageHandler(type, data) {
       }
       break;
 
-    case 'uniswap_ETHDAI_info':
+    case 'uniswapV2_WETHxDAI_reserve':
       store.dispatch(saveDaiExchangeReserve(data));
       break;
 
