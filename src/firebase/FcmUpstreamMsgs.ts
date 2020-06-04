@@ -39,8 +39,8 @@ class FcmUpstreamMsgs {
     this.__sendMessage('pool_together_DAI_info', checksumAddress);
   }
 
-  requestUniswapETHDAIBalances(checksumAddress) {
-    this.__sendMessage('uniswap_ETHDAI_info', checksumAddress);
+  requestUniswapV2WETHxDAIReserves(checksumAddress) {
+    this.__sendMessage('uniswapV2_WETHxDAI_reserve', checksumAddress);
   }
 }
 

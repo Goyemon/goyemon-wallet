@@ -188,8 +188,8 @@ class FCMMsgs {
     this.__sendMessage('pool_together_DAI_info', { address: checksumAddress });
   }
 
-  requestUniswapETHDAIBalances() {
-    this.__sendMessage('uniswap_ETHDAI_info');
+  requestUniswapV2WETHxDAIReserves() {
+    this.__sendMessage('uniswapV2_WETHxDAI_reserve');
   }
 
   checkForUpdates(checksumAddress, checksums, count, offset = 0) {
