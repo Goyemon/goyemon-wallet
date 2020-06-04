@@ -46,6 +46,13 @@ class RuDataBuilder {
     return this;
   }
 
+  tempMinToken() {
+    this.__numToUint256(10000000000000000, false).copy(this.buf, this.current_offset);
+    this.current_offset += 32;
+
+    return this;
+  }
+
   putPrefix(val) {
     this.__numToUint256(val, false).copy(this.buf, this.current_offset);
     this.current_offset += 32;
@@ -121,7 +128,7 @@ class ABIEncoder {
   static encodeSwapExactETHForTokens(minTokens, path, recipient, deadline, decimals = 18) {
     let fields = 5 + path.length
     return new RuDataBuilder([0x7f, 0xf3, 0x6a, 0xb5], fields, decimals)
-    .putUint256Unscaled(minTokens)
+    .tempMinToken()
     .putPrefix(128)
     .putAddress(recipient)
     .putUint256Unscaled(deadline)
