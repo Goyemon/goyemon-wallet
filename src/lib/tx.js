@@ -25,6 +25,7 @@ const TxTokenOpTypeToName = {
   redeem: 'redeem',
   eth2tok: 'eth2tok',
   tok2eth: 'tok2eth',
+  U2swap: 'U2swap',
   PTdeposited: 'PTdep',
   PTdepositedAndCommitted: 'PTdepc',
   PTsponsorshipDeposited: 'PTspdep',
@@ -1289,6 +1290,33 @@ class TxTokenTok2EthOp extends TxTokenOp {
   }
 }
 
+class TxTokenU2swapOp extends TxTokenOp {
+  constructor(arr) {
+    super();
+    [
+      this.sender,
+      this.amount0In,
+      this.eth_sold,
+      this.tok_bought,
+      this.amount1Out,
+      this.from_addr
+    ] = arr;
+  }
+
+  toJSON() {
+    return {
+      [TxTokenOpTypeToName.U2swap]: [
+        this.sender,
+        this.amount0In,
+        this.eth_sold,
+        this.tok_bought,
+        this.amount1Out,
+        this.from_addr
+      ]
+    };
+  }
+}
+
 class TxTokenPTdepositedOp extends TxTokenOp {
   constructor(arr) {
     super();
@@ -1449,6 +1477,7 @@ const TxTokenOpNameToClass = {
   [TxTokenOpTypeToName.redeem]: TxTokenRedeemOp,
   [TxTokenOpTypeToName.eth2tok]: TxTokenEth2TokOp,
   [TxTokenOpTypeToName.tok2eth]: TxTokenTok2EthOp,
+  [TxTokenOpTypeToName.U2swap]: TxTokenU2swapOp,
   [TxTokenOpTypeToName.PTdeposited]: TxTokenPTdepositedOp,
   [TxTokenOpTypeToName.PTdepositedAndCommitted]: TxTokenPTdepositedAndCommittedOp,
   [TxTokenOpTypeToName.PTsponsorshipDeposited]: TxTokenPTsponsorshipDepositedOp,
@@ -1884,8 +1913,10 @@ class TxStorage {
           tx.hasTokenOperation('cdai', TxTokenOpTypeToName.redeem) ||
           tx.hasTokenOperation('cdai', TxTokenOpTypeToName.failure))) ||
       (tx.hasTokenOperations('uniswap') &&
-        (tx.hasTokenOperation('uniswap', TxTokenOpTypeToName.eth2tok) ||
-          tx.hasTokenOperation('uniswap', TxTokenOpTypeToName.tok2eth))) ||
+        tx.hasTokenOperation('uniswap', TxTokenOpTypeToName.eth2tok)) ||
+      tx.hasTokenOperation('uniswap', TxTokenOpTypeToName.tok2eth) ||
+      (tx.hasTokenOperations('uniswap2ethdai') &&
+        tx.hasTokenOperation('uniswap2ethdai', TxTokenOpTypeToName.U2swap)) ||
       (tx.hasTokenOperations('pooltogether') &&
         (tx.hasTokenOperation(
           'pooltogether',
