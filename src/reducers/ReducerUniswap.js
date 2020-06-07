@@ -1,7 +1,7 @@
 'use strict';
 import {
   UPDATE_SLIPPAGE_CHOSEN,
-  SAVE_DAI_EXCHANGE_RESERVE
+  SAVE_UNISWAPV2_WETH_DAI_RESERVE
 } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
@@ -27,7 +27,7 @@ const INITIAL_STATE = {
 
 const uniswap = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case SAVE_DAI_EXCHANGE_RESERVE:
+    case SAVE_UNISWAPV2_WETH_DAI_RESERVE:
       return {
         uniswap: {
           ...state.uniswap,
