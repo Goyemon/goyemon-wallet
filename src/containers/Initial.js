@@ -29,7 +29,7 @@ class Initial extends Component {
     this.props.getGasPrice();
     FCMMsgs.requestCompoundDaiInfo(this.props.checksumAddress);
     FCMMsgs.requestPoolTogetherDaiInfo(this.props.checksumAddress);
-    FCMMsgs.requestUniswapETHDAIBalances(this.props.checksumAddress);
+    FCMMsgs.requestUniswapV2WETHxDAIReserves(this.props.checksumAddress);
 
     if (this.props.permissions.notification === false) {
       await FcmPermissions.checkFcmPermissions();
