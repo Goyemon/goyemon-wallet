@@ -13,7 +13,7 @@ import {
   GoyemonText
 } from '../components/common';
 import I18n from '../i18n/I18n';
-import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
+import { RoundDownBigNumberPlacesFour } from '../utilities/BigNumberUtilities';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class PortfolioWallet extends Component {
@@ -21,10 +21,10 @@ class PortfolioWallet extends Component {
     const { balance, price } = this.props;
 
     let ethBalance = Web3.utils.fromWei(balance.wei);
-    ethBalance = RoundDownBigNumber(ethBalance).toFixed(4);
+    ethBalance = RoundDownBigNumberPlacesFour(ethBalance).toFixed(4);
 
-    const daiBalance = RoundDownBigNumber(balance.dai)
-      .div(new RoundDownBigNumber(10).pow(18))
+    const daiBalance = RoundDownBigNumberPlacesFour(balance.dai)
+      .div(new RoundDownBigNumberPlacesFour(10).pow(18))
       .toFixed(2);
 
     return (

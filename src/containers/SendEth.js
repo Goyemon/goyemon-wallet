@@ -26,7 +26,7 @@ import { AdvancedContainer } from '../containers/common/AdvancedContainer';
 import TxConfirmationModal from '../containers/common/TxConfirmationModal';
 import I18n from '../i18n/I18n';
 import SendStack from '../navigators/SendStack';
-import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
+import { RoundDownBigNumberPlacesFour } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
@@ -131,7 +131,7 @@ class SendEth extends Component {
 
   render() {
     const isOnline = this.props.isOnline;
-    const ethBalance = RoundDownBigNumber(this.state.ethBalance).toFixed(4);
+    const ethBalance = RoundDownBigNumberPlacesFour(this.state.ethBalance).toFixed(4);
 
     let weiFullAmount;
     const weiBalance = new BigNumber(this.props.balance.wei);

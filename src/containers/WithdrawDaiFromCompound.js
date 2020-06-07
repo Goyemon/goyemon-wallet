@@ -22,7 +22,7 @@ import {
 import { AdvancedContainer } from './common/AdvancedContainer';
 import TxConfirmationModal from '../containers/common/TxConfirmationModal';
 import I18n from '../i18n/I18n';
-import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
+import { RoundDownBigNumberPlacesFour } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
@@ -34,8 +34,8 @@ class WithdrawDaiFromCompound extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      compoundDaiBalance: RoundDownBigNumber(props.balance.compoundDai)
-        .div(new RoundDownBigNumber(10).pow(36))
+      compoundDaiBalance: RoundDownBigNumberPlacesFour(props.balance.compoundDai)
+        .div(new RoundDownBigNumberPlacesFour(10).pow(36))
         .toFixed(2),
       daiWithdrawAmount: '',
       daiSavingsAmountValidation: undefined,
@@ -64,8 +64,8 @@ class WithdrawDaiFromCompound extends Component {
     }
     if (this.props.balance.compoundDai != prevProps.balance.compoundDai) {
       this.setState({
-        compoundDaiBalance: RoundDownBigNumber(this.props.balance.compoundDai)
-          .div(new RoundDownBigNumber(10).pow(18))
+        compoundDaiBalance: RoundDownBigNumberPlacesFour(this.props.balance.compoundDai)
+          .div(new RoundDownBigNumberPlacesFour(10).pow(18))
           .toFixed(2)
       });
     }

@@ -7,7 +7,7 @@ import Web3 from 'web3';
 import { addSentTransaction } from '../actions/ActionTransactionHistory';
 import { store } from '../store/store.js';
 import ABIEncoder from '../utilities/AbiUtilities';
-import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
+import { RoundDownBigNumberPlacesFour } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import WalletUtilities from './WalletUtilities.ts';
@@ -24,15 +24,15 @@ class TransactionUtilities {
   }
 
   parseHexDaiValue(value) {
-    const parsedDaiValue = RoundDownBigNumber(value, 16)
-      .div(new RoundDownBigNumber(10).pow(18))
+    const parsedDaiValue = RoundDownBigNumberPlacesFour(value, 16)
+      .div(new RoundDownBigNumberPlacesFour(10).pow(18))
       .toFixed(2);
     return parsedDaiValue;
   }
 
   parseHexCDaiValue(value) {
-    const parsedDaiValue = RoundDownBigNumber(value, 16)
-      .div(new RoundDownBigNumber(10).pow(8))
+    const parsedDaiValue = RoundDownBigNumberPlacesFour(value, 16)
+      .div(new RoundDownBigNumberPlacesFour(10).pow(8))
       .toString();
     return parsedDaiValue;
   }
@@ -218,7 +218,7 @@ class TransactionUtilities {
     if (isInteger) {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
-      const pooltogetherDaiBalance = RoundDownBigNumber(
+      const pooltogetherDaiBalance = RoundDownBigNumberPlacesFour(
         balance.pooltogetherDai.open
       )
         .plus(balance.pooltogetherDai.committed)

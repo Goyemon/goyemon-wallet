@@ -24,7 +24,7 @@ import Countdown from './common/Countdown';
 import TxConfirmationModal from '../containers/common/TxConfirmationModal';
 import { AdvancedContainer } from './common/AdvancedContainer';
 import I18n from '../i18n/I18n';
-import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
+import { RoundDownBigNumberPlacesFour } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
@@ -36,8 +36,8 @@ class DepositFirstDaiToPoolTogether extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      daiBalance: RoundDownBigNumber(props.balance.dai)
-        .div(new RoundDownBigNumber(10).pow(18))
+      daiBalance: RoundDownBigNumberPlacesFour(props.balance.dai)
+        .div(new RoundDownBigNumberPlacesFour(10).pow(18))
         .toFixed(2),
       daiAmount: '',
       daiAmountValidation: undefined,
@@ -68,8 +68,8 @@ class DepositFirstDaiToPoolTogether extends Component {
     }
     if (this.props.balance.dai != prevProps.balance.dai) {
       this.setState({
-        daiBalance: RoundDownBigNumber(this.props.balance.dai)
-          .div(new RoundDownBigNumber(10).pow(18))
+        daiBalance: RoundDownBigNumberPlacesFour(this.props.balance.dai)
+          .div(new RoundDownBigNumberPlacesFour(10).pow(18))
           .toFixed(2)
       });
     }
@@ -171,8 +171,8 @@ class DepositFirstDaiToPoolTogether extends Component {
     const { balance } = this.props;
     const isOnline = this.props.isOnline;
 
-    const daiFullBalance = RoundDownBigNumber(balance.dai)
-      .div(new RoundDownBigNumber(10).pow(18))
+    const daiFullBalance = RoundDownBigNumberPlacesFour(balance.dai)
+      .div(new RoundDownBigNumberPlacesFour(10).pow(18))
       .toFixed(0);
 
     return (

@@ -17,7 +17,7 @@ import {
 } from '../components/common';
 import I18n from '../i18n/I18n';
 import { FCMMsgs } from '../lib/fcm.js';
-import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
+import { RoundDownBigNumberPlacesFour } from '../utilities/BigNumberUtilities';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class PortfolioCompound extends Component {
@@ -31,12 +31,12 @@ class PortfolioCompound extends Component {
       .div(new BigNumber(10).pow(24))
       .toFixed(2);
 
-    const compoundDaiBalance = RoundDownBigNumber(balance.compoundDai)
-      .div(new RoundDownBigNumber(10).pow(36))
+    const compoundDaiBalance = RoundDownBigNumberPlacesFour(balance.compoundDai)
+      .div(new RoundDownBigNumberPlacesFour(10).pow(36))
       .toFixed(2);
 
-    const lifetimeEarnedInDai = RoundDownBigNumber(compound.dai.lifetimeEarned)
-      .div(new RoundDownBigNumber(10).pow(36))
+    const lifetimeEarnedInDai = RoundDownBigNumberPlacesFour(compound.dai.lifetimeEarned)
+      .div(new RoundDownBigNumberPlacesFour(10).pow(36))
       .toString();
 
     return (
