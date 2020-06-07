@@ -35,7 +35,7 @@
 		33ABA5EB2348632200B36305 /* libreact-native-randombytes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33ABA5EA2348632200B36305 /* libreact-native-randombytes.a */; };
 		33ABA60223486E7100B36305 /* RCTEventDispatcher.h in Sources */ = {isa = PBXBuildFile; fileRef = 33ABA5682347A4F900B36305 /* RCTEventDispatcher.h */; };
 		33DCF64F23517B3F00342D08 /* FixLibswiftCoreErrorFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DCF64E23517B3F00342D08 /* FixLibswiftCoreErrorFile.swift */; };
-		996A1A84B467C00DC2109DCD /* libPods-Goyemon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A16320BCBA88E5683EEEF37 /* libPods-Goyemon.a */; };
+		8D8B7678CBD83AFC09D05093 /* libPods-Goyemon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD10D189C894EA63F35865D0 /* libPods-Goyemon.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,8 +61,6 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Goyemon/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Goyemon/main.m; sourceTree = "<group>"; };
 		1878C5A942254020A5A4C251 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
-		1A16320BCBA88E5683EEEF37 /* libPods-Goyemon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Goyemon.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		22F286D6A5A7C07761E21A95 /* Pods-GoyemonTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoyemonTests.debug.xcconfig"; path = "Target Support Files/Pods-GoyemonTests/Pods-GoyemonTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3305BC7422B2696B0010C8BD /* Arimo-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Arimo-Regular.ttf"; path = "Fonts/Arimo-Regular.ttf"; sourceTree = "<group>"; };
 		3305BCA222B2696B0010C8BD /* Arimo-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Arimo-Bold.ttf"; path = "Fonts/Arimo-Bold.ttf"; sourceTree = "<group>"; };
 		33489E7F22BB25110011677D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -105,21 +103,20 @@
 		33F896E322C1C8ED00679DD3 /* GoogleUtilities.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = GoogleUtilities.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AF916AC322542DCAE3CC350 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		48066EBE20A543EDBFFBB4D4 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
-		4A479452043A869742C8B5F2 /* Pods-GoyemonTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoyemonTests.release.xcconfig"; path = "Target Support Files/Pods-GoyemonTests/Pods-GoyemonTests.release.xcconfig"; sourceTree = "<group>"; };
 		5065E9C717284CBCBE41BFD4 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		5B143467B72DDC60A1EF30FE /* Pods-Goyemon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Goyemon.debug.xcconfig"; path = "Target Support Files/Pods-Goyemon/Pods-Goyemon.debug.xcconfig"; sourceTree = "<group>"; };
+		6C54DA31A3562BB78E957B69 /* Pods-Goyemon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Goyemon.release.xcconfig"; path = "Target Support Files/Pods-Goyemon/Pods-Goyemon.release.xcconfig"; sourceTree = "<group>"; };
 		999978FB67E04CA9B071564B /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		9BE7391C6D33474AA1552A69 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
 		AA6E5484C6714C5F8CD08B88 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		AC91071D060549EF95D41B7D /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		AD10D189C894EA63F35865D0 /* libPods-Goyemon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Goyemon.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADF84974C28349248756C641 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		C1E3C7D5E3BA439E9BC9405E /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
 		CA02A617D8EE47589FA84B2D /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
-		CB08ED280647D8A9594D6B5E /* Pods-Goyemon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Goyemon.debug.xcconfig"; path = "Target Support Files/Pods-Goyemon/Pods-Goyemon.debug.xcconfig"; sourceTree = "<group>"; };
-		CB794A4DCB385A808FAA3926 /* Pods-Goyemon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Goyemon.release.xcconfig"; path = "Target Support Files/Pods-Goyemon/Pods-Goyemon.release.xcconfig"; sourceTree = "<group>"; };
 		D1956C8D0FD64ADA8FBE507E /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		D31D719D880E4E78A24A31D4 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 		E85A743437C5455CAC37321B /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
-		EA3761CCF99160E39130C6A8 /* libPods-GoyemonTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GoyemonTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,7 +139,7 @@
 				339DF84F22C04DF300098626 /* FirebaseCoreDiagnostics.framework in Frameworks */,
 				339DF85022C04DF300098626 /* FirebaseAnalytics.framework in Frameworks */,
 				339DF85122C04DF300098626 /* FIRAnalyticsConnector.framework in Frameworks */,
-				996A1A84B467C00DC2109DCD /* libPods-Goyemon.a in Frameworks */,
+				8D8B7678CBD83AFC09D05093 /* libPods-Goyemon.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,10 +187,8 @@
 		152DB9540EA6A54A51C1526F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				CB08ED280647D8A9594D6B5E /* Pods-Goyemon.debug.xcconfig */,
-				CB794A4DCB385A808FAA3926 /* Pods-Goyemon.release.xcconfig */,
-				22F286D6A5A7C07761E21A95 /* Pods-GoyemonTests.debug.xcconfig */,
-				4A479452043A869742C8B5F2 /* Pods-GoyemonTests.release.xcconfig */,
+				5B143467B72DDC60A1EF30FE /* Pods-Goyemon.debug.xcconfig */,
+				6C54DA31A3562BB78E957B69 /* Pods-Goyemon.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -229,8 +224,7 @@
 				33892D7022BB2D0C00D9F8F4 /* FirebaseMessaging.framework */,
 				33892D7122BB2D0C00D9F8F4 /* Protobuf.framework */,
 				33892D6F22BB2CC200D9F8F4 /* JavaScriptCore.framework */,
-				1A16320BCBA88E5683EEEF37 /* libPods-Goyemon.a */,
-				EA3761CCF99160E39130C6A8 /* libPods-GoyemonTests.a */,
+				AD10D189C894EA63F35865D0 /* libPods-Goyemon.a */,
 			);
 			path = Frameworks;
 			sourceTree = SOURCE_ROOT;
@@ -323,13 +317,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Goyemon" */;
 			buildPhases = (
-				DF579928C35CDBB18C1F1CB3 /* [CP] Check Pods Manifest.lock */,
+				AB73A8765772912A3F764E5B /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				3364BCCF2329E21400EF1052 /* ShellScript */,
-				5A1005B481C192A4D2777294 /* [CP] Copy Pods Resources */,
+				E08F9069E4B0E1550CF023B6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -466,7 +460,29 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\"\n\n";
 		};
-		5A1005B481C192A4D2777294 /* [CP] Copy Pods Resources */ = {
+		AB73A8765772912A3F764E5B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Goyemon-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E08F9069E4B0E1550CF023B6 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -512,28 +528,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Goyemon/Pods-Goyemon-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DF579928C35CDBB18C1F1CB3 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Goyemon-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -584,7 +578,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CB08ED280647D8A9594D6B5E /* Pods-Goyemon.debug.xcconfig */;
+			baseConfigurationReference = 5B143467B72DDC60A1EF30FE /* Pods-Goyemon.debug.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -629,7 +623,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CB794A4DCB385A808FAA3926 /* Pods-Goyemon.release.xcconfig */;
+			baseConfigurationReference = 6C54DA31A3562BB78E957B69 /* Pods-Goyemon.release.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
