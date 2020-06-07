@@ -21,7 +21,6 @@ import {
 import Countdown from './common/Countdown';
 import PopUpModal from './common/PopUpModal';
 import I18n from '../i18n/I18n';
-import { FCMMsgs } from '../lib/fcm.js';
 import PortfolioPoolTogetherOpen from './PortfolioPoolTogetherOpen';
 import PortfolioPoolTogetherCommitted from './PortfolioPoolTogetherCommitted';
 import LogUtilities from '../utilities/LogUtilities.js';
@@ -36,7 +35,6 @@ class PortfolioPoolTogether extends Component {
   }
 
   componentDidMount() {
-    FCMMsgs.requestPoolTogetherDaiInfo(this.props.checksumAddress);
     if (!this.props.poolTogether.winnerRevealed) {
       this.props.savePopUpModalVisibility(true);
     }

@@ -5,7 +5,6 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { withNavigation } from 'react-navigation';
 import styled from 'styled-components';
 import Web3 from 'web3';
-import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
 import CompoundIcon from '../../assets/CompoundIcon.js';
 import PoolTogetherIcon from '../../assets/PoolTogetherIcon.js';
 import {
@@ -54,8 +53,6 @@ class PortfolioHome extends Component {
       };
     };
     await FcmPermissions.checkFcmPermissions();
-    await this.props.getEthPrice();
-    await this.props.getDaiPrice();
   }
 
   render() {
@@ -349,11 +346,4 @@ const mapStateToProps = (state) => ({
   price: state.ReducerPrice.price
 });
 
-const mapDispatchToProps = {
-  getEthPrice,
-  getDaiPrice
-};
-
-export default withNavigation(
-  connect(mapStateToProps, mapDispatchToProps)(PortfolioHome)
-);
+export default withNavigation(connect(mapStateToProps)(PortfolioHome));

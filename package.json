@@ -14,6 +14,7 @@
   "dependencies": {
     "@react-native-community/cameraroll": "^1.5.2",
     "@react-native-community/netinfo": "^5.3.3",
+    "@react-native-community/slider": "^3.0.0",
     "@tradle/react-native-http": "^2.0.1",
     "assert": "^1.4.1",
     "base-64": "^0.1.0",
