@@ -5,19 +5,19 @@ import {
 } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
-export function saveDaiExchangeReserve(daiExchangeReserve) {
+export function saveUniswapV2WETHxDAIReserve(reserves) {
   return async function (dispatch) {
     try {
-      dispatch(saveDaiExchangeReserveSuccess(daiExchangeReserve));
+      dispatch(saveUniswapV2WETHxDAIReserveSuccess(reserves));
     } catch (err) {
       LogUtilities.logError(err);
     }
   };
 }
 
-const saveDaiExchangeReserveSuccess = (daiExchangeReserve) => ({
-  payload: daiExchangeReserve
+const saveUniswapV2WETHxDAIReserveSuccess = (reserves) => ({
   type: SAVE_UNISWAPV2_WETH_DAI_RESERVE,
+  payload: reserves
 });
 
 export function updateSlippageChosen(key) {
