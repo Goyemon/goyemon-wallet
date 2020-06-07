@@ -32,8 +32,8 @@ const uniswap = (state = INITIAL_STATE, action) => {
         uniswap: {
           ...state.uniswap,
           daiExchange: {
-            weiReserve: action.payload.ETH_balance,
-            daiReserve: action.payload.DAI_balance
+            weiReserve: action.payload.reserve1,
+            daiReserve: action.payload.reserve0
           }
         }
       };
