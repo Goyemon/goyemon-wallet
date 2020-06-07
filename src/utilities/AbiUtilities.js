@@ -111,12 +111,7 @@ class ABIEncoder {
       .get();
   }
 
-  static encodeEthToTokenSwapInput(minTokens, deadline, decimals = 18) {
-    return new RuDataBuilder([0xf3, 0x39, 0xb5, 0x9b], 2, decimals)
-      .putUint256Scaled(minTokens)
-      .putUint256Unscaled(deadline)
-      .get();
-  }
+
 
   static encodeSwapExactETHForTokens(minTokens, path, recipient, deadline, decimals = 18) {
     let fields = 5 + path.length
