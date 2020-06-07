@@ -14,7 +14,7 @@ import {
   savePoolTogetherDaiInfo,
   togglePoolTogetherWinnerRevealed
 } from '../actions/ActionPoolTogether';
-import { saveDaiExchangeReserve } from '../actions/ActionUniswap';
+import { saveUniswapV2WETHxDAIReserve } from '../actions/ActionUniswap';
 import { saveTransactionsLoaded } from '../actions/ActionTransactionsLoaded';
 import {
   saveExistingTransactions,
@@ -150,7 +150,7 @@ async function downstreamMessageHandler(type, data) {
       break;
 
     case 'uniswapV2_WETHxDAI_reserve':
-      store.dispatch(saveDaiExchangeReserve(data));
+      store.dispatch(saveUniswapV2WETHxDAIReserve(data));
       break;
 
     default:
