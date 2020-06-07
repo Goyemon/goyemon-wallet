@@ -1,6 +1,5 @@
 'use strict';
 import BigNumber from 'bignumber.js';
-import Web3 from 'web3';
 import {
   saveCDaiBalance,
   saveDaiBalance,

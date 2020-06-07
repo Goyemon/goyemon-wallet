@@ -79,8 +79,9 @@ class TransactionUtilities {
     );
   }
 
+  // retrieve the number of decimals
   decimalPlaces(number) {
-    var match = ('' + number).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
+    const match = ('' + number).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
     if (!match) {
       return 0;
     }
