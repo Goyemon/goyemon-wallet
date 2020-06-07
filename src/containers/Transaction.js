@@ -305,7 +305,9 @@ class Transaction extends Component {
     const topType = (top, toptok) => {
       if (
         top instanceof
-        TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.eth2tok]
+        TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.eth2tok] ||
+        top instanceof
+        TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.U2swap]
       )
         return {
           type: 'swap',

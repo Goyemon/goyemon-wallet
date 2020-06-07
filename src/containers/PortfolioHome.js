@@ -20,7 +20,7 @@ import Copy from '../containers/common/Copy';
 import FcmPermissions from '../firebase/FcmPermissions.js';
 import I18n from '../i18n/I18n';
 import PortfolioStack from '../navigators/PortfolioStack';
-import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
+import { RoundDownBigNumberPlacesFour } from '../utilities/BigNumberUtilities';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class PortfolioHome extends Component {
@@ -59,22 +59,22 @@ class PortfolioHome extends Component {
     const { balance, navigation, checksumAddress } = this.props;
 
     let ethBalance = Web3.utils.fromWei(balance.wei);
-    ethBalance = RoundDownBigNumber(ethBalance).toFixed(4);
+    ethBalance = RoundDownBigNumberPlacesFour(ethBalance).toFixed(4);
 
-    const daiBalance = RoundDownBigNumber(balance.dai)
-      .div(new RoundDownBigNumber(10).pow(18))
+    const daiBalance = RoundDownBigNumberPlacesFour(balance.dai)
+      .div(new RoundDownBigNumberPlacesFour(10).pow(18))
       .toFixed(2);
 
-    const compoundDaiBalance = RoundDownBigNumber(balance.compoundDai)
-      .div(new RoundDownBigNumber(10).pow(36))
+    const compoundDaiBalance = RoundDownBigNumberPlacesFour(balance.compoundDai)
+      .div(new RoundDownBigNumberPlacesFour(10).pow(36))
       .toString();
 
-    const pooltogetherDaiBalance = RoundDownBigNumber(
+    const pooltogetherDaiBalance = RoundDownBigNumberPlacesFour(
       balance.pooltogetherDai.open
     )
       .plus(balance.pooltogetherDai.committed)
       .plus(balance.pooltogetherDai.sponsored)
-      .div(new RoundDownBigNumber(10).pow(18))
+      .div(new RoundDownBigNumberPlacesFour(10).pow(18))
       .toFixed(2);
 
     const totalBalance =

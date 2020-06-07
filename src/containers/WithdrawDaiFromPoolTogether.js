@@ -23,7 +23,7 @@ import {
 import TxConfirmationModal from '../containers/common/TxConfirmationModal';
 import { AdvancedContainer } from './common/AdvancedContainer';
 import I18n from '../i18n/I18n';
-import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
+import { RoundDownBigNumberPlacesFour } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
@@ -35,12 +35,12 @@ class WithdrawDaiFromPoolTogether extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pooltogetherDaiBalance: RoundDownBigNumber(
+      pooltogetherDaiBalance: RoundDownBigNumberPlacesFour(
         props.balance.pooltogetherDai.open
       )
         .plus(props.balance.pooltogetherDai.committed)
         .plus(props.balance.pooltogetherDai.sponsored)
-        .div(new RoundDownBigNumber(10).pow(18))
+        .div(new RoundDownBigNumberPlacesFour(10).pow(18))
         .toFixed(0),
       daiWithdrawAmount: '',
       daiWithdrawAmountValidation: undefined,
@@ -71,12 +71,12 @@ class WithdrawDaiFromPoolTogether extends Component {
       this.props.balance.pooltogetherDai != prevProps.balance.pooltogetherDai
     ) {
       this.setState({
-        pooltogetherDaiBalance: RoundDownBigNumber(
+        pooltogetherDaiBalance: RoundDownBigNumberPlacesFour(
           this.props.balance.pooltogetherDai.open
         )
           .plus(this.props.balance.pooltogetherDai.committed)
           .plus(this.props.balance.pooltogetherDai.sponsored)
-          .div(new RoundDownBigNumber(10).pow(18))
+          .div(new RoundDownBigNumberPlacesFour(10).pow(18))
           .toFixed(0)
       });
     }

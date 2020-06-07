@@ -6,17 +6,17 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
 import { withNavigation } from 'react-navigation';
 import { RootContainer, HeaderFive, GoyemonText } from '../components/common';
-import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
+import { RoundDownBigNumberPlacesFour } from '../utilities/BigNumberUtilities';
 
 class PortfolioPoolTogetherCommitted extends Component {
   renderChanceOfWinning() {
-    const pooltogetherDaiCommittedBalance = RoundDownBigNumber(
+    const pooltogetherDaiCommittedBalance = RoundDownBigNumberPlacesFour(
       this.props.balance.pooltogetherDai.committed
-    ).div(new RoundDownBigNumber(10).pow(18));
+    ).div(new RoundDownBigNumberPlacesFour(10).pow(18));
 
-    const ticketsSold = RoundDownBigNumber(
+    const ticketsSold = RoundDownBigNumberPlacesFour(
       this.props.poolTogether.dai.committedSupply
-    ).div(new RoundDownBigNumber(10).pow(18));
+    ).div(new RoundDownBigNumberPlacesFour(10).pow(18));
 
     const chanceOfWinning = ticketsSold
       .div(pooltogetherDaiCommittedBalance)
@@ -40,26 +40,26 @@ class PortfolioPoolTogetherCommitted extends Component {
   }
 
   render() {
-    const pooltogetherDaiCommittedBalance = RoundDownBigNumber(
+    const pooltogetherDaiCommittedBalance = RoundDownBigNumberPlacesFour(
       this.props.balance.pooltogetherDai.committed
-    ).div(new RoundDownBigNumber(10).pow(18));
+    ).div(new RoundDownBigNumberPlacesFour(10).pow(18));
 
-    const poolBalance = RoundDownBigNumber(
+    const poolBalance = RoundDownBigNumberPlacesFour(
       this.props.poolTogether.dai.totalBalance
     )
       .minus(this.props.poolTogether.dai.openSupply)
-      .div(new RoundDownBigNumber(10).pow(18))
+      .div(new RoundDownBigNumberPlacesFour(10).pow(18))
       .toFixed(2);
 
-    const estimatedPrize = RoundDownBigNumber(
+    const estimatedPrize = RoundDownBigNumberPlacesFour(
       this.props.poolTogether.dai.estimatedInterestRate
     )
       .times(
-        RoundDownBigNumber(this.props.poolTogether.dai.totalBalance).minus(
+        RoundDownBigNumberPlacesFour(this.props.poolTogether.dai.totalBalance).minus(
           this.props.poolTogether.dai.openSupply
         )
       )
-      .div(new RoundDownBigNumber(10).pow(36))
+      .div(new RoundDownBigNumberPlacesFour(10).pow(36))
       .toFixed(2);
 
     return (

@@ -82,7 +82,7 @@ PODS:
   - GoogleUtilities/UserDefaults (6.6.0):
     - GoogleUtilities/Logger
   - lottie-ios (3.1.8)
-  - lottie-react-native (3.3.2):
+  - lottie-react-native (3.4.0):
     - lottie-ios (~> 3.1.3)
     - React
   - nanopb (0.3.9011):
@@ -90,12 +90,12 @@ PODS:
     - nanopb/encode (= 0.3.9011)
   - nanopb/decode (0.3.9011)
   - nanopb/encode (0.3.9011)
-  - Permission-Camera (2.0.9):
+  - Permission-Camera (2.1.5):
     - RNPermissions
-  - Permission-PhotoLibrary (2.0.9):
+  - Permission-PhotoLibrary (2.1.5):
     - RNPermissions
   - PromisesObjC (1.2.8)
-  - Protobuf (3.11.4)
+  - Protobuf (3.12.0)
   - RCTRequired (0.62.0)
   - RCTTypeSafety (0.62.0):
     - FBLazyVector (= 0.62.0)
@@ -259,17 +259,17 @@ PODS:
     - React-cxxreact (= 0.62.0)
     - React-jsi (= 0.62.0)
   - React-jsinspector (0.62.0)
-  - react-native-camera (3.15.1):
+  - react-native-camera (3.28.0):
     - React
-    - react-native-camera/RCT (= 3.15.1)
-    - react-native-camera/RN (= 3.15.1)
-  - react-native-camera/RCT (3.15.1):
+    - react-native-camera/RCT (= 3.28.0)
+    - react-native-camera/RN (= 3.28.0)
+  - react-native-camera/RCT (3.28.0):
     - React
-  - react-native-camera/RN (3.15.1):
+  - react-native-camera/RN (3.28.0):
     - React
-  - react-native-cameraroll (1.5.2):
+  - react-native-cameraroll (1.7.2):
     - React
-  - react-native-netinfo (5.3.3):
+  - react-native-netinfo (5.9.2):
     - React
   - react-native-randombytes (3.5.3):
     - React
@@ -336,7 +336,7 @@ PODS:
     - React-cxxreact (= 0.62.0)
     - React-jsi (= 0.62.0)
     - ReactCommon/callinvoker (= 0.62.0)
-  - RNCAsyncStorage (1.7.1):
+  - RNCAsyncStorage (1.11.0):
     - React
   - RNFirebase (5.5.7):
     - Firebase/Core
@@ -347,17 +347,17 @@ PODS:
     - Fabric
     - Firebase/Core
     - React
-  - RNGestureHandler (1.5.3):
+  - RNGestureHandler (1.6.1):
     - React
   - RNKeychain (3.1.3):
     - React
-  - RNLocalize (1.3.4):
+  - RNLocalize (1.4.0):
     - React
   - RNOS (1.2.6):
     - React
-  - RNPermissions (2.0.9):
+  - RNPermissions (2.1.5):
     - React
-  - RNReanimated (1.7.0):
+  - RNReanimated (1.9.0):
     - React
   - RNScreens (1.0.0-alpha.23):
     - React
@@ -549,12 +549,12 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: 51d8d9ea48f0ca44484d29cfbdef976fbd4fc336
   GoogleUtilities: 39530bc0ad980530298e9c4af8549e991fd033b1
   lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
-  lottie-react-native: 2a1a82bb326ae51331a5520de0cf706733c6db69
+  lottie-react-native: a664f59f1f298c2696dd0ae07b15cbdfc433cb02
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
-  Permission-Camera: 8fe4753b02396489b11c5089e4f57bab7fe1ef42
-  Permission-PhotoLibrary: 42d41b53adefcfa94f42fb628f143d97136120bd
+  Permission-Camera: 53d46bd722aea28d796e20f05fb3cbe6cde6ccb6
+  Permission-PhotoLibrary: 3400b260e5f80e0dd9c04d00c2ceab233bf88427
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
-  Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
+  Protobuf: 2793fcd0622a00b546c60e7cbbcc493e043e9bb9
   RCTRequired: 0873f5bdb1762d2b9b1ae16a01c4f91d6ee3b6dd
   RCTTypeSafety: a605e0cc0e4220f6e65896bd9e675073c2978f35
   React: 8abf6bdd2b05538e9445f7bbda800df744068bfe
@@ -564,12 +564,12 @@ SPEC CHECKSUMS:
   React-jsi: bc8166d6833cdcb0848c80710b26ce63fad2c099
   React-jsiexecutor: 8bf0b2707f05865113415088c398a7f98c0cf546
   React-jsinspector: 8e5913c4c6c54f0d3f9c9fc630c465a89cded65d
-  react-native-camera: 1ba3e7f2375a6b44ae09ce9be70268e0b225bc10
-  react-native-cameraroll: 81c6c271b5b853da398ccecc7ad6a5f765fd3001
-  react-native-netinfo: 8884d510fe67349940b4399c01db3e3591c922aa
-  react-native-randombytes: 3638d24759d67c68f6ccba60c52a7a8a8faa6a23
-  react-native-view-shot: 4475fde003fe8a210053d1f98fb9e06c1d834e1c
-  react-native-webview: db4682f1698ab4b17a5e88f951031d203ff8aea8
+  react-native-camera: 17d755c4334e77dad0ec6337faaded5274f18464
+  react-native-cameraroll: a16e626822c6a61ed142de9cfae9d516216beb03
+  react-native-netinfo: 9b9929fcfa4aabe92f49a9fb3f25394cc8721e87
+  react-native-randombytes: 991545e6eaaf700b4ee384c291ef3d572e0b2ca8
+  react-native-view-shot: 08c46c9e8e92f6681e8f2ffa55ac3d06e7e99070
+  react-native-webview: 711cef318a554093b09a5b871894011435d87a8d
   React-RCTActionSheet: 674afbc8b9c76e0a83520e0a51da29a70802c03f
   React-RCTAnimation: f5f24330d09ee677fb49e0782f8321868f4df431
   React-RCTBlob: b773ce6138ab0d172ebd8a455fd4efd200a92549
@@ -580,19 +580,19 @@ SPEC CHECKSUMS:
   React-RCTText: 91a0d0ae5434aa28fe0c89c03eb9d660ff53bd9b
   React-RCTVibration: 0630aeb11e22f87c180ca9c0c3a0a0aba780cc62
   ReactCommon: d22162ab8f1358c53dfcd0f9c4d82d38facdbc48
-  RNCAsyncStorage: 44395cb9c7c1523104c2b499eb426ef7aff82bca
+  RNCAsyncStorage: db711e29e5e0500d9bd21aa0c2e397efa45302b1
   RNFirebase: 3c0d26909841ad3c72ca46d85aba333ef49903bc
-  RNGestureHandler: 02905abe54e1f6e59c081a10b4bd689721e17aa6
+  RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
   RNKeychain: c658833a9cb2cbcba6423bdd6e16cce59e27da0e
-  RNLocalize: d8025bb1ac74c0ad54155ea9862538624ebf74d8
+  RNLocalize: fc27ee5878ce5a3af73873fb2d8e866e0d1e6d84
   RNOS: 6f2f9a70895bbbfbdad7196abd952e7b01d45027
-  RNPermissions: 2f74237e97b08beda01e914301e12524ddddf5b8
-  RNReanimated: 031fe8d9ea93c2bd689a40f05320ef9d96f74d7f
+  RNPermissions: 1888705aebcc81714efa5dbff94351e4388ae012
+  RNReanimated: b5ccb50650ba06f6e749c7c329a1bc3ae0c88b43
   RNScreens: f28b48b8345f2f5f39ed6195518291515032a788
   RNSVG: 8ba35cbeb385a52fd960fd28db9d7d18b4c2974f
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   Yoga: 9db9ff2025ad21d1ac0a8b3c85d5ac4e7c29d525
 
-PODFILE CHECKSUM: 6b13f312b089901c5298bdada5e61f212377038e
+PODFILE CHECKSUM: 6a87a8f4bf1c0a87d0ff6fdae1ad16d729301189
 
 COCOAPODS: 1.9.1
