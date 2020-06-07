@@ -70,10 +70,7 @@ class Swap extends Component {
     weiSold = new BigNumber(weiSold);
     const weiSoldWithFee = weiSold.times(997);
     const numerator = weiSoldWithFee.times(tokenReserve);
-    const denominator = weiReserve
-      .minus(weiSold)
-      .times(1000)
-      .plus(weiSoldWithFee);
+    const denominator = weiReserve.times(1000).plus(weiSoldWithFee);
     const tokenBought = numerator.div(denominator);
     return tokenBought;
   }
