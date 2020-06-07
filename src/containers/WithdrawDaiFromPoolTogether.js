@@ -1,5 +1,4 @@
 'use strict';
-import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
@@ -23,7 +22,10 @@ import {
 import TxConfirmationModal from '../containers/common/TxConfirmationModal';
 import { AdvancedContainer } from './common/AdvancedContainer';
 import I18n from '../i18n/I18n';
-import { RoundDownBigNumberPlacesFour } from '../utilities/BigNumberUtilities';
+import {
+  RoundDownBigNumberPlacesFour,
+  RoundDownBigNumberPlacesEighteen
+} from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
@@ -94,10 +96,10 @@ class WithdrawDaiFromPoolTogether extends Component {
       decimals
     );
 
-    const daiWithdrawAmountWithDecimals = new BigNumber(
+    const daiWithdrawAmountWithDecimals = new RoundDownBigNumberPlacesEighteen(
       this.state.daiWithdrawAmount
     )
-      .times(new BigNumber(10).pow(18))
+      .times(new RoundDownBigNumberPlacesEighteen(10).pow(18))
       .toString(16);
 
     const transactionObject = (await TxStorage.storage.newTx())

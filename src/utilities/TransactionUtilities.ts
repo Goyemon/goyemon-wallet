@@ -1,5 +1,4 @@
 'use strict';
-import BigNumber from 'bignumber.js';
 import ethTx from 'ethereumjs-tx';
 import firebase from 'react-native-firebase';
 import uuidv4 from 'uuid/v4';
@@ -7,7 +6,10 @@ import Web3 from 'web3';
 import { addSentTransaction } from '../actions/ActionTransactionHistory';
 import { store } from '../store/store.js';
 import ABIEncoder from '../utilities/AbiUtilities';
-import { RoundDownBigNumberPlacesFour } from '../utilities/BigNumberUtilities';
+import {
+  RoundDownBigNumberPlacesFour,
+  RoundDownBigNumberPlacesEighteen
+} from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import WalletUtilities from './WalletUtilities.ts';
@@ -108,8 +110,8 @@ class TransactionUtilities {
   validateWeiAmountForTransactionFee(gasPriceWei, gasLimit) {
     const stateTree = store.getState();
     const balance = stateTree.ReducerBalance.balance;
-    const weiBalance = new BigNumber(balance.wei);
-    const transactionFeeLimitInWei = new BigNumber(gasPriceWei).times(gasLimit);
+    const weiBalance = new RoundDownBigNumberPlacesEighteen(balance.wei);
+    const transactionFeeLimitInWei = new RoundDownBigNumberPlacesEighteen(gasPriceWei).times(gasLimit);
 
     if (weiBalance.isGreaterThan(transactionFeeLimitInWei)) {
       LogUtilities.logInfo('the wei amount validated!');
@@ -126,9 +128,9 @@ class TransactionUtilities {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
       const gasChosen = stateTree.ReducerGasPrice.gasChosen;
-      const weiBalance = new BigNumber(balance.wei);
-      weiAmount = new BigNumber(weiAmount);
-      const transactionFeeLimitInWei = new BigNumber(
+      const weiBalance = new RoundDownBigNumberPlacesEighteen(balance.wei);
+      weiAmount = new RoundDownBigNumberPlacesEighteen(weiAmount);
+      const transactionFeeLimitInWei = new RoundDownBigNumberPlacesEighteen(
         this.returnTransactionSpeed(gasChosen)
       ).times(gasLimit);
 
@@ -152,8 +154,8 @@ class TransactionUtilities {
     if (isNumber) {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
-      const daiBalance = new BigNumber(balance.dai);
-      daiAmount = new BigNumber(10).pow(18).times(daiAmount);
+      const daiBalance = new RoundDownBigNumberPlacesEighteen(balance.dai);
+      daiAmount = new RoundDownBigNumberPlacesEighteen(10).pow(18).times(daiAmount);
 
       if (
         daiBalance.isGreaterThanOrEqualTo(daiAmount) &&
@@ -174,8 +176,8 @@ class TransactionUtilities {
     if (isInteger) {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
-      const daiBalance = new BigNumber(balance.dai);
-      daiAmount = new BigNumber(10).pow(18).times(daiAmount);
+      const daiBalance = new RoundDownBigNumberPlacesEighteen(balance.dai);
+      daiAmount = new RoundDownBigNumberPlacesEighteen(10).pow(18).times(daiAmount);
 
       if (
         daiBalance.isGreaterThanOrEqualTo(daiAmount) &&
@@ -196,9 +198,9 @@ class TransactionUtilities {
     if (isNumber) {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
-      const compoundDaiBalance = new BigNumber(balance.compoundDai);
+      const compoundDaiBalance = new RoundDownBigNumberPlacesEighteen(balance.compoundDai);
 
-      daiWithdrawAmount = new BigNumber(10).pow(36).times(daiWithdrawAmount);
+      daiWithdrawAmount = new RoundDownBigNumberPlacesEighteen(10).pow(36).times(daiWithdrawAmount);
 
       if (
         compoundDaiBalance.isGreaterThanOrEqualTo(daiWithdrawAmount) &&
@@ -225,7 +227,7 @@ class TransactionUtilities {
         .plus(balance.pooltogetherDai.committed)
         .plus(balance.pooltogetherDai.sponsored);
 
-      daiWithdrawAmount = new BigNumber(10).pow(18).times(daiWithdrawAmount);
+      daiWithdrawAmount = new RoundDownBigNumberPlacesEighteen(10).pow(18).times(daiWithdrawAmount);
 
       if (
         pooltogetherDaiBalance.isGreaterThanOrEqualTo(daiWithdrawAmount) &&
