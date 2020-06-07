@@ -26,7 +26,7 @@ const ButtonContainer = styled.TouchableOpacity`
   margin-bottom: ${(props) => props.marginBottom};
   min-width: 120px;
   opacity: ${(props) => props.opacity};
-  `;
+`;
 
 let ButtonText;
 // if (I18n.locale === 'ja-US') {
@@ -38,14 +38,14 @@ let ButtonText;
 //     text-align: center;
 //   `;
 // } else {
-  
-  ButtonText = styled.Text`
-    color: ${(props) => props.textColor};
-    font-family: 'HKGrotesk-Bold';
-    font-size: 20;
-    padding: 12px 24px;
-    text-align: center;
-  `;
+
+ButtonText = styled.Text`
+  color: ${(props) => props.textColor};
+  font-family: 'HKGrotesk-Bold';
+  font-size: 20;
+  padding: 12px 24px;
+  text-align: center;
+`;
 // }
 
 export { Button };

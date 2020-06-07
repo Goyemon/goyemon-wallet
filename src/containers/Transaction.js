@@ -2,7 +2,6 @@
 import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 // import { connect } from 'react-redux';
-import { View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
 import { GoyemonText, UntouchableCardContainer } from '../components/common';
@@ -306,7 +305,9 @@ class Transaction extends Component {
     const topType = (top, toptok) => {
       if (
         top instanceof
-        TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.eth2tok]
+        TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.eth2tok] ||
+        top instanceof
+        TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.U2swap]
       )
         return {
           type: 'swap',

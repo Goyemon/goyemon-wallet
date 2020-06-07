@@ -74,8 +74,6 @@ class WalletCreation extends Component {
       },
       async () => {
         await this.createWallet();
-        await this.fetchProtocolInfo();
-        await this.fetchPriceInfo();
         await this.isWalletReady();
         this.setState({
           refreshing: false
@@ -85,13 +83,17 @@ class WalletCreation extends Component {
   };
 
   async componentDidMount() {
-    this.props.getGasPrice();
     await this.createWallet();
-    await this.fetchPriceInfo();
-    await this.fetchProtocolInfo();
     setTimeout(async () => {
       await this.isWalletReady();
     }, 8000);
+
+    await this.props.getEthPrice();
+    await this.props.getDaiPrice();
+    this.props.getGasPrice();
+    FCMMsgs.requestCompoundDaiInfo(this.props.checksumAddress);
+    FCMMsgs.requestPoolTogetherDaiInfo(this.props.checksumAddress);
+    FCMMsgs.requestUniswapV2WETHxDAIReserves(this.props.checksumAddress);
   }
 
   async createWallet() {
@@ -104,20 +106,8 @@ class WalletCreation extends Component {
     FCMMsgs.registerEthereumAddress(this.props.checksumAddress);
   }
 
-  async fetchPriceInfo() {
-    await this.props.getEthPrice();
-    await this.props.getDaiPrice();
-  }
-
-  fetchProtocolInfo() {
-    FCMMsgs.requestCompoundDaiInfo(this.props.checksumAddress);
-    FCMMsgs.requestPoolTogetherDaiInfo(this.props.checksumAddress);
-  }
-
   async isWalletReady() {
-    const hasWallet = await this.hasWallet();
-    const hasPriceInfo = this.hasPriceInfo();
-    const isWalletReady = hasWallet && hasPriceInfo;
+    const isWalletReady = await this.hasWallet();
     this.setState({ isWalletReady });
   }
 
@@ -155,20 +145,6 @@ class WalletCreation extends Component {
 
   hasChecksumAddress() {
     return this.props.checksumAddress != null;
-  }
-
-  hasPriceInfo() {
-    return this.hasPrice();
-  }
-
-  hasPrice() {
-    const { price } = this.props;
-    return (
-      price.eth >= 0 &&
-      price.eth.length != 0 &&
-      price.dai >= 0 &&
-      price.dai.length != 0
-    );
   }
 
   navigateToPortfolioHome() {
@@ -316,10 +292,8 @@ const ModalText = styled.Text`
 function mapStateToProps(state) {
   return {
     balance: state.ReducerBalance.balance,
-    compound: state.ReducerCompound.compound,
     mnemonicWords: state.ReducerMnemonic.mnemonicWords,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
-    price: state.ReducerPrice.price,
     transactionsLoaded: state.ReducerTransactionsLoaded.transactionsLoaded
   };
 }

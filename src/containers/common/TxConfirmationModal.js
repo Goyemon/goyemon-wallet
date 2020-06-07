@@ -295,6 +295,7 @@ class TxConfirmationModal extends Component {
             <ConfirmationText>
               {outgoingTransactionData.swap.minBought.toFixed(4)} DAI
               <SlippageText>
+                {' '}
                 *slippage {outgoingTransactionData.swap.slippage} %
               </SlippageText>
             </ConfirmationText>

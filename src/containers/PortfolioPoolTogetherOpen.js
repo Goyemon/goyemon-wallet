@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
 import { withNavigation } from 'react-navigation';
 import {
@@ -12,14 +11,14 @@ import {
   Button
 } from '../components/common';
 import I18n from '../i18n/I18n';
-import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
+import { RoundDownBigNumberPlacesFour } from '../utilities/BigNumberUtilities';
 
 class PortfolioPoolTogetherOpen extends Component {
   render() {
-    const pooltogetherDaiOpenBalance = RoundDownBigNumber(
+    const pooltogetherDaiOpenBalance = RoundDownBigNumberPlacesFour(
       this.props.balance.pooltogetherDai.open
     )
-      .div(new RoundDownBigNumber(10).pow(18))
+      .div(new RoundDownBigNumberPlacesFour(10).pow(18))
       .toFixed(0);
 
     return (

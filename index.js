@@ -24,26 +24,33 @@ AppRegistry.registerHeadlessTask(
 );
 
 async function FCMcheckForUpdates() {
-	const data = await TxStorage.storage.getVerificationData();
-	// LogUtilities.toDebugScreen('verification data:', JSON.stringify(data));
-	FCM.FCMMsgs.checkForUpdates(TxStorage.storage.getOwnAddress(), data.hashes, data.count, data.offset);
+  const data = await TxStorage.storage.getVerificationData();
+  // LogUtilities.toDebugScreen('verification data:', JSON.stringify(data));
+  FCM.FCMMsgs.checkForUpdates(
+    TxStorage.storage.getOwnAddress(),
+    data.hashes,
+    data.count,
+    data.offset
+  );
 }
 
 TxStorage.storage.isStorageReady().then(() => {
-	LogUtilities.toDebugScreen('TxStorage ready.');
+  LogUtilities.toDebugScreen('TxStorage ready.');
 });
 
 FCM.FCMMsgs.setMsgCallback(FcmListener.downstreamMessageHandler); // so now FcmListener is just a callback we attach to FCMMsgs.
 FcmListener.setStoreReadyPromise(
   new Promise((resolve, reject) => {
     persistStore(store, {}, () => {
-	LogUtilities.toDebugScreen('Redux-persist ready.');
+      LogUtilities.toDebugScreen('Redux-persist ready.');
 
       TxStorage.storage.isStorageReady().then(() => {
         store.dispatch(rehydrationComplete(true));
-        TxStorage.storage.setOwnAddress(store.getState().ReducerChecksumAddress.checksumAddress);
-		resolve();
-		setTimeout(() => FCMcheckForUpdates(), 0);
+        TxStorage.storage.setOwnAddress(
+          store.getState().ReducerChecksumAddress.checksumAddress
+        );
+        resolve();
+        setTimeout(() => FCMcheckForUpdates(), 0);
       });
     });
   })

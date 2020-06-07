@@ -27,7 +27,7 @@ import { AdvancedContainer } from '../containers/common/AdvancedContainer';
 import TxConfirmationModal from '../containers/common/TxConfirmationModal';
 import I18n from '../i18n/I18n';
 import SendStack from '../navigators/SendStack';
-import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
+import { RoundDownBigNumberPlacesFour } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
@@ -39,8 +39,8 @@ class SendDai extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      daiBalance: RoundDownBigNumber(props.balance.dai)
-        .div(new RoundDownBigNumber(10).pow(18))
+      daiBalance: RoundDownBigNumberPlacesFour(props.balance.dai)
+        .div(new RoundDownBigNumberPlacesFour(10).pow(18))
         .toFixed(2),
       toAddress: '',
       daiAmount: '',
@@ -76,8 +76,8 @@ class SendDai extends Component {
     }
     if (this.props.balance.dai != prevProps.balance.dai) {
       this.setState({
-        daiBalance: RoundDownBigNumber(this.props.balance.dai)
-          .div(new RoundDownBigNumber(10).pow(18))
+        daiBalance: RoundDownBigNumberPlacesFour(this.props.balance.dai)
+          .div(new RoundDownBigNumberPlacesFour(10).pow(18))
           .toFixed(2)
       });
     }
@@ -194,8 +194,8 @@ class SendDai extends Component {
     const { balance } = this.props;
     const isOnline = this.props.isOnline;
 
-    const daiFullBalance = RoundDownBigNumber(balance.dai)
-      .div(new RoundDownBigNumber(10).pow(18))
+    const daiFullBalance = RoundDownBigNumberPlacesFour(balance.dai)
+      .div(new RoundDownBigNumberPlacesFour(10).pow(18))
       .toString();
 
     return (

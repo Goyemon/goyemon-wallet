@@ -26,6 +26,10 @@ platform :android do
     store_password = prompt(text: "Signing Store Password: ", secure_text: true)
     key_password = prompt(text: "Alias Key Password: ", secure_text: true)
     releaseFilePath = File.join(Dir.pwd, "..", "my-release-key.keystore")
+    android_set_version_code(
+      version_code: 3, 
+      gradle_file: "app/build.gradle"
+    )
     gradle(task: 'clean')
     gradle(
       task: 'assemble',
@@ -41,5 +45,8 @@ platform :android do
     # upload_to_play_store(
     #   track: 'internal'
     # )
+  end
+  desc "Submit a new release Build to Play Store"
+  lane :playstore do
   end
 end

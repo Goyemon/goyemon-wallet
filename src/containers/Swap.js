@@ -1,5 +1,4 @@
 'use strict';
-import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
@@ -24,12 +23,11 @@ import {
   TxNextButton,
   UseMaxButton
 } from '../components/common';
-import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
 import { AdvancedContainer } from '../containers/common/AdvancedContainer';
 import TxConfirmationModal from '../containers/common/TxConfirmationModal';
 import I18n from '../i18n/I18n';
 import ABIEncoder from '../utilities/AbiUtilities';
-import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
+import { RoundDownBigNumberPlacesEighteen } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
@@ -42,14 +40,10 @@ class Swap extends Component {
     this.state = {
       ethBalance: Web3.utils.fromWei(props.balance.wei),
       ethSold: '',
-      tokenBought: new RoundDownBigNumber(0),
+      tokenBought: new RoundDownBigNumberPlacesEighteen(0),
       ethSoldValidation: undefined,
       loading: false
     };
-  }
-
-  componentDidMount() {
-    FcmUpstreamMsgs.requestUniswapETHDAIBalances(this.props.checksumAddress);
   }
 
   componentDidUpdate(prevProps) {
@@ -64,16 +58,13 @@ class Swap extends Component {
   }
 
   getTokenBought(ethSold, weiReserve, tokenReserve) {
-    weiReserve = new BigNumber(weiReserve, 16);
-    tokenReserve = new BigNumber(tokenReserve, 16);
+    weiReserve = new RoundDownBigNumberPlacesEighteen(weiReserve, 16);
+    tokenReserve = new RoundDownBigNumberPlacesEighteen(tokenReserve, 16);
     let weiSold = Web3.utils.toWei(ethSold.toString());
-    weiSold = new BigNumber(weiSold);
+    weiSold = new RoundDownBigNumberPlacesEighteen(weiSold);
     const weiSoldWithFee = weiSold.times(997);
     const numerator = weiSoldWithFee.times(tokenReserve);
-    const denominator = weiReserve
-      .minus(weiSold)
-      .times(1000)
-      .plus(weiSoldWithFee);
+    const denominator = weiReserve.times(1000).plus(weiSoldWithFee);
     const tokenBought = numerator.div(denominator);
     return tokenBought;
   }
@@ -85,7 +76,7 @@ class Swap extends Component {
         ethSold,
         this.props.uniswap.daiExchange.weiReserve,
         this.props.uniswap.daiExchange.daiReserve
-      ).div(new RoundDownBigNumber(10).pow(18));
+      ).div(new RoundDownBigNumberPlacesEighteen(10).pow(18));
       this.setState({ tokenBought });
     } else {
       LogUtilities.logInfo('ethSold is not a number');
@@ -94,9 +85,13 @@ class Swap extends Component {
 
   getMinTokens(tokenBought) {
     const minTokens = tokenBought.times(
-      (100 -
-        this.props.uniswap.slippage[this.props.uniswap.slippageChosen].value) /
-        100
+      new RoundDownBigNumberPlacesEighteen(100)
+        .minus(
+          new RoundDownBigNumberPlacesEighteen(
+            this.props.uniswap.slippage[this.props.uniswap.slippageChosen].value
+          )
+        )
+        .div(100)
     );
     return minTokens;
   }
@@ -109,40 +104,55 @@ class Swap extends Component {
 
   async constructTransactionObject() {
     const weiSold = parseFloat(Web3.utils.toWei(this.state.ethSold));
-
     const minTokens = this.getMinTokens(this.state.tokenBought)
-      .toString()
+      .toString(10)
       .split('.')
       .join('');
-    const decimalPlaces = TransactionUtilities.decimalPlaces(minTokens);
-    const decimals = 18 - parseInt(decimalPlaces);
+    const path = [
+      GlobalConfig.WETHTokenContract,
+      GlobalConfig.DAITokenContract
+    ];
     const deadline = this.getDeadline();
+    const decimalPlaces = TransactionUtilities.decimalPlaces(
+      this.getMinTokens(this.state.tokenBought).toString(10)
+    );
 
-    const ethToTokenSwapInputEncodedABI = ABIEncoder.encodeEthToTokenSwapInput(
+    const decimals = 18 - parseInt(decimalPlaces);
+
+    const swapExactETHForTokensEncodedABI = ABIEncoder.encodeSwapExactETHForTokens(
       minTokens,
+      path,
+      this.props.checksumAddress,
       deadline,
       decimals
     );
 
     const minTokensWithDecimals = this.state.tokenBought
-      .times(new RoundDownBigNumber(10).pow(18))
+      .times(new RoundDownBigNumberPlacesEighteen(10).pow(18))
       .toString(16);
 
     const transactionObject = (await TxStorage.storage.newTx())
-      .setTo(GlobalConfig.DAIUniswapContractV1)
+      .setTo(GlobalConfig.RouterUniswapV2)
       .setValue(weiSold.toString(16))
       .setGasPrice(
         TransactionUtilities.returnTransactionSpeed(
           this.props.gasChosen
         ).toString(16)
       )
-      .setGas(GlobalConfig.UniswapEthToTokenSwapInputGasLimit.toString(16))
-      .tempSetData(ethToTokenSwapInputEncodedABI)
-      .addTokenOperation('uniswap', TxStorage.TxTokenOpTypeToName.eth2tok, [
-        this.props.checksumAddress,
-        weiSold.toString(16),
-        minTokensWithDecimals
-      ]);
+      .setGas(GlobalConfig.UniswapV2SwapExactETHForTokensGasLimit.toString(16))
+      .tempSetData(swapExactETHForTokensEncodedABI)
+      .addTokenOperation(
+        'uniswap2ethdai',
+        TxStorage.TxTokenOpTypeToName.U2swap,
+        [
+          GlobalConfig.RouterUniswapV2,
+          '0',
+          weiSold.toString(16),
+          minTokensWithDecimals,
+          '0',
+          this.props.checksumAddress
+        ]
+      );
     return transactionObject;
   }
 
@@ -160,7 +170,7 @@ class Swap extends Component {
         minBought: this.getMinTokens(this.state.tokenBought),
         slippage: this.props.uniswap.slippage[this.props.uniswap.slippageChosen]
           .value,
-        gasLimit: GlobalConfig.UniswapEthToTokenSwapInputGasLimit,
+        gasLimit: GlobalConfig.UniswapV2SwapExactETHForTokensGasLimit,
         transactionObject: transactionObject
       });
       this.props.saveTxConfirmationModalVisibility(true);
@@ -173,12 +183,16 @@ class Swap extends Component {
   validateAmount(ethSold) {
     const isNumber = /^[0-9]\d*(\.\d+)?$/.test(ethSold);
     if (isNumber) {
-      const weiBalance = new BigNumber(this.props.balance.wei);
-      const weiSold = new BigNumber(Web3.utils.toWei(ethSold));
-      const transactionFeeLimitInWei = new BigNumber(
+      const weiBalance = new RoundDownBigNumberPlacesEighteen(
+        this.props.balance.wei
+      );
+      const weiSold = new RoundDownBigNumberPlacesEighteen(
+        Web3.utils.toWei(ethSold)
+      );
+      const transactionFeeLimitInWei = new RoundDownBigNumberPlacesEighteen(
         TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
-      ).times(GlobalConfig.UniswapEthToTokenSwapInputGasLimit);
-      const tokenReserve = new BigNumber(
+      ).times(GlobalConfig.UniswapV2SwapExactETHForTokensGasLimit);
+      const tokenReserve = new RoundDownBigNumberPlacesEighteen(
         this.props.uniswap.daiExchange.daiReserve,
         16
       );
@@ -245,13 +259,15 @@ class Swap extends Component {
   render() {
     const isOnline = this.props.isOnline;
     let ethBalance = Web3.utils.fromWei(this.props.balance.wei);
-    ethBalance = RoundDownBigNumber(ethBalance).toFixed(4);
+    ethBalance = RoundDownBigNumberPlacesEighteen(ethBalance).toFixed(4);
 
     let weiFullAmount;
-    const weiBalance = new BigNumber(this.props.balance.wei);
-    const networkFeeLimit = new BigNumber(
+    const weiBalance = new RoundDownBigNumberPlacesEighteen(
+      this.props.balance.wei
+    );
+    const networkFeeLimit = new RoundDownBigNumberPlacesEighteen(
       TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
-    ).times(GlobalConfig.UniswapEthToTokenSwapInputGasLimit);
+    ).times(GlobalConfig.UniswapV2SwapExactETHForTokensGasLimit);
 
     if (weiBalance.isLessThanOrEqualTo(networkFeeLimit)) {
       weiFullAmount = '0';
@@ -311,7 +327,7 @@ class Swap extends Component {
                 this.updateEthSoldValidation(
                   TransactionUtilities.validateWeiAmount(
                     weiFullAmount,
-                    GlobalConfig.UniswapEthToTokenSwapInputGasLimit
+                    GlobalConfig.UniswapV2SwapExactETHForTokensGasLimit
                   )
                 );
                 this.updateTokenBought(Web3.utils.fromWei(weiFullAmount));
@@ -375,7 +391,7 @@ class Swap extends Component {
           </Container>
         </UntouchableCardContainer>
         <AdvancedContainer
-          gasLimit={GlobalConfig.UniswapEthToTokenSwapInputGasLimit}
+          gasLimit={GlobalConfig.UniswapV2SwapExactETHForTokensGasLimit}
           swap={true}
         />
         <ButtonWrapper>

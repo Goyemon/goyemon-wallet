@@ -79,7 +79,9 @@ class VerifyMnemonic extends Component {
     if (this.state.mnemonicWordsValidation) {
       return;
     }
-    return <ErrorMessage textAlign="center">invalid mnemonic words!</ErrorMessage>;
+    return (
+      <ErrorMessage textAlign="center">invalid mnemonic words!</ErrorMessage>
+    );
   }
 
   handleTextChange = (text, id) => {

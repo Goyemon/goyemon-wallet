@@ -21,11 +21,10 @@ import {
 import Countdown from './common/Countdown';
 import PopUpModal from './common/PopUpModal';
 import I18n from '../i18n/I18n';
-import { FCMMsgs } from '../lib/fcm.js';
 import PortfolioPoolTogetherOpen from './PortfolioPoolTogetherOpen';
 import PortfolioPoolTogetherCommitted from './PortfolioPoolTogetherCommitted';
 import LogUtilities from '../utilities/LogUtilities.js';
-import { RoundDownBigNumber } from '../utilities/BigNumberUtilities';
+import { RoundDownBigNumberPlacesFour } from '../utilities/BigNumberUtilities';
 
 class PortfolioPoolTogether extends Component {
   constructor(props) {
@@ -36,7 +35,6 @@ class PortfolioPoolTogether extends Component {
   }
 
   componentDidMount() {
-    FCMMsgs.requestPoolTogetherDaiInfo(this.props.checksumAddress);
     if (!this.props.poolTogether.winnerRevealed) {
       this.props.savePopUpModalVisibility(true);
     }
@@ -71,11 +69,11 @@ class PortfolioPoolTogether extends Component {
   }
 
   renderModalContent() {
-    const winningAmount = RoundDownBigNumber(
+    const winningAmount = RoundDownBigNumberPlacesFour(
       this.props.poolTogether.dai.winningAmount,
       16
     )
-      .div(new RoundDownBigNumber(10).pow(18))
+      .div(new RoundDownBigNumberPlacesFour(10).pow(18))
       .toFixed(2);
 
     if (this.props.poolTogether.dai.lastWinner != '') {

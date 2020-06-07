@@ -1,6 +1,5 @@
 'use strict';
 import BigNumber from 'bignumber.js';
-import Web3 from 'web3';
 import {
   saveCDaiBalance,
   saveDaiBalance,
@@ -14,7 +13,7 @@ import {
   savePoolTogetherDaiInfo,
   togglePoolTogetherWinnerRevealed
 } from '../actions/ActionPoolTogether';
-import { saveDaiExchangeReserve } from '../actions/ActionUniswap';
+import { saveUniswapV2WETHxDAIReserve } from '../actions/ActionUniswap';
 import { saveTransactionsLoaded } from '../actions/ActionTransactionsLoaded';
 import {
   saveExistingTransactions,
@@ -27,7 +26,7 @@ import {
   removeExistingTransactionObject,
   updateErrorSentTransaction
 } from '../actions/ActionTransactionHistory';
-import FcmUpstreamMsgs from '../firebase/FcmUpstreamMsgs.ts';
+import { FCMMsgs } from '../lib/fcm.js';
 import LogUtilities from '../utilities/LogUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import { store } from '../store/store';
@@ -86,7 +85,7 @@ async function downstreamMessageHandler(type, data) {
         );
 
       if (data.hasOwnProperty('cdai')) {
-        FcmUpstreamMsgs.requestCompoundDaiInfo(
+        FCMMsgs.requestCompoundDaiInfo(
           stateTree.ReducerChecksumAddress.checksumAddress
         );
         store.dispatch(
@@ -149,8 +148,8 @@ async function downstreamMessageHandler(type, data) {
       }
       break;
 
-    case 'uniswap_ETHDAI_info':
-      store.dispatch(saveDaiExchangeReserve(data));
+    case 'uniswapV2_WETHxDAI_reserve':
+      store.dispatch(saveUniswapV2WETHxDAIReserve(data));
       break;
 
     default:
