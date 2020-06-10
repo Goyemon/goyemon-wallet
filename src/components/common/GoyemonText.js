@@ -3,7 +3,9 @@ import React from 'react';
 import styled from 'styled-components/native';
 
 const GoyemonText = (props) => (
-  <HKGroteskText fontSize={props.fontSize}>{props.children}</HKGroteskText>
+  <HKGroteskText fontSize={props.fontSize} onPress={props.onPress}>
+    {props.children}
+  </HKGroteskText>
 );
 
 const HKGroteskText = styled.Text`

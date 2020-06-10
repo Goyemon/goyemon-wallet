@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { TouchableOpacity, Modal, View } from 'react-native';
+import { TouchableOpacity, Modal, Linking } from 'react-native';
 import styled from 'styled-components';
 import {
   HeaderOne,
@@ -20,6 +20,7 @@ import LogUtilities from '../utilities/LogUtilities';
 import TransactionUtilities from '../utilities/TransactionUtilities';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TxSpeedSelectionContainer } from './common/AdvancedContainer';
+import GlobalConfig from '../config.json';
 
 const propsToStateChecksumAddr = (state) => ({
   checksumAddress: state.ReducerChecksumAddress.checksumAddress
@@ -303,7 +304,17 @@ const TransactionDetail = connect(propsToStateChecksumAddr)(
           <GoyemonText fontSize={12}>{this.props.tx.getState()}</GoyemonText>
 
           <GoyemonText fontSize={12}>Hash</GoyemonText>
-          <GoyemonText fontSize={12}>{this.props.tx.getHash()}</GoyemonText>
+          <GoyemonText
+            fontSize={12}
+            onPress={() => {
+              Linking.openURL(
+                `${GlobalConfig.EtherscanLink}${'0x' + this.props.tx.getHash()}`
+              ).catch((err) => LogUtilities.logError('An error occurred', err));
+            }}
+          >
+            {'0x' + this.props.tx.getHash()}
+            <Icon name="link-variant" size={16} color="#5f5f5f" />
+          </GoyemonText>
 
           <GoyemonText fontSize={12}>From</GoyemonText>
           <GoyemonText fontSize={12}>{this.props.tx.getFrom()}</GoyemonText>
