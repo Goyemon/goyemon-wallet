@@ -21,7 +21,12 @@ $ npm install
 $ npm run postinstall
 
 # pod install
-$ cd ios && pod install
+$ cd ios &&\
+  pod install &&\
+  sudo gem install cocoapods-clean &&\
+  pod deintegrate &&\
+  pod clean &&\
+  pod install
 
 # run the app in iOS
 $ npm run ios
