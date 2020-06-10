@@ -47,6 +47,7 @@ class TransactionList extends Component {
       // ...refreshData
     };
   }
+  
   getItemCount(data) {
     const ret = TxStorage.storage.getTxCount(
       this.props.tokenFilter ? this.props.tokenFilter.toLowerCase() : 'all'

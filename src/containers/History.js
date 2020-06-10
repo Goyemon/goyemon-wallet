@@ -2,7 +2,11 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, Modal, View } from 'react-native';
 import styled from 'styled-components';
-import { HeaderOne, TxConfirmationButton } from '../components/common';
+import {
+  HeaderOne,
+  TxConfirmationButton,
+  GoyemonText
+} from '../components/common';
 import { connect } from 'react-redux';
 
 // TODO: git rm those two:
@@ -21,10 +25,8 @@ const propsToStateChecksumAddr = (state) => ({
   checksumAddress: state.ReducerChecksumAddress.checksumAddress
 });
 
-const DescriptiveNameOfTheTransactionDetailShowingStupidComponentWhichIsBasicallyAView = connect(
-  propsToStateChecksumAddr
-)(
-  class DescriptiveNameOfTheTransactionDetailShowingStupidComponentWhichIsBasicallyAView extends Component {
+const TransactionDetail = connect(propsToStateChecksumAddr)(
+  class TransactionDetail extends Component {
     // separated so we can reuse the same display in other places
     constructor(props) {
       super(props);
@@ -271,22 +273,25 @@ const DescriptiveNameOfTheTransactionDetailShowingStupidComponentWhichIsBasicall
     }
 
     render() {
-      if (!this.state.txData) return <RandomText>nothink!</RandomText>;
+      if (!this.state.txData)
+        return <GoyemonText fontSize={12}>nothink!</GoyemonText>;
 
-      // return <RandomText>{JSON.stringify(this.state.txData, null, 1)}{JSON.stringify(this.props.tx)}</RandomText>;
+      // return <GoyemonText fontSize={12}>{JSON.stringify(this.state.txData, null, 1)}{JSON.stringify(this.props.tx)}</GoyemonText>;
 
       return (
         <>
           {this.state.txData.map((x) => {
             return (
               <>
-                <RandomText>{x.type}</RandomText>
-                {x.direction ? <RandomText>{x.direction}</RandomText> : null}
+                <GoyemonText fontSize={12}>{x.type}</GoyemonText>
+                {x.direction ? (
+                  <GoyemonText fontSize={12}>{x.direction}</GoyemonText>
+                ) : null}
                 {x.amount ? (
-                  <RandomText>
+                  <GoyemonText fontSize={12}>
                     {x.amount}
                     {x.token}
-                  </RandomText>
+                  </GoyemonText>
                 ) : null}
               </>
             );
@@ -294,41 +299,41 @@ const DescriptiveNameOfTheTransactionDetailShowingStupidComponentWhichIsBasicall
             switch (x.type) {
             }
           })}
-          <RandomText>Status</RandomText>
-          <RandomTextValue>{this.props.tx.getState()}</RandomTextValue>
+          <GoyemonText fontSize={12}>Status</GoyemonText>
+          <GoyemonText fontSize={12}>{this.props.tx.getState()}</GoyemonText>
 
-          <RandomText>Hash</RandomText>
-          <RandomTextValue>{this.props.tx.getHash()}</RandomTextValue>
+          <GoyemonText fontSize={12}>Hash</GoyemonText>
+          <GoyemonText fontSize={12}>{this.props.tx.getHash()}</GoyemonText>
 
-          <RandomText>From</RandomText>
-          <RandomTextValue>{this.props.tx.getFrom()}</RandomTextValue>
+          <GoyemonText fontSize={12}>From</GoyemonText>
+          <GoyemonText fontSize={12}>{this.props.tx.getFrom()}</GoyemonText>
 
-          <RandomText>To</RandomText>
-          <RandomTextValue>{this.props.tx.getTo()}</RandomTextValue>
+          <GoyemonText fontSize={12}>To</GoyemonText>
+          <GoyemonText fontSize={12}>{this.props.tx.getTo()}</GoyemonText>
 
-          <RandomText>Value</RandomText>
-          <RandomTextValue>{this.props.tx.getValue()}</RandomTextValue>
+          <GoyemonText fontSize={12}>Value</GoyemonText>
+          <GoyemonText fontSize={12}>{this.props.tx.getValue()}</GoyemonText>
 
-          <RandomText>gasPrice</RandomText>
-          <RandomTextValue>{this.props.tx.getGasPrice()}</RandomTextValue>
+          <GoyemonText fontSize={12}>gasPrice</GoyemonText>
+          <GoyemonText fontSize={12}>{this.props.tx.getGasPrice()}</GoyemonText>
 
-          <RandomText>gas</RandomText>
-          <RandomTextValue>{this.props.tx.getGas()}</RandomTextValue>
+          <GoyemonText fontSize={12}>gas</GoyemonText>
+          <GoyemonText fontSize={12}>{this.props.tx.getGas()}</GoyemonText>
 
-          <RandomText>nonce</RandomText>
-          <RandomTextValue>{this.props.tx.getNonce()}</RandomTextValue>
+          <GoyemonText fontSize={12}>nonce</GoyemonText>
+          <GoyemonText fontSize={12}>{this.props.tx.getNonce()}</GoyemonText>
 
-          <RandomText>
+          <GoyemonText fontSize={12}>
             {JSON.stringify(this.state.txData, null, 1)}
             {JSON.stringify(this.props.tx)}
-          </RandomText>
+          </GoyemonText>
         </>
       );
     }
   }
 ); // connect()
 
-class TaiPleaseChangeNameOfThisModal extends Component {
+class TransactionDetailModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -379,10 +384,8 @@ class TaiPleaseChangeNameOfThisModal extends Component {
                 onPress={this.resendTx.bind(this)}
               />
 
-              <RandomText>TX data:</RandomText>
-              <DescriptiveNameOfTheTransactionDetailShowingStupidComponentWhichIsBasicallyAView
-                tx={this.state.txToUpdate}
-              />
+              <GoyemonText fontSize={12}>TX data:</GoyemonText>
+              <TransactionDetail tx={this.state.txToUpdate} />
             </ModalBackground>
           </ModalContainer>
         </Modal>
@@ -409,18 +412,6 @@ const ModalBackground = styled.View`
 const CloseButton = styled.TouchableOpacity`
   margin-left: 16;
   margin-top: 16;
-`;
-
-const RandomText = styled.Text`
-  color: #aaaaaa;
-  font-size: 18;
-  font-weight: bold;
-`;
-
-const RandomTextValue = styled.Text`
-  color: #aaaaaa;
-  font-size: 18;
-  margin-left: 24;
 `;
 
 export default connect(propsToStateChecksumAddr)(
@@ -463,6 +454,7 @@ export default connect(propsToStateChecksumAddr)(
       this.setState({ editedTx: tx });
       // }
     }
+
     txClear() {
       this.setState({ editedTx: null });
     }
@@ -470,7 +462,7 @@ export default connect(propsToStateChecksumAddr)(
     render() {
       return (
         <HistoryContainer>
-          <TaiPleaseChangeNameOfThisModal
+          <TransactionDetailModal
             txToUpdate={this.state.editedTx}
             onClose={this.txClear.bind(this)}
           />
