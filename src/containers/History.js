@@ -303,19 +303,6 @@ const TransactionDetail = connect(propsToStateChecksumAddr)(
           <GoyemonText fontSize={12}>Status</GoyemonText>
           <GoyemonText fontSize={12}>{this.props.tx.getState()}</GoyemonText>
 
-          <GoyemonText fontSize={12}>Hash</GoyemonText>
-          <GoyemonText
-            fontSize={12}
-            onPress={() => {
-              Linking.openURL(
-                `${GlobalConfig.EtherscanLink}${'0x' + this.props.tx.getHash()}`
-              ).catch((err) => LogUtilities.logError('An error occurred', err));
-            }}
-          >
-            {'0x' + this.props.tx.getHash()}
-            <Icon name="link-variant" size={16} color="#5f5f5f" />
-          </GoyemonText>
-
           <GoyemonText fontSize={12}>From</GoyemonText>
           <GoyemonText fontSize={12}>{this.props.tx.getFrom()}</GoyemonText>
 
@@ -328,15 +315,22 @@ const TransactionDetail = connect(propsToStateChecksumAddr)(
           <GoyemonText fontSize={12}>gasPrice</GoyemonText>
           <GoyemonText fontSize={12}>{this.props.tx.getGasPrice()}</GoyemonText>
 
-          <GoyemonText fontSize={12}>gas</GoyemonText>
-          <GoyemonText fontSize={12}>{this.props.tx.getGas()}</GoyemonText>
-
-          <GoyemonText fontSize={12}>nonce</GoyemonText>
-          <GoyemonText fontSize={12}>{this.props.tx.getNonce()}</GoyemonText>
-
           <GoyemonText fontSize={12}>
             {JSON.stringify(this.state.txData, null, 1)}
             {JSON.stringify(this.props.tx)}
+          </GoyemonText>
+
+          <GoyemonText fontSize={12}>Hash</GoyemonText>
+          <GoyemonText
+            fontSize={12}
+            onPress={() => {
+              Linking.openURL(
+                `${GlobalConfig.EtherscanLink}${'0x' + this.props.tx.getHash()}`
+              ).catch((err) => LogUtilities.logError('An error occurred', err));
+            }}
+          >
+            {'0x' + this.props.tx.getHash()}
+            <Icon name="link-variant" size={16} color="#5f5f5f" />
           </GoyemonText>
         </>
       );
