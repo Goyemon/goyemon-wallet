@@ -5,7 +5,8 @@ import styled from 'styled-components';
 import {
   HeaderOne,
   TxConfirmationButton,
-  GoyemonText
+  GoyemonText,
+  TransactionStatus
 } from '../components/common';
 import { connect } from 'react-redux';
 
@@ -301,7 +302,7 @@ const TransactionDetail = connect(propsToStateChecksumAddr)(
             }
           })}
           <GoyemonText fontSize={12}>Status</GoyemonText>
-          <GoyemonText fontSize={12}>{this.props.tx.getState()}</GoyemonText>
+          <TransactionStatus width="100%" txState={this.props.tx.getState()} />
 
           <GoyemonText fontSize={12}>From</GoyemonText>
           <GoyemonText fontSize={12}>{this.props.tx.getFrom()}</GoyemonText>

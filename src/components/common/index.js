@@ -23,6 +23,7 @@ export * from './RootContainer';
 export * from './SettingsListCard';
 export * from './ToggleCurrencySymbol';
 export * from './TouchableCardContainer';
+export * from './TransactionStatus';
 export * from './TxConfirmationButton';
 export * from './TxNextButton';
 export * from './UntouchableCardContainer';
