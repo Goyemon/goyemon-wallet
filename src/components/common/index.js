@@ -12,6 +12,7 @@ export * from './HeaderOne';
 export * from './HeaderTwo';
 export * from './HeaderThree';
 export * from './HeaderFour';
+export * from './HorizontalLine';
 export * from './InsufficientWeiBalanceMessage';
 export * from './IsOnlineMessage';
 export * from './Loader';

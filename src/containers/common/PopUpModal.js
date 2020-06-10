@@ -2,7 +2,8 @@
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
-import { Alert, Modal } from 'react-native';
+import { Alert } from 'react-native';
+import Modal from 'react-native-modal';
 import styled from 'styled-components/native';
 import { RootContainer } from '../../components/common';
 
@@ -11,12 +12,9 @@ class PopUpModal extends Component {
     return (
       <RootContainer>
         <Modal
-          animationType="fade"
-          transparent
-          visible={this.props.modal.popUpModalVisibility}
-          onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
-          }}
+          animationIn="fadeIn"
+          animationOut="fadeOut"
+          isVisible={this.props.modal.popUpModalVisibility}
         >
           <ModalContainer>
             <ModalBackground height={this.props.height}>
@@ -33,7 +31,6 @@ class PopUpModal extends Component {
 }
 
 const ModalContainer = styled.View`
-  background-color: rgba(0, 0, 0, 0.5);
   flex-direction: row;
   justify-content: center;
   height: 100%;

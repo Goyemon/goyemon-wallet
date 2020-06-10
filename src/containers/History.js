@@ -1,12 +1,14 @@
 'use strict';
 import React, { Component } from 'react';
-import { TouchableOpacity, Modal, Linking } from 'react-native';
+import { TouchableOpacity, Linking } from 'react-native';
+import Modal from 'react-native-modal';
 import styled from 'styled-components';
 import {
   HeaderOne,
   TxConfirmationButton,
   GoyemonText,
-  TransactionStatus
+  TransactionStatus,
+  HorizontalLine
 } from '../components/common';
 import { connect } from 'react-redux';
 
@@ -369,16 +371,16 @@ class TransactionDetailModal extends Component {
   render() {
     if (this.state.txToUpdate != null)
       return (
-        <Modal animationType="slide" transparent visible={true}>
+        <Modal
+          animationIn="slideInUp"
+          animationOut="slideOutDown"
+          isVisible={true}
+          swipeDirection="down"
+          onSwipeComplete={() => this.props.onClose()}
+        >
           <ModalContainer>
             <ModalBackground>
-              <CloseButton
-                onPress={() => {
-                  this.props.onClose();
-                }}
-              >
-                <Icon name="chevron-down" color="#5F5F5F" size={24} />
-              </CloseButton>
+              <HorizontalLine />
 
               <TxSpeedSelectionContainer
                 gasLimit={parseInt(this.state.txToUpdate.getGas(), 16)}
@@ -405,19 +407,13 @@ const ModalContainer = styled.View`
   align-items: flex-end;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   flex-direction: row;
-  justify-content: center;
   height: 100%;
 `;
 
 const ModalBackground = styled.View`
   background-color: #fff;
   border-radius: 16px;
-  min-height: 200px;
-  width: 98%;
-`;
-const CloseButton = styled.TouchableOpacity`
-  margin-left: 16;
-  margin-top: 16;
+  width: 100%;
 `;
 
 export default connect(propsToStateChecksumAddr)(
