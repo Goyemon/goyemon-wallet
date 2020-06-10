@@ -392,8 +392,13 @@ class TaiPleaseChangeNameOfThisModal extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.txToUpdate !== prevProps.txToUpdate)
-			this.setState({ txToUpdate: this.props.txToUpdate, newGasPrice: this.props.txToUpdate != null ? parseInt(this.props.txToUpdate.getGasPrice(), 16) : null });
+    if (this.props.txToUpdate !== prevProps.txToUpdate) {
+		const newState = { txToUpdate: this.props.txToUpdate };
+		if (this.props.txToUpdate != null)
+			newState.newGasPrice =  parseInt(this.props.txToUpdate.getGasPrice(), 16);
+
+		this.setState(newState);
+	}
   }
 
   async resendTx() {
@@ -414,7 +419,7 @@ class TaiPleaseChangeNameOfThisModal extends Component {
 
   render() {
     if (this.state.txToUpdate != null)
-      return
+      return (
         <Modal animationType="slide" transparent visible={true}>
           <ModalContainer>
             <ModalBackground>
@@ -440,7 +445,8 @@ class TaiPleaseChangeNameOfThisModal extends Component {
               />
             </ModalBackground>
           </ModalContainer>
-        </Modal>;
+		</Modal>
+	  );
 
     return null;
   }
