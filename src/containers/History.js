@@ -23,7 +23,6 @@ import TxStorage from '../lib/tx.js';
 import LogUtilities from '../utilities/LogUtilities';
 import TransactionUtilities from '../utilities/TransactionUtilities';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { TxSpeedSelectionContainer } from './common/AdvancedContainer';
 import GlobalConfig from '../config.json';
 import Slider from '@react-native-community/slider';
 
@@ -371,7 +370,7 @@ const MagicalGasPriceSlider = connect(propsToStategasPrice)(
 
 		render() {
 			//<Slider value={2} minimumValue={0} maximumValue={8} onValueChange={this.sliderValueChange.bind(this)} />;
-			//<RandomText>{JSON.stringify(this.props.gasPrice)} -- {JSON.stringify(this.props.currentGas)}</RandomText>;
+			//<GoyemonText fontSize={12}>{JSON.stringify(this.props.gasPrice)} -- {JSON.stringify(this.props.currentGas)}</GoyemonText>;
 			return <>
 					<Slider
 						value={this.props.currentGasPrice}
@@ -385,8 +384,8 @@ const MagicalGasPriceSlider = connect(propsToStategasPrice)(
 						justifyContent="center"
 						marginTop={24}
 						width="90%">
-						<RandomText key="eth" style={{ color: '#1ba548' }}>{this.state.ethValue}</RandomText><RandomText key="ethlab"> ETH </RandomText>
-						<RandomText key="usd" style={{ color: '#1ba548' }}>{this.state.usdValue}</RandomText><RandomText key="usdlab"> USD</RandomText>
+						<GoyemonText fontSize={12} key="eth" style={{ color: '#1ba548' }}>{this.state.ethValue}</GoyemonText><GoyemonText fontSize={12} key="ethlab"> ETH </GoyemonText>
+						<GoyemonText fontSize={12} key="usd" style={{ color: '#1ba548' }}>{this.state.usdValue}</GoyemonText><GoyemonText fontSize={12} key="usdlab"> USD</GoyemonText>
 					</Container>
 				</>;
 
