@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, Modal, View } from 'react-native';
 import styled from 'styled-components';
-import { HeaderOne, TxConfirmationButton } from '../components/common';
+import { HeaderOne, TxConfirmationButton, Container } from '../components/common';
 import { connect } from 'react-redux';
 
 // TODO: git rm those two:
@@ -15,11 +15,13 @@ import TxStorage from '../lib/tx.js';
 import LogUtilities from '../utilities/LogUtilities';
 import TransactionUtilities from '../utilities/TransactionUtilities';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { TxSpeedSelectionContainer } from './common/AdvancedContainer';
+import Slider from '@react-native-community/slider';
 
 const propsToStateChecksumAddr = (state) => ({
   checksumAddress: state.ReducerChecksumAddress.checksumAddress
 });
+
+(() => {})('it', 'is', 'hilarious', 'how', 'terribly', 'formatted', 'this', 'will', 'become', 'even', 'though', 'it', 'does', 'literally', 'nothing', 'but', 'it', 'will', 'still', 'take', 'half', 'if', 'not', 'more', 'of', 'your', 'screen', 'lol', '.');
 
 const DescriptiveNameOfTheTransactionDetailShowingStupidComponentWhichIsBasicallyAView = connect(
   propsToStateChecksumAddr
@@ -328,31 +330,91 @@ const DescriptiveNameOfTheTransactionDetailShowingStupidComponentWhichIsBasicall
   }
 ); // connect()
 
+
+const propsToStategasPrice = (state) => ({
+	gasPrice: state.ReducerGasPrice.gasPrice
+});
+
+const MagicalGasPriceSlider = connect(propsToStategasPrice)(
+	class MagicalGasPriceSlider extends Component {
+		constructor(props) {
+			super(props);
+			this.state = this.getPriceState(this.props.currentGasPrice);
+			props.gasPrice.forEach(x => {
+				if (x.speed == 'super fast')
+					this.state.maxPrice = Math.ceil(x.value * 1.20);
+			});
+		}
+
+		getPriceState(price) {
+			return {
+				usdValue: TransactionUtilities.getTransactionFeeEstimateInUsd(price, this.props.gasAmount),
+				ethValue: TransactionUtilities.getTransactionFeeEstimateInEther(price, this.props.gasAmount)
+			};
+		}
+
+		sliderValueChange(v) {
+			this.setState(this.getPriceState(v));
+		}
+
+		render() {
+			//<Slider value={2} minimumValue={0} maximumValue={8} onValueChange={this.sliderValueChange.bind(this)} />;
+			//<RandomText>{JSON.stringify(this.props.gasPrice)} -- {JSON.stringify(this.props.currentGas)}</RandomText>;
+			return <>
+					<Slider
+						value={this.props.currentGasPrice}
+						minimumValue={this.props.currentGasPrice}
+						maximumValue={this.state.maxPrice}
+						onValueChange={this.sliderValueChange.bind(this)}
+						onSlidingComplete={this.props.onSettle} />
+					<Container
+						alignItems="center"
+						flexDirection="row"
+						justifyContent="center"
+						marginTop={24}
+						width="90%">
+						<RandomText key="eth" style={{ color: '#1ba548' }}>{this.state.ethValue}</RandomText><RandomText key="ethlab"> ETH </RandomText>
+						<RandomText key="usd" style={{ color: '#1ba548' }}>{this.state.usdValue}</RandomText><RandomText key="usdlab"> USD</RandomText>
+					</Container>
+				</>;
+
+		}
+	}
+);
+
 class TaiPleaseChangeNameOfThisModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      txToUpdate: null
+	  txToUpdate: null,
+	  newGasPrice: null
     };
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.txToUpdate !== prevProps.txToUpdate)
-      this.setState({ txToUpdate: this.props.txToUpdate });
+    if (this.props.txToUpdate !== prevProps.txToUpdate) {
+		const newState = { txToUpdate: this.props.txToUpdate };
+		if (this.props.txToUpdate != null)
+			newState.newGasPrice =  parseInt(this.props.txToUpdate.getGasPrice(), 16);
+
+		this.setState(newState);
+	}
   }
 
   async resendTx() {
     // update gas
     const newTx = this.state.txToUpdate.deepClone();
-    newTx.setGasPrice(
-      TransactionUtilities.returnTransactionSpeed(2).toString(16)
-    );
+    newTx.setGasPrice(this.state.newGasPrice.toString(16));
 
-    await TxStorage.storage.updateTx(newTx); // temporarily no if
-    await TransactionUtilities.sendTransactionToServer(newTx);
+	if (await TxStorage.storage.updateTx(newTx))
+    	await TransactionUtilities.sendTransactionToServer(newTx);
+  }
 
-    // if (await TxStorage.storage.updateTx(newTx))
-    // 	await TransactionUtilities.sendTransactionToServer(newTx);
+  priceSliderSettled(value) {
+	LogUtilities.dumpObject('priceSliderSettled() value', value);
+	this.setState({
+		newGasPrice: value
+	})
   }
 
   render() {
@@ -368,16 +430,14 @@ class TaiPleaseChangeNameOfThisModal extends Component {
               >
                 <Icon name="chevron-down" color="#5F5F5F" size={24} />
               </CloseButton>
-
-              <TxSpeedSelectionContainer
-                gasLimit={parseInt(this.state.txToUpdate.getGas(), 16)}
-                expandByDefault={true}
-              />
-
-              <TxConfirmationButton
-                text={'Resend (needs i18n)'}
-                onPress={this.resendTx.bind(this)}
-              />
+			  {true || this.state.txToUpdate.getState() < TxStorage.TxStates.STATE_INCLUDED ? // true or added to always show it for now
+			  <>
+			  	<MagicalGasPriceSlider currentGasPrice={parseInt(this.state.txToUpdate.getGasPrice(), 16)} gasAmount={parseInt(this.state.txToUpdate.getGas(), 16)} onSettle={this.priceSliderSettled.bind(this)} />
+				<TxConfirmationButton
+					text={'Resend (needs i18n)'}
+					onPress={this.resendTx.bind(this)}
+				/>
+			  </> : null}
 
               <RandomText>TX data:</RandomText>
               <DescriptiveNameOfTheTransactionDetailShowingStupidComponentWhichIsBasicallyAView
@@ -385,8 +445,8 @@ class TaiPleaseChangeNameOfThisModal extends Component {
               />
             </ModalBackground>
           </ModalContainer>
-        </Modal>
-      );
+		</Modal>
+	  );
 
     return null;
   }
@@ -457,11 +517,7 @@ export default connect(propsToStateChecksumAddr)(
 
     txTapped(tx) {
       LogUtilities.dumpObject('tx', tx);
-      // if (tx.getState() < TxStorage.TxStates.STATE_INCLUDED) {
-      // this.props.saveTxConfirmationModalVisibility(true);
-      //   this.props.updateTxConfirmationModalVisibleType('i like pancakes');
       this.setState({ editedTx: tx });
-      // }
     }
     txClear() {
       this.setState({ editedTx: null });
