@@ -343,73 +343,97 @@ const TransactionDetail = connect(propsToStateChecksumAddr)(
 ); // connect()
 
 const propsToStategasPrice = (state) => ({
-	gasPrice: state.ReducerGasPrice.gasPrice
+  gasPrice: state.ReducerGasPrice.gasPrice
 });
 
 const MagicalGasPriceSlider = connect(propsToStategasPrice)(
-	class MagicalGasPriceSlider extends Component {
-		constructor(props) {
-			super(props);
-			this.state = this.getPriceState(this.props.currentGasPrice);
-			props.gasPrice.forEach(x => {
-				if (x.speed == 'super fast')
-					this.state.maxPrice = Math.ceil(x.value * 1.20);
-			});
-		}
+  class MagicalGasPriceSlider extends Component {
+    constructor(props) {
+      super(props);
+      this.state = this.getPriceState(this.props.currentGasPrice);
+      props.gasPrice.forEach((x) => {
+        if (x.speed == 'super fast')
+          this.state.maxPrice = Math.ceil(x.value * 1.2);
+      });
+    }
 
-		getPriceState(price) {
-			return {
-				usdValue: TransactionUtilities.getTransactionFeeEstimateInUsd(price, this.props.gasAmount),
-				ethValue: TransactionUtilities.getTransactionFeeEstimateInEther(price, this.props.gasAmount)
-			};
-		}
+    getPriceState(price) {
+      return {
+        usdValue: TransactionUtilities.getTransactionFeeEstimateInUsd(
+          price,
+          this.props.gasAmount
+        ),
+        ethValue: TransactionUtilities.getTransactionFeeEstimateInEther(
+          price,
+          this.props.gasAmount
+        )
+      };
+    }
 
-		sliderValueChange(v) {
-			this.setState(this.getPriceState(v));
-		}
+    sliderValueChange(v) {
+      this.setState(this.getPriceState(v));
+    }
 
-		render() {
-			//<Slider value={2} minimumValue={0} maximumValue={8} onValueChange={this.sliderValueChange.bind(this)} />;
-			//<GoyemonText fontSize={12}>{JSON.stringify(this.props.gasPrice)} -- {JSON.stringify(this.props.currentGas)}</GoyemonText>;
-			return <>
-					<Slider
-						value={this.props.currentGasPrice}
-						minimumValue={this.props.currentGasPrice}
-						maximumValue={this.state.maxPrice}
-						onValueChange={this.sliderValueChange.bind(this)}
-						onSlidingComplete={this.props.onSettle} />
-					<Container
-						alignItems="center"
-						flexDirection="row"
-						justifyContent="center"
-						marginTop={24}
-						width="90%">
-						<GoyemonText fontSize={12} key="eth" style={{ color: '#1ba548' }}>{this.state.ethValue}</GoyemonText><GoyemonText fontSize={12} key="ethlab"> ETH </GoyemonText>
-						<GoyemonText fontSize={12} key="usd" style={{ color: '#1ba548' }}>{this.state.usdValue}</GoyemonText><GoyemonText fontSize={12} key="usdlab"> USD</GoyemonText>
-					</Container>
-				</>;
-
-		}
-	}
+    render() {
+      //<Slider value={2} minimumValue={0} maximumValue={8} onValueChange={this.sliderValueChange.bind(this)} />;
+      //<GoyemonText fontSize={12}>{JSON.stringify(this.props.gasPrice)} -- {JSON.stringify(this.props.currentGas)}</GoyemonText>;
+      return (
+        <>
+          <Slider
+            value={this.props.currentGasPrice}
+            minimumValue={this.props.currentGasPrice}
+            maximumValue={this.state.maxPrice}
+            onValueChange={this.sliderValueChange.bind(this)}
+            onSlidingComplete={this.props.onSettle}
+          />
+          <Container
+            alignItems="center"
+            flexDirection="row"
+            justifyContent="center"
+            marginTop={24}
+            width="90%"
+          >
+            <GoyemonText fontSize={12} key="eth" style={{ color: '#1ba548' }}>
+              {this.state.ethValue}
+            </GoyemonText>
+            <GoyemonText fontSize={12} key="ethlab">
+              {' '}
+              ETH{' '}
+            </GoyemonText>
+            <GoyemonText fontSize={12} key="usd" style={{ color: '#1ba548' }}>
+              {this.state.usdValue}
+            </GoyemonText>
+            <GoyemonText fontSize={12} key="usdlab">
+              {' '}
+              USD
+            </GoyemonText>
+          </Container>
+        </>
+      );
+    }
+  }
 );
 
 class TransactionDetailModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-	  txToUpdate: null,
-	  newGasPrice: null
+      txToUpdate: null,
+      newGasPrice: null
     };
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.txToUpdate !== prevProps.txToUpdate) {
-		const newState = { txToUpdate: this.props.txToUpdate };
-		if (this.props.txToUpdate != null)
-			newState.newGasPrice =  parseInt(this.props.txToUpdate.getGasPrice(), 16);
+      const newState = { txToUpdate: this.props.txToUpdate };
+      if (this.props.txToUpdate != null)
+        newState.newGasPrice = parseInt(
+          this.props.txToUpdate.getGasPrice(),
+          16
+        );
 
-		this.setState(newState);
-	}
+      this.setState(newState);
+    }
   }
 
   async resendTx() {
@@ -417,15 +441,15 @@ class TransactionDetailModal extends Component {
     const newTx = this.state.txToUpdate.deepClone();
     newTx.setGasPrice(this.state.newGasPrice.toString(16));
 
-	if (await TxStorage.storage.updateTx(newTx))
-    	await TransactionUtilities.sendTransactionToServer(newTx);
+    if (await TxStorage.storage.updateTx(newTx))
+      await TransactionUtilities.sendTransactionToServer(newTx);
   }
 
   priceSliderSettled(value) {
-	LogUtilities.dumpObject('priceSliderSettled() value', value);
-	this.setState({
-		newGasPrice: value
-	})
+    LogUtilities.dumpObject('priceSliderSettled() value', value);
+    this.setState({
+      newGasPrice: value
+    });
   }
 
   render() {
@@ -441,21 +465,31 @@ class TransactionDetailModal extends Component {
           <ModalContainer>
             <ModalBackground>
               <HorizontalLine />
-			  {true || this.state.txToUpdate.getState() < TxStorage.TxStates.STATE_INCLUDED ? // true or added to always show it for now
-			  <>
-			  	<MagicalGasPriceSlider currentGasPrice={parseInt(this.state.txToUpdate.getGasPrice(), 16)} gasAmount={parseInt(this.state.txToUpdate.getGas(), 16)} onSettle={this.priceSliderSettled.bind(this)} />
-				<TxConfirmationButton
-					text={'Resend (needs i18n)'}
-					onPress={this.resendTx.bind(this)}
-				/>
-			  </> : null}
+              {true ||
+              this.state.txToUpdate.getState() <
+                TxStorage.TxStates.STATE_INCLUDED ? ( // true or added to always show it for now
+                <>
+                  <MagicalGasPriceSlider
+                    currentGasPrice={parseInt(
+                      this.state.txToUpdate.getGasPrice(),
+                      16
+                    )}
+                    gasAmount={parseInt(this.state.txToUpdate.getGas(), 16)}
+                    onSettle={this.priceSliderSettled.bind(this)}
+                  />
+                  <TxConfirmationButton
+                    text={'Resend (needs i18n)'}
+                    onPress={this.resendTx.bind(this)}
+                  />
+                </>
+              ) : null}
 
               <GoyemonText fontSize={12}>TX data:</GoyemonText>
               <TransactionDetail tx={this.state.txToUpdate} />
             </ModalBackground>
           </ModalContainer>
-		</Modal>
-	  );
+        </Modal>
+      );
 
     return null;
   }
