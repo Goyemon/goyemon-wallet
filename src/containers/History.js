@@ -1,8 +1,16 @@
 'use strict';
 import React, { Component } from 'react';
-import { TouchableOpacity, Modal, View } from 'react-native';
+import { TouchableOpacity, Linking } from 'react-native';
+import Modal from 'react-native-modal';
 import styled from 'styled-components';
-import { HeaderOne, TxConfirmationButton, Container } from '../components/common';
+import {
+  HeaderOne,
+  TxConfirmationButton,
+  Container,
+  GoyemonText,
+  TransactionStatus,
+  HorizontalLine
+} from '../components/common';
 import { connect } from 'react-redux';
 
 // TODO: git rm those two:
@@ -15,18 +23,16 @@ import TxStorage from '../lib/tx.js';
 import LogUtilities from '../utilities/LogUtilities';
 import TransactionUtilities from '../utilities/TransactionUtilities';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { TxSpeedSelectionContainer } from './common/AdvancedContainer';
+import GlobalConfig from '../config.json';
 import Slider from '@react-native-community/slider';
 
 const propsToStateChecksumAddr = (state) => ({
   checksumAddress: state.ReducerChecksumAddress.checksumAddress
 });
 
-(() => {})('it', 'is', 'hilarious', 'how', 'terribly', 'formatted', 'this', 'will', 'become', 'even', 'though', 'it', 'does', 'literally', 'nothing', 'but', 'it', 'will', 'still', 'take', 'half', 'if', 'not', 'more', 'of', 'your', 'screen', 'lol', '.');
-
-const DescriptiveNameOfTheTransactionDetailShowingStupidComponentWhichIsBasicallyAView = connect(
-  propsToStateChecksumAddr
-)(
-  class DescriptiveNameOfTheTransactionDetailShowingStupidComponentWhichIsBasicallyAView extends Component {
+const TransactionDetail = connect(propsToStateChecksumAddr)(
+  class TransactionDetail extends Component {
     // separated so we can reuse the same display in other places
     constructor(props) {
       super(props);
@@ -273,22 +279,25 @@ const DescriptiveNameOfTheTransactionDetailShowingStupidComponentWhichIsBasicall
     }
 
     render() {
-      if (!this.state.txData) return <RandomText>nothink!</RandomText>;
+      if (!this.state.txData)
+        return <GoyemonText fontSize={12}>nothink!</GoyemonText>;
 
-      // return <RandomText>{JSON.stringify(this.state.txData, null, 1)}{JSON.stringify(this.props.tx)}</RandomText>;
+      // return <GoyemonText fontSize={12}>{JSON.stringify(this.state.txData, null, 1)}{JSON.stringify(this.props.tx)}</GoyemonText>;
 
       return (
         <>
           {this.state.txData.map((x) => {
             return (
               <>
-                <RandomText>{x.type}</RandomText>
-                {x.direction ? <RandomText>{x.direction}</RandomText> : null}
+                <GoyemonText fontSize={12}>{x.type}</GoyemonText>
+                {x.direction ? (
+                  <GoyemonText fontSize={12}>{x.direction}</GoyemonText>
+                ) : null}
                 {x.amount ? (
-                  <RandomText>
+                  <GoyemonText fontSize={12}>
                     {x.amount}
                     {x.token}
-                  </RandomText>
+                  </GoyemonText>
                 ) : null}
               </>
             );
@@ -296,40 +305,43 @@ const DescriptiveNameOfTheTransactionDetailShowingStupidComponentWhichIsBasicall
             switch (x.type) {
             }
           })}
-          <RandomText>Status</RandomText>
-          <RandomTextValue>{this.props.tx.getState()}</RandomTextValue>
+          <GoyemonText fontSize={12}>Status</GoyemonText>
+          <TransactionStatus width="100%" txState={this.props.tx.getState()} />
 
-          <RandomText>Hash</RandomText>
-          <RandomTextValue>{this.props.tx.getHash()}</RandomTextValue>
+          <GoyemonText fontSize={12}>From</GoyemonText>
+          <GoyemonText fontSize={12}>{this.props.tx.getFrom()}</GoyemonText>
 
-          <RandomText>From</RandomText>
-          <RandomTextValue>{this.props.tx.getFrom()}</RandomTextValue>
+          <GoyemonText fontSize={12}>To</GoyemonText>
+          <GoyemonText fontSize={12}>{this.props.tx.getTo()}</GoyemonText>
 
-          <RandomText>To</RandomText>
-          <RandomTextValue>{this.props.tx.getTo()}</RandomTextValue>
+          <GoyemonText fontSize={12}>Value</GoyemonText>
+          <GoyemonText fontSize={12}>{this.props.tx.getValue()}</GoyemonText>
 
-          <RandomText>Value</RandomText>
-          <RandomTextValue>{this.props.tx.getValue()}</RandomTextValue>
+          <GoyemonText fontSize={12}>gasPrice</GoyemonText>
+          <GoyemonText fontSize={12}>{this.props.tx.getGasPrice()}</GoyemonText>
 
-          <RandomText>gasPrice</RandomText>
-          <RandomTextValue>{this.props.tx.getGasPrice()}</RandomTextValue>
-
-          <RandomText>gas</RandomText>
-          <RandomTextValue>{this.props.tx.getGas()}</RandomTextValue>
-
-          <RandomText>nonce</RandomText>
-          <RandomTextValue>{this.props.tx.getNonce()}</RandomTextValue>
-
-          <RandomText>
+          <GoyemonText fontSize={12}>
             {JSON.stringify(this.state.txData, null, 1)}
             {JSON.stringify(this.props.tx)}
-          </RandomText>
+          </GoyemonText>
+
+          <GoyemonText fontSize={12}>Hash</GoyemonText>
+          <GoyemonText
+            fontSize={12}
+            onPress={() => {
+              Linking.openURL(
+                `${GlobalConfig.EtherscanLink}${'0x' + this.props.tx.getHash()}`
+              ).catch((err) => LogUtilities.logError('An error occurred', err));
+            }}
+          >
+            {'0x' + this.props.tx.getHash()}
+            <Icon name="link-variant" size={16} color="#5f5f5f" />
+          </GoyemonText>
         </>
       );
     }
   }
 ); // connect()
-
 
 const propsToStategasPrice = (state) => ({
 	gasPrice: state.ReducerGasPrice.gasPrice
@@ -382,7 +394,7 @@ const MagicalGasPriceSlider = connect(propsToStategasPrice)(
 	}
 );
 
-class TaiPleaseChangeNameOfThisModal extends Component {
+class TransactionDetailModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -420,16 +432,16 @@ class TaiPleaseChangeNameOfThisModal extends Component {
   render() {
     if (this.state.txToUpdate != null)
       return (
-        <Modal animationType="slide" transparent visible={true}>
+        <Modal
+          animationIn="slideInUp"
+          animationOut="slideOutDown"
+          isVisible={true}
+          swipeDirection="down"
+          onSwipeComplete={() => this.props.onClose()}
+        >
           <ModalContainer>
             <ModalBackground>
-              <CloseButton
-                onPress={() => {
-                  this.props.onClose();
-                }}
-              >
-                <Icon name="chevron-down" color="#5F5F5F" size={24} />
-              </CloseButton>
+              <HorizontalLine />
 			  {true || this.state.txToUpdate.getState() < TxStorage.TxStates.STATE_INCLUDED ? // true or added to always show it for now
 			  <>
 			  	<MagicalGasPriceSlider currentGasPrice={parseInt(this.state.txToUpdate.getGasPrice(), 16)} gasAmount={parseInt(this.state.txToUpdate.getGas(), 16)} onSettle={this.priceSliderSettled.bind(this)} />
@@ -439,10 +451,8 @@ class TaiPleaseChangeNameOfThisModal extends Component {
 				/>
 			  </> : null}
 
-              <RandomText>TX data:</RandomText>
-              <DescriptiveNameOfTheTransactionDetailShowingStupidComponentWhichIsBasicallyAView
-                tx={this.state.txToUpdate}
-              />
+              <GoyemonText fontSize={12}>TX data:</GoyemonText>
+              <TransactionDetail tx={this.state.txToUpdate} />
             </ModalBackground>
           </ModalContainer>
 		</Modal>
@@ -456,31 +466,13 @@ const ModalContainer = styled.View`
   align-items: flex-end;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   flex-direction: row;
-  justify-content: center;
   height: 100%;
 `;
 
 const ModalBackground = styled.View`
   background-color: #fff;
   border-radius: 16px;
-  min-height: 200px;
-  width: 98%;
-`;
-const CloseButton = styled.TouchableOpacity`
-  margin-left: 16;
-  margin-top: 16;
-`;
-
-const RandomText = styled.Text`
-  color: #aaaaaa;
-  font-size: 18;
-  font-weight: bold;
-`;
-
-const RandomTextValue = styled.Text`
-  color: #aaaaaa;
-  font-size: 18;
-  margin-left: 24;
+  width: 100%;
 `;
 
 export default connect(propsToStateChecksumAddr)(
@@ -519,6 +511,7 @@ export default connect(propsToStateChecksumAddr)(
       LogUtilities.dumpObject('tx', tx);
       this.setState({ editedTx: tx });
     }
+
     txClear() {
       this.setState({ editedTx: null });
     }
@@ -526,7 +519,7 @@ export default connect(propsToStateChecksumAddr)(
     render() {
       return (
         <HistoryContainer>
-          <TaiPleaseChangeNameOfThisModal
+          <TransactionDetailModal
             txToUpdate={this.state.editedTx}
             onClose={this.txClear.bind(this)}
           />

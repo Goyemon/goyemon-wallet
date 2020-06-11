@@ -273,6 +273,8 @@ PODS:
     - React
   - react-native-randombytes (3.5.3):
     - React
+  - react-native-slider (2.0.7):
+    - React
   - react-native-view-shot (3.1.2):
     - React
   - react-native-webview (7.6.0):
@@ -395,6 +397,7 @@ DEPENDENCIES:
   - "react-native-cameraroll (from `../node_modules/@react-native-community/cameraroll`)"
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-randombytes (from `../node_modules/react-native-randombytes`)
+  - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
   - react-native-view-shot (from `../node_modules/react-native-view-shot`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -482,6 +485,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-randombytes:
     :path: "../node_modules/react-native-randombytes"
+  react-native-slider:
+    :path: "../node_modules/@react-native-community/slider"
   react-native-view-shot:
     :path: "../node_modules/react-native-view-shot"
   react-native-webview:
@@ -568,6 +573,7 @@ SPEC CHECKSUMS:
   react-native-cameraroll: a16e626822c6a61ed142de9cfae9d516216beb03
   react-native-netinfo: 9b9929fcfa4aabe92f49a9fb3f25394cc8721e87
   react-native-randombytes: 991545e6eaaf700b4ee384c291ef3d572e0b2ca8
+  react-native-slider: e36b7de75b35323ee802dae723be8ebbab4c4a3d
   react-native-view-shot: 08c46c9e8e92f6681e8f2ffa55ac3d06e7e99070
   react-native-webview: 711cef318a554093b09a5b871894011435d87a8d
   React-RCTActionSheet: 674afbc8b9c76e0a83520e0a51da29a70802c03f
