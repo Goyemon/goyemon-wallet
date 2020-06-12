@@ -340,6 +340,10 @@ class TxConfirmationModal extends Component {
         animationOut="slideOutDown"
         isVisible={this.props.modal.txConfirmationModalVisibility}
         swipeDirection="down"
+        onBackdropPress={() => {
+          this.props.saveTxConfirmationModalVisibility(false);
+          this.props.updateTxConfirmationModalVisibleType(null);
+        }}
         onSwipeComplete={() => {
           this.props.saveTxConfirmationModalVisibility(false);
           this.props.updateTxConfirmationModalVisibleType(null);

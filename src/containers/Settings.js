@@ -89,6 +89,12 @@ class Settings extends Component {
         <HeaderOne marginTop="112">{I18n.t('settings-header')}</HeaderOne>
         <PopUpModal
           height="50%"
+          onBackdropPress={() => {
+            this.props.savePopUpModalVisibility(false);
+            this.setState({
+              deleteTextValidation: false
+            });
+          }}
           onPress={() => {
             this.props.savePopUpModalVisibility(false);
             this.setState({

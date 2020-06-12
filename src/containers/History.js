@@ -460,6 +460,7 @@ class TransactionDetailModal extends Component {
           animationOut="slideOutDown"
           isVisible={true}
           swipeDirection="down"
+          onBackdropPress={() => this.props.onClose()}
           onSwipeComplete={() => this.props.onClose()}
         >
           <ModalContainer>
