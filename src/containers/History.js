@@ -481,9 +481,8 @@ class TransactionDetailModal extends Component {
           <ModalContainer>
             <ModalBackground>
               <HorizontalLine />
-              {true ||
-              this.state.txToUpdate.getState() <
-                TxStorage.TxStates.STATE_INCLUDED ? ( // true or added to always show it for now
+              {this.state.txToUpdate.getState() <
+              TxStorage.TxStates.STATE_INCLUDED ? (
                 <>
                   <MagicalGasPriceSlider
                     currentGasPrice={parseInt(
