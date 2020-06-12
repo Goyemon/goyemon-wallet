@@ -7,7 +7,7 @@ export * from './Description';
 export * from './ErrorMessage';
 export * from './Form';
 export * from './FormHeader';
-export * from './Header';
+export * from './Headers';
 export * from './ModalHandler';
 export * from './InsufficientWeiBalanceMessage';
 export * from './IsOnlineMessage';
