@@ -84,7 +84,6 @@ class PortfolioPoolTogether extends Component {
       ) {
         return (
           <PopUpModal
-            height="40%"
             onBackdropPress={() => {
               this.props.savePopUpModalVisibility(false);
               this.props.togglePoolTogetherWinnerRevealed(true);
@@ -143,7 +142,6 @@ class PortfolioPoolTogether extends Component {
       } else {
         return (
           <PopUpModal
-            height="25%"
             onBackdropPress={() => {
               this.props.savePopUpModalVisibility(false);
               this.props.togglePoolTogetherWinnerRevealed(true);
@@ -153,14 +151,14 @@ class PortfolioPoolTogether extends Component {
               this.props.togglePoolTogetherWinnerRevealed(true);
             }}
           >
-            <HeaderFour marginTop={8}>the last winner was...</HeaderFour>
             <AnimationContainer animation="fadeIn" delay={1000}>
+              <HeaderFour marginTop={8}>the last winner was...</HeaderFour>
               <GoyemonText fontSize={12}>
                 {`0x${this.props.poolTogether.dai.lastWinner}`}
               </GoyemonText>
             </AnimationContainer>
             <AnimationContainer animation="fadeIn" delay={2500}>
-              <Description marginBottom="8" marginLeft="8" marginTop="16">
+              <Description marginBottom="24" marginLeft="8" marginTop="16">
                 your deposit is still in the committed round for the next prize!
               </Description>
             </AnimationContainer>
@@ -224,12 +222,15 @@ const AnimationContainer = Animatable.createAnimatableComponent(styled.View`
   align-items: center;
   flex-direction: column;
   margin: 0 auto;
+  padding-left: 16px;
+  padding-right: 16px;
 `);
 
 const ButtonContainer = styled.View`
   flex-direction: row;
   justify-content: center;
   margin-top: 16;
+  margin-bottom: 16;
 `;
 
 const FilterContainer = styled.View`
