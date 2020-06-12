@@ -363,10 +363,12 @@ const MagicalGasPriceSlider = connect(propsToStategasPrice)(
           price,
           this.props.gasAmount
         ),
-        ethValue: TransactionUtilities.getTransactionFeeEstimateInEther(
-          price,
-          this.props.gasAmount
-        )
+        ethValue: parseFloat(
+          TransactionUtilities.getTransactionFeeEstimateInEther(
+            price,
+            this.props.gasAmount
+          )
+        ).toFixed(5)
       };
     }
 
