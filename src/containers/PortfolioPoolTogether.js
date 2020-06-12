@@ -84,10 +84,6 @@ class PortfolioPoolTogether extends Component {
       ) {
         return (
           <PopUpModal
-            onBackdropPress={() => {
-              this.props.savePopUpModalVisibility(false);
-              this.props.togglePoolTogetherWinnerRevealed(true);
-            }}
             onPress={() => {
               this.props.savePopUpModalVisibility(false);
               this.props.togglePoolTogetherWinnerRevealed(true);
@@ -142,10 +138,6 @@ class PortfolioPoolTogether extends Component {
       } else {
         return (
           <PopUpModal
-            onBackdropPress={() => {
-              this.props.savePopUpModalVisibility(false);
-              this.props.togglePoolTogetherWinnerRevealed(true);
-            }}
             onPress={() => {
               this.props.savePopUpModalVisibility(false);
               this.props.togglePoolTogetherWinnerRevealed(true);
