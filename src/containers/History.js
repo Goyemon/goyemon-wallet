@@ -285,28 +285,42 @@ const TransactionDetail = connect(propsToStateChecksumAddr)(
 
       return (
         <>
-          {this.state.txData.map((x) => {
-            return (
-              <>
-                <GoyemonText fontSize={12}>{x.type}</GoyemonText>
-                {x.direction ? (
-                  <GoyemonText fontSize={12}>{x.direction}</GoyemonText>
-                ) : null}
-                {x.amount ? (
-                  <GoyemonText fontSize={12}>
-                    {x.amount}
-                    {x.token}
-                  </GoyemonText>
-                ) : null}
-              </>
-            );
+          <Container
+            alignItems="center"
+            flexDirection="row"
+            justifyContent="center"
+            marginTop={0}
+            width="100%"
+          >
+            {this.state.txData.map((x) => {
+              return (
+                <>
+                  <GoyemonText fontSize={12}>{x.type}</GoyemonText>
+                  {x.direction ? (
+                    <GoyemonText fontSize={12}>{x.direction}</GoyemonText>
+                  ) : null}
+                  {x.amount ? (
+                    <GoyemonText fontSize={12}>
+                      {x.amount}
+                      {x.token}
+                    </GoyemonText>
+                  ) : null}
+                </>
+              );
 
-            switch (x.type) {
-            }
-          })}
-          <GoyemonText fontSize={12}>Status</GoyemonText>
-          <TransactionStatus width="100%" txState={this.props.tx.getState()} />
-
+              switch (x.type) {
+              }
+            })}
+            <GoyemonText fontSize={12}>
+              {TransactionUtilities.parseTransactionTime(
+                this.props.tx.getTimestamp()
+              )}
+            </GoyemonText>
+            <TransactionStatus
+              width="100%"
+              txState={this.props.tx.getState()}
+            />
+          </Container>
           <GoyemonText fontSize={12}>From</GoyemonText>
           <GoyemonText fontSize={12}>{this.props.tx.getFrom()}</GoyemonText>
 
