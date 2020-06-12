@@ -10,7 +10,7 @@ import {
   Button,
   GoyemonText,
   TransactionStatus,
-  HorizontalLine
+  ModalHandler
 } from '../components/common';
 import { connect } from 'react-redux';
 
@@ -480,7 +480,7 @@ class TransactionDetailModal extends Component {
         >
           <ModalContainer>
             <ModalBackground>
-              <HorizontalLine />
+              <ModalHandler />
               {this.state.txToUpdate.getState() <
               TxStorage.TxStates.STATE_INCLUDED ? (
                 <>

@@ -2,7 +2,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 
-const HorizontalLine = (props) => (
+const ModalHandler = (props) => (
   <LineContainer>
       <Line />
   </LineContainer>
@@ -21,4 +21,4 @@ const Line = styled.View`
   width: 20%;
 `;
 
-export { HorizontalLine };
+export { ModalHandler };

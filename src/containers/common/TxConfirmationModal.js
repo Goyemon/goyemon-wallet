@@ -22,7 +22,7 @@ import {
   Loader,
   HeaderTwo,
   TxConfirmationButton,
-  HorizontalLine
+  ModalHandler
 } from '../../components/common';
 import NetworkFeeContainerConfirmation from './NetworkFeeContainerConfirmation';
 import I18n from '../../i18n/I18n';
@@ -352,7 +352,7 @@ class TxConfirmationModal extends Component {
       >
         <ModalContainer>
           <ModalBackground>
-            <HorizontalLine />
+            <ModalHandler />
             <HeaderContainer>
               <HeaderTwo marginBottom="0" marginLeft="0" marginTop="16">
                 Confirm Transaction
