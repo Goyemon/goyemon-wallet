@@ -476,38 +476,42 @@ class TransactionDetailModal extends Component {
           swipeDirection="down"
           onBackdropPress={() => this.props.onClose()}
           onSwipeComplete={() => this.props.onClose()}
-          style={{ marginLeft: 4, marginRight: 4, marginBottom: 0 }}
+          style={{
+            marginLeft: 4,
+            marginRight: 4,
+            marginBottom: 0,
+            flexDirection: 'row',
+            alignItems: 'flex-end'
+          }}
         >
           <ModalContainer>
-            <ModalBackground>
-              <ModalHandler />
-              {this.state.txToUpdate.getState() <
-              TxStorage.TxStates.STATE_INCLUDED ? (
-                <>
-                  <MagicalGasPriceSlider
-                    currentGasPrice={parseInt(
-                      this.state.txToUpdate.getGasPrice(),
-                      16
-                    )}
-                    gasAmount={parseInt(this.state.txToUpdate.getGas(), 16)}
-                    onSettle={this.priceSliderSettled.bind(this)}
-                  />
-                  <Button
-                    text="Speed Up Transaction"
-                    textColor="#00A3E2"
-                    backgroundColor="#FFF"
-                    borderColor="#00A3E2"
-                    margin="16px auto"
-                    marginBottom="12px"
-                    opacity="1"
-                    onPress={() => {
-                      this.resendTx.bind(this);
-                    }}
-                  />
-                </>
-              ) : null}
               <TransactionDetail tx={this.state.txToUpdate} />
-            </ModalBackground>
+            <ModalHandler />
+            {this.state.txToUpdate.getState() <
+            TxStorage.TxStates.STATE_INCLUDED ? (
+              <>
+                <MagicalGasPriceSlider
+                  currentGasPrice={parseInt(
+                    this.state.txToUpdate.getGasPrice(),
+                    16
+                  )}
+                  gasAmount={parseInt(this.state.txToUpdate.getGas(), 16)}
+                  onSettle={this.priceSliderSettled.bind(this)}
+                />
+                <Button
+                  text="Speed Up Transaction"
+                  textColor="#00A3E2"
+                  backgroundColor="#FFF"
+                  borderColor="#00A3E2"
+                  margin="16px auto"
+                  marginBottom="40px"
+                  opacity="1"
+                  onPress={() => {
+                    this.resendTx.bind(this);
+                  }}
+                />
+              </>
+            ) : null}
           </ModalContainer>
         </Modal>
       );
@@ -517,13 +521,6 @@ class TransactionDetailModal extends Component {
 }
 
 const ModalContainer = styled.View`
-  align-items: flex-end;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  flex-direction: row;
-  height: 100%;
-`;
-
-const ModalBackground = styled.View`
   background-color: #fff;
   border-radius: 16px;
   width: 100%;

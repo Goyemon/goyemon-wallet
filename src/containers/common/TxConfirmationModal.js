@@ -348,18 +348,22 @@ class TxConfirmationModal extends Component {
           this.props.saveTxConfirmationModalVisibility(false);
           this.props.updateTxConfirmationModalVisibleType(null);
         }}
-        style={{ marginLeft: 4, marginRight: 4, marginBottom: 0 }}
+        style={{
+          marginLeft: 4,
+          marginRight: 4,
+          marginBottom: 0,
+          flexDirection: 'row',
+          alignItems: 'flex-end'
+        }}
       >
         <ModalContainer>
-          <ModalBackground>
-            <ModalHandler />
-            <HeaderContainer>
-              <HeaderTwo marginBottom="0" marginLeft="0" marginTop="16">
-                Confirm Transaction
-              </HeaderTwo>
-            </HeaderContainer>
-            <ModalInner>{this.renderModalContent()}</ModalInner>
-          </ModalBackground>
+          <ModalHandler />
+          <HeaderContainer>
+            <HeaderTwo marginBottom="0" marginLeft="0" marginTop="16">
+              Confirm Transaction
+            </HeaderTwo>
+          </HeaderContainer>
+          <ModalInner>{this.renderModalContent()}</ModalInner>
         </ModalContainer>
       </Modal>
     );
@@ -371,13 +375,6 @@ const ConfirmationContainer = styled.View`
 `;
 
 const ModalContainer = styled.View`
-  align-items: flex-end;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  flex-direction: row;
-  height: 100%;
-`;
-
-const ModalBackground = styled.View`
   background-color: #fff;
   border-radius: 16px;
   width: 100%;
