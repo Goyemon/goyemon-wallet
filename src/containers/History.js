@@ -4,9 +4,10 @@ import { TouchableOpacity, Linking } from 'react-native';
 import Modal from 'react-native-modal';
 import styled from 'styled-components';
 import {
-  HeaderOne,
-  TxConfirmationButton,
   Container,
+  HeaderOne,
+  HeaderTwo,
+  Button,
   GoyemonText,
   TransactionStatus,
   HorizontalLine
@@ -32,7 +33,6 @@ const propsToStateChecksumAddr = (state) => ({
 
 const TransactionDetail = connect(propsToStateChecksumAddr)(
   class TransactionDetail extends Component {
-    // separated so we can reuse the same display in other places
     constructor(props) {
       super(props);
       this.state = {
@@ -375,44 +375,42 @@ const MagicalGasPriceSlider = connect(propsToStategasPrice)(
     }
 
     render() {
-      //<Slider value={2} minimumValue={0} maximumValue={8} onValueChange={this.sliderValueChange.bind(this)} />;
       //<GoyemonText fontSize={12}>{JSON.stringify(this.props.gasPrice)} -- {JSON.stringify(this.props.currentGas)}</GoyemonText>;
       return (
         <>
+          <HeaderTwo marginBottom="0" marginLeft="0" marginTop="24">
+            Choose a new network fee
+          </HeaderTwo>
+          <GoyemonText fontSize={12}>
+            *you can speed up your transaction by adding more fees
+          </GoyemonText>
           <Slider
             value={this.props.currentGasPrice}
             minimumValue={this.props.currentGasPrice}
             maximumValue={this.state.maxPrice}
             onValueChange={this.sliderValueChange.bind(this)}
             onSlidingComplete={this.props.onSettle}
+            minimumTrackTintColor="#00A3E2"
+            style={{
+              width: '90%',
+              marginLeft: 'auto',
+              marginRight: 'auto'
+            }}
           />
-          <Container
-            alignItems="center"
-            flexDirection="row"
-            justifyContent="center"
-            marginTop={24}
-            width="90%"
-          >
-            <GoyemonText fontSize={12} key="eth" style={{ color: '#1ba548' }}>
-              {this.state.ethValue}
-            </GoyemonText>
-            <GoyemonText fontSize={12} key="ethlab">
-              {' '}
-              ETH{' '}
-            </GoyemonText>
-            <GoyemonText fontSize={12} key="usd" style={{ color: '#1ba548' }}>
-              {this.state.usdValue}
-            </GoyemonText>
-            <GoyemonText fontSize={12} key="usdlab">
-              {' '}
-              USD
-            </GoyemonText>
-          </Container>
+          <NetworkFeeContainer>
+            <GoyemonText fontSize={16}>{this.state.ethValue} ETH</GoyemonText>
+            <GoyemonText fontSize={16}>{this.state.usdValue} USD</GoyemonText>
+          </NetworkFeeContainer>
         </>
       );
     }
   }
 );
+
+const NetworkFeeContainer = styled.View`
+  align-items: center;
+  margin-bottom: 16;
+`;
 
 class TransactionDetailModal extends Component {
   constructor(props) {
@@ -479,14 +477,20 @@ class TransactionDetailModal extends Component {
                     gasAmount={parseInt(this.state.txToUpdate.getGas(), 16)}
                     onSettle={this.priceSliderSettled.bind(this)}
                   />
-                  <TxConfirmationButton
-                    text={'Resend (needs i18n)'}
-                    onPress={this.resendTx.bind(this)}
+                  <Button
+                    text="Speed Up Transaction"
+                    textColor="#00A3E2"
+                    backgroundColor="#FFF"
+                    borderColor="#00A3E2"
+                    margin="16px auto"
+                    marginBottom="12px"
+                    opacity="1"
+                    onPress={() => {
+                      this.resendTx.bind(this);
+                    }}
                   />
                 </>
               ) : null}
-
-              <GoyemonText fontSize={12}>TX data:</GoyemonText>
               <TransactionDetail tx={this.state.txToUpdate} />
             </ModalBackground>
           </ModalContainer>
