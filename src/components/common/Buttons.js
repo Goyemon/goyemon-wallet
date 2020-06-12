@@ -49,7 +49,10 @@ ButtonText = styled.Text`
 // }
 
 const TxConfirmationButton = (props) => (
-  <TxConfirmationButtonContainer disabled={props.disabled} onPress={props.onPress}>
+  <TxConfirmationButtonContainer
+    disabled={props.disabled}
+    onPress={props.onPress}
+  >
     <TxConfirmationButtonText>{props.text}</TxConfirmationButtonText>
   </TxConfirmationButtonContainer>
 );
@@ -64,11 +67,11 @@ const TxConfirmationButtonContainer = styled.TouchableOpacity`
 `;
 
 const TxConfirmationButtonText = styled.Text`
-	color: #fff;
-	font-family: 'HKGrotesk-Bold';
-	font-size: ${I18n.locale == 'ja-US' ? 18 : 20};
-	padding: ${I18n.locale == 'ja-US' ? '14px 24px 8px 24px' : '12px 24px'};
-	text-align: center;
+  color: #fff;
+  font-family: 'HKGrotesk-Bold';
+  font-size: ${I18n.locale == 'ja-US' ? 18 : 20};
+  padding: ${I18n.locale == 'ja-US' ? '14px 24px 8px 24px' : '12px 24px'};
+  text-align: center;
 `;
 
 const TxNextButton = (props) => (
@@ -102,18 +105,20 @@ let TxNextButtonText;
 //     text-align: center;
 //   `;
 // } else {
-  TxNextButtonText = styled.Text`
-    color: #00a3e2;
-    font-family: 'HKGrotesk-Bold';
-    font-size: 20;
-    padding: 12px 24px;
-    text-align: center;
-  `;
+TxNextButtonText = styled.Text`
+  color: #00a3e2;
+  font-family: 'HKGrotesk-Bold';
+  font-size: 20;
+  padding: 12px 24px;
+  text-align: center;
+`;
 // }
 
 const UseMaxButton = (props) => (
   <UseMaxButtonContainer onPress={props.onPress}>
-    <UseMaxButtonText textColor={props.textColor}>{props.text}</UseMaxButtonText>
+    <UseMaxButtonText textColor={props.textColor}>
+      {props.text}
+    </UseMaxButtonText>
   </UseMaxButtonContainer>
 );
 

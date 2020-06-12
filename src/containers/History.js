@@ -397,9 +397,11 @@ const MagicalGasPriceSlider = connect(propsToStategasPrice)(
           <HeaderTwo marginBottom="0" marginLeft="0" marginTop="24">
             Choose a new network fee
           </HeaderTwo>
-          <GoyemonText fontSize={12}>
-            *you can speed up your transaction by adding more fees
-          </GoyemonText>
+          <Explanation>
+            <GoyemonText fontSize={12}>
+              *you can speed up your transaction by adding more fees
+            </GoyemonText>
+          </Explanation>
           <Slider
             value={this.props.currentGasPrice}
             minimumValue={this.props.currentGasPrice}
@@ -410,12 +412,14 @@ const MagicalGasPriceSlider = connect(propsToStategasPrice)(
             style={{
               width: '90%',
               marginLeft: 'auto',
-              marginRight: 'auto'
+              marginRight: 'auto',
+              marginTop: 32,
+              marginBottom: 16
             }}
           />
           <NetworkFeeContainer>
-            <GoyemonText fontSize={16}>{this.state.ethValue} ETH</GoyemonText>
-            <GoyemonText fontSize={16}>{this.state.usdValue} USD</GoyemonText>
+            <GoyemonText fontSize={20}>{this.state.ethValue} ETH</GoyemonText>
+            <GoyemonText fontSize={20}>{this.state.usdValue} USD</GoyemonText>
           </NetworkFeeContainer>
         </>
       );
@@ -426,6 +430,10 @@ const MagicalGasPriceSlider = connect(propsToStategasPrice)(
 const NetworkFeeContainer = styled.View`
   align-items: center;
   margin-bottom: 16;
+`;
+
+const Explanation = styled.View`
+  align-items: center;
 `;
 
 class TransactionDetailModal extends Component {

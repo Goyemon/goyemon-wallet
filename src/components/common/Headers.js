@@ -68,7 +68,6 @@ const HeaderFourText = styled.Text`
   text-transform: uppercase;
 `;
 
-
 const HeaderFive = (props) => (
   <Header width={props.width}>
     <HeaderText>{props.children}</HeaderText>

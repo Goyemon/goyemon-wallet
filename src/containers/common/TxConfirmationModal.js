@@ -1,7 +1,5 @@
 'use strict';
 import React, { Component } from 'react';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { connect } from 'react-redux';
 import {
   NavigationActions,
