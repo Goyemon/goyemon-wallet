@@ -1,6 +1,5 @@
 'use strict';
 export * from './Button';
-export * from './HeaderFive';
 export * from './ConfirmationText';
 export * from './Container';
 export * from './GoyemonText';
@@ -8,10 +7,7 @@ export * from './Description';
 export * from './ErrorMessage';
 export * from './Form';
 export * from './FormHeader';
-export * from './HeaderOne';
-export * from './HeaderTwo';
-export * from './HeaderThree';
-export * from './HeaderFour';
+export * from './Header';
 export * from './ModalHandler';
 export * from './InsufficientWeiBalanceMessage';
 export * from './IsOnlineMessage';
