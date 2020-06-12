@@ -57,7 +57,11 @@ class Transaction extends Component {
         marginTop="0"
         textAlign="left"
         width="90%"
-        onPress={() => this.props.onTxTapped(tx)}
+        onPress={() =>
+          tx.getState() < TxStorage.TxStates.STATE_INCLUDED
+            ? this.props.onTxTapped(tx)
+            : null
+        }
       >
         <TransactionList>
           <InOrOutTransactionContainer>
