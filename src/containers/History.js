@@ -462,6 +462,7 @@ class TransactionDetailModal extends Component {
           swipeDirection="down"
           onBackdropPress={() => this.props.onClose()}
           onSwipeComplete={() => this.props.onClose()}
+          style={{ marginLeft: 4, marginRight: 4, marginBottom: 0 }}
         >
           <ModalContainer>
             <ModalBackground>

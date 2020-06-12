@@ -348,6 +348,7 @@ class TxConfirmationModal extends Component {
           this.props.saveTxConfirmationModalVisibility(false);
           this.props.updateTxConfirmationModalVisibleType(null);
         }}
+        style={{ marginLeft: 4, marginRight: 4, marginBottom: 0 }}
       >
         <ModalContainer>
           <ModalBackground>
