@@ -9,6 +9,7 @@ import {
   HeaderTwo,
   Button,
   GoyemonText,
+  IsOnlineMessage,
   TransactionStatus,
   ModalHandler
 } from '../components/common';
@@ -32,6 +33,9 @@ const propsToStateChecksumAddr = (state) => ({
 });
 
 const TransactionDetail = connect(propsToStateChecksumAddr)(
+const propsToStateIsOnline = (state) => ({
+  isOnline: state.ReducerNetInfo.isOnline
+});
   class TransactionDetail extends Component {
     constructor(props) {
       super(props);
@@ -436,7 +440,8 @@ const Explanation = styled.View`
   align-items: center;
 `;
 
-class TransactionDetailModal extends Component {
+const TransactionDetailModal = connect(propsToStateIsOnline)(
+  class TransactionDetailModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -515,9 +520,12 @@ class TransactionDetailModal extends Component {
                   marginBottom="40px"
                   opacity="1"
                   onPress={() => {
-                    this.resendTx.bind(this);
+                    if (this.props.isOnline) {
+                      this.resendTx.bind(this);
+                    }
                   }}
                 />
+                <IsOnlineMessage isOnline={this.props.isOnline} />
               </>
             ) : null}
           </ModalContainer>
