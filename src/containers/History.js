@@ -13,7 +13,8 @@ import {
   GoyemonText,
   IsOnlineMessage,
   TransactionStatus,
-  ModalHandler
+  ModalHandler,
+  Loader
 } from '../components/common';
 import { connect } from 'react-redux';
 
@@ -457,7 +458,9 @@ const TransactionDetailModal = connect(
       this.state = {
         txToUpdate: null,
         newGasPrice: null,
-        txResent: false
+        txResent: false,
+        loading: false,
+        buttonDisabled: false
       };
     }
 
@@ -548,11 +551,16 @@ const TransactionDetailModal = connect(
                     margin="16px auto"
                     marginBottom="8px"
                     opacity="1"
-                    disabled={false}
+                    disabled={this.state.buttonDisabled}
                     onPress={async () => {
                       if (this.props.isOnline) {
+                        this.setState({ loading: true, buttonDisabled: true });
                         await this.resendTx();
                         this.zoomIn();
+                        this.setState({
+                          loading: false,
+                          buttonDisabled: false
+                        });
                       }
                     }}
                   />
@@ -571,6 +579,7 @@ const TransactionDetailModal = connect(
                       ) : null}
                     </CopyAnimation>
                   </AnimationContainer>
+                  <Loader animating={this.state.loading} size="small" />
                   <IsOnlineMessage isOnline={this.props.isOnline} />
                 </>
               ) : null}
