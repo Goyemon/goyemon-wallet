@@ -534,6 +534,7 @@ const TransactionDetailModal = connect(propsToStateIsOnline)(
                   onPress={() => {
                     if (this.props.isOnline) {
                       this.resendTx.bind(this);
+                      this.props.saveTxDetailModalVisibility(false);
                     }
                   }}
                 />
