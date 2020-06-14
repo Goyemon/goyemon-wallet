@@ -4,6 +4,9 @@ import { TouchableOpacity, Linking } from 'react-native';
 import Modal from 'react-native-modal';
 import styled from 'styled-components';
 import {
+  saveTxDetailModalVisibility
+} from '../actions/ActionModal';
+import {
   Container,
   HeaderOne,
   HeaderTwo,
@@ -36,6 +39,9 @@ const TransactionDetail = connect(propsToStateChecksumAddr)(
 const propsToStateIsOnline = (state) => ({
   isOnline: state.ReducerNetInfo.isOnline
 });
+const mapDispatchToProps = {
+  saveTxDetailModalVisibility
+};
   class TransactionDetail extends Component {
     constructor(props) {
       super(props);
@@ -487,8 +493,14 @@ const TransactionDetailModal = connect(propsToStateIsOnline)(
           animationOut="slideOutDown"
           isVisible={true}
           swipeDirection="down"
-          onBackdropPress={() => this.props.onClose()}
-          onSwipeComplete={() => this.props.onClose()}
+          onBackdropPress={() => {
+            this.props.saveTxDetailModalVisibility(false);
+            this.props.onClose()
+          }}
+          onSwipeComplete={() => {
+            this.props.saveTxDetailModalVisibility(false);
+            this.props.onClose()
+          }}
           style={{
             marginLeft: 4,
             marginRight: 4,
