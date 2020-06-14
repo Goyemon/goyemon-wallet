@@ -1,9 +1,12 @@
 'use strict';
 import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
+import {
+  saveTxDetailModalVisibility
+} from '../actions/ActionModal';
 import {
   GoyemonText,
   TouchableCardContainer,
@@ -61,6 +64,7 @@ class Transaction extends Component {
           tx.getState() < TxStorage.TxStates.STATE_INCLUDED
             ? this.props.onTxTapped(tx)
             : null
+            this.props.saveTxDetailModalVisibility(true);
         }
       >
         <TransactionList>
@@ -551,4 +555,10 @@ const SwapValueTextContainer = styled.View`
 //   checksumAddress: state.ReducerChecksumAddress.checksumAddress
 // });
 
-export default Transaction;
+const mapDispatchToProps = {
+  saveTxDetailModalVisibility
+};
+
+export default 
+  connect(null, mapDispatchToProps)(Transaction)
+;
