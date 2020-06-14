@@ -536,8 +536,8 @@ const TransactionDetailModal = connect(mapIsOnlineAndModalStateToProps, mapDispa
           <ModalContainer>
               <TransactionDetail tx={this.state.txToUpdate} />
             <ModalHandler />
-            {this.state.txToUpdate.getState() <
-            TxStorage.TxStates.STATE_INCLUDED ? (
+            {true ||  this.state.txToUpdate.getState() === 0 || this.state.txToUpdate.getState() === 1
+            ? (
               <>
                 <MagicalGasPriceSlider
                   currentGasPrice={parseInt(

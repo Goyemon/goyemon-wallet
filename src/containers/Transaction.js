@@ -56,11 +56,14 @@ class Transaction extends Component {
         marginTop="0"
         textAlign="left"
         width="90%"
-        onPress={() =>
-          tx.getState() < TxStorage.TxStates.STATE_INCLUDED
-            ? this.props.onTxTapped(tx)
-            : null
+        onPress={() => {
+          if(true || tx.getState() === 0 || tx.getState() === 1) {
             this.props.saveTxDetailModalVisibility(true);
+            this.props.onTxTapped(tx);
+          } else {
+            return null;
+          }
+        }
         }
       >
         <TransactionList>
