@@ -31,11 +31,10 @@ import Slider from '@react-native-community/slider';
 const propsToStateChecksumAddr = (state) => ({
   checksumAddress: state.ReducerChecksumAddress.checksumAddress
 });
-
-const TransactionDetail = connect(propsToStateChecksumAddr)(
 const propsToStateIsOnline = (state) => ({
-  isOnline: state.ReducerNetInfo.isOnline
-});
+	isOnline: state.ReducerNetInfo.isOnline
+  });
+const TransactionDetail = connect(propsToStateChecksumAddr)(
   class TransactionDetail extends Component {
     constructor(props) {
       super(props);
@@ -446,7 +445,8 @@ const TransactionDetailModal = connect(propsToStateIsOnline)(
     super(props);
     this.state = {
       txToUpdate: null,
-      newGasPrice: null
+	  newGasPrice: null,
+	  txResent: false
     };
   }
 
@@ -468,8 +468,11 @@ const TransactionDetailModal = connect(propsToStateIsOnline)(
     const newTx = this.state.txToUpdate.deepClone();
     newTx.setGasPrice(this.state.newGasPrice.toString(16));
 
-    if (await TxStorage.storage.updateTx(newTx))
-      await TransactionUtilities.sendTransactionToServer(newTx);
+    if (await TxStorage.storage.updateTx(newTx)) {
+	  await TransactionUtilities.sendTransactionToServer(newTx);
+
+	  this.setState({ txResent: true });
+	}
   }
 
   priceSliderSettled(value) {
@@ -500,7 +503,10 @@ const TransactionDetailModal = connect(propsToStateIsOnline)(
           <ModalContainer>
               <TransactionDetail tx={this.state.txToUpdate} />
             <ModalHandler />
-            {this.state.txToUpdate.getState() <
+			{this.state.txResent ?
+			<GoyemonText fntSize={14}>Transaction was resent!</GoyemonText>
+			:
+            (this.state.txToUpdate.getState() <
             TxStorage.TxStates.STATE_INCLUDED ? (
               <>
                 <MagicalGasPriceSlider
@@ -527,14 +533,14 @@ const TransactionDetailModal = connect(propsToStateIsOnline)(
                 />
                 <IsOnlineMessage isOnline={this.props.isOnline} />
               </>
-            ) : null}
+            ) : null)}
           </ModalContainer>
         </Modal>
       );
 
     return null;
   }
-}
+});
 
 const ModalContainer = styled.View`
   background-color: #fff;
