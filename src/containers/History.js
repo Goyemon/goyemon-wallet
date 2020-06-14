@@ -1,6 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
 import { TouchableOpacity, Linking } from 'react-native';
+import * as Animatable from 'react-native-animatable';
 import Modal from 'react-native-modal';
 import styled from 'styled-components';
 import {
@@ -458,6 +459,8 @@ const TransactionDetailModal = connect(mapIsOnlineAndModalStateToProps, mapDispa
     };
   }
 
+  handleViewRef = ref => this.view = ref;
+
   componentDidUpdate(prevProps) {
     if (this.props.txToUpdate !== prevProps.txToUpdate) {
       const newState = { txToUpdate: this.props.txToUpdate };
@@ -485,6 +488,24 @@ const TransactionDetailModal = connect(mapIsOnlineAndModalStateToProps, mapDispa
     this.setState({
       newGasPrice: value
     });
+  }
+
+  fadeOutUp() {
+    this.view
+    .fadeOutUp(800)
+    .then((endState) =>
+      console.log(
+        endState.finished ? 'fadeOutUp finished' : 'fadeOutUp cancelled'
+      )
+    );
+  }
+    
+  renderSpeedUpMessage() {
+    return(
+      <AnimationContainer>
+        <CopyAnimation animation="fadeOutUp" iterationCount={0} direction="normal" ref={this.handleViewRef}><Text>you speeded up transaction!</Text>🚀</CopyAnimation>
+      </AnimationContainer>
+    );
   }
 
   render() {
@@ -533,13 +554,16 @@ const TransactionDetailModal = connect(mapIsOnlineAndModalStateToProps, mapDispa
                   margin="16px auto"
                   marginBottom="40px"
                   opacity="1"
+                  disabled={false}
                   onPress={() => {
                     if (this.props.isOnline) {
                       this.resendTx.bind(this);
                       this.props.saveTxDetailModalVisibility(false);
+                      this.fadeOutUp();
                     }
                   }}
                 />
+                {this.renderSpeedUpMessage()}
                 <IsOnlineMessage isOnline={this.props.isOnline} />
               </>
             ) : null}
@@ -558,6 +582,13 @@ const ModalContainer = styled.View`
 `;
 
 export default connect(propsToStateChecksumAddr)(
+const AnimationContainer = styled.View`
+  align-items: center;
+  width: 100%;
+`;
+
+const CopyAnimation = Animatable.createAnimatableComponent(styled.Text``);
+
   class History extends Component {
     constructor(props) {
       super(props);
