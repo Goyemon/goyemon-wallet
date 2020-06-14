@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { TouchableOpacity, Linking, Text } from 'react-native';
+import { TouchableOpacity, Linking } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Modal from 'react-native-modal';
 import styled from 'styled-components';
@@ -495,29 +495,12 @@ const TransactionDetailModal = connect(
       });
     }
 
-    fadeOutUp() {
-      this.view
-        .fadeOutUp(800)
-        .then((endState) =>
-          console.log(
-            endState.finished ? 'fadeOutUp finished' : 'fadeOutUp cancelled'
-          )
-        );
-    }
-
-    renderSpeedUpMessage() {
-      return (
-        <AnimationContainer>
-          <CopyAnimation
-            animation="fadeOutUp"
-            iterationCount={0}
-            direction="normal"
-            ref={this.handleViewRef}
-          >
-            <Text>you speeded up transaction!</Text>🚀
-          </CopyAnimation>
-        </AnimationContainer>
-      );
+    zoomIn() {
+      this.view.zoomIn(1500).then((endState) => {
+        this.props.saveTxDetailModalVisibility(false);
+        console.log(endState.finished ? 'zoomIn finished' : 'zoomIn cancelled');
+        this.setState({ txResent: false });
+      });
     }
 
     render() {
@@ -563,19 +546,31 @@ const TransactionDetailModal = connect(
                     backgroundColor="#FFF"
                     borderColor="#00A3E2"
                     margin="16px auto"
-                    marginBottom="40px"
+                    marginBottom="8px"
                     opacity="1"
                     disabled={false}
-                    onPress={() => {
                     onPress={async () => {
                       if (this.props.isOnline) {
-                        this.props.saveTxDetailModalVisibility(false);
-                        this.fadeOutUp();
                         await this.resendTx();
+                        this.zoomIn();
                       }
                     }}
                   />
-                  {this.renderSpeedUpMessage()}
+                  <AnimationContainer>
+                    <CopyAnimation
+                      animation={this.state.txResent ? 'zoomIn' : null}
+                      ref={this.handleViewRef}
+                    >
+                      {this.state.txResent ? (
+                        <>
+                          <GoyemonText fontSize={16}>
+                            you sped up your transaction!
+                          </GoyemonText>
+                          <GoyemonText fontSize={16}>🚀</GoyemonText>
+                        </>
+                      ) : null}
+                    </CopyAnimation>
+                  </AnimationContainer>
                   <IsOnlineMessage isOnline={this.props.isOnline} />
                 </>
               ) : null}
@@ -598,6 +593,7 @@ const ModalContainer = styled.View`
 
 const AnimationContainer = styled.View`
   align-items: center;
+  margin-bottom: 32;
   width: 100%;
 `;
 
