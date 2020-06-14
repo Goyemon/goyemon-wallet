@@ -51,7 +51,8 @@ class QRCodeScan extends Component {
           onRead={this.onScanSuccess}
           showMarker
           checkAndroid6Permissions
-          cameraStyle={{ height: Dimensions.get('screen').height }}
+          containerStyle={{ height: '100%', backgroundColor: '#000' }}
+          bottomViewStyle={{ color: '#000' }}
           bottomContent={
             <GoBackContainer
               onPress={() => {
