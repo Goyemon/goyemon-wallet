@@ -1,15 +1,20 @@
 'use strict';
 import React, { Component } from 'react';
 import { TouchableOpacity, Linking } from 'react-native';
+import * as Animatable from 'react-native-animatable';
 import Modal from 'react-native-modal';
 import styled from 'styled-components';
+import { saveTxDetailModalVisibility } from '../actions/ActionModal';
 import {
-  HeaderOne,
-  TxConfirmationButton,
   Container,
+  HeaderOne,
+  HeaderTwo,
+  Button,
   GoyemonText,
+  IsOnlineMessage,
   TransactionStatus,
-  HorizontalLine
+  ModalHandler,
+  Loader
 } from '../components/common';
 import { connect } from 'react-redux';
 
@@ -23,17 +28,27 @@ import TxStorage from '../lib/tx.js';
 import LogUtilities from '../utilities/LogUtilities';
 import TransactionUtilities from '../utilities/TransactionUtilities';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { TxSpeedSelectionContainer } from './common/AdvancedContainer';
 import GlobalConfig from '../config.json';
 import Slider from '@react-native-community/slider';
 
-const propsToStateChecksumAddr = (state) => ({
+const mapChecksumAddressStateToProps = (state) => ({
   checksumAddress: state.ReducerChecksumAddress.checksumAddress
 });
+const mapGasPriceStateToProps = (state) => ({
+  gasPrice: state.ReducerGasPrice.gasPrice
+});
 
-const TransactionDetail = connect(propsToStateChecksumAddr)(
+const mapIsOnlineAndModalStateToProps = (state) => ({
+  isOnline: state.ReducerNetInfo.isOnline,
+  modal: state.ReducerModal.modal
+});
+
+const mapDispatchToProps = {
+  saveTxDetailModalVisibility
+};
+
+const TransactionDetail = connect(mapChecksumAddressStateToProps)(
   class TransactionDetail extends Component {
-    // separated so we can reuse the same display in other places
     constructor(props) {
       super(props);
       this.state = {
@@ -286,28 +301,42 @@ const TransactionDetail = connect(propsToStateChecksumAddr)(
 
       return (
         <>
-          {this.state.txData.map((x) => {
-            return (
-              <>
-                <GoyemonText fontSize={12}>{x.type}</GoyemonText>
-                {x.direction ? (
-                  <GoyemonText fontSize={12}>{x.direction}</GoyemonText>
-                ) : null}
-                {x.amount ? (
-                  <GoyemonText fontSize={12}>
-                    {x.amount}
-                    {x.token}
-                  </GoyemonText>
-                ) : null}
-              </>
-            );
+          <Container
+            alignItems="center"
+            flexDirection="row"
+            justifyContent="center"
+            marginTop={0}
+            width="100%"
+          >
+            {this.state.txData.map((x) => {
+              return (
+                <>
+                  <GoyemonText fontSize={12}>{x.type}</GoyemonText>
+                  {x.direction ? (
+                    <GoyemonText fontSize={12}>{x.direction}</GoyemonText>
+                  ) : null}
+                  {x.amount ? (
+                    <GoyemonText fontSize={12}>
+                      {x.amount}
+                      {x.token}
+                    </GoyemonText>
+                  ) : null}
+                </>
+              );
 
-            switch (x.type) {
-            }
-          })}
-          <GoyemonText fontSize={12}>Status</GoyemonText>
-          <TransactionStatus width="100%" txState={this.props.tx.getState()} />
-
+              switch (x.type) {
+              }
+            })}
+            <GoyemonText fontSize={12}>
+              {TransactionUtilities.parseTransactionTime(
+                this.props.tx.getTimestamp()
+              )}
+            </GoyemonText>
+            <TransactionStatus
+              width="100%"
+              txState={this.props.tx.getState()}
+            />
+          </Container>
           <GoyemonText fontSize={12}>From</GoyemonText>
           <GoyemonText fontSize={12}>{this.props.tx.getFrom()}</GoyemonText>
 
@@ -341,141 +370,247 @@ const TransactionDetail = connect(propsToStateChecksumAddr)(
       );
     }
   }
-); // connect()
-
-const propsToStategasPrice = (state) => ({
-	gasPrice: state.ReducerGasPrice.gasPrice
-});
-
-const MagicalGasPriceSlider = connect(propsToStategasPrice)(
-	class MagicalGasPriceSlider extends Component {
-		constructor(props) {
-			super(props);
-			this.state = this.getPriceState(this.props.currentGasPrice);
-			props.gasPrice.forEach(x => {
-				if (x.speed == 'super fast')
-					this.state.maxPrice = Math.ceil(x.value * 1.20);
-			});
-		}
-
-		getPriceState(price) {
-			return {
-				usdValue: TransactionUtilities.getTransactionFeeEstimateInUsd(price, this.props.gasAmount),
-				ethValue: TransactionUtilities.getTransactionFeeEstimateInEther(price, this.props.gasAmount)
-			};
-		}
-
-		sliderValueChange(v) {
-			this.setState(this.getPriceState(v));
-		}
-
-		render() {
-			//<Slider value={2} minimumValue={0} maximumValue={8} onValueChange={this.sliderValueChange.bind(this)} />;
-			//<RandomText>{JSON.stringify(this.props.gasPrice)} -- {JSON.stringify(this.props.currentGas)}</RandomText>;
-			return <>
-					<Slider
-						value={this.props.currentGasPrice}
-						minimumValue={this.props.currentGasPrice}
-						maximumValue={this.state.maxPrice}
-						onValueChange={this.sliderValueChange.bind(this)}
-						onSlidingComplete={this.props.onSettle} />
-					<Container
-						alignItems="center"
-						flexDirection="row"
-						justifyContent="center"
-						marginTop={24}
-						width="90%">
-						<RandomText key="eth" style={{ color: '#1ba548' }}>{this.state.ethValue}</RandomText><RandomText key="ethlab"> ETH </RandomText>
-						<RandomText key="usd" style={{ color: '#1ba548' }}>{this.state.usdValue}</RandomText><RandomText key="usdlab"> USD</RandomText>
-					</Container>
-				</>;
-
-		}
-	}
 );
 
-class TransactionDetailModal extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-	  txToUpdate: null,
-	  newGasPrice: null
-    };
-  }
+const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
+  class MagicalGasPriceSlider extends Component {
+    constructor(props) {
+      super(props);
+      this.state = this.getPriceState(this.props.currentGasPrice);
+      props.gasPrice.forEach((x) => {
+        if (x.speed == 'super fast')
+          this.state.maxPrice = Math.ceil(x.value * 1.2);
+      });
+    }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.txToUpdate !== prevProps.txToUpdate) {
-		const newState = { txToUpdate: this.props.txToUpdate };
-		if (this.props.txToUpdate != null)
-			newState.newGasPrice =  parseInt(this.props.txToUpdate.getGasPrice(), 16);
+    getPriceState(price) {
+      return {
+        usdValue: TransactionUtilities.getTransactionFeeEstimateInUsd(
+          price,
+          this.props.gasAmount
+        ),
+        ethValue: parseFloat(
+          TransactionUtilities.getTransactionFeeEstimateInEther(
+            price,
+            this.props.gasAmount
+          )
+        ).toFixed(5)
+      };
+    }
 
-		this.setState(newState);
-	}
-  }
+    sliderValueChange(v) {
+      this.setState(this.getPriceState(v));
+    }
 
-  async resendTx() {
-    // update gas
-    const newTx = this.state.txToUpdate.deepClone();
-    newTx.setGasPrice(this.state.newGasPrice.toString(16));
+    render() {
+      //<GoyemonText fontSize={12}>{JSON.stringify(this.props.gasPrice)} -- {JSON.stringify(this.props.currentGas)}</GoyemonText>;
+      const minimumGasPrice = Math.ceil(this.props.currentGasPrice * 1.1);
 
-	if (await TxStorage.storage.updateTx(newTx))
-    	await TransactionUtilities.sendTransactionToServer(newTx);
-  }
-
-  priceSliderSettled(value) {
-	LogUtilities.dumpObject('priceSliderSettled() value', value);
-	this.setState({
-		newGasPrice: value
-	})
-  }
-
-  render() {
-    if (this.state.txToUpdate != null)
       return (
-        <Modal
-          animationIn="slideInUp"
-          animationOut="slideOutDown"
-          isVisible={true}
-          swipeDirection="down"
-          onSwipeComplete={() => this.props.onClose()}
-        >
-          <ModalContainer>
-            <ModalBackground>
-              <HorizontalLine />
-			  {true || this.state.txToUpdate.getState() < TxStorage.TxStates.STATE_INCLUDED ? // true or added to always show it for now
-			  <>
-			  	<MagicalGasPriceSlider currentGasPrice={parseInt(this.state.txToUpdate.getGasPrice(), 16)} gasAmount={parseInt(this.state.txToUpdate.getGas(), 16)} onSettle={this.priceSliderSettled.bind(this)} />
-				<TxConfirmationButton
-					text={'Resend (needs i18n)'}
-					onPress={this.resendTx.bind(this)}
-				/>
-			  </> : null}
-
-              <GoyemonText fontSize={12}>TX data:</GoyemonText>
-              <TransactionDetail tx={this.state.txToUpdate} />
-            </ModalBackground>
-          </ModalContainer>
-		</Modal>
-	  );
-
-    return null;
+        <>
+          <HeaderTwo marginBottom="0" marginLeft="0" marginTop="24">
+            Choose a new network fee
+          </HeaderTwo>
+          <Explanation>
+            <GoyemonText fontSize={12}>
+              *you can speed up your transaction by adding more fees
+            </GoyemonText>
+          </Explanation>
+          <Slider
+            value={minimumGasPrice}
+            minimumValue={minimumGasPrice}
+            maximumValue={this.state.maxPrice}
+            onValueChange={this.sliderValueChange.bind(this)}
+            onSlidingComplete={this.props.onSettle}
+            minimumTrackTintColor="#00A3E2"
+            style={{
+              width: '90%',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              marginTop: 32,
+              marginBottom: 16
+            }}
+          />
+          <NetworkFeeContainer>
+            <GoyemonText fontSize={20}>{this.state.ethValue} ETH</GoyemonText>
+            <GoyemonText fontSize={20}>{this.state.usdValue} USD</GoyemonText>
+          </NetworkFeeContainer>
+        </>
+      );
+    }
   }
-}
+);
 
-const ModalContainer = styled.View`
-  align-items: flex-end;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  flex-direction: row;
-  height: 100%;
+const NetworkFeeContainer = styled.View`
+  align-items: center;
+  margin-bottom: 16;
 `;
 
-const ModalBackground = styled.View`
+const Explanation = styled.View`
+  align-items: center;
+`;
+
+const TransactionDetailModal = connect(
+  mapIsOnlineAndModalStateToProps,
+  mapDispatchToProps
+)(
+  class TransactionDetailModal extends Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        txToUpdate: null,
+        newGasPrice: null,
+        txResent: false,
+        loading: false,
+        buttonDisabled: false
+      };
+    }
+
+    handleViewRef = (ref) => (this.view = ref);
+
+    componentDidUpdate(prevProps) {
+      if (this.props.txToUpdate !== prevProps.txToUpdate) {
+        const newState = { txToUpdate: this.props.txToUpdate };
+        if (this.props.txToUpdate != null)
+          newState.newGasPrice = parseInt(
+            this.props.txToUpdate.getGasPrice(),
+            16
+          );
+
+        this.setState(newState);
+      }
+    }
+
+    async resendTx() {
+      // update gas
+      const newTx = this.state.txToUpdate.deepClone();
+      newTx.setGasPrice(this.state.newGasPrice.toString(16));
+
+      if (await TxStorage.storage.updateTx(newTx)) {
+        await TransactionUtilities.sendTransactionToServer(newTx);
+
+        this.setState({ txResent: true });
+      }
+    }
+
+    priceSliderSettled(value) {
+      LogUtilities.dumpObject('priceSliderSettled() value', value);
+      this.setState({
+        newGasPrice: value
+      });
+    }
+
+    zoomIn() {
+      this.view.zoomIn(1500).then((endState) => {
+        this.props.saveTxDetailModalVisibility(false);
+        console.log(endState.finished ? 'zoomIn finished' : 'zoomIn cancelled');
+        this.setState({ txResent: false });
+      });
+    }
+
+    render() {
+      if (this.state.txToUpdate != null) {
+        return (
+          <Modal
+            animationIn="slideInUp"
+            animationOut="slideOutDown"
+            isVisible={this.props.modal.txDetailModalVisibility}
+            swipeDirection="down"
+            onBackdropPress={() => {
+              this.props.saveTxDetailModalVisibility(false);
+              this.props.onClose();
+            }}
+            onSwipeComplete={() => {
+              this.props.saveTxDetailModalVisibility(false);
+              this.props.onClose();
+            }}
+            style={{
+              marginLeft: 4,
+              marginRight: 4,
+              marginBottom: 0,
+              flexDirection: 'row',
+              alignItems: 'flex-end'
+            }}
+          >
+            <ModalContainer>
+              <ModalHandler />
+              {this.state.txToUpdate.getState() === 0 ||
+              this.state.txToUpdate.getState() === 1 ? (
+                <>
+                  <MagicalGasPriceSlider
+                    currentGasPrice={parseInt(
+                      this.state.txToUpdate.getGasPrice(),
+                      16
+                    )}
+                    gasAmount={parseInt(this.state.txToUpdate.getGas(), 16)}
+                    onSettle={this.priceSliderSettled.bind(this)}
+                  />
+                  <Button
+                    text="Speed Up Transaction"
+                    textColor="#00A3E2"
+                    backgroundColor="#FFF"
+                    borderColor="#00A3E2"
+                    margin="16px auto"
+                    marginBottom="8px"
+                    opacity="1"
+                    disabled={this.state.buttonDisabled}
+                    onPress={async () => {
+                      if (this.props.isOnline) {
+                        this.setState({ loading: true, buttonDisabled: true });
+                        await this.resendTx();
+                        this.zoomIn();
+                        this.setState({
+                          loading: false,
+                          buttonDisabled: false
+                        });
+                      }
+                    }}
+                  />
+                  <AnimationContainer>
+                    <CopyAnimation
+                      animation={this.state.txResent ? 'zoomIn' : null}
+                      ref={this.handleViewRef}
+                    >
+                      {this.state.txResent ? (
+                        <>
+                          <GoyemonText fontSize={16}>
+                            you sped up your transaction!
+                          </GoyemonText>
+                          <GoyemonText fontSize={16}>🚀</GoyemonText>
+                        </>
+                      ) : null}
+                    </CopyAnimation>
+                  </AnimationContainer>
+                  <Loader animating={this.state.loading} size="small" />
+                  <IsOnlineMessage isOnline={this.props.isOnline} />
+                </>
+              ) : null}
+              {/* <TransactionDetail tx={this.state.txToUpdate} /> */}
+            </ModalContainer>
+          </Modal>
+        );
+      }
+
+      return null;
+    }
+  }
+);
+
+const ModalContainer = styled.View`
   background-color: #fff;
   border-radius: 16px;
   width: 100%;
 `;
 
-export default connect(propsToStateChecksumAddr)(
+const AnimationContainer = styled.View`
+  align-items: center;
+  margin-bottom: 32;
+  width: 100%;
+`;
+
+const CopyAnimation = Animatable.createAnimatableComponent(styled.Text``);
+
+export default connect(mapChecksumAddressStateToProps)(
   class History extends Component {
     constructor(props) {
       super(props);

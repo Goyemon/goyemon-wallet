@@ -88,7 +88,6 @@ class Settings extends Component {
       <RootContainer>
         <HeaderOne marginTop="112">{I18n.t('settings-header')}</HeaderOne>
         <PopUpModal
-          height="50%"
           onPress={() => {
             this.props.savePopUpModalVisibility(false);
             this.setState({
@@ -306,6 +305,7 @@ const ButtonContainer = styled.View`
   justify-content: center;
   margin: 0 auto;
   margin-top: 16;
+  margin-bottom: 16;
 `;
 
 const BottomText = styled.View`

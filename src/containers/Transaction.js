@@ -1,9 +1,10 @@
 'use strict';
 import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
+import { saveTxDetailModalVisibility } from '../actions/ActionModal';
 import {
   GoyemonText,
   TouchableCardContainer,
@@ -20,10 +21,6 @@ class Transaction extends Component {
       transaction: null,
       children: <GoyemonText fontSize={12}>...</GoyemonText>
     };
-  }
-
-  render() {
-    return this.state.children;
   }
 
   componentDidMount() {
@@ -57,7 +54,14 @@ class Transaction extends Component {
         marginTop="0"
         textAlign="left"
         width="90%"
-        onPress={() => this.props.onTxTapped(tx)}
+        onPress={() => {
+          if (tx.getState() === 0 || tx.getState() === 1) {
+            this.props.saveTxDetailModalVisibility(true);
+            this.props.onTxTapped(tx);
+          } else {
+            return null;
+          }
+        }}
       >
         <TransactionList>
           <InOrOutTransactionContainer>
@@ -489,6 +493,10 @@ class Transaction extends Component {
 
     return topType(top, toptok);
   }
+
+  render() {
+    return this.state.children;
+  }
 }
 
 const styles = {
@@ -547,4 +555,8 @@ const SwapValueTextContainer = styled.View`
 //   checksumAddress: state.ReducerChecksumAddress.checksumAddress
 // });
 
-export default Transaction;
+const mapDispatchToProps = {
+  saveTxDetailModalVisibility
+};
+
+export default connect(null, mapDispatchToProps)(Transaction);

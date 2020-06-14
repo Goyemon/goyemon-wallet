@@ -1,7 +1,5 @@
 'use strict';
 import React, { Component } from 'react';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { connect } from 'react-redux';
 import {
   NavigationActions,
@@ -22,7 +20,7 @@ import {
   Loader,
   HeaderTwo,
   TxConfirmationButton,
-  HorizontalLine
+  ModalHandler
 } from '../../components/common';
 import NetworkFeeContainerConfirmation from './NetworkFeeContainerConfirmation';
 import I18n from '../../i18n/I18n';
@@ -340,21 +338,30 @@ class TxConfirmationModal extends Component {
         animationOut="slideOutDown"
         isVisible={this.props.modal.txConfirmationModalVisibility}
         swipeDirection="down"
+        onBackdropPress={() => {
+          this.props.saveTxConfirmationModalVisibility(false);
+          this.props.updateTxConfirmationModalVisibleType(null);
+        }}
         onSwipeComplete={() => {
           this.props.saveTxConfirmationModalVisibility(false);
           this.props.updateTxConfirmationModalVisibleType(null);
         }}
+        style={{
+          marginLeft: 4,
+          marginRight: 4,
+          marginBottom: 0,
+          flexDirection: 'row',
+          alignItems: 'flex-end'
+        }}
       >
         <ModalContainer>
-          <ModalBackground>
-            <HorizontalLine />
-            <HeaderContainer>
-              <HeaderTwo marginBottom="0" marginLeft="0" marginTop="16">
-                Confirm Transaction
-              </HeaderTwo>
-            </HeaderContainer>
-            <ModalInner>{this.renderModalContent()}</ModalInner>
-          </ModalBackground>
+          <ModalHandler />
+          <HeaderContainer>
+            <HeaderTwo marginBottom="0" marginLeft="0" marginTop="16">
+              Confirm Transaction
+            </HeaderTwo>
+          </HeaderContainer>
+          <ModalInner>{this.renderModalContent()}</ModalInner>
         </ModalContainer>
       </Modal>
     );
@@ -366,13 +373,6 @@ const ConfirmationContainer = styled.View`
 `;
 
 const ModalContainer = styled.View`
-  align-items: flex-end;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  flex-direction: row;
-  height: 100%;
-`;
-
-const ModalBackground = styled.View`
   background-color: #fff;
   border-radius: 16px;
   width: 100%;
