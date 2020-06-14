@@ -1,10 +1,26 @@
 'use strict';
 import {
+  SAVE_TX_DETAIL_MODAL_VISIBILITY,
   SAVE_TX_CONFIRMATION_MODAL_VISIBILITY,
   UPDATE_TX_CONFIRMATION_MODAL_VISIBLE_TYPE,
   SAVE_POP_UP_MODAL_VISIBILITY
 } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
+
+export function saveTxDetailModalVisibility(visibility) {
+  return async function (dispatch) {
+    try {
+      dispatch(saveTxDetailModalVisibilitySuccess(visibility));
+    } catch (err) {
+      LogUtilities.logError(err);
+    }
+  };
+}
+
+const saveTxDetailModalVisibilitySuccess = (visibility) => ({
+  type: SAVE_TX_DETAIL_MODAL_VISIBILITY,
+  payload: visibility
+});
 
 export function saveTxConfirmationModalVisibility(visibility) {
   return async function (dispatch) {
