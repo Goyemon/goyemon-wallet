@@ -35,7 +35,6 @@ import Slider from '@react-native-community/slider';
 const mapChecksumAddressStateToProps = (state) => ({
   checksumAddress: state.ReducerChecksumAddress.checksumAddress
 });
-
 const mapGasPriceStateToProps = (state) => ({
   gasPrice: state.ReducerGasPrice.gasPrice
 });
@@ -456,7 +455,8 @@ const TransactionDetailModal = connect(mapIsOnlineAndModalStateToProps, mapDispa
     super(props);
     this.state = {
       txToUpdate: null,
-      newGasPrice: null
+	  newGasPrice: null,
+	  txResent: false
     };
   }
 
@@ -480,8 +480,11 @@ const TransactionDetailModal = connect(mapIsOnlineAndModalStateToProps, mapDispa
     const newTx = this.state.txToUpdate.deepClone();
     newTx.setGasPrice(this.state.newGasPrice.toString(16));
 
-    if (await TxStorage.storage.updateTx(newTx))
-      await TransactionUtilities.sendTransactionToServer(newTx);
+    if (await TxStorage.storage.updateTx(newTx)) {
+	  await TransactionUtilities.sendTransactionToServer(newTx);
+
+	  this.setState({ txResent: true });
+	}
   }
 
   priceSliderSettled(value) {
