@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { TouchableOpacity, Linking } from 'react-native';
+import { TouchableOpacity, Linking, Text } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Modal from 'react-native-modal';
 import styled from 'styled-components';
@@ -32,11 +32,14 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import GlobalConfig from '../config.json';
 import Slider from '@react-native-community/slider';
 
-const propsToStateChecksumAddr = (state) => ({
+const mapChecksumAddressStateToProps = (state) => ({
   checksumAddress: state.ReducerChecksumAddress.checksumAddress
 });
 
-const TransactionDetail = connect(propsToStateChecksumAddr)(
+const mapGasPriceStateToProps = (state) => ({
+  gasPrice: state.ReducerGasPrice.gasPrice
+});
+
 const mapIsOnlineAndModalStateToProps = (state) => ({
   isOnline: state.ReducerNetInfo.isOnline,
   modal: state.ReducerModal.modal
@@ -45,6 +48,8 @@ const mapIsOnlineAndModalStateToProps = (state) => ({
 const mapDispatchToProps = {
   saveTxDetailModalVisibility
 };
+
+const TransactionDetail = connect(mapChecksumAddressStateToProps)(
   class TransactionDetail extends Component {
     constructor(props) {
       super(props);
@@ -367,13 +372,9 @@ const mapDispatchToProps = {
       );
     }
   }
-); // connect()
+);
 
-const propsToStategasPrice = (state) => ({
-  gasPrice: state.ReducerGasPrice.gasPrice
-});
-
-const MagicalGasPriceSlider = connect(propsToStategasPrice)(
+const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
   class MagicalGasPriceSlider extends Component {
     constructor(props) {
       super(props);
@@ -509,7 +510,7 @@ const TransactionDetailModal = connect(mapIsOnlineAndModalStateToProps, mapDispa
   }
 
   render() {
-    if (this.state.txToUpdate != null)
+    if (this.state.txToUpdate != null){
       return (
         <Modal
           animationIn="slideInUp"
@@ -581,7 +582,6 @@ const ModalContainer = styled.View`
   width: 100%;
 `;
 
-export default connect(propsToStateChecksumAddr)(
 const AnimationContainer = styled.View`
   align-items: center;
   width: 100%;
@@ -589,6 +589,7 @@ const AnimationContainer = styled.View`
 
 const CopyAnimation = Animatable.createAnimatableComponent(styled.Text``);
 
+export default connect(mapChecksumAddressStateToProps)(
   class History extends Component {
     constructor(props) {
       super(props);

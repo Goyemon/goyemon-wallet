@@ -25,10 +25,6 @@ class Transaction extends Component {
     };
   }
 
-  render() {
-    return this.state.children;
-  }
-
   componentDidMount() {
     TxStorage.storage
       .getTx(this.props.transaction.index, this.props.transaction.filter)
@@ -496,6 +492,10 @@ class Transaction extends Component {
     ])[0]; // changes {x:[1]} to [x, 1], so extracts token name and the first token op (should only be one at this point anyway)
 
     return topType(top, toptok);
+  }
+
+  render() {
+    return this.state.children;
   }
 }
 
