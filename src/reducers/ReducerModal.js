@@ -1,5 +1,6 @@
 'use strict';
 import {
+  SAVE_TX_DETAIL_MODAL_VISIBILITY,
   SAVE_TX_CONFIRMATION_MODAL_VISIBILITY,
   UPDATE_TX_CONFIRMATION_MODAL_VISIBLE_TYPE,
   SAVE_POP_UP_MODAL_VISIBILITY
@@ -7,6 +8,7 @@ import {
 
 const INITIAL_STATE = {
   modal: {
+    txDetailModalVisibility: false,
     txConfirmationModalVisibility: false,
     txConfirmationModalType: null,
     popUpModalVisibility: false
@@ -15,6 +17,13 @@ const INITIAL_STATE = {
 
 const modal = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case SAVE_TX_DETAIL_MODAL_VISIBILITY:
+      return {
+        modal: {
+          ...state.modal,
+          txDetailModalVisibility: action.payload
+        }
+      };
     case SAVE_TX_CONFIRMATION_MODAL_VISIBILITY:
       return {
         modal: {
