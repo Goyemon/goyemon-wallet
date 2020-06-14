@@ -4,9 +4,7 @@ import { TouchableOpacity, Linking, Text } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Modal from 'react-native-modal';
 import styled from 'styled-components';
-import {
-  saveTxDetailModalVisibility
-} from '../actions/ActionModal';
+import { saveTxDetailModalVisibility } from '../actions/ActionModal';
 import {
   Container,
   HeaderOne,
@@ -449,136 +447,146 @@ const Explanation = styled.View`
   align-items: center;
 `;
 
-const TransactionDetailModal = connect(mapIsOnlineAndModalStateToProps, mapDispatchToProps)(
+const TransactionDetailModal = connect(
+  mapIsOnlineAndModalStateToProps,
+  mapDispatchToProps
+)(
   class TransactionDetailModal extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      txToUpdate: null,
-	  newGasPrice: null,
-	  txResent: false
-    };
-  }
-
-  handleViewRef = ref => this.view = ref;
-
-  componentDidUpdate(prevProps) {
-    if (this.props.txToUpdate !== prevProps.txToUpdate) {
-      const newState = { txToUpdate: this.props.txToUpdate };
-      if (this.props.txToUpdate != null)
-        newState.newGasPrice = parseInt(
-          this.props.txToUpdate.getGasPrice(),
-          16
-        );
-
-      this.setState(newState);
+    constructor(props) {
+      super(props);
+      this.state = {
+        txToUpdate: null,
+        newGasPrice: null,
+        txResent: false
+      };
     }
-  }
 
-  async resendTx() {
-    // update gas
-    const newTx = this.state.txToUpdate.deepClone();
-    newTx.setGasPrice(this.state.newGasPrice.toString(16));
+    handleViewRef = (ref) => (this.view = ref);
 
-    if (await TxStorage.storage.updateTx(newTx)) {
-	  await TransactionUtilities.sendTransactionToServer(newTx);
+    componentDidUpdate(prevProps) {
+      if (this.props.txToUpdate !== prevProps.txToUpdate) {
+        const newState = { txToUpdate: this.props.txToUpdate };
+        if (this.props.txToUpdate != null)
+          newState.newGasPrice = parseInt(
+            this.props.txToUpdate.getGasPrice(),
+            16
+          );
 
-	  this.setState({ txResent: true });
-	}
-  }
+        this.setState(newState);
+      }
+    }
 
-  priceSliderSettled(value) {
-    LogUtilities.dumpObject('priceSliderSettled() value', value);
-    this.setState({
-      newGasPrice: value
-    });
-  }
+    async resendTx() {
+      // update gas
+      const newTx = this.state.txToUpdate.deepClone();
+      newTx.setGasPrice(this.state.newGasPrice.toString(16));
 
-  fadeOutUp() {
-    this.view
-    .fadeOutUp(800)
-    .then((endState) =>
-      console.log(
-        endState.finished ? 'fadeOutUp finished' : 'fadeOutUp cancelled'
-      )
-    );
-  }
-    
-  renderSpeedUpMessage() {
-    return(
-      <AnimationContainer>
-        <CopyAnimation animation="fadeOutUp" iterationCount={0} direction="normal" ref={this.handleViewRef}><Text>you speeded up transaction!</Text>🚀</CopyAnimation>
-      </AnimationContainer>
-    );
-  }
+      if (await TxStorage.storage.updateTx(newTx)) {
+        await TransactionUtilities.sendTransactionToServer(newTx);
 
-  render() {
-    if (this.state.txToUpdate != null){
+        this.setState({ txResent: true });
+      }
+    }
+
+    priceSliderSettled(value) {
+      LogUtilities.dumpObject('priceSliderSettled() value', value);
+      this.setState({
+        newGasPrice: value
+      });
+    }
+
+    fadeOutUp() {
+      this.view
+        .fadeOutUp(800)
+        .then((endState) =>
+          console.log(
+            endState.finished ? 'fadeOutUp finished' : 'fadeOutUp cancelled'
+          )
+        );
+    }
+
+    renderSpeedUpMessage() {
       return (
-        <Modal
-          animationIn="slideInUp"
-          animationOut="slideOutDown"
-          isVisible={this.props.modal.txDetailModalVisibility}
-          swipeDirection="down"
-          onBackdropPress={() => {
-            this.props.saveTxDetailModalVisibility(false);
-            this.props.onClose()
-          }}
-          onSwipeComplete={() => {
-            this.props.saveTxDetailModalVisibility(false);
-            this.props.onClose()
-          }}
-          style={{
-            marginLeft: 4,
-            marginRight: 4,
-            marginBottom: 0,
-            flexDirection: 'row',
-            alignItems: 'flex-end'
-          }}
-        >
-          <ModalContainer>
-            <ModalHandler />
-            {this.state.txToUpdate.getState() === 0 || this.state.txToUpdate.getState() === 1
-            ? (
-              <>
-                <MagicalGasPriceSlider
-                  currentGasPrice={parseInt(
-                    this.state.txToUpdate.getGasPrice(),
-                    16
-                  )}
-                  gasAmount={parseInt(this.state.txToUpdate.getGas(), 16)}
-                  onSettle={this.priceSliderSettled.bind(this)}
-                />
-                <Button
-                  text="Speed Up Transaction"
-                  textColor="#00A3E2"
-                  backgroundColor="#FFF"
-                  borderColor="#00A3E2"
-                  margin="16px auto"
-                  marginBottom="40px"
-                  opacity="1"
-                  disabled={false}
-                  onPress={() => {
-                    if (this.props.isOnline) {
-                      this.resendTx.bind(this);
-                      this.props.saveTxDetailModalVisibility(false);
-                      this.fadeOutUp();
-                    }
-                  }}
-                />
-                {this.renderSpeedUpMessage()}
-                <IsOnlineMessage isOnline={this.props.isOnline} />
-              </>
-            ) : null}
-            {/* <TransactionDetail tx={this.state.txToUpdate} /> */}
-          </ModalContainer>
-        </Modal>
+        <AnimationContainer>
+          <CopyAnimation
+            animation="fadeOutUp"
+            iterationCount={0}
+            direction="normal"
+            ref={this.handleViewRef}
+          >
+            <Text>you speeded up transaction!</Text>🚀
+          </CopyAnimation>
+        </AnimationContainer>
       );
     }
 
-    return null;
+    render() {
+      if (this.state.txToUpdate != null) {
+        return (
+          <Modal
+            animationIn="slideInUp"
+            animationOut="slideOutDown"
+            isVisible={this.props.modal.txDetailModalVisibility}
+            swipeDirection="down"
+            onBackdropPress={() => {
+              this.props.saveTxDetailModalVisibility(false);
+              this.props.onClose();
+            }}
+            onSwipeComplete={() => {
+              this.props.saveTxDetailModalVisibility(false);
+              this.props.onClose();
+            }}
+            style={{
+              marginLeft: 4,
+              marginRight: 4,
+              marginBottom: 0,
+              flexDirection: 'row',
+              alignItems: 'flex-end'
+            }}
+          >
+            <ModalContainer>
+              <ModalHandler />
+              {this.state.txToUpdate.getState() === 0 ||
+              this.state.txToUpdate.getState() === 1 ? (
+                <>
+                  <MagicalGasPriceSlider
+                    currentGasPrice={parseInt(
+                      this.state.txToUpdate.getGasPrice(),
+                      16
+                    )}
+                    gasAmount={parseInt(this.state.txToUpdate.getGas(), 16)}
+                    onSettle={this.priceSliderSettled.bind(this)}
+                  />
+                  <Button
+                    text="Speed Up Transaction"
+                    textColor="#00A3E2"
+                    backgroundColor="#FFF"
+                    borderColor="#00A3E2"
+                    margin="16px auto"
+                    marginBottom="40px"
+                    opacity="1"
+                    disabled={false}
+                    onPress={() => {
+                      if (this.props.isOnline) {
+                        this.resendTx.bind(this);
+                        this.props.saveTxDetailModalVisibility(false);
+                        this.fadeOutUp();
+                      }
+                    }}
+                  />
+                  {this.renderSpeedUpMessage()}
+                  <IsOnlineMessage isOnline={this.props.isOnline} />
+                </>
+              ) : null}
+              {/* <TransactionDetail tx={this.state.txToUpdate} /> */}
+            </ModalContainer>
+          </Modal>
+        );
+      }
+
+      return null;
+    }
   }
-}
 );
 
 const ModalContainer = styled.View`

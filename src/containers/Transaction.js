@@ -4,9 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
-import {
-  saveTxDetailModalVisibility
-} from '../actions/ActionModal';
+import { saveTxDetailModalVisibility } from '../actions/ActionModal';
 import {
   GoyemonText,
   TouchableCardContainer,
@@ -57,14 +55,13 @@ class Transaction extends Component {
         textAlign="left"
         width="90%"
         onPress={() => {
-          if(tx.getState() === 0 || tx.getState() === 1) {
+          if (tx.getState() === 0 || tx.getState() === 1) {
             this.props.saveTxDetailModalVisibility(true);
             this.props.onTxTapped(tx);
           } else {
             return null;
           }
-        }
-        }
+        }}
       >
         <TransactionList>
           <InOrOutTransactionContainer>
@@ -562,6 +559,4 @@ const mapDispatchToProps = {
   saveTxDetailModalVisibility
 };
 
-export default 
-  connect(null, mapDispatchToProps)(Transaction)
-;
+export default connect(null, mapDispatchToProps)(Transaction);
