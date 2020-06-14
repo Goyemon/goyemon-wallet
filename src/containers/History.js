@@ -404,6 +404,8 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
 
     render() {
       //<GoyemonText fontSize={12}>{JSON.stringify(this.props.gasPrice)} -- {JSON.stringify(this.props.currentGas)}</GoyemonText>;
+      const minimumGasPrice = Math.ceil(this.props.currentGasPrice * 1.1);
+
       return (
         <>
           <HeaderTwo marginBottom="0" marginLeft="0" marginTop="24">
@@ -415,8 +417,8 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
             </GoyemonText>
           </Explanation>
           <Slider
-            value={this.props.currentGasPrice}
-            minimumValue={this.props.currentGasPrice}
+            value={minimumGasPrice}
+            minimumValue={minimumGasPrice}
             maximumValue={this.state.maxPrice}
             onValueChange={this.sliderValueChange.bind(this)}
             onSlidingComplete={this.props.onSettle}
