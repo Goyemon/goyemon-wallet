@@ -36,9 +36,11 @@ const propsToStateChecksumAddr = (state) => ({
 });
 
 const TransactionDetail = connect(propsToStateChecksumAddr)(
-const propsToStateIsOnline = (state) => ({
-  isOnline: state.ReducerNetInfo.isOnline
+const mapIsOnlineAndModalStateToProps = (state) => ({
+  isOnline: state.ReducerNetInfo.isOnline,
+  modal: state.ReducerModal.modal
 });
+
 const mapDispatchToProps = {
   saveTxDetailModalVisibility
 };
@@ -446,7 +448,7 @@ const Explanation = styled.View`
   align-items: center;
 `;
 
-const TransactionDetailModal = connect(propsToStateIsOnline)(
+const TransactionDetailModal = connect(mapIsOnlineAndModalStateToProps, mapDispatchToProps)(
   class TransactionDetailModal extends Component {
   constructor(props) {
     super(props);
@@ -491,7 +493,7 @@ const TransactionDetailModal = connect(propsToStateIsOnline)(
         <Modal
           animationIn="slideInUp"
           animationOut="slideOutDown"
-          isVisible={true}
+          isVisible={this.props.modal.txDetailModalVisibility}
           swipeDirection="down"
           onBackdropPress={() => {
             this.props.saveTxDetailModalVisibility(false);
