@@ -57,7 +57,7 @@ class Transaction extends Component {
         textAlign="left"
         width="90%"
         onPress={() => {
-          if(true || tx.getState() === 0 || tx.getState() === 1) {
+          if(tx.getState() === 0 || tx.getState() === 1) {
             this.props.saveTxDetailModalVisibility(true);
             this.props.onTxTapped(tx);
           } else {
