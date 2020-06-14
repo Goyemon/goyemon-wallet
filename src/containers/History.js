@@ -567,10 +567,11 @@ const TransactionDetailModal = connect(
                     opacity="1"
                     disabled={false}
                     onPress={() => {
+                    onPress={async () => {
                       if (this.props.isOnline) {
-                        this.resendTx.bind(this);
                         this.props.saveTxDetailModalVisibility(false);
                         this.fadeOutUp();
+                        await this.resendTx();
                       }
                     }}
                   />
