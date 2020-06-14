@@ -534,7 +534,6 @@ const TransactionDetailModal = connect(mapIsOnlineAndModalStateToProps, mapDispa
           }}
         >
           <ModalContainer>
-              <TransactionDetail tx={this.state.txToUpdate} />
             <ModalHandler />
             {this.state.txToUpdate.getState() === 0 || this.state.txToUpdate.getState() === 1
             ? (
@@ -568,13 +567,16 @@ const TransactionDetailModal = connect(mapIsOnlineAndModalStateToProps, mapDispa
                 <IsOnlineMessage isOnline={this.props.isOnline} />
               </>
             ) : null}
+            {/* <TransactionDetail tx={this.state.txToUpdate} /> */}
           </ModalContainer>
         </Modal>
       );
+    }
 
     return null;
   }
 }
+);
 
 const ModalContainer = styled.View`
   background-color: #fff;
