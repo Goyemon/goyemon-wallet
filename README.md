@@ -22,7 +22,6 @@ $ npm run postinstall
 
 # pod install
 $ cd ios &&\
-  pod install &&\
   sudo gem install cocoapods-clean &&\
   pod deintegrate &&\
   pod clean &&\
