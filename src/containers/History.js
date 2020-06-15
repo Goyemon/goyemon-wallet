@@ -536,9 +536,9 @@ const TransactionDetailModal = connect(
     }
 
     priceSliderSettled(value) {
-      LogUtilities.dumpObject('priceSliderSettled() value', value);
+      LogUtilities.dumpObject('priceSliderSettled() value', Math.floor(value));
       this.setState({
-        newGasPrice: value
+        newGasPrice: Math.floor(value)
       });
     }
 
