@@ -25,12 +25,7 @@ const TransactionStatus = (props) => (
 
         case TxStorage.TxStates.STATE_ERROR:
           return (
-            <>
-              <FailedStatusText>{I18n.t('history-failed')}</FailedStatusText>
-              <FailedStatusHintText>
-                *try syncing in the advanced settings
-              </FailedStatusHintText>
-            </>
+            <FailedStatusText>{I18n.t('history-failed')}</FailedStatusText>
           );
 
         default:
@@ -49,13 +44,7 @@ const TransactionStatusContainer = styled.View`
 const FailedStatusText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
-  font-size: 20;
-`;
-
-const FailedStatusHintText = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 12;
+  font-size: 18;
 `;
 
 export { TransactionStatus };
