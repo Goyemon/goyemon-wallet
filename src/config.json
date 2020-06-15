@@ -1,35 +1,14 @@
 // Ropsten testnet
-{
-  "FCM_server_address": "687286274439@gcm.googleapis.com",
-  "network_name": "ropsten",
-  "network_id": 3,
-  "EtherscanLink": "https://ropsten.etherscan.io/tx/",
-  "cDAIcontract": "0x2b536482a01e620ee111747f8334b395a42a555e",
-  "DAITokenContract": "0xb5e5d0f8c0cba267cd3d7035d6adc8eba7df7cdd",
-  "WETHTokenContract": "0xc778417e063141139fce010982780140aa0cd5ab",
-  "RouterUniswapV2": "0xf164fC0Ec4E93095b804a4795bBe1e041497b92a",
-  "DAIPoolTogetherContractV2": "0xc4CCd92240A36C05b9d63d479457b929241c960B",
-  "ETHTxGasLimit": 21000,
-  "ERC20TransferGasLimit": 65000,
-  "ERC20ApproveGasLimit": 50000,
-  "cTokenMintGasLimit": 350000,
-  "cTokenRedeemUnderlyingGasLimit": 650000,
-  "UniswapV2SwapExactETHForTokensGasLimit": 150000,
-  "PoolTogetherDepositPoolGasLimit": 900000,
-  "PoolTogetherWithdrawGasLimit": 1200000
-}
-
-// Mainnet
 // {
-//   "FCM_server_address": "1050179785740@gcm.googleapis.com",
-//   "network_name": "mainnet",
-//   "network_id": 1,
-//   "EtherscanLink": "https://etherscan.io/tx/",
-//   "cDAIcontract": "0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643",
-//   "DAITokenContract": "0x6b175474e89094c44da98b954eedeac495271d0f",
-//   "WETHTokenContract": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+//   "FCM_server_address": "687286274439@gcm.googleapis.com",
+//   "network_name": "ropsten",
+//   "network_id": 3,
+//   "EtherscanLink": "https://ropsten.etherscan.io/tx/",
+//   "cDAIcontract": "0x2b536482a01e620ee111747f8334b395a42a555e",
+//   "DAITokenContract": "0xb5e5d0f8c0cba267cd3d7035d6adc8eba7df7cdd",
+//   "WETHTokenContract": "0xc778417e063141139fce010982780140aa0cd5ab",
 //   "RouterUniswapV2": "0xf164fC0Ec4E93095b804a4795bBe1e041497b92a",
-//   "DAIPoolTogetherContractV2": "0x29fe7D60DdF151E5b52e5FAB4f1325da6b2bD958",
+//   "DAIPoolTogetherContractV2": "0xc4CCd92240A36C05b9d63d479457b929241c960B",
 //   "ETHTxGasLimit": 21000,
 //   "ERC20TransferGasLimit": 65000,
 //   "ERC20ApproveGasLimit": 50000,
@@ -39,3 +18,24 @@
 //   "PoolTogetherDepositPoolGasLimit": 900000,
 //   "PoolTogetherWithdrawGasLimit": 1200000
 // }
+
+// Mainnet
+{
+  "FCM_server_address": "1050179785740@gcm.googleapis.com",
+  "network_name": "mainnet",
+  "network_id": 1,
+  "EtherscanLink": "https://etherscan.io/tx/",
+  "cDAIcontract": "0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643",
+  "DAITokenContract": "0x6b175474e89094c44da98b954eedeac495271d0f",
+  "WETHTokenContract": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+  "RouterUniswapV2": "0xf164fC0Ec4E93095b804a4795bBe1e041497b92a",
+  "DAIPoolTogetherContractV2": "0x29fe7D60DdF151E5b52e5FAB4f1325da6b2bD958",
+  "ETHTxGasLimit": 21000,
+  "ERC20TransferGasLimit": 65000,
+  "ERC20ApproveGasLimit": 50000,
+  "cTokenMintGasLimit": 350000,
+  "cTokenRedeemUnderlyingGasLimit": 650000,
+  "UniswapV2SwapExactETHForTokensGasLimit": 150000,
+  "PoolTogetherDepositPoolGasLimit": 900000,
+  "PoolTogetherWithdrawGasLimit": 1200000
+}
