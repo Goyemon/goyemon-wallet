@@ -230,7 +230,7 @@ class Settings extends Component {
           </TouchableHighlight>
         </UntouchableCardContainer>
         <BottomText>
-          <VersionText>v0.0.1</VersionText>
+          <VersionText>v0.0.3</VersionText>
           <Icon name="heart-outline" color="#5f5f5f" size={24} />
           <LoveText>Made with love by Swarm</LoveText>
         </BottomText>
