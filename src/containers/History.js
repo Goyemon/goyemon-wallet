@@ -403,6 +403,7 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
     }
 
     sliderValueChange(gasPriceWeiDecimal) {
+      gasPriceWeiDecimal = Math.floor(gasPriceWeiDecimal);
       this.setState(this.getPriceState(gasPriceWeiDecimal));
     }
 
