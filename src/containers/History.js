@@ -11,6 +11,7 @@ import {
   HeaderTwo,
   Button,
   GoyemonText,
+  InsufficientWeiBalanceMessage,
   IsOnlineMessage,
   TransactionStatus,
   ModalHandler,
@@ -376,6 +377,9 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
   class MagicalGasPriceSlider extends Component {
     constructor(props) {
       super(props);
+      this.state = {
+        weiAmountValidation: undefined
+      };
       this.state = this.getPriceState(this.props.currentGasPrice);
       props.gasPrice.forEach((x) => {
         if (x.speed == 'super fast')
@@ -383,23 +387,40 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
       });
     }
 
-    getPriceState(price) {
+    getPriceState(gasPriceWeiDecimal) {
       return {
         usdValue: TransactionUtilities.getTransactionFeeEstimateInUsd(
-          price,
-          this.props.gasAmount
+          gasPriceWeiDecimal,
+          this.props.gasLimit
         ),
         ethValue: parseFloat(
           TransactionUtilities.getTransactionFeeEstimateInEther(
-            price,
-            this.props.gasAmount
+            gasPriceWeiDecimal,
+            this.props.gasLimit
           )
         ).toFixed(5)
       };
     }
 
-    sliderValueChange(v) {
-      this.setState(this.getPriceState(v));
+    sliderValueChange(gasPriceWeiDecimal) {
+      this.setState(this.getPriceState(gasPriceWeiDecimal));
+    }
+
+    sendWeiAmountValidation(weiAmountValidation) {
+      this.props.parentCallback(weiAmountValidation);
+    }
+
+    updateWeiAmountValidation(weiAmountValidation) {
+      this.sendWeiAmountValidation(weiAmountValidation);
+      if (weiAmountValidation) {
+        this.setState({
+          weiAmountValidation: true
+        });
+      } else if (!weiAmountValidation) {
+        this.setState({
+          weiAmountValidation: false
+        });
+      }
     }
 
     render() {
@@ -420,7 +441,15 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
             value={minimumGasPrice}
             minimumValue={minimumGasPrice}
             maximumValue={this.state.maxPrice}
-            onValueChange={this.sliderValueChange.bind(this)}
+            onValueChange={(gasPriceWeiDecimal) => {
+              this.updateWeiAmountValidation(
+                TransactionUtilities.validateWeiAmountForTransactionFee(
+                  gasPriceWeiDecimal,
+                  this.props.gasLimit
+                )
+              );
+              this.sliderValueChange(gasPriceWeiDecimal);
+            }}
             onSlidingComplete={this.props.onSettle}
             minimumTrackTintColor="#00A3E2"
             style={{
@@ -430,6 +459,9 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
               marginTop: 32,
               marginBottom: 16
             }}
+          />
+          <InsufficientWeiBalanceMessage
+            weiAmountValidation={this.state.weiAmountValidation}
           />
           <NetworkFeeContainer>
             <GoyemonText fontSize={20}>{this.state.ethValue} ETH</GoyemonText>
@@ -461,9 +493,13 @@ const TransactionDetailModal = connect(
         txToUpdate: null,
         newGasPrice: null,
         txResent: false,
-        loading: false,
-        buttonDisabled: false
+        loading: false
       };
+    }
+
+    updateWeiAmountValidationInModal(validation) {
+      return validation;
+      // add this return value for the button opacity and disabling property
     }
 
     handleViewRef = (ref) => (this.view = ref);
@@ -482,6 +518,7 @@ const TransactionDetailModal = connect(
     }
 
     async resendTx() {
+      this.setState({ loading: true });
       // update gas
       const newTx = this.state.txToUpdate.deepClone();
       newTx.setGasPrice(this.state.newGasPrice.toString(16));
@@ -542,8 +579,9 @@ const TransactionDetailModal = connect(
                       this.state.txToUpdate.getGasPrice(),
                       16
                     )}
-                    gasAmount={parseInt(this.state.txToUpdate.getGas(), 16)}
+                    gasLimit={parseInt(this.state.txToUpdate.getGasLimit(), 16)}
                     onSettle={this.priceSliderSettled.bind(this)}
+                    parentCallback={this.updateWeiAmountValidationInModal}
                   />
                   <Button
                     text="Speed Up Transaction"
@@ -552,18 +590,14 @@ const TransactionDetailModal = connect(
                     borderColor="#00A3E2"
                     margin="16px auto"
                     marginBottom="8px"
-                    opacity="1"
-                    disabled={this.state.buttonDisabled}
+                    disabled={
+                      !this.props.isOnline || this.state.loading ? true : false
+                    }
+                    opacity={this.props.isOnline ? 1 : 0.5}
                     onPress={async () => {
-                      if (this.props.isOnline) {
-                        this.setState({ loading: true, buttonDisabled: true });
-                        await this.resendTx();
-                        this.zoomIn();
-                        this.setState({
-                          loading: false,
-                          buttonDisabled: false
-                        });
-                      }
+                      await this.resendTx();
+                      this.zoomIn();
+                      this.setState({ loading: false });
                     }}
                   />
                   <AnimationContainer>
