@@ -380,7 +380,7 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
       this.state = {
         weiAmountValidation: undefined
       };
-      this.state = this.getPriceState(this.props.currentGasPrice);
+      this.state = this.getPriceState(Math.ceil(this.props.currentGasPrice * 1.1));
       props.gasPrice.forEach((x) => {
         if (x.speed == 'super fast')
           this.state.maxPrice = Math.ceil(x.value * 1.2);
