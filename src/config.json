@@ -39,5 +39,3 @@
 //   "PoolTogetherDepositPoolGasLimit": 900000,
 //   "PoolTogetherWithdrawGasLimit": 1200000
 // }
-
-// the usd price of currencies is always the mainnet data
