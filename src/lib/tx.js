@@ -1671,7 +1671,7 @@ class Tx {
   getGasPrice() {
     return this.gasPrice;
   }
-  getGas() {
+  getGasLimit() {
     return this.gas;
   }
 

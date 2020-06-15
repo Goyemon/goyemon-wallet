@@ -23,7 +23,10 @@ import {
 import { AdvancedContainer } from './common/AdvancedContainer';
 import TxConfirmationModal from '../containers/common/TxConfirmationModal';
 import I18n from '../i18n/I18n';
-import { RoundDownBigNumberPlacesFour } from '../utilities/BigNumberUtilities';
+import {
+  RoundDownBigNumberPlacesFour,
+  RoundDownBigNumberPlacesEighteen
+} from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
@@ -81,8 +84,10 @@ class DepositDaiToCompound extends Component {
 
     const mintEncodedABI = ABIEncoder.encodeCDAIMint(daiAmount, decimals);
 
-    const daiAmountWithDecimals = new BigNumber(this.state.daiAmount)
-      .times(new BigNumber(10).pow(18))
+    const daiAmountWithDecimals = new RoundDownBigNumberPlacesEighteen(
+      this.state.daiAmount
+    )
+      .times(new RoundDownBigNumberPlacesEighteen(10).pow(18))
       .toString(16);
 
     const transactionObject = (await TxStorage.storage.newTx())

@@ -9,7 +9,7 @@ From your command line:
 
 ```bash
 # clone this repository
-$ git clone https://github.com/taisukemino/Goyemon.git
+$ git clone https://github.com/Goyemon/Goyemon.git
 
 # checkout to the develop branch
 $ cd Goyemon && git checkout develop

@@ -1,5 +1,4 @@
 'use strict';
-import BigNumber from 'bignumber.js';
 import {
   SAVE_WEI_BALANCE,
   SAVE_DAI_BALANCE,
@@ -8,6 +7,7 @@ import {
   SAVE_POOL_TOGETHER_DAI_BALANCE,
   MOVE_POOL_TOGETHER_DAI_BALANCE
 } from '../constants/ActionTypes';
+import { RoundDownBigNumberPlacesEighteen } from '../utilities/BigNumberUtilities';
 
 const INITIAL_STATE = {
   balance: {
@@ -53,7 +53,9 @@ const balance = (state = INITIAL_STATE, action) => {
           pooltogetherDai: {
             ...state.balance.pooltogetherDai,
             open: '0',
-            committed: new BigNumber(state.balance.pooltogetherDai.open)
+            committed: new RoundDownBigNumberPlacesEighteen(
+              state.balance.pooltogetherDai.open
+            )
               .plus(state.balance.pooltogetherDai.committed)
               .toString(10)
           }

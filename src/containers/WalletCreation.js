@@ -2,7 +2,8 @@
 import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, RefreshControl, Modal } from 'react-native';
+import { ScrollView, RefreshControl } from 'react-native';
+import Modal from 'react-native-modal';
 import * as Animatable from 'react-native-animatable';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { StackActions, NavigationActions } from 'react-navigation';
@@ -190,26 +191,19 @@ class WalletCreation extends Component {
           {this.PullDownToRefreshMessage()}
           {this.FadeInMessages()}
           <Modal
-            animationType="fade"
-            transparent
-            visible={this.state.modalVisible}
+            animationIn="fadeIn"
+            animationInTiming={800}
+            isVisible={this.state.modalVisible}
           >
-            <ModalBackground>
-              <ModalInner>
-                <ModalText>Your wallet is ready! 🙌</ModalText>
-              </ModalInner>
-            </ModalBackground>
+            <ModalInner>
+              <ModalText>Your wallet is ready! 🙌</ModalText>
+            </ModalInner>
           </Modal>
         </Container>
       </ScrollView>
     );
   }
 }
-
-const ModalBackground = styled.View`
-  background-color: rgba(0, 0, 0, 0.7);
-  height: 100%;
-`;
 
 const FadeInMessageContainer = styled.View`
   min-height: ${hp('50%')};

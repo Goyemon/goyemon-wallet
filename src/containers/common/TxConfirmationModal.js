@@ -1,14 +1,13 @@
 'use strict';
 import React, { Component } from 'react';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { connect } from 'react-redux';
 import {
   NavigationActions,
   StackActions,
   withNavigation
 } from 'react-navigation';
-import { Modal, Alert, View } from 'react-native';
+import { View } from 'react-native';
+import Modal from 'react-native-modal';
 import styled from 'styled-components';
 import {
   saveTxConfirmationModalVisibility,
@@ -20,7 +19,8 @@ import {
   IsOnlineMessage,
   Loader,
   HeaderTwo,
-  TxConfirmationButton
+  TxConfirmationButton,
+  ModalHandler
 } from '../../components/common';
 import NetworkFeeContainerConfirmation from './NetworkFeeContainerConfirmation';
 import I18n from '../../i18n/I18n';
@@ -334,30 +334,34 @@ class TxConfirmationModal extends Component {
   render() {
     return (
       <Modal
-        animationType="slide"
-        transparent
-        visible={this.props.modal.txConfirmationModalVisibility}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
+        animationIn="slideInUp"
+        animationOut="slideOutDown"
+        isVisible={this.props.modal.txConfirmationModalVisibility}
+        swipeDirection="down"
+        onBackdropPress={() => {
+          this.props.saveTxConfirmationModalVisibility(false);
+          this.props.updateTxConfirmationModalVisibleType(null);
+        }}
+        onSwipeComplete={() => {
+          this.props.saveTxConfirmationModalVisibility(false);
+          this.props.updateTxConfirmationModalVisibleType(null);
+        }}
+        style={{
+          marginLeft: 4,
+          marginRight: 4,
+          marginBottom: 0,
+          flexDirection: 'row',
+          alignItems: 'flex-end'
         }}
       >
         <ModalContainer>
-          <ModalBackground>
-            <CloseButton
-              onPress={() => {
-                this.props.saveTxConfirmationModalVisibility(false);
-                this.props.updateTxConfirmationModalVisibleType(null);
-              }}
-            >
-              <Icon name="chevron-down" color="#5F5F5F" size={24} />
-            </CloseButton>
-            <HeaderContainer>
-              <HeaderTwo marginBottom="0" marginLeft="0" marginTop="0">
-                Confirm Transaction
-              </HeaderTwo>
-            </HeaderContainer>
-            <ModalInner>{this.renderModalContent()}</ModalInner>
-          </ModalBackground>
+          <ModalHandler />
+          <HeaderContainer>
+            <HeaderTwo marginBottom="0" marginLeft="0" marginTop="16">
+              Confirm Transaction
+            </HeaderTwo>
+          </HeaderContainer>
+          <ModalInner>{this.renderModalContent()}</ModalInner>
         </ModalContainer>
       </Modal>
     );
@@ -365,34 +369,13 @@ class TxConfirmationModal extends Component {
 }
 
 const ConfirmationContainer = styled.View`
-  align-items: flex-start;
-  background: #fff;
-  flex-direction: column;
-  justify-content: flex-start;
   padding: 8px 24px;
-  text-align: left;
-  width: 100%;
 `;
 
 const ModalContainer = styled.View`
-  align-items: flex-end;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  flex-direction: row;
-  justify-content: center;
-  height: 100%;
-`;
-
-const ModalBackground = styled.View`
   background-color: #fff;
   border-radius: 16px;
-  height: ${hp('40%')};
-  min-height: 400px;
-  width: 98%;
-`;
-
-const CloseButton = styled.TouchableOpacity`
-  margin-left: 16;
-  margin-top: 16;
+  width: 100%;
 `;
 
 const HeaderContainer = styled.View`
@@ -402,9 +385,8 @@ const HeaderContainer = styled.View`
 const ModalInner = styled.View`
   align-items: center;
   justify-content: center;
-  flex: 1;
+  margin-top: 16;
   flex-direction: column;
-  width: 100%;
 `;
 
 const SlippageText = styled.Text`

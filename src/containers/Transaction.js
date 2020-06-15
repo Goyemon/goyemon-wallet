@@ -1,10 +1,15 @@
 'use strict';
 import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
-import { GoyemonText, UntouchableCardContainer } from '../components/common';
+import { saveTxDetailModalVisibility } from '../actions/ActionModal';
+import {
+  GoyemonText,
+  TouchableCardContainer,
+  TransactionStatus
+} from '../components/common';
 import I18n from '../i18n/I18n';
 import TxStorage from '../lib/tx.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
@@ -16,10 +21,6 @@ class Transaction extends Component {
       transaction: null,
       children: <GoyemonText fontSize={12}>...</GoyemonText>
     };
-  }
-
-  render() {
-    return this.state.children;
   }
 
   componentDidMount() {
@@ -44,7 +45,7 @@ class Transaction extends Component {
     const time = TransactionUtilities.parseTransactionTime(tx.getTimestamp());
 
     return (
-      <UntouchableCardContainer
+      <TouchableCardContainer
         alignItems="center"
         borderRadius="0"
         flexDirection="row"
@@ -53,7 +54,14 @@ class Transaction extends Component {
         marginTop="0"
         textAlign="left"
         width="90%"
-        onPress={() => this.props.onTxTapped(tx)}
+        onPress={() => {
+          if (tx.getState() === 0 || tx.getState() === 1) {
+            this.props.saveTxDetailModalVisibility(true);
+            this.props.onTxTapped(tx);
+          } else {
+            return null;
+          }
+        }}
       >
         <TransactionList>
           <InOrOutTransactionContainer>
@@ -152,42 +160,7 @@ class Transaction extends Component {
             <Time>{time}</Time>
           </TypeTimeContainer>
 
-          <StatusContainer>
-            {(() => {
-              let text;
-              switch (tx.getState()) {
-                case TxStorage.TxStates.STATE_NEW:
-                case TxStorage.TxStates.STATE_PENDING:
-                  text = I18n.t('history-pending') + '...';
-                  break;
-
-                case TxStorage.TxStates.STATE_INCLUDED:
-                  text = I18n.t('history-success');
-                  break;
-
-                case TxStorage.TxStates.STATE_CONFIRMED:
-                  text = I18n.t('history-success');
-                  break;
-
-                case TxStorage.TxStates.STATE_ERROR:
-                  return (
-                    <>
-                      <FailedStatusText>
-                        {I18n.t('history-failed')}
-                      </FailedStatusText>
-                      <FailedStatusHintText>
-                        *try syncing in the advanced settings
-                      </FailedStatusHintText>
-                    </>
-                  );
-
-                default:
-                // TODO: exception?
-              }
-
-              return <GoyemonText fontSize={18}>{text}</GoyemonText>;
-            })()}
-          </StatusContainer>
+          <TransactionStatus width="26%" txState={tx.getState()} />
 
           <ValueContainer>
             {(() => {
@@ -287,7 +260,7 @@ class Transaction extends Component {
             })()}
           </ValueContainer>
         </TransactionList>
-      </UntouchableCardContainer>
+      </TouchableCardContainer>
     );
   }
 
@@ -305,9 +278,11 @@ class Transaction extends Component {
     const topType = (top, toptok) => {
       if (
         top instanceof
-        TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.eth2tok] ||
+          TxStorage.TxTokenOpNameToClass[
+            TxStorage.TxTokenOpTypeToName.eth2tok
+          ] ||
         top instanceof
-        TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.U2swap]
+          TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.U2swap]
       )
         return {
           type: 'swap',
@@ -518,6 +493,10 @@ class Transaction extends Component {
 
     return topType(top, toptok);
   }
+
+  render() {
+    return this.state.children;
+  }
 }
 
 const styles = {
@@ -555,22 +534,6 @@ const Time = styled.Text`
   font-family: 'HKGrotesk-Regular';
 `;
 
-const StatusContainer = styled.View`
-  width: 26%;
-`;
-
-const FailedStatusText = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 20;
-`;
-
-const FailedStatusHintText = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 12;
-`;
-
 const ValueContainer = styled.View`
   align-items: center;
   flex-direction: row;
@@ -592,4 +555,8 @@ const SwapValueTextContainer = styled.View`
 //   checksumAddress: state.ReducerChecksumAddress.checksumAddress
 // });
 
-export default Transaction;
+const mapDispatchToProps = {
+  saveTxDetailModalVisibility
+};
+
+export default connect(null, mapDispatchToProps)(Transaction);
