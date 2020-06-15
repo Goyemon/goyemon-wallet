@@ -4,6 +4,7 @@ import { TouchableOpacity, Linking } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Modal from 'react-native-modal';
 import styled from 'styled-components';
+import Web3 from 'web3';
 import { saveTxDetailModalVisibility } from '../actions/ActionModal';
 import {
   Container,
@@ -39,7 +40,8 @@ const mapGasPriceStateToProps = (state) => ({
   gasPrice: state.ReducerGasPrice.gasPrice
 });
 
-const mapIsOnlineAndModalStateToProps = (state) => ({
+const mapAddressAndIsOnlineAndModalStateToProps = (state) => ({
+  checksumAddress: state.ReducerChecksumAddress.checksumAddress,
   isOnline: state.ReducerNetInfo.isOnline,
   modal: state.ReducerModal.modal
 });
@@ -380,7 +382,9 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
       this.state = {
         weiAmountValidation: undefined
       };
-      this.state = this.getPriceState(Math.ceil(this.props.currentGasPrice * 1.1));
+      this.state = this.getPriceState(
+        Math.ceil(this.props.currentGasPrice * 1.1)
+      );
       props.gasPrice.forEach((x) => {
         if (x.speed == 'super fast')
           this.state.maxPrice = Math.ceil(x.value * 1.2);
@@ -484,7 +488,7 @@ const Explanation = styled.View`
 `;
 
 const TransactionDetailModal = connect(
-  mapIsOnlineAndModalStateToProps,
+  mapAddressAndIsOnlineAndModalStateToProps,
   mapDispatchToProps
 )(
   class TransactionDetailModal extends Component {
@@ -572,8 +576,10 @@ const TransactionDetailModal = connect(
           >
             <ModalContainer>
               <ModalHandler />
-              {this.state.txToUpdate.getState() === 0 ||
-              this.state.txToUpdate.getState() === 1 ? (
+              {this.props.checksumAddress ===
+                Web3.utils.toChecksumAddress(this.state.txToUpdate.getFrom()) &&
+              (this.state.txToUpdate.getState() === 0 ||
+                this.state.txToUpdate.getState() === 1) ? (
                 <>
                   <MagicalGasPriceSlider
                     currentGasPrice={parseInt(
