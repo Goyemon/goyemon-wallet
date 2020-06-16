@@ -1029,13 +1029,13 @@ class PersistTxStorageAbstraction {
   }
 
   __indexDiff(oldtx, newtx) {
-    let ret = {
+    const ret = {
       common: [],
       add: [],
       remove: []
     };
 
-    let oldidx = {};
+    const oldidx = {};
     Object.entries(this.filters).forEach(([index, filterfunc]) => {
       if (filterfunc(oldtx)) oldidx[index] = 1;
     });
@@ -1059,7 +1059,7 @@ class PersistTxStorageAbstraction {
   async replaceTx(oldtx, newtx, oldhash, newhash, toplockremove = false) {
     // for now this can only be called when changing nonce_xxx to proper txhash, so when 'sent' state goes into included. soon added: nonce_xxx to fail_xxx when a tx errors out (and we dont want to keep the nonce_xxx key as it'll get overwritten)
 
-	let indexDiff = this.__indexDiff(oldtx, newtx);
+	const indexDiff = this.__indexDiff(oldtx, newtx);
     // TODO: index differences disregarded for now.
     // also, what if new tx goes into new indices? at which position should it be?
 
@@ -1107,7 +1107,7 @@ class PersistTxStorageAbstraction {
   async updateTx(oldtx, newtx, hash) {
     // no hash change, therefore sent stays sent (nonce_xxx) or included stays included (txhash)
 
-    let indexDiff = this.__indexDiff(oldtx, newtx);
+    const indexDiff = this.__indexDiff(oldtx, newtx);
     // TODO: index differences disregarded for now.
 
     if (this.debug) {
@@ -2231,7 +2231,7 @@ class TxStorage {
   async getNextNonce() {
     // TODO: look at failed nonces first, this.failed_nonces; probably Object.keys(this.failed_nonces).reduce((a, b) => (a ? (a > b ? b : a) : b), null) <- min(Object.keys(this.failed_nonces))
     LogUtilities.toDebugScreen(
-      `getNextNonce(): next nonce: ${this.our_max_nonce + 1}`
+      `getNextNonce(): next nonce: ${this.our_max_nonce + 1}, failed_nonces:${JSON.stringify(this.failed_nonces)}`
     );
     return this.our_max_nonce + 1;
   }
