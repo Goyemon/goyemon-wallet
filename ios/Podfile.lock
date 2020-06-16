@@ -95,7 +95,7 @@ PODS:
   - Permission-PhotoLibrary (2.1.5):
     - RNPermissions
   - PromisesObjC (1.2.8)
-  - Protobuf (3.12.0)
+  - Protobuf (3.11.4)
   - RCTRequired (0.62.0)
   - RCTTypeSafety (0.62.0):
     - FBLazyVector (= 0.62.0)
@@ -559,7 +559,7 @@ SPEC CHECKSUMS:
   Permission-Camera: 53d46bd722aea28d796e20f05fb3cbe6cde6ccb6
   Permission-PhotoLibrary: 3400b260e5f80e0dd9c04d00c2ceab233bf88427
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
-  Protobuf: 2793fcd0622a00b546c60e7cbbcc493e043e9bb9
+  Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
   RCTRequired: 0873f5bdb1762d2b9b1ae16a01c4f91d6ee3b6dd
   RCTTypeSafety: a605e0cc0e4220f6e65896bd9e675073c2978f35
   React: 8abf6bdd2b05538e9445f7bbda800df744068bfe

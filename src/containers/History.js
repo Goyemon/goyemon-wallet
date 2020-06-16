@@ -315,15 +315,15 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
               return (
                 <>
                   <GoyemonText fontSize={12}>{x.type}</GoyemonText>
-                  {x.direction ? (
+                  {/* {x.direction ? ( */}
                     <GoyemonText fontSize={12}>{x.direction}</GoyemonText>
-                  ) : null}
-                  {x.amount ? (
+                  {/* ) : null} */}
+                  {/* {x.amount ? ( */}
                     <GoyemonText fontSize={12}>
                       {x.amount}
                       {x.token}
                     </GoyemonText>
-                  ) : null}
+                  {/* ) : null} */}
                 </>
               );
 
@@ -626,7 +626,7 @@ const TransactionDetailModal = connect(
                   <IsOnlineMessage isOnline={this.props.isOnline} />
                 </>
               ) : null}
-              {/* <TransactionDetail tx={this.state.txToUpdate} /> */}
+              <TransactionDetail tx={this.state.txToUpdate} />
             </ModalContainer>
           </Modal>
         );

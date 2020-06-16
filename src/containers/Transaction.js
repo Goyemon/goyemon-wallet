@@ -55,12 +55,12 @@ class Transaction extends Component {
         textAlign="left"
         width="90%"
         onPress={() => {
-          if (tx.getState() === 0 || tx.getState() === 1) {
+          // if (tx.getState() === 0 || tx.getState() === 1) {
             this.props.saveTxDetailModalVisibility(true);
             this.props.onTxTapped(tx);
-          } else {
-            return null;
-          }
+          // } else {
+          //   return null;
+          // }
         }}
       >
         <TransactionList>
