@@ -14,7 +14,7 @@
   "ERC20ApproveGasLimit": 50000,
   "cTokenMintGasLimit": 350000,
   "cTokenRedeemUnderlyingGasLimit": 650000,
-  "UniswapV2SwapExactETHForTokensGasLimit": 150000,
+  "UniswapV2SwapExactETHForTokensGasLimit": 250000,
   "PoolTogetherDepositPoolGasLimit": 900000,
   "PoolTogetherWithdrawGasLimit": 1200000
 }
@@ -35,7 +35,7 @@
 //   "ERC20ApproveGasLimit": 50000,
 //   "cTokenMintGasLimit": 350000,
 //   "cTokenRedeemUnderlyingGasLimit": 650000,
-//   "UniswapV2SwapExactETHForTokensGasLimit": 150000,
+//   "UniswapV2SwapExactETHForTokensGasLimit": 250000,
 //   "PoolTogetherDepositPoolGasLimit": 900000,
 //   "PoolTogetherWithdrawGasLimit": 1200000
 // }
