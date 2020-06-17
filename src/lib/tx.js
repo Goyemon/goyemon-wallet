@@ -2229,11 +2229,12 @@ class TxStorage {
   }
 
   async getNextNonce() {
-    // TODO: look at failed nonces first, this.failed_nonces; probably Object.keys(this.failed_nonces).reduce((a, b) => (a ? (a > b ? b : a) : b), null) <- min(Object.keys(this.failed_nonces))
+	const failed_nonce = Object.keys(this.failed_nonces).map(x => parseInt(x)).reduce((a, b) => (a !== null ? (a > b ? b : a) : b), null);
     LogUtilities.toDebugScreen(
-      `getNextNonce(): next nonce: ${this.our_max_nonce + 1}, failed_nonces:${JSON.stringify(this.failed_nonces)}`
-    );
-    return this.our_max_nonce + 1;
+      `getNextNonce(): next nonce:${failed_nonce !== null ? failed_nonce : this.our_max_nonce + 1} our_max_nonce:${this.our_max_nonce}, failed_nonce:${failed_nonce} failed_nonces:${JSON.stringify(this.failed_nonces)}`
+	);
+
+    return (failed_nonce !== null ? failed_nonce : this.our_max_nonce + 1);
   }
 
   async clear(batch = false) {
