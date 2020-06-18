@@ -19,6 +19,8 @@ $ npm install
 
 # install node core modules
 $ npm run postinstall
+// you should see the shim.js in a home directory.
+nodeJS core modules cannot be used in React Native, and thus you have to use some hacks: we use rn-nodeify module to use nodeJS core modules.
 
 # pod install
 $ cd ios && pod install
@@ -33,9 +35,6 @@ $ npm run start
 
 ```
 
-_you should see the shim.js in a home directory.
-nodeJS core modules cannot be used in React Native, and thus you have to use some hacks: we use rn-nodeify module to use nodeJS core modules._
-
 We also added a method in the npm module. In `react-native-firebase/dist/modules/messaging/index.js`, add the method below the constructor:
 ```js
   stupid_shit_initialized() {
@@ -44,24 +43,25 @@ We also added a method in the npm module. In `react-native-firebase/dist/modules
     }
   }
 ```
+_we could remove this method when we migrate to the new version of firebase._
+
+Contact somebody in our team if the build fails.
+
 
 ## Config Files
 We have three config files:
-`Goyemon/ios/GoogleService-Info.plist`
-`Goyemon/android/app/google-services.json`
-`Goyemon/src/config.json`
+- `Goyemon/ios/GoogleService-Info.plist`
+- `Goyemon/android/app/google-services.json`
+- `Goyemon/src/config.json`
 
 In the master, these config files have values for the Mainnet. In the develop(and other feature branches), these config files have values for the Ropsten.
 
 These config files usually should NOT be changed. If you do, you need to be EXTRA careful when you merge the develop into the master. 
 
 
-Contact somebody in our team if the build fails.
-
 ## Version Info
 
 I am using:
-
 ```
 $ python --version
 Python 3.7.0
@@ -75,7 +75,7 @@ $ pod --version
 1.9.1
 ```
 
-macOS Mojave 10.14.6
+macOS Catalina 10.15.5
 Xcode 11.3.1
 
 ## License
