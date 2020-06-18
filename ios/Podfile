@@ -39,10 +39,5 @@ target 'Goyemon' do
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
   pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary.podspec"
 
-  pod 'Firebase/Core', '~> 6.2.0'
-  pod 'Firebase/Messaging', '~> 6.2.0'
-  pod 'Fabric', '~> 1.10.2'
-  pod 'Crashlytics', '~> 3.13.2'
-
   use_native_modules!
 end
