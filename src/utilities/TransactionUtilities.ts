@@ -1,6 +1,7 @@
 'use strict';
 import ethTx from 'ethereumjs-tx';
-import firebase from 'react-native-firebase';
+import firebase from '@react-native-firebase/app';
+import '@react-native-firebase/messaging';
 import uuidv4 from 'uuid/v4';
 import Web3 from 'web3';
 import { addSentTransaction } from '../actions/ActionTransactionHistory';
