@@ -108,15 +108,24 @@ class FCMMsgs {
   }
 
   __sendMessage(type, otherData = {}) {
-    const upstreamMessage = new firebase.messaging.RemoteMessage()
-      .setMessageId(this.__gen_msg_id())
-      .setTo(GlobalConfig.FCM_server_address)
-      .setData({
+    const upstreamMessage = {
+      messageId: this.__gen_msg_id(),
+      to: GlobalConfig.FCM_server_address,
+      data: {
         type: type,
         ...otherData
-      });
+      }
+    };
 
-    firebase.messaging().sendMessage(upstreamMessage);
+    firebase
+      .messaging()
+      .sendMessage(upstreamMessage)
+      .then((response) => {
+        console.log('Successfully sent message:', response);
+      })
+      .catch((error) => {
+        console.log('Error sending message:', error);
+      });
   }
 
   __on_msg(id, type, num, count, data) {
