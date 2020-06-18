@@ -45,6 +45,15 @@ We also added a method in the npm module. In `react-native-firebase/dist/modules
   }
 ```
 
+## Config Files
+We have three config files:
+`Goyemon/ios/GoogleService-Info.plist`
+`Goyemon/android/app/google-services.json`
+`Goyemon/src/config.json`
+
+In the master, these config files have values for the Mainnet. In the develop(and other feature branches), these config files have values for the Ropsten.
+
+These config files usually should NOT be changed. If you do, you need to be EXTRA careful when you merge the develop into the master. 
 
 
 Contact somebody in our team if the build fails.
