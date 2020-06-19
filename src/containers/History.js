@@ -305,8 +305,6 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
       if (!this.state.txData)
         return <GoyemonText fontSize={12}>nothink!</GoyemonText>;
 
-      // return <GoyemonText fontSize={12}>{JSON.stringify(this.state.txData, null, 1)}{JSON.stringify(this.props.tx)}</GoyemonText>;
-
       return (
         <>
           <Container
@@ -347,37 +345,32 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                     <GoyemonText fontSize={12}>
                       {(() => {
                         const { name, size, color } = StyleUtilities.minusOrPlusIcon(x.type, x.direction)
-                        return name === ''
+                        return (
+                        name === ''
                         ? null
                         : <Icon name={name} size={size} color={color} />
-                      })()}
+                      )})()}
                       {x.amount}
                       {x.token}
                     </GoyemonText>
                   </SubtotalBox>}
                 </>
               );
-
-              switch (x.type) {
-              }
             })}
           </Container>
-          <GoyemonText fontSize={12}>From</GoyemonText>
-          <GoyemonText fontSize={12}>{this.props.tx.getFrom()}</GoyemonText>
+          {(() => {
+            const app = this.props.tx.getApplication(this.props.tx.getTo())
+          return (
+            app === ''
+          ? null
+          : <>
+              <GoyemonText fontSize={12}>Application</GoyemonText>
+              <GoyemonText fontSize={12}>{this.props.tx.getApplication(this.props.tx.getTo())}</GoyemonText>
+            </>
+          )})()}
 
-          <GoyemonText fontSize={12}>To</GoyemonText>
-          <GoyemonText fontSize={12}>{this.props.tx.getTo()}</GoyemonText>
-
-          <GoyemonText fontSize={12}>Value</GoyemonText>
-          <GoyemonText fontSize={12}>{this.props.tx.getValue()}</GoyemonText>
-
-          <GoyemonText fontSize={12}>gasPrice</GoyemonText>
+          <GoyemonText fontSize={12}>Network Fee</GoyemonText>
           <GoyemonText fontSize={12}>{this.props.tx.getGasPrice()}</GoyemonText>
-
-          <GoyemonText fontSize={12}>
-            {JSON.stringify(this.state.txData, null, 1)}
-            {JSON.stringify(this.props.tx)}
-          </GoyemonText>
 
           <GoyemonText fontSize={12}>Hash</GoyemonText>
           <GoyemonText
