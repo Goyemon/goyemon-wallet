@@ -57,6 +57,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
       this.state = {
         txData: this.computeTxData(props.tx)
       };
+      console.log(this.state.txData)
     }
 
     computeTxData(tx) {
@@ -296,6 +297,9 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
         this.setState({ txData: this.computeTxData(this.props.tx) });
     }
 
+    prefixUpperCase = txType =>
+      txType.charAt(0).toUpperCase() + txType.slice(1)
+
     render() {
       if (!this.state.txData)
         return <GoyemonText fontSize={12}>nothink!</GoyemonText>;
@@ -314,7 +318,24 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
             {this.state.txData.map((x) => {
               return (
                 <>
-                  <GoyemonText fontSize={12}>{x.type}</GoyemonText>
+                  <TxDetailHeader>
+                    <GoyemonText fontSize={12}>
+                      {this.prefixUpperCase(
+                        x.type === 'transfer'
+                        ? x.direction
+                        : x.type
+                      )}
+                    </GoyemonText>
+                    <GoyemonText fontSize={12}>
+                      {TransactionUtilities.parseTransactionTime(
+                        this.props.tx.getTimestamp()
+                      )}
+                    </GoyemonText>
+                    <TransactionStatus
+                      width="100%"
+                      txState={this.props.tx.getState()}
+                    />
+                  </TxDetailHeader>
                   {/* {x.direction ? ( */}
                     <GoyemonText fontSize={12}>{x.direction}</GoyemonText>
                   {/* ) : null} */}
@@ -330,15 +351,6 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
               switch (x.type) {
               }
             })}
-            <GoyemonText fontSize={12}>
-              {TransactionUtilities.parseTransactionTime(
-                this.props.tx.getTimestamp()
-              )}
-            </GoyemonText>
-            <TransactionStatus
-              width="100%"
-              txState={this.props.tx.getState()}
-            />
           </Container>
           <GoyemonText fontSize={12}>From</GoyemonText>
           <GoyemonText fontSize={12}>{this.props.tx.getFrom()}</GoyemonText>
@@ -374,6 +386,11 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
     }
   }
 );
+
+const TxDetailHeader = styled.View`
+margin-right: auto;
+margin-bottom: 16;
+`;
 
 const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
   class MagicalGasPriceSlider extends Component {
