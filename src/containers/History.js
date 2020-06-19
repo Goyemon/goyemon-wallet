@@ -343,15 +343,18 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                       txState={this.props.tx.getState()}
                     />
                   </TxDetailHeader>
-                  {/* {x.direction ? ( */}
-                    <GoyemonText fontSize={12}>{x.direction}</GoyemonText>
-                  {/* ) : null} */}
-                  {/* {x.amount ? ( */}
+                  {x.amount && <SubtotalBox>
                     <GoyemonText fontSize={12}>
+                      {(() => {
+                        const { name, size, color } = StyleUtilities.minusOrPlusIcon(x.type, x.direction)
+                        return name === ''
+                        ? null
+                        : <Icon name={name} size={size} color={color} />
+                      })()}
                       {x.amount}
                       {x.token}
                     </GoyemonText>
-                  {/* ) : null} */}
+                  </SubtotalBox>}
                 </>
               );
 
@@ -395,6 +398,11 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
 );
 
 const TxDetailHeader = styled.View`
+margin-right: auto;
+margin-bottom: 16;
+`;
+
+const SubtotalBox = styled.View`
 margin-right: auto;
 margin-bottom: 16;
 `;
