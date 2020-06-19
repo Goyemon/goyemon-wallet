@@ -46,40 +46,45 @@ class TxConfirmationModal extends Component {
   };
 
   returnHeaderType() {
+    const { modal } = this.props;
     if (
-      this.props.modal.txConfirmationModalType === 'compound-deposit' ||
-      this.props.modal.txConfirmationModalType === 'pool-together-deposit' ||
-      this.props.modal.txConfirmationModalType === 'compound-approve' ||
-      this.props.modal.txConfirmationModalType === 'pool-together-approve'
+      modal.txConfirmationModalType === 'compound-deposit' ||
+      modal.txConfirmationModalType === 'pool-together-deposit' ||
+      modal.txConfirmationModalType === 'compound-approve' ||
+      modal.txConfirmationModalType === 'pool-together-approve'
     ) {
       return <HeaderFive width="80%">{I18n.t('deposit-amount')}</HeaderFive>;
     } else if (
-      this.props.modal.txConfirmationModalType === 'compound-withdraw' ||
-      this.props.modal.txConfirmationModalType === 'pool-together-withdraw'
+      modal.txConfirmationModalType === 'compound-withdraw' ||
+      modal.txConfirmationModalType === 'pool-together-withdraw'
     ) {
       return <HeaderFive width="80%">{I18n.t('withdraw-amount')}</HeaderFive>;
     }
   }
 
   returnCurrency() {
-    if (this.props.modal.txConfirmationModalType === 'send-eth') {
+    const { modal } = this.props;
+
+    if (modal.txConfirmationModalType === 'send-eth') {
       return 'ETH';
-    } else if (this.props.modal.txConfirmationModalType === 'send-dai') {
+    } else if (modal.txConfirmationModalType === 'send-dai') {
       return 'DAI';
     }
   }
 
   returnButtonType() {
+    const { modal } = this.props;
+
     if (
-      this.props.modal.txConfirmationModalType === 'compound-deposit' ||
-      this.props.modal.txConfirmationModalType === 'pool-together-deposit' ||
-      this.props.modal.txConfirmationModalType === 'compound-approve' ||
-      this.props.modal.txConfirmationModalType === 'pool-together-approve'
+      modal.txConfirmationModalType === 'compound-deposit' ||
+      modal.txConfirmationModalType === 'pool-together-deposit' ||
+      modal.txConfirmationModalType === 'compound-approve' ||
+      modal.txConfirmationModalType === 'pool-together-approve'
     ) {
       return I18n.t('deposit');
     } else if (
-      this.props.modal.txConfirmationModalType === 'compound-withdraw' ||
-      this.props.modal.txConfirmationModalType === 'pool-together-withdraw'
+      modal.txConfirmationModalType === 'compound-withdraw' ||
+      modal.txConfirmationModalType === 'pool-together-withdraw'
     ) {
       return I18n.t('withdraw');
     }

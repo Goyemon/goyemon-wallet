@@ -292,15 +292,17 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
     }
 
     componentDidUpdate(prevProps) {
-      if (this.props.tx !== prevProps.tx)
-        this.setState({ txData: this.computeTxData(this.props.tx) });
+      const { tx } = this.props;
+
+      if (tx !== prevProps.tx)
+        this.setState({ txData: this.computeTxData(tx) });
     }
 
     render() {
       if (!this.state.txData)
         return <GoyemonText fontSize={12}>nothink!</GoyemonText>;
 
-      // return <GoyemonText fontSize={12}>{JSON.stringify(this.state.txData, null, 1)}{JSON.stringify(this.props.tx)}</GoyemonText>;
+      // return <GoyemonText fontSize={12}>{JSON.stringify(this.state.txData, null, 1)}{JSON.stringify(tx)}</GoyemonText>;
 
       return (
         <>
@@ -332,29 +334,29 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
             })}
             <GoyemonText fontSize={12}>
               {TransactionUtilities.parseTransactionTime(
-                this.props.tx.getTimestamp()
+                tx.getTimestamp()
               )}
             </GoyemonText>
             <TransactionStatus
               width="100%"
-              txState={this.props.tx.getState()}
+              txState={tx.getState()}
             />
           </Container>
           <GoyemonText fontSize={12}>From</GoyemonText>
-          <GoyemonText fontSize={12}>{this.props.tx.getFrom()}</GoyemonText>
+          <GoyemonText fontSize={12}>{tx.getFrom()}</GoyemonText>
 
           <GoyemonText fontSize={12}>To</GoyemonText>
-          <GoyemonText fontSize={12}>{this.props.tx.getTo()}</GoyemonText>
+          <GoyemonText fontSize={12}>{tx.getTo()}</GoyemonText>
 
           <GoyemonText fontSize={12}>Value</GoyemonText>
-          <GoyemonText fontSize={12}>{this.props.tx.getValue()}</GoyemonText>
+          <GoyemonText fontSize={12}>{tx.getValue()}</GoyemonText>
 
           <GoyemonText fontSize={12}>gasPrice</GoyemonText>
-          <GoyemonText fontSize={12}>{this.props.tx.getGasPrice()}</GoyemonText>
+          <GoyemonText fontSize={12}>{tx.getGasPrice()}</GoyemonText>
 
           <GoyemonText fontSize={12}>
             {JSON.stringify(this.state.txData, null, 1)}
-            {JSON.stringify(this.props.tx)}
+            {JSON.stringify(tx)}
           </GoyemonText>
 
           <GoyemonText fontSize={12}>Hash</GoyemonText>
@@ -362,11 +364,11 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
             fontSize={12}
             onPress={() => {
               Linking.openURL(
-                `${GlobalConfig.EtherscanLink}${'0x' + this.props.tx.getHash()}`
+                `${GlobalConfig.EtherscanLink}${'0x' + tx.getHash()}`
               ).catch((err) => LogUtilities.logError('An error occurred', err));
             }}
           >
-            {'0x' + this.props.tx.getHash()}
+            {'0x' + tx.getHash()}
             <Icon name="link-variant" size={16} color="#5f5f5f" />
           </GoyemonText>
         </>
