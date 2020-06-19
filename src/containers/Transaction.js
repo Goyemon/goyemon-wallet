@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
+import StyleUtilities from '../utilities/StyleUtilities';
 import { saveTxDetailModalVisibility } from '../actions/ActionModal';
 import {
   GoyemonText,
@@ -67,61 +68,8 @@ class Transaction extends Component {
           <InOrOutTransactionContainer>
             <GoyemonText fontSize={16}>
               {(() => {
-                switch (data.type) {
-                  case 'swap':
-                    return (
-                      <Icon name="swap-horizontal" size={20} color="#5F5F5F" />
-                    );
-
-                  case 'transfer':
-                    if (data.direction == 'self')
-                      return (
-                        <Icon name="arrow-collapse" size={20} color="#5F5F5F" />
-                      );
-                    else if (data.direction == 'outgoing')
-                      return (
-                        <Icon
-                          name="arrow-top-right-bold-outline"
-                          size={20}
-                          color="#F1860E"
-                        />
-                      );
-                    return (
-                      <Icon
-                        name="arrow-bottom-left-bold-outline"
-                        size={20}
-                        color="#1BA548"
-                      />
-                    );
-
-                  case 'approval':
-                  case 'deposit':
-                    return (
-                      <Icon
-                        name="arrow-top-right-bold-outline"
-                        size={20}
-                        color="#F1860E"
-                      />
-                    );
-
-                  case 'withdraw':
-                    return (
-                      <Icon
-                        name="arrow-bottom-left-bold-outline"
-                        size={20}
-                        color="#1BA548"
-                      />
-                    );
-
-                  case 'failure':
-                    return (
-                      <Icon
-                        name="alert-circle-outline"
-                        size={20}
-                        color="#E41B13"
-                      />
-                    );
-                }
+                const { name, size, color } = StyleUtilities.inOrOutIcon(data.type, data.direction)
+                return <Icon name={name} size={size} color={color} />
               })()}
             </GoyemonText>
           </InOrOutTransactionContainer>

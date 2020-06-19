@@ -4,6 +4,7 @@ import { TouchableOpacity, Linking } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Modal from 'react-native-modal';
 import styled from 'styled-components';
+import StyleUtilities from '../utilities/StyleUtilities.js';
 import Web3 from 'web3';
 import { saveTxDetailModalVisibility } from '../actions/ActionModal';
 import {
@@ -319,6 +320,12 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
               return (
                 <>
                   <TxDetailHeader>
+                    <GoyemonText fontSize={16}>
+                      {(() => {
+                        const { name, size, color } = StyleUtilities.inOrOutIcon(x.type, x.direction)
+                        return <Icon name={name} size={size} color={color} />
+                      })()}
+                    </GoyemonText>
                     <GoyemonText fontSize={12}>
                       {this.prefixUpperCase(
                         x.type === 'transfer'
