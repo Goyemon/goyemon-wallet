@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { TouchableOpacity, Linking } from 'react-native';
+import { StyleSheet, TouchableOpacity, Linking } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Modal from 'react-native-modal';
 import styled from 'styled-components';
@@ -308,48 +308,66 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
       return (
         <>
           <Container
-            alignItems="center"
-            flexDirection="row"
-            justifyContent="center"
-            marginTop={0}
-            width="100%"
+            alignItems="flex-start"
+            flexDirection="column"
+            justifyContent="flex-start"
+            marginTop={16}
+            width="95%"
           >
             {this.state.txData.map((x) => {
               return (
                 <>
-                  <TxDetailHeader>
+                  <TxDetailHeader
+                    style={{
+                      flexDirection: "row",
+                      width: '90%',
+                      marginLeft: "5%",
+                      borderBottomColor: 'black',
+                      borderBottomWidth: 1
+                    }}>
                     <GoyemonText fontSize={16}>
                       {(() => {
                         const { name, size, color } = StyleUtilities.inOrOutIcon(x.type, x.direction)
-                        return <Icon name={name} size={size} color={color} />
+                        return <Icon name={name} size={size + 8} color={color}/>
                       })()}
                     </GoyemonText>
-                    <GoyemonText fontSize={12}>
-                      {this.prefixUpperCase(
-                        x.type === 'transfer'
-                        ? x.direction
-                        : x.type
-                      )}
-                    </GoyemonText>
-                    <GoyemonText fontSize={12}>
-                      {TransactionUtilities.parseTransactionTime(
-                        this.props.tx.getTimestamp()
-                      )}
-                    </GoyemonText>
-                    <TransactionStatus
-                      width="100%"
-                      txState={this.props.tx.getState()}
-                    />
+                    <TypeAndTime
+                      style={{
+                        flexDirection: "column",
+                        marginLeft: "10%"
+                      }}>
+                      <GoyemonText fontSize={18}>
+                        {this.prefixUpperCase(
+                          x.type === 'transfer'
+                          ? x.direction
+                          : x.type
+                        )}
+                      </GoyemonText>
+                      <GoyemonText fontSize={15}>
+                        {TransactionUtilities.parseTransactionTime(
+                          this.props.tx.getTimestamp()
+                        )}
+                      </GoyemonText>
+                    </TypeAndTime>
+                    <HeaderStatus
+                        style={{
+                          marginLeft: "20%"
+                        }}>
+                      <TransactionStatus
+                        width="100%"
+                        txState={this.props.tx.getState()}
+                      />
+                    </HeaderStatus>
                   </TxDetailHeader>
                   {x.amount && <SubtotalBox>
-                    <GoyemonText fontSize={12}>
-                      {(() => {
+                    {(() => {
                         const { name, size, color } = StyleUtilities.minusOrPlusIcon(x.type, x.direction)
                         return (
                         name === ''
                         ? null
-                        : <Icon name={name} size={size} color={color} />
+                        : <Icon name={name} size={size + 10} color={color} />
                       )})()}
+                    <GoyemonText fontSize={25}>
                       {x.amount}
                       {x.token}
                     </GoyemonText>
@@ -357,33 +375,42 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                 </>
               );
             })}
+            <TxNetworkAndHash>
+              {(() => {
+                const app = this.props.tx.getApplication(this.props.tx.getTo())
+              return (
+                app === ''
+              ? null
+              : <>
+                  <GoyemonText fontSize={22}>Application</GoyemonText>
+                  <TxDetailValue>
+                    <GoyemonText fontSize={18} style={{marginLeft: "20%"}}>{this.props.tx.getApplication(this.props.tx.getTo())}</GoyemonText>
+                  </TxDetailValue>
+                </>
+              )})()}
+
+              <GoyemonText fontSize={22}>Network Fee</GoyemonText>
+              <TxDetailValue>
+                <GoyemonText fontSize={18} style={{paddingLeft: "20"}}>{parseInt(this.props.tx.getGasPrice(), 16) / 1000000000000000}Eth</GoyemonText>
+              </TxDetailValue>
+
+              <GoyemonText fontSize={22}>Hash</GoyemonText>
+              <TxDetailValue>
+                <GoyemonText
+                  fontSize={12}
+                  style={{marginLeft: "20%"}}
+                  onPress={() => {
+                    Linking.openURL(
+                      `${GlobalConfig.EtherscanLink}${'0x' + this.props.tx.getHash()}`
+                    ).catch((err) => LogUtilities.logError('An error occurred', err));
+                  }}
+                >
+                  {'0x' + this.props.tx.getHash()}
+                  <Icon name="link-variant" size={16} color="#5f5f5f" />
+                </GoyemonText>
+              </TxDetailValue>
+            </TxNetworkAndHash>
           </Container>
-          {(() => {
-            const app = this.props.tx.getApplication(this.props.tx.getTo())
-          return (
-            app === ''
-          ? null
-          : <>
-              <GoyemonText fontSize={12}>Application</GoyemonText>
-              <GoyemonText fontSize={12}>{this.props.tx.getApplication(this.props.tx.getTo())}</GoyemonText>
-            </>
-          )})()}
-
-          <GoyemonText fontSize={12}>Network Fee</GoyemonText>
-          <GoyemonText fontSize={12}>{this.props.tx.getGasPrice()}</GoyemonText>
-
-          <GoyemonText fontSize={12}>Hash</GoyemonText>
-          <GoyemonText
-            fontSize={12}
-            onPress={() => {
-              Linking.openURL(
-                `${GlobalConfig.EtherscanLink}${'0x' + this.props.tx.getHash()}`
-              ).catch((err) => LogUtilities.logError('An error occurred', err));
-            }}
-          >
-            {'0x' + this.props.tx.getHash()}
-            <Icon name="link-variant" size={16} color="#5f5f5f" />
-          </GoyemonText>
         </>
       );
     }
@@ -393,12 +420,49 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
 const TxDetailHeader = styled.View`
 margin-right: auto;
 margin-bottom: 16;
+align-items: center;
 `;
 
-const SubtotalBox = styled.View`
+const TxDetailValue = styled.View`
+margin-left: 5%;
+margin-bottom: 20;
+`;
+
+const TypeAndTime = styled.View`
 margin-right: auto;
 margin-bottom: 16;
 `;
+
+const HeaderStatus = styled.View`
+margin-right: auto;
+margin-bottom: 16;
+`;
+
+const SubtotalBox = styled.View`
+flex-direction: row;
+padding-bottom: 25;
+width: 90%;
+margin-top: 16;
+margin-left: 5%;
+padding-left: 30;
+align-items: center;
+border-bottom-color: black;
+border-bottom-width: 1;
+`;
+
+const TxNetworkAndHash = styled.View`
+align-items: flex-start;
+justify-content: flex-start;
+flex-direction: column;
+padding-left: 12%;
+margin-top: 20;
+`;
+
+const styles = StyleSheet.create({
+  tx_detai_label: {
+    marginLeft: '20%'
+  }
+})
 
 const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
   class MagicalGasPriceSlider extends Component {
