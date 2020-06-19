@@ -59,6 +59,16 @@ In the master, these config files have values for the Mainnet. In the develop(an
 These config files usually should NOT be changed. If you do, you need to be EXTRA careful when you merge the develop into the master. 
 
 
+## Debuggers
+You can see communication logs between the wallet and a server.
+- [Ropsten](http://192.168.1.3:31337/devs/)
+- [Mainnet](http://51.89.42.181:31337/devs/)
+
+You can also send dummy messages to the wallet from {here](http://51.89.42.181:31330/debugmsgs).
+
+Specify an address, type and json data. All the devices registered with a passed address will get the dummy data. If you prefer the command line, use `curl`. 
+
+
 ## Version Info
 
 I am using:
