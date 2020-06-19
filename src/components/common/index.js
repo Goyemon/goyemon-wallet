@@ -3,7 +3,6 @@ export * from './Buttons';
 export * from './Containers';
 export * from './Description';
 export * from './ErrorMessage';
-export * from './FormHeader';
 export * from './Forms';
 export * from './Headers';
 export * from './ModalHandler';
