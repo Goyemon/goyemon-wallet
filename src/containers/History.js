@@ -328,8 +328,8 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                       flexDirection: "row",
                       width: '90%',
                       marginLeft: "5%",
-                      borderBottomColor: 'black',
-                      borderBottomWidth: 1
+                      borderBottomColor: '#5f5f5f',
+                      borderBottomWidth: 0.5
                     }}>
                     <GoyemonText fontSize={16}>
                       {(() => {
@@ -380,7 +380,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                   </SubtotalBox>}
                   {x.type === 'swap' && <SubtotalBox>
                     <Icon name="plus" size={26} color="#1BA548" />
-                    <GoyemonText fontSize={25}>{x.tokens_bought}Dai</GoyemonText>
+                    <GoyemonText fontSize={24}>{x.tokens_bought} DAI</GoyemonText>
                   </SubtotalBox>}
                 </>
               );
@@ -392,19 +392,19 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                 app === ''
               ? null
               : <>
-                  <GoyemonText fontSize={22}>Application</GoyemonText>
+                  <GoyemonText fontSize={20}>Application</GoyemonText>
                   <TxDetailValue>
                     <GoyemonText fontSize={18} style={{marginLeft: "20%"}}>{this.props.tx.getApplication(this.props.tx.getTo())}</GoyemonText>
                   </TxDetailValue>
                 </>
               )})()}
 
-              <GoyemonText fontSize={22}>Network Fee</GoyemonText>
+              <GoyemonText fontSize={20}>Max Network Fee</GoyemonText>
               <TxDetailValue>
-                <GoyemonText fontSize={18} style={{paddingLeft: "20"}}>{parseInt(this.props.tx.getGasPrice(), 16) * parseInt(this.props.tx.getGasLimit(), 16) / 1000000000000000000}Eth</GoyemonText>
+                <GoyemonText fontSize={18} style={{paddingLeft: "20"}}>{parseInt(this.props.tx.getGasPrice(), 16) * parseInt(this.props.tx.getGasLimit(), 16) / 1000000000000000000} ETH</GoyemonText>
               </TxDetailValue>
 
-              <GoyemonText fontSize={22}>Hash</GoyemonText>
+              <GoyemonText fontSize={20}>Hash</GoyemonText>
               <TxDetailValue>
                 <GoyemonText
                   fontSize={12}
@@ -428,27 +428,31 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
 );
 
 const TxDetailHeader = styled.View`
-margin-right: auto;
-margin-bottom: 16;
+font-family: 'HKGrotesk-Regular';
+margin: 16px auto;
 align-items: center;
 `;
 
 const TxDetailValue = styled.View`
+font-family: 'HKGrotesk-Regular';
 margin-left: 5%;
 margin-bottom: 20;
 `;
 
 const TypeAndTime = styled.View`
+font-family: 'HKGrotesk-Regular';
 margin-right: auto;
 margin-bottom: 16;
 `;
 
 const HeaderStatus = styled.View`
+font-family: 'HKGrotesk-Regular';
 margin-right: auto;
 margin-bottom: 16;
 `;
 
 const SubtotalBox = styled.View`
+font-family: 'HKGrotesk-Regular';
 flex-direction: row;
 padding-bottom: 25;
 width: 90%;
@@ -456,12 +460,13 @@ margin-top: 16;
 margin-left: 5%;
 padding-left: 30;
 align-items: center;
-border-bottom-color: black;
-border-bottom-width: 1;
+border-bottom-color: #5f5f5f;
+border-bottom-width: 0.5;
 `;
 
 const TxNetworkAndHash = styled.View`
 align-items: flex-start;
+font-family: 'HKGrotesk-Regular';
 justify-content: flex-start;
 flex-direction: column;
 padding-left: 12%;
