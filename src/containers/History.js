@@ -369,7 +369,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                       )})()}
                     <GoyemonText fontSize={25}>
                       {x.amount}
-                      {x.token}
+                      {x.token === 'cdai' ? 'Dai' : this.prefixUpperCase(x.token)}
                     </GoyemonText>
                   </SubtotalBox>}
                 </>
@@ -391,7 +391,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
 
               <GoyemonText fontSize={22}>Network Fee</GoyemonText>
               <TxDetailValue>
-                <GoyemonText fontSize={18} style={{paddingLeft: "20"}}>{parseInt(this.props.tx.getGasPrice(), 16) / 1000000000000000}Eth</GoyemonText>
+                <GoyemonText fontSize={18} style={{paddingLeft: "20"}}>{parseInt(this.props.tx.getGasPrice(), 16) * parseInt(this.props.tx.getGasLimit(), 16) / 1000000000000000000}Eth</GoyemonText>
               </TxDetailValue>
 
               <GoyemonText fontSize={22}>Hash</GoyemonText>
