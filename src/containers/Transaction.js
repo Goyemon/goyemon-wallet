@@ -80,7 +80,7 @@ class Transaction extends Component {
                 {(() => {
                   switch (data.type) {
                     case 'contract_creation':
-                      return 'Contract creation';
+                      return 'Deploy';
                     case 'multicontract':
                       return 'Multi';
                     case 'approval':
@@ -90,7 +90,7 @@ class Transaction extends Component {
                     case 'withdraw':
                       return I18n.t('withdraw');
                     case 'rewarded':
-                      return 'Rewarded';
+                      return 'Reward';
                     case 'swap':
                       return I18n.t('history-swap');
                     case 'transfer':
@@ -185,7 +185,7 @@ class Transaction extends Component {
 								return <GoyemonText fontSize={16}>Token Transfer</GoyemonText>;
 
 								if (this.state.transaction.getTo() === null)
-								return <GoyemonText fontSize={16}>Contract Creation</GoyemonText>;
+								return <GoyemonText fontSize={16}>Deploy</GoyemonText>;
 							*/
             })()}
           </ValueContainer>

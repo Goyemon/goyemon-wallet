@@ -7,9 +7,6 @@ import com.facebook.react.ReactApplication;
 import com.airbnb.android.react.lottie.LottiePackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.oblador.vectoricons.VectorIconsPackage;
-import io.invertase.firebase.RNFirebasePackage;
-import io.invertase.firebase.fabric.crashlytics.RNFirebaseCrashlyticsPackage;
-import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import com.peel.react.rnos.RNOSModule;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.bitgo.randombytes.RandomBytesPackage;
@@ -41,11 +38,8 @@ public class MainApplication extends Application implements ReactApplication {
         // Packages that cannot be autolinked yet can be added manually here, for example:
         // packages.add(new MyReactNativePackage());
         packages.add(new LottiePackage());
-        packages.add(new RNFirebaseMessagingPackage());
-        packages.add(new RNFirebaseCrashlyticsPackage());
         packages.add(new AsyncStoragePackage());
         new VectorIconsPackage();
-        new RNFirebasePackage();
         new RNOSModule();
         new RNGestureHandlerPackage();
         new RandomBytesPackage();

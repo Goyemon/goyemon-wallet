@@ -298,8 +298,10 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
     }
 
     componentDidUpdate(prevProps) {
-      if (this.props.tx !== prevProps.tx)
-        this.setState({ txData: this.computeTxData(this.props.tx) });
+      const { tx } = this.props;
+
+      if (tx !== prevProps.tx)
+        this.setState({ txData: this.computeTxData(tx) });
     }
 
     prefixUpperCase = txType =>
@@ -532,7 +534,7 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
       return (
         <>
           <HeaderTwo marginBottom="0" marginLeft="0" marginTop="24">
-            Choose a new network fee
+            Choose a new max network fee
           </HeaderTwo>
           <Explanation>
             <GoyemonText fontSize={12}>

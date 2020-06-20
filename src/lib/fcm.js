@@ -1,5 +1,6 @@
 'use strict';
-import firebase from 'react-native-firebase';
+import firebase from '@react-native-firebase/app';
+import '@react-native-firebase/messaging';
 import LogUtilities from '../utilities/LogUtilities.js';
 import zlib from 'react-zlib-js';
 import TxStorage from '../lib/tx.js';
@@ -107,15 +108,24 @@ class FCMMsgs {
   }
 
   __sendMessage(type, otherData = {}) {
-    const upstreamMessage = new firebase.messaging.RemoteMessage()
-      .setMessageId(this.__gen_msg_id())
-      .setTo(GlobalConfig.FCM_server_address)
-      .setData({
+    const upstreamMessage = {
+      messageId: this.__gen_msg_id(),
+      to: GlobalConfig.FCM_server_address,
+      data: {
         type: type,
         ...otherData
-      });
+      }
+    };
 
-    firebase.messaging().sendMessage(upstreamMessage);
+    firebase
+      .messaging()
+      .sendMessage(upstreamMessage)
+      .then((response) => {
+        console.log('Successfully sent message:', response);
+      })
+      .catch((error) => {
+        console.log('Error sending message:', error);
+      });
   }
 
   __on_msg(id, type, num, count, data) {
@@ -213,7 +223,7 @@ const handler = (x, frombg) => instance.__fcm_msg(x, frombg);
 function registerHandler() {
   LogUtilities.toDebugScreen('FCM registerHandler called');
   firebase.messaging().onMessage(handler);
-  firebase.messaging().stupid_shit_initialized();
+  // firebase.messaging().stupid_shit_initialized();
 }
 
 module.exports = {

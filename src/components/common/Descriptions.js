@@ -1,6 +1,7 @@
 'use strict';
 import React from 'react';
 import styled from 'styled-components/native';
+import { GoyemonText } from '../common';
 
 const Description = (props) => (
   <DescriptionText
@@ -22,4 +23,16 @@ const DescriptionText = styled.Text`
   text-align: center;
 `;
 
-export { Description };
+const ApplicationDescription = (props) => (
+  <ApplicationDescriptionContainer>
+    <GoyemonText fontSize={16}>{props.children}</GoyemonText>
+  </ApplicationDescriptionContainer>
+);
+
+const ApplicationDescriptionContainer = styled.View`
+  align-items: flex-start;
+  margin: 16px auto;
+  width: 90%;
+`;
+
+export { Description, ApplicationDescription };

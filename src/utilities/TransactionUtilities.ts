@@ -1,6 +1,7 @@
 'use strict';
 import ethTx from 'ethereumjs-tx';
-import firebase from 'react-native-firebase';
+import firebase from '@react-native-firebase/app';
+import '@react-native-firebase/messaging';
 import uuidv4 from 'uuid/v4';
 import Web3 from 'web3';
 import { addSentTransaction } from '../actions/ActionTransactionHistory';
@@ -271,16 +272,23 @@ class TransactionUtilities {
     );
     const nonce = txObject.getNonce();
 
-    const upstreamMessage = new firebase.messaging.RemoteMessage()
-      .setMessageId(messageId)
-      .setTo(serverAddress)
-      .setData({
+    const upstreamMessage = {
+      messageId: messageId,
+      to: serverAddress,
+      data: {
         type: 'outgoing_tx',
         nonce: nonce.toString(),
         data: signedTransaction
-      });
+      }
+    }
 
-    firebase.messaging().sendMessage(upstreamMessage);
+    firebase.messaging().sendMessage(upstreamMessage)
+      .then((response) => {
+        console.log('Successfully sent message:', response);
+      })
+      .catch((error) => {
+        console.log('Error sending message:', error);
+      });
   }
 
   getTransactionFeeEstimateInEther(gasPriceWei, gasLimit) {

@@ -13,7 +13,8 @@ import {
   HeaderThree,
   HeaderFour,
   HeaderFive,
-  GoyemonText
+  GoyemonText,
+  ApplicationDescription
 } from '../components/common';
 import I18n from '../i18n/I18n';
 import { RoundDownBigNumberPlacesFour } from '../utilities/BigNumberUtilities';
@@ -30,24 +31,31 @@ class PortfolioCompound extends Component {
       .div(new RoundDownBigNumberPlacesFour(10).pow(36))
       .toFixed(2);
 
-    const lifetimeEarnedInDai = RoundDownBigNumberPlacesFour(compound.dai.lifetimeEarned)
+    const lifetimeEarnedInDai = RoundDownBigNumberPlacesFour(
+      compound.dai.lifetimeEarned
+    )
       .div(new RoundDownBigNumberPlacesFour(10).pow(36))
       .toString();
 
     return (
       <RootContainer>
         <HeaderOne marginTop="112">Compound</HeaderOne>
+        <ApplicationDescription>
+          Compound lets you earn interest. Think of it as a
+          term deposit account in a bank but with much better rate. You can also
+          withdraw anytime you want.
+        </ApplicationDescription>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8"
           flexDirection="column"
           height="176px"
           justifyContent="center"
-          marginTop="24px"
+          marginTop="0"
           textAlign="center"
           width="90%"
         >
-          <HeaderFour marginTop="24">
+          <HeaderFour marginTop="8">
             {I18n.t('portfolio-compound-totalsavings')}
           </HeaderFour>
           <BalanceText>

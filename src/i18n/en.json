@@ -96,7 +96,6 @@
   "deposit-amount": "Deposit Amount",
   "withdraw-amount": "Withdraw Amount",
   "confirmation": "Confirmation",
-  "network-fee": "Network Fee",
   "max-network-fee": "Max Network Fee",
   "go-back": "go back"
 }
