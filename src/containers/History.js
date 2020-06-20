@@ -75,7 +75,11 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
       const topType = (top, toptok) => {
         if (
           top instanceof
-          TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.eth2tok]
+            TxStorage.TxTokenOpNameToClass[
+              TxStorage.TxTokenOpTypeToName.eth2tok
+            ] ||
+          top instanceof
+            TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.U2swap]
         )
           return {
             type: 'swap',
@@ -366,11 +370,15 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                         name === ''
                         ? null
                         : <Icon name={name} size={size + 10} color={color} />
-                      )})()}
+                    )})()}
                     <GoyemonText fontSize={25}>
                       {x.amount}
                       {x.token === 'cdai' ? 'Dai' : this.prefixUpperCase(x.token)}
                     </GoyemonText>
+                  </SubtotalBox>}
+                  {x.type === 'swap' && <SubtotalBox>
+                    <Icon name="plus" size={26} color="#1BA548" />
+                    <GoyemonText fontSize={25}>{x.tokens_bought}Dai</GoyemonText>
                   </SubtotalBox>}
                 </>
               );
