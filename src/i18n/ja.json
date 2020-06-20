@@ -96,7 +96,6 @@
   "deposit-amount": "預け額",
   "withdraw-amount": "引出額",
   "confirmation": "確認",
-  "network-fee": "ネットワーク費",
   "max-network-fee": "ネットワーク費の最大値",
   "go-back": "戻る"
 }

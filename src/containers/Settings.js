@@ -204,6 +204,16 @@ class Settings extends Component {
             {I18n.t('settings-backup-words')}
           </SettingsListCard>
           <SettingsListCard
+            iconName="discord"
+            onPress={() => {
+              Linking.openURL('https://discord.gg/MXGfnJG').catch((err) =>
+                LogUtilities.logError('An error occurred', err)
+              );
+            }}
+          >
+            Talk to us
+          </SettingsListCard>
+          <SettingsListCard
             iconName="wrench-outline"
             onPress={() => navigation.navigate('Advanced')}
           >

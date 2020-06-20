@@ -16,7 +16,8 @@ import {
   HeaderOne,
   HeaderFour,
   HeaderFive,
-  GoyemonText
+  GoyemonText,
+  ApplicationDescription
 } from '../components/common';
 import Countdown from './common/Countdown';
 import PopUpModal from './common/PopUpModal';
@@ -201,6 +202,9 @@ class PortfolioPoolTogether extends Component {
       <RootContainer>
         {this.renderModalContent()}
         <HeaderOne marginTop="112">PoolTogether</HeaderOne>
+        <ApplicationDescription>
+          PoolTogether earns interest with peoples' pool and distribute it to a random single winner every week. You can deposit and withdraw anytime you want. Your deposit always goes to the open round. You are eligible to win once your deposit moves to the commited round. 
+        </ApplicationDescription>
         <FilterContainer>{this.toggleFilterChoiceText()}</FilterContainer>
         {this.renderCountdownHeader()}
         <Countdown />

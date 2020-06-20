@@ -437,7 +437,7 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
       return (
         <>
           <HeaderTwo marginBottom="0" marginLeft="0" marginTop="24">
-            Choose a new network fee
+            Choose a new max network fee
           </HeaderTwo>
           <Explanation>
             <GoyemonText fontSize={12}>
