@@ -2,9 +2,9 @@
 import React, { Component } from 'react';
 import * as Animatable from 'react-native-animatable';
 import { connect } from 'react-redux';
-import { Clipboard, TouchableWithoutFeedback, View } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Clipboard, View } from 'react-native';
 import styled from 'styled-components/native';
+import { CopyIcon } from '../../components/common';
 import I18n from '../../i18n/I18n';
 
 class Copy extends Component {
@@ -41,34 +41,32 @@ class Copy extends Component {
   renderCopyText(text) {
     if (this.state.clipboardContent === text) {
       return (
-        <CopiedAddressContainer>
-          <TouchableWithoutFeedback
+        <CopyAddressContainer>
+          {this.renderAnimation()}
+          <CopyAddress
             onPress={async () => {
               await this.writeToClipboard(text);
               this.fadeOutUp();
             }}
           >
-            <CopyAddress>
-              <Icon name="content-copy" size={18} color="#00a3e2" />
-              <CopyAddressText>Copied</CopyAddressText>
-              {this.renderAnimation()}
-            </CopyAddress>
-          </TouchableWithoutFeedback>
-        </CopiedAddressContainer>
+            <CopyIcon />
+          </CopyAddress>
+          <CopyAddressText>Copied</CopyAddressText>
+        </CopyAddressContainer>
       );
     } else if (this.state.clipboardContent === null) {
       return (
-        <TouchableWithoutFeedback
-          onPress={async () => {
-            await this.writeToClipboard(text);
-            this.fadeOutUp();
-          }}
-        >
-          <CopyAddress>
-            <Icon name="content-copy" size={18} color="#00a3e2" />
-            <CopyAddressText>{I18n.t('copy')}</CopyAddressText>
+        <CopiedAddressContainer>
+          <CopyAddress
+            onPress={async () => {
+              await this.writeToClipboard(text);
+              this.fadeOutUp();
+            }}
+          >
+            <CopyIcon />
           </CopyAddress>
-        </TouchableWithoutFeedback>
+          <CopyAddressText>{I18n.t('copy')}</CopyAddressText>
+        </CopiedAddressContainer>
       );
     }
   }
@@ -78,24 +76,30 @@ class Copy extends Component {
   }
 }
 
+const CopyAddressContainer = styled.View`
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+`;
+
 const CopiedAddressContainer = styled.View`
   align-items: center;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
+  margin-top: 16;
 `;
 
 const CopyAnimation = Animatable.createAnimatableComponent(styled.Text``);
 
-const CopyAddress = styled.View`
+const CopyAddress = styled.TouchableOpacity`
   align-items: center;
-  flex-direction: row;
-  margin-top: 8px;
+  flex-direction: column;
 `;
 
 const CopyAddressText = styled.Text`
-  color: #00a3e2;
+  color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
-  font-size: 16;
+  font-size: 14;
 `;
 
 function mapStateToProps(state) {
