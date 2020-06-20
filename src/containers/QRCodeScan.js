@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Dimensions, BackHandler } from 'react-native';
+import { BackHandler } from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
