@@ -361,19 +361,26 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                   </HeaderStatus>
                 </TxDetailHeader>
                 <SubtotalSwapBox>
-                  <GoyemonText fontSize={25}>
-                  {(() => {
-                      const { name, size, color } = StyleUtilities.minusOrPlusIcon(this.state.txData[0].type, this.state.txData[0].direction)
-                      return (
-                      name === ''
-                      ? null
-                      : <Icon name={name} size={size + 10} color={color} />
-                  )})()}
-                    {this.state.txData[0].amount}
-                    {this.state.txData[0].token === 'cdai' ? 'Dai' : this.prefixUpperCase(this.state.txData[0].token)}
-                  </GoyemonText>
-                  <GoyemonText fontSize={25}>
-                  <Icon name="plus" size={26} color="#1BA548" />{this.state.txData[1].tokens_bought}Dai</GoyemonText>
+                  <GoyemonText fontSize={25}>Sold</GoyemonText>
+                  <PaddingLeftStyle>
+                    <GoyemonText fontSize={25}>
+                      {(() => {
+                          const { name, size, color } = StyleUtilities.minusOrPlusIcon(this.state.txData[0].type, this.state.txData[0].direction)
+                          return (
+                          name === ''
+                          ? null
+                          : <Icon name={name} size={size + 10} color={color} />
+                      )})()}
+                      {this.state.txData[0].amount}
+                      {this.state.txData[0].token === 'cdai' ? 'Dai' : this.prefixUpperCase(this.state.txData[0].token)}
+                    </GoyemonText>
+                  </PaddingLeftStyle>
+                  <GoyemonText fontSize={25}>Bought</GoyemonText>
+                  <PaddingLeftStyle>
+                    <GoyemonText fontSize={25}>
+                      <Icon name="plus" size={26} color="#1BA548" />{this.state.txData[1].tokens_bought}Dai
+                    </GoyemonText>
+                  </PaddingLeftStyle>
                 </SubtotalSwapBox>
               </>
             : this.state.txData.map((x) => {
@@ -536,11 +543,9 @@ padding-left: 12%;
 margin-top: 20;
 `;
 
-const styles = StyleSheet.create({
-  tx_detai_label: {
-    marginLeft: '20%'
-  }
-})
+const PaddingLeftStyle = styled.View`
+padding-left: 10;
+`;
 
 const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
   class MagicalGasPriceSlider extends Component {
