@@ -327,8 +327,8 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                     flexDirection: "row",
                     width: '90%',
                     marginLeft: "5%",
-                    borderBottomColor: 'black',
-                    borderBottomWidth: 1
+                    borderBottomColor: '#5f5f5f',
+                    borderBottomWidth: 0.5
                   }}>
                   <GoyemonText fontSize={16}>
                     {(() => {
@@ -377,8 +377,8 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                   </PaddingLeftStyle>
                   <GoyemonText fontSize={25}>Bought</GoyemonText>
                   <PaddingLeftStyle>
-                    <GoyemonText fontSize={25}>
-                      <Icon name="plus" size={26} color="#1BA548" />{this.state.txData[1].tokens_bought}Dai
+                    <GoyemonText fontSize={24}>
+                      <Icon name="plus" size={26} color="#1BA548" />{this.state.txData[1].tokens_bought}DAI
                     </GoyemonText>
                   </PaddingLeftStyle>
                 </SubtotalSwapBox>
@@ -522,8 +522,8 @@ margin-top: 16;
 margin-left: 5%;
 padding-left: 50;
 align-items: flex-start;
-border-bottom-color: black;
-border-bottom-width: 1;
+border-bottom-color: #5f5f5f;
+border-bottom-width: 0.5;
 `
 
 const SubtotalBox = styled.View`
