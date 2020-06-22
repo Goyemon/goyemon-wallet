@@ -806,7 +806,7 @@ const TransactionDetailModal = connect(
                 </>
               ) : null}
               <ScrollView>
-                <TouchableOpacity>
+                <TouchableOpacity activeOpacity={1}>
                   <TransactionDetail tx={this.state.txToUpdate}/>
                 </TouchableOpacity>
               </ScrollView>
