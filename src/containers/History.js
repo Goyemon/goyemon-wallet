@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { TouchableOpacity, Linking } from 'react-native';
+import { TouchableOpacity, Linking, ScrollView } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Modal from 'react-native-modal';
 import styled from 'styled-components';
@@ -805,7 +805,11 @@ const TransactionDetailModal = connect(
                   <IsOnlineMessage isOnline={this.props.isOnline} />
                 </>
               ) : null}
-              <TransactionDetail tx={this.state.txToUpdate}/>
+              <ScrollView>
+                <TouchableOpacity>
+                  <TransactionDetail tx={this.state.txToUpdate}/>
+                </TouchableOpacity>
+              </ScrollView>
             </ModalContainer>
           </Modal>
         );
