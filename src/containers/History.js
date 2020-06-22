@@ -67,8 +67,10 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
       const our_reasonably_stored_address = (this.props.checksumAddress.substr(
         0,
         2
-      ) == '0x'
+      ) == '0x' && this.props.checksumAddress.length > 2
         ? this.props.checksumAddress.substr(2)
+        : this.props.checksumAddress.length < 2
+        ? 'zero address'
         : this.props.checksumAddress
       ).toLowerCase();
 
