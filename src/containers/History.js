@@ -70,7 +70,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
       ) == '0x' && this.props.checksumAddress.length > 2
         ? this.props.checksumAddress.substr(2)
         : this.props.checksumAddress.length < 2
-        ? 'zero address'
+        ? '0000000000000000000000000000000000000000'
         : this.props.checksumAddress
       ).toLowerCase();
 
