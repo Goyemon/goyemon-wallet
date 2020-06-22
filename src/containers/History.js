@@ -320,7 +320,63 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
             marginTop={16}
             width="95%"
           >
-            {this.state.txData.map((x) => {
+            {this.state.txData.length == 2 && this.state.txData[1].type == 'swap'
+            ? <>
+                <TxDetailHeader
+                  style={{
+                    flexDirection: "row",
+                    width: '90%',
+                    marginLeft: "5%",
+                    borderBottomColor: 'black',
+                    borderBottomWidth: 1
+                  }}>
+                  <GoyemonText fontSize={16}>
+                    {(() => {
+                      const { name, size, color } = StyleUtilities.inOrOutIcon(this.state.txData[1].type, this.state.txData[1].direction)
+                      return <Icon name={name} size={size + 8} color={color}/>
+                    })()}
+                  </GoyemonText>
+                  <TypeAndTime
+                    style={{
+                      flexDirection: "column",
+                      marginLeft: "10%"
+                    }}>
+                    <GoyemonText fontSize={18}>
+                        {this.state.txData[1].type}
+                    </GoyemonText>
+                    <GoyemonText fontSize={15}>
+                      {TransactionUtilities.parseTransactionTime(
+                        this.props.tx.getTimestamp()
+                      )}
+                    </GoyemonText>
+                  </TypeAndTime>
+                  <HeaderStatus
+                      style={{
+                        marginLeft: "20%"
+                      }}>
+                    <TransactionStatus
+                      width="100%"
+                      txState={this.props.tx.getState()}
+                    />
+                  </HeaderStatus>
+                </TxDetailHeader>
+                <SubtotalSwapBox>
+                  <GoyemonText fontSize={25}>
+                  {(() => {
+                      const { name, size, color } = StyleUtilities.minusOrPlusIcon(this.state.txData[0].type, this.state.txData[0].direction)
+                      return (
+                      name === ''
+                      ? null
+                      : <Icon name={name} size={size + 10} color={color} />
+                  )})()}
+                    {this.state.txData[0].amount}
+                    {this.state.txData[0].token === 'cdai' ? 'Dai' : this.prefixUpperCase(this.state.txData[0].token)}
+                  </GoyemonText>
+                  <GoyemonText fontSize={25}>
+                  <Icon name="plus" size={26} color="#1BA548" />{this.state.txData[1].tokens_bought}Dai</GoyemonText>
+                </SubtotalSwapBox>
+              </>
+            : this.state.txData.map((x) => {
               return (
                 <>
                   <TxDetailHeader
@@ -447,6 +503,18 @@ const HeaderStatus = styled.View`
 margin-right: auto;
 margin-bottom: 16;
 `;
+
+const SubtotalSwapBox = styled.View`
+flex-direction: column;
+padding-bottom: 25;
+width: 90%;
+margin-top: 16;
+margin-left: 5%;
+padding-left: 50;
+align-items: flex-start;
+border-bottom-color: black;
+border-bottom-width: 1;
+`
 
 const SubtotalBox = styled.View`
 flex-direction: row;
