@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity, Linking } from 'react-native';
+import { TouchableOpacity, Linking } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Modal from 'react-native-modal';
 import styled from 'styled-components';
@@ -805,7 +805,7 @@ const TransactionDetailModal = connect(
                   <IsOnlineMessage isOnline={this.props.isOnline} />
                 </>
               ) : null}
-              <TransactionDetail tx={this.state.txToUpdate} />
+              <TransactionDetail tx={this.state.txToUpdate}/>
             </ModalContainer>
           </Modal>
         );
@@ -820,6 +820,7 @@ const ModalContainer = styled.View`
   background-color: #fff;
   border-radius: 16px;
   width: 100%;
+  height: 60%;
 `;
 
 const AnimationContainer = styled.View`
