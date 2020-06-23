@@ -300,10 +300,14 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
     }
 
     componentDidUpdate(prevProps) {
-      const { tx } = this.props;
-
-      if (tx !== prevProps.tx)
-        this.setState({ txData: this.computeTxData(tx) });
+      if (this.props.updateCounter !== prevProps.updateCounter) {
+        LogUtilities.toDebugScreen('TransactionDetail componentDidUpdate() called');
+        TxStorage.storage
+        .getTx(this.props.transaction.index, this.props.transaction.filter)
+        .then((x) => {
+          this.setState({ txData: this.computeTxData(x) });
+        });
+      }
     }
 
     prefixUpperCase = txType =>
@@ -693,20 +697,19 @@ const TransactionDetailModal = connect(
       // this.__mounted = true;
       this.unsub = TxStorage.storage.subscribe(this.updateTxListState.bind(this));
       (async () => {
-        LogUtilities.toDebugScreen('subscribing call back called')
+        LogUtilities.toDebugScreen('TransactionDetailModal componentDidMount() called');
         this.updateTxListState();
       })();
     }
 
     updateTxListState() {
-      const newState = { txToUpdate: this.props.txToUpdate };
-        if (this.props.txToUpdate != null)
-          newState.newGasPrice = parseInt(
-            this.props.txToUpdate.getGasPrice(),
-            16
-          );
+      LogUtilities.toDebugScreen('TransactionDetailModal componentDidMount() called');
+      // this.refreshIndices = {0: true,1: true,2: true,3: true,4: true,5: true,6:true,7:true,8:true,9:true};
 
-        this.setState(newState);
+      this.setState({
+        transactions_update_counter: this.uniqcounter++,
+        transactionsLoaded: true
+      });
     }
 
     componentDidUpdate(prevProps) {
@@ -736,7 +739,7 @@ const TransactionDetailModal = connect(
     }
 
     priceSliderSettled(value) {
-      LogUtilities.dumpObject('priceSliderSettled() value', Math.floor(value));
+      LogUtilities.toDebugScreen('TransactionDetailModal componentDidMount() called');
       this.setState({
         newGasPrice: Math.floor(value)
       });
@@ -828,7 +831,7 @@ const TransactionDetailModal = connect(
               ) : null}
               <ScrollView>
                 <TouchableOpacity activeOpacity={1}>
-                  <TransactionDetail tx={this.state.txToUpdate}/>
+                  <TransactionDetail tx={this.state.txToUpdate} updateCounter={this.state.transactions_update_counter}/>
                 </TouchableOpacity>
               </ScrollView>
             </ModalContainer>
@@ -889,7 +892,7 @@ export default connect(mapChecksumAddressStateToProps)(
     }
 
     txTapped(tx) {
-      LogUtilities.dumpObject('tx', tx);
+      LogUtilities.toDebugScreen('TransactionDetailModal componentDidMount() called');
       this.setState({ editedTx: tx });
     }
 
