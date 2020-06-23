@@ -62,14 +62,17 @@ class Initial extends Component {
       if (
         !mnemonicWordsStatePersisted ||
         (mnemonicWordsStatePersisted &&
-          !mnemonicWordsValidation &&
-          !permissions.notification &&
-          !hasPrivateKeyInKeychain) ||
-        (mnemonicWordsStatePersisted &&
           permissions.notification === null &&
           hasPrivateKeyInKeychain)
       ) {
         mainPage = 'Welcome';
+      } else if (
+        mnemonicWordsStatePersisted &&
+        !mnemonicWordsValidation &&
+        !hasPersistedState &&
+        !hasPrivateKeyInKeychain
+      ) {
+        mainPage = 'ShowMnemonic';
       } else if (
         mnemonicWordsStatePersisted &&
         !permissions.notification &&
