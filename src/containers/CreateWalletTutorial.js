@@ -45,10 +45,11 @@ class CreateWalletTutorial extends Component {
             With Great Power Comes Great Responsibility
           </HeaderTwo>
           <Description marginBottom="8" marginLeft="0" marginTop="16">
-            - backup words are the only way to restore your wallet
+            Remember
           </Description>
-          <Description marginBottom="16" marginLeft="0" marginTop="0">
-            - only you have access to them. We do NOT.
+          <Description marginBottom="8" marginLeft="0" marginTop="16">
+            Backup words are the only way to restore your wallet. ONLY you have
+            access to them.
           </Description>
           <Button
             text="Save Backup Words"
