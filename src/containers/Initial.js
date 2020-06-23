@@ -117,11 +117,30 @@ class Initial extends Component {
         };
       };
 
-      const resetAction = StackActions.reset({
-        index: 0,
-        actions: [NavigationActions.navigate({ routeName: mainPage })]
-      });
-      this.props.navigation.dispatch(resetAction);
+      if (
+        mainPage === 'Welcome' ||
+        mainPage === 'NotificationPermissionNotGranted' ||
+        mainPage === 'WalletCreation' ||
+        mainPage === 'PortfolioHome'
+      ) {
+        const resetAction = StackActions.reset({
+          index: 0,
+          actions: [NavigationActions.navigate({ routeName: mainPage })]
+        });
+        this.props.navigation.dispatch(resetAction);
+      } else if (mainPage === 'ShowMnemonic') {
+        const resetAction = StackActions.reset({
+          index: 2,
+          actions: [
+            NavigationActions.navigate({ routeName: 'Welcome' }),
+            NavigationActions.navigate({ routeName: 'CreateWalletTutorial' }),
+            NavigationActions.navigate({ routeName: 'ShowMnemonic' })
+          ]
+        });
+        this.props.navigation.dispatch(resetAction);
+      } else {
+        console.log('no matches');
+      }
     } else if (!rehydration) {
       LogUtilities.logInfo('rehydration is not done yet');
     }
