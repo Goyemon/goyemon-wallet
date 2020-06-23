@@ -115,7 +115,7 @@ class PortfolioHome extends Component {
               />
               <GoyemonText fontSize={14}>Receive</GoyemonText>
             </ReceiveIconContainer>
-            <Copy text={checksumAddress} animation={true} />
+            <Copy text={checksumAddress} animation={true} icon={true} />
           </IconContainer>
         </UntouchableCardContainer>
         <HeaderThree

@@ -49,9 +49,9 @@ class Copy extends Component {
               this.fadeOutUp();
             }}
           >
-            <CopyIcon />
+            {this.props.icon ? <CopyIcon /> : null}
+            <CopyAddressText>Copied</CopyAddressText>
           </CopyAddress>
-          <CopyAddressText>Copied</CopyAddressText>
         </CopyAddressContainer>
       );
     } else if (this.state.clipboardContent === null) {
@@ -63,9 +63,9 @@ class Copy extends Component {
               this.fadeOutUp();
             }}
           >
-            <CopyIcon />
+            {this.props.icon ? <CopyIcon /> : null}
+            <CopyAddressText>{I18n.t('copy')}</CopyAddressText>
           </CopyAddress>
-          <CopyAddressText>{I18n.t('copy')}</CopyAddressText>
         </CopiedAddressContainer>
       );
     }
