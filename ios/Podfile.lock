@@ -285,7 +285,7 @@ PODS:
     - React
   - react-native-camera/RN (3.30.0):
     - React
-  - react-native-netinfo (5.9.2):
+  - react-native-netinfo (5.9.3):
     - React
   - react-native-randombytes (3.5.3):
     - React
@@ -366,7 +366,7 @@ PODS:
     - Fabric (~> 1.10.2)
     - React
     - RNFBApp
-  - RNFBMessaging (7.1.5):
+  - RNFBMessaging (7.1.6):
     - Firebase/Analytics (~> 6.25.0)
     - Firebase/Messaging (~> 6.25.0)
     - React
@@ -597,7 +597,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 8bf0b2707f05865113415088c398a7f98c0cf546
   React-jsinspector: 8e5913c4c6c54f0d3f9c9fc630c465a89cded65d
   react-native-camera: f57b28a587a81c50085b77f3fdc71818089ab45d
-  react-native-netinfo: 9b9929fcfa4aabe92f49a9fb3f25394cc8721e87
+  react-native-netinfo: 19706b27df3a2b435171b3f1fad6085d6ac74324
   react-native-randombytes: 991545e6eaaf700b4ee384c291ef3d572e0b2ca8
   react-native-slider: e36b7de75b35323ee802dae723be8ebbab4c4a3d
   react-native-webview: 711cef318a554093b09a5b871894011435d87a8d
@@ -615,7 +615,7 @@ SPEC CHECKSUMS:
   RNFBAnalytics: d986cc14df3bf2942bd8f917578e5f2dc185a7dd
   RNFBApp: def13f6392e7c9839c938879f065ec0088c4496a
   RNFBCrashlytics: ce4deb00692924b6c796e438a3c573baf07ed5c8
-  RNFBMessaging: 0c4c3795b35d319e33c58fabc5c7406dfcb15b06
+  RNFBMessaging: 933b5ffa7612c54843f946c266043220e966f06c
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
   RNKeychain: c658833a9cb2cbcba6423bdd6e16cce59e27da0e
   RNLocalize: fc27ee5878ce5a3af73873fb2d8e866e0d1e6d84
@@ -627,6 +627,6 @@ SPEC CHECKSUMS:
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   Yoga: 9db9ff2025ad21d1ac0a8b3c85d5ac4e7c29d525
 
-PODFILE CHECKSUM: 540d6d70b9889b8b998be8bd4eab6ff68056b600
+PODFILE CHECKSUM: 4e3e9ec1a2d1818152ffc5bc2c20824938d36e62
 
 COCOAPODS: 1.9.1
