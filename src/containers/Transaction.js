@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
 import StyleUtilities from '../utilities/StyleUtilities';
+import EtherUtilities from '../utilities/EtherUtilities';
 import { saveTxDetailModalVisibility } from '../actions/ActionModal';
 import {
   GoyemonText,
@@ -197,13 +198,7 @@ class Transaction extends Component {
   computeTxData(tx) {
     if (!tx) return null;
 
-    const our_reasonably_stored_address = (this.props.checksumAddress.substr(
-      0,
-      2
-    ) == '0x'
-      ? this.props.checksumAddress.substr(2)
-      : this.props.checksumAddress
-    ).toLowerCase();
+    const our_reasonably_stored_address = EtherUtilities.getReasonablyAddress(this.props.checksumAddress);
 
     const topType = (top, toptok) => {
       if (

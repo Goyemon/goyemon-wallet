@@ -5,6 +5,7 @@ import * as Animatable from 'react-native-animatable';
 import Modal from 'react-native-modal';
 import styled from 'styled-components';
 import StyleUtilities from '../utilities/StyleUtilities.js';
+import EtherUtilities from '../utilities/EtherUtilities'
 import Web3 from 'web3';
 import { saveTxDetailModalVisibility } from '../actions/ActionModal';
 import {
@@ -58,21 +59,14 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
       this.state = {
         txData: this.computeTxData(props.tx)
       };
-      console.log(this.state.txData)
+      LogUtilities.toDebugScreen('tx state is',this.state.txData)
     }
 
     computeTxData(tx) {
       if (!tx) return null;
 
-      const our_reasonably_stored_address = (this.props.checksumAddress.substr(
-        0,
-        2
-      ) == '0x' && this.props.checksumAddress.length > 2
-        ? this.props.checksumAddress.substr(2)
-        : this.props.checksumAddress.length < 2
-        ? '0000000000000000000000000000000000000000'
-        : this.props.checksumAddress
-      ).toLowerCase();
+      LogUtilities.toDebugScreen('checksum address is', this.props.checksumAddress)
+      const our_reasonably_stored_address = EtherUtilities.getReasonablyAddress(this.props.checksumAddress);
 
       const topType = (top, toptok) => {
         if (
@@ -308,6 +302,12 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
           this.setState({ txData: this.computeTxData(x) });
         });
       }
+    }
+
+    componentWillUnmount() {
+      LogUtilities.toDebugScreen('TransactionDetail componentWillUnmount() called');
+      // this.__mounted = false;
+      this.unsub();
     }
 
     prefixUpperCase = txType =>
@@ -739,7 +739,7 @@ const TransactionDetailModal = connect(
     }
 
     priceSliderSettled(value) {
-      LogUtilities.toDebugScreen('TransactionDetailModal componentDidMount() called');
+      LogUtilities.dumpObject('priceSliderSettled() value', Math.floor(value));
       this.setState({
         newGasPrice: Math.floor(value)
       });
@@ -892,7 +892,7 @@ export default connect(mapChecksumAddressStateToProps)(
     }
 
     txTapped(tx) {
-      LogUtilities.toDebugScreen('TransactionDetailModal componentDidMount() called');
+      LogUtilities.dumpObject('tx', tx);
       this.setState({ editedTx: tx });
     }
 
