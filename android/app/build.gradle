@@ -170,7 +170,6 @@ android {
 }
 
 dependencies {
-    implementation project(':@react-native-community_cameraroll')
     implementation project(':react-native-permissions')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.facebook.react:react-native:0.59.4'

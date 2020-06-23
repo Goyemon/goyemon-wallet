@@ -12,7 +12,6 @@
     "npmreinstall": "rm -rf node_modules/ package-lock.json && npm install"
   },
   "dependencies": {
-    "@react-native-community/cameraroll": "^1.5.2",
     "@react-native-community/netinfo": "^5.3.3",
     "@react-native-community/slider": "2.0.7",
     "@react-native-firebase/analytics": "^7.1.4",
