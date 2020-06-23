@@ -2021,8 +2021,8 @@ class TxStorage {
       tx
     );
     this.__unlock('txes');
-    if (updated) this.__onUpdate(oldTx, tx); // TODO: should we actually call that? we're replacing a tx manually, we kinda know it was changed. well if the outside code is smart enough to know that and wont just trigger stuff "because something changed", then ok.
-    return updated;
+    if (oldTx) this.__onUpdate(oldTx, tx); // TODO: should we actually call that? we're replacing a tx manually, we kinda know it was changed. well if the outside code is smart enough to know that and wont just trigger stuff "because something changed", then ok.
+    return oldTx;
   }
 
   async parseTxHistory(histObj) {
