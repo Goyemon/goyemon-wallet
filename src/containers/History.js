@@ -688,6 +688,27 @@ const TransactionDetailModal = connect(
 
     handleViewRef = (ref) => (this.view = ref);
 
+    componentDidMount() {
+      LogUtilities.toDebugScreen('TransactionDetailModal componentDidMount() called');
+      // this.__mounted = true;
+      this.unsub = TxStorage.storage.subscribe(this.updateTxListState.bind(this));
+      (async () => {
+        LogUtilities.toDebugScreen('subscribing call back called')
+        this.updateTxListState();
+      })();
+    }
+
+    updateTxListState() {
+      const newState = { txToUpdate: this.props.txToUpdate };
+        if (this.props.txToUpdate != null)
+          newState.newGasPrice = parseInt(
+            this.props.txToUpdate.getGasPrice(),
+            16
+          );
+
+        this.setState(newState);
+    }
+
     componentDidUpdate(prevProps) {
       if (this.props.txToUpdate !== prevProps.txToUpdate) {
         const newState = { txToUpdate: this.props.txToUpdate };
