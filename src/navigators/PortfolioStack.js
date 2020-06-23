@@ -7,7 +7,7 @@ import NotificationPermissionNotGranted from '../components/NotificationPermissi
 import WalletCreation from '../containers/WalletCreation';
 import ImportMnemonicWords from '../containers/ImportMnemonicWords';
 import CreateWalletTutorial from '../containers/CreateWalletTutorial';
-import ShowMnemonic from '../containers/ShowMnemonic';
+import ShowMnemonic from '../components/ShowMnemonic';
 import VerifyMnemonic from '../containers/VerifyMnemonic';
 import PortfolioHome from '../containers/PortfolioHome';
 import Receive from '../containers/Receive';

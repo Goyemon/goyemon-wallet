@@ -58,10 +58,6 @@
 	<string>$(PRODUCT_NAME) needs your permission to use your camera phone so that you can scan a QRCode.</string>
 	<key>NSMainNibFile</key>
 	<string>LaunchScreen</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>$(PRODUCT_NAME) needs your permission to save to your photo library so that you can save your mnemonic words.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>$(PRODUCT_NAME) needs your permission to use your photo library so that you know if you saved your mnemonic words.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Ionicons.ttf</string>
