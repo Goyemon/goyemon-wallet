@@ -7,7 +7,7 @@ import {
   HeaderTwo,
   Description
 } from '../components/common';
-import ShowMnemonicWords from './ShowMnemonicWords';
+import ShowMnemonicWords from '../containers/ShowMnemonicWords';
 
 class ShowMnemonic extends Component {
   constructor() {
