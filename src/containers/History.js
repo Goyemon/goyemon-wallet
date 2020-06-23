@@ -116,17 +116,11 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
       if (this.props.updateCounter !== prevProps.updateCounter) {
         LogUtilities.toDebugScreen('TransactionDetail componentDidUpdate() called');
         TxStorage.storage
-        .getTx(this.props.transaction.index, this.props.transaction.filter)
+        .getTx(this.props.index, this.props.filter)
         .then((x) => {
           this.setState({ txData: this.computeTxData(x) });
         });
       }
-    }
-
-    componentWillUnmount() {
-      LogUtilities.toDebugScreen('TransactionDetail componentWillUnmount() called');
-      // this.__mounted = false;
-      this.unsub();
     }
 
     prefixUpperCase = txType =>
@@ -650,7 +644,10 @@ const TransactionDetailModal = connect(
               ) : null}
               <ScrollView>
                 <TouchableOpacity activeOpacity={1}>
-                  <TransactionDetail tx={this.state.txToUpdate} updateCounter={this.state.transactions_update_counter}/>
+                  <TransactionDetail tx={this.state.txToUpdate}
+                                     updateCounter={this.state.transactions_update_counter}
+                                     index={this.props.editedTxIndex}
+                                     filter={this.props.editedTxFilter}/>
                 </TouchableOpacity>
               </ScrollView>
             </ModalContainer>
@@ -684,7 +681,9 @@ export default connect(mapChecksumAddressStateToProps)(
       super(props);
       this.state = {
         filter: 'All',
-        editedTx: null
+        editedTx: null,
+        editedTxIndex: null,
+        editedTxFilter: null,
       };
     }
 
@@ -710,13 +709,13 @@ export default connect(mapChecksumAddressStateToProps)(
       return <FilterChoiceContainer>{choices}</FilterChoiceContainer>;
     }
 
-    txTapped(tx) {
+    txTapped(tx, index, filter) {
       LogUtilities.dumpObject('tx', tx);
-      this.setState({ editedTx: tx });
+      this.setState({ editedTx: tx, editedTxIndex: index, editedTxFilter: filter });
     }
 
     txClear() {
-      this.setState({ editedTx: null });
+      this.setState({ editedTx: null, editedTxIndex: null, editedTxFilter: null });
     }
 
     render() {
@@ -724,6 +723,8 @@ export default connect(mapChecksumAddressStateToProps)(
         <HistoryContainer>
           <TransactionDetailModal
             txToUpdate={this.state.editedTx}
+            txIndex={this.state.editedTxIndex}
+            txFilter={this.state.editedTxFilter}
             onClose={this.txClear.bind(this)}
           />
           <OfflineNotice />

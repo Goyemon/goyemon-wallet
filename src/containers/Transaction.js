@@ -44,6 +44,7 @@ class Transaction extends Component {
 
   computeChildren(tx) {
     const data = this.computeTxData(tx);
+    const { index, filter } = this.props.transaction
     const time = TransactionUtilities.parseTransactionTime(tx.getTimestamp());
 
     return (
@@ -59,7 +60,7 @@ class Transaction extends Component {
         onPress={() => {
           // if (tx.getState() === 0 || tx.getState() === 1) {
             this.props.saveTxDetailModalVisibility(true);
-            this.props.onTxTapped(tx);
+            this.props.onTxTapped(tx, index, filter);
           // } else {
           //   return null;
           // }
