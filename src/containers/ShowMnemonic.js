@@ -201,7 +201,7 @@ class ShowMnemonic extends Component {
           twoColor: '#FDC800',
           progressBarWidth: '40%'
         });
-        CameraRoll.save(uri);
+        CameraRoll.saveToCameraRoll(uri);
       },
       (error) => LogUtilities.logError('Oops, Something Went Wrong', error)
     );
