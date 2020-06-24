@@ -203,8 +203,6 @@ class FCMMsgs {
   }
 
   checkForUpdates(checksumAddress, checksums, count, offset = 0) {
-    console.log('register addrerss')
-    console.log(checksumAddress, checksums, count)
     this.__sendMessage('request_updates', {
       address: checksumAddress,
       sums: checksums.join(','),

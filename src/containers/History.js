@@ -66,7 +66,6 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
     computeTxData(tx) {
       if (!tx) return null;
 
-      LogUtilities.toDebugScreen('checksum address is', this.props.checksumAddress)
       const our_reasonably_stored_address = EtherUtilities.getReasonablyAddress(this.props.checksumAddress);
 
       const ret = [];
@@ -115,15 +114,10 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
 
     async componentDidUpdate(prevProps) {
       if (this.props.updateCounter !== prevProps.updateCounter) {
-        LogUtilities.toDebugScreen('TransactionDetail componentDidUpdate() called');
-        LogUtilities.toDebugScreen('L118 Index Is', this.props.index, 'Filter Is', this.props.filter);
         TxStorage.storage
         .getTx(this.props.index, this.props.filter)
         .then(async x => {
-          LogUtilities.toDebugScreen('TransactionDetail Tx Is', x);
           await this.setState({ txData: this.computeTxData(x), tx: x });
-          LogUtilities.toDebugScreen('TransactionDetail Tx Is', this.state.txData);
-          LogUtilities.toDebugScreen('TransactionDetail Tx Is', this.state.txData);
         })
         .catch(e => LogUtilities.toDebugScreen('TransactionDetail Tx Error With', e));
       }
@@ -515,13 +509,9 @@ const TransactionDetailModal = connect(
     handleViewRef = (ref) => (this.view = ref);
 
     componentDidMount() {
-      LogUtilities.toDebugScreen('TransactionDetailModal componentDidMount() called');
-      // this.__mounted = true;
       this.unsub = TxStorage.storage.subscribe(this.updateTxListState.bind(this));
       (async () => {
-        LogUtilities.toDebugScreen('TransactionDetailModal update method called');
         this.updateTxListState();
-        LogUtilities.toDebugScreen('TransactionDetailModal State is', this.state.txToUpdate.getState())
       })();
     }
 

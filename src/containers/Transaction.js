@@ -6,7 +6,6 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
 import StyleUtilities from '../utilities/StyleUtilities';
 import EtherUtilities from '../utilities/EtherUtilities';
-import LogUtilities from '../utilities/LogUtilities';
 import { saveTxDetailModalVisibility } from '../actions/ActionModal';
 import {
   GoyemonText,
@@ -39,7 +38,6 @@ class Transaction extends Component {
       TxStorage.storage
         .getTx(this.props.transaction.index, this.props.transaction.filter)
         .then((x) => {
-          LogUtilities.toDebugScreen('Index', this.props.transaction.index, 'Tx', x)
           this.setState({ children: this.computeChildren(x) });
         });
   }
@@ -62,7 +60,6 @@ class Transaction extends Component {
         onPress={() => {
           // if (tx.getState() === 0 || tx.getState() === 1) {
             this.props.saveTxDetailModalVisibility(true);
-            LogUtilities.toDebugScreen('OnPress Index -> ', index, 'Filter -> ', filter);
             this.props.onTxTapped(tx, index, filter);
           // } else {
           //   return null;

@@ -113,11 +113,6 @@ class WalletCreation extends Component {
   }
 
   async hasWallet() {
-    console.log('this.hasMnemonicWords() ==>', this.hasMnemonicWords());
-    console.log('(await this.hasPrivateKey()) ==>', (await this.hasPrivateKey()));
-    console.log('this.hasTransactions() ==>', this.hasTransactions());
-    console.log('this.hasBalance() ==>', this.hasBalance());
-    console.log('this.hasChecksumAddress() ==>', this.hasChecksumAddress());
     return (
       this.hasMnemonicWords() &&
       (await this.hasPrivateKey()) &&
