@@ -42,8 +42,6 @@ class Transaction extends Component {
           LogUtilities.toDebugScreen('Index', this.props.transaction.index, 'Tx', x)
           this.setState({ children: this.computeChildren(x) });
         });
-    LogUtilities.toDebugScreen('Transaction componentDidUpdate() Index', this.props.transaction.index, 'Filter', this.props.transaction.filter)
-    LogUtilities.toDebugScreen('Transaction componentDidUpdate() called')
   }
 
   computeChildren(tx) {

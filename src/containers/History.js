@@ -113,7 +113,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
       return ret;
     }
 
-    componentDidUpdate(prevProps) {
+    async componentDidUpdate(prevProps) {
       if (this.props.updateCounter !== prevProps.updateCounter) {
         LogUtilities.toDebugScreen('TransactionDetail componentDidUpdate() called');
         LogUtilities.toDebugScreen('L118 Index Is', this.props.index, 'Filter Is', this.props.filter);
@@ -127,6 +127,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
         })
         .catch(e => LogUtilities.toDebugScreen('TransactionDetail Tx Error With', e));
       }
+      await this.props.updateTx(this.state.tx)
     }
 
     prefixUpperCase = txType =>
@@ -497,12 +498,13 @@ const TransactionDetailModal = connect(
     constructor(props) {
       super(props);
       this.state = {
-        txToUpdate: null,
+        txToUpdate: props.txToUpdate,
         newGasPrice: null,
         txResent: false,
         loading: false
       };
       this.uniqcounter = 0;
+      this.updateTxState = this.updateTxState.bind(this)
     }
 
     updateWeiAmountValidationInModal(validation) {
@@ -519,6 +521,7 @@ const TransactionDetailModal = connect(
       (async () => {
         LogUtilities.toDebugScreen('TransactionDetailModal update method called');
         this.updateTxListState();
+        LogUtilities.toDebugScreen('TransactionDetailModal State is', this.state.txToUpdate.getState())
       })();
     }
 
@@ -530,6 +533,12 @@ const TransactionDetailModal = connect(
         transactions_update_counter: this.uniqcounter++,
         transactionsLoaded: true
       });
+    }
+
+    updateTxState(x) {
+      this.setState({
+        txToUpdate: x
+      })
     }
 
     componentDidUpdate(prevProps) {
@@ -652,6 +661,7 @@ const TransactionDetailModal = connect(
               <ScrollView>
                 <TouchableOpacity activeOpacity={1}>
                   <TransactionDetail tx={this.state.txToUpdate}
+                                     updateTx={this.updateTxState}
                                      updateCounter={this.state.transactions_update_counter}
                                      index={this.props.txIndex}
                                      filter={this.props.txFilter}/>
