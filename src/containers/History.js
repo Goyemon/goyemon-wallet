@@ -57,7 +57,8 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
     constructor(props) {
       super(props);
       this.state = {
-        txData: this.computeTxData(props.tx)
+        txData: this.computeTxData(props.tx),
+        tx: props.tx
       };
       LogUtilities.toDebugScreen('tx state is',this.state.txData)
     }
@@ -118,9 +119,11 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
         LogUtilities.toDebugScreen('L118 Index Is', this.props.index, 'Filter Is', this.props.filter);
         TxStorage.storage
         .getTx(this.props.index, this.props.filter)
-        .then(x => {
+        .then(async x => {
           LogUtilities.toDebugScreen('TransactionDetail Tx Is', x);
-          this.setState({ txData: this.computeTxData(x) });
+          await this.setState({ txData: this.computeTxData(x), tx: x });
+          LogUtilities.toDebugScreen('TransactionDetail Tx Is', this.state.txData);
+          LogUtilities.toDebugScreen('TransactionDetail Tx Is', this.state.txData);
         })
         .catch(e => LogUtilities.toDebugScreen('TransactionDetail Tx Error With', e));
       }
@@ -168,7 +171,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                     </GoyemonText>
                     <GoyemonText fontSize={15}>
                       {TransactionUtilities.parseTransactionTime(
-                        this.props.tx.getTimestamp()
+                        this.state.tx.getTimestamp()
                       )}
                     </GoyemonText>
                   </TypeAndTime>
@@ -178,7 +181,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                       }}>
                     <TransactionStatus
                       width="100%"
-                      txState={this.props.tx.getState()}
+                      txState={this.state.tx.getState()}
                     />
                   </HeaderStatus>
                 </TxDetailHeader>
@@ -236,7 +239,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                       </GoyemonText>
                       <GoyemonText fontSize={15}>
                         {TransactionUtilities.parseTransactionTime(
-                          this.props.tx.getTimestamp()
+                          this.state.tx.getTimestamp()
                         )}
                       </GoyemonText>
                     </TypeAndTime>
@@ -246,7 +249,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                         }}>
                       <TransactionStatus
                         width="100%"
-                        txState={this.props.tx.getState()}
+                        txState={this.state.tx.getState()}
                       />
                     </HeaderStatus>
                   </TxDetailHeader>
@@ -722,7 +725,7 @@ export default connect(mapChecksumAddressStateToProps)(
     }
 
     txClear() {
-      this.setState({ editedTx: null });
+      this.setState({ editedTx: null, editedTxIndex: '', editedTxFilter: '' });
     }
 
     render() {
