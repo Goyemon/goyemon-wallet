@@ -41,6 +41,7 @@ class Transaction extends Component {
         .then((x) => {
           this.setState({ children: this.computeChildren(x) });
         });
+    LogUtilities.toDebugScreen('Transaction componentDidUpdate() called')
   }
 
   computeChildren(tx) {

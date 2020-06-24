@@ -115,7 +115,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
     componentDidUpdate(prevProps) {
       if (this.props.updateCounter !== prevProps.updateCounter) {
         LogUtilities.toDebugScreen('TransactionDetail componentDidUpdate() called');
-        LogUtilities.toDebugScreen('Index Is', this.props.index, 'Filter Is', this.props.filter);
+        LogUtilities.toDebugScreen('L118 Index Is', this.props.index, 'Filter Is', this.props.filter);
         TxStorage.storage
         .getTx(this.props.index, this.props.filter)
         .then(x => {
@@ -499,6 +499,7 @@ const TransactionDetailModal = connect(
         txResent: false,
         loading: false
       };
+      this.uniqcounter = 0;
     }
 
     updateWeiAmountValidationInModal(validation) {
@@ -513,13 +514,13 @@ const TransactionDetailModal = connect(
       // this.__mounted = true;
       this.unsub = TxStorage.storage.subscribe(this.updateTxListState.bind(this));
       (async () => {
-        LogUtilities.toDebugScreen('TransactionDetailModal componentDidMount() called');
+        LogUtilities.toDebugScreen('TransactionDetailModal update method called');
         this.updateTxListState();
       })();
     }
 
     updateTxListState() {
-      LogUtilities.toDebugScreen('TransactionDetailModal componentDidMount() called');
+      LogUtilities.toDebugScreen('TransactionDetailModal updateTxListState() called');
       // this.refreshIndices = {0: true,1: true,2: true,3: true,4: true,5: true,6:true,7:true,8:true,9:true};
 
       this.setState({
@@ -649,8 +650,8 @@ const TransactionDetailModal = connect(
                 <TouchableOpacity activeOpacity={1}>
                   <TransactionDetail tx={this.state.txToUpdate}
                                      updateCounter={this.state.transactions_update_counter}
-                                     index={this.state.editedTxIndex}
-                                     filter={this.state.editedTxFilter}/>
+                                     index={this.props.txIndex}
+                                     filter={this.props.txFilter}/>
                 </TouchableOpacity>
               </ScrollView>
             </ModalContainer>
@@ -713,15 +714,15 @@ export default connect(mapChecksumAddressStateToProps)(
       return <FilterChoiceContainer>{choices}</FilterChoiceContainer>;
     }
 
-    txTapped(tx, index, filter) {
+    async txTapped(tx, index, filter) {
       LogUtilities.dumpObject('tx', tx);
       LogUtilities.toDebugScreen('txTapped Index -> ', index, 'Filter -> ', filter);
-      this.setState({ editedTx: tx, editedTxIndex: index, editedTxFilter: filter });
+      await this.setState({ editedTx: tx, editedTxIndex: index, editedTxFilter: filter });
       LogUtilities.toDebugScreen('txTapped', this.state);
     }
 
     txClear() {
-      this.setState({ editedTx: null, editedTxIndex: '', editedTxFilter: '' });
+      this.setState({ editedTx: null });
     }
 
     render() {
