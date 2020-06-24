@@ -115,11 +115,14 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
     componentDidUpdate(prevProps) {
       if (this.props.updateCounter !== prevProps.updateCounter) {
         LogUtilities.toDebugScreen('TransactionDetail componentDidUpdate() called');
+        LogUtilities.toDebugScreen('Index Is', this.props.index, 'Filter Is', this.props.filter);
         TxStorage.storage
         .getTx(this.props.index, this.props.filter)
-        .then((x) => {
+        .then(x => {
+          LogUtilities.toDebugScreen('TransactionDetail Tx Is', x);
           this.setState({ txData: this.computeTxData(x) });
-        });
+        })
+        .catch(e => LogUtilities.toDebugScreen('TransactionDetail Tx Error With', e));
       }
     }
 
@@ -631,7 +634,7 @@ const TransactionDetailModal = connect(
                       {this.state.txResent ? (
                         <>
                           <GoyemonText fontSize={16}>
-                            you sped up your transaction!
+                            you speed up your transaction!
                           </GoyemonText>
                           <GoyemonText fontSize={16}>🚀</GoyemonText>
                         </>
@@ -646,8 +649,8 @@ const TransactionDetailModal = connect(
                 <TouchableOpacity activeOpacity={1}>
                   <TransactionDetail tx={this.state.txToUpdate}
                                      updateCounter={this.state.transactions_update_counter}
-                                     index={this.props.editedTxIndex}
-                                     filter={this.props.editedTxFilter}/>
+                                     index={this.state.editedTxIndex}
+                                     filter={this.state.editedTxFilter}/>
                 </TouchableOpacity>
               </ScrollView>
             </ModalContainer>
@@ -682,9 +685,10 @@ export default connect(mapChecksumAddressStateToProps)(
       this.state = {
         filter: 'All',
         editedTx: null,
-        editedTxIndex: null,
-        editedTxFilter: null,
+        editedTxIndex: '',
+        editedTxFilter: '',
       };
+      this.txTapped = this.txTapped.bind(this)
     }
 
     toggleFilterChoiceText() {
@@ -711,11 +715,13 @@ export default connect(mapChecksumAddressStateToProps)(
 
     txTapped(tx, index, filter) {
       LogUtilities.dumpObject('tx', tx);
+      LogUtilities.toDebugScreen('txTapped Index -> ', index, 'Filter -> ', filter);
       this.setState({ editedTx: tx, editedTxIndex: index, editedTxFilter: filter });
+      LogUtilities.toDebugScreen('txTapped', this.state);
     }
 
     txClear() {
-      this.setState({ editedTx: null, editedTxIndex: null, editedTxFilter: null });
+      this.setState({ editedTx: null, editedTxIndex: '', editedTxFilter: '' });
     }
 
     render() {
