@@ -272,7 +272,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
               {(() => {
                 const app = this.props.tx.getTo() === null ? null : this.props.tx.getApplication(this.props.tx.getTo())
               return (
-                app === ''
+                app === '' || app === null
               ? null
               : <>
                   <GoyemonText fontSize={20}>Application</GoyemonText>
