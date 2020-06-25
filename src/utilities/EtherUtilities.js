@@ -146,7 +146,7 @@ class EtherUtilities {
         type: 'withdraw',
         token: toptok,
         amount: TransactionUtilities.parseHexDaiValue(
-          `0x${x.withdrawAmount}`
+          `0x${top.withdrawAmount}`
         )
       };
 
@@ -160,7 +160,7 @@ class EtherUtilities {
         type: 'open deposit withdraw',
         token: toptok,
         amount: TransactionUtilities.parseHexDaiValue(
-          `0x${x.withdrawAmount}`
+          `0x${top.withdrawAmount}`
         )
       };
 
@@ -174,7 +174,7 @@ class EtherUtilities {
         type: 'sponsorship withdraw',
         token: toptok,
         amount: TransactionUtilities.parseHexDaiValue(
-          `0x${x.withdrawAmount}`
+          `0x${top.withdrawAmount}`
         )
       };
 
@@ -188,7 +188,7 @@ class EtherUtilities {
         type: 'committed deposit withdraw',
         token: toptok,
         amount: TransactionUtilities.parseHexDaiValue(
-          `0x${x.withdrawAmount}`
+          `0x${top.withdrawAmount}`
         )
       };
 
