@@ -269,7 +269,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                     ).catch((err) => LogUtilities.logError('An error occurred', err));
                   }}
                 >
-                  {'0x' + this.props.tx.getHash()}
+                  {'0x' + this.props.tx.getHash().substring(0, 24) + '...'}
                   <Icon name="link-variant" size={16} color="#5f5f5f" />
               </TxDetailValue>
             </TxNetworkAndHash>
