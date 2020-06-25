@@ -663,12 +663,17 @@ const TransactionDetailModal = connect(
 
 const ModalContainer = styled.View`
   background-color: #fff;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
   height: 60%;
   width: 100%;
 `;
 
 const ModalHandlerContainer = styled.View`
   background-color: #f8f8f8;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  width: 100%;
 `;
 
 const AnimationContainer = styled.View`
