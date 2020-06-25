@@ -270,14 +270,14 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
             })}
             <TxNetworkAndHash>
               {(() => {
-                const app = this.props.tx.getApplication(this.props.tx.getTo())
+                const app = this.props.tx.getTo() === null ? null : this.props.tx.getApplication(this.props.tx.getTo())
               return (
                 app === ''
               ? null
               : <>
                   <GoyemonText fontSize={20}>Application</GoyemonText>
                   <TxDetailValue>
-                    <GoyemonText fontSize={18} style={{marginLeft: "20%"}}>{this.props.tx.getApplication(this.props.tx.getTo())}</GoyemonText>
+                    {this.props.tx.getTo() === null ? null : this.props.tx.getApplication(this.props.tx.getTo())}
                   </TxDetailValue>
                 </>
               )})()}
