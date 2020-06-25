@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
+import StyleUtilities from '../utilities/StyleUtilities';
+import EtherUtilities from '../utilities/EtherUtilities';
 import { saveTxDetailModalVisibility } from '../actions/ActionModal';
 import {
   GoyemonText,
@@ -42,6 +44,7 @@ class Transaction extends Component {
 
   computeChildren(tx) {
     const data = this.computeTxData(tx);
+    const { index, filter } = this.props.transaction
     const time = TransactionUtilities.parseTransactionTime(tx.getTimestamp());
 
     return (
@@ -55,73 +58,20 @@ class Transaction extends Component {
         textAlign="left"
         width="90%"
         onPress={() => {
-          if (tx.getState() === 0 || tx.getState() === 1) {
+          // if (tx.getState() === 0 || tx.getState() === 1) {
             this.props.saveTxDetailModalVisibility(true);
-            this.props.onTxTapped(tx);
-          } else {
-            return null;
-          }
+            this.props.onTxTapped(tx, index, filter);
+          // } else {
+          //   return null;
+          // }
         }}
       >
         <TransactionList>
           <InOrOutTransactionContainer>
             <GoyemonText fontSize={16}>
               {(() => {
-                switch (data.type) {
-                  case 'swap':
-                    return (
-                      <Icon name="swap-horizontal" size={20} color="#5F5F5F" />
-                    );
-
-                  case 'transfer':
-                    if (data.direction == 'self')
-                      return (
-                        <Icon name="arrow-collapse" size={20} color="#5F5F5F" />
-                      );
-                    else if (data.direction == 'outgoing')
-                      return (
-                        <Icon
-                          name="arrow-top-right-bold-outline"
-                          size={20}
-                          color="#F1860E"
-                        />
-                      );
-                    return (
-                      <Icon
-                        name="arrow-bottom-left-bold-outline"
-                        size={20}
-                        color="#1BA548"
-                      />
-                    );
-
-                  case 'approval':
-                  case 'deposit':
-                    return (
-                      <Icon
-                        name="arrow-top-right-bold-outline"
-                        size={20}
-                        color="#F1860E"
-                      />
-                    );
-
-                  case 'withdraw':
-                    return (
-                      <Icon
-                        name="arrow-bottom-left-bold-outline"
-                        size={20}
-                        color="#1BA548"
-                      />
-                    );
-
-                  case 'failure':
-                    return (
-                      <Icon
-                        name="alert-circle-outline"
-                        size={20}
-                        color="#E41B13"
-                      />
-                    );
-                }
+                const { name, size, color } = StyleUtilities.inOrOutIcon(data.type, data.direction)
+                return <Icon name={name} size={size} color={color} />
               })()}
             </GoyemonText>
           </InOrOutTransactionContainer>
@@ -164,28 +114,10 @@ class Transaction extends Component {
 
           <ValueContainer>
             {(() => {
-              switch (data.type) {
-                case 'deposit':
-                  return <Icon name="minus" size={16} color="#F1860E" />;
-
-                case 'transfer':
-                  return data.direction == 'self' ? (
-                    <Icon name="plus-minus" size={16} color="#5F5F5F" />
-                  ) : data.direction == 'outgoing' ? (
-                    <Icon name="minus" size={16} color="#F1860E" />
-                  ) : (
-                    <Icon name="plus" size={16} color="#1BA548" />
-                  );
-
-                case 'rewarded':
-                case 'withdraw':
-                  return <Icon name="plus" size={16} color="#1BA548" />;
-
-                case 'swap':
-                case 'approval':
-                case 'failure':
-                  return null;
-              }
+              const { name, size, color } = StyleUtilities.minusOrPlusIcon(data.type, data.direction)
+              return name === ''
+              ? null
+              : <Icon name={name} size={size} color={color} />
             })()}
             {(() => {
               switch (data.type) {
@@ -267,136 +199,7 @@ class Transaction extends Component {
   computeTxData(tx) {
     if (!tx) return null;
 
-    const our_reasonably_stored_address = (this.props.checksumAddress.substr(
-      0,
-      2
-    ) == '0x'
-      ? this.props.checksumAddress.substr(2)
-      : this.props.checksumAddress
-    ).toLowerCase();
-
-    const topType = (top, toptok) => {
-      if (
-        top instanceof
-          TxStorage.TxTokenOpNameToClass[
-            TxStorage.TxTokenOpTypeToName.eth2tok
-          ] ||
-        top instanceof
-          TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.U2swap]
-      )
-        return {
-          type: 'swap',
-          eth_sold: parseFloat(
-            TransactionUtilities.parseEthValue(`0x${top.eth_sold}`)
-          ).toFixed(4),
-          tokens_bought: TransactionUtilities.parseHexDaiValue(
-            `0x${top.tok_bought}`
-          ),
-          token: toptok
-        };
-
-      if (
-        top instanceof
-          TxStorage.TxTokenOpNameToClass[
-            TxStorage.TxTokenOpTypeToName.PTdeposited
-          ] ||
-        top instanceof
-          TxStorage.TxTokenOpNameToClass[
-            TxStorage.TxTokenOpTypeToName.PTdepositedAndCommitted
-          ] ||
-        top instanceof
-          TxStorage.TxTokenOpNameToClass[
-            TxStorage.TxTokenOpTypeToName.PTsponsorshipDeposited
-          ]
-      )
-        return {
-          type: 'deposit',
-          amount: TransactionUtilities.parseHexDaiValue(
-            `0x${top.depositPoolAmount}`
-          ),
-          token: 'DAI'
-        };
-
-      if (
-        top instanceof
-        TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.transfer]
-      )
-        return {
-          type: 'transfer',
-          amount: TransactionUtilities.parseHexDaiValue(`0x${top.amount}`),
-          direction:
-            top.from_addr === our_reasonably_stored_address
-              ? top.to_addr === our_reasonably_stored_address
-                ? 'self'
-                : 'outgoing'
-              : top.to_addr === our_reasonably_stored_address
-              ? 'incoming'
-              : 'unknown',
-          token: toptok
-        };
-
-      if (
-        top instanceof
-        TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.failure]
-      )
-        return {
-          type: 'failure',
-          failop:
-            parseInt(top.info, 16) == 38
-              ? 'mint'
-              : Array.from([42, 45, 46]).contains(parseInt(top.info, 16))
-              ? 'redeem'
-              : 'unknown',
-          token: toptok
-        };
-
-      if (
-        top instanceof
-        TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.approval]
-      )
-        return {
-          type: 'approval',
-          token: toptok
-        };
-
-      if (
-        top instanceof
-        TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.mint]
-      )
-        return {
-          type: 'deposit',
-          amount: TransactionUtilities.parseHexDaiValue(
-            `0x${top.mintUnderlying}`
-          ),
-          token: toptok
-        };
-
-      if (
-        top instanceof
-        TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.redeem]
-      )
-        return {
-          type: 'withdraw',
-          amount: TransactionUtilities.parseHexDaiValue(
-            `0x${top.redeemUnderlying}`
-          ),
-          token: toptok
-        };
-
-      if (
-        top instanceof
-        TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.PTrewarded]
-      )
-        return {
-          type: 'rewarded',
-          amount: TransactionUtilities.parseHexDaiValue(`0x${top.winnings}`),
-          token: toptok
-        };
-
-      return {
-        type: 'oops'
-      };
-    };
+    const our_reasonably_stored_address = EtherUtilities.getReasonablyAddress(this.props.checksumAddress);
 
     const isPtWithdraw = (x) =>
       x instanceof
@@ -491,7 +294,7 @@ class Transaction extends Component {
       toparr[0]
     ])[0]; // changes {x:[1]} to [x, 1], so extracts token name and the first token op (should only be one at this point anyway)
 
-    return topType(top, toptok);
+    return EtherUtilities.topType(top, toptok, our_reasonably_stored_address);
   }
 
   render() {

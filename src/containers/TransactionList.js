@@ -114,7 +114,6 @@ class TransactionList extends Component {
   }
 
   componentDidMount() {
-    LogUtilities.toDebugScreen('TransactionList componentDidMount() called');
     // this.__mounted = true;
     this.unsub = TxStorage.storage.subscribe(this.updateTxListState.bind(this));
     (async () => {
@@ -123,8 +122,6 @@ class TransactionList extends Component {
   }
 
   componentWillUnmount() {
-    LogUtilities.toDebugScreen('TransactionList componentWillUnmount() called');
-    // this.__mounted = false;
     this.unsub();
   }
 }

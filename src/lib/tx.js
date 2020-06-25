@@ -1665,6 +1665,19 @@ class Tx {
     return this.hash;
   }
 
+  getApplication(to) {
+    switch (to.toLowerCase()) {
+      case GlobalConfig.cDAIcontract.toLowerCase():
+        return 'Compound'
+      case GlobalConfig.RouterUniswapV2.toLowerCase():
+        return 'Uniswap'
+      case GlobalConfig.DAIPoolTogetherContractV2.toLowerCase():
+        return 'PoolTogether'
+      default:
+        return ''
+    }
+  }
+
   getState() {
     return this.state;
   }

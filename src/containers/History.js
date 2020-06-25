@@ -1,9 +1,11 @@
 'use strict';
 import React, { Component } from 'react';
-import { TouchableOpacity, Linking } from 'react-native';
+import { TouchableOpacity, Linking, ScrollView } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Modal from 'react-native-modal';
 import styled from 'styled-components';
+import StyleUtilities from '../utilities/StyleUtilities.js';
+import EtherUtilities from '../utilities/EtherUtilities'
 import Web3 from 'web3';
 import { saveTxDetailModalVisibility } from '../actions/ActionModal';
 import {
@@ -55,197 +57,16 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
     constructor(props) {
       super(props);
       this.state = {
-        txData: this.computeTxData(props.tx)
+        txData: this.computeTxData(props.tx),
+        tx: props.tx
       };
+      LogUtilities.toDebugScreen('tx state is',this.state.txData)
     }
 
     computeTxData(tx) {
       if (!tx) return null;
 
-      const our_reasonably_stored_address = (this.props.checksumAddress.substr(
-        0,
-        2
-      ) == '0x'
-        ? this.props.checksumAddress.substr(2)
-        : this.props.checksumAddress
-      ).toLowerCase();
-
-      const topType = (top, toptok) => {
-        if (
-          top instanceof
-          TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.eth2tok]
-        )
-          return {
-            type: 'swap',
-            eth_sold: parseFloat(
-              TransactionUtilities.parseEthValue(`0x${top.eth_sold}`)
-            ).toFixed(4),
-            tokens_bought: TransactionUtilities.parseHexDaiValue(
-              `0x${top.tok_bought}`
-            ),
-            token: toptok
-          };
-
-        if (
-          top instanceof
-            TxStorage.TxTokenOpNameToClass[
-              TxStorage.TxTokenOpTypeToName.PTdeposited
-            ] ||
-          top instanceof
-            TxStorage.TxTokenOpNameToClass[
-              TxStorage.TxTokenOpTypeToName.PTdepositedAndCommitted
-            ] ||
-          top instanceof
-            TxStorage.TxTokenOpNameToClass[
-              TxStorage.TxTokenOpTypeToName.PTsponsorshipDeposited
-            ]
-        )
-          return {
-            type: 'deposit',
-            amount: TransactionUtilities.parseHexDaiValue(
-              `0x${top.depositPoolAmount}`
-            ),
-            token: 'DAI'
-          };
-
-        if (
-          top instanceof
-          TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.transfer]
-        )
-          return {
-            type: 'transfer',
-            amount: TransactionUtilities.parseHexDaiValue(`0x${top.amount}`),
-            direction:
-              top.from_addr === our_reasonably_stored_address
-                ? top.to_addr === our_reasonably_stored_address
-                  ? 'self'
-                  : 'outgoing'
-                : top.to_addr === our_reasonably_stored_address
-                ? 'incoming'
-                : 'unknown',
-            token: toptok
-          };
-
-        if (
-          top instanceof
-          TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.failure]
-        )
-          return {
-            type: 'failure',
-            failop:
-              parseInt(top.info, 16) == 38
-                ? 'mint'
-                : Array.from([42, 45, 46]).contains(parseInt(top.info, 16))
-                ? 'redeem'
-                : 'unknown',
-            token: toptok
-          };
-
-        if (
-          top instanceof
-          TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.approval]
-        )
-          return {
-            type: 'approval',
-            token: toptok
-          };
-
-        if (
-          top instanceof
-          TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.mint]
-        )
-          return {
-            type: 'deposit',
-            amount: TransactionUtilities.parseHexDaiValue(
-              `0x${top.mintUnderlying}`
-            ),
-            token: toptok
-          };
-
-        if (
-          top instanceof
-          TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.redeem]
-        )
-          return {
-            type: 'withdraw',
-            amount: TransactionUtilities.parseHexDaiValue(
-              `0x${top.redeemUnderlying}`
-            ),
-            token: toptok
-          };
-
-        if (
-          top instanceof
-          TxStorage.TxTokenOpNameToClass[
-            TxStorage.TxTokenOpTypeToName.PTrewarded
-          ]
-        )
-          return {
-            type: 'rewarded',
-            amount: TransactionUtilities.parseHexDaiValue(`0x${top.winnings}`),
-            token: toptok
-          };
-
-        if (
-          top instanceof
-          TxStorage.TxTokenOpNameToClass[
-            TxStorage.TxTokenOpTypeToName.PTwithdrawn
-          ]
-        )
-          return {
-            type: 'withdraw',
-            token: toptok,
-            amount: TransactionUtilities.parseHexDaiValue(
-              `0x${x.withdrawAmount}`
-            )
-          };
-
-        if (
-          top instanceof
-          TxStorage.TxTokenOpNameToClass[
-            TxStorage.TxTokenOpTypeToName.PTopenDepositWithdrawn
-          ]
-        )
-          return {
-            type: 'open deposit withdraw',
-            token: toptok,
-            amount: TransactionUtilities.parseHexDaiValue(
-              `0x${x.withdrawAmount}`
-            )
-          };
-
-        if (
-          top instanceof
-          TxStorage.TxTokenOpNameToClass[
-            TxStorage.TxTokenOpTypeToName.PTsponsorshipAndFeesWithdrawn
-          ]
-        )
-          return {
-            type: 'sponsorship withdraw',
-            token: toptok,
-            amount: TransactionUtilities.parseHexDaiValue(
-              `0x${x.withdrawAmount}`
-            )
-          };
-
-        if (
-          top instanceof
-          TxStorage.TxTokenOpNameToClass[
-            TxStorage.TxTokenOpTypeToName.PTcommittedDepositWithdrawn
-          ]
-        )
-          return {
-            type: 'committed deposit withdraw',
-            token: toptok,
-            amount: TransactionUtilities.parseHexDaiValue(
-              `0x${x.withdrawAmount}`
-            )
-          };
-
-        return {
-          type: 'oops'
-        };
-      };
+      const our_reasonably_stored_address = EtherUtilities.getReasonablyAddress(this.props.checksumAddress);
 
       const ret = [];
 
@@ -284,98 +105,272 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
       Object.entries(tx.getAllTokenOperations()).forEach(
         ([toptok, toktops]) => {
           // toptok - TokenOP Token, toktops -> (given) token TokenOPs ;-)
-          toktops.forEach((x) => ret.push(topType(x, toptok)));
+          toktops.forEach((x) => ret.push(EtherUtilities.topType(x, toptok, our_reasonably_stored_address)));
         }
       );
 
       return ret;
     }
 
-    componentDidUpdate(prevProps) {
-      const { tx } = this.props;
-
-      if (tx !== prevProps.tx)
-        this.setState({ txData: this.computeTxData(tx) });
+    async componentDidUpdate(prevProps) {
+      if (this.props.updateCounter !== prevProps.updateCounter) {
+        TxStorage.storage
+        .getTx(this.props.index, this.props.filter)
+        .then(async x => {
+          await this.setState({ txData: this.computeTxData(x), tx: x });
+        })
+        .catch(e => LogUtilities.toDebugScreen('TransactionDetail Tx Error With', e));
+      }
+      await this.props.updateTx(this.state.tx)
     }
+
+    prefixUpperCase = txType =>
+      txType.charAt(0).toUpperCase() + txType.slice(1)
 
     render() {
       if (!this.state.txData)
         return <GoyemonText fontSize={12}>nothink!</GoyemonText>;
 
-      // return <GoyemonText fontSize={12}>{JSON.stringify(this.state.txData, null, 1)}{JSON.stringify(tx)}</GoyemonText>;
-
       return (
         <>
           <Container
-            alignItems="center"
-            flexDirection="row"
-            justifyContent="center"
-            marginTop={0}
-            width="100%"
+            alignItems="flex-start"
+            flexDirection="column"
+            justifyContent="flex-start"
+            marginTop={16}
+            width="95%"
           >
-            {this.state.txData.map((x) => {
+            {this.state.txData.length == 2 && this.state.txData[1].type == 'swap'
+            ? <>
+                <TxDetailHeader
+                  style={{
+                    flexDirection: "row",
+                    width: '90%',
+                    marginLeft: "5%",
+                    borderBottomColor: '#5f5f5f',
+                    borderBottomWidth: 0.5
+                  }}>
+                  <GoyemonText fontSize={16}>
+                    {(() => {
+                      const { name, size, color } = StyleUtilities.inOrOutIcon(this.state.txData[1].type, this.state.txData[1].direction)
+                      return <Icon name={name} size={size + 8} color={color}/>
+                    })()}
+                  </GoyemonText>
+                  <TypeAndTime
+                    style={{
+                      flexDirection: "column",
+                      marginLeft: "10%"
+                    }}>
+                    <GoyemonText fontSize={18}>
+                        {this.state.txData[1].type}
+                    </GoyemonText>
+                    <GoyemonText fontSize={15}>
+                      {TransactionUtilities.parseTransactionTime(
+                        this.state.tx.getTimestamp()
+                      )}
+                    </GoyemonText>
+                  </TypeAndTime>
+                  <HeaderStatus
+                      style={{
+                        marginLeft: "20%"
+                      }}>
+                    <TransactionStatus
+                      width="100%"
+                      txState={this.state.tx.getState()}
+                    />
+                  </HeaderStatus>
+                </TxDetailHeader>
+                <SubtotalSwapBox>
+                  <GoyemonText fontSize={25}>Sold</GoyemonText>
+                  <PaddingLeftStyle>
+                    <GoyemonText fontSize={25}>
+                      {(() => {
+                          const { name, size, color } = StyleUtilities.minusOrPlusIcon(this.state.txData[0].type, this.state.txData[0].direction)
+                          return (
+                          name === ''
+                          ? null
+                          : <Icon name={name} size={size + 10} color={color} />
+                      )})()}
+                      {this.state.txData[0].amount}
+                      {this.state.txData[0].token === 'cdai' ? 'Dai' : this.prefixUpperCase(this.state.txData[0].token)}
+                    </GoyemonText>
+                  </PaddingLeftStyle>
+                  <GoyemonText fontSize={25}>Bought</GoyemonText>
+                  <PaddingLeftStyle>
+                    <GoyemonText fontSize={24}>
+                      <Icon name="plus" size={26} color="#1BA548" />{this.state.txData[1].tokens_bought}DAI
+                    </GoyemonText>
+                  </PaddingLeftStyle>
+                </SubtotalSwapBox>
+              </>
+            : this.state.txData.map((x) => {
               return (
                 <>
-                  <GoyemonText fontSize={12}>{x.type}</GoyemonText>
-                  {x.direction ? (
-                    <GoyemonText fontSize={12}>{x.direction}</GoyemonText>
-                  ) : null}
-                  {x.amount ? (
-                    <GoyemonText fontSize={12}>
-                      {x.amount}
-                      {x.token}
+                  <TxDetailHeader
+                    style={{
+                      flexDirection: "row",
+                      width: '90%',
+                      marginLeft: "5%",
+                      borderBottomColor: '#5f5f5f',
+                      borderBottomWidth: 0.5
+                    }}>
+                    <GoyemonText fontSize={16}>
+                      {(() => {
+                        const { name, size, color } = StyleUtilities.inOrOutIcon(x.type, x.direction)
+                        return <Icon name={name} size={size + 8} color={color}/>
+                      })()}
                     </GoyemonText>
-                  ) : null}
+                    <TypeAndTime
+                      style={{
+                        flexDirection: "column",
+                        marginLeft: "10%"
+                      }}>
+                      <GoyemonText fontSize={18}>
+                        {this.prefixUpperCase(
+                          x.type === 'transfer'
+                          ? x.direction
+                          : x.type
+                        )}
+                      </GoyemonText>
+                      <GoyemonText fontSize={15}>
+                        {TransactionUtilities.parseTransactionTime(
+                          this.state.tx.getTimestamp()
+                        )}
+                      </GoyemonText>
+                    </TypeAndTime>
+                    <HeaderStatus
+                        style={{
+                          marginLeft: "20%"
+                        }}>
+                      <TransactionStatus
+                        width="100%"
+                        txState={this.state.tx.getState()}
+                      />
+                    </HeaderStatus>
+                  </TxDetailHeader>
+                  {x.amount && <SubtotalBox>
+                    {(() => {
+                        const { name, size, color } = StyleUtilities.minusOrPlusIcon(x.type, x.direction)
+                        return (
+                        name === ''
+                        ? null
+                        : <Icon name={name} size={size + 10} color={color} />
+                    )})()}
+                    <GoyemonText fontSize={25}>
+                      {x.amount}
+                      {x.token === 'cdai' ? 'Dai' : this.prefixUpperCase(x.token)}
+                    </GoyemonText>
+                  </SubtotalBox>}
+                  {x.type === 'swap' && <SubtotalBox>
+                    <Icon name="plus" size={26} color="#1BA548" />
+                    <GoyemonText fontSize={24}>{x.tokens_bought} DAI</GoyemonText>
+                  </SubtotalBox>}
                 </>
               );
-
-              switch (x.type) {
-              }
             })}
-            <GoyemonText fontSize={12}>
-              {TransactionUtilities.parseTransactionTime(
-                tx.getTimestamp()
-              )}
-            </GoyemonText>
-            <TransactionStatus
-              width="100%"
-              txState={tx.getState()}
-            />
+            <TxNetworkAndHash>
+              {(() => {
+                const app = this.props.tx.getApplication(this.props.tx.getTo())
+              return (
+                app === ''
+              ? null
+              : <>
+                  <GoyemonText fontSize={20}>Application</GoyemonText>
+                  <TxDetailValue>
+                    <GoyemonText fontSize={18} style={{marginLeft: "20%"}}>{this.props.tx.getApplication(this.props.tx.getTo())}</GoyemonText>
+                  </TxDetailValue>
+                </>
+              )})()}
+
+              <GoyemonText fontSize={20}>Max Network Fee</GoyemonText>
+              <TxDetailValue>
+                <GoyemonText fontSize={18} style={{paddingLeft: "20"}}>{parseInt(this.props.tx.getGasPrice(), 16) * parseInt(this.props.tx.getGasLimit(), 16) / 1000000000000000000} ETH</GoyemonText>
+              </TxDetailValue>
+
+              <GoyemonText fontSize={20}>Hash</GoyemonText>
+              <TxDetailValue>
+                <GoyemonText
+                  fontSize={12}
+                  style={{marginLeft: "20%"}}
+                  onPress={() => {
+                    Linking.openURL(
+                      `${GlobalConfig.EtherscanLink}${'0x' + this.props.tx.getHash()}`
+                    ).catch((err) => LogUtilities.logError('An error occurred', err));
+                  }}
+                >
+                  {'0x' + this.props.tx.getHash()}
+                  <Icon name="link-variant" size={16} color="#5f5f5f" />
+                </GoyemonText>
+              </TxDetailValue>
+            </TxNetworkAndHash>
           </Container>
-          <GoyemonText fontSize={12}>From</GoyemonText>
-          <GoyemonText fontSize={12}>{tx.getFrom()}</GoyemonText>
-
-          <GoyemonText fontSize={12}>To</GoyemonText>
-          <GoyemonText fontSize={12}>{tx.getTo()}</GoyemonText>
-
-          <GoyemonText fontSize={12}>Value</GoyemonText>
-          <GoyemonText fontSize={12}>{tx.getValue()}</GoyemonText>
-
-          <GoyemonText fontSize={12}>gasPrice</GoyemonText>
-          <GoyemonText fontSize={12}>{tx.getGasPrice()}</GoyemonText>
-
-          <GoyemonText fontSize={12}>
-            {JSON.stringify(this.state.txData, null, 1)}
-            {JSON.stringify(tx)}
-          </GoyemonText>
-
-          <GoyemonText fontSize={12}>Hash</GoyemonText>
-          <GoyemonText
-            fontSize={12}
-            onPress={() => {
-              Linking.openURL(
-                `${GlobalConfig.EtherscanLink}${'0x' + tx.getHash()}`
-              ).catch((err) => LogUtilities.logError('An error occurred', err));
-            }}
-          >
-            {'0x' + tx.getHash()}
-            <Icon name="link-variant" size={16} color="#5f5f5f" />
-          </GoyemonText>
         </>
       );
     }
   }
 );
+
+const TxDetailHeader = styled.View`
+font-family: 'HKGrotesk-Regular';
+margin: 16px auto;
+align-items: center;
+`;
+
+const TxDetailValue = styled.View`
+font-family: 'HKGrotesk-Regular';
+margin-left: 5%;
+margin-bottom: 20;
+`;
+
+const TypeAndTime = styled.View`
+font-family: 'HKGrotesk-Regular';
+margin-right: auto;
+margin-bottom: 16;
+`;
+
+const HeaderStatus = styled.View`
+font-family: 'HKGrotesk-Regular';
+margin-right: auto;
+margin-bottom: 16;
+`;
+
+const SubtotalSwapBox = styled.View`
+flex-direction: column;
+padding-bottom: 25;
+width: 90%;
+margin-top: 16;
+margin-left: 5%;
+padding-left: 50;
+align-items: flex-start;
+border-bottom-color: #5f5f5f;
+border-bottom-width: 0.5;
+`
+
+const SubtotalBox = styled.View`
+font-family: 'HKGrotesk-Regular';
+flex-direction: row;
+padding-bottom: 25;
+width: 90%;
+margin-top: 16;
+margin-left: 5%;
+padding-left: 30;
+align-items: center;
+border-bottom-color: #5f5f5f;
+border-bottom-width: 0.5;
+`;
+
+const TxNetworkAndHash = styled.View`
+align-items: flex-start;
+font-family: 'HKGrotesk-Regular';
+justify-content: flex-start;
+flex-direction: column;
+padding-left: 12%;
+margin-top: 20;
+`;
+
+const PaddingLeftStyle = styled.View`
+padding-left: 10;
+`;
 
 const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
   class MagicalGasPriceSlider extends Component {
@@ -497,11 +492,13 @@ const TransactionDetailModal = connect(
     constructor(props) {
       super(props);
       this.state = {
-        txToUpdate: null,
+        txToUpdate: props.txToUpdate,
         newGasPrice: null,
         txResent: false,
         loading: false
       };
+      this.uniqcounter = 0;
+      this.updateTxState = this.updateTxState.bind(this)
     }
 
     updateWeiAmountValidationInModal(validation) {
@@ -510,6 +507,29 @@ const TransactionDetailModal = connect(
     }
 
     handleViewRef = (ref) => (this.view = ref);
+
+    componentDidMount() {
+      this.unsub = TxStorage.storage.subscribe(this.updateTxListState.bind(this));
+      (async () => {
+        this.updateTxListState();
+      })();
+    }
+
+    updateTxListState() {
+      LogUtilities.toDebugScreen('TransactionDetailModal updateTxListState() called');
+      // this.refreshIndices = {0: true,1: true,2: true,3: true,4: true,5: true,6:true,7:true,8:true,9:true};
+
+      this.setState({
+        transactions_update_counter: this.uniqcounter++,
+        transactionsLoaded: true
+      });
+    }
+
+    updateTxState(x) {
+      this.setState({
+        txToUpdate: x
+      })
+    }
 
     componentDidUpdate(prevProps) {
       if (this.props.txToUpdate !== prevProps.txToUpdate) {
@@ -617,7 +637,7 @@ const TransactionDetailModal = connect(
                       {this.state.txResent ? (
                         <>
                           <GoyemonText fontSize={16}>
-                            you sped up your transaction!
+                            you speed up your transaction!
                           </GoyemonText>
                           <GoyemonText fontSize={16}>🚀</GoyemonText>
                         </>
@@ -628,7 +648,15 @@ const TransactionDetailModal = connect(
                   <IsOnlineMessage isOnline={this.props.isOnline} />
                 </>
               ) : null}
-              {/* <TransactionDetail tx={this.state.txToUpdate} /> */}
+              <ScrollView>
+                <TouchableOpacity activeOpacity={1}>
+                  <TransactionDetail tx={this.state.txToUpdate}
+                                     updateTx={this.updateTxState}
+                                     updateCounter={this.state.transactions_update_counter}
+                                     index={this.props.txIndex}
+                                     filter={this.props.txFilter}/>
+                </TouchableOpacity>
+              </ScrollView>
             </ModalContainer>
           </Modal>
         );
@@ -643,6 +671,7 @@ const ModalContainer = styled.View`
   background-color: #fff;
   border-radius: 16px;
   width: 100%;
+  height: 60%;
 `;
 
 const AnimationContainer = styled.View`
@@ -659,8 +688,11 @@ export default connect(mapChecksumAddressStateToProps)(
       super(props);
       this.state = {
         filter: 'All',
-        editedTx: null
+        editedTx: null,
+        editedTxIndex: '',
+        editedTxFilter: '',
       };
+      this.txTapped = this.txTapped.bind(this)
     }
 
     toggleFilterChoiceText() {
@@ -685,13 +717,15 @@ export default connect(mapChecksumAddressStateToProps)(
       return <FilterChoiceContainer>{choices}</FilterChoiceContainer>;
     }
 
-    txTapped(tx) {
+    async txTapped(tx, index, filter) {
       LogUtilities.dumpObject('tx', tx);
-      this.setState({ editedTx: tx });
+      LogUtilities.toDebugScreen('txTapped Index -> ', index, 'Filter -> ', filter);
+      await this.setState({ editedTx: tx, editedTxIndex: index, editedTxFilter: filter });
+      LogUtilities.toDebugScreen('txTapped', this.state);
     }
 
     txClear() {
-      this.setState({ editedTx: null });
+      this.setState({ editedTx: null, editedTxIndex: '', editedTxFilter: '' });
     }
 
     render() {
@@ -699,6 +733,8 @@ export default connect(mapChecksumAddressStateToProps)(
         <HistoryContainer>
           <TransactionDetailModal
             txToUpdate={this.state.editedTx}
+            txIndex={this.state.editedTxIndex}
+            txFilter={this.state.editedTxFilter}
             onClose={this.txClear.bind(this)}
           />
           <OfflineNotice />
