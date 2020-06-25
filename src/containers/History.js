@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { TouchableOpacity, Linking, ScrollView } from 'react-native';
+import { TouchableOpacity, Linking, ScrollView, View } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Modal from 'react-native-modal';
 import styled from 'styled-components';
@@ -261,17 +261,23 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                 {parseInt(this.props.tx.getGasPrice(), 16) * parseInt(this.props.tx.getGasLimit(), 16) / 1000000000000000000} ETH
               </TxDetailValue>
 
-              <HeaderFive fontSize={20}>Hash</HeaderFive>
-              <TxDetailValue
-                  onPress={() => {
-                    Linking.openURL(
-                      `${GlobalConfig.EtherscanLink}${'0x' + this.props.tx.getHash()}`
-                    ).catch((err) => LogUtilities.logError('An error occurred', err));
-                  }}
-                >
-                  {'0x' + this.props.tx.getHash().substring(0, 24) + '...'}
-                  <Icon name="link-variant" size={16} color="#5f5f5f" />
-              </TxDetailValue>
+              {(() => {
+              return (
+                this.props.tx.getState() < 1 ? null : 
+                <View>
+                <HeaderFive fontSize={20}>Hash</HeaderFive>
+                <TxDetailValue
+                    onPress={() => {
+                      Linking.openURL(
+                        `${GlobalConfig.EtherscanLink}${'0x' + this.props.tx.getHash()}`
+                      ).catch((err) => LogUtilities.logError('An error occurred', err));
+                    }}
+                  >
+                    {'0x' + this.props.tx.getHash().substring(0, 24) + '...'}
+                    <Icon name="link-variant" size={16} color="#5f5f5f" />
+                </TxDetailValue>
+                </View>
+              )})()}
             </TxNetworkAndHash>
           </Container>
         </>
