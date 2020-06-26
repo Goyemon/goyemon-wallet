@@ -46,6 +46,9 @@ class StyleUtilities {
         );
 
       case 'withdraw':
+      case 'committed deposit withdraw':
+      case 'open deposit withdraw':
+      case 'sponsorship withdraw':
         return (
           {
             name:"arrow-bottom-left-bold-outline",
@@ -53,6 +56,15 @@ class StyleUtilities {
             color:"#1BA548",
           }
         );
+
+      case 'multicontract':
+        return (
+          {
+            name: 'call-split',
+            size:20,
+            color:"#5F5F5F"
+          }
+        )
 
       case 'failure':
         return (
@@ -90,6 +102,9 @@ class StyleUtilities {
 
       case 'rewarded':
       case 'withdraw':
+      case 'committed deposit withdraw':
+      case 'open deposit withdraw':
+      case 'sponsorship withdraw':
         return { name:"plus", size:16, color:"#1BA548" }
 
       case 'swap':
