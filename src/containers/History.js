@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { TouchableOpacity, Linking, ScrollView, View } from 'react-native';
+import { TouchableOpacity, Linking, ScrollView, View, Dimensions } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Modal from 'react-native-modal';
 import styled from 'styled-components';
@@ -37,6 +37,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import GlobalConfig from '../config.json';
 import Slider from '@react-native-community/slider';
 
+const window = Dimensions.get("window");
+
 const mapChecksumAddressStateToProps = (state) => ({
   checksumAddress: state.ReducerChecksumAddress.checksumAddress
 });
@@ -71,12 +73,12 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
 
       const ret = [];
 
-      if (tx.getTo() == null)
-        return [
-          {
-            type: 'contract_creation'
-          }
-        ];
+      // if (tx.getTo() == null)
+      //   return [
+      //     {
+      //       type: 'contract_creation'
+      //     }
+      //   ];
 
       if (tx.getValue() != '00') {
         const ethdirection =
@@ -103,6 +105,13 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
           });
       }
 
+      if (ret.length == 0)
+      ret.push({
+        type: 'Contract Creation',
+        token: 'eth',
+        direction: 'creation'
+      })
+
       Object.entries(tx.getAllTokenOperations()).forEach(
         ([toptok, toktops]) => {
           // toptok - TokenOP Token, toktops -> (given) token TokenOPs ;-)
@@ -115,6 +124,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
 
     componentDidMount() {
       LogUtilities.toDebugScreen('TransactionDetail Tx Is', this.state.tx)
+      LogUtilities.toDebugScreen('TransactionDetail Tx Is', this.state.txData)
     }
 
     async componentDidUpdate(prevProps) {
@@ -150,7 +160,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                 <TxDetailHeader>
                   <TxIcon>
                     {(() => {
-                      const { name, size, color } = StyleUtilities.inOrOutIcon(this.state.txData[0].type, this.state.txData[0].direction)
+                      const { name, size, color } = StyleUtilities.inOrOutIcon(this.state.txData[0].type, this.state.txData[0].direction? this.state.txData[0].direction : '')
                       return <Icon name={name} size={size + 8} color={color}/>
                     })()}
                   </TxIcon>
@@ -173,7 +183,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                 </TxDetailHeader>
                 <SubtotalWithdrawBox>
                   {(() => {
-                      const { name, size, color } = StyleUtilities.minusOrPlusIcon(this.state.txData[0].type, this.state.txData[0].direction)
+                      const { name, size, color } = StyleUtilities.minusOrPlusIcon(this.state.txData[0].type, this.state.txData[0].direction? this.state.txData[0].direction : '')
                       return (
                       name === ''
                       ? null
@@ -226,7 +236,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                     <HeaderFive>Sold</HeaderFive>
                     <SoldBox>
                       {(() => {
-                          const { name, size, color } = StyleUtilities.minusOrPlusIcon(this.state.txData[0].type, this.state.txData[0].direction)
+                          const { name, size, color } = StyleUtilities.minusOrPlusIcon(this.state.txData[0].type, this.state.txData[0].direction? this.state.txData[0].direction : '')
                           return (
                           name === ''
                           ? null
@@ -323,6 +333,14 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                 {this.state.txData[0].direction == 'outgoing' &&
                 <>
                   <HeaderFive fontSize={20}>To</HeaderFive>
+                  <ToAndFromValue>
+                    {this.props.tx.getTo()}
+                  </ToAndFromValue>
+                </>}
+
+                {this.state.txData[0].direction == 'creation' &&
+                <>
+                  <HeaderFive fontSize={20}>Contract Address</HeaderFive>
                   <ToAndFromValue>
                     {this.props.tx.getTo()}
                   </ToAndFromValue>
@@ -687,6 +705,7 @@ const TransactionDetailModal = connect(
               alignItems: 'flex-end'
             }}
           >
+          {/* {window.height > } */}
             <ModalContainer>
               <ModalHandlerContainer>
                 <ModalHandler />
