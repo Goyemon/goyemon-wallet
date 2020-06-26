@@ -62,7 +62,6 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
         txData: this.computeTxData(props.tx),
         tx: props.tx
       };
-      LogUtilities.toDebugScreen('tx state is',this.state.txData)
     }
 
     computeTxData(tx) {
@@ -114,6 +113,10 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
       return ret;
     }
 
+    componentDidMount() {
+      LogUtilities.toDebugScreen('TransactionDetail Tx Is', this.state.txData)
+    }
+
     async componentDidUpdate(prevProps) {
       if (this.props.updateCounter !== prevProps.updateCounter) {
         TxStorage.storage
@@ -142,7 +145,58 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
             marginTop={0}
             width="100%"
           >
-            {this.state.txData.length == 2 && this.state.txData[1].type == 'swap'
+            {this.state.txData.length == 3 && this.state.txData[0].type == 'committed deposit withdraw'
+            ? <>
+                <TxDetailHeader>
+                  <TxIcon>
+                    {(() => {
+                      const { name, size, color } = StyleUtilities.inOrOutIcon(this.state.txData[0].type, this.state.txData[0].direction)
+                      return <Icon name={name} size={size + 8} color={color}/>
+                    })()}
+                  </TxIcon>
+                  <TypeAndTime>
+                    <GoyemonText fontSize={18}>
+                        Withdraw
+                    </GoyemonText>
+                    <GoyemonText fontSize={16}>
+                      {TransactionUtilities.parseTransactionTime(
+                        this.state.tx.getTimestamp()
+                      )}
+                    </GoyemonText>
+                  </TypeAndTime>
+                  <HeaderStatus>
+                    <TransactionStatus
+                        width="100%"
+                        txState={this.state.tx.getState()}
+                    />
+                  </HeaderStatus>
+                </TxDetailHeader>
+                <SubtotalWithdrawBox>
+                  {(() => {
+                      const { name, size, color } = StyleUtilities.minusOrPlusIcon(this.state.txData[0].type, this.state.txData[0].direction)
+                      return (
+                      name === ''
+                      ? null
+                      : <Icon name={name} size={size + 10} color={color} />
+                  )})()}
+                  <GoyemonText fontSize={24}>
+                  {parseFloat(this.state.txData[0].amount) + parseFloat(this.state.txData[1].amount) + parseFloat(this.state.txData[2].amount)}
+                  {this.state.txData[0].token === 'cdai' || this.state.txData[0].token === 'pooltogether' ? 'Dai' : this.state.txData[0].token.toUpperCase()}
+                  </GoyemonText>
+                  <LabelsBox>
+                    <GoyemonText fontSize={14}>Open</GoyemonText>
+                    <GoyemonText fontSize={14}>Committed</GoyemonText>
+                    <GoyemonText fontSize={14}>Sponsor</GoyemonText>
+                  </LabelsBox>
+                  <ValueBox>
+                    <GoyemonText fontSize={14}>{this.state.txData[2].amount}DAI</GoyemonText>
+                    <GoyemonText fontSize={14}>{this.state.txData[0].amount}DAI</GoyemonText>
+                    <GoyemonText fontSize={14}>{this.state.txData[1].amount}DAI</GoyemonText>
+                  </ValueBox>
+                </SubtotalWithdrawBox>
+                <HorizontalLine />
+              </>
+            : this.state.txData.length == 2 && this.state.txData[1].type == 'swap'
             ? <>
                 <TxDetailHeader>
                   <TxIcon>
@@ -263,7 +317,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
 
               {(() => {
               return (
-                this.props.tx.getState() < 1 ? null : 
+                this.props.tx.getState() < 1 ? null :
                 <View>
                 <HeaderFive fontSize={20}>Hash</HeaderFive>
                 <TxDetailValue
@@ -315,6 +369,25 @@ font-family: 'HKGrotesk-Regular';
 width: 40%;
 `;
 
+const LabelsBox = styled.View`
+flex-direction: column;
+margin-left: 22%;
+`;
+
+const ValueBox = styled.View`
+flex-direction: column;
+margin-left: 5%;
+`
+
+const SubtotalWithdrawBox = styled.View`
+flex-direction: row;
+margin-left: 4%;
+margin-top: 32;
+margin-bottom: 32;
+align-items: flex-start;
+width: 90%;
+`;
+
 const SubtotalSwapBox = styled.View`
 flex-direction: column;
 margin-left: 4%;
@@ -322,7 +395,7 @@ margin-top: 32;
 margin-bottom: 32;
 align-items: flex-start;
 width: 90%;
-`
+`;
 
 const SoldBox = styled.View`
   flex-direction: row;
@@ -721,9 +794,7 @@ export default connect(mapChecksumAddressStateToProps)(
 
     async txTapped(tx, index, filter) {
       LogUtilities.dumpObject('tx', tx);
-      LogUtilities.toDebugScreen('txTapped Index -> ', index, 'Filter -> ', filter);
       await this.setState({ editedTx: tx, editedTxIndex: index, editedTxFilter: filter });
-      LogUtilities.toDebugScreen('txTapped', this.state);
     }
 
     txClear() {
