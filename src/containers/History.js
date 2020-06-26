@@ -605,7 +605,8 @@ const TransactionDetailModal = connect(
         txToUpdate: props.txToUpdate,
         newGasPrice: null,
         txResent: false,
-        loading: false
+        loading: false,
+        modalHeigh: '60%'
       };
       this.uniqcounter = 0;
       this.updateTxState = this.updateTxState.bind(this)
@@ -623,6 +624,9 @@ const TransactionDetailModal = connect(
       (async () => {
         this.updateTxListState();
       })();
+      if (window.height < 896) {
+        this.setState({modalHeigh: '80%'})
+      }
     }
 
     updateTxListState() {
@@ -705,8 +709,7 @@ const TransactionDetailModal = connect(
               alignItems: 'flex-end'
             }}
           >
-          {/* {window.height > } */}
-            <ModalContainer>
+            <ModalContainer style={{height: this.state.modalHeigh}}>
               <ModalHandlerContainer>
                 <ModalHandler />
               </ModalHandlerContainer>
@@ -783,7 +786,6 @@ const ModalContainer = styled.View`
   background-color: #fff;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
-  height: 60%;
   width: 100%;
 `;
 
