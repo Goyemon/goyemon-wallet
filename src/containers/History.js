@@ -310,6 +310,25 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                 </>
               )})()}
 
+              {this.state.txData[0].direction &&
+              <>
+                {this.state.txData[0].direction == 'incoming' &&
+                <>
+                  <HeaderFive fontSize={20}>From</HeaderFive>
+                  <ToAndFromValue>
+                    {this.props.tx.getFrom()}
+                  </ToAndFromValue>
+                </>}
+
+                {this.state.txData[0].direction == 'outgoing' &&
+                <>
+                  <HeaderFive fontSize={20}>To</HeaderFive>
+                  <ToAndFromValue>
+                    {this.props.tx.getTo()}
+                  </ToAndFromValue>
+                </>}
+              </>}
+
               <HeaderFive fontSize={20}>Max Network Fee</HeaderFive>
               <TxDetailValue>
                 {parseInt(this.props.tx.getGasPrice(), 16) * parseInt(this.props.tx.getGasLimit(), 16) / 1000000000000000000} ETH
@@ -433,6 +452,14 @@ const TxDetailValue = styled.Text`
 color: #000;
 font-family: 'HKGrotesk-Bold';
 font-size: 18;
+margin-top: 4;
+margin-bottom: 16;
+`;
+
+const ToAndFromValue = styled.Text`
+color: #000;
+font-family: 'HKGrotesk-Bold';
+font-size: 14;
 margin-top: 4;
 margin-bottom: 16;
 `;
