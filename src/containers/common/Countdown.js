@@ -1,7 +1,5 @@
 'use strict';
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { withNavigation } from 'react-navigation';
 import styled from 'styled-components';
 
 class Countdown extends Component {
@@ -47,6 +45,7 @@ class Countdown extends Component {
 
       let remainingDay;
       let targetDay = 6; // 0 is for Sunday and 6 is for Saturday
+      // PoolTogether reveals a winner every Sunday at 4 a.m. in Tokyo time
 
       if (timeRemaining > 0) {
         remainingDay = targetDay - dateObject.getDay();
@@ -142,8 +141,4 @@ const CountdownDateText = styled.Text`
   margin: 0 8px;
 `;
 
-const mapStateToProps = (state) => ({
-  balance: state.ReducerBalance.balance
-});
-
-export default withNavigation(connect(mapStateToProps)(Countdown));
+export default Countdown;
