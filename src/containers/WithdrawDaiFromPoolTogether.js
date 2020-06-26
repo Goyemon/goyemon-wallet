@@ -250,8 +250,6 @@ class WithdrawDaiFromPoolTogether extends Component {
                 this.state.weiAmountValidation &&
                 isOnline
               ) || this.state.loading
-                ? true
-                : false
             }
             opacity={
               this.state.daiWithdrawAmountValidation &&

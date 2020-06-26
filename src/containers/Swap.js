@@ -398,8 +398,6 @@ class Swap extends Component {
           <TxNextButton
             disabled={
               !(this.state.ethSoldValidation && isOnline) || this.state.loading
-                ? true
-                : false
             }
             opacity={this.state.ethSoldValidation && isOnline ? 1 : 0.5}
             onPress={async () => {

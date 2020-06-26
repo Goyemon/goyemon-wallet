@@ -278,8 +278,6 @@ class SendEth extends Component {
                 this.state.toAddressValidation &&
                 isOnline
               ) || this.state.loading
-                ? true
-                : false
             }
             opacity={
               this.state.weiAmountValidation &&

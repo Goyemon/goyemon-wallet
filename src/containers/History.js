@@ -622,7 +622,7 @@ const TransactionDetailModal = connect(
                     margin="16px auto"
                     marginBottom="8px"
                     disabled={
-                      !this.props.isOnline || this.state.loading ? true : false
+                      !this.props.isOnline || this.state.loading
                     }
                     opacity={this.props.isOnline ? 1 : 0.5}
                     onPress={async () => {
