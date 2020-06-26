@@ -671,7 +671,6 @@ const TransactionDetailModal = connect(
             animationIn="slideInUp"
             animationOut="slideOutDown"
             isVisible={this.props.modal.txDetailModalVisibility}
-            swipeDirection="down"
             onBackdropPress={() => {
               this.props.saveTxDetailModalVisibility(false);
               this.props.onClose();
