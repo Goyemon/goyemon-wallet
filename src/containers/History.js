@@ -114,7 +114,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
     }
 
     componentDidMount() {
-      LogUtilities.toDebugScreen('TransactionDetail Tx Is', this.state.txData)
+      LogUtilities.toDebugScreen('TransactionDetail Tx Is', this.state.tx)
     }
 
     async componentDidUpdate(prevProps) {
@@ -331,7 +331,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
 
               <HeaderFive fontSize={20}>Max Network Fee</HeaderFive>
               <TxDetailValue>
-                {parseInt(this.props.tx.getGasPrice(), 16) * parseInt(this.props.tx.getGasLimit(), 16) / 1000000000000000000} ETH
+                {parseInt(this.props.tx.getGasPrice(), 16) * parseInt(this.props.tx.gas, 16) / 1000000000000000000} ETH
               </TxDetailValue>
 
               {(() => {
