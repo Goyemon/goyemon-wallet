@@ -122,11 +122,6 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
       return ret;
     }
 
-    componentDidMount() {
-      LogUtilities.toDebugScreen('TransactionDetail Tx Is', this.state.tx)
-      LogUtilities.toDebugScreen('TransactionDetail Tx Is', this.state.txData)
-    }
-
     async componentDidUpdate(prevProps) {
       if (this.props.updateCounter !== prevProps.updateCounter) {
         TxStorage.storage
@@ -160,7 +155,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                 <TxDetailHeader>
                   <TxIcon>
                     {(() => {
-                      const { name, size, color } = StyleUtilities.inOrOutIcon(this.state.txData[0].type, this.state.txData[0].direction? this.state.txData[0].direction : '')
+                      const { name, size, color } = StyleUtilities.inOrOutIcon(this.state.txData[0].type, this.state.txData[0].direction)
                       return <Icon name={name} size={size + 8} color={color}/>
                     })()}
                   </TxIcon>
@@ -183,7 +178,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                 </TxDetailHeader>
                 <SubtotalWithdrawBox>
                   {(() => {
-                      const { name, size, color } = StyleUtilities.minusOrPlusIcon(this.state.txData[0].type, this.state.txData[0].direction? this.state.txData[0].direction : '')
+                      const { name, size, color } = StyleUtilities.minusOrPlusIcon(this.state.txData[0].type, this.state.txData[0].direction)
                       return (
                       name === ''
                       ? null
@@ -236,7 +231,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                     <HeaderFive>Sold</HeaderFive>
                     <SoldBox>
                       {(() => {
-                          const { name, size, color } = StyleUtilities.minusOrPlusIcon(this.state.txData[0].type, this.state.txData[0].direction? this.state.txData[0].direction : '')
+                          const { name, size, color } = StyleUtilities.minusOrPlusIcon(this.state.txData[0].type, this.state.txData[0].direction)
                           return (
                           name === ''
                           ? null
@@ -254,6 +249,55 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                 </SubtotalSwapBox>
                 <HorizontalLine />
               </>
+            : this.state.txData[0].direction == 'creation'
+            ? <>
+                <TxDetailHeader>
+                    <TxIcon>
+                      {(() => {
+                        const { name, size, color } = StyleUtilities.inOrOutIcon(x.type, x.direction)
+                        return <Icon name={name} size={size + 8} color={color}/>
+                      })()}
+                    </TxIcon>
+                    <TypeAndTime>
+                      <GoyemonText fontSize={18}>
+                        {this.prefixUpperCase(
+                          x.type === 'transfer'
+                          ? x.direction
+                          : x.type
+                        )}
+                      </GoyemonText>
+                      <GoyemonText fontSize={15}>
+                        {TransactionUtilities.parseTransactionTime(
+                          this.state.tx.getTimestamp()
+                        )}
+                      </GoyemonText>
+                    </TypeAndTime>
+                    <HeaderStatus>
+                      <TransactionStatus
+                        width="100%"
+                        txState={this.state.tx.getState()}
+                      />
+                    </HeaderStatus>
+                  </TxDetailHeader>
+                  {x.amount && <SubtotalBox>
+                    {(() => {
+                        const { name, size, color } = StyleUtilities.minusOrPlusIcon(x.type, x.direction)
+                        return (
+                        name === ''
+                        ? null
+                        : <Icon name={name} size={size + 10} color={color} />
+                    )})()}
+                    <GoyemonText fontSize={24}>
+                      {x.amount}
+                      {x.token === 'cdai' ? 'Dai' : x.token.toUpperCase()}
+                    </GoyemonText>
+                  </SubtotalBox>}
+                  {x.type === 'swap' && <SubtotalBox>
+                    <Icon name="plus" size={26} color="#1BA548" />
+                    <GoyemonText fontSize={24}>{x.tokens_bought} DAI</GoyemonText>
+                  </SubtotalBox>}
+                  <HorizontalLine />
+                </>
             : this.state.txData.map((x) => {
               return (
                 <>
