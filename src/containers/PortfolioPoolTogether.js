@@ -17,9 +17,9 @@ import {
   HeaderFour,
   HeaderFive,
   GoyemonText,
-  ApplicationDescription
+  ApplicationDescription,
+  Countdown
 } from '../components/common';
-import Countdown from './common/Countdown';
 import PopUpModal from './common/PopUpModal';
 import I18n from '../i18n/I18n';
 import PortfolioPoolTogetherOpen from './PortfolioPoolTogetherOpen';
