@@ -400,12 +400,8 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
       this.setState(this.getPriceState(gasPriceWeiDecimal));
     }
 
-    sendWeiAmountValidation(weiAmountValidation) {
-      this.props.parentCallback(weiAmountValidation);
-    }
-
     updateWeiAmountValidation(weiAmountValidation) {
-      this.sendWeiAmountValidation(weiAmountValidation);
+      this.props.updateWeiAmountValidationInModal(weiAmountValidation);
       if (weiAmountValidation) {
         this.setState({
           weiAmountValidation: true
@@ -487,15 +483,15 @@ const TransactionDetailModal = connect(
         txToUpdate: props.txToUpdate,
         newGasPrice: null,
         txResent: false,
-        loading: false
+        loading: false,
+        weiAmountValidation: undefined
       };
       this.uniqcounter = 0;
       this.updateTxState = this.updateTxState.bind(this)
     }
 
-    updateWeiAmountValidationInModal(validation) {
-      return validation;
-      // add this return value for the button opacity and disabling property
+    updateWeiAmountValidationInModal(weiAmountValidation) {
+      this.setState({weiAmountValidation})
     }
 
     handleViewRef = (ref) => (this.view = ref);
@@ -612,7 +608,7 @@ const TransactionDetailModal = connect(
                     )}
                     gasLimit={parseInt(this.state.txToUpdate.getGasLimit(), 16)}
                     onSettle={this.priceSliderSettled.bind(this)}
-                    parentCallback={this.updateWeiAmountValidationInModal}
+                    updateWeiAmountValidationInModal={this.updateWeiAmountValidationInModal.bind(this)}
                   />
                   <Button
                     text="Speed Up Transaction"
@@ -622,9 +618,9 @@ const TransactionDetailModal = connect(
                     margin="16px auto"
                     marginBottom="8px"
                     disabled={
-                      !this.props.isOnline || this.state.loading
+                      !this.props.isOnline || this.state.loading || !this.state.weiAmountValidation
                     }
-                    opacity={this.props.isOnline ? 1 : 0.5}
+                    opacity={!this.props.isOnline || this.state.loading || !this.state.weiAmountValidation ? 0.5 : 1}
                     onPress={async () => {
                       await this.resendTx();
                       this.zoomIn();
