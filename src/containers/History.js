@@ -254,16 +254,16 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                 <TxDetailHeader>
                     <TxIcon>
                       {(() => {
-                        const { name, size, color } = StyleUtilities.inOrOutIcon(x.type, x.direction)
+                        const { name, size, color } = StyleUtilities.inOrOutIcon(this.state.txData[0].type, this.state.txData[0].direction)
                         return <Icon name={name} size={size + 8} color={color}/>
                       })()}
                     </TxIcon>
                     <TypeAndTime>
                       <GoyemonText fontSize={18}>
                         {this.prefixUpperCase(
-                          x.type === 'transfer'
-                          ? x.direction
-                          : x.type
+                          this.state.txData[0].type === 'transfer'
+                          ? this.state.txData[0].direction
+                          : this.state.txData[0].type
                         )}
                       </GoyemonText>
                       <GoyemonText fontSize={15}>
@@ -279,22 +279,22 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                       />
                     </HeaderStatus>
                   </TxDetailHeader>
-                  {x.amount && <SubtotalBox>
+                  {this.state.txData[0].amount && <SubtotalBox>
                     {(() => {
-                        const { name, size, color } = StyleUtilities.minusOrPlusIcon(x.type, x.direction)
+                        const { name, size, color } = StyleUtilities.minusOrPlusIcon(this.state.txData[0].type, this.state.txData[0].direction)
                         return (
                         name === ''
                         ? null
                         : <Icon name={name} size={size + 10} color={color} />
                     )})()}
                     <GoyemonText fontSize={24}>
-                      {x.amount}
-                      {x.token === 'cdai' ? 'Dai' : x.token.toUpperCase()}
+                      {this.state.txData[0].amount}
+                      {this.state.txData[0].token === 'cdai' ? 'Dai' : this.state.txData[0].token.toUpperCase()}
                     </GoyemonText>
                   </SubtotalBox>}
-                  {x.type === 'swap' && <SubtotalBox>
+                  {this.state.txData[0].type === 'swap' && <SubtotalBox>
                     <Icon name="plus" size={26} color="#1BA548" />
-                    <GoyemonText fontSize={24}>{x.tokens_bought} DAI</GoyemonText>
+                    <GoyemonText fontSize={24}>{this.state.txData[0].tokens_bought} DAI</GoyemonText>
                   </SubtotalBox>}
                   <HorizontalLine />
                 </>
