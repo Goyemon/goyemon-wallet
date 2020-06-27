@@ -35,7 +35,7 @@ class Countdown extends Component {
           dateObject.getUTCFullYear(),
           dateObject.getUTCMonth(),
           dateObject.getUTCDate(),
-          19,
+          10,
           0,
           0
         )
@@ -45,7 +45,7 @@ class Countdown extends Component {
 
       let remainingDay;
       let targetDay = 6; // 0 is for Sunday and 6 is for Saturday
-      // PoolTogether reveals a winner every Sunday at 4 a.m. in Tokyo time
+      // PoolTogether reveals a winner every Saturday at 7 p.m. in UTC
 
       if (timeRemaining > 0) {
         remainingDay = targetDay - dateObject.getDay();
