@@ -17,9 +17,9 @@ import {
   Loader,
   IsOnlineMessage,
   InsufficientWeiBalanceMessage,
-  TxNextButton,
-  Countdown
+  TxNextButton
 } from '../components/common';
+import Countdown from '../components/Countdown'
 import { AdvancedContainer } from './common/AdvancedContainer';
 import TxConfirmationModal from '../containers/common/TxConfirmationModal';
 import I18n from '../i18n/I18n';
