@@ -35,7 +35,7 @@ class Countdown extends Component {
           dateObject.getUTCFullYear(),
           dateObject.getUTCMonth(),
           dateObject.getUTCDate(),
-          10,
+          19,
           0,
           0
         )
