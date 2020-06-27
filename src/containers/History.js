@@ -424,7 +424,7 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
           </HeaderTwo>
           <Explanation>
             <GoyemonText fontSize={12}>
-              *you can speed up your transaction by adding more fees
+              *you can speed up your transaction by changing the limit
             </GoyemonText>
           </Explanation>
           <Slider
