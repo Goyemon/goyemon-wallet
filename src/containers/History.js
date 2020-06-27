@@ -73,12 +73,10 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
 
       const ret = [];
 
-      // if (tx.getTo() == null)
-      //   return [
-      //     {
-      //       type: 'contract_creation'
-      //     }
-      //   ];
+      const tops = tx.getAllTokenOperations();
+      LogUtilities.toDebugScreen('TransactionDetail Tops', tops)
+      LogUtilities.toDebugScreen('TransactionDetail Tops Len', tops.length)
+      LogUtilities.toDebugScreen('TransactionDetail Limit', tx.getGasLimit())
 
       if (tx.getValue() != '00') {
         const ethdirection =
@@ -105,12 +103,6 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
           });
       }
 
-      if (ret.length == 0)
-      ret.push({
-        type: 'Contract Creation',
-        token: 'eth',
-        direction: 'creation'
-      })
 
       Object.entries(tx.getAllTokenOperations()).forEach(
         ([toptok, toktops]) => {
@@ -118,6 +110,37 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
           toktops.forEach((x) => ret.push(EtherUtilities.topType(x, toptok, our_reasonably_stored_address)));
         }
       );
+
+      if (tx.getTo().toLowerCase() === GlobalConfig.DAIPoolTogetherContractV2.toLowerCase() && ret.length === 0)
+        if (tx.getGasLimit() === '0c3500' ||
+            tx.getGasLimit() === '05ae2d' ||
+            tx.getGasLimit() === '124F80')
+          ret.push({
+            type: 'committed deposit withdraw',
+            token: 'eth',
+            amount: '0.00'
+          },{
+            type: 'sponsorship withdraw',
+            token: 'eth',
+            amount: '0.00'
+          },{
+            type: 'open deposit withdraw',
+            token: 'eth',
+            amount: '0.00'
+          })
+        else
+          ret.push({
+            type: 'deposit',
+            token: 'eth',
+            amount: '0.00'
+          })
+
+      if (ret.length < 1)
+        ret.push({
+          type: 'Contract Creation',
+          direction: 'creation',
+          token: 'eth'
+        })
 
       return ret;
     }
@@ -150,7 +173,9 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
             marginTop={0}
             width="100%"
           >
-            {this.state.txData.length == 3 && this.state.txData[0].type == 'committed deposit withdraw'
+            {this.state.txData.length === 0
+            ? <><GoyemonText fontSize={18}>Withdraw</GoyemonText></>
+            : this.state.txData.length == 3 && this.state.txData[0].type == 'committed deposit withdraw'
             ? <>
                 <TxDetailHeader>
                   <TxIcon>
