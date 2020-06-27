@@ -129,7 +129,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
       }
       if(ret.length === 0)
         ret.push({
-          type: 'Ether Transaction',
+          type: 'Contract Interaction',
           direction: 'outgoing',
           token: 'eth',
           amount: '0.00'
