@@ -111,37 +111,29 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
         }
       );
 
-      if (tx.getTo().toLowerCase() === GlobalConfig.DAIPoolTogetherContractV2.toLowerCase() && ret.length === 0)
-        if (tx.getGasLimit() === '0c3500' ||
-            tx.getGasLimit() === '05ae2d' ||
-            tx.getGasLimit() === '124F80')
-          ret.push({
-            type: 'committed deposit withdraw',
-            token: 'eth',
-            amount: '0.00'
-          },{
-            type: 'sponsorship withdraw',
-            token: 'eth',
-            amount: '0.00'
-          },{
-            type: 'open deposit withdraw',
-            token: 'eth',
-            amount: '0.00'
-          })
-        else
-          ret.push({
-            type: 'deposit',
-            token: 'eth',
-            amount: '0.00'
-          })
-
-      if (ret.length < 1)
+      if (tx.getTo()) {
+        if (tx.getTo().toLowerCase() === GlobalConfig.DAIPoolTogetherContractV2.toLowerCase() && ret.length === 0) {
+            ret.push({
+              type: 'pooltogether',
+              token: 'dai',
+              direction: 'outgoing',
+              amount: '0.00'
+            })
+        }
+      } else {
         ret.push({
           type: 'Contract Creation',
           direction: 'creation',
           token: 'eth'
         })
-
+      }
+      if(ret.length === 0)
+        ret.push({
+          type: 'Ether Transaction',
+          direction: 'outgoing',
+          token: 'eth',
+          amount: '0.00'
+        })
       return ret;
     }
 
@@ -155,6 +147,10 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
         .catch(e => LogUtilities.toDebugScreen('TransactionDetail Tx Error With', e));
       }
       await this.props.updateTx(this.state.tx)
+    }
+
+    componentDidMount() {
+      LogUtilities.toDebugScreen('TransactionDetail Tx', this.state.tx)
     }
 
     prefixUpperCase = txType =>
@@ -274,7 +270,16 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                 </SubtotalSwapBox>
                 <HorizontalLine />
               </>
-            : this.state.txData[0].direction == 'creation'
+            : (() => {
+                if (this.state.txData && this.state.txData.length > 1) {
+                    if(this.state.txData[1].direction === 'creation')
+                      return true
+                    else
+                      return false
+                }
+                else
+                  return false
+              })()
             ? <>
                 <TxDetailHeader>
                     <TxIcon>
@@ -285,11 +290,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                     </TxIcon>
                     <TypeAndTime>
                       <GoyemonText fontSize={18}>
-                        {this.prefixUpperCase(
-                          this.state.txData[0].type === 'transfer'
-                          ? this.state.txData[0].direction
-                          : this.state.txData[0].type
-                        )}
+                        Contract Creation
                       </GoyemonText>
                       <GoyemonText fontSize={15}>
                         {TransactionUtilities.parseTransactionTime(
@@ -391,7 +392,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
 
               {this.state.txData[0].direction &&
               <>
-                {this.state.txData[0].direction == 'incoming' &&
+                {this.state.txData.length === 1 && this.state.txData[0].direction == 'incoming' && this.state.txData[0].type == 'transfer' &&
                 <>
                   <HeaderFive fontSize={20}>From</HeaderFive>
                   <ToAndFromValue>
@@ -399,7 +400,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                   </ToAndFromValue>
                 </>}
 
-                {this.state.txData[0].direction == 'outgoing' &&
+                {this.state.txData.length === 1 && this.state.txData[0].direction == 'outgoing' && this.state.txData[0].type == 'transfer' &&
                 <>
                   <HeaderFive fontSize={20}>To</HeaderFive>
                   <ToAndFromValue>
@@ -407,13 +408,6 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                   </ToAndFromValue>
                 </>}
 
-                {this.state.txData[0].direction == 'creation' &&
-                <>
-                  <HeaderFive fontSize={20}>Contract Address</HeaderFive>
-                  <ToAndFromValue>
-                    {this.props.tx.getTo()}
-                  </ToAndFromValue>
-                </>}
               </>}
 
               <HeaderFive fontSize={20}>Max Network Fee</HeaderFive>
