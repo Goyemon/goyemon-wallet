@@ -10,8 +10,7 @@ import {
   HeaderOne,
   HeaderThree,
   HeaderFour,
-  GoyemonText,
-  ApplicationDescription
+  GoyemonText
 } from '../components/common';
 import I18n from '../i18n/I18n';
 import { RoundDownBigNumberPlacesFour } from '../utilities/BigNumberUtilities';
@@ -33,9 +32,6 @@ class PortfolioWallet extends Component {
         <HeaderOne marginTop="112">
           {I18n.t('portfolio-wallet-header')}
         </HeaderOne>
-        <ApplicationDescription>
-          Your Eth and ERC20 tokens.
-        </ApplicationDescription>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8"
