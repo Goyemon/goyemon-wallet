@@ -114,7 +114,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
       if (tx.getTo()) {
         if (tx.getTo().toLowerCase() === GlobalConfig.DAIPoolTogetherContractV2.toLowerCase() && ret.length === 0) {
             ret.push({
-              type: 'pooltogether',
+              type: 'outgoing',
               token: 'dai',
               direction: 'outgoing',
               amount: '0.00'
