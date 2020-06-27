@@ -73,11 +73,6 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
 
       const ret = [];
 
-      const tops = tx.getAllTokenOperations();
-      LogUtilities.toDebugScreen('TransactionDetail Tops', tops)
-      LogUtilities.toDebugScreen('TransactionDetail Tops Len', tops.length)
-      LogUtilities.toDebugScreen('TransactionDetail Limit', tx.getGasLimit())
-
       if (tx.getValue() != '00') {
         const ethdirection =
           (tx.getFrom() && tx.getFrom() === `0x${our_reasonably_stored_address}`
@@ -112,21 +107,21 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
       );
 
       if (tx.getTo()) {
-        if (tx.getTo().toLowerCase() === GlobalConfig.DAIPoolTogetherContractV2.toLowerCase() && ret.length === 0) {
+        if (tx.getTo().toLowerCase() === GlobalConfig.DAIPoolTogetherContractV2.toLowerCase() && ret.length === 0)
             ret.push({
               type: 'outgoing',
               token: 'dai',
               direction: 'outgoing',
               amount: '0.00'
             })
-        }
-      } else {
+      }
+      else
         ret.push({
           type: 'Contract Creation',
           direction: 'creation',
           token: 'eth'
         })
-      }
+
       if(ret.length === 0)
         ret.push({
           type: 'Contract Interaction',
@@ -134,6 +129,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
           token: 'eth',
           amount: '0.00'
         })
+
       return ret;
     }
 
@@ -147,10 +143,6 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
         .catch(e => LogUtilities.toDebugScreen('TransactionDetail Tx Error With', e));
       }
       await this.props.updateTx(this.state.tx)
-    }
-
-    componentDidMount() {
-      LogUtilities.toDebugScreen('TransactionDetail Tx', this.state.tx)
     }
 
     prefixUpperCase = txType =>
