@@ -372,7 +372,7 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
         weiAmountValidation: undefined
       };
       this.state = this.getPriceState(
-        Math.ceil(this.props.currentGasPrice * 1.15)
+        Math.ceil(this.props.currentGasPrice * 1.2)
       );
       props.gasPrice.forEach((x) => {
         if (x.speed == 'super fast')
@@ -415,7 +415,7 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
 
     render() {
       //<GoyemonText fontSize={12}>{JSON.stringify(this.props.gasPrice)} -- {JSON.stringify(this.props.currentGas)}</GoyemonText>;
-      const minimumGasPrice = Math.ceil(this.props.currentGasPrice * 1.15);
+      const minimumGasPrice = Math.ceil(this.props.currentGasPrice * 1.2);
 
       return (
         <>
