@@ -403,31 +403,33 @@ class VerifyMnemonic extends Component {
               </MnemonicWordButton>
             </Container>
           </UntouchableCardContainer>
-          <Button
-            text="retry"
-            textColor="#5F5F5F"
-            backgroundColor="#f8f8f8"
-            borderColor="#f8f8f8"
-            margin="0 auto"
-            marginBottom="0"
-            opacity="1"
-            onPress={() => {
-              this.resetValidation();
-            }}
-          />
-          <Button
-            text="Verify"
-            textColor="#00A3E2"
-            backgroundColor="#FFF"
-            borderColor="#00A3E2"
-            margin="24px auto"
-            marginBottom="12px"
-            opacity="1"
-            onPress={async () => {
-              await this.validateForm();
-            }}
-          />
-          <View>{this.renderInvalidMnemonicWordsMessage()}</View>
+          <ButtonContainer>
+            <Button
+              text="Retry"
+              textColor="#5F5F5F"
+              backgroundColor="#f8f8f8"
+              borderColor="#f8f8f8"
+              margin="0 auto"
+              marginBottom="4px"
+              opacity="1"
+              onPress={() => {
+                this.resetValidation();
+              }}
+            />
+            <Button
+              text="Verify"
+              textColor="#00A3E2"
+              backgroundColor="#FFF"
+              borderColor="#00A3E2"
+              margin="0 auto"
+              marginBottom="12px"
+              opacity="1"
+              onPress={async () => {
+                await this.validateForm();
+              }}
+            />
+            <View>{this.renderInvalidMnemonicWordsMessage()}</View>
+          </ButtonContainer>
         </RootContainer>
       </KeyboardAvoidingView>
     );
@@ -463,6 +465,11 @@ const MnemonicWordWrapper = styled.View`
   border-radius: 16px;
   border-width: 4px;
   text-align: center;
+`;
+
+const ButtonContainer = styled.View`
+  margin-bottom: 56;
+  margin-top: 24;
 `;
 
 function mapStateToProps(state) {

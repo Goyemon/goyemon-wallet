@@ -60,7 +60,7 @@
   "settings-backup-words": "Backup Words",
   "settings-reset-wallet": "Reset Wallet",
   "settings-reset-title": "Are you sure?",
-  "settings-reset-warning": "Did you save your backup words? Otherwise, you will lose your funds.",
+  "settings-reset-warning": "Make sure you saved your backup words to protect your fund.",
   "settings-reset-instruction": "type 'delete' to confirm",
   "settings-backup-words-header": "Backup Words",
   "settings-backup-words-description": "carefully write down these backup words in order",

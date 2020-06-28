@@ -19,8 +19,9 @@ const ConfirmationText = (props) => <Text>{props.children}</Text>;
 const Text = styled.Text`
   color: #000;
   font-family: 'HKGrotesk-Bold';
-  font-size: 18;
-  margin-bottom: 20;
+  font-size: 20;
+  margin-top: 4;
+  margin-bottom: 24;
 `;
 
 export { GoyemonText, ConfirmationText };
