@@ -41,17 +41,17 @@ class Countdown extends Component {
         )
       );
       let targetUTCTime = targetUTCDate.getTime();
-      // PoolTogether reveals a winner every Saturday at 7 p.m. in UTC
+      // PoolTogether reveals a winner every Friday 3 p.m. EST which is every Friday at 7 p.m. in UTC
 
       let timeRemaining = parseInt((targetUTCTime - currentUTCTime) / 1000);
 
       let remainingDays;
-      let targetDay = 6; // 0 is for Sunday and 6 is for Saturday
+      let targetDay = 5; // Sunday - Saturday : 0 - 6
 
       if (timeRemaining > 0) {
-        remainingDays = targetDay - dateObject.getDay();
+        remainingDays = targetDay - dateObject.getUTCDay();
       } else {
-        remainingDays = targetDay - dateObject.getDay() - 1;
+        remainingDays = targetDay - dateObject.getUTCDay() - 1;
       }
       if (remainingDays < 0) {
         remainingDays += 7;
