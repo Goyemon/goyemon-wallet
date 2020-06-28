@@ -402,7 +402,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
 
               </>}
 
-              <HeaderFive fontSize={20}>Max Network Fee</HeaderFive>
+              <HeaderFive fontSize={20}>Network Fee Paid</HeaderFive>
               <TxDetailValue>
                 {parseInt(this.props.tx.getGasPrice(), 16) * parseInt(this.props.tx.gas, 16) / 1000000000000000000} ETH
               </TxDetailValue>
