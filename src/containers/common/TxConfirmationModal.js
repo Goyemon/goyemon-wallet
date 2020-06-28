@@ -20,7 +20,8 @@ import {
   Loader,
   HeaderTwo,
   TxConfirmationButton,
-  ModalHandler
+  ModalHandler,
+  HorizontalLine
 } from '../../components/common';
 import NetworkFeeContainerConfirmation from './NetworkFeeContainerConfirmation';
 import I18n from '../../i18n/I18n';
@@ -362,9 +363,10 @@ class TxConfirmationModal extends Component {
         <ModalContainer>
           <ModalHandler />
           <HeaderContainer>
-            <HeaderTwo marginBottom="0" marginLeft="0" marginTop="16">
+            <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
               Confirm Transaction
             </HeaderTwo>
+            <HorizontalLine borderColor="rgba(95, 95, 95, .2)"/>
           </HeaderContainer>
           <ModalInner>{this.renderModalContent()}</ModalInner>
         </ModalContainer>
@@ -374,7 +376,7 @@ class TxConfirmationModal extends Component {
 }
 
 const ConfirmationContainer = styled.View`
-  padding: 8px 24px;
+  padding: 12px 24px;
 `;
 
 const ModalContainer = styled.View`

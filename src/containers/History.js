@@ -188,7 +188,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                       <Icon name="plus" size={26} color="#1BA548" /><GoyemonText fontSize={24}>{this.state.txData[1].tokens_bought}DAI</GoyemonText>
                     </BoughtBox>
                 </SubtotalSwapBox>
-                <HorizontalLine />
+                <HorizontalLine borderColor="rgba(95, 95, 95, .2)"/>
               </>
             : this.state.txData.map((x) => {
               return (
@@ -238,7 +238,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                     <Icon name="plus" size={26} color="#1BA548" />
                     <GoyemonText fontSize={24}>{x.tokens_bought} DAI</GoyemonText>
                   </SubtotalBox>}
-                  <HorizontalLine />
+                  <HorizontalLine borderColor="rgba(95, 95, 95, .2)"/>
                 </>
               );
             })}
@@ -697,9 +697,12 @@ export default connect(mapChecksumAddressStateToProps)(
       const choices = ['All', 'Dai'].map((filter) => {
         if (filter === this.state.filter)
           return (
-            <FilterChoiceTextSelected key={filter}>
-              {filter}
-            </FilterChoiceTextSelected>
+            <View>
+              <FilterChoiceTextSelected key={filter}>
+                {filter}
+              </FilterChoiceTextSelected>
+              <HorizontalLine borderColor="#000" />
+            </View>
           );
 
         return (
@@ -708,6 +711,7 @@ export default connect(mapChecksumAddressStateToProps)(
             onPress={() => this.setState({ filter })}
           >
             <FilterChoiceTextUnselected>{filter}</FilterChoiceTextUnselected>
+            <HorizontalLine borderColor="rgba(95, 95, 95, .2)"/>
           </TouchableOpacity>
         );
       });
@@ -762,20 +766,19 @@ const FilterChoiceContainer = styled.View`
   margin-top: 24;
   margin-bottom: 12;
   margin-left: 16;
+  margin-right: 16;
 `;
 
 const FilterChoiceTextSelected = styled.Text`
   color: #000;
   font-size: 24;
   font-weight: bold;
-  margin-right: 12;
-  text-transform: uppercase;
+  margin: 0 8px;
 `;
 
 const FilterChoiceTextUnselected = styled.Text`
   font-size: 24;
   font-weight: bold;
-  margin-right: 12;
+  margin: 0 8px;
   opacity: 0.4;
-  text-transform: uppercase;
 `;

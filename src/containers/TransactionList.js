@@ -22,6 +22,18 @@ class TransactionList extends Component {
     this.__tempcachecount = 'derp';
   }
 
+  componentDidMount() {
+    // this.__mounted = true;
+    this.unsub = TxStorage.storage.subscribe(this.updateTxListState.bind(this));
+    (async () => {
+      this.updateTxListState();
+    })();
+  }
+
+  componentWillUnmount() {
+    this.unsub();
+  }
+
   updateTxListState() {
     LogUtilities.toDebugScreen('TransactionList updateTxListState() called');
     // this.refreshIndices = {0: true,1: true,2: true,3: true,4: true,5: true,6:true,7:true,8:true,9:true};
@@ -111,18 +123,6 @@ class TransactionList extends Component {
 
   render() {
     return <HistoryContainer>{this.renderTransactions()}</HistoryContainer>;
-  }
-
-  componentDidMount() {
-    // this.__mounted = true;
-    this.unsub = TxStorage.storage.subscribe(this.updateTxListState.bind(this));
-    (async () => {
-      this.updateTxListState();
-    })();
-  }
-
-  componentWillUnmount() {
-    this.unsub();
   }
 }
 

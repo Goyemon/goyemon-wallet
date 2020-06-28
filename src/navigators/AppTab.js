@@ -24,7 +24,7 @@ const AppTab = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: I18n.t('portfolio'),
         tabBarIcon: ({ tintColor }) => (
-          <Icon name="chart-pie" size={28} color={tintColor} />
+          <Icon name="chart-pie" size={30} color={tintColor} />
         )
       }
     },
@@ -33,7 +33,7 @@ const AppTab = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: I18n.t('send'),
         tabBarIcon: ({ tintColor }) => (
-          <Icon name="send" size={28} color={tintColor} />
+          <Icon name="send" size={30} color={tintColor} />
         )
       }
     },
@@ -42,7 +42,7 @@ const AppTab = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: I18n.t('earn'),
         tabBarIcon: ({ tintColor }) => (
-          <Icon name="sprout" size={28} color={tintColor} />
+          <Icon name="signal-cellular-3" size={30} color={tintColor} />
         )
       }
     },
@@ -51,7 +51,7 @@ const AppTab = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: I18n.t('swap'),
         tabBarIcon: ({ tintColor }) => (
-          <Icon name="swap-horizontal" size={28} color={tintColor} />
+          <Icon name="swap-horizontal" size={30} color={tintColor} />
         )
       }
     },
@@ -60,7 +60,7 @@ const AppTab = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: I18n.t('history'),
         tabBarIcon: ({ tintColor }) => (
-          <Icon name="script-text-outline" size={28} color={tintColor} />
+          <Icon name="script-text-outline" size={30} color={tintColor} />
         )
       }
     }

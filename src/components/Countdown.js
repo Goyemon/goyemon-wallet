@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 class Countdown extends Component {
   constructor(props) {
-    super();  
+    super();
     this.state = {
       remainingDays: 0,
       remainingHours: 0,
@@ -121,6 +121,7 @@ class Countdown extends Component {
 
 const CountdownContainer = styled.View`
   margin-top: 8px;
+  margin-bottom: 8px;
 `;
 
 const CountdownInner = styled.View`

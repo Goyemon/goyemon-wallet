@@ -50,7 +50,12 @@ class Copy extends Component {
             }}
           >
             {this.props.icon ? <CopyIcon /> : null}
-            <CopyAddressText>Copied</CopyAddressText>
+            <CopyAddressText
+              color={this.props.icon ? '#5f5f5f' : '#00a3e2'}
+              fontSize={this.props.icon ? '14px' : '16px'}
+            >
+              Copied
+            </CopyAddressText>
           </CopyAddress>
         </CopyAddressContainer>
       );
@@ -64,7 +69,12 @@ class Copy extends Component {
             }}
           >
             {this.props.icon ? <CopyIcon /> : null}
-            <CopyAddressText>{I18n.t('copy')}</CopyAddressText>
+            <CopyAddressText
+              color={this.props.icon ? '#5f5f5f' : '#00a3e2'}
+              fontSize={this.props.icon ? '14px' : '16px'}
+            >
+              {I18n.t('copy')}
+            </CopyAddressText>
           </CopyAddress>
         </CopiedAddressContainer>
       );
@@ -97,9 +107,9 @@ const CopyAddress = styled.TouchableOpacity`
 `;
 
 const CopyAddressText = styled.Text`
-  color: #5f5f5f;
+  color: ${(props) => props.color};
   font-family: 'HKGrotesk-Regular';
-  font-size: 14;
+  font-size: ${(props) => props.fontSize};
 `;
 
 function mapStateToProps(state) {
