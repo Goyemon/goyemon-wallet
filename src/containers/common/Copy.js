@@ -56,7 +56,7 @@ class Copy extends Component {
       );
     } else if (this.state.clipboardContent === null) {
       return (
-        <CopiedAddressContainer>
+        <CopiedAddressContainer marginTop={this.props.marginTop}>
           <CopyAddress
             onPress={async () => {
               await this.writeToClipboard(text);
@@ -86,7 +86,7 @@ const CopiedAddressContainer = styled.View`
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  margin-top: 16;
+  margin-top: ${(props) => props.marginTop};
 `;
 
 const CopyAnimation = Animatable.createAnimatableComponent(styled.Text``);
