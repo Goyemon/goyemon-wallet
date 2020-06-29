@@ -129,6 +129,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
           token: 'eth',
           amount: '0.00'
         })
+      LogUtilities.toDebugScreen('Ret', ret)
 
       return ret;
     }
@@ -143,6 +144,13 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
         .catch(e => LogUtilities.toDebugScreen('TransactionDetail Tx Error With', e));
       }
       await this.props.updateTx(this.state.tx)
+    }
+
+    pooltogetherAmount(type) {
+      for(const element of this.state.txData)
+        if(element.type === type)
+          return element.amount
+      return '0.00'
     }
 
     prefixUpperCase = txType =>
@@ -163,7 +171,13 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
           >
             {this.state.txData.length === 0
             ? <><GoyemonText fontSize={18}>Withdraw</GoyemonText></>
-            : this.state.txData.length == 3 && this.state.txData[0].type == 'committed deposit withdraw'
+            : (() => {
+                if (this.state.txData.length === 3)
+                  for (const element of this.state.txData)
+                    if (element.type == 'committed deposit withdraw')
+                      return true
+                return false
+              })()
             ? <>
                 <TxDetailHeader>
                   <TxIcon>
@@ -207,9 +221,9 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                     <GoyemonText fontSize={14}>Sponsor</GoyemonText>
                   </LabelsBox>
                   <ValueBox>
-                    <GoyemonText fontSize={14}>{this.state.txData[2].amount}DAI</GoyemonText>
-                    <GoyemonText fontSize={14}>{this.state.txData[0].amount}DAI</GoyemonText>
-                    <GoyemonText fontSize={14}>{this.state.txData[1].amount}DAI</GoyemonText>
+                    <GoyemonText fontSize={14}>{this.pooltogetherAmount('open deposit withdraw')}DAI</GoyemonText>
+                    <GoyemonText fontSize={14}>{this.pooltogetherAmount('committed deposit withdraw')}DAI</GoyemonText>
+                    <GoyemonText fontSize={14}>{this.pooltogetherAmount('sponsorship withdraw')}DAI</GoyemonText>
                   </ValueBox>
                 </SubtotalWithdrawBox>
                 <HorizontalLine />
