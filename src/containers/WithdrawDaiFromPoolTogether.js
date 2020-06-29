@@ -189,7 +189,7 @@ class WithdrawDaiFromPoolTogether extends Component {
         >
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <Title>dai pooltogether balance</Title>
-          <Value>{this.state.pooltogetherDaiBalance}DAI</Value>
+          <Value>{this.state.pooltogetherDaiBalance} DAI</Value>
         </UntouchableCardContainer>
         <WithDrawAmountHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
@@ -250,8 +250,6 @@ class WithdrawDaiFromPoolTogether extends Component {
                 this.state.weiAmountValidation &&
                 isOnline
               ) || this.state.loading
-                ? true
-                : false
             }
             opacity={
               this.state.daiWithdrawAmountValidation &&

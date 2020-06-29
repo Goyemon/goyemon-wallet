@@ -41,12 +41,18 @@ export default class Send extends Component {
             <TouchableOpacity
               onPress={() => this.setState({ currency: 'eth' })}
             >
-              <CoinImage source={require('../../assets/ether_icon.png')} />
+              <CoinImage
+                opacity={this.state.currency === 'eth' ? 1 : 0.4}
+                source={require('../../assets/ether_icon.png')}
+              />
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => this.setState({ currency: 'dai' })}
             >
-              <CoinImage source={require('../../assets/dai_icon.png')} />
+              <CoinImage
+                opacity={this.state.currency === 'dai' ? 1 : 0.4}
+                source={require('../../assets/dai_icon.png')}
+              />
             </TouchableOpacity>
           </Container>
         </ScrollView>
@@ -60,5 +66,6 @@ const CoinImage = styled.Image`
   border-radius: 20px;
   margin-left: 16;
   height: 40px;
+  opacity: ${(props) => props.opacity};
   width: 40px;
 `;

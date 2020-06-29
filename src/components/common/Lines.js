@@ -18,12 +18,12 @@ const ModalHandlerLine = styled.View`
   border-style: solid;
   border-width: 2;
   border-radius: 2;
-  width: 20%;
+  width: 10%;
 `;
 
 const HorizontalLine = (props) => (
   <HorizontalLineContainer>
-    <Line />
+    <Line borderColor={props.borderColor} />
   </HorizontalLineContainer>
 );
 
@@ -33,7 +33,7 @@ const HorizontalLineContainer = styled.View`
 `;
 
 const Line = styled.View`
-  border-color: 'rgba(95, 95, 95, .2)';
+  border-color: ${(props) => props.borderColor};
   border-radius: 1.6;
   border-width: 1.6;
   border-style: solid;

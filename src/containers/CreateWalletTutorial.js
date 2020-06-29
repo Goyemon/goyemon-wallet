@@ -57,7 +57,7 @@ class CreateWalletTutorial extends Component {
             backgroundColor="#FFF"
             borderColor="#00A3E2"
             disabled={this.state.buttonDisabled}
-            margin="24px auto"
+            margin="40px auto"
             marginBottom="12px"
             opacity="1"
             onPress={async () => {

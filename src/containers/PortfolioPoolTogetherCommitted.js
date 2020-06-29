@@ -55,9 +55,9 @@ class PortfolioPoolTogetherCommitted extends Component {
       this.props.poolTogether.dai.estimatedInterestRate
     )
       .times(
-        RoundDownBigNumberPlacesFour(this.props.poolTogether.dai.totalBalance).minus(
-          this.props.poolTogether.dai.openSupply
-        )
+        RoundDownBigNumberPlacesFour(
+          this.props.poolTogether.dai.totalBalance
+        ).minus(this.props.poolTogether.dai.openSupply)
       )
       .div(new RoundDownBigNumberPlacesFour(10).pow(36))
       .toFixed(2);

@@ -274,7 +274,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                       <Icon name="plus" size={26} color="#1BA548" /><GoyemonText fontSize={24}>{this.state.txData[1].tokens_bought}DAI</GoyemonText>
                     </BoughtBox>
                 </SubtotalSwapBox>
-                <HorizontalLine />
+                <HorizontalLine borderColor="rgba(95, 95, 95, .2)"/>
               </>
             : (() => {
                 if (this.state.txData && this.state.txData.length > 1) {
@@ -378,7 +378,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                     <Icon name="plus" size={26} color="#1BA548" />
                     <GoyemonText fontSize={24}>{x.tokens_bought} DAI</GoyemonText>
                   </SubtotalBox>}
-                  <HorizontalLine />
+                  <HorizontalLine borderColor="rgba(95, 95, 95, .2)"/>
                 </>
               );
             })}
@@ -573,7 +573,7 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
         weiAmountValidation: undefined
       };
       this.state = this.getPriceState(
-        Math.ceil(this.props.currentGasPrice * 1.1)
+        Math.ceil(this.props.currentGasPrice * 1.2)
       );
       props.gasPrice.forEach((x) => {
         if (x.speed == 'super fast')
@@ -601,12 +601,8 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
       this.setState(this.getPriceState(gasPriceWeiDecimal));
     }
 
-    sendWeiAmountValidation(weiAmountValidation) {
-      this.props.parentCallback(weiAmountValidation);
-    }
-
     updateWeiAmountValidation(weiAmountValidation) {
-      this.sendWeiAmountValidation(weiAmountValidation);
+      this.props.updateWeiAmountValidationInModal(weiAmountValidation);
       if (weiAmountValidation) {
         this.setState({
           weiAmountValidation: true
@@ -620,7 +616,7 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
 
     render() {
       //<GoyemonText fontSize={12}>{JSON.stringify(this.props.gasPrice)} -- {JSON.stringify(this.props.currentGas)}</GoyemonText>;
-      const minimumGasPrice = Math.ceil(this.props.currentGasPrice * 1.1);
+      const minimumGasPrice = Math.ceil(this.props.currentGasPrice * 1.2);
 
       return (
         <>
@@ -629,7 +625,7 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
           </HeaderTwo>
           <Explanation>
             <GoyemonText fontSize={12}>
-              *you can speed up your transaction by adding more fees
+              *you can speed up your transaction by changing the limit
             </GoyemonText>
           </Explanation>
           <Slider
@@ -689,15 +685,15 @@ const TransactionDetailModal = connect(
         newGasPrice: null,
         txResent: false,
         loading: false,
-        modalHeigh: '60%'
+        modalHeigh: '60%',
+        weiAmountValidation: undefined
       };
       this.uniqcounter = 0;
       this.updateTxState = this.updateTxState.bind(this)
     }
 
-    updateWeiAmountValidationInModal(validation) {
-      return validation;
-      // add this return value for the button opacity and disabling property
+    updateWeiAmountValidationInModal(weiAmountValidation) {
+      this.setState({weiAmountValidation})
     }
 
     handleViewRef = (ref) => (this.view = ref);
@@ -816,7 +812,7 @@ const TransactionDetailModal = connect(
                     )}
                     gasLimit={parseInt(this.state.txToUpdate.getGasLimit(), 16)}
                     onSettle={this.priceSliderSettled.bind(this)}
-                    parentCallback={this.updateWeiAmountValidationInModal}
+                    updateWeiAmountValidationInModal={this.updateWeiAmountValidationInModal.bind(this)}
                   />
                   <Button
                     text="Speed Up Transaction"
@@ -826,9 +822,9 @@ const TransactionDetailModal = connect(
                     margin="16px auto"
                     marginBottom="8px"
                     disabled={
-                      !this.props.isOnline || this.state.loading ? true : false
+                      !this.props.isOnline || this.state.loading || !this.state.weiAmountValidation
                     }
-                    opacity={this.props.isOnline ? 1 : 0.5}
+                    opacity={!this.props.isOnline || this.state.loading || !this.state.weiAmountValidation ? 0.5 : 1}
                     onPress={async () => {
                       await this.resendTx();
                       this.zoomIn();
@@ -904,9 +900,12 @@ export default connect(mapChecksumAddressStateToProps)(
       const choices = ['All', 'Dai'].map((filter) => {
         if (filter === this.state.filter)
           return (
-            <FilterChoiceTextSelected key={filter}>
-              {filter}
-            </FilterChoiceTextSelected>
+            <View>
+              <FilterChoiceTextSelected key={filter}>
+                {filter}
+              </FilterChoiceTextSelected>
+              <HorizontalLine borderColor="#000" />
+            </View>
           );
 
         return (
@@ -915,6 +914,7 @@ export default connect(mapChecksumAddressStateToProps)(
             onPress={() => this.setState({ filter })}
           >
             <FilterChoiceTextUnselected>{filter}</FilterChoiceTextUnselected>
+            <HorizontalLine borderColor="rgba(95, 95, 95, .2)"/>
           </TouchableOpacity>
         );
       });
@@ -967,20 +967,19 @@ const FilterChoiceContainer = styled.View`
   margin-top: 24;
   margin-bottom: 12;
   margin-left: 16;
+  margin-right: 16;
 `;
 
 const FilterChoiceTextSelected = styled.Text`
   color: #000;
   font-size: 24;
   font-weight: bold;
-  margin-right: 12;
-  text-transform: uppercase;
+  margin: 0 8px;
 `;
 
 const FilterChoiceTextUnselected = styled.Text`
   font-size: 24;
   font-weight: bold;
-  margin-right: 12;
+  margin: 0 8px;
   opacity: 0.4;
-  text-transform: uppercase;
 `;

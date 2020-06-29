@@ -70,9 +70,9 @@ const CopyAddress = styled.TouchableOpacity`
 `;
 
 const CopyAddressText = styled.Text`
-  color: #5f5f5f;
+  color: ${(props) => props.color};
   font-family: 'HKGrotesk-Regular';
-  font-size: 14;
+  font-size: ${(props) => props.fontSize};
 `;
 
 function mapStateToProps(state) {

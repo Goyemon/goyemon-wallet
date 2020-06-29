@@ -424,7 +424,12 @@ class PersistTxStorageAbstraction {
   async getHashes(index = 'all', offset = 0) {
     // currently also precaches top 128 txes.
     // TODO: this perhaps could use cache.
-    await this.__lock(index);
+	await this.__lock(index);
+
+	if (this.counts[index] == 0) {
+		this.__unlock(index);
+		return [];
+	}
 
     const high_bucket = Math.floor(
       (this.counts[index] - 1) / storage_bucket_size
@@ -567,16 +572,13 @@ class PersistTxStorageAbstraction {
 
           await this.__lock(index);
           const last_bucket_num = Math.floor(
-            this.counts[index] / storage_bucket_size
-          );
+            Math.max(0, this.counts[index] - 1) / storage_bucket_size
+		  );
 
           if (toplock) {
             // easy, just insert at the top as last element
             const bucket_key = `${this.prefix}i${index}${last_bucket_num}`;
-            if (
-              this.counts[index] % storage_bucket_size == 0 ||
-              this.counts[index] == 0
-            ) {
+            if (this.counts[index] % storage_bucket_size == 0) {
               // new bucket
               if (this.debug)
                 LogUtilities.toDebugScreen(
@@ -605,7 +607,7 @@ class PersistTxStorageAbstraction {
           } else {
             // inserting in the middle, so we may need to carry to later buckets
             const global_position =
-              this.counts[index] - this.toplocked_per_filter[index];
+              this.counts[index] - this.toplocked_per_filter[index]; // this is actually destination position now, not count
             const bucket_num = Math.floor(
               global_position / storage_bucket_size
             );
@@ -764,7 +766,7 @@ class PersistTxStorageAbstraction {
     let removekeys = [];
 
     indices.forEach((x) => {
-      for (let i = 0; i < Math.ceil(this.counts[x] / storage_bucket_size); ++i)
+      for (let i = 0; i < Math.floor((this.counts[x] - 1) / storage_bucket_size); ++i)
         removekeys.push(`${this.prefix}i${x}${i}`); //tasks.push(AsyncStorage.removeItem(`${this.prefix}i${x}${i}`)); // remove buckets
 
       removekeys.push(`${this.prefix}i${x}c`); //tasks.push(AsyncStorage.removeItem(`${this.prefix}i${x}c`)); // and the count
@@ -773,7 +775,7 @@ class PersistTxStorageAbstraction {
     // now we only have index `all' to go through, but we actually need to read it and remove all hashes
     let readtasks = [];
     removekeys.push(`${this.prefix}iallc`); // tasks.push(AsyncStorage.removeItem(`${this.prefix}iallc`));
-    for (let i = 0; i < Math.ceil(this.counts.all / storage_bucket_size); ++i) {
+    for (let i = 0; i < Math.floor((this.counts.all - 1) / storage_bucket_size); ++i) {
       removekeys.push(`${this.prefix}iall${i}`); // tasks.push(AsyncStorage.removeItem(`${this.prefix}iall${i}`));
       readtasks.push(
         this.__getKey(`${this.prefix}iall${i}`, this.__decodeBucket).then(
@@ -823,7 +825,7 @@ class PersistTxStorageAbstraction {
     // when we reach the destination bucket, we just splice the item in in its intended position (since at this point we have carried last item to the bucket+1, we have room for it here)
 
     const last_bucket = Math.floor(
-      (this.counts[index] - 1) / storage_bucket_size
+      (this.counts[index] - 1) / storage_bucket_size // this func should not be called for empty indices anyway, so not checking if counts[idx] > 0
     );
 
     if (!toplockremove) {
@@ -965,7 +967,7 @@ class PersistTxStorageAbstraction {
     throw new Error(`key "${oldkey}" not found in the index "${index}"`);
   }
 
-  async removeKey(oldkey, index = 'all') {
+  async removeKey(oldkey, index = 'all') { // not used yet; will be used when indexDiff is tested and we actually have to remove stuff from some indices.
     await this.__lock(index);
 
     const last_bucket_index = Math.floor(

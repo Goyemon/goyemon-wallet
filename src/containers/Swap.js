@@ -103,7 +103,7 @@ class Swap extends Component {
   }
 
   async constructTransactionObject() {
-    const weiSold = parseFloat(Web3.utils.toWei(this.state.ethSold));
+    const hexWei = TransactionUtilities.etherToHexWei(this.state.ethSold);
     const minTokens = this.getMinTokens(this.state.tokenBought)
       .toString(10)
       .split('.')
@@ -133,7 +133,7 @@ class Swap extends Component {
 
     const transactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.RouterUniswapV2)
-      .setValue(weiSold.toString(16))
+      .setValue(hexWei)
       .setGasPrice(
         TransactionUtilities.returnTransactionSpeed(
           this.props.gasChosen
@@ -147,7 +147,7 @@ class Swap extends Component {
         [
           GlobalConfig.RouterUniswapV2,
           '0',
-          weiSold.toString(16),
+          hexWei,
           minTokensWithDecimals,
           '0',
           this.props.checksumAddress
@@ -398,8 +398,6 @@ class Swap extends Component {
           <TxNextButton
             disabled={
               !(this.state.ethSoldValidation && isOnline) || this.state.loading
-                ? true
-                : false
             }
             opacity={this.state.ethSoldValidation && isOnline ? 1 : 0.5}
             onPress={async () => {
