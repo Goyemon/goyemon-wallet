@@ -1668,15 +1668,20 @@ class Tx {
   }
 
   getApplication(to) {
-    switch (to.toLowerCase()) {
-      case GlobalConfig.cDAIcontract.toLowerCase():
-        return 'Compound'
-      case GlobalConfig.RouterUniswapV2.toLowerCase():
-        return 'Uniswap'
-      case GlobalConfig.DAIPoolTogetherContractV2.toLowerCase():
-        return 'PoolTogether'
-      default:
-        return ''
+    if (to) {
+      switch (to.toLowerCase()) {
+        case GlobalConfig.cDAIcontract.toLowerCase():
+          return 'Compound'
+        case GlobalConfig.RouterUniswapV2.toLowerCase():
+          return 'Uniswap'
+        case GlobalConfig.DAIPoolTogetherContractV2.toLowerCase():
+          return 'PoolTogether'
+        default:
+          return ''
+      }
+    }
+    else {
+      return ''
     }
   }
 
