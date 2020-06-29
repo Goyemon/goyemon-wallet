@@ -392,7 +392,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                     <ToAndFromValue>
                       {this.props.tx.getFrom().substring(0, 24) + '...'}
                     </ToAndFromValue>
-                    <Copy marginTop={16} text={this.props.tx.getFrom()} icon={false} />
+                    <Copy text={this.props.tx.getFrom()} icon={false} />
                   </ToAndFromValueContainer>
                 </>}
 
@@ -403,7 +403,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                     <ToAndFromValue>
                       {this.props.tx.getTo().substring(0, 24) + '...'}
                     </ToAndFromValue>
-                    <Copy marginTop={16} text={this.props.tx.getTo()} icon={false} />
+                    <Copy text={this.props.tx.getTo()} icon={false} />
                   </ToAndFromValueContainer>
                 </>}
 
@@ -539,15 +539,15 @@ margin-bottom: 16;
 const ToAndFromValueContainer = styled.View`
   align-items: center;
   flex-direction: row;
+  margin-top: 4;
+  margin-bottom: 16;
   `;
 
 const ToAndFromValue = styled.Text`
 color: #000;
 font-family: 'HKGrotesk-Bold';
 font-size: 18;
-margin-top: 4;
 margin-right: 16;
-margin-bottom: 16;
 `;
 
 const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(

@@ -2,10 +2,9 @@
 import React, { Component } from 'react';
 import * as Animatable from 'react-native-animatable';
 import { connect } from 'react-redux';
-import { Clipboard, View } from 'react-native';
+import { Clipboard } from 'react-native';
 import styled from 'styled-components/native';
 import { CopyIcon } from '../../components/common';
-import I18n from '../../i18n/I18n';
 
 class Copy extends Component {
   constructor(props) {
@@ -29,50 +28,31 @@ class Copy extends Component {
     this.setState({ clipboardContent });
   }
 
-  renderAnimation() {
-    const handleViewRef = (ref) => (this.view = ref);
-    if (this.props.animation) {
-      return <CopyAnimation ref={handleViewRef}>❤️</CopyAnimation>;
-    } else {
-      return <CopyAnimation ref={handleViewRef}></CopyAnimation>;
-    }
-  }
-
-  renderCopyText(text) {
-    if (this.state.clipboardContent === text) {
-      return (
-        <CopyAddressContainer>
-          {this.renderAnimation()}
-          <CopyAddress
-            onPress={async () => {
-              await this.writeToClipboard(text);
-              this.fadeOutUp();
-            }}
-          >
-            {this.props.icon ? <CopyIcon /> : null}
-            <CopyAddressText>Copied</CopyAddressText>
-          </CopyAddress>
-        </CopyAddressContainer>
-      );
-    } else if (this.state.clipboardContent === null) {
-      return (
-        <CopiedAddressContainer marginTop={this.props.marginTop}>
-          <CopyAddress
-            onPress={async () => {
-              await this.writeToClipboard(text);
-              this.fadeOutUp();
-            }}
-          >
-            {this.props.icon ? <CopyIcon /> : null}
-            <CopyAddressText>{I18n.t('copy')}</CopyAddressText>
-          </CopyAddress>
-        </CopiedAddressContainer>
-      );
-    }
-  }
-
   render() {
-    return <View>{this.renderCopyText(this.props.text)}</View>;
+    const handleViewRef = (ref) => (this.view = ref);
+    return (
+      <CopyAddressContainer>
+        {this.props.animation &&
+        this.state.clipboardContent === this.props.text ? (
+          <CopyAnimation ref={handleViewRef}>❤️</CopyAnimation>
+        ) : (
+          <CopyAnimation ref={handleViewRef}></CopyAnimation>
+        )}
+        <CopyAddress
+          onPress={async () => {
+            await this.writeToClipboard(this.props.text);
+            this.fadeOutUp();
+          }}
+        >
+          {this.props.icon ? <CopyIcon /> : null}
+          <CopyAddressText>
+            {this.state.clipboardContent === this.props.text
+              ? 'Copied'
+              : 'Copy'}
+          </CopyAddressText>
+        </CopyAddress>
+      </CopyAddressContainer>
+    );
   }
 }
 
@@ -80,13 +60,6 @@ const CopyAddressContainer = styled.View`
   align-items: center;
   flex-direction: column;
   justify-content: center;
-`;
-
-const CopiedAddressContainer = styled.View`
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  margin-top: ${(props) => props.marginTop};
 `;
 
 const CopyAnimation = Animatable.createAnimatableComponent(styled.Text``);
