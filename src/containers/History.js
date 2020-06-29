@@ -27,6 +27,7 @@ import { connect } from 'react-redux';
 // TODO: git rm those two:
 //import Transactions from '../containers/Transactions';
 //import TransactionsDai from '../containers/TransactionsDai';
+import Copy from './common/Copy';
 import OfflineNotice from './common/OfflineNotice';
 import TransactionList from './TransactionList';
 import I18n from '../i18n/I18n';
@@ -213,7 +214,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                   )})()}
                   <GoyemonText fontSize={24}>
                   {parseFloat(this.state.txData[0].amount) + parseFloat(this.state.txData[1].amount) + parseFloat(this.state.txData[2].amount)}
-                  {this.state.txData[0].token === 'cdai' || this.state.txData[0].token === 'pooltogether' ? 'Dai' : this.state.txData[0].token.toUpperCase()}
+                  {this.state.txData[0].token === 'cdai' || this.state.txData[0].token === 'pooltogether' ? ' DAI' : this.state.txData[0].token.toUpperCase()}
                   </GoyemonText>
                   <LabelsBox>
                     <GoyemonText fontSize={14}>Open</GoyemonText>
@@ -321,7 +322,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                     )})()}
                     <GoyemonText fontSize={24}>
                       {this.state.txData[0].amount}
-                      {this.state.txData[0].token === 'cdai' ? 'Dai' : this.state.txData[0].token.toUpperCase()}
+                      {this.state.txData[0].token === 'cdai' ? ' DAI' : this.state.txData[0].token.toUpperCase()}
                     </GoyemonText>
                   </SubtotalBox>}
                   {this.state.txData[0].type === 'swap' && <SubtotalBox>
@@ -371,7 +372,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                     )})()}
                     <GoyemonText fontSize={24}>
                       {x.amount}
-                      {x.token === 'cdai' ? 'Dai' : x.token.toUpperCase()}
+                      {x.token === 'cdai' ? ' DAI' : x.token.toUpperCase()}
                     </GoyemonText>
                   </SubtotalBox>}
                   {x.type === 'swap' && <SubtotalBox>
@@ -401,22 +402,28 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                 {this.state.txData.length === 1 && this.state.txData[0].direction == 'incoming' && this.state.txData[0].type == 'transfer' &&
                 <>
                   <HeaderFive fontSize={20}>From</HeaderFive>
-                  <ToAndFromValue>
-                    {this.props.tx.getFrom()}
-                  </ToAndFromValue>
+                  <ToAndFromValueContainer>
+                    <ToAndFromValue>
+                      {this.props.tx.getFrom().substring(0, 24) + '...'}
+                    </ToAndFromValue>
+                    <Copy marginTop={16} text={this.props.tx.getFrom()} icon={false} />
+                  </ToAndFromValueContainer>
                 </>}
 
                 {this.state.txData.length === 1 && this.state.txData[0].direction == 'outgoing' && this.state.txData[0].type == 'transfer' &&
                 <>
                   <HeaderFive fontSize={20}>To</HeaderFive>
-                  <ToAndFromValue>
-                    {this.props.tx.getTo()}
-                  </ToAndFromValue>
+                  <ToAndFromValueContainer>
+                    <ToAndFromValue>
+                      {this.props.tx.getTo().substring(0, 24) + '...'}
+                    </ToAndFromValue>
+                    <Copy marginTop={16} text={this.props.tx.getTo()} icon={false} />
+                  </ToAndFromValueContainer>
                 </>}
 
               </>}
 
-              <HeaderFive fontSize={20}>Network Fee Paid</HeaderFive>
+              <HeaderFive fontSize={20}>Max Network Fee</HeaderFive>
               <TxDetailValue>
                 {parseInt(this.props.tx.getGasPrice(), 16) * parseInt(this.props.tx.gas, 16) / 1000000000000000000} ETH
               </TxDetailValue>
@@ -543,11 +550,17 @@ margin-top: 4;
 margin-bottom: 16;
 `;
 
+const ToAndFromValueContainer = styled.View`
+  align-items: center;
+  flex-direction: row;
+  `;
+
 const ToAndFromValue = styled.Text`
 color: #000;
 font-family: 'HKGrotesk-Bold';
-font-size: 14;
+font-size: 18;
 margin-top: 4;
+margin-right: 16;
 margin-bottom: 16;
 `;
 
