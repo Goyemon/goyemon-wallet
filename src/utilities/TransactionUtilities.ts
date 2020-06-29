@@ -336,6 +336,11 @@ class TransactionUtilities {
 
     return approveTransactionObject;
   }
+
+  etherToHexWei(etherValue) {
+    const weiValue = Web3.utils.toWei(etherValue)
+    return new RoundDownBigNumberPlacesEighteen(weiValue).toString(16)
+  }
 }
 
 export default new TransactionUtilities();
