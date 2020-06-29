@@ -130,7 +130,6 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
           token: 'eth',
           amount: '0.00'
         })
-      LogUtilities.toDebugScreen('Ret', ret)
 
       return ret;
     }
@@ -240,7 +239,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                   </TxIcon>
                   <TypeAndTime>
                     <GoyemonText fontSize={18}>
-                        {this.state.txData[1].type}
+                        {this.prefixUpperCase(this.state.txData[1].type)}
                     </GoyemonText>
                     <GoyemonText fontSize={16}>
                       {TransactionUtilities.parseTransactionTime(
@@ -415,7 +414,9 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                   <HeaderFive fontSize={20}>To</HeaderFive>
                   <ToAndFromValueContainer>
                     <ToAndFromValue>
-                      {this.props.tx.getTo().substring(0, 24) + '...'}
+                      {this.state.txData[0].token === 'eth'
+                      ? this.props.tx.getTo().substring(0, 24) + '...'
+                      : '0x' + this.state.tx.tokenData.dai[0].to_addr.substring(0, 24) + '...'}
                     </ToAndFromValue>
                     <Copy marginTop={16} text={this.props.tx.getTo()} icon={false} />
                   </ToAndFromValueContainer>
