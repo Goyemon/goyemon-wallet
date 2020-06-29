@@ -47,6 +47,8 @@ _we could remove this method when we migrate to the new version of firebase._
 
 Contact somebody in our team if the build fails.
 
+## Networks
+We use the Mainnet in the master and the Ropsten in the develop(and other feature branches). You can switch between networks in your local but they should not be changed in remote branches. 
 
 ## Config Files
 We have three config files:
@@ -64,7 +66,7 @@ You can see communication logs between the wallet and a server.
 - [Ropsten](http://192.168.1.3:31337/devs/)
 - [Mainnet](http://51.89.42.181:31337/devs/)
 
-You can also send dummy messages to the wallet from {here](http://51.89.42.181:31330/debugmsgs).
+You can also send dummy messages to the wallet from [here](http://51.89.42.181:31330/debugmsgs).
 
 Specify an address, type and json data. All the devices registered with a passed address will get the dummy data. If you prefer the command line, use `curl`. 
 
