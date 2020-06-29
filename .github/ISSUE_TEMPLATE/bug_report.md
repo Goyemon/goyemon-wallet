@@ -23,7 +23,10 @@ A clear and concise description of what you expected to happen.
 # Screenshots
 If applicable, add screenshots to help explain your problem.
 
-# Device (please complete the following information):
+# Logs
+
+# Environment (please complete the following information):
+ - Network: [e.g. Ropsten]
  - Device: [e.g. iPhone6]
  - OS: [e.g. iOS8.1]
  - Version [e.g. 22]
