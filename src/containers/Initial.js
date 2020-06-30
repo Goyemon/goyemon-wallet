@@ -62,14 +62,17 @@ class Initial extends Component {
       if (
         !mnemonicWordsStatePersisted ||
         (mnemonicWordsStatePersisted &&
-          !mnemonicWordsValidation &&
-          !permissions.notification &&
-          !hasPrivateKeyInKeychain) ||
-        (mnemonicWordsStatePersisted &&
           permissions.notification === null &&
           hasPrivateKeyInKeychain)
       ) {
         mainPage = 'Welcome';
+      } else if (
+        mnemonicWordsStatePersisted &&
+        !mnemonicWordsValidation &&
+        !hasPersistedState &&
+        !hasPrivateKeyInKeychain
+      ) {
+        mainPage = 'ShowMnemonic';
       } else if (
         mnemonicWordsStatePersisted &&
         !permissions.notification &&
@@ -114,11 +117,30 @@ class Initial extends Component {
         };
       };
 
-      const resetAction = StackActions.reset({
-        index: 0,
-        actions: [NavigationActions.navigate({ routeName: mainPage })]
-      });
-      this.props.navigation.dispatch(resetAction);
+      if (
+        mainPage === 'Welcome' ||
+        mainPage === 'NotificationPermissionNotGranted' ||
+        mainPage === 'WalletCreation' ||
+        mainPage === 'PortfolioHome'
+      ) {
+        const resetAction = StackActions.reset({
+          index: 0,
+          actions: [NavigationActions.navigate({ routeName: mainPage })]
+        });
+        this.props.navigation.dispatch(resetAction);
+      } else if (mainPage === 'ShowMnemonic') {
+        const resetAction = StackActions.reset({
+          index: 2,
+          actions: [
+            NavigationActions.navigate({ routeName: 'Welcome' }),
+            NavigationActions.navigate({ routeName: 'CreateWalletTutorial' }),
+            NavigationActions.navigate({ routeName: 'ShowMnemonic' })
+          ]
+        });
+        this.props.navigation.dispatch(resetAction);
+      } else {
+        console.log('no matches');
+      }
     } else if (!rehydration) {
       LogUtilities.logInfo('rehydration is not done yet');
     }

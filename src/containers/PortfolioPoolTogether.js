@@ -16,9 +16,10 @@ import {
   HeaderOne,
   HeaderFour,
   HeaderFive,
-  GoyemonText
+  GoyemonText,
+  ApplicationDescription
 } from '../components/common';
-import Countdown from './common/Countdown';
+import Countdown from '../components/Countdown';
 import PopUpModal from './common/PopUpModal';
 import I18n from '../i18n/I18n';
 import PortfolioPoolTogetherOpen from './PortfolioPoolTogetherOpen';
@@ -201,6 +202,11 @@ class PortfolioPoolTogether extends Component {
       <RootContainer>
         {this.renderModalContent()}
         <HeaderOne marginTop="112">PoolTogether</HeaderOne>
+        <ApplicationDescription>
+          You can win a lottery without losing any money with PoolTogether. Your
+          deposit always goes to the open round. You are eligible to win once
+          your deposit moves to the commited round.
+        </ApplicationDescription>
         <FilterContainer>{this.toggleFilterChoiceText()}</FilterContainer>
         {this.renderCountdownHeader()}
         <Countdown />
@@ -279,7 +285,7 @@ const FilterChoiceTextUnselected = styled.Text`
 const CountdownContainer = styled.View`
   align-items: center;
   flex-direction: column;
-  margin: 0 auto;
+  margin: 8px auto;
 `;
 
 const mapStateToProps = (state) => ({

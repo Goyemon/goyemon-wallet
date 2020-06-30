@@ -19,7 +19,7 @@ import {
   InsufficientWeiBalanceMessage,
   TxNextButton
 } from '../components/common';
-import Countdown from './common/Countdown';
+import Countdown from '../components/Countdown'
 import TxConfirmationModal from '../containers/common/TxConfirmationModal';
 import { AdvancedContainer } from './common/AdvancedContainer';
 import I18n from '../i18n/I18n';
@@ -259,8 +259,6 @@ class DepositFirstDaiToPoolTogether extends Component {
                 this.state.weiAmountValidation &&
                 isOnline
               ) || this.state.loading
-                ? true
-                : false
             }
             opacity={
               this.state.daiAmountValidation &&

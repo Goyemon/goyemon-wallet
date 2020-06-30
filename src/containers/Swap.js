@@ -103,7 +103,7 @@ class Swap extends Component {
   }
 
   async constructTransactionObject() {
-    const weiSold = parseFloat(Web3.utils.toWei(this.state.ethSold));
+    const hexWei = TransactionUtilities.etherToHexWei(this.state.ethSold);
     const minTokens = this.getMinTokens(this.state.tokenBought)
       .toString(10)
       .split('.')
@@ -133,7 +133,7 @@ class Swap extends Component {
 
     const transactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.RouterUniswapV2)
-      .setValue(weiSold.toString(16))
+      .setValue(hexWei)
       .setGasPrice(
         TransactionUtilities.returnTransactionSpeed(
           this.props.gasChosen
@@ -147,7 +147,7 @@ class Swap extends Component {
         [
           GlobalConfig.RouterUniswapV2,
           '0',
-          weiSold.toString(16),
+          hexWei,
           minTokensWithDecimals,
           '0',
           this.props.checksumAddress
@@ -261,7 +261,7 @@ class Swap extends Component {
     let ethBalance = Web3.utils.fromWei(this.props.balance.wei);
     ethBalance = RoundDownBigNumberPlacesEighteen(ethBalance).toFixed(4);
 
-    let weiFullAmount;
+    let weiMaxAmount;
     const weiBalance = new RoundDownBigNumberPlacesEighteen(
       this.props.balance.wei
     );
@@ -270,9 +270,9 @@ class Swap extends Component {
     ).times(GlobalConfig.UniswapV2SwapExactETHForTokensGasLimit);
 
     if (weiBalance.isLessThanOrEqualTo(networkFeeLimit)) {
-      weiFullAmount = '0';
+      weiMaxAmount = '0';
     } else if (weiBalance.isGreaterThan(networkFeeLimit)) {
-      weiFullAmount = weiBalance.minus(networkFeeLimit).toString();
+      weiMaxAmount = weiBalance.minus(networkFeeLimit).toString();
     }
 
     return (
@@ -322,15 +322,15 @@ class Swap extends Component {
               textColor="#00A3E2"
               onPress={() => {
                 this.setState({
-                  ethSold: Web3.utils.fromWei(weiFullAmount)
+                  ethSold: Web3.utils.fromWei(weiMaxAmount)
                 });
                 this.updateEthSoldValidation(
                   TransactionUtilities.validateWeiAmount(
-                    weiFullAmount,
+                    weiMaxAmount,
                     GlobalConfig.UniswapV2SwapExactETHForTokensGasLimit
                   )
                 );
-                this.updateTokenBought(Web3.utils.fromWei(weiFullAmount));
+                this.updateTokenBought(Web3.utils.fromWei(weiMaxAmount));
               }}
             />
           </Container>
@@ -398,8 +398,6 @@ class Swap extends Component {
           <TxNextButton
             disabled={
               !(this.state.ethSoldValidation && isOnline) || this.state.loading
-                ? true
-                : false
             }
             opacity={this.state.ethSoldValidation && isOnline ? 1 : 0.5}
             onPress={async () => {

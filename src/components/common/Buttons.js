@@ -48,6 +48,34 @@ ButtonText = styled.Text`
 `;
 // }
 
+const MnemonicWordButton = (props) => (
+  <MnemonicWordButtonContainer
+    disabled={props.disabled}
+    opacity={props.opacity}
+    onPress={props.onPress}
+  >
+    <MnemonicWordButtonText>{props.children}</MnemonicWordButtonText>
+  </MnemonicWordButtonContainer>
+);
+
+const MnemonicWordButtonContainer = styled.TouchableOpacity`
+  background-color: #FFF;
+  border-color: #FFF;
+  border-radius: 16px;
+  border-width: 1;
+  margin: 0 auto;
+  min-width: 80px;
+  opacity: ${(props) => props.opacity};
+`;
+
+const MnemonicWordButtonText = styled.Text`
+  color: #5F5F5F;
+  font-family: 'HKGrotesk-Bold';
+  font-size: 16;
+  padding: 8px 12px;
+  text-align: center;
+`;
+
 const TxConfirmationButton = (props) => (
   <TxConfirmationButtonContainer
     disabled={props.disabled}
@@ -132,4 +160,4 @@ const UseMaxButtonText = styled.Text`
   font-size: 14;
 `;
 
-export { Button, TxConfirmationButton, TxNextButton, UseMaxButton };
+export { Button, MnemonicWordButton, TxConfirmationButton, TxNextButton, UseMaxButton };

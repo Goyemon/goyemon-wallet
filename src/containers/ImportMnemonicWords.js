@@ -108,7 +108,7 @@ class ImportMnemonicWords extends Component {
               </PasteContainer>
             </MnemonicWordsContainer>
             <GoyemonText fontSize={16}>
-              typically 12 or 24 words seperated by single spaces
+              *typically 12 or 24 words seperated by single spaces
             </GoyemonText>
             <Button
               text={I18n.t('button-next')}

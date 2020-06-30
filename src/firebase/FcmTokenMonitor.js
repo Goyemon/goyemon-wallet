@@ -1,5 +1,6 @@
 'use strict';
-import firebase from 'react-native-firebase';
+import firebase from '@react-native-firebase/app';
+import '@react-native-firebase/messaging';
 import { saveFcmToken } from '../actions/ActionDebugInfo';
 import { store } from '../store/store';
 import LogUtilities from '../utilities/LogUtilities.js';

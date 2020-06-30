@@ -2,10 +2,9 @@
 import React, { Component } from 'react';
 import * as Animatable from 'react-native-animatable';
 import { connect } from 'react-redux';
-import { Clipboard, TouchableWithoutFeedback, View } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Clipboard } from 'react-native';
 import styled from 'styled-components/native';
-import I18n from '../../i18n/I18n';
+import { CopyIcon } from '../../components/common';
 
 class Copy extends Component {
   constructor(props) {
@@ -29,73 +28,51 @@ class Copy extends Component {
     this.setState({ clipboardContent });
   }
 
-  renderAnimation() {
+  render() {
     const handleViewRef = (ref) => (this.view = ref);
-    if (this.props.animation) {
-      return <CopyAnimation ref={handleViewRef}>❤️</CopyAnimation>;
-    } else {
-      return <CopyAnimation ref={handleViewRef}></CopyAnimation>;
-    }
-  }
-
-  renderCopyText(text) {
-    if (this.state.clipboardContent === text) {
-      return (
-        <CopiedAddressContainer>
-          <TouchableWithoutFeedback
-            onPress={async () => {
-              await this.writeToClipboard(text);
-              this.fadeOutUp();
-            }}
-          >
-            <CopyAddress>
-              <Icon name="content-copy" size={18} color="#00a3e2" />
-              <CopyAddressText>Copied</CopyAddressText>
-              {this.renderAnimation()}
-            </CopyAddress>
-          </TouchableWithoutFeedback>
-        </CopiedAddressContainer>
-      );
-    } else if (this.state.clipboardContent === null) {
-      return (
-        <TouchableWithoutFeedback
+    return (
+      <CopyAddressContainer>
+        {this.props.animation &&
+        this.state.clipboardContent === this.props.text ? (
+          <CopyAnimation ref={handleViewRef}>❤️</CopyAnimation>
+        ) : (
+          <CopyAnimation ref={handleViewRef}></CopyAnimation>
+        )}
+        <CopyAddress
           onPress={async () => {
-            await this.writeToClipboard(text);
+            await this.writeToClipboard(this.props.text);
             this.fadeOutUp();
           }}
         >
-          <CopyAddress>
-            <Icon name="content-copy" size={18} color="#00a3e2" />
-            <CopyAddressText>{I18n.t('copy')}</CopyAddressText>
-          </CopyAddress>
-        </TouchableWithoutFeedback>
-      );
-    }
-  }
-
-  render() {
-    return <View>{this.renderCopyText(this.props.text)}</View>;
+          {this.props.icon ? <CopyIcon /> : null}
+          <CopyAddressText>
+            {this.state.clipboardContent === this.props.text
+              ? 'Copied'
+              : 'Copy'}
+          </CopyAddressText>
+        </CopyAddress>
+      </CopyAddressContainer>
+    );
   }
 }
 
-const CopiedAddressContainer = styled.View`
+const CopyAddressContainer = styled.View`
   align-items: center;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
 `;
 
 const CopyAnimation = Animatable.createAnimatableComponent(styled.Text``);
 
-const CopyAddress = styled.View`
+const CopyAddress = styled.TouchableOpacity`
   align-items: center;
-  flex-direction: row;
-  margin-top: 8px;
+  flex-direction: column;
 `;
 
 const CopyAddressText = styled.Text`
-  color: #00a3e2;
+  color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
-  font-size: 16;
+  font-size: 14;
 `;
 
 function mapStateToProps(state) {

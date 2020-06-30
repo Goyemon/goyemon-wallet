@@ -14,4 +14,14 @@ const HKGroteskText = styled.Text`
   font-size: ${(props) => props.fontSize};
 `;
 
-export { GoyemonText };
+const ConfirmationText = (props) => <Text>{props.children}</Text>;
+
+const Text = styled.Text`
+  color: #000;
+  font-family: 'HKGrotesk-Bold';
+  font-size: 20;
+  margin-top: 4;
+  margin-bottom: 24;
+`;
+
+export { GoyemonText, ConfirmationText };

@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
-import { TouchableOpacity, View } from 'react-native';
+import { View, Clipboard } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
@@ -45,6 +45,7 @@ class SendDai extends Component {
         .div(new RoundDownBigNumberPlacesFour(10).pow(18))
         .toFixed(2),
       toAddress: '',
+      copiedText: '',
       daiAmount: '',
       toAddressValidation: undefined,
       daiAmountValidation: undefined,
@@ -194,6 +195,12 @@ class SendDai extends Component {
     }
   };
 
+  fetchCopiedText = async () => {
+    const copiedText = await Clipboard.getString();
+    this.validateToAddress(copiedText);
+    this.setState({ toAddress: copiedText });
+  };
+
   render() {
     const { balance } = this.props;
     const isOnline = this.props.isOnline;
@@ -243,20 +250,25 @@ class SendDai extends Component {
               }}
               value={this.state.toAddress}
             />
-            <TouchableOpacity
-              onPress={() => {
-                this.props.clearQRCodeData();
-                SendStack.navigationOptions = () => {
-                  const tabBarVisible = false;
-                  return {
-                    tabBarVisible
+            <AddressButtons>
+              <PasteContainer onPress={() => this.fetchCopiedText()}>
+                <PasteText>PASTE</PasteText>
+              </PasteContainer>
+              <QRCodeContainer
+                onPress={() => {
+                  this.props.clearQRCodeData();
+                  SendStack.navigationOptions = () => {
+                    const tabBarVisible = false;
+                    return {
+                      tabBarVisible
+                    };
                   };
-                };
-                this.props.navigation.navigate('QRCodeScan');
-              }}
-            >
-              <Icon name="qrcode-scan" size={20} color="#5f5f5f" />
-            </TouchableOpacity>
+                  this.props.navigation.navigate('QRCodeScan');
+                }}
+              >
+                <Icon name="qrcode-scan" size={20} color="#5f5f5f" />
+              </QRCodeContainer>
+            </AddressButtons>
           </SendTextInputContainer>
         </Form>
         <FormHeaderContainer>
@@ -311,8 +323,6 @@ class SendDai extends Component {
                 this.state.toAddressValidation &&
                 isOnline
               ) || this.state.loading
-                ? true
-                : false
             }
             opacity={
               this.state.daiAmountValidation &&
@@ -343,6 +353,7 @@ class SendDai extends Component {
 const SendTextInputContainer = styled.View`
   align-items: center;
   flex-direction: row;
+  justify-content: space-between;
   height: 100%;
   width: 95%;
 `;
@@ -350,9 +361,28 @@ const SendTextInputContainer = styled.View`
 const SendTextInput = styled.TextInput`
   font-size: 14;
   height: 56px;
-  width: 95%;
   text-align: left;
+  width: 80%;
 `;
+
+const AddressButtons = styled.View`
+  align-items: center;
+  flex-direction: row;
+  width: 20%;
+`;
+
+const PasteContainer = styled.TouchableOpacity`
+  margin-left: 8;
+  margin-right: 8;
+`;
+
+const PasteText = styled.Text`
+  color: #00a3e2;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 14;
+`;
+
+const QRCodeContainer = styled.TouchableOpacity``;
 
 const CoinImage = styled.Image`
   border-radius: 20px;

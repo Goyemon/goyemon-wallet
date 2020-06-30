@@ -8,15 +8,15 @@
 //   "DAITokenContract": "0xb5e5d0f8c0cba267cd3d7035d6adc8eba7df7cdd",
 //   "WETHTokenContract": "0xc778417e063141139fce010982780140aa0cd5ab",
 //   "RouterUniswapV2": "0xf164fC0Ec4E93095b804a4795bBe1e041497b92a",
-//   "DAIPoolTogetherContractV2": "0xc4CCd92240A36C05b9d63d479457b929241c960B",
+//   "DAIPoolTogetherContractV2": "0xCfCe97c17886600841fbd8f26Fd8Fa1eDFfe8E6F",
 //   "ETHTxGasLimit": 21000,
-//   "ERC20TransferGasLimit": 65000,
-//   "ERC20ApproveGasLimit": 50000,
-//   "cTokenMintGasLimit": 350000,
-//   "cTokenRedeemUnderlyingGasLimit": 650000,
-//   "UniswapV2SwapExactETHForTokensGasLimit": 250000,
-//   "PoolTogetherDepositPoolGasLimit": 900000,
-//   "PoolTogetherWithdrawGasLimit": 1200000
+//   "ERC20TransferGasLimit": 67009,
+//   "ERC20ApproveGasLimit": 52560,
+//   "cTokenMintGasLimit": 404679,
+//   "cTokenRedeemUnderlyingGasLimit": 727455,
+//   "UniswapV2SwapExactETHForTokensGasLimit": 688658,
+//   "PoolTogetherDepositPoolGasLimit": 681139,
+//   "PoolTogetherWithdrawGasLimit": 955509
 // }
 
 // Mainnet
@@ -31,11 +31,11 @@
   "RouterUniswapV2": "0xf164fC0Ec4E93095b804a4795bBe1e041497b92a",
   "DAIPoolTogetherContractV2": "0x29fe7D60DdF151E5b52e5FAB4f1325da6b2bD958",
   "ETHTxGasLimit": 21000,
-  "ERC20TransferGasLimit": 65000,
-  "ERC20ApproveGasLimit": 50000,
-  "cTokenMintGasLimit": 350000,
-  "cTokenRedeemUnderlyingGasLimit": 650000,
-  "UniswapV2SwapExactETHForTokensGasLimit": 250000,
-  "PoolTogetherDepositPoolGasLimit": 900000,
-  "PoolTogetherWithdrawGasLimit": 1200000
+  "ERC20TransferGasLimit": 67009,
+  "ERC20ApproveGasLimit": 52560,
+  "cTokenMintGasLimit": 404679,
+  "cTokenRedeemUnderlyingGasLimit": 727455,
+  "UniswapV2SwapExactETHForTokensGasLimit": 688658,
+  "PoolTogetherDepositPoolGasLimit": 681139,
+  "PoolTogetherWithdrawGasLimit": 955509
 }

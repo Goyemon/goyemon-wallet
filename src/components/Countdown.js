@@ -1,14 +1,12 @@
 'use strict';
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { withNavigation } from 'react-navigation';
 import styled from 'styled-components';
 
 class Countdown extends Component {
   constructor(props) {
     super();
     this.state = {
-      remainingDay: 0,
+      remainingDays: 0,
       remainingHours: 0,
       remainingMins: 0,
       remainingSecs: 0
@@ -43,27 +41,29 @@ class Countdown extends Component {
         )
       );
       let targetUTCTime = targetUTCDate.getTime();
+      // PoolTogether reveals a winner every Friday 3 p.m. EST which is every Friday at 7 p.m. in UTC
+
       let timeRemaining = parseInt((targetUTCTime - currentUTCTime) / 1000);
 
-      let remainingDay;
-      let targetDay = 6; // 0 is for Sunday and 6 is for Saturday
+      let remainingDays;
+      let targetDay = 5; // Sunday - Saturday : 0 - 6
 
       if (timeRemaining > 0) {
-        remainingDay = targetDay - dateObject.getDay();
+        remainingDays = targetDay - dateObject.getUTCDay();
       } else {
-        remainingDay = targetDay - dateObject.getDay() - 1;
+        remainingDays = targetDay - dateObject.getUTCDay() - 1;
       }
-      if (remainingDay < 0) {
-        remainingDay += 7;
+      if (remainingDays < 0) {
+        remainingDays += 7;
       }
       if (timeRemaining <= 0) {
         timeRemaining += 86400 * 7;
       }
-      this.tick(timeRemaining, remainingDay);
+      this.tick(timeRemaining, remainingDays);
     }, 1000);
   }
 
-  tick(timeRemaining, remainingDay) {
+  tick(timeRemaining, remainingDays) {
     if (timeRemaining > 0) {
       timeRemaining--;
     } else {
@@ -71,8 +71,7 @@ class Countdown extends Component {
       this.getTimeRemaining();
     }
 
-    let days, remainingHours, remainingMins, remainingSecs;
-    days = parseInt(timeRemaining / 86400);
+    let remainingHours, remainingMins, remainingSecs;
     timeRemaining %= 86400;
     remainingHours = parseInt(timeRemaining / 3600);
     timeRemaining %= 3600;
@@ -80,7 +79,7 @@ class Countdown extends Component {
     timeRemaining %= 60;
     remainingSecs = parseInt(timeRemaining);
     this.setState({
-      remainingDay,
+      remainingDays,
       remainingHours,
       remainingMins,
       remainingSecs
@@ -89,15 +88,16 @@ class Countdown extends Component {
 
   render() {
     const {
-      remainingDay,
+      remainingDays,
       remainingHours,
       remainingMins,
       remainingSecs
     } = this.state;
+
     return (
       <CountdownContainer>
         <CountdownInner>
-          <CountdownText> {`${remainingDay}`}</CountdownText>
+          <CountdownText> {`${remainingDays}`}</CountdownText>
           <CountdownText>{`${
             (remainingHours < 10 ? '0' : '') + remainingHours
           }`}</CountdownText>
@@ -121,6 +121,7 @@ class Countdown extends Component {
 
 const CountdownContainer = styled.View`
   margin-top: 8px;
+  margin-bottom: 8px;
 `;
 
 const CountdownInner = styled.View`
@@ -142,8 +143,4 @@ const CountdownDateText = styled.Text`
   margin: 0 8px;
 `;
 
-const mapStateToProps = (state) => ({
-  balance: state.ReducerBalance.balance
-});
-
-export default withNavigation(connect(mapStateToProps)(Countdown));
+export default Countdown;

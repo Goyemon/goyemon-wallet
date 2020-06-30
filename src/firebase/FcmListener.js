@@ -113,6 +113,7 @@ async function downstreamMessageHandler(type, data) {
       break;
 
     case 'transactionError':
+	  LogUtilities.toDebugScreen(`downstreamMessageHandler(): received transactionError for nonce:${data.nonce}:`, data);
       TxStorage.storage.markNotIncludedTxAsErrorByNonce(parseInt(data.nonce));
 
       break;

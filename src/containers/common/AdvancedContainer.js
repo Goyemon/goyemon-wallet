@@ -65,7 +65,7 @@ class __TxSpeedSelectionContainer extends Component {
         {this.renderSlippageContainer()}
         <NetworkFeeHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
-            {I18n.t('network-fee')}
+            {I18n.t('max-network-fee')}
           </FormHeader>
           <TouchableOpacity
             onPress={() => {

@@ -32,7 +32,7 @@ class Receive extends Component {
           </QrCodeContainer>
           <QrCodeText>{I18n.t('portfolio-receive-address')}</QrCodeText>
           <GoyemonText fontSize="14">{checksumAddress}</GoyemonText>
-          <Copy text={checksumAddress} />
+          <Copy text={checksumAddress} icon={false} />
         </UntouchableCardContainer>
       </RootContainer>
     );
