@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
 import { withNavigation } from 'react-navigation';
-import { RootContainer, HeaderFive, GoyemonText } from '../components/common';
+import { Container, HeaderFive, GoyemonText } from '../components/common';
 import { RoundDownBigNumberPlacesFour } from '../utilities/BigNumberUtilities';
 
 class PortfolioPoolTogetherCommitted extends Component {
@@ -63,7 +63,13 @@ class PortfolioPoolTogetherCommitted extends Component {
       .toFixed(2);
 
     return (
-      <RootContainer>
+      <Container
+        alignItems="center"
+        flexDirection="column"
+        justifyContent="center"
+        marginTop={0}
+        width="100%"
+      >
         <PoolTogetherContainer>
           <RoundInfoContainer>
             <RoundInfo>
@@ -98,7 +104,7 @@ class PortfolioPoolTogetherCommitted extends Component {
             </RoundInfo>
           </RoundInfoContainer>
         </PoolTogetherContainer>
-      </RootContainer>
+      </Container>
     );
   }
 }
