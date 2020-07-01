@@ -362,13 +362,11 @@ const SendTextInput = styled.TextInput`
   font-size: 14;
   height: 56px;
   text-align: left;
-  width: 80%;
 `;
 
 const AddressButtons = styled.View`
   align-items: center;
   flex-direction: row;
-  width: 20%;
 `;
 
 const PasteContainer = styled.TouchableOpacity`
