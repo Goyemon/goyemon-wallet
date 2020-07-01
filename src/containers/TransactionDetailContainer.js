@@ -10,24 +10,98 @@ import {
     HorizontalLine,
   } from '../components/common';
 import TransactionUtilities from '../utilities/TransactionUtilities';
+import LogUtilities from '../utilities/LogUtilities';
 
-export default class TransactionDetailHeader extends Component {
+export default class TransactionDetailContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            txData: props.txData
+            txData: props.txData,
+            timestamp: TransactionUtilities.parseTransactionTime(props.timestamp),
+            status: props.status,
+            service: props.service,
+            method: '',
+            option: '',
+            name: '',
+            size: '',
+            token: '',
+            color: ''
         }
+    }
+
+    componentDidMount() {
+      LogUtilities.toDebugScreen('Transaction Detail Container componentDidMount');
+      const { txData, service } = this.state
+      if (!service) return
+      switch(service) {
+        case 'PoolTogether':
+          if (txData.length === 3)
+            for (const element of txData)
+              if (element.type == 'committed deposit withdraw')
+                this.setPTWithdraw()
+        case 'Uniswap':
+          if (txData.length == 2 && txData[1].type == 'swap')
+                this.setSwap()
+        case 'Compound':
+        case '':
+        default:
+          return ''
+      }
+    }
+
+    setPTWithdraw() {
+      const open = this.pooltogetherAmount('open deposit withdraw')
+      const committed = this.pooltogetherAmount('committed deposit withdraw')
+      const sponsor = this.pooltogetherAmount('sponsorship withdraw')
+      const option = {
+        open,
+        committed,
+        sponsor,
+        sum: parseFloat(open) + parseFloat(committed) + parseFloat(sponsor)
+      }
+      this.setState({
+        method: 'Withdraw',
+        token: 'DAI',
+        option
+      })
+      this.setIconStyle(this.state.txData[0].type, this.state.txData[0].direction)
+    }
+
+    async setSwap() {
+      LogUtilities.toDebugScreen('Set Swap In Detail Container');
+      const option = {
+        eth: this.state.txData[0].amount,
+        dai : this.state.txData[1].tokens_bought
+      }
+      await this.setState({
+        method: 'Swap',
+        token: this.state.txData[0].token === 'cdai' ? 'DAI' : this.state.txData[0].token.toUpperCase(),
+        option: option
+      })
+      LogUtilities.toDebugScreen('Set Swap In Detail Container Done', this.state.txData[1].type, this.state.txData[1].direction)
+      this.setIconStyle(this.state.txData[1].type, this.state.txData[1].direction)
+    }
+
+    setIconStyle(type, direction) {
+      const { name, size, color } = StyleUtilities.inOrOutIcon(type, direction)
+      this.setState({name, size, color})
+    }
+
+    pooltogetherAmount(type) {
+      for(const element of this.state.txData)
+        if(element.type === type)
+          return element.amount
+      return '0.00'
     }
 
     prefixUpperCase = txType =>
       txType.charAt(0).toUpperCase() + txType.slice(1)
 
     render() {
+        const { name, size, color, timestamp, status, method, option } = this.state
         return (
             <>
-            {this.state.txData.length === 0
-            ? <><GoyemonText fontSize={18}>Withdraw</GoyemonText></>
-            : (() => {
+            {(() => {
                 if (this.state.txData.length === 3)
                   for (const element of this.state.txData)
                     if (element.type == 'committed deposit withdraw')
@@ -35,41 +109,19 @@ export default class TransactionDetailHeader extends Component {
                 return false
               })()
             ? <>
-                <TxDetailHeader>
-                  <TxIcon>
-                    {(() => {
-                      const { name, size, color } = StyleUtilities.inOrOutIcon(this.state.txData[0].type, this.state.txData[0].direction)
-                      return <Icon name={name} size={size + 8} color={color}/>
-                    })()}
-                  </TxIcon>
-                  <TypeAndTime>
-                    <GoyemonText fontSize={18}>
-                        Withdraw
-                    </GoyemonText>
-                    <GoyemonText fontSize={16}>
-                      {TransactionUtilities.parseTransactionTime(
-                        this.props.timestamp
-                      )}
-                    </GoyemonText>
-                  </TypeAndTime>
-                  <HeaderStatus>
-                    <TransactionStatus
-                        width="100%"
-                        txState={this.props.status}
-                    />
-                  </HeaderStatus>
-                </TxDetailHeader>
+                <TransactionDetailHeader
+                  name={name}
+                  size={size}
+                  color={color}
+                  timestamp={timestamp}
+                  status={status}
+                  method={method}
+                />
                 <SubtotalWithdrawBox>
-                  {(() => {
-                      const { name, size, color } = StyleUtilities.minusOrPlusIcon(this.state.txData[0].type, this.state.txData[0].direction)
-                      return (
-                      name === ''
-                      ? null
-                      : <Icon name={name} size={size + 10} color={color} />
-                  )})()}
+                  <Icon name={name} size={size + 10} color={color} />
                   <GoyemonText fontSize={24}>
-                  {parseFloat(this.state.txData[0].amount) + parseFloat(this.state.txData[1].amount) + parseFloat(this.state.txData[2].amount)}
-                  {this.state.txData[0].token === 'cdai' || this.state.txData[0].token === 'pooltogether' ? ' DAI' : this.state.txData[0].token.toUpperCase()}
+                  {option.sum}
+                  {token}
                   </GoyemonText>
                   <LabelsBox>
                     <GoyemonText fontSize={14}>Open</GoyemonText>
@@ -77,57 +129,31 @@ export default class TransactionDetailHeader extends Component {
                     <GoyemonText fontSize={14}>Sponsor</GoyemonText>
                   </LabelsBox>
                   <ValueBox>
-                    <GoyemonText fontSize={14}>{this.pooltogetherAmount('open deposit withdraw')}DAI</GoyemonText>
-                    <GoyemonText fontSize={14}>{this.pooltogetherAmount('committed deposit withdraw')}DAI</GoyemonText>
-                    <GoyemonText fontSize={14}>{this.pooltogetherAmount('sponsorship withdraw')}DAI</GoyemonText>
+                    <GoyemonText fontSize={14}>{option.open}DAI</GoyemonText>
+                    <GoyemonText fontSize={14}>{option.committed}DAI</GoyemonText>
+                    <GoyemonText fontSize={14}>{option.sponsor}DAI</GoyemonText>
                   </ValueBox>
                 </SubtotalWithdrawBox>
                 <HorizontalLine />
               </>
             : this.state.txData.length == 2 && this.state.txData[1].type == 'swap'
             ? <>
-                <TxDetailHeader>
-                  <TxIcon>
-                    {(() => {
-                      const { name, size, color } = StyleUtilities.inOrOutIcon(this.state.txData[1].type, this.state.txData[1].direction)
-                      return <Icon name={name} size={size + 8} color={color}/>
-                    })()}
-                  </TxIcon>
-                  <TypeAndTime>
-                    <GoyemonText fontSize={18}>
-                        {this.prefixUpperCase(this.state.txData[1].type)}
-                    </GoyemonText>
-                    <GoyemonText fontSize={16}>
-                      {TransactionUtilities.parseTransactionTime(
-                        this.props.timestamp
-                      )}
-                    </GoyemonText>
-                  </TypeAndTime>
-                  <HeaderStatus>
-                    <TransactionStatus
-                        width="100%"
-                        txState={this.props.status}
-                    />
-                  </HeaderStatus>
-                </TxDetailHeader>
+                <TransactionDetailHeader
+                  name={name}
+                  size={size}
+                  color={color}
+                  timestamp={timestamp}
+                  status={status}
+                  method={method}
+                />
                 <SubtotalSwapBox>
                     <HeaderFive>Sold</HeaderFive>
                     <SoldBox>
-                      {(() => {
-                          const { name, size, color } = StyleUtilities.minusOrPlusIcon(this.state.txData[0].type, this.state.txData[0].direction)
-                          return (
-                          name === ''
-                          ? null
-                          : <Icon name={name} size={size + 10} color={color} />
-                      )})()}
-                      <GoyemonText fontSize={24}>
-                      {this.state.txData[0].amount}
-                      {this.state.txData[0].token === 'cdai' ? 'Dai' : this.state.txData[0].token.toUpperCase()}
-                      </GoyemonText>
+                      <Icon name="minus" size={26} color="#F1860E" /><GoyemonText fontSize={24}>{option.eth}ETA</GoyemonText>
                     </SoldBox>
                     <HeaderFive>Bought</HeaderFive>
                     <BoughtBox>
-                      <Icon name="plus" size={26} color="#1BA548" /><GoyemonText fontSize={24}>{this.state.txData[1].tokens_bought}DAI</GoyemonText>
+                      <Icon name="plus" size={26} color="#1BA548" /><GoyemonText fontSize={24}>{option.dai}DAI</GoyemonText>
                     </BoughtBox>
                 </SubtotalSwapBox>
                 <HorizontalLine borderColor="rgba(95, 95, 95, .2)"/>
@@ -238,29 +264,6 @@ export default class TransactionDetailHeader extends Component {
     }
 }
 
-const TxDetailHeader = styled.View`
-align-items: center;
-background-color: #f8f8f8;
-flex-direction: row;
-justify-content: center;
-font-family: 'HKGrotesk-Regular';
-padding-top: 24px;
-padding-bottom: 24px;
-width: 100%;
-`;
-
-const TxIcon = styled.View`
-align-items: center;
-width: 20%;
-`;
-
-const TypeAndTime = styled.View`
-align-items: flex-start;
-font-family: 'HKGrotesk-Regular';
-flex-direction: column;
-width: 40%;
-`;
-
 const HeaderStatus = styled.View`
 align-items: center;
 font-family: 'HKGrotesk-Regular';
@@ -316,4 +319,64 @@ margin-top: 32;
 margin-bottom: 32;
 align-items: center;
 width: 90%;
+`;
+
+class TransactionDetailHeader extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    }
+  }
+
+  componentDidMount() {
+    LogUtilities.toDebugScreen('TransactionDetailHeader componentDidMount', this.props);
+  }
+
+  render() {
+    const { name, size, color, timestamp, status, method } = this.props
+    return (
+      <TxDetailHeader>
+        <TxIcon>
+          <Icon name={name} size={size + 8} color={color}/>
+        </TxIcon>
+        <TypeAndTime>
+          <GoyemonText fontSize={18}>
+            {method}
+          </GoyemonText>
+          <GoyemonText fontSize={15}>
+            {timestamp}
+          </GoyemonText>
+        </TypeAndTime>
+        <HeaderStatus>
+          <TransactionStatus
+            width="100%"
+            txState={status}
+          />
+        </HeaderStatus>
+      </TxDetailHeader>
+    )
+  }
+}
+
+const TxDetailHeader = styled.View`
+align-items: center;
+background-color: #f8f8f8;
+flex-direction: row;
+justify-content: center;
+font-family: 'HKGrotesk-Regular';
+padding-top: 24px;
+padding-bottom: 24px;
+width: 100%;
+`;
+
+const TxIcon = styled.View`
+align-items: center;
+width: 20%;
+`;
+
+const TypeAndTime = styled.View`
+align-items: flex-start;
+font-family: 'HKGrotesk-Regular';
+flex-direction: column;
+width: 40%;
 `;

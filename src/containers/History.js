@@ -5,7 +5,7 @@ import * as Animatable from 'react-native-animatable';
 import Modal from 'react-native-modal';
 import styled from 'styled-components';
 import EtherUtilities from '../utilities/EtherUtilities'
-import TransactionDetailHeader from './TransactionDetailHeader'
+import TransactionDetailContainer from './TransactionDetailContainer'
 import Web3 from 'web3';
 import { saveTxDetailModalVisibility } from '../actions/ActionModal';
 import {
@@ -166,7 +166,10 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
             marginTop={0}
             width="100%"
           >
-            <TransactionDetailHeader txData={this.state.txData} timestamp={this.state.tx.getTimestamp()} status={this.state.tx.getState()} />
+            <TransactionDetailContainer txData={this.state.txData}
+                                        timestamp={this.state.tx.getTimestamp()}
+                                        status={this.state.tx.getState()}
+                                        service={this.props.tx.getTo() === null ? null : this.props.tx.getApplication(this.props.tx.getTo())}/>
             <TxNetworkAndHash>
               {(() => {
                 const app = this.props.tx.getTo() === null ? null : this.props.tx.getApplication(this.props.tx.getTo())
