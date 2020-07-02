@@ -4,8 +4,8 @@ import { TouchableOpacity, Linking, ScrollView, View, Dimensions } from 'react-n
 import * as Animatable from 'react-native-animatable';
 import Modal from 'react-native-modal';
 import styled from 'styled-components';
-import StyleUtilities from '../utilities/StyleUtilities.js';
 import EtherUtilities from '../utilities/EtherUtilities'
+import TransactionDetailContainer from './TransactionDetailContainer'
 import Web3 from 'web3';
 import { saveTxDetailModalVisibility } from '../actions/ActionModal';
 import {
@@ -153,9 +153,6 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
       return '0.00'
     }
 
-    prefixUpperCase = txType =>
-      txType.charAt(0).toUpperCase() + txType.slice(1)
-
     render() {
       if (!this.state.txData)
         return <GoyemonText fontSize={12}>nothink!</GoyemonText>;
@@ -169,219 +166,12 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
             marginTop={0}
             width="100%"
           >
-            {this.state.txData.length === 0
-            ? <><GoyemonText fontSize={18}>Withdraw</GoyemonText></>
-            : (() => {
-                if (this.state.txData.length === 3)
-                  for (const element of this.state.txData)
-                    if (element.type == 'committed deposit withdraw')
-                      return true
-                return false
-              })()
-            ? <>
-                <TxDetailHeader>
-                  <TxIcon>
-                    {(() => {
-                      const { name, size, color } = StyleUtilities.inOrOutIcon(this.state.txData[0].type, this.state.txData[0].direction)
-                      return <Icon name={name} size={size + 8} color={color}/>
-                    })()}
-                  </TxIcon>
-                  <TypeAndTime>
-                    <GoyemonText fontSize={18}>
-                        Withdraw
-                    </GoyemonText>
-                    <GoyemonText fontSize={16}>
-                      {TransactionUtilities.parseTransactionTime(
-                        this.state.tx.getTimestamp()
-                      )}
-                    </GoyemonText>
-                  </TypeAndTime>
-                  <HeaderStatus>
-                    <TransactionStatus
-                        width="100%"
-                        txState={this.state.tx.getState()}
-                    />
-                  </HeaderStatus>
-                </TxDetailHeader>
-                <SubtotalWithdrawBox>
-                  {(() => {
-                      const { name, size, color } = StyleUtilities.minusOrPlusIcon(this.state.txData[0].type, this.state.txData[0].direction)
-                      return (
-                      name === ''
-                      ? null
-                      : <Icon name={name} size={size + 10} color={color} />
-                  )})()}
-                  <GoyemonText fontSize={24}>
-                  {parseFloat(this.state.txData[0].amount) + parseFloat(this.state.txData[1].amount) + parseFloat(this.state.txData[2].amount)}
-                  {this.state.txData[0].token === 'cdai' || this.state.txData[0].token === 'pooltogether' ? ' DAI' : this.state.txData[0].token.toUpperCase()}
-                  </GoyemonText>
-                  <LabelsBox>
-                    <GoyemonText fontSize={14}>Open</GoyemonText>
-                    <GoyemonText fontSize={14}>Committed</GoyemonText>
-                    <GoyemonText fontSize={14}>Sponsor</GoyemonText>
-                  </LabelsBox>
-                  <ValueBox>
-                    <GoyemonText fontSize={14}>{this.pooltogetherAmount('open deposit withdraw')}DAI</GoyemonText>
-                    <GoyemonText fontSize={14}>{this.pooltogetherAmount('committed deposit withdraw')}DAI</GoyemonText>
-                    <GoyemonText fontSize={14}>{this.pooltogetherAmount('sponsorship withdraw')}DAI</GoyemonText>
-                  </ValueBox>
-                </SubtotalWithdrawBox>
-                <HorizontalLine />
-              </>
-            : this.state.txData.length == 2 && this.state.txData[1].type == 'swap'
-            ? <>
-                <TxDetailHeader>
-                  <TxIcon>
-                    {(() => {
-                      const { name, size, color } = StyleUtilities.inOrOutIcon(this.state.txData[1].type, this.state.txData[1].direction)
-                      return <Icon name={name} size={size + 8} color={color}/>
-                    })()}
-                  </TxIcon>
-                  <TypeAndTime>
-                    <GoyemonText fontSize={18}>
-                        {this.prefixUpperCase(this.state.txData[1].type)}
-                    </GoyemonText>
-                    <GoyemonText fontSize={16}>
-                      {TransactionUtilities.parseTransactionTime(
-                        this.state.tx.getTimestamp()
-                      )}
-                    </GoyemonText>
-                  </TypeAndTime>
-                  <HeaderStatus>
-                    <TransactionStatus
-                        width="100%"
-                        txState={this.state.tx.getState()}
-                    />
-                  </HeaderStatus>
-                </TxDetailHeader>
-                <SubtotalSwapBox>
-                    <HeaderFive>Sold</HeaderFive>
-                    <SoldBox>
-                      {(() => {
-                          const { name, size, color } = StyleUtilities.minusOrPlusIcon(this.state.txData[0].type, this.state.txData[0].direction)
-                          return (
-                          name === ''
-                          ? null
-                          : <Icon name={name} size={size + 10} color={color} />
-                      )})()}
-                      <GoyemonText fontSize={24}>
-                      {this.state.txData[0].amount}
-                      {this.state.txData[0].token === 'cdai' ? 'Dai' : this.state.txData[0].token.toUpperCase()}
-                      </GoyemonText>
-                    </SoldBox>
-                    <HeaderFive>Bought</HeaderFive>
-                    <BoughtBox>
-                      <Icon name="plus" size={26} color="#1BA548" /><GoyemonText fontSize={24}>{this.state.txData[1].tokens_bought}DAI</GoyemonText>
-                    </BoughtBox>
-                </SubtotalSwapBox>
-                <HorizontalLine borderColor="rgba(95, 95, 95, .2)"/>
-              </>
-            : (() => {
-                if (this.state.txData && this.state.txData.length > 1) {
-                    if(this.state.txData[1].direction === 'creation')
-                      return true
-                    else
-                      return false
-                }
-                else
-                  return false
-              })()
-            ? <>
-                <TxDetailHeader>
-                    <TxIcon>
-                      {(() => {
-                        const { name, size, color } = StyleUtilities.inOrOutIcon(this.state.txData[0].type, this.state.txData[0].direction)
-                        return <Icon name={name} size={size + 8} color={color}/>
-                      })()}
-                    </TxIcon>
-                    <TypeAndTime>
-                      <GoyemonText fontSize={18}>
-                        Contract Creation
-                      </GoyemonText>
-                      <GoyemonText fontSize={15}>
-                        {TransactionUtilities.parseTransactionTime(
-                          this.state.tx.getTimestamp()
-                        )}
-                      </GoyemonText>
-                    </TypeAndTime>
-                    <HeaderStatus>
-                      <TransactionStatus
-                        width="100%"
-                        txState={this.state.tx.getState()}
-                      />
-                    </HeaderStatus>
-                  </TxDetailHeader>
-                  {this.state.txData[0].amount && <SubtotalBox>
-                    {(() => {
-                        const { name, size, color } = StyleUtilities.minusOrPlusIcon(this.state.txData[0].type, this.state.txData[0].direction)
-                        return (
-                        name === ''
-                        ? null
-                        : <Icon name={name} size={size + 10} color={color} />
-                    )})()}
-                    <GoyemonText fontSize={24}>
-                      {this.state.txData[0].amount}
-                      {this.state.txData[0].token === 'cdai' ? ' DAI' : this.state.txData[0].token.toUpperCase()}
-                    </GoyemonText>
-                  </SubtotalBox>}
-                  {this.state.txData[0].type === 'swap' && <SubtotalBox>
-                    <Icon name="plus" size={26} color="#1BA548" />
-                    <GoyemonText fontSize={24}>{this.state.txData[0].tokens_bought} DAI</GoyemonText>
-                  </SubtotalBox>}
-                  <HorizontalLine />
-                </>
-            : this.state.txData.map((x) => {
-              return (
-                <>
-                  <TxDetailHeader>
-                    <TxIcon>
-                      {(() => {
-                        const { name, size, color } = StyleUtilities.inOrOutIcon(x.type, x.direction)
-                        return <Icon name={name} size={size + 8} color={color}/>
-                      })()}
-                    </TxIcon>
-                    <TypeAndTime>
-                      <GoyemonText fontSize={18}>
-                        {this.prefixUpperCase(
-                          x.type === 'transfer'
-                          ? x.direction
-                          : x.type
-                        )}
-                      </GoyemonText>
-                      <GoyemonText fontSize={15}>
-                        {TransactionUtilities.parseTransactionTime(
-                          this.state.tx.getTimestamp()
-                        )}
-                      </GoyemonText>
-                    </TypeAndTime>
-                    <HeaderStatus>
-                      <TransactionStatus
-                        width="100%"
-                        txState={this.state.tx.getState()}
-                      />
-                    </HeaderStatus>
-                  </TxDetailHeader>
-                  {x.amount && <SubtotalBox>
-                    {(() => {
-                        const { name, size, color } = StyleUtilities.minusOrPlusIcon(x.type, x.direction)
-                        return (
-                        name === ''
-                        ? null
-                        : <Icon name={name} size={size + 10} color={color} />
-                    )})()}
-                    <GoyemonText fontSize={24}>
-                      {x.amount}
-                      {x.token === 'cdai' ? ' DAI' : x.token.toUpperCase()}
-                    </GoyemonText>
-                  </SubtotalBox>}
-                  {x.type === 'swap' && <SubtotalBox>
-                    <Icon name="plus" size={26} color="#1BA548" />
-                    <GoyemonText fontSize={24}>{x.tokens_bought} DAI</GoyemonText>
-                  </SubtotalBox>}
-                  <HorizontalLine borderColor="rgba(95, 95, 95, .2)"/>
-                </>
-              );
-            })}
+            <TransactionDetailContainer
+              txData={this.state.txData}
+              timestamp={this.state.tx.getTimestamp()}
+              status={this.state.tx.getState()}
+              service={this.props.tx.getApplication(this.props.tx.getTo())}
+            />
             <TxNetworkAndHash>
               {(() => {
                 const app = this.props.tx.getTo() === null ? null : this.props.tx.getApplication(this.props.tx.getTo())
@@ -453,86 +243,6 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
     }
   }
 );
-
-const TxDetailHeader = styled.View`
-align-items: center;
-background-color: #f8f8f8;
-flex-direction: row;
-justify-content: center;
-font-family: 'HKGrotesk-Regular';
-padding-top: 24px;
-padding-bottom: 24px;
-width: 100%;
-`;
-
-const TxIcon = styled.View`
-align-items: center;
-width: 20%;
-`;
-
-const TypeAndTime = styled.View`
-align-items: flex-start;
-font-family: 'HKGrotesk-Regular';
-flex-direction: column;
-width: 40%;
-`;
-
-const HeaderStatus = styled.View`
-align-items: center;
-font-family: 'HKGrotesk-Regular';
-width: 40%;
-`;
-
-const LabelsBox = styled.View`
-flex-direction: column;
-margin-left: 22%;
-`;
-
-const ValueBox = styled.View`
-flex-direction: column;
-margin-left: 5%;
-`
-
-const SubtotalWithdrawBox = styled.View`
-flex-direction: row;
-margin-left: 4%;
-margin-top: 32;
-margin-bottom: 32;
-align-items: flex-start;
-width: 90%;
-`;
-
-const SubtotalSwapBox = styled.View`
-flex-direction: column;
-margin-left: 4%;
-margin-top: 32;
-margin-bottom: 32;
-align-items: flex-start;
-width: 90%;
-`;
-
-const SoldBox = styled.View`
-  flex-direction: row;
-  align-items: center;
-  margin-top: 4;
-  margin-bottom: 16;
-`;
-
-const BoughtBox = styled.View`
-  flex-direction: row;
-  align-items: center;
-  margin-top: 4;
-`;
-
-const SubtotalBox = styled.View`
-font-family: 'HKGrotesk-Regular';
-flex-direction: row;
-margin-left: 4%;
-margin-top: 32;
-margin-bottom: 32;
-align-items: center;
-width: 90%;
-`;
 
 const TxNetworkAndHash = styled.View`
 align-items: flex-start;
