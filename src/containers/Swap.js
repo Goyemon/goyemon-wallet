@@ -357,7 +357,7 @@ class Swap extends Component {
           marginTop={0}
           width="100%"
         >
-          <Icon name="swap-vertical" size={40} color="#5F5F5F" />
+          <Icon name="arrow-down-bold" size={40} color="#5F5F5F" />
         </Container>
         <UntouchableCardContainer
           alignItems="center"
