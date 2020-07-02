@@ -111,7 +111,7 @@ class StyleUtilities {
       case 'approval':
       case 'failure':
       default:
-        return { name:"", size:"", color:"" }
+        return { name:"", size:0, color:"" }
     }
   }
 }

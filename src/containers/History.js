@@ -166,10 +166,12 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
             marginTop={0}
             width="100%"
           >
-            <TransactionDetailContainer txData={this.state.txData}
-                                        timestamp={this.state.tx.getTimestamp()}
-                                        status={this.state.tx.getState()}
-                                        service={this.props.tx.getApplication(this.props.tx.getTo())}/>
+            <TransactionDetailContainer
+              txData={this.state.txData}
+              timestamp={this.state.tx.getTimestamp()}
+              status={this.state.tx.getState()}
+              service={this.props.tx.getApplication(this.props.tx.getTo())}
+            />
             <TxNetworkAndHash>
               {(() => {
                 const app = this.props.tx.getTo() === null ? null : this.props.tx.getApplication(this.props.tx.getTo())

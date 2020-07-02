@@ -21,7 +21,7 @@ export default class TransactionDetailContainer extends Component {
             status: props.status,
             service: props.service || '',
             token: props.txData[0].token === 'cdai' ? 'DAI' : props.txData[0].token.toUpperCase(),
-            method: this.getMethodName(props.txData, props.service),
+            method: this.getMethodName(props.txData, props.service, props.type),
             option: this.getOption(props.txData, props.service),
             icon: this.getIcon(props.txData, props.service),
             latex: StyleUtilities.minusOrPlusIcon(props.txData[0].type, props.txData[0].direction)
@@ -30,18 +30,26 @@ export default class TransactionDetailContainer extends Component {
 
     componentDidMount() {
       LogUtilities.toDebugScreen('TDC componentDidMount', this.state)
+      LogUtilities.toDebugScreen('TDC componentDidMount', this.state.txData)
     }
 
     getMethodName(txData, service) {
+      LogUtilities.toDebugScreen('service -> ', service, txData[0].type)
       switch(service) {
         case 'PoolTogether':
           if (txData.length === 3)
             for (const element of txData)
               if (element.type == 'committed deposit withdraw')
                 return 'Withdraw'
+          if (txData[0].type === 'deposit')
+            return 'Deposit'
+          return this.prefixUpperCase(
+          txData[0].type === 'transfer'
+          ? txData[0].direction
+          : txData[0].type
+          )
         case 'Uniswap':
-          if (txData.length == 2 && txData[1].type == 'swap')
-                return 'Swap'
+            return 'Swap'
         case 'Contract Creation':
           return 'Contract Creation'
         case 'Compound':
@@ -150,20 +158,8 @@ export default class TransactionDetailContainer extends Component {
                 </SubtotalWithdrawBox>
               </>
             : method === 'Swap'
-            ? <>
-                <SubtotalSwapBox>
-                    <HeaderFive>Sold</HeaderFive>
-                    <SoldBox>
-                      <Icon name="minus" size={26} color="#F1860E" /><GoyemonText fontSize={24}>{option.eth}ETH</GoyemonText>
-                    </SoldBox>
-                    <HeaderFive>Bought</HeaderFive>
-                    <BoughtBox>
-                      <Icon name="plus" size={26} color="#1BA548" /><GoyemonText fontSize={24}>{option.dai}DAI</GoyemonText>
-                    </BoughtBox>
-                </SubtotalSwapBox>
-              </>
-            : method === 'Contract Creation'
-            ? <>
+            ? <SwapBox option={option}/>
+            : <>
                   {this.state.txData[0].amount && <SubtotalBox>
                     <Icon name={name} size={size + 10} color={color} />
                     <GoyemonText fontSize={24}>
@@ -171,22 +167,9 @@ export default class TransactionDetailContainer extends Component {
                       {token}
                     </GoyemonText>
                   </SubtotalBox>}
-                </>
-            :   <>
-                  {this.state.txData[0].amount && <SubtotalBox>
-                    <Icon name={name} size={size + 10} color={color} />
-                    <GoyemonText fontSize={24}>
-                      {this.state.txData[0].amount}
-                      {this.state.txData[0].token === 'cdai' ? ' DAI' : this.state.txData[0].token.toUpperCase()}
-                    </GoyemonText>
-                  </SubtotalBox>}
-                  {this.state.txData[0].type === 'swap' && <SubtotalBox>
-                    <Icon name="plus" size={26} color="#1BA548" />
-                    <GoyemonText fontSize={24}>{this.state.txData[0].tokens_bought} DAI</GoyemonText>
-                  </SubtotalBox>}
-                </>}
-                <HorizontalLine borderColor="rgba(95, 95, 95, .2)"/>
-                </>)
+              </>}
+            <HorizontalLine borderColor="rgba(95, 95, 95, .2)"/>
+          </>)
     }
 }
 
@@ -311,3 +294,15 @@ font-family: 'HKGrotesk-Regular';
 flex-direction: column;
 width: 40%;
 `;
+
+const SwapBox = props =>
+  <SubtotalSwapBox>
+    <HeaderFive>Sold</HeaderFive>
+    <SoldBox>
+      <Icon name="minus" size={26} color="#F1860E" /><GoyemonText fontSize={24}>{props.option.eth}ETH</GoyemonText>
+    </SoldBox>
+    <HeaderFive>Bought</HeaderFive>
+    <BoughtBox>
+      <Icon name="plus" size={26} color="#1BA548" /><GoyemonText fontSize={24}>{props.option.dai}DAI</GoyemonText>
+    </BoughtBox>
+  </SubtotalSwapBox>
