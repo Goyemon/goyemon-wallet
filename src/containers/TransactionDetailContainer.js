@@ -89,7 +89,7 @@ export default class TransactionDetailContainer extends Component {
         case 'Compound':
         case '':
         default:
-          return ''
+          return this.setIconStyle(txData[0].type, txData[0].direction)
       }
     }
 
@@ -119,24 +119,18 @@ export default class TransactionDetailContainer extends Component {
     prefixUpperCase = txType => txType.charAt(0).toUpperCase() + txType.slice(1)
 
     render() {
-        const { timestamp, status, method, option, icon, token } = this.state
+        const { timestamp, service, status, method, option, icon, token } = this.state
         const { name, size, color } = this.state.latex
         return (
             <>
-            {(() => {
-                if (this.state.txData.length === 3)
-                  for (const element of this.state.txData)
-                    if (element.type == 'committed deposit withdraw')
-                      return true
-                return false
-              })()
+            <TransactionDetailHeader
+              icon={icon}
+              timestamp={timestamp}
+              status={status}
+              method={method}
+            />
+            {service === 'PoolTogether' && method === 'Withdraw'
             ? <>
-                <TransactionDetailHeader
-                  button={icon}
-                  timestamp={timestamp}
-                  status={status}
-                  method={method}
-                />
                 <SubtotalWithdrawBox>
                   <Icon name={name} size={size + 10} color={color} />
                   <GoyemonText fontSize={24}>
@@ -155,14 +149,8 @@ export default class TransactionDetailContainer extends Component {
                   </ValueBox>
                 </SubtotalWithdrawBox>
               </>
-            : this.state.txData.length == 2 && this.state.txData[1].type == 'swap'
+            : method === 'Swap'
             ? <>
-                <TransactionDetailHeader
-                  icon={icon}
-                  timestamp={timestamp}
-                  status={status}
-                  method={method}
-                />
                 <SubtotalSwapBox>
                     <HeaderFive>Sold</HeaderFive>
                     <SoldBox>
@@ -174,23 +162,8 @@ export default class TransactionDetailContainer extends Component {
                     </BoughtBox>
                 </SubtotalSwapBox>
               </>
-            : (() => {
-                if (this.state.txData && this.state.txData.length > 1) {
-                    if(this.state.txData[1].direction === 'creation')
-                      return true
-                    else
-                      return false
-                }
-                else
-                  return false
-              })()
+            : method === 'Contract Creation'
             ? <>
-                <TransactionDetailHeader
-                  icon={icon}
-                  timestamp={timestamp}
-                  status={status}
-                  method={method}
-                />
                   {this.state.txData[0].amount && <SubtotalBox>
                     <Icon name={name} size={size + 10} color={color} />
                     <GoyemonText fontSize={24}>
@@ -200,34 +173,6 @@ export default class TransactionDetailContainer extends Component {
                   </SubtotalBox>}
                 </>
             :   <>
-                  <TxDetailHeader>
-                    <TxIcon>
-                      {(() => {
-                        const { name, size, color } = StyleUtilities.inOrOutIcon(this.state.txData[0].type, this.state.txData[0].direction)
-                        return <Icon name={name} size={size + 8} color={color}/>
-                      })()}
-                    </TxIcon>
-                    <TypeAndTime>
-                      <GoyemonText fontSize={18}>
-                        {this.prefixUpperCase(
-                          this.state.txData[0].type === 'transfer'
-                          ? this.state.txData[0].direction
-                          : this.state.txData[0].type
-                        )}
-                      </GoyemonText>
-                      <GoyemonText fontSize={15}>
-                        {TransactionUtilities.parseTransactionTime(
-                          this.props.timestamp
-                        )}
-                      </GoyemonText>
-                    </TypeAndTime>
-                    <HeaderStatus>
-                      <TransactionStatus
-                        width="100%"
-                        txState={this.props.status}
-                      />
-                    </HeaderStatus>
-                  </TxDetailHeader>
                   {this.state.txData[0].amount && <SubtotalBox>
                     <Icon name={name} size={size + 10} color={color} />
                     <GoyemonText fontSize={24}>
@@ -306,9 +251,7 @@ class TransactionDetailHeader extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: props.name,
-      size: props.size,
-      color: props.color,
+      icon: props.icon,
       timestamp: props.timestamp,
       status: props.status,
       method: props.method
