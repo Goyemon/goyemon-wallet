@@ -20,28 +20,51 @@ export default class TransactionDetailContainer extends Component {
             timestamp: TransactionUtilities.parseTransactionTime(props.timestamp),
             status: props.status,
             service: props.service,
-            method: '',
-            option: '',
-            name: '',
-            size: '',
-            token: '',
-            color: ''
+            token: props.txData[0].token === 'cdai' ? 'DAI' : props.txData[0].token.toUpperCase(),
+            method: this.getMethodName(props.txData, props.service),
+            option: this.getOption(props.txData, props.service),
+            button: this.getButton(props.txData, props.service)
         }
     }
 
     componentDidMount() {
-      LogUtilities.toDebugScreen('Transaction Detail Container componentDidMount');
-      const { txData, service } = this.state
+      LogUtilities.toDebugScreen('TDC componentDidMount', this.state)
+    }
+
+    getMethodName(txData, service) {
       if (!service) return
       switch(service) {
         case 'PoolTogether':
           if (txData.length === 3)
             for (const element of txData)
               if (element.type == 'committed deposit withdraw')
-                this.setPTWithdraw()
+                return 'Withdraw'
         case 'Uniswap':
           if (txData.length == 2 && txData[1].type == 'swap')
-                this.setSwap()
+                return 'Swap'
+        case 'Compound':
+        case '':
+        default:
+          return this.prefixUpperCase(
+            txData[0].type === 'transfer'
+            ? txData[0].direction
+            : txData[0].type
+          )
+      }
+    }
+
+    getOption(txData, service) {
+      LogUtilities.toDebugScreen('Transaction Detail Container getOption');
+      if (!service) return
+      switch(service) {
+        case 'PoolTogether':
+          if (txData.length === 3)
+            for (const element of txData)
+              if (element.type == 'committed deposit withdraw')
+                return this.getPTOption(txData)
+        case 'Uniswap':
+          if (txData.length == 2 && txData[1].type == 'swap')
+                return this.getSwapOption(txData)
         case 'Compound':
         case '':
         default:
@@ -49,46 +72,50 @@ export default class TransactionDetailContainer extends Component {
       }
     }
 
-    setPTWithdraw() {
-      const open = this.pooltogetherAmount('open deposit withdraw')
-      const committed = this.pooltogetherAmount('committed deposit withdraw')
-      const sponsor = this.pooltogetherAmount('sponsorship withdraw')
-      const option = {
+    getButton(txData, service) {
+      if (!service) return
+      switch(service) {
+        case 'PoolTogether':
+          if (txData.length === 3)
+            for (const element of txData)
+              if (element.type == 'committed deposit withdraw')
+                return this.setIconStyle(txData[0].type, txData[0].direction)
+        case 'Uniswap':
+          if (txData.length == 2 && txData[1].type == 'swap')
+                return this.setIconStyle(txData[1].type, txData[1].direction)
+        case 'Compound':
+        case '':
+        default:
+          return ''
+      }
+    }
+
+    getPTOption(txData) {
+      const open = this.pooltogetherAmount(txData, 'open deposit withdraw')
+      const committed = this.pooltogetherAmount(txData, 'committed deposit withdraw')
+      const sponsor = this.pooltogetherAmount(txData, 'sponsorship withdraw')
+      return {
         open,
         committed,
         sponsor,
         sum: parseFloat(open) + parseFloat(committed) + parseFloat(sponsor)
       }
-      this.setState({
-        method: 'Withdraw',
-        token: 'DAI',
-        option
-      })
-      this.setIconStyle(this.state.txData[0].type, this.state.txData[0].direction)
     }
 
-    async setSwap() {
-      LogUtilities.toDebugScreen('Set Swap In Detail Container');
-      const option = {
-        eth: this.state.txData[0].amount,
-        dai : this.state.txData[1].tokens_bought
+    getSwapOption(txData) {
+      return {
+        eth: txData[0].amount,
+        dai : txData[1].tokens_bought
       }
-      await this.setState({
-        method: 'Swap',
-        token: this.state.txData[0].token === 'cdai' ? 'DAI' : this.state.txData[0].token.toUpperCase(),
-        option: option
-      })
-      LogUtilities.toDebugScreen('Set Swap In Detail Container Done', this.state.txData[1].type, this.state.txData[1].direction)
-      this.setIconStyle(this.state.txData[1].type, this.state.txData[1].direction)
     }
 
     setIconStyle(type, direction) {
       const { name, size, color } = StyleUtilities.inOrOutIcon(type, direction)
-      this.setState({name, size, color})
+      return { name, size, color }
     }
 
-    pooltogetherAmount(type) {
-      for(const element of this.state.txData)
+    pooltogetherAmount(txData, type) {
+      for(const element of txData)
         if(element.type === type)
           return element.amount
       return '0.00'
@@ -98,7 +125,8 @@ export default class TransactionDetailContainer extends Component {
       txType.charAt(0).toUpperCase() + txType.slice(1)
 
     render() {
-        const { name, size, color, timestamp, status, method, option } = this.state
+        const { timestamp, status, method, option } = this.state
+        const { name, size, color } = this.state.button
         return (
             <>
             {(() => {
@@ -325,6 +353,12 @@ class TransactionDetailHeader extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      name: props.name,
+      size: props.size,
+      color: props.color,
+      timestamp: props.timestamp,
+      status: props.status,
+      method: props.method
     }
   }
 
@@ -333,11 +367,11 @@ class TransactionDetailHeader extends Component {
   }
 
   render() {
-    const { name, size, color, timestamp, status, method } = this.props
+    const { name, size, color, timestamp, status, method } = this.state
     return (
       <TxDetailHeader>
         <TxIcon>
-          <Icon name={name} size={size + 8} color={color}/>
+          <Icon name={"swap-horizontal"} size={20 + 8} color={"#5F5F5F"}/>
         </TxIcon>
         <TypeAndTime>
           <GoyemonText fontSize={18}>
