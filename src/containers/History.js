@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { TouchableOpacity, Linking, ScrollView, View, Dimensions } from 'react-native';
+import { TouchableOpacity, ScrollView, View, Dimensions } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Modal from 'react-native-modal';
 import styled from 'styled-components';
@@ -13,12 +13,10 @@ import {
   Container,
   HeaderOne,
   HeaderTwo,
-  HeaderFive,
   Button,
   GoyemonText,
   InsufficientWeiBalanceMessage,
   IsOnlineMessage,
-  TransactionStatus,
   ModalHandler,
   HorizontalLine,
   Loader
@@ -28,14 +26,12 @@ import { connect } from 'react-redux';
 // TODO: git rm those two:
 //import Transactions from '../containers/Transactions';
 //import TransactionsDai from '../containers/TransactionsDai';
-import Copy from './common/Copy';
 import OfflineNotice from './common/OfflineNotice';
 import TransactionList from './TransactionList';
 import I18n from '../i18n/I18n';
 import TxStorage from '../lib/tx.js';
 import LogUtilities from '../utilities/LogUtilities';
 import TransactionUtilities from '../utilities/TransactionUtilities';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import GlobalConfig from '../config.json';
 import Slider from '@react-native-community/slider';
 

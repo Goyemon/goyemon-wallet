@@ -10,7 +10,7 @@ import {
     HorizontalLine,
   } from '../components/common';
 import TransactionUtilities from '../utilities/TransactionUtilities';
-import LogUtilities from '../utilities/LogUtilities';
+// import LogUtilities from '../utilities/LogUtilities';
 
 export default class TransactionDetailContainer extends Component {
     constructor(props) {
@@ -30,19 +30,12 @@ export default class TransactionDetailContainer extends Component {
         }
     }
 
-    componentDidMount() {
-      LogUtilities.toDebugScreen('TDC componentDidMount', this.state)
-      LogUtilities.toDebugScreen('TDC componentDidMount', this.state.txData)
-    }
-
     getMethodName(txData, service) {
-      LogUtilities.toDebugScreen('service -> ', service, txData[0].type)
       switch(service) {
         case 'PoolTogether':
           if (txData[0].type === 'deposit')
             return 'Deposit'
           for (const element of txData) {
-            LogUtilities.toDebugScreen('TDC Element Type', element.type)
             if (element.type == 'committed deposit withdraw')
               return 'Withdraw'
           }
@@ -65,7 +58,6 @@ export default class TransactionDetailContainer extends Component {
     }
 
     getOption(txData, service) {
-      LogUtilities.toDebugScreen('Transaction Detail Container getOption', service);
       switch(service) {
         case 'PoolTogether':
           if (txData.length === 3)
@@ -218,10 +210,6 @@ class TransactionDetailHeader extends Component {
       status: props.status,
       method: props.method
     }
-  }
-
-  componentDidMount() {
-    LogUtilities.toDebugScreen('TransactionDetailHeader componentDidMount', this.props);
   }
 
   render() {
