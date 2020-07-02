@@ -21,9 +21,11 @@ export default class TransactionDetailContainer extends Component {
             status: props.status,
             service: props.service || '',
             token: props.txData[0].token === 'cdai' ? 'DAI' : props.txData[0].token.toUpperCase(),
-            method: this.getMethodName(props.txData, props.service, props.type),
+            method: this.getMethodName(props.txData, props.service),
             option: this.getOption(props.txData, props.service),
-            icon: this.getIcon(props.txData, props.service),
+            icon: props.service === 'Uniswap'
+                  ? this.setIconStyle(props.txData[1].type, props.txData[1].direction)
+                  : this.setIconStyle(props.txData[0].type, props.txData[0].direction),
             latex: StyleUtilities.minusOrPlusIcon(props.txData[0].type, props.txData[0].direction)
         }
     }
@@ -37,12 +39,13 @@ export default class TransactionDetailContainer extends Component {
       LogUtilities.toDebugScreen('service -> ', service, txData[0].type)
       switch(service) {
         case 'PoolTogether':
-          if (txData.length === 3)
-            for (const element of txData)
-              if (element.type == 'committed deposit withdraw')
-                return 'Withdraw'
           if (txData[0].type === 'deposit')
             return 'Deposit'
+          for (const element of txData) {
+            LogUtilities.toDebugScreen('TDC Element Type', element.type)
+            if (element.type == 'committed deposit withdraw')
+              return 'Withdraw'
+          }
           return this.prefixUpperCase(
           txData[0].type === 'transfer'
           ? txData[0].direction
@@ -52,8 +55,6 @@ export default class TransactionDetailContainer extends Component {
             return 'Swap'
         case 'Contract Creation':
           return 'Contract Creation'
-        case 'Compound':
-        case '':
         default:
           return this.prefixUpperCase(
             txData[0].type === 'transfer'
@@ -74,30 +75,8 @@ export default class TransactionDetailContainer extends Component {
         case 'Uniswap':
           if (txData.length == 2 && txData[1].type == 'swap')
                 return this.getSwapOption(txData)
-        case 'Contract Creation':
-        case 'Compound':
-        case '':
         default:
           return ''
-      }
-    }
-
-    getIcon(txData, service) {
-      switch(service) {
-        case 'PoolTogether':
-          if (txData.length === 3)
-            for (const element of txData)
-              if (element.type == 'committed deposit withdraw')
-                return this.setIconStyle(txData[0].type, txData[0].direction)
-        case 'Uniswap':
-          if (txData.length == 2 && txData[1].type == 'swap')
-                return this.setIconStyle(txData[1].type, txData[1].direction)
-        case 'Contract Creation':
-          return this.setIconStyle(txData[0].type, txData[0].direction)
-        case 'Compound':
-        case '':
-        default:
-          return this.setIconStyle(txData[0].type, txData[0].direction)
       }
     }
 
