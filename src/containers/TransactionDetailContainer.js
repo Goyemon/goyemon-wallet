@@ -19,11 +19,12 @@ export default class TransactionDetailContainer extends Component {
             txData: props.txData,
             timestamp: TransactionUtilities.parseTransactionTime(props.timestamp),
             status: props.status,
-            service: props.service,
+            service: props.service || '',
             token: props.txData[0].token === 'cdai' ? 'DAI' : props.txData[0].token.toUpperCase(),
             method: this.getMethodName(props.txData, props.service),
             option: this.getOption(props.txData, props.service),
-            button: this.getButton(props.txData, props.service)
+            icon: this.getIcon(props.txData, props.service),
+            latex: StyleUtilities.minusOrPlusIcon(props.txData[0].type, props.txData[0].direction)
         }
     }
 
@@ -32,7 +33,6 @@ export default class TransactionDetailContainer extends Component {
     }
 
     getMethodName(txData, service) {
-      if (!service) return
       switch(service) {
         case 'PoolTogether':
           if (txData.length === 3)
@@ -42,6 +42,8 @@ export default class TransactionDetailContainer extends Component {
         case 'Uniswap':
           if (txData.length == 2 && txData[1].type == 'swap')
                 return 'Swap'
+        case 'Contract Creation':
+          return 'Contract Creation'
         case 'Compound':
         case '':
         default:
@@ -54,8 +56,7 @@ export default class TransactionDetailContainer extends Component {
     }
 
     getOption(txData, service) {
-      LogUtilities.toDebugScreen('Transaction Detail Container getOption');
-      if (!service) return
+      LogUtilities.toDebugScreen('Transaction Detail Container getOption', service);
       switch(service) {
         case 'PoolTogether':
           if (txData.length === 3)
@@ -65,6 +66,7 @@ export default class TransactionDetailContainer extends Component {
         case 'Uniswap':
           if (txData.length == 2 && txData[1].type == 'swap')
                 return this.getSwapOption(txData)
+        case 'Contract Creation':
         case 'Compound':
         case '':
         default:
@@ -72,8 +74,7 @@ export default class TransactionDetailContainer extends Component {
       }
     }
 
-    getButton(txData, service) {
-      if (!service) return
+    getIcon(txData, service) {
       switch(service) {
         case 'PoolTogether':
           if (txData.length === 3)
@@ -83,6 +84,8 @@ export default class TransactionDetailContainer extends Component {
         case 'Uniswap':
           if (txData.length == 2 && txData[1].type == 'swap')
                 return this.setIconStyle(txData[1].type, txData[1].direction)
+        case 'Contract Creation':
+          return this.setIconStyle(txData[0].type, txData[0].direction)
         case 'Compound':
         case '':
         default:
@@ -102,17 +105,9 @@ export default class TransactionDetailContainer extends Component {
       }
     }
 
-    getSwapOption(txData) {
-      return {
-        eth: txData[0].amount,
-        dai : txData[1].tokens_bought
-      }
-    }
+    getSwapOption = txData => ({eth: txData[0].amount, dai : txData[1].tokens_bought})
 
-    setIconStyle(type, direction) {
-      const { name, size, color } = StyleUtilities.inOrOutIcon(type, direction)
-      return { name, size, color }
-    }
+    setIconStyle = (type, direction) => StyleUtilities.inOrOutIcon(type, direction)
 
     pooltogetherAmount(txData, type) {
       for(const element of txData)
@@ -121,12 +116,11 @@ export default class TransactionDetailContainer extends Component {
       return '0.00'
     }
 
-    prefixUpperCase = txType =>
-      txType.charAt(0).toUpperCase() + txType.slice(1)
+    prefixUpperCase = txType => txType.charAt(0).toUpperCase() + txType.slice(1)
 
     render() {
-        const { timestamp, status, method, option } = this.state
-        const { name, size, color } = this.state.button
+        const { timestamp, status, method, option, icon, token } = this.state
+        const { name, size, color } = this.state.latex
         return (
             <>
             {(() => {
@@ -138,9 +132,7 @@ export default class TransactionDetailContainer extends Component {
               })()
             ? <>
                 <TransactionDetailHeader
-                  name={name}
-                  size={size}
-                  color={color}
+                  button={icon}
                   timestamp={timestamp}
                   status={status}
                   method={method}
@@ -162,14 +154,11 @@ export default class TransactionDetailContainer extends Component {
                     <GoyemonText fontSize={14}>{option.sponsor}DAI</GoyemonText>
                   </ValueBox>
                 </SubtotalWithdrawBox>
-                <HorizontalLine />
               </>
             : this.state.txData.length == 2 && this.state.txData[1].type == 'swap'
             ? <>
                 <TransactionDetailHeader
-                  name={name}
-                  size={size}
-                  color={color}
+                  icon={icon}
                   timestamp={timestamp}
                   status={status}
                   method={method}
@@ -177,14 +166,13 @@ export default class TransactionDetailContainer extends Component {
                 <SubtotalSwapBox>
                     <HeaderFive>Sold</HeaderFive>
                     <SoldBox>
-                      <Icon name="minus" size={26} color="#F1860E" /><GoyemonText fontSize={24}>{option.eth}ETA</GoyemonText>
+                      <Icon name="minus" size={26} color="#F1860E" /><GoyemonText fontSize={24}>{option.eth}ETH</GoyemonText>
                     </SoldBox>
                     <HeaderFive>Bought</HeaderFive>
                     <BoughtBox>
                       <Icon name="plus" size={26} color="#1BA548" /><GoyemonText fontSize={24}>{option.dai}DAI</GoyemonText>
                     </BoughtBox>
                 </SubtotalSwapBox>
-                <HorizontalLine borderColor="rgba(95, 95, 95, .2)"/>
               </>
             : (() => {
                 if (this.state.txData && this.state.txData.length > 1) {
@@ -197,48 +185,19 @@ export default class TransactionDetailContainer extends Component {
                   return false
               })()
             ? <>
-                <TxDetailHeader>
-                    <TxIcon>
-                      {(() => {
-                        const { name, size, color } = StyleUtilities.inOrOutIcon(this.state.txData[0].type, this.state.txData[0].direction)
-                        return <Icon name={name} size={size + 8} color={color}/>
-                      })()}
-                    </TxIcon>
-                    <TypeAndTime>
-                      <GoyemonText fontSize={18}>
-                        Contract Creation
-                      </GoyemonText>
-                      <GoyemonText fontSize={15}>
-                        {TransactionUtilities.parseTransactionTime(
-                          this.props.timestamp
-                        )}
-                      </GoyemonText>
-                    </TypeAndTime>
-                    <HeaderStatus>
-                      <TransactionStatus
-                        width="100%"
-                        txState={this.props.status}
-                      />
-                    </HeaderStatus>
-                  </TxDetailHeader>
+                <TransactionDetailHeader
+                  icon={icon}
+                  timestamp={timestamp}
+                  status={status}
+                  method={method}
+                />
                   {this.state.txData[0].amount && <SubtotalBox>
-                    {(() => {
-                        const { name, size, color } = StyleUtilities.minusOrPlusIcon(this.state.txData[0].type, this.state.txData[0].direction)
-                        return (
-                        name === ''
-                        ? null
-                        : <Icon name={name} size={size + 10} color={color} />
-                    )})()}
+                    <Icon name={name} size={size + 10} color={color} />
                     <GoyemonText fontSize={24}>
                       {this.state.txData[0].amount}
-                      {this.state.txData[0].token === 'cdai' ? ' DAI' : this.state.txData[0].token.toUpperCase()}
+                      {token}
                     </GoyemonText>
                   </SubtotalBox>}
-                  {this.state.txData[0].type === 'swap' && <SubtotalBox>
-                    <Icon name="plus" size={26} color="#1BA548" />
-                    <GoyemonText fontSize={24}>{this.state.txData[0].tokens_bought} DAI</GoyemonText>
-                  </SubtotalBox>}
-                  <HorizontalLine />
                 </>
             :   <>
                   <TxDetailHeader>
@@ -270,13 +229,7 @@ export default class TransactionDetailContainer extends Component {
                     </HeaderStatus>
                   </TxDetailHeader>
                   {this.state.txData[0].amount && <SubtotalBox>
-                    {(() => {
-                        const { name, size, color } = StyleUtilities.minusOrPlusIcon(this.state.txData[0].type, this.state.txData[0].direction)
-                        return (
-                        name === ''
-                        ? null
-                        : <Icon name={name} size={size + 10} color={color} />
-                    )})()}
+                    <Icon name={name} size={size + 10} color={color} />
                     <GoyemonText fontSize={24}>
                       {this.state.txData[0].amount}
                       {this.state.txData[0].token === 'cdai' ? ' DAI' : this.state.txData[0].token.toUpperCase()}
@@ -286,8 +239,8 @@ export default class TransactionDetailContainer extends Component {
                     <Icon name="plus" size={26} color="#1BA548" />
                     <GoyemonText fontSize={24}>{this.state.txData[0].tokens_bought} DAI</GoyemonText>
                   </SubtotalBox>}
-                  <HorizontalLine borderColor="rgba(95, 95, 95, .2)"/>
                 </>}
+                <HorizontalLine borderColor="rgba(95, 95, 95, .2)"/>
                 </>)
     }
 }
@@ -367,11 +320,12 @@ class TransactionDetailHeader extends Component {
   }
 
   render() {
-    const { name, size, color, timestamp, status, method } = this.state
+    const { timestamp, status, method } = this.props
+    const { name, size, color } = this.props.icon
     return (
       <TxDetailHeader>
         <TxIcon>
-          <Icon name={"swap-horizontal"} size={20 + 8} color={"#5F5F5F"}/>
+          <Icon name={name} size={size + 8} color={color}/>
         </TxIcon>
         <TypeAndTime>
           <GoyemonText fontSize={18}>

@@ -1681,7 +1681,7 @@ class Tx {
       }
     }
     else {
-      return ''
+      return 'Contract Creation'
     }
   }
 
