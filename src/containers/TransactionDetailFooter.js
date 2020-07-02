@@ -10,14 +10,26 @@ import {
     HeaderFive,
   } from '../components/common';
 import Copy from './common/Copy';
+import GlobalConfig from '../config.json';
 
 export default class TransactionDetailFooter extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            txData: props.txData
+            txData: props.txData,
+            isNeedTo: this.getTo(props.txData),
+            isNeedFrom: this.getFrom(props.txData),
+            destination: this.getDest(props.txData, props.tx)
         }
     }
+
+    getTo = txData => txData.length === 1 && txData[0].direction == 'outgoing' && txData[0].type == 'transfer' ? true : false
+
+    getFrom = txData => txData.length === 1 && txData[0].direction == 'incoming' && txData[0].type == 'transfer' ? true : false
+
+    getDest = (txData, tx) => txData[0].token === 'eth'
+    ? tx.getTo().substring(0, 24) + '...'
+    : '0x' + tx.tokenData.dai[0].to_addr.substring(0, 24) + '...'
 
     componentDidMount() {
         LogUtilities.toDebugScreen('Transaction Detail Header CDM', this.props.service);
@@ -25,20 +37,21 @@ export default class TransactionDetailFooter extends Component {
 
     render() {
         const { service } = this.props
+        const { isNeedTo, isNeedFrom, destination } = this.state
         return (
             <TxNetworkAndHash>
               {service !== '' &&
                 <>
                     <HeaderFive fontSize={20}>Application</HeaderFive>
                     <TxDetailValue>
-                    {this.props.tx.getTo() === null ? null : this.props.tx.getApplication(this.props.tx.getTo())}
+                    {service}
                     </TxDetailValue>
                 </>
               }
 
               {this.state.txData[0].direction &&
               <>
-                {this.state.txData.length === 1 && this.state.txData[0].direction == 'incoming' && this.state.txData[0].type == 'transfer' &&
+                {isNeedFrom &&
                 <>
                   <HeaderFive fontSize={20}>From</HeaderFive>
                   <ToAndFromValueContainer>
@@ -49,14 +62,12 @@ export default class TransactionDetailFooter extends Component {
                   </ToAndFromValueContainer>
                 </>}
 
-                {this.state.txData.length === 1 && this.state.txData[0].direction == 'outgoing' && this.state.txData[0].type == 'transfer' &&
+                {isNeedTo &&
                 <>
                   <HeaderFive fontSize={20}>To</HeaderFive>
                   <ToAndFromValueContainer>
                     <ToAndFromValue>
-                      {this.state.txData[0].token === 'eth'
-                      ? this.props.tx.getTo().substring(0, 24) + '...'
-                      : '0x' + this.state.tx.tokenData.dai[0].to_addr.substring(0, 24) + '...'}
+                      {destination}
                     </ToAndFromValue>
                     <Copy text={this.props.tx.getTo()} icon={false} />
                   </ToAndFromValueContainer>
