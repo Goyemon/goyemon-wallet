@@ -23,6 +23,7 @@ import I18n from '../i18n/I18n';
 import PortfolioStack from '../navigators/PortfolioStack';
 import { RoundDownBigNumberPlacesFour } from '../utilities/BigNumberUtilities';
 import PriceUtilities from '../utilities/PriceUtilities.js';
+import LogUtilities from '../utilities/LogUtilities.js';
 
 class PortfolioHome extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -54,7 +55,12 @@ class PortfolioHome extends Component {
       };
     };
     await FcmPermissions.checkFcmPermissions();
+    LogUtilities.toDebugScreen('PortfolioHome componentDidMount', this.props.balance);
   }
+
+  returnBalance = (amount, pow, fix) => RoundDownBigNumberPlacesFour(amount)
+  .div(new RoundDownBigNumberPlacesFour(10).pow(pow))
+  .toFixed(fix);
 
   render() {
     const { balance, navigation, checksumAddress } = this.props;
@@ -62,9 +68,15 @@ class PortfolioHome extends Component {
     let ethBalance = Web3.utils.fromWei(balance.wei);
     ethBalance = RoundDownBigNumberPlacesFour(ethBalance).toFixed(4);
 
-    const daiBalance = RoundDownBigNumberPlacesFour(balance.dai)
-      .div(new RoundDownBigNumberPlacesFour(10).pow(18))
-      .toFixed(2);
+    const daiBalance = this.returnBalance(balance.dai, 18, 2)
+
+    const cdaiBalance = this.returnBalance(balance.cDai, 18, 2)
+
+    const pldaiBalance = [
+      this.returnBalance(balance.pooltogetherDai.open, 18, 0),
+      this.returnBalance(balance.pooltogetherDai.committed, 18, 0),
+      this.returnBalance(balance.pooltogetherDai.sponsored, 18, 0)
+    ]
 
     const compoundDaiBalance = RoundDownBigNumberPlacesFour(balance.compoundDai)
       .div(new RoundDownBigNumberPlacesFour(10).pow(36))
@@ -148,15 +160,15 @@ class PortfolioHome extends Component {
           <CoinBox
             source={require('../../assets/cdai_icon.png')}
             token="cDAI"
-            usd={PriceUtilities.convertDaiToUsd(daiBalance).toFixed(2)}
-            balance={daiBalance}
+            usd={PriceUtilities.convertDaiToUsd(cdaiBalance).toFixed(2)}
+            balance={cdaiBalance}
           />
 
           <CoinBox
             source={require('../../assets/pldai_icon.png')}
             token="plDAI"
-            usd={PriceUtilities.convertDaiToUsd(daiBalance).toFixed(2)}
-            balance={daiBalance}
+            usd={PriceUtilities.convertDaiToUsd(pooltogetherDaiBalance).toFixed(2)}
+            balance={pldaiBalance}
           />
         </CurrencyScrollView>
         <HeaderThree
@@ -307,7 +319,10 @@ const CoinBox = props =>
         ${props.usd}
       </UsdBalanceText>
       <BalanceText>
-        <GoyemonText fontSize="16">{props.balance}</GoyemonText>
+        {props.token === 'plDAI'
+        ? props.balance.map(balance => <GoyemonText fontSize="16">{balance}</GoyemonText>)
+        : <GoyemonText fontSize="16">{props.balance}</GoyemonText>
+        }
       </BalanceText>
     </CurrencyBalanceContainer>
   </CurrencyContainer>
