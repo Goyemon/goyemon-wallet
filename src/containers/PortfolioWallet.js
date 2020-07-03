@@ -57,60 +57,34 @@ class PortfolioWallet extends Component {
         >
           {I18n.t('portfolio-wallet-coins')}
         </HeaderThree>
-        <UntouchableCardContainer
-          alignItems="center"
-          borderRadius="8"
-          flexDirection="row"
-          height="120px"
-          justifyContent="space-between"
-          marginTop={8}
-          textAlign="left"
-          width="90%"
-        >
-          <CoinImageContainer>
-            <CoinImage source={require('../../assets/ether_icon.png')} />
-            <CoinText>ETH</CoinText>
-          </CoinImageContainer>
-          <PriceContainer>
-            <PriceText>1 ETH</PriceText>
-            <PriceText>= ${price.eth}</PriceText>
-          </PriceContainer>
-          <BalanceContainer>
-            <UsdBalanceText>
-              ${PriceUtilities.convertEthToUsd(ethBalance).toFixed(2)}
-            </UsdBalanceText>
-            <BalanceText>
-              <GoyemonText fontSize="20">{ethBalance} ETH</GoyemonText>
-            </BalanceText>
-          </BalanceContainer>
-        </UntouchableCardContainer>
-        <UntouchableCardContainer
-          alignItems="center"
-          borderRadius="8"
-          flexDirection="row"
-          height="120px"
-          justifyContent="space-between"
-          marginTop={8}
-          textAlign="left"
-          width="90%"
-        >
-          <CoinImageContainer>
-            <CoinImage source={require('../../assets/dai_icon.png')} />
-            <CoinText>DAI</CoinText>
-          </CoinImageContainer>
-          <PriceContainer>
-            <PriceText>1 DAI</PriceText>
-            <PriceText>= ${price.dai}</PriceText>
-          </PriceContainer>
-          <BalanceContainer>
-            <UsdBalanceText>
-              ${PriceUtilities.convertDaiToUsd(daiBalance).toFixed(2)}
-            </UsdBalanceText>
-            <BalanceText>
-              <GoyemonText fontSize="20">{daiBalance} DAI</GoyemonText>
-            </BalanceText>
-          </BalanceContainer>
-        </UntouchableCardContainer>
+        <TokenBalanceCard
+          price={price.eth}
+          balance={ethBalance}
+          usd={PriceUtilities.convertEthToUsd(ethBalance).toFixed(2)}
+          iconPath={require('../../assets/ether_icon.png')}
+          token="ETH"
+        />
+        <TokenBalanceCard
+          price={price.dai}
+          balance={daiBalance}
+          usd={PriceUtilities.convertDaiToUsd(daiBalance).toFixed(2)}
+          iconPath={require('../../assets/dai_icon.png')}
+          token="DAI"
+        />
+        <TokenBalanceCard
+          price={price.dai}
+          balance={daiBalance}
+          usd={PriceUtilities.convertDaiToUsd(daiBalance).toFixed(2)}
+          iconPath={require('../../assets/cdai_icon.png')}
+          token="cDAI"
+        />
+        <TokenBalanceCard
+          price={price.dai}
+          balance={daiBalance}
+          usd={PriceUtilities.convertDaiToUsd(daiBalance).toFixed(2)}
+          iconPath={require('../../assets/pldai_icon.png')}
+          token="plDAI"
+        />
       </RootContainer>
     );
   }
@@ -122,6 +96,41 @@ const UsdBalance = styled.Text`
   font-size: 32;
 `;
 
+const mapStateToProps = (state) => ({
+  balance: state.ReducerBalance.balance,
+  checksumAddress: state.ReducerChecksumAddress.checksumAddress,
+  price: state.ReducerPrice.price
+});
+
+const TokenBalanceCard = props =>
+  <UntouchableCardContainer
+      alignItems="center"
+      borderRadius="8"
+      flexDirection="row"
+      height="120px"
+      justifyContent="space-between"
+      marginTop={8}
+      textAlign="left"
+      width="90%"
+    >
+      <CoinImageContainer>
+        <CoinImage source={props.iconPath} />
+        <CoinText>{props.token}</CoinText>
+      </CoinImageContainer>
+      <PriceContainer>
+        <PriceText>1 {props.token}</PriceText>
+        <PriceText>= ${props.price}</PriceText>
+      </PriceContainer>
+      <BalanceContainer>
+        <UsdBalanceText>
+          ${props.usd}
+        </UsdBalanceText>
+        <BalanceText>
+          <GoyemonText fontSize="20">{props.balance} {props.token}</GoyemonText>
+        </BalanceText>
+      </BalanceContainer>
+    </UntouchableCardContainer>
+
 const CoinImageContainer = styled.View`
   align-items: center;
   width: 20%;
@@ -131,6 +140,14 @@ const CoinImage = styled.Image`
   border-radius: 20px;
   height: 40px;
   width: 40px;
+`;
+
+const CoinText = styled.Text`
+  color: #5f5f5f;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 16;
+  margin-top: 4;
+  margin-bottom: 4;
 `;
 
 const PriceContainer = styled.View`
@@ -146,22 +163,8 @@ const PriceText = styled.Text`
   margin-bottom: 4;
 `;
 
-const CoinText = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 16;
-  margin-top: 4;
-  margin-bottom: 4;
-`;
-
 const BalanceContainer = styled.View`
   width: 45%;
-`;
-
-const BalanceText = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 20;
 `;
 
 const UsdBalanceText = styled.Text`
@@ -171,10 +174,10 @@ const UsdBalanceText = styled.Text`
   margin-bottom: 4;
 `;
 
-const mapStateToProps = (state) => ({
-  balance: state.ReducerBalance.balance,
-  checksumAddress: state.ReducerChecksumAddress.checksumAddress,
-  price: state.ReducerPrice.price
-});
+const BalanceText = styled.Text`
+  color: #5f5f5f;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 20;
+`;
 
 export default withNavigation(connect(mapStateToProps)(PortfolioWallet));

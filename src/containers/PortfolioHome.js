@@ -128,6 +128,7 @@ class PortfolioHome extends Component {
         </HeaderThree>
         <CurrencyScrollView
           horizontal={true}
+          contentContainerStyle={{ width: `${150}%` }}
           showsHorizontalScrollIndicator={false}
         >
           <CurrencyContainer>
@@ -144,10 +145,41 @@ class PortfolioHome extends Component {
               </BalanceText>
             </CurrencyBalanceContainer>
           </CurrencyContainer>
+
           <CurrencyContainer>
             <CurrencyImageContainer>
               <CoinImage source={require('../../assets/dai_icon.png')} />
               <CoinText>DAI</CoinText>
+            </CurrencyImageContainer>
+            <CurrencyBalanceContainer>
+              <UsdBalanceText>
+                ${PriceUtilities.convertDaiToUsd(daiBalance).toFixed(2)}
+              </UsdBalanceText>
+              <BalanceText>
+                <GoyemonText fontSize="16">{daiBalance}</GoyemonText>
+              </BalanceText>
+            </CurrencyBalanceContainer>
+          </CurrencyContainer>
+
+          <CurrencyContainer>
+            <CurrencyImageContainer>
+              <CoinImage source={require('../../assets/cdai_icon.png')} />
+              <CoinText>cDAI</CoinText>
+            </CurrencyImageContainer>
+            <CurrencyBalanceContainer>
+              <UsdBalanceText>
+                ${PriceUtilities.convertDaiToUsd(daiBalance).toFixed(2)}
+              </UsdBalanceText>
+              <BalanceText>
+                <GoyemonText fontSize="16">{daiBalance}</GoyemonText>
+              </BalanceText>
+            </CurrencyBalanceContainer>
+          </CurrencyContainer>
+
+          <CurrencyContainer>
+            <CurrencyImageContainer>
+              <CoinImage source={require('../../assets/pldai_icon.png')} />
+              <CoinText>plDAI</CoinText>
             </CurrencyImageContainer>
             <CurrencyBalanceContainer>
               <UsdBalanceText>
@@ -272,7 +304,7 @@ const CurrencyContainer = styled.View`
   justify-content: center;
   margin-right: 16;
   padding: 16px 8px;
-  width: 45%;
+  width: 22%;
 `;
 
 const CurrencyImageContainer = styled.View`
