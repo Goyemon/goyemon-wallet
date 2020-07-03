@@ -1,17 +1,13 @@
 'use strict';
 import React, { Component } from 'react';
-import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
-import { View, Clipboard } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { View } from 'react-native';
 import styled from 'styled-components/native';
-import Web3 from 'web3';
 import {
   saveTxConfirmationModalVisibility,
   updateTxConfirmationModalVisibleType
 } from '../actions/ActionModal';
 import { saveOutgoingTransactionDataSend } from '../actions/ActionOutgoingTransactionData';
-import { clearQRCodeData } from '../actions/ActionQRCodeData';
 import {
   UntouchableCardContainer,
   UseMaxButton,
@@ -24,8 +20,8 @@ import {
 } from '../components/common';
 import { AdvancedContainer } from '../containers/common/AdvancedContainer';
 import TxConfirmationModal from '../containers/common/TxConfirmationModal';
+import ToAddressForm from '../containers/common/ToAddressForm';
 import I18n from '../i18n/I18n';
-import SendStack from '../navigators/SendStack';
 import {
   RoundDownBigNumberPlacesFour,
   RoundDownBigNumberPlacesEighteen
@@ -44,10 +40,7 @@ class SendDai extends Component {
       daiBalance: RoundDownBigNumberPlacesFour(props.balance.dai)
         .div(new RoundDownBigNumberPlacesFour(10).pow(18))
         .toFixed(2),
-      toAddress: '',
-      copiedText: '',
       daiAmount: '',
-      toAddressValidation: undefined,
       daiAmountValidation: undefined,
       weiAmountValidation: undefined,
       currency: 'USD',
@@ -65,10 +58,6 @@ class SendDai extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.qrCodeData != prevProps.qrCodeData) {
-      this.setState({ toAddress: this.props.qrCodeData });
-      this.validateToAddress(this.props.qrCodeData);
-    }
     if (this.props.gasChosen != prevProps.gasChosen) {
       this.updateWeiAmountValidation(
         TransactionUtilities.validateWeiAmountForTransactionFee(
@@ -93,7 +82,7 @@ class SendDai extends Component {
     );
     const decimals = 18 - parseInt(decimalPlaces);
     const transferEncodedABI = ABIEncoder.encodeTransfer(
-      this.state.toAddress,
+      this.props.outgoingTransactionData.send.toaddress,
       daiAmount,
       decimals
     );
@@ -115,25 +104,11 @@ class SendDai extends Component {
       .tempSetData(transferEncodedABI)
       .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.transfer, [
         TxStorage.storage.getOwnAddress(),
-        this.state.toAddress,
+        this.props.outgoingTransactionData.send.toaddress,
         daiAmountWithDecimals
       ]);
 
     return transactionObject;
-  }
-
-  validateToAddress(toAddress) {
-    if (Web3.utils.isAddress(toAddress)) {
-      LogUtilities.logInfo('address validated!');
-      this.setState({ toAddressValidation: true });
-      return true;
-    } else if (!Web3.utils.isAddress(toAddress)) {
-      LogUtilities.logInfo('invalid address');
-      this.setState({
-        toAddressValidation: false
-      });
-      return false;
-    }
   }
 
   updateDaiAmountValidation(daiAmountValidation) {
@@ -161,7 +136,7 @@ class SendDai extends Component {
   }
 
   validateForm = async (toAddress, daiAmount) => {
-    const toAddressValidation = this.validateToAddress(toAddress);
+    const toAddressValidation = this.props.toAddressValidation;
     const daiAmountValidation = TransactionUtilities.validateDaiAmount(
       daiAmount
     );
@@ -195,12 +170,6 @@ class SendDai extends Component {
     }
   };
 
-  fetchCopiedText = async () => {
-    const copiedText = await Clipboard.getString();
-    this.validateToAddress(copiedText);
-    this.setState({ toAddress: copiedText });
-  };
-
   render() {
     const { balance } = this.props;
     const isOnline = this.props.isOnline;
@@ -228,49 +197,7 @@ class SendDai extends Component {
             <Value>{this.state.daiBalance} DAI</Value>
           </BalanceContainer>
         </UntouchableCardContainer>
-        <FormHeaderContainer>
-          <FormHeader marginBottom="0" marginTop="0">
-            {I18n.t('to')}
-          </FormHeader>
-        </FormHeaderContainer>
-        <Form
-          borderColor={StyleUtilities.getBorderColor(
-            this.state.toAddressValidation
-          )}
-          borderWidth={1}
-          height="56px"
-        >
-          <SendTextInputContainer>
-            <SendTextInput
-              placeholder={I18n.t('send-address')}
-              clearButtonMode="while-editing"
-              onChangeText={(toAddress) => {
-                this.validateToAddress(toAddress);
-                this.setState({ toAddress });
-              }}
-              value={this.state.toAddress}
-            />
-            <AddressButtons>
-              <PasteContainer onPress={() => this.fetchCopiedText()}>
-                <PasteText>PASTE</PasteText>
-              </PasteContainer>
-              <QRCodeContainer
-                onPress={() => {
-                  this.props.clearQRCodeData();
-                  SendStack.navigationOptions = () => {
-                    const tabBarVisible = false;
-                    return {
-                      tabBarVisible
-                    };
-                  };
-                  this.props.navigation.navigate('QRCodeScan');
-                }}
-              >
-                <Icon name="qrcode-scan" size={20} color="#5f5f5f" />
-              </QRCodeContainer>
-            </AddressButtons>
-          </SendTextInputContainer>
-        </Form>
+        <ToAddressForm />
         <FormHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
             {I18n.t('amount')}
@@ -320,21 +247,21 @@ class SendDai extends Component {
               !(
                 this.state.daiAmountValidation &&
                 this.state.weiAmountValidation &&
-                this.state.toAddressValidation &&
+                this.props.toAddressValidation &&
                 isOnline
               ) || this.state.loading
             }
             opacity={
               this.state.daiAmountValidation &&
               this.state.weiAmountValidation &&
-              this.state.toAddressValidation &&
+              this.props.toAddressValidation &&
               isOnline
                 ? 1
                 : 0.5
             }
             onPress={async () => {
               await this.validateForm(
-                this.state.toAddress,
+                this.props.outgoingTransactionData.send.toaddress,
                 this.state.daiAmount
               );
               this.setState({
@@ -362,25 +289,8 @@ const SendTextInput = styled.TextInput`
   font-size: 14;
   height: 56px;
   text-align: left;
+  width: 80%;
 `;
-
-const AddressButtons = styled.View`
-  align-items: center;
-  flex-direction: row;
-`;
-
-const PasteContainer = styled.TouchableOpacity`
-  margin-left: 8;
-  margin-right: 8;
-`;
-
-const PasteText = styled.Text`
-  color: #00a3e2;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 14;
-`;
-
-const QRCodeContainer = styled.TouchableOpacity``;
 
 const CoinImage = styled.Image`
   border-radius: 20px;
@@ -432,17 +342,16 @@ function mapStateToProps(state) {
     gasChosen: state.ReducerGasPrice.gasChosen,
     balance: state.ReducerBalance.balance,
     isOnline: state.ReducerNetInfo.isOnline,
-    qrCodeData: state.ReducerQRCodeData.qrCodeData
+    outgoingTransactionData:
+      state.ReducerOutgoingTransactionData.outgoingTransactionData,
+    toAddressValidation: state.ReducerTxFormValidation.toAddressValidation
   };
 }
 
 const mapDispatchToProps = {
   saveTxConfirmationModalVisibility,
   updateTxConfirmationModalVisibleType,
-  saveOutgoingTransactionDataSend,
-  clearQRCodeData
+  saveOutgoingTransactionDataSend
 };
 
-export default withNavigation(
-  connect(mapStateToProps, mapDispatchToProps)(SendDai)
-);
+export default connect(mapStateToProps, mapDispatchToProps)(SendDai);

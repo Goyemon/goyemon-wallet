@@ -13,6 +13,8 @@ import {
   saveTxConfirmationModalVisibility,
   updateTxConfirmationModalVisibleType
 } from '../../actions/ActionModal';
+import { saveOutgoingTransactionDataSend } from '../../actions/ActionOutgoingTransactionData';
+import { updateToAddressValidation } from '../../actions/ActionTxFormValidation';
 import {
   HeaderFive,
   ConfirmationText,
@@ -128,6 +130,8 @@ class TxConfirmationModal extends Component {
                   this.setState({ loading: false, buttonDisabled: false });
                   this.props.saveTxConfirmationModalVisibility(false);
                   this.props.updateTxConfirmationModalVisibleType(null);
+                  this.props.saveOutgoingTransactionDataSend('');
+                  this.props.updateToAddressValidation(undefined);
                 }
               }}
             />
@@ -418,7 +422,9 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
+  saveOutgoingTransactionDataSend,
   saveTxConfirmationModalVisibility,
+  updateToAddressValidation,
   updateTxConfirmationModalVisibleType
 };
 
