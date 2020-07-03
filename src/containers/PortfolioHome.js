@@ -315,15 +315,22 @@ const CoinBox = props =>
       <CoinText>{props.token}</CoinText>
     </CurrencyImageContainer>
     <CurrencyBalanceContainer>
-      <UsdBalanceText>
-        ${props.usd}
-      </UsdBalanceText>
-      <BalanceText>
-        {props.token === 'plDAI'
-        ? props.balance.map(balance => <GoyemonText fontSize="16">{balance}</GoyemonText>)
-        : <GoyemonText fontSize="16">{props.balance}</GoyemonText>
-        }
-      </BalanceText>
+      <UsdBalanceContainer>
+        <UsdBalanceText>
+          ${props.usd}
+        </UsdBalanceText>
+      </UsdBalanceContainer>
+      <TokenBalanceContainer style={{marginLeft: props.token === 'plDAI'?4:16}}>
+        <BalanceText>
+          {props.token === 'plDAI'
+          ? <><GoyemonText fontSize="16">{props.balance[0]}</GoyemonText>
+              <GoyemonText fontSize="16"> | {props.balance[1]} | </GoyemonText>
+              <GoyemonText fontSize="16">{props.balance[2]}</GoyemonText>
+            </>
+          : <GoyemonText fontSize="16">{props.balance}</GoyemonText>
+          }
+        </BalanceText>
+      </TokenBalanceContainer>
     </CurrencyBalanceContainer>
   </CurrencyContainer>
 
@@ -336,6 +343,10 @@ const CurrencyContainer = styled.View`
   margin-right: 16;
   padding: 16px 8px;
   width: 22%;
+`;
+
+const CurrencyBalanceContainer = styled.View`
+flex-direction: column;
 `;
 
 const CurrencyImageContainer = styled.View`
@@ -355,8 +366,11 @@ const CoinText = styled.Text`
   font-size: 12;
 `;
 
-const CurrencyBalanceContainer = styled.View`
+const UsdBalanceContainer = styled.View`
   margin-left: 16;
+`;
+
+const TokenBalanceContainer = styled.View`
 `;
 
 const UsdBalanceText = styled.Text`
