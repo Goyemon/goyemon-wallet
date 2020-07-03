@@ -1922,7 +1922,14 @@ class TxStorage {
   }
 
   getTxCount(index = 'all') {
-    return this.txes.getItemCount(index);
+    switch(index) {
+      case 'cdai':
+        return this.txes.getItemCount('odcda');
+      case 'pldai':
+        return this.txes.getItemCount('odpta');
+      default:
+        return this.txes.getItemCount(index);
+    }
   }
 
   txfilter_checkMaxNonce(tx) {
