@@ -64,8 +64,7 @@ class PortfolioHome extends Component {
   render() {
     const { balance, navigation, checksumAddress } = this.props;
 
-    let ethBalance = Web3.utils.fromWei(balance.wei);
-    ethBalance = RoundDownBigNumberPlacesFour(ethBalance).toFixed(4);
+    const ethBalance = RoundDownBigNumberPlacesFour(Web3.utils.fromWei(balance.wei)).toFixed(4);
 
     const daiBalance = this.returnBalance(balance.dai, 18, 2)
 
@@ -133,16 +132,15 @@ class PortfolioHome extends Component {
         event: () => navigation.navigate('PortfolioCompound')
       },
       {
-        balance: PriceUtilities.getTotalWalletBalance(ethBalance, daiBalance),
+        balance: PriceUtilities.convertDaiToUsd(pooltogetherDaiBalance).toFixed(2),
         name: 'PoolTogether',
         event: () => navigation.navigate('PortfolioPoolTogether')
       }
     ]
 
     let truncatedAdderss;
-    if (checksumAddress) {
+    if (checksumAddress)
       truncatedAdderss = checksumAddress.substring(0, 24) + '...';
-    }
 
     return (
       <RootContainer>
@@ -186,7 +184,7 @@ class PortfolioHome extends Component {
           contentContainerStyle={{ width: `${150}%` }}
           showsHorizontalScrollIndicator={false}
         >
-          <CoinBoxes boxes={coinBoxes}/>
+        <CoinBoxes boxes={coinBoxes} />
         </CurrencyScrollView>
 
         <NewHeaderThree
@@ -196,7 +194,7 @@ class PortfolioHome extends Component {
           marginTop="24"
           text={I18n.t('portfolio-home-applications')}
         />
-          <ApplicationBoxes boxes={applicationBoxes} />
+        <ApplicationBoxes boxes={applicationBoxes} />
       </RootContainer>
     );
   }

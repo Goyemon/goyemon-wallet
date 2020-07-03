@@ -34,6 +34,16 @@ const HeaderTwoText = styled.Text`
   width: 95%;
 `;
 
+const NewHeaderThree = props =>
+  <HeaderThreeText
+    color={props.color}
+    marginBottom={props.marginBottom}
+    marginLeft={props.marginLeft}
+    marginTop={props.marginTop}
+  >
+  {props.text}
+  </HeaderThreeText>
+
 const HeaderThree = (props) => (
   <HeaderThreeText
     color={props.color}
@@ -109,4 +119,4 @@ const FormHeaderText = styled.Text`
   margin-top: ${(props) => `${props.marginTop}`};
 `;
 
-export { HeaderOne, HeaderTwo, HeaderThree, HeaderFour, HeaderFive, FormHeader };
+export { HeaderOne, HeaderTwo, NewHeaderThree, HeaderThree, HeaderFour, HeaderFive, FormHeader };
