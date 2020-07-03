@@ -5,11 +5,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { withNavigation } from 'react-navigation';
 import styled from 'styled-components';
 import Web3 from 'web3';
-import CompoundIcon from '../../assets/CompoundIcon.js';
-import PoolTogetherIcon from '../../assets/PoolTogetherIcon.js';
 import {
   RootContainer,
-  TouchableCardContainer,
   UntouchableCardContainer,
   HeaderOne,
   HeaderThree,
@@ -18,6 +15,7 @@ import {
   ReceiveIcon
 } from '../components/common';
 import CoinBox from './PortfolioHome/CoinBox'
+import ApplicationBox from './PortfolioHome/ApplicationBox'
 import Copy from '../containers/common/Copy';
 import FcmPermissions from '../firebase/FcmPermissions.js';
 import I18n from '../i18n/I18n';
@@ -180,77 +178,21 @@ class PortfolioHome extends Component {
         >
           {I18n.t('portfolio-home-applications')}
         </HeaderThree>
-        <TouchableCardContainer
-          alignItems="center"
-          flexDirection="row"
-          height="120px"
-          justifyContent="space-between"
-          textAlign="left"
-          width="90%"
-          onPress={() => navigation.navigate('PortfolioWallet')}
-        >
-          <IconImageContainer>
-            <Icon name="wallet-outline" size={40} color="#5f5f5f" />
-          </IconImageContainer>
-          <NameContainer>
-            <NameText>{I18n.t('portfolio-home-wallet')}</NameText>
-            <GoyemonText fontSize={12}>ETH and ERC20</GoyemonText>
-          </NameContainer>
-          <BalanceContainer>
-            <ApplicationBalanceText>
-              ${PriceUtilities.getTotalWalletBalance(ethBalance, daiBalance)}
-            </ApplicationBalanceText>
-          </BalanceContainer>
-        </TouchableCardContainer>
-        <TouchableCardContainer
-          alignItems="center"
-          flexDirection="row"
-          height="120px"
-          justifyContent="space-between"
-          textAlign="left"
-          width="90%"
-          onPress={() => navigation.navigate('PortfolioCompound')}
-        >
-          <IconImageContainer>
-            <CompoundIcon />
-          </IconImageContainer>
-          <NameContainer>
-            <NameText>Compound</NameText>
-          </NameContainer>
-          <BalanceContainer>
-            <ApplicationBalanceText>
-              ${PriceUtilities.convertDaiToUsd(compoundDaiBalance).toFixed(2)}
-            </ApplicationBalanceText>
-          </BalanceContainer>
-        </TouchableCardContainer>
-        <TouchableCardContainer
-          alignItems="center"
-          flexDirection="row"
-          height="120px"
-          justifyContent="space-between"
-          textAlign="left"
-          width="90%"
-          onPress={() => navigation.navigate('PortfolioPoolTogether')}
-        >
-          <IconImageContainer>
-            <PoolTogetherIcon />
-          </IconImageContainer>
-          <NameContainer>
-            <NameText>PoolTogether</NameText>
-          </NameContainer>
-          <BalanceContainer>
-            <ApplicationBalanceText>
-              $
-              {PriceUtilities.convertDaiToUsd(pooltogetherDaiBalance).toFixed(
-                2
-              )}
-            </ApplicationBalanceText>
-          </BalanceContainer>
-        </TouchableCardContainer>
         <ApplicationBox
           balance={PriceUtilities.getTotalWalletBalance(ethBalance, daiBalance)}
           name={I18n.t('portfolio-home-wallet')}
-          onPress={() => navigation.navigate('PortfolioWallet')}/>
+          onPress={() => navigation.navigate('PortfolioWallet')}
+        />
+        <ApplicationBox
+          balance={PriceUtilities.convertDaiToUsd(compoundDaiBalance).toFixed(2)}
+          name='Compound'
+          onPress={() => navigation.navigate('PortfolioCompound')}
+        />
+        <ApplicationBox
+          balance={PriceUtilities.convertDaiToUsd(pooltogetherDaiBalance).toFixed(2)}
+          name='PoolTogether'
+          onPress={() => navigation.navigate('PortfolioPoolTogether')}
+        />
       </RootContainer>
     );
   }
@@ -281,60 +223,10 @@ const ReceiveIconContainer = styled.View`
   margin-right: 16;
 `;
 
-const IconImageContainer = styled.View`
-  align-items: center;
-  width: 20%;
-`;
-
-const NameContainer = styled.View`
-  margin-left: 16;
-  width: 45%;
-`;
-
-const NameText = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 20;
-`;
-
-const BalanceContainer = styled.View`
-  width: 35%;
-`;
-
-const ApplicationBalanceText = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 20;
-`;
-
 const mapStateToProps = (state) => ({
   balance: state.ReducerBalance.balance,
   checksumAddress: state.ReducerChecksumAddress.checksumAddress,
   price: state.ReducerPrice.price
 });
-
-const ApplicationBox = props =>
-  <TouchableCardContainer
-    alignItems="center"
-    flexDirection="row"
-    height="120px"
-    justifyContent="space-between"
-    textAlign="left"
-    width="90%"
-    onPress={props.onPress}
-  >
-    <IconImageContainer>
-      <Icon name="wallet-outline" size={40} color="#5f5f5f" />
-    </IconImageContainer>
-    <NameContainer>
-      <NameText>{props.name}</NameText>
-      {props.name === 'Wallet' && <GoyemonText fontSize={12}>ETH and ERC20</GoyemonText>}
-    </NameContainer>
-    <BalanceContainer>
-      <ApplicationBalanceText>
-        ${props.balance}
-      </ApplicationBalanceText>
-    </BalanceContainer>
-  </TouchableCardContainer>
 
 export default withNavigation(connect(mapStateToProps)(PortfolioHome));
