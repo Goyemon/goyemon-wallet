@@ -9,13 +9,13 @@ import {
   RootContainer,
   UntouchableCardContainer,
   HeaderOne,
-  HeaderThree,
+  NewHeaderThree,
   HeaderFour,
   GoyemonText,
   ReceiveIcon
 } from '../components/common';
-import CoinBox from './PortfolioHome/CoinBox'
-import ApplicationBox from './PortfolioHome/ApplicationBox'
+import CoinBoxes from './PortfolioHome/CoinBoxes'
+import ApplicationBoxes from './PortfolioHome/ApplicationBoxes'
 import Copy from '../containers/common/Copy';
 import FcmPermissions from '../firebase/FcmPermissions.js';
 import I18n from '../i18n/I18n';
@@ -94,6 +94,51 @@ class PortfolioHome extends Component {
       parseFloat(PriceUtilities.convertDaiToUsd(compoundDaiBalance)) +
       parseFloat(PriceUtilities.convertDaiToUsd(pooltogetherDaiBalance));
 
+    const coinBoxes = [
+      {
+        path: require('../../assets/ether_icon.png'),
+        token: 'ETH',
+        usd: PriceUtilities.convertEthToUsd(ethBalance).toFixed(2),
+        balance: ethBalance
+      },
+      {
+        path: require('../../assets/dai_icon.png'),
+        token: 'DAI',
+        usd: PriceUtilities.convertDaiToUsd(daiBalance).toFixed(2),
+        balance: daiBalance
+      },
+      {
+        path: require('../../assets/cdai_icon.png'),
+        token: 'cDAI',
+        usd: PriceUtilities.convertDaiToUsd(cdaiBalance).toFixed(2),
+        balance: cdaiBalance
+      },
+      {
+        path: require('../../assets/pldai_icon.png'),
+        token: 'plDAI',
+        usd: PriceUtilities.convertDaiToUsd(pooltogetherDaiBalance).toFixed(2),
+        balance: pldaiBalance
+      },
+    ]
+
+    const applicationBoxes = [
+      {
+        balance: PriceUtilities.getTotalWalletBalance(ethBalance, daiBalance),
+        name: I18n.t('portfolio-home-wallet'),
+        event: () => navigation.navigate('PortfolioWallet')
+      },
+      {
+        balance: PriceUtilities.convertDaiToUsd(compoundDaiBalance).toFixed(2),
+        name: 'Compound',
+        event: () => navigation.navigate('PortfolioCompound')
+      },
+      {
+        balance: PriceUtilities.getTotalWalletBalance(ethBalance, daiBalance),
+        name: 'PoolTogether',
+        event: () => navigation.navigate('PortfolioPoolTogether')
+      }
+    ]
+
     let truncatedAdderss;
     if (checksumAddress) {
       truncatedAdderss = checksumAddress.substring(0, 24) + '...';
@@ -129,70 +174,29 @@ class PortfolioHome extends Component {
             <Copy text={checksumAddress} animation={true} icon={true} />
           </IconContainer>
         </UntouchableCardContainer>
-        <HeaderThree
+        <NewHeaderThree
           color="#000"
           marginBottom="8"
           marginLeft="24"
           marginTop="0"
-        >
-          {I18n.t('portfolio-home-coins')}
-        </HeaderThree>
+          text={I18n.t('portfolio-home-coins')}
+        />
         <CurrencyScrollView
           horizontal={true}
           contentContainerStyle={{ width: `${150}%` }}
           showsHorizontalScrollIndicator={false}
         >
-          <CoinBox
-            source={require('../../assets/ether_icon.png')}
-            token="ETH"
-            usd={PriceUtilities.convertEthToUsd(ethBalance).toFixed(2)}
-            balance={ethBalance}
-          />
-
-          <CoinBox
-            source={require('../../assets/dai_icon.png')}
-            token="DAI"
-            usd={PriceUtilities.convertDaiToUsd(daiBalance).toFixed(2)}
-            balance={daiBalance}
-          />
-
-          <CoinBox
-            source={require('../../assets/cdai_icon.png')}
-            token="cDAI"
-            usd={PriceUtilities.convertDaiToUsd(cdaiBalance).toFixed(2)}
-            balance={cdaiBalance}
-          />
-
-          <CoinBox
-            source={require('../../assets/pldai_icon.png')}
-            token="plDAI"
-            usd={PriceUtilities.convertDaiToUsd(pooltogetherDaiBalance).toFixed(2)}
-            balance={pldaiBalance}
-          />
+          <CoinBoxes boxes={coinBoxes}/>
         </CurrencyScrollView>
-        <HeaderThree
+
+        <NewHeaderThree
           color="#000"
           marginBottom="0"
           marginLeft="24"
           marginTop="24"
-        >
-          {I18n.t('portfolio-home-applications')}
-        </HeaderThree>
-        <ApplicationBox
-          balance={PriceUtilities.getTotalWalletBalance(ethBalance, daiBalance)}
-          name={I18n.t('portfolio-home-wallet')}
-          onPress={() => navigation.navigate('PortfolioWallet')}
+          text={I18n.t('portfolio-home-applications')}
         />
-        <ApplicationBox
-          balance={PriceUtilities.convertDaiToUsd(compoundDaiBalance).toFixed(2)}
-          name='Compound'
-          onPress={() => navigation.navigate('PortfolioCompound')}
-        />
-        <ApplicationBox
-          balance={PriceUtilities.convertDaiToUsd(pooltogetherDaiBalance).toFixed(2)}
-          name='PoolTogether'
-          onPress={() => navigation.navigate('PortfolioPoolTogether')}
-        />
+          <ApplicationBoxes boxes={applicationBoxes} />
       </RootContainer>
     );
   }

@@ -2,6 +2,16 @@ import React from 'react';
 import { GoyemonText } from '../../components/common';
 import styled from 'styled-components';
 
+const CoinBoxes = props =>
+  <>
+    {props.boxes.map(coin => <CoinBox
+      source={coin.path}
+      token={coin.token}
+      usd={coin.usd}
+      balance={coin.balance}
+    />)}
+  </>
+
 const CoinBox = props =>
   <CurrencyContainer>
     <CurrencyImageContainer>
@@ -79,4 +89,4 @@ color: #5f5f5f;
 font-family: 'HKGrotesk-Regular';
 `;
 
-export default CoinBox
+export default CoinBoxes

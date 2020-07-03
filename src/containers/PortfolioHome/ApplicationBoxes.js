@@ -5,7 +5,18 @@ import CompoundIcon from '../../../assets/CompoundIcon.js';
 import PoolTogetherIcon from '../../../assets/PoolTogetherIcon.js';
 import styled from 'styled-components';
 
-  const ApplicationBox = props =>
+const ApplicationBoxes = props =>
+  <>
+    {props.boxes.map(application =>
+      <ApplicationBox
+        balance={application.balance}
+        name={application.name}
+        onPress={application.event}
+      />)
+    }
+  </>
+
+const ApplicationBox = props =>
   <TouchableCardContainer
     alignItems="center"
     flexDirection="row"
@@ -62,4 +73,4 @@ const ApplicationBalanceText = styled.Text`
   font-size: 20;
 `;
 
-export default ApplicationBox
+export default ApplicationBoxes
