@@ -131,65 +131,33 @@ class PortfolioHome extends Component {
           contentContainerStyle={{ width: `${150}%` }}
           showsHorizontalScrollIndicator={false}
         >
-          <CurrencyContainer>
-            <CurrencyImageContainer>
-              <CoinImage source={require('../../assets/ether_icon.png')} />
-              <CoinText>ETH</CoinText>
-            </CurrencyImageContainer>
-            <CurrencyBalanceContainer>
-              <UsdBalanceText>
-                ${PriceUtilities.convertEthToUsd(ethBalance).toFixed(2)}
-              </UsdBalanceText>
-              <BalanceText>
-                <GoyemonText fontSize="16">{ethBalance}</GoyemonText>
-              </BalanceText>
-            </CurrencyBalanceContainer>
-          </CurrencyContainer>
+          <CoinBox
+            source={require('../../assets/ether_icon.png')}
+            token="ETH"
+            usd={PriceUtilities.convertEthToUsd(ethBalance).toFixed(2)}
+            balance={ethBalance}
+          />
 
-          <CurrencyContainer>
-            <CurrencyImageContainer>
-              <CoinImage source={require('../../assets/dai_icon.png')} />
-              <CoinText>DAI</CoinText>
-            </CurrencyImageContainer>
-            <CurrencyBalanceContainer>
-              <UsdBalanceText>
-                ${PriceUtilities.convertDaiToUsd(daiBalance).toFixed(2)}
-              </UsdBalanceText>
-              <BalanceText>
-                <GoyemonText fontSize="16">{daiBalance}</GoyemonText>
-              </BalanceText>
-            </CurrencyBalanceContainer>
-          </CurrencyContainer>
+          <CoinBox
+            source={require('../../assets/dai_icon.png')}
+            token="DAI"
+            usd={PriceUtilities.convertDaiToUsd(daiBalance).toFixed(2)}
+            balance={daiBalance}
+          />
 
-          <CurrencyContainer>
-            <CurrencyImageContainer>
-              <CoinImage source={require('../../assets/cdai_icon.png')} />
-              <CoinText>cDAI</CoinText>
-            </CurrencyImageContainer>
-            <CurrencyBalanceContainer>
-              <UsdBalanceText>
-                ${PriceUtilities.convertDaiToUsd(daiBalance).toFixed(2)}
-              </UsdBalanceText>
-              <BalanceText>
-                <GoyemonText fontSize="16">{daiBalance}</GoyemonText>
-              </BalanceText>
-            </CurrencyBalanceContainer>
-          </CurrencyContainer>
+          <CoinBox
+            source={require('../../assets/cdai_icon.png')}
+            token="cDAI"
+            usd={PriceUtilities.convertDaiToUsd(daiBalance).toFixed(2)}
+            balance={daiBalance}
+          />
 
-          <CurrencyContainer>
-            <CurrencyImageContainer>
-              <CoinImage source={require('../../assets/pldai_icon.png')} />
-              <CoinText>plDAI</CoinText>
-            </CurrencyImageContainer>
-            <CurrencyBalanceContainer>
-              <UsdBalanceText>
-                ${PriceUtilities.convertDaiToUsd(daiBalance).toFixed(2)}
-              </UsdBalanceText>
-              <BalanceText>
-                <GoyemonText fontSize="16">{daiBalance}</GoyemonText>
-              </BalanceText>
-            </CurrencyBalanceContainer>
-          </CurrencyContainer>
+          <CoinBox
+            source={require('../../assets/pldai_icon.png')}
+            token="plDAI"
+            usd={PriceUtilities.convertDaiToUsd(daiBalance).toFixed(2)}
+            balance={daiBalance}
+          />
         </CurrencyScrollView>
         <HeaderThree
           color="#000"
@@ -296,53 +264,9 @@ const ReceiveIconContainer = styled.View`
   margin-right: 16;
 `;
 
-const CurrencyContainer = styled.View`
-  align-items: center;
-  background-color: #fff;
-  border-radius: 8px;
-  flex-direction: row;
-  justify-content: center;
-  margin-right: 16;
-  padding: 16px 8px;
-  width: 22%;
-`;
-
-const CurrencyImageContainer = styled.View`
-  align-items: center;
-`;
-
-const CurrencyBalanceContainer = styled.View`
-  margin-left: 16;
-`;
-
-const CoinImage = styled.Image`
-  border-radius: 20px;
-  height: 32px;
-  width: 32px;
-  margin-bottom: 4;
-`;
-
-const BalanceText = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
-`;
-
-const UsdBalanceText = styled.Text`
-  color: #000;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 18;
-  margin-bottom: 4;
-`;
-
 const IconImageContainer = styled.View`
   align-items: center;
   width: 20%;
-`;
-
-const CoinText = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 12;
 `;
 
 const NameContainer = styled.View`
@@ -371,5 +295,65 @@ const mapStateToProps = (state) => ({
   checksumAddress: state.ReducerChecksumAddress.checksumAddress,
   price: state.ReducerPrice.price
 });
+
+const CoinBox = props =>
+  <CurrencyContainer>
+    <CurrencyImageContainer>
+      <CoinImage source={props.source} />
+      <CoinText>{props.token}</CoinText>
+    </CurrencyImageContainer>
+    <CurrencyBalanceContainer>
+      <UsdBalanceText>
+        ${props.usd}
+      </UsdBalanceText>
+      <BalanceText>
+        <GoyemonText fontSize="16">{props.balance}</GoyemonText>
+      </BalanceText>
+    </CurrencyBalanceContainer>
+  </CurrencyContainer>
+
+const CurrencyContainer = styled.View`
+  align-items: center;
+  background-color: #fff;
+  border-radius: 8px;
+  flex-direction: row;
+  justify-content: center;
+  margin-right: 16;
+  padding: 16px 8px;
+  width: 22%;
+`;
+
+const CurrencyImageContainer = styled.View`
+  align-items: center;
+`;
+
+const CoinImage = styled.Image`
+  border-radius: 20px;
+  height: 32px;
+  width: 32px;
+  margin-bottom: 4;
+`;
+
+const CoinText = styled.Text`
+  color: #5f5f5f;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 12;
+`;
+
+const CurrencyBalanceContainer = styled.View`
+  margin-left: 16;
+`;
+
+const UsdBalanceText = styled.Text`
+  color: #000;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 18;
+  margin-bottom: 4;
+`;
+
+const BalanceText = styled.Text`
+  color: #5f5f5f;
+  font-family: 'HKGrotesk-Regular';
+`;
 
 export default withNavigation(connect(mapStateToProps)(PortfolioHome));
