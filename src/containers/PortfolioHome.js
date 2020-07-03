@@ -246,6 +246,10 @@ class PortfolioHome extends Component {
             </ApplicationBalanceText>
           </BalanceContainer>
         </TouchableCardContainer>
+        <ApplicationBox
+          balance={PriceUtilities.getTotalWalletBalance(ethBalance, daiBalance)}
+          name={I18n.t('portfolio-home-wallet')}
+          onPress={() => navigation.navigate('PortfolioWallet')}/>
       </RootContainer>
     );
   }
@@ -384,5 +388,29 @@ const BalanceText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';
 `;
+
+const ApplicationBox = props =>
+  <TouchableCardContainer
+    alignItems="center"
+    flexDirection="row"
+    height="120px"
+    justifyContent="space-between"
+    textAlign="left"
+    width="90%"
+    onPress={props.onPress}
+  >
+    <IconImageContainer>
+      <Icon name="wallet-outline" size={40} color="#5f5f5f" />
+    </IconImageContainer>
+    <NameContainer>
+      <NameText>{props.name}</NameText>
+      {props.name === 'Wallet' && <GoyemonText fontSize={12}>ETH and ERC20</GoyemonText>}
+    </NameContainer>
+    <BalanceContainer>
+      <ApplicationBalanceText>
+        ${props.balance}
+      </ApplicationBalanceText>
+    </BalanceContainer>
+  </TouchableCardContainer>
 
 export default withNavigation(connect(mapStateToProps)(PortfolioHome));
