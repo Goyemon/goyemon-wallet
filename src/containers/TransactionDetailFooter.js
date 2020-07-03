@@ -2,13 +2,9 @@
 import React, { Component } from 'react';
 import { Linking, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import StyleUtilities from '../utilities/StyleUtilities.js';
 import styled from 'styled-components';
-import TransactionUtilities from '../utilities/TransactionUtilities';
 import LogUtilities from '../utilities/LogUtilities';
-import {
-    HeaderFive,
-  } from '../components/common';
+import { HeaderFive } from '../components/common';
 import Copy from './common/Copy';
 import GlobalConfig from '../config.json';
 
