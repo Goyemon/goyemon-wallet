@@ -9,8 +9,7 @@ import {
   UntouchableCardContainer,
   HeaderOne,
   HeaderThree,
-  HeaderFour,
-  GoyemonText
+  HeaderFour
 } from '../components/common';
 import I18n from '../i18n/I18n';
 import { RoundDownBigNumberPlacesFour } from '../utilities/BigNumberUtilities';
@@ -18,41 +17,56 @@ import TokenBalanceCards from '../components/PortfolioWallet/TokenBalanceCards'
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class PortfolioWallet extends Component {
+
+  returnBalance = (amount, pow, fix) => RoundDownBigNumberPlacesFour(amount)
+  .div(new RoundDownBigNumberPlacesFour(10).pow(pow))
+  .toFixed(fix);
+
   render() {
     const { balance, price } = this.props;
 
-    let ethBalance = Web3.utils.fromWei(balance.wei);
-    ethBalance = RoundDownBigNumberPlacesFour(ethBalance).toFixed(4);
+    const
+    ethBalance = RoundDownBigNumberPlacesFour(Web3.utils.fromWei(balance.wei)).toFixed(4),
+    daiBalance = this.returnBalance(balance.dai, 18, 2),
+    cdaiBalance = this.returnBalance(balance.cDai, 18, 2),
+    pooltogetherDaiBalance = RoundDownBigNumberPlacesFour(
+      balance.pooltogetherDai.open
+    )
+    .plus(balance.pooltogetherDai.committed)
+    .plus(balance.pooltogetherDai.sponsored)
+    .div(new RoundDownBigNumberPlacesFour(10).pow(18))
+    .toFixed(2)
 
-    const daiBalance = RoundDownBigNumberPlacesFour(balance.dai)
-      .div(new RoundDownBigNumberPlacesFour(10).pow(18))
-      .toFixed(2);
-
-    const tokenBalanceCards = [{
+    const tokenBalanceCards = [
+    {
       price: price.eth,
       balance: ethBalance,
       usd: PriceUtilities.convertEthToUsd(ethBalance).toFixed(2),
       icon: require('../../assets/ether_icon.png'),
       token: 'ETH'
-    },{
+    },
+    {
       price: price.dai,
       balance: daiBalance,
       usd: PriceUtilities.convertDaiToUsd(daiBalance).toFixed(2),
       icon: require('../../assets/dai_icon.png'),
       token: 'DAI'
-    },{
+    },
+    {
       price: price.dai,
-      balance: daiBalance,
-      usd: PriceUtilities.convertDaiToUsd(daiBalance).toFixed(2),
+      balance: cdaiBalance,
+      usd: PriceUtilities.convertDaiToUsd(cdaiBalance).toFixed(2),
       icon: require('../../assets/cdai_icon.png'),
       token: 'cDAI'
-    },{
+    },
+    {
       price: price.eth,
-      balance: daiBalance,
-      usd: PriceUtilities.convertDaiToUsd(daiBalance).toFixed(2),
+      balance: pooltogetherDaiBalance,
+      usd: PriceUtilities.convertDaiToUsd(pooltogetherDaiBalance).toFixed(2),
       icon: require('../../assets/pldai_icon.png'),
       token: 'plDAI'
-    }]
+    },
+  ]
 
     return (
       <RootContainer>
