@@ -1,5 +1,6 @@
+'use strict';
 import React from 'react';
-import { GoyemonText } from '../../components/common';
+import { GoyemonText } from '../common';
 import styled from 'styled-components';
 
 const CoinBoxes = props =>

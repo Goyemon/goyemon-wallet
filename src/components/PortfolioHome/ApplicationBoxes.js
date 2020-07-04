@@ -1,3 +1,4 @@
+'use strict';
 import React from 'react';
 import { TouchableCardContainer, GoyemonText } from '../../components/common';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';

@@ -14,8 +14,8 @@ import {
   GoyemonText,
   ReceiveIcon
 } from '../components/common';
-import CoinBoxes from './PortfolioHome/CoinBoxes'
-import ApplicationBoxes from './PortfolioHome/ApplicationBoxes'
+import CoinBoxes from '../components/PortfolioHome/CoinBoxes'
+import ApplicationBoxes from '../components/PortfolioHome/ApplicationBoxes'
 import Copy from '../containers/common/Copy';
 import FcmPermissions from '../firebase/FcmPermissions.js';
 import I18n from '../i18n/I18n';
