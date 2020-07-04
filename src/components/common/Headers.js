@@ -6,6 +6,8 @@ const HeaderOne = (props) => (
   <HeaderOneText marginTop={props.marginTop}>{props.children}</HeaderOneText>
 );
 
+const NewHeaderOne = props => <HeaderOneText marginTop={props.marginTop}>{props.text}</HeaderOneText>
+
 const HeaderOneText = styled.Text`
   font-size: 32;
   font-family: 'HKGrotesk-Bold';
@@ -65,6 +67,8 @@ const HeaderThreeText = styled.Text`
   text-transform: uppercase;
 `;
 
+const NewHeaderFour = (props) => <HeaderFourText marginTop={props.marginTop}>{props.text}</HeaderFourText>
+
 const HeaderFour = (props) => (
   <HeaderFourText marginTop={props.marginTop}>{props.children}</HeaderFourText>
 );
@@ -119,4 +123,4 @@ const FormHeaderText = styled.Text`
   margin-top: ${(props) => `${props.marginTop}`};
 `;
 
-export { HeaderOne, HeaderTwo, NewHeaderThree, HeaderThree, HeaderFour, HeaderFive, FormHeader };
+export { HeaderOne, NewHeaderOne, HeaderTwo, NewHeaderThree, HeaderThree, NewHeaderFour, HeaderFour, HeaderFive, FormHeader };
