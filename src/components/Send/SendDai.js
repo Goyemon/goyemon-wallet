@@ -6,8 +6,8 @@ import styled from 'styled-components/native';
 import {
   saveTxConfirmationModalVisibility,
   updateTxConfirmationModalVisibleType
-} from '../actions/ActionModal';
-import { saveOutgoingTransactionDataSend } from '../actions/ActionOutgoingTransactionData';
+} from '../../actions/ActionModal';
+import { saveOutgoingTransactionDataSend } from '../../actions/ActionOutgoingTransactionData';
 import {
   UntouchableCardContainer,
   UseMaxButton,
@@ -17,21 +17,21 @@ import {
   IsOnlineMessage,
   InsufficientWeiBalanceMessage,
   TxNextButton
-} from '../components/common';
-import { AdvancedContainer } from '../containers/common/AdvancedContainer';
-import TxConfirmationModal from '../containers/common/TxConfirmationModal';
-import ToAddressForm from '../containers/common/ToAddressForm';
-import I18n from '../i18n/I18n';
+} from '../common';
+import { AdvancedContainer } from '../../containers/common/AdvancedContainer';
+import TxConfirmationModal from '../../containers/common/TxConfirmationModal';
+import ToAddressForm from '../../containers/common/ToAddressForm';
+import I18n from '../../i18n/I18n';
 import {
   RoundDownBigNumberPlacesFour,
   RoundDownBigNumberPlacesEighteen
-} from '../utilities/BigNumberUtilities';
-import LogUtilities from '../utilities/LogUtilities.js';
-import StyleUtilities from '../utilities/StyleUtilities.js';
-import TransactionUtilities from '../utilities/TransactionUtilities.ts';
-import ABIEncoder from '../utilities/AbiUtilities';
-import TxStorage from '../lib/tx.js';
-import GlobalConfig from '../config.json';
+} from '../../utilities/BigNumberUtilities';
+import LogUtilities from '../../utilities/LogUtilities.js';
+import StyleUtilities from '../../utilities/StyleUtilities.js';
+import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
+import ABIEncoder from '../../utilities/AbiUtilities';
+import TxStorage from '../../lib/tx.js';
+import GlobalConfig from '../../config.json';
 
 class SendDai extends Component {
   constructor(props) {
@@ -191,7 +191,7 @@ class SendDai extends Component {
           textAlign="center"
           width="90%"
         >
-          <CoinImage source={require('../../assets/dai_icon.png')} />
+          <CoinImage source={require('../../../assets/dai_icon.png')} />
           <Title>{I18n.t('dai-wallet-balance')}</Title>
           <BalanceContainer>
             <Value>{this.state.daiBalance} DAI</Value>

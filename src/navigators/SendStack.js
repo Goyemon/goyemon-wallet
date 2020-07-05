@@ -1,9 +1,9 @@
 'use strict';
 import { createStackNavigator } from 'react-navigation-stack';
 import Send from '../containers/Send';
-import SendEth from '../containers/SendEth';
+import SendEth from '../components/Send/SendEth';
 import QRCodeScan from '../containers/QRCodeScan';
-import SendDai from '../containers/SendDai';
+import SendDai from '../components/Send/SendDai';
 
 const SendStack = createStackNavigator(
   {

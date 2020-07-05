@@ -7,8 +7,8 @@ import Web3 from 'web3';
 import {
   saveTxConfirmationModalVisibility,
   updateTxConfirmationModalVisibleType
-} from '../actions/ActionModal';
-import { saveOutgoingTransactionDataSend } from '../actions/ActionOutgoingTransactionData';
+} from '../../actions/ActionModal';
+import { saveOutgoingTransactionDataSend } from '../../actions/ActionOutgoingTransactionData';
 import {
   UntouchableCardContainer,
   Form,
@@ -17,21 +17,21 @@ import {
   IsOnlineMessage,
   TxNextButton,
   UseMaxButton
-} from '../components/common';
-import { AdvancedContainer } from '../containers/common/AdvancedContainer';
-import TxConfirmationModal from '../containers/common/TxConfirmationModal';
-import ToAddressForm from '../containers/common/ToAddressForm';
-import I18n from '../i18n/I18n';
+} from '../common';
+import { AdvancedContainer } from '../../containers/common/AdvancedContainer';
+import TxConfirmationModal from '../../containers/common/TxConfirmationModal';
+import ToAddressForm from '../../containers/common/ToAddressForm';
+import I18n from '../../i18n/I18n';
 import {
   RoundDownBigNumberPlacesFour,
   RoundDownBigNumberPlacesEighteen
-} from '../utilities/BigNumberUtilities';
-import LogUtilities from '../utilities/LogUtilities.js';
-import PriceUtilities from '../utilities/PriceUtilities.js';
-import StyleUtilities from '../utilities/StyleUtilities.js';
-import TransactionUtilities from '../utilities/TransactionUtilities.ts';
-import TxStorage from '../lib/tx.js';
-import GlobalConfig from '../config.json';
+} from '../../utilities/BigNumberUtilities';
+import LogUtilities from '../../utilities/LogUtilities.js';
+import PriceUtilities from '../../utilities/PriceUtilities.js';
+import StyleUtilities from '../../utilities/StyleUtilities.js';
+import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
+import TxStorage from '../../lib/tx.js';
+import GlobalConfig from '../../config.json';
 
 class SendEth extends Component {
   constructor(props) {
@@ -145,7 +145,7 @@ class SendEth extends Component {
           textAlign="left"
           width="90%"
         >
-          <CoinImage source={require('../../assets/ether_icon.png')} />
+          <CoinImage source={require('../../../assets/ether_icon.png')} />
           <Title>{I18n.t('eth-wallet-balance')}</Title>
           <BalanceContainer>
             <Value>{ethBalance} ETH</Value>
