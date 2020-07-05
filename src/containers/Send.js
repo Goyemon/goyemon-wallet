@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, ScrollView } from 'react-native';
 import styled from 'styled-components';
-import { RootContainer, Container, HeaderOne } from './common';
+import { RootContainer, Container, HeaderOne } from '../components/common';
 import SendEth from '../containers/SendEth';
 import SendDai from '../containers/SendDai';
 import I18n from '../i18n/I18n';
@@ -52,6 +52,22 @@ export default class Send extends Component {
               <CoinImage
                 opacity={this.state.currency === 'dai' ? 1 : 0.4}
                 source={require('../../assets/dai_icon.png')}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => this.setState({ currency: 'dai' })}
+            >
+              <CoinImage
+                opacity={this.state.currency === 'cdai' ? 1 : 0.4}
+                source={require('../../assets/cdai_icon.png')}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => this.setState({ currency: 'pldai' })}
+            >
+              <CoinImage
+                opacity={this.state.currency === 'dai' ? 1 : 0.4}
+                source={require('../../assets/pldai_icon.png')}
               />
             </TouchableOpacity>
           </Container>

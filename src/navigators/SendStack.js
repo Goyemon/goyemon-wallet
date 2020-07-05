@@ -1,6 +1,6 @@
 'use strict';
 import { createStackNavigator } from 'react-navigation-stack';
-import Send from '../components/Send';
+import Send from '../containers/Send';
 import SendEth from '../containers/SendEth';
 import QRCodeScan from '../containers/QRCodeScan';
 import SendDai from '../containers/SendDai';
