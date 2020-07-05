@@ -14,8 +14,10 @@ import {
     Loader,
     IsOnlineMessage,
     TxNextButton,
+    InsufficientWeiBalanceMessage,
     UseMaxButton
   } from '../common';
+import { AdvancedContainer } from '../../containers/common/AdvancedContainer';
 import ToAddressForm from '../../containers/common/ToAddressForm';
 import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
 import GlobalConfig from '../../config.json';
@@ -28,7 +30,8 @@ class SendToken extends Component {
         super(props);
         this.state = {
             amountValidation: undefined,
-            balance: props.balance
+            balance: props.balance,
+            loading: false
         }
     }
 
@@ -76,8 +79,7 @@ class SendToken extends Component {
         const { icon, token, title, balance } = this.props.info
         return (
             <View>
-                <TxConfirmationModal />
-                <IsOnlineMessage isOnline={this.props.isOnline} />
+            <TxConfirmationModal />
                 <UntouchableCardContainer
                     alignItems="center"
                     borderRadius="8px"
@@ -103,15 +105,15 @@ class SendToken extends Component {
                     text={I18n.t('use-max')}
                     textColor="#00A3E2"
                     onPress={() => {
-                    this.setState({ balance: balance });
-                    this.updateAmountValidation(
-                        token === 'ETH'
-                        ? TransactionUtilities.validateWeiAmount(
-                            balance,
-                            GlobalConfig.ETHTxGasLimit
-                          )
-                        : TransactionUtilities.validateDaiAmount(balance)
-                    );
+                        this.setState({ balance: balance });
+                        this.updateAmountValidation(
+                            token === 'ETH'
+                            ? TransactionUtilities.validateWeiAmount(
+                                balance,
+                                GlobalConfig.ETHTxGasLimit
+                            )
+                            : TransactionUtilities.validateDaiAmount(balance)
+                        );
                     }}
                 />
                 </FormHeaderContainer>
@@ -121,8 +123,67 @@ class SendToken extends Component {
                     )}
                     borderWidth={1}
                     height="56px"
-                ></Form>
-                {this.returnTokenComp()}
+                ><SendTextInputContainer>
+                <SendTextInput
+                  placeholder="0"
+                  keyboardType="numeric"
+                  clearButtonMode="while-editing"
+                  onChangeText={balance => {
+                    const isNumber = /^[0-9]\d*(\.\d+)?$/.test(balance);
+                    this.setState({ balance });
+                    if (isNumber) {
+                        this.updateAmountValidation(
+                            token === 'ETH'
+                            ? TransactionUtilities.validateWeiAmount(
+                                balance,
+                                GlobalConfig.ETHTxGasLimit
+                              )
+                            : TransactionUtilities.validateDaiAmount(balance)
+                        );
+                        this.setState({
+                            balance: token === 'ETH' ? Web3.utils.toWei(balance) : balance
+                        });
+                    } else {
+                      this.updateAmountValidation(false);
+                    }
+                  }}
+                  returnKeyType="done"
+                  value={this.state.balance}
+                />
+                <CurrencySymbolText>{token}</CurrencySymbolText>
+              </SendTextInputContainer>
+              </Form>
+              <AdvancedContainer gasLimit={GlobalConfig.ERC20TransferGasLimit} />
+              <InsufficientWeiBalanceMessage
+                weiAmountValidation={this.state.amountValidation}
+              />
+              <ButtonWrapper>
+            <TxNextButton
+                disabled={
+                !(
+                    this.state.amountValidation &&
+                    this.props.toAddressValidation &&
+                    this.props.isOnline
+                ) || this.state.loading
+                }
+                opacity={
+                this.state.amountValidation &&
+                this.props.toAddressValidation &&
+                this.props.isOnline
+                    ? 1
+                    : 0.5
+                }
+                onPress={async () => {
+                await this.validateForm(
+                    this.props.outgoingTransactionData.send.toaddress,
+                    this.state.balance
+                );
+                this.setState({ loading: false });
+                }}
+            />
+            <Loader animating={this.state.loading} size="small" />
+            </ButtonWrapper>
+                <IsOnlineMessage isOnline={this.props.isOnline} />
             </View>
         )
     }
@@ -163,10 +224,36 @@ const FormHeaderContainer = styled.View`
   width: 90%;
 `;
 
+const SendTextInputContainer = styled.View`
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 100%;
+  width: 95%;
+`;
+
+const SendTextInput = styled.TextInput`
+  font-size: 14;
+  height: 56px;
+  text-align: left;
+  width: 80%;
+`;
+
+const CurrencySymbolText = styled.Text`
+  font-family: 'HKGrotesk-Regular';
+`;
+
+const ButtonWrapper = styled.View`
+  align-items: center;
+`;
+
 mapStateToProps = state => {
     return {
       isOnline: state.ReducerNetInfo.isOnline,
       gasChosen: state.ReducerGasPrice.gasChosen,
+      outgoingTransactionData:
+      state.ReducerOutgoingTransactionData.outgoingTransactionData,
+      toAddressValidation: state.ReducerTxFormValidation.toAddressValidation,
     };
 }
 
