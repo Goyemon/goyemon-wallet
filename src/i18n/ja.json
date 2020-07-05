@@ -85,6 +85,8 @@
   "button-24words": "24文字",
   "eth-wallet-balance": "eth ウォレット残高",
   "dai-wallet-balance": "dai ウォレット残高",
+  "cdai-wallet-balance": "cdai ウォレット残高",
+  "pldai-wallet-balance": "pldai ウォレット残高",
   "to": "送金先",
   "amount": "送金額",
   "deposit": "預け入れ",

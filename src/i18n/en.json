@@ -85,6 +85,8 @@
   "button-24words": "24 Words",
   "eth-wallet-balance": "eth wallet balance",
   "dai-wallet-balance": "dai wallet balance",
+  "cdai-wallet-balance": "cdai wallet balance",
+  "pldai-wallet-balance": "pldai wallet balance",
   "to": "To",
   "amount": "Amount",
   "deposit": "Deposit",

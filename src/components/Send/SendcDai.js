@@ -171,7 +171,7 @@ class SendDai extends Component {
   };
 
   render() {
-    const { balance } = this.props;
+    const { icon, token, title, balance } = this.props.info
     const isOnline = this.props.isOnline;
 
     const daiFullBalance = RoundDownBigNumberPlacesFour(balance.dai)
@@ -191,10 +191,10 @@ class SendDai extends Component {
           textAlign="center"
           width="90%"
         >
-          <CoinImage source={require('../../../assets/dai_icon.png')} />
-          <Title>{I18n.t('dai-wallet-balance')}</Title>
+          <CoinImage source={icon} />
+          <Title>{title}</Title>
           <BalanceContainer>
-            <Value>{this.state.daiBalance} DAI</Value>
+            <Value>{balance} {token}</Value>
           </BalanceContainer>
         </UntouchableCardContainer>
         <ToAddressForm />
@@ -234,7 +234,7 @@ class SendDai extends Component {
               returnKeyType="done"
               value={this.state.daiAmount}
             />
-            <CurrencySymbolText>DAI</CurrencySymbolText>
+            <CurrencySymbolText>{token}</CurrencySymbolText>
           </SendTextInputContainer>
         </Form>
         <AdvancedContainer gasLimit={GlobalConfig.ERC20TransferGasLimit} />

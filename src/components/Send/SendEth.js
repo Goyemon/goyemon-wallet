@@ -113,6 +113,7 @@ class SendEth extends Component {
   };
 
   render() {
+    const { icon } = this.props.info
     const isOnline = this.props.isOnline;
     const ethBalance = RoundDownBigNumberPlacesFour(
       this.state.ethBalance
@@ -145,7 +146,7 @@ class SendEth extends Component {
           textAlign="left"
           width="90%"
         >
-          <CoinImage source={require('../../../assets/ether_icon.png')} />
+          <CoinImage source={icon} />
           <Title>{I18n.t('eth-wallet-balance')}</Title>
           <BalanceContainer>
             <Value>{ethBalance} ETH</Value>
