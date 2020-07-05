@@ -6,6 +6,11 @@ import SendEth from './SendEth';
 import SendDai from './SendDai';
 import SendcDai from './SendcDai';
 import SendplDai from './SendplDai';
+import {
+    saveTxConfirmationModalVisibility,
+    updateTxConfirmationModalVisibleType
+  } from '../../actions/ActionModal';
+import { saveOutgoingTransactionDataSend } from '../../actions/ActionOutgoingTransactionData';
 import TxConfirmationModal from '../../containers/common/TxConfirmationModal';
 import {
     UntouchableCardContainer,
@@ -17,6 +22,10 @@ import {
     InsufficientWeiBalanceMessage,
     UseMaxButton
   } from '../common';
+import {
+    RoundDownBigNumberPlacesFour,
+    RoundDownBigNumberPlacesEighteen
+  } from '../../utilities/BigNumberUtilities';
 import { AdvancedContainer } from '../../containers/common/AdvancedContainer';
 import ToAddressForm from '../../containers/common/ToAddressForm';
 import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
@@ -24,6 +33,7 @@ import GlobalConfig from '../../config.json';
 import LogUtilities from '../../utilities/LogUtilities.js';
 import StyleUtilities from '../../utilities/StyleUtilities.js';
 import I18n from '../../i18n/I18n';
+import TxStorage from '../../lib/tx.js';
 
 class SendToken extends Component {
     constructor(props) {
@@ -60,6 +70,32 @@ class SendToken extends Component {
         LogUtilities.toDebugScreen('Send Token State', this.state)
     }
 
+    validateForm = async (toAddress, amount) => {
+        const toAddressValidation = this.props.toAddressValidation;
+        const amountValidation = this.props.token === 'ETH'
+        ? TransactionUtilities.validateWeiAmount(
+            amount,
+            GlobalConfig.ETHTxGasLimit
+        )
+        : TransactionUtilities.validateDaiAmount(amount)
+        const isOnline = this.props.isOnline;
+        if (toAddressValidation && amountValidation && isOnline) {
+            this.setState({ loading: true });
+            LogUtilities.logInfo('validation successful');
+            const transactionObject = await this.constructTransactionObject();
+            this.props.saveOutgoingTransactionDataSend({
+                toaddress: toAddress,
+                amount: this.props.token === 'ETH' ? Web3.utils.fromWei(amount.toString(16)) : amount,
+                gasLimit: GlobalConfig.ETHTxGasLimit,
+                transactionObject: transactionObject
+            });
+            this.props.saveTxConfirmationModalVisibility(true);
+            this.props.updateTxConfirmationModalVisibleType('send-eth');
+        } else {
+            LogUtilities.logInfo('form validation failed!');
+        }
+    }
+
     updateAmountValidation = isValid => this.setState({ amountValidation: isValid})
 
     returnTokenComp() {
@@ -74,6 +110,19 @@ class SendToken extends Component {
                 return <SendplDai />
         }
     }
+
+    constructTransactionObject = async () =>
+        (await TxStorage.storage.newTx())
+          .setTo(this.props.outgoingTransactionData.send.toaddress)
+          .setValue(
+            new RoundDownBigNumberPlacesEighteen(this.state.balance).toString(16)
+          )
+          .setGasPrice(
+            TransactionUtilities.returnTransactionSpeed(
+              this.props.gasChosen
+            ).toString(16)
+          )
+          .setGas(GlobalConfig.ETHTxGasLimit.toString(16))
 
     render() {
         const { icon, token, title, balance } = this.props.info
@@ -257,4 +306,11 @@ mapStateToProps = state => {
     };
 }
 
-export default connect(mapStateToProps)(SendToken);
+
+const mapDispatchToProps = {
+    saveTxConfirmationModalVisibility,
+    updateTxConfirmationModalVisibleType,
+    saveOutgoingTransactionDataSend
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SendToken);
