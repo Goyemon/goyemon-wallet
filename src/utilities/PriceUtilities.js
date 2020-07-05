@@ -29,6 +29,19 @@ class PriceUtilities {
     }
   }
 
+  convertcDaiToUsd(cdai) {
+    const stateTree = store.getState();
+    const price = stateTree.ReducerPrice.price;
+
+    try {
+      const usdValue = price.cdai * parseFloat(cdai);
+      const roundedDaiUsdValue = parseFloat(usdValue);
+      return roundedDaiUsdValue;
+    } catch (error) {
+      LogUtilities.logError(error);
+    }
+  }
+
   getDaiUsdBalance(daiBalance) {
     try {
       return this.convertDaiToUsd(daiBalance).toFixed(2);

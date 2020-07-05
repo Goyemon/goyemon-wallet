@@ -1,5 +1,5 @@
 'use strict';
-import { GET_DAI_PRICE, GET_ETH_PRICE } from '../constants/ActionTypes';
+import { GET_DAI_PRICE, GET_ETH_PRICE, GET_CDAI_PRICE } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
 export function getDaiPrice() {
@@ -40,4 +40,24 @@ export function getEthPrice() {
 const getEthPriceSuccess = (ethPrice) => ({
   type: GET_ETH_PRICE,
   payload: ethPrice
+});
+
+export function getcDaiPrice() {
+  return async function (dispatch) {
+    try {
+      let res = await fetch(
+        'https://api.compound.finance/api/v2/ctoken'
+      )
+      res = await res.json();
+      const cDaiPrice = parseFloat(res.cToken[0].exchange_rate.value).toFixed(2);
+      dispatch(getcDaiPriceSuccess(cDaiPrice));
+    } catch (err) {
+      LogUtilities.logError(err);
+    }
+  }
+}
+
+const getcDaiPriceSuccess = (cDaiPrice) => ({
+  type: GET_CDAI_PRICE,
+  payload: cDaiPrice
 });
