@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import { RootContainer, Container, HeaderOne } from '../components/common';
 import SendEth from '../components/Send/SendEth';
 import SendDai from '../components/Send/SendDai';
+import SendcDai from '../components/Send/SendcDai';
+import SendplDai from '../components/Send/SendplDai';
 import I18n from '../i18n/I18n';
 import LogUtilities from '../utilities/LogUtilities.js';
 
@@ -17,12 +19,18 @@ export default class Send extends Component {
   }
 
   renderCurrency() {
-    if (this.state.currency === 'eth') {
-      return <SendEth />;
-    } else if (this.state.currency === 'dai') {
-      return <SendDai />;
-    } else {
-      LogUtilities.logInfo('no currency matches');
+    switch(this.state.currency) {
+      case 'eth':
+        return <SendEth />
+      case 'dai':
+        return <SendDai />
+      case 'cdai':
+        return <SendcDai />
+      case 'pldai':
+        return <SendplDai />
+      default:
+        LogUtilities.logInfo('no currency matches');
+        break
     }
   }
 
@@ -49,6 +57,7 @@ export default class Send extends Component {
         path: require('../../assets/pldai_icon.png')
       },
     ]
+
     return (
       <RootContainer>
         <HeaderOne marginTop="64">{I18n.t('send')}</HeaderOne>
