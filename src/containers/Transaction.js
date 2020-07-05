@@ -26,17 +26,19 @@ class Transaction extends Component {
   }
 
   componentDidMount() {
+    const filter = TransactionUtilities.getFilter(this.props.transaction.filter)
     TxStorage.storage
-      .getTx(this.props.transaction.index, this.props.transaction.filter)
+      .getTx(this.props.transaction.index, filter)
       .then((x) => {
         this.setState({ children: this.computeChildren(x) });
       });
   }
 
   componentDidUpdate(prevProps) {
+    const filter = TransactionUtilities.getFilter(this.props.transaction.filter)
     if (this.props.updateCounter !== prevProps.updateCounter)
       TxStorage.storage
-        .getTx(this.props.transaction.index, this.props.transaction.filter)
+        .getTx(this.props.transaction.index, filter)
         .then((x) => {
           this.setState({ children: this.computeChildren(x) });
         });

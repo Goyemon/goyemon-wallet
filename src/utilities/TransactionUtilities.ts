@@ -341,6 +341,20 @@ class TransactionUtilities {
     const weiValue = Web3.utils.toWei(etherValue)
     return new RoundDownBigNumberPlacesEighteen(weiValue).toString(16)
   }
+
+  getFilter(filter) {
+    if(filter) {
+      switch(filter) {
+        case 'cdai':
+          return 'odcda'
+        case 'pldai':
+          return 'odpta'
+        default:
+          return 'dai'
+      }
+    }
+    else return 'all'
+  }
 }
 
 export default new TransactionUtilities();
