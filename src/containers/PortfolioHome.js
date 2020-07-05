@@ -109,7 +109,7 @@ class PortfolioHome extends Component {
       {
         path: require('../../assets/cdai_icon.png'),
         token: 'cDAI',
-        usd: PriceUtilities.convertDaiToUsd(cdaiBalance).toFixed(2),
+        usd: PriceUtilities.convertcDaiToUsd(cdaiBalance).toFixed(2),
         balance: cdaiBalance
       },
       {
