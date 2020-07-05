@@ -18,8 +18,8 @@ import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class PortfolioWallet extends Component {
 
-  returnBalance = (amount, pow, fix) => RoundDownBigNumberPlacesFour(amount)
-  .div(new RoundDownBigNumberPlacesFour(10).pow(pow))
+  returnBalance = (amount, round, pow, fix) => RoundDownBigNumberPlacesFour(amount)
+  .div(new RoundDownBigNumberPlacesFour(round).pow(pow))
   .toFixed(fix);
 
   render() {
@@ -27,8 +27,8 @@ class PortfolioWallet extends Component {
 
     const
     ethBalance = RoundDownBigNumberPlacesFour(Web3.utils.fromWei(balance.wei)).toFixed(4),
-    daiBalance = this.returnBalance(balance.dai, 18, 2),
-    cdaiBalance = this.returnBalance(balance.cDai, 18, 2),
+    daiBalance = this.returnBalance(balance.dai, 10, 18, 2),
+    cdaiBalance = this.returnBalance(balance.cDai, 10, 8, 2),
     pooltogetherDaiBalance = RoundDownBigNumberPlacesFour(
       balance.pooltogetherDai.open
     )

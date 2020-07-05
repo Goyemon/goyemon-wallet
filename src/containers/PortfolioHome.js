@@ -57,8 +57,8 @@ class PortfolioHome extends Component {
     LogUtilities.toDebugScreen('PortfolioHome componentDidMount', this.props.balance);
   }
 
-  returnBalance = (amount, pow, fix) => RoundDownBigNumberPlacesFour(amount)
-  .div(new RoundDownBigNumberPlacesFour(10).pow(pow))
+  returnBalance = (amount, round, pow, fix) => RoundDownBigNumberPlacesFour(amount)
+  .div(new RoundDownBigNumberPlacesFour(round).pow(pow))
   .toFixed(fix);
 
   render() {
@@ -66,14 +66,14 @@ class PortfolioHome extends Component {
 
     const ethBalance = RoundDownBigNumberPlacesFour(Web3.utils.fromWei(balance.wei)).toFixed(4);
 
-    const daiBalance = this.returnBalance(balance.dai, 18, 2)
+    const daiBalance = this.returnBalance(balance.dai, 10, 18, 2)
 
-    const cdaiBalance = this.returnBalance(balance.cDai, 18, 2)
+    const cdaiBalance = this.returnBalance(balance.cDai, 10, 8, 2)
 
     const pldaiBalance = [
-      this.returnBalance(balance.pooltogetherDai.open, 18, 0),
-      this.returnBalance(balance.pooltogetherDai.committed, 18, 0),
-      this.returnBalance(balance.pooltogetherDai.sponsored, 18, 0)
+      this.returnBalance(balance.pooltogetherDai.open, 10, 18, 0),
+      this.returnBalance(balance.pooltogetherDai.committed, 10, 18, 0),
+      this.returnBalance(balance.pooltogetherDai.sponsored, 10, 18, 0)
     ]
 
     const compoundDaiBalance = RoundDownBigNumberPlacesFour(balance.compoundDai)
