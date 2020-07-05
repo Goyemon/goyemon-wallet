@@ -9,11 +9,56 @@ import SendplDai from './SendplDai';
 import TxConfirmationModal from '../../containers/common/TxConfirmationModal';
 import {
     UntouchableCardContainer,
-    IsOnlineMessage
+    Form,
+    FormHeader,
+    Loader,
+    IsOnlineMessage,
+    TxNextButton,
+    UseMaxButton
   } from '../common';
 import ToAddressForm from '../../containers/common/ToAddressForm';
+import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
+import GlobalConfig from '../../config.json';
+import LogUtilities from '../../utilities/LogUtilities.js';
+import StyleUtilities from '../../utilities/StyleUtilities.js';
+import I18n from '../../i18n/I18n';
 
 class SendToken extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            amountValidation: undefined,
+            balance: props.balance
+        }
+    }
+
+    componentDidMount = () =>
+        TransactionUtilities.validateWeiAmountForTransactionFee(
+            TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
+            GlobalConfig.ERC20TransferGasLimit
+        )
+
+    componentDidUpdate(prevProps) {
+        if (this.props.gasChosen != prevProps.gasChosen) {
+          this.updateAmountValidation(
+            TransactionUtilities.validateWeiAmountForTransactionFee(
+              TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
+              GlobalConfig.ERC20TransferGasLimit
+            )
+          );
+        }
+        if (this.props.balance != prevProps.balance) {
+          this.setState({
+            balance: RoundDownBigNumberPlacesFour(this.props.balance)
+              .div(new RoundDownBigNumberPlacesFour(10).pow(18))
+              .toFixed(2)
+          });
+        }
+        LogUtilities.toDebugScreen('Send Token State', this.state)
+    }
+
+    updateAmountValidation = isValid => this.setState({ amountValidation: isValid})
+
     returnTokenComp() {
         switch(this.props.token) {
             case 'ETH':
@@ -50,6 +95,33 @@ class SendToken extends Component {
                 </BalanceContainer>
                 </UntouchableCardContainer>
                 <ToAddressForm />
+                <FormHeaderContainer>
+                <FormHeader marginBottom="0" marginTop="0">
+                    {I18n.t('amount')}
+                </FormHeader>
+                <UseMaxButton
+                    text={I18n.t('use-max')}
+                    textColor="#00A3E2"
+                    onPress={() => {
+                    this.setState({ balance: balance });
+                    this.updateAmountValidation(
+                        token === 'ETH'
+                        ? TransactionUtilities.validateWeiAmount(
+                            balance,
+                            GlobalConfig.ETHTxGasLimit
+                          )
+                        : TransactionUtilities.validateDaiAmount(balance)
+                    );
+                    }}
+                />
+                </FormHeaderContainer>
+                <Form
+                    borderColor={StyleUtilities.getBorderColor(
+                        this.state.amountValidation
+                    )}
+                    borderWidth={1}
+                    height="56px"
+                ></Form>
                 {this.returnTokenComp()}
             </View>
         )
@@ -83,9 +155,18 @@ const Value = styled.Text`
   margin-left: 4;
 `;
 
-function mapStateToProps(state) {
+const FormHeaderContainer = styled.View`
+  align-items: center;
+  flex-direction: row;
+  margin: 0 auto;
+  margin-top: 16px;
+  width: 90%;
+`;
+
+mapStateToProps = state => {
     return {
-      isOnline: state.ReducerNetInfo.isOnline
+      isOnline: state.ReducerNetInfo.isOnline,
+      gasChosen: state.ReducerGasPrice.gasChosen,
     };
 }
 
