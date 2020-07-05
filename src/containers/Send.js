@@ -27,6 +27,28 @@ export default class Send extends Component {
   }
 
   render() {
+    const tabs = [
+      {
+        event: () => this.setState({ currency: 'eth' }),
+        opacity: this.state.currency === 'eth' ? 1 : 0.4,
+        path: require('../../assets/ether_icon.png')
+      },
+      {
+        event: () => this.setState({ currency: 'dai' }),
+        opacity: this.state.currency === 'dai' ? 1 : 0.4,
+        path: require('../../assets/dai_icon.png')
+      },
+      {
+        event: () => this.setState({ currency: 'cdai' }),
+        opacity: this.state.currency === 'cdai' ? 1 : 0.4,
+        path: require('../../assets/cdai_icon.png')
+      },
+      {
+        event: () => this.setState({ currency: 'pldai' }),
+        opacity: this.state.currency === 'pldai' ? 1 : 0.4,
+        path: require('../../assets/pldai_icon.png')
+      },
+    ]
     return (
       <RootContainer>
         <HeaderOne marginTop="64">{I18n.t('send')}</HeaderOne>
@@ -38,38 +60,16 @@ export default class Send extends Component {
             marginTop={16}
             width="100%"
           >
-            <TouchableOpacity
-              onPress={() => this.setState({ currency: 'eth' })}
-            >
-              <CoinImage
-                opacity={this.state.currency === 'eth' ? 1 : 0.4}
-                source={require('../../assets/ether_icon.png')}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => this.setState({ currency: 'dai' })}
-            >
-              <CoinImage
-                opacity={this.state.currency === 'dai' ? 1 : 0.4}
-                source={require('../../assets/dai_icon.png')}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => this.setState({ currency: 'dai' })}
-            >
-              <CoinImage
-                opacity={this.state.currency === 'cdai' ? 1 : 0.4}
-                source={require('../../assets/cdai_icon.png')}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => this.setState({ currency: 'pldai' })}
-            >
-              <CoinImage
-                opacity={this.state.currency === 'dai' ? 1 : 0.4}
-                source={require('../../assets/pldai_icon.png')}
-              />
-            </TouchableOpacity>
+            {tabs.map(tab =>
+              <TouchableOpacity
+                onPress={tab.event}
+              >
+                <CoinImage
+                  opacity={tab.opacity}
+                  source={tab.path}
+                />
+              </TouchableOpacity>
+            )}
           </Container>
         </ScrollView>
         {this.renderCurrency()}
