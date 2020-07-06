@@ -9,7 +9,7 @@ const ValidateMessage = props => {
         ? <View />
         : <ErrorMessage textAlign="center">number is invalid!</ErrorMessage>
   else
-    return <ErrorMessage textAlign="center">not enough ether!</ErrorMessage>;
+    return <ErrorMessage textAlign="center">not enough {props.isEth ? 'ether' : 'token'}!</ErrorMessage>;
 }
 
 export { ValidateMessage }

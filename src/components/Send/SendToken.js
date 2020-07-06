@@ -47,6 +47,10 @@ class SendToken extends Component {
         }
     }
 
+    componentDidMount() {
+        LogUtilities.logInfo('SendToken componentDidMount', this.state);
+    }
+
     componentDidUpdate(prevProps) {
         if (this.props.gasChosen != prevProps.gasChosen)
           this.updateAmountValidation(
@@ -58,6 +62,10 @@ class SendToken extends Component {
         if (this.props.info.balance != prevProps.info.balance)
           this.setState({
             balance: roundDownFour(this.props.info.balance).toFixed(2)
+          })
+        if (this.props.info.token != prevProps.info.token)
+          this.setState({
+            isEth: this.props.info.token === 'ETH'
           })
     }
 
@@ -201,17 +209,19 @@ class SendToken extends Component {
                                 );
                                 this.setState({ amount });
                             }
+                            LogUtilities.logInfo('isNumber', this.isNumber(amount))
                         }}
                         returnKeyType="done"
                         value={displayAmount}
                         />
-                        <CurrencySymbolText>{token}</CurrencySymbolText>
+                        <CurrencySymbolText>{token}/{String(amountValidation)}/{String(isEth)}</CurrencySymbolText>
                     </SendTextInputContainer>
                 </Form>
                 <AdvancedContainer gasLimit={GlobalConfig.ERC20TransferGasLimit} />
                 <ValidateMessage
                     amountValidation={amountValidation && !this.isEfficientGas()}
                     numberValidation={this.isNumber(displayAmount)}
+                    isEth={isEth}
                 />
                 <ButtonWrapper>
                 <TxNextButton
