@@ -15,7 +15,7 @@ import {
     Loader,
     IsOnlineMessage,
     TxNextButton,
-    InsufficientWeiBalanceMessage,
+    ValidateMessage,
     UseMaxButton
   } from '../common';
 import {
@@ -39,7 +39,8 @@ class SendToken extends Component {
         this.state = {
             amountValidation: undefined,
             balance: props.info.balance,
-            amount: '',
+            amount: 0,
+            displayAmount: 0,
             loading: false,
             isEth: props.info.token === 'ETH',
             gasLimit: props.info.token === 'ETH' ? GlobalConfig.ETHTxGasLimit : GlobalConfig.ERC20TransferGasLimit
@@ -107,35 +108,53 @@ class SendToken extends Component {
                 transactionObject: transactionObject
             });
             this.props.saveTxConfirmationModalVisibility(true);
-            this.props.updateTxConfirmationModalVisibleType((() => {
-                switch(this.props.info.token) {
-                    case 'ETH':
-                        return 'send-eth'
-                    case 'DAI':
-                        return 'send-dai'
-                    case 'cDAI':
-                        return 'send-cdai'
-                    case 'plDAI':
-                        return 'send-pldai'
-                }
-            })());
+            this.props.updateTxConfirmationModalVisibleType(`send-${this.props.info.token.toLowerCase()}`);
             LogUtilities.logInfo('validation successful');
-            this.props.updateTxConfirmationModalVisibleType('send-dai');
         }
         else
             LogUtilities.logInfo('form validation failed!');
         this.setState({ loading: false });
     }
 
-    constructTransactionObject = async () =>
-        (await TxStorage.storage.newTx())
+    constructTransactionObject = async () => {
+        const { amount, gasLimit, isEth } = this.state
+        const daiAmount = amount.split('.').join('');
+        const decimalPlaces = TransactionUtilities.decimalPlaces(
+            amount
+        )
+        const decimals = 18 - parseInt(decimalPlaces);
+        const transferEncodedABI = ABIEncoder.encodeTransfer(
+            this.props.outgoingTransactionData.send.toaddress,
+            daiAmount,
+            decimals
+        )
+        const daiAmountWithDecimals = new RoundDownBigNumberPlacesEighteen(
+            amount
+        )
+        .times(new RoundDownBigNumberPlacesEighteen(10).pow(18))
+        .toString(16);
+
+        return isEth
+        ? (await TxStorage.storage.newTx())
         .setTo(this.props.outgoingTransactionData.send.toaddress)
-        .setValue(new RoundDownBigNumberPlacesEighteen(this.state.amount).toString(16))
+        .setValue(new RoundDownBigNumberPlacesEighteen(amount).toString(16))
         .setGasPrice(TransactionUtilities.returnTransactionSpeed(this.props.gasChosen).toString(16))
-        .setGas(this.state.gasLimit.toString(16))
+        .setGas(gasLimit.toString(16))
+
+        : (await TxStorage.storage.newTx())
+        .setTo(GlobalConfig.DAITokenContract)
+        .setGasPrice(TransactionUtilities.returnTransactionSpeed(this.props.gasChosen).toString(16))
+        .setGas(gasLimit.toString(16))
+        .tempSetData(transferEncodedABI)
+        .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.transfer, [
+            TxStorage.storage.getOwnAddress(),
+            this.props.outgoingTransactionData.send.toaddress,
+            daiAmountWithDecimals
+        ]);
+    }
 
     render() {
-        const { amountValidation, loading, amount, isEth } = this.state
+        const { amountValidation, loading, amount, displayAmount, isEth } = this.state
         const { token } = this.props.info
         const fullAmount = this.getFullAmount()
 
@@ -173,29 +192,27 @@ class SendToken extends Component {
                         keyboardType="numeric"
                         clearButtonMode="while-editing"
                         onChangeText={amount => {
+                            this.setState({ displayAmount: amount })
                             if (this.isNumber(amount)) {
                                 this.updateAmountValidation(
                                     isEth
-                                    ? TransactionUtilities.validateWeiAmount(amount, GlobalConfig.ETHTxGasLimit)
+                                    ? TransactionUtilities.validateWeiAmount(Web3.utils.toWei(amount), GlobalConfig.ETHTxGasLimit)
                                     : TransactionUtilities.validateDaiAmount(amount)
                                 );
                                 this.setState({ amount });
                             }
-                            else
-                            this.updateAmountValidation(false);
                         }}
                         returnKeyType="done"
-                        value={isEth
-                            ? amount
-                            ? RoundDownBigNumberPlacesFour(Web3.utils.fromWei(amount)).toFixed(4)
-                            : ''
-                            : amount}
+                        value={displayAmount}
                         />
                         <CurrencySymbolText>{token}</CurrencySymbolText>
                     </SendTextInputContainer>
                 </Form>
                 <AdvancedContainer gasLimit={GlobalConfig.ERC20TransferGasLimit} />
-                <InsufficientWeiBalanceMessage weiAmountValidation={amountValidation && !this.isEfficientGas()} />
+                <ValidateMessage
+                    amountValidation={amountValidation && !this.isEfficientGas()}
+                    numberValidation={this.isNumber(displayAmount)}
+                />
                 <ButtonWrapper>
                 <TxNextButton
                     disabled={this.isDisabled()}

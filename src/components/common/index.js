@@ -15,3 +15,4 @@ export * from './SettingsListCard';
 export * from './Texts';
 export * from './ToggleCurrencySymbol';
 export * from './TransactionStatus';
+export * from './ValidateMessage';
