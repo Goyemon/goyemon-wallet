@@ -118,7 +118,7 @@ class SendToken extends Component {
                     case 'plDAI':
                         return 'send-pldai'
                 }
-        }));
+            })());
             LogUtilities.logInfo('validation successful');
             this.props.updateTxConfirmationModalVisibleType('send-dai');
         }
@@ -296,7 +296,6 @@ mapStateToProps = state => {
       toAddressValidation: state.ReducerTxFormValidation.toAddressValidation,
     };
 }
-
 
 const mapDispatchToProps = {
     saveTxConfirmationModalVisibility,
