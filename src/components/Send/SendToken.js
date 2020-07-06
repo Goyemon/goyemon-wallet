@@ -20,7 +20,8 @@ import {
   } from '../common';
 import {
     RoundDownBigNumberPlacesFour,
-    RoundDownBigNumberPlacesEighteen
+    RoundDownBigNumberPlacesEighteen,
+    roundDownFour
   } from '../../utilities/BigNumberUtilities';
 import { AdvancedContainer } from '../../containers/common/AdvancedContainer';
 import ToAddressForm from '../../containers/common/ToAddressForm';
@@ -53,9 +54,7 @@ class SendToken extends Component {
           )
         if (this.props.info.balance != prevProps.info.balance)
           this.setState({
-            balance: RoundDownBigNumberPlacesFour(this.props.info.balance)
-              .div(new RoundDownBigNumberPlacesFour(10).pow(18))
-              .toFixed(2)
+            balance: roundDownFour(this.props.info.balance).toFixed(2)
           })
     }
 
@@ -76,9 +75,7 @@ class SendToken extends Component {
             ? tokenBalance.isLessThanOrEqualTo(networkFeeLimit)
             ? tokenBalance.minus(networkFeeLimit).toString()
             : tokenBalance.minus(networkFeeLimit).toString()
-            : RoundDownBigNumberPlacesFour(tokenBalance)
-            .div(new RoundDownBigNumberPlacesFour(10).pow(18))
-            .toString()
+            : roundDownFour(tokenBalance).toString()
     }
 
     validateForm = async (toAddress, amount) => {
