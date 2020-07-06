@@ -351,7 +351,7 @@ class TransactionUtilities {
         case 'pldai':
           return 'odpta'
         default:
-          return 'dai'
+          return filter
       }
     }
     else return 'all'

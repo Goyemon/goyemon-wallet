@@ -58,7 +58,10 @@ class TransactionList extends Component {
     };
   }
 
-  getItemCount(data) {
+  getItemCount() {
+    LogUtilities.toDebugScreen(
+      `TransactionList getItemCount() called, returns ${TransactionUtilities.getFilter(this.props.tokenFilter.toLowerCase())}`
+    );
     const ret = TxStorage.storage.getTxCount(
       TransactionUtilities.getFilter(this.props.tokenFilter.toLowerCase())
     );
