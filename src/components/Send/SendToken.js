@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-import SendEth from './SendEth';
-import SendDai from './SendDai';
-import SendcDai from './SendcDai';
-import SendplDai from './SendplDai';
 import {
     saveTxConfirmationModalVisibility,
     updateTxConfirmationModalVisibleType
@@ -43,53 +39,64 @@ class SendToken extends Component {
             amountValidation: undefined,
             balance: props.balance,
             amount: '',
-            ethAmount: '',
             loading: false
         }
     }
 
-    componentDidMount = () =>
-        TransactionUtilities.validateWeiAmountForTransactionFee(
-            TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
-            GlobalConfig.ERC20TransferGasLimit
-        )
-
     componentDidUpdate(prevProps) {
-        if (this.props.gasChosen != prevProps.gasChosen) {
+        if (this.props.gasChosen != prevProps.gasChosen)
           this.updateAmountValidation(
             TransactionUtilities.validateWeiAmountForTransactionFee(
               TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
               GlobalConfig.ERC20TransferGasLimit
             )
-          );
-        }
-        if (this.props.balance != prevProps.balance) {
+          )
+        if (this.props.info.balance != prevProps.info.balance)
           this.setState({
-            balance: RoundDownBigNumberPlacesFour(this.props.balance)
+            balance: RoundDownBigNumberPlacesFour(this.props.info.balance)
               .div(new RoundDownBigNumberPlacesFour(10).pow(18))
               .toFixed(2)
-          });
-        }
-        LogUtilities.toDebugScreen('Send Token State', this.state)
+          })
+    }
+
+    isEth = () => this.props.info.token === 'ETH'
+
+    updateAmountValidation = isValid => this.setState({ amountValidation: isValid})
+
+    getFullAmount = () => {
+        const
+        tokenBalance = this.isEth()
+            ? new RoundDownBigNumberPlacesEighteen(this.props.info.option.wei)
+            : balance,
+        networkFeeLimit = new RoundDownBigNumberPlacesEighteen(
+            TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
+        ).times(GlobalConfig.ETHTxGasLimit)
+
+        return this.isEth()
+            ? tokenBalance.isLessThanOrEqualTo(networkFeeLimit)
+            ? tokenBalance.minus(networkFeeLimit).toString()
+            : tokenBalance.minus(networkFeeLimit).toString()
+            : RoundDownBigNumberPlacesFour(tokenBalance)
+            .div(new RoundDownBigNumberPlacesFour(10).pow(18))
+            .toString()
     }
 
     validateForm = async (toAddress, amount) => {
-        const toAddressValidation = this.props.toAddressValidation;
-        const amountValidation = this.props.info.token === 'ETH'
-        ? TransactionUtilities.validateWeiAmount(
-            amount,
-            GlobalConfig.ETHTxGasLimit
-        )
-        : TransactionUtilities.validateDaiAmount(amount)
-        const isOnline = this.props.isOnline;
-        LogUtilities.logInfo('form validation', toAddressValidation, amountValidation, isOnline);
+        const
+        toAddressValidation = this.props.toAddressValidation,
+        amountValidation = this.isEth()
+            ? TransactionUtilities.validateWeiAmount(amount, GlobalConfig.ETHTxGasLimit)
+            : TransactionUtilities.validateDaiAmount(amount),
+        isOnline = this.props.isOnline
+
         if (toAddressValidation && amountValidation && isOnline) {
-            this.setState({ loading: true });
             LogUtilities.logInfo('validation successful');
+            this.setState({ loading: true });
             const transactionObject = await this.constructTransactionObject();
+            LogUtilities.logInfo('transaction objcet', transactionObject);
             this.props.saveOutgoingTransactionDataSend({
                 toaddress: toAddress,
-                amount: this.props.token === 'ETH' ? Web3.utils.fromWei(amount.toString(16)) : amount,
+                amount: this.isEth() ? Web3.utils.fromWei(amount.toString(16)) : amount,
                 gasLimit: GlobalConfig.ETHTxGasLimit,
                 transactionObject: transactionObject
             });
@@ -101,56 +108,18 @@ class SendToken extends Component {
         this.setState({ loading: false });
     }
 
-    updateAmountValidation = isValid => {
-        this.setState({ amountValidation: isValid})
-        LogUtilities.logInfo('form validation!', this.state.isValid);
-    }
-
-    returnTokenComp() {
-        switch(this.props.token) {
-            case 'ETH':
-                return <SendEth />
-            case 'DAI':
-                return <SendDai />
-            case 'cDAI':
-                return <SendcDai />
-            case 'plDAI':
-                return <SendplDai />
-        }
-    }
-
     constructTransactionObject = async () =>
         (await TxStorage.storage.newTx())
-          .setTo(this.props.outgoingTransactionData.send.toaddress)
-          .setValue(
-            new RoundDownBigNumberPlacesEighteen(this.state.balance).toString(16)
-          )
-          .setGasPrice(
-            TransactionUtilities.returnTransactionSpeed(
-              this.props.gasChosen
-            ).toString(16)
-          )
-          .setGas(GlobalConfig.ETHTxGasLimit.toString(16))
+        .setTo(this.props.outgoingTransactionData.send.toaddress)
+        .setValue(new RoundDownBigNumberPlacesEighteen(this.state.amount).toString(16))
+        .setGasPrice(TransactionUtilities.returnTransactionSpeed(this.props.gasChosen).toString(16))
+        .setGas(GlobalConfig.ETHTxGasLimit.toString(16))
 
     render() {
+        const { amountValidation, loading, amount } = this.state
         const { icon, token, title, balance } = this.props.info
-        const weiBalance = new RoundDownBigNumberPlacesEighteen(
-            this.props.info.option.wei
-          );
-        const networkFeeLimit = new RoundDownBigNumberPlacesEighteen(
-            TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
-          ).times(GlobalConfig.ETHTxGasLimit);
-        const fullAmount = (() => {
-            if(token === 'ETH')
-                return weiBalance.isLessThanOrEqualTo(networkFeeLimit)
-                ? weiBalance.minus(networkFeeLimit).toString()
-                : weiBalance.minus(networkFeeLimit).toString()
-            else
-                return RoundDownBigNumberPlacesFour(weiBalance)
-                .div(new RoundDownBigNumberPlacesFour(10).pow(18))
-                .toString();
-        })()
-        // LogUtilities.logInfo('form validation!', this.props.token);
+        const fullAmount = this.getFullAmount()
+
         return (
             <View>
             <TxConfirmationModal />
@@ -165,7 +134,7 @@ class SendToken extends Component {
                     width="90%"
                 >
                 <CoinImage source={icon} />
-                <Title>{title}/{fullAmount}</Title>
+                <Title>{title}</Title>
                 <BalanceContainer>
                 <Value>{balance} {token}</Value>
                 </BalanceContainer>
@@ -180,15 +149,10 @@ class SendToken extends Component {
                     textColor="#00A3E2"
                     onPress={() => {
                         this.setState({
-                            amount: fullAmount,
-                            ethAmount: Web3.utils.fromWei(fullAmount)
+                            amount: fullAmount
                         });
-                        this.updateAmountValidation(
-                            token === 'ETH'
-                            ? TransactionUtilities.validateWeiAmount(
-                                fullAmount,
-                                GlobalConfig.ETHTxGasLimit
-                            )
+                        this.updateAmountValidation(this.isEth()
+                            ? TransactionUtilities.validateWeiAmount(fullAmount, GlobalConfig.ETHTxGasLimit)
                             : TransactionUtilities.validateDaiAmount(fullAmount)
                         );
                     }}
@@ -196,7 +160,7 @@ class SendToken extends Component {
                 </FormHeaderContainer>
                 <Form
                     borderColor={StyleUtilities.getBorderColor(
-                        this.state.amountValidation
+                        amountValidation
                     )}
                     borderWidth={1}
                     height="56px"
@@ -205,58 +169,58 @@ class SendToken extends Component {
                   placeholder="0"
                   keyboardType="numeric"
                   clearButtonMode="while-editing"
-                  onChangeText={balance => {
-                    const isNumber = /^[0-9]\d*(\.\d+)?$/.test(balance);
-                    this.setState({ balance });
+                  onChangeText={amount => {
+                    const isNumber = /^[0-9]\d*(\.\d+)?$/.test(amount);
+                    this.setState({ amount });
                     if (isNumber) {
                         this.updateAmountValidation(
-                            token === 'ETH'
+                            this.isEth()
                             ? TransactionUtilities.validateWeiAmount(
-                                balance,
+                                amount,
                                 GlobalConfig.ETHTxGasLimit
                               )
-                            : TransactionUtilities.validateDaiAmount(balance)
+                            : TransactionUtilities.validateDaiAmount(amount)
                         );
                         this.setState({
-                            balance: token === 'ETH' ? Web3.utils.toWei(balance) : balance
+                            amount: amount
                         });
                     } else {
                       this.updateAmountValidation(false);
                     }
                   }}
                   returnKeyType="done"
-                  value={token === 'ETH' ? RoundDownBigNumberPlacesFour(this.state.ethAmount).toFixed(4) : this.state.balance}
+                  value={this.isEth()
+                    ? amount
+                    ? RoundDownBigNumberPlacesFour(Web3.utils.fromWei(amount)).toFixed(4)
+                    : ''
+                    : amount}
                 />
                 <CurrencySymbolText>{token}</CurrencySymbolText>
               </SendTextInputContainer>
               </Form>
               <AdvancedContainer gasLimit={GlobalConfig.ERC20TransferGasLimit} />
-              <InsufficientWeiBalanceMessage
-                weiAmountValidation={this.state.amountValidation}
-              />
+              <InsufficientWeiBalanceMessage weiAmountValidation={amountValidation} />
               <ButtonWrapper>
             <TxNextButton
                 disabled={
                 !(
-                    this.state.amountValidation &&
+                    amountValidation &&
                     this.props.toAddressValidation &&
                     this.props.isOnline
-                ) || this.state.loading
+                ) || loading
                 }
                 opacity={
-                this.state.amountValidation &&
+                amountValidation &&
                 this.props.toAddressValidation &&
                 this.props.isOnline
                     ? 1
                     : 0.5
                 }
                 onPress={async () =>
-                await this.validateForm(
-                    this.props.outgoingTransactionData.send.toaddress,
-                    this.state.amount
-                )}
+                    await this.validateForm(this.props.outgoingTransactionData.send.toaddress, amount)
+                }
             />
-            <Loader animating={this.state.loading} size="small" />
+            <Loader animating={loading} size="small" />
             </ButtonWrapper>
                 <IsOnlineMessage isOnline={this.props.isOnline} />
             </View>
