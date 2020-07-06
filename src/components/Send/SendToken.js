@@ -97,7 +97,6 @@ class SendToken extends Component {
             : TransactionUtilities.validateDaiAmount(amount)
 
         if (toAddressValidation && amountValidation && isOnline) {
-            LogUtilities.logInfo('validation successful');
             this.setState({ loading: true });
             const transactionObject = await this.constructTransactionObject();
             LogUtilities.logInfo('transaction objcet', transactionObject);
@@ -108,7 +107,20 @@ class SendToken extends Component {
                 transactionObject: transactionObject
             });
             this.props.saveTxConfirmationModalVisibility(true);
-            this.props.updateTxConfirmationModalVisibleType('send-eth');
+            this.props.updateTxConfirmationModalVisibleType((() => {
+                switch(this.props.info.token) {
+                    case 'ETH':
+                        return 'send-eth'
+                    case 'DAI':
+                        return 'send-dai'
+                    case 'cDAI':
+                        return 'send-cdai'
+                    case 'plDAI':
+                        return 'send-pldai'
+                }
+        }));
+            LogUtilities.logInfo('validation successful');
+            this.props.updateTxConfirmationModalVisibleType('send-dai');
         }
         else
             LogUtilities.logInfo('form validation failed!');
@@ -123,7 +135,7 @@ class SendToken extends Component {
         .setGas(this.state.gasLimit.toString(16))
 
     render() {
-        const { amountValidation, loading, amount, isEth, gasLimit } = this.state
+        const { amountValidation, loading, amount, isEth } = this.state
         const { token } = this.props.info
         const fullAmount = this.getFullAmount()
 
