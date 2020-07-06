@@ -38,7 +38,7 @@ class SendToken extends Component {
         super(props);
         this.state = {
             amountValidation: undefined,
-            balance: props.balance,
+            balance: props.info.balance,
             amount: '',
             loading: false
         }
@@ -60,13 +60,17 @@ class SendToken extends Component {
 
     isEth = () => this.props.info.token === 'ETH'
 
+    isNumber = amount => /^[0-9]\d*(\.\d+)?$/.test(amount)
+
+    isDisabled = () => !this.state.amountValidation || !this.props.toAddressValidation || !this.props.isOnline || this.state.loading
+
     updateAmountValidation = isValid => this.setState({ amountValidation: isValid})
 
     getFullAmount = () => {
         const
         tokenBalance = this.isEth()
             ? new RoundDownBigNumberPlacesEighteen(this.props.info.option.wei)
-            : balance,
+            : this.props.info.balance,
         networkFeeLimit = new RoundDownBigNumberPlacesEighteen(
             TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
         ).times(GlobalConfig.ETHTxGasLimit)
@@ -79,12 +83,10 @@ class SendToken extends Component {
     }
 
     validateForm = async (toAddress, amount) => {
-        const
-        toAddressValidation = this.props.toAddressValidation,
-        amountValidation = this.isEth()
+        const { toAddressValidation, isOnline } = this.props
+        const amountValidation = this.isEth()
             ? TransactionUtilities.validateWeiAmount(amount, GlobalConfig.ETHTxGasLimit)
-            : TransactionUtilities.validateDaiAmount(amount),
-        isOnline = this.props.isOnline
+            : TransactionUtilities.validateDaiAmount(amount)
 
         if (toAddressValidation && amountValidation && isOnline) {
             LogUtilities.logInfo('validation successful');
@@ -114,28 +116,13 @@ class SendToken extends Component {
 
     render() {
         const { amountValidation, loading, amount } = this.state
-        const { icon, token, title, balance } = this.props.info
+        const { token } = this.props.info
         const fullAmount = this.getFullAmount()
 
         return (
             <View>
-            <TxConfirmationModal />
-                <UntouchableCardContainer
-                    alignItems="center"
-                    borderRadius="8px"
-                    flexDirection="column"
-                    height="160px"
-                    justifyContent="center"
-                    marginTop="40"
-                    textAlign="center"
-                    width="90%"
-                >
-                <CoinImage source={icon} />
-                <Title>{title}</Title>
-                <BalanceContainer>
-                <Value>{balance} {token}</Value>
-                </BalanceContainer>
-                </UntouchableCardContainer>
+                <TxConfirmationModal />
+                <SendTokenHeader data={this.props.info}/>
                 <ToAddressForm />
                 <FormHeaderContainer>
                 <FormHeader marginBottom="0" marginTop="0">
@@ -156,101 +143,52 @@ class SendToken extends Component {
                 />
                 </FormHeaderContainer>
                 <Form
-                    borderColor={StyleUtilities.getBorderColor(
-                        amountValidation
-                    )}
+                    borderColor={StyleUtilities.getBorderColor(amountValidation)}
                     borderWidth={1}
                     height="56px"
-                ><SendTextInputContainer>
-                <SendTextInput
-                  placeholder="0"
-                  keyboardType="numeric"
-                  clearButtonMode="while-editing"
-                  onChangeText={amount => {
-                    const isNumber = /^[0-9]\d*(\.\d+)?$/.test(amount);
-                    this.setState({ amount });
-                    if (isNumber) {
-                        this.updateAmountValidation(
-                            this.isEth()
-                            ? TransactionUtilities.validateWeiAmount(
-                                amount,
-                                GlobalConfig.ETHTxGasLimit
-                              )
-                            : TransactionUtilities.validateDaiAmount(amount)
-                        );
-                        this.setState({
-                            amount: amount
-                        });
-                    } else {
-                      this.updateAmountValidation(false);
-                    }
-                  }}
-                  returnKeyType="done"
-                  value={this.isEth()
-                    ? amount
-                    ? RoundDownBigNumberPlacesFour(Web3.utils.fromWei(amount)).toFixed(4)
-                    : ''
-                    : amount}
+                >
+                    <SendTextInputContainer>
+                        <SendTextInput
+                        placeholder="0"
+                        keyboardType="numeric"
+                        clearButtonMode="while-editing"
+                        onChangeText={amount => {
+                            if (this.isNumber(amount)) {
+                                this.updateAmountValidation(
+                                    this.isEth()
+                                    ? TransactionUtilities.validateWeiAmount(amount, GlobalConfig.ETHTxGasLimit)
+                                    : TransactionUtilities.validateDaiAmount(amount)
+                                );
+                                this.setState({ amount });
+                            }
+                            else
+                            this.updateAmountValidation(false);
+                        }}
+                        returnKeyType="done"
+                        value={this.isEth()
+                            ? amount
+                            ? RoundDownBigNumberPlacesFour(Web3.utils.fromWei(amount)).toFixed(4)
+                            : ''
+                            : amount}
+                        />
+                        <CurrencySymbolText>{token}</CurrencySymbolText>
+                    </SendTextInputContainer>
+                </Form>
+                <AdvancedContainer gasLimit={GlobalConfig.ERC20TransferGasLimit} />
+                <InsufficientWeiBalanceMessage weiAmountValidation={amountValidation} />
+                <ButtonWrapper>
+                <TxNextButton
+                    disabled={this.isDisabled()}
+                    opacity={!this.isDisabled() ? 1 : 0.5}
+                    onPress={async () => await this.validateForm(this.props.outgoingTransactionData.send.toaddress, amount)}
                 />
-                <CurrencySymbolText>{token}</CurrencySymbolText>
-              </SendTextInputContainer>
-              </Form>
-              <AdvancedContainer gasLimit={GlobalConfig.ERC20TransferGasLimit} />
-              <InsufficientWeiBalanceMessage weiAmountValidation={amountValidation} />
-              <ButtonWrapper>
-            <TxNextButton
-                disabled={
-                !(
-                    amountValidation &&
-                    this.props.toAddressValidation &&
-                    this.props.isOnline
-                ) || loading
-                }
-                opacity={
-                amountValidation &&
-                this.props.toAddressValidation &&
-                this.props.isOnline
-                    ? 1
-                    : 0.5
-                }
-                onPress={async () =>
-                    await this.validateForm(this.props.outgoingTransactionData.send.toaddress, amount)
-                }
-            />
-            <Loader animating={loading} size="small" />
-            </ButtonWrapper>
+                <Loader animating={loading} size="small" />
+                </ButtonWrapper>
                 <IsOnlineMessage isOnline={this.props.isOnline} />
             </View>
         )
     }
 }
-
-const CoinImage = styled.Image`
-  border-radius: 20px;
-  height: 40px;
-  margin-top: 16px;
-  width: 40px;
-`;
-
-const Title = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 16;
-  margin-top: 16px;
-  text-transform: uppercase;
-`;
-
-const BalanceContainer = styled.View`
-  align-items: center;
-  flex-direction: row;
-  margin-top: 8px;
-`;
-
-const Value = styled.Text`
-  font-family: 'HKGrotesk-Regular';
-  font-size: 16;
-  margin-left: 4;
-`;
 
 const FormHeaderContainer = styled.View`
   align-items: center;
@@ -281,6 +219,51 @@ const CurrencySymbolText = styled.Text`
 
 const ButtonWrapper = styled.View`
   align-items: center;
+`;
+
+const SendTokenHeader = props =>
+    <UntouchableCardContainer
+    alignItems="center"
+    borderRadius="8px"
+    flexDirection="column"
+    height="160px"
+    justifyContent="center"
+    marginTop="40"
+    textAlign="center"
+    width="90%"
+    >
+        <CoinImage source={props.data.icon} />
+        <Title>{props.data.title}</Title>
+        <BalanceContainer>
+        <Value>{props.data.balance} {props.data.token}</Value>
+        </BalanceContainer>
+    </UntouchableCardContainer>
+
+const CoinImage = styled.Image`
+  border-radius: 20px;
+  height: 40px;
+  margin-top: 16px;
+  width: 40px;
+`;
+
+const Title = styled.Text`
+  color: #5f5f5f;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 16;
+  margin-top: 16px;
+  text-transform: uppercase;
+`;
+
+const BalanceContainer = styled.View`
+  align-items: center;
+  flex-direction: row;
+  margin-top: 8px;
+`;
+
+const Value = styled.Text`
+  font-family: 'HKGrotesk-Regular';
+  font-size: 16;
+  margin-left: 4;
 `;
 
 mapStateToProps = state => {

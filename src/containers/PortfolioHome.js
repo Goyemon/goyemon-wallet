@@ -54,7 +54,6 @@ class PortfolioHome extends Component {
       };
     };
     await FcmPermissions.checkFcmPermissions();
-    LogUtilities.toDebugScreen('PortfolioHome componentDidMount', this.props.balance);
   }
 
   returnBalance = (amount, round, pow, fix) => RoundDownBigNumberPlacesFour(amount)
