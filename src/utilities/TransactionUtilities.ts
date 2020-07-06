@@ -123,6 +123,7 @@ class TransactionUtilities {
   }
 
   validateWeiAmount(weiAmount, gasLimit) {
+    LogUtilities.logInfo('validateWeiAmount -> ', weiAmount, gasLimit);
     const isNumber = /^[0-9]\d*(\.\d+)?$/.test(weiAmount);
 
     if (isNumber) {

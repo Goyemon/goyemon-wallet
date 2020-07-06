@@ -43,7 +43,10 @@ class Send extends Component {
       icon: require('../../assets/ether_icon.png'),
       token: 'ETH',
       title: I18n.t('eth-wallet-balance'),
-      balance: ethBalance
+      balance: ethBalance,
+      option: {
+        wei: balance.wei
+      }
     }
 
     const daiProps = {
