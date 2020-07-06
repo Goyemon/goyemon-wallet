@@ -8,10 +8,7 @@ import SendToken from '../components/Send/SendToken';
 import I18n from '../i18n/I18n';
 import Web3 from 'web3';
 import LogUtilities from '../utilities/LogUtilities.js';
-import {
-  RoundDownBigNumberPlacesFour,
-  RoundDownBigNumberPlacesEighteen
-} from '../utilities/BigNumberUtilities';
+import { RoundDownBigNumberPlacesFour } from '../utilities/BigNumberUtilities';
 
 class Send extends Component {
   constructor(props) {
@@ -26,27 +23,23 @@ class Send extends Component {
   .toFixed(fix);
 
   renderCurrency() {
-    const { balance } = this.props;
-
-    const
-    ethBalance = RoundDownBigNumberPlacesFour(Web3.utils.fromWei(balance.wei)).toFixed(4),
-    daiBalance = this.returnBalance(balance.dai, 10, 18, 2),
-    cdaiBalance = this.returnBalance(balance.cDai, 10, 8, 2),
+    const { wei, dai, cDai, pooltogetherDai } = this.props.balance,
+    ethBalance = RoundDownBigNumberPlacesFour(Web3.utils.fromWei(wei)).toFixed(4),
+    daiBalance = this.returnBalance(dai, 10, 18, 2),
+    cdaiBalance = this.returnBalance(cDai, 10, 8, 2),
     pooltogetherDaiBalance = RoundDownBigNumberPlacesFour(
-      balance.pooltogetherDai.open
+      pooltogetherDai.open
     )
-    .plus(balance.pooltogetherDai.committed)
-    .plus(balance.pooltogetherDai.sponsored)
+    .plus(pooltogetherDai.committed)
+    .plus(pooltogetherDai.sponsored)
     .div(new RoundDownBigNumberPlacesFour(10).pow(18))
     .toFixed(2)
+
     const ethProps = {
       icon: require('../../assets/ether_icon.png'),
       token: 'ETH',
       title: I18n.t('eth-wallet-balance'),
-      balance: ethBalance,
-      option: {
-        wei: balance.wei
-      }
+      balance: ethBalance
     }
 
     const daiProps = {

@@ -40,7 +40,9 @@ class SendToken extends Component {
             amountValidation: undefined,
             balance: props.info.balance,
             amount: '',
-            loading: false
+            loading: false,
+            isEth: props.info.token === 'ETH',
+            gasLimit: props.info.token === 'ETH' ? GlobalConfig.ETHTxGasLimit : GlobalConfig.ERC20TransferGasLimit
         }
     }
 
@@ -49,7 +51,7 @@ class SendToken extends Component {
           this.updateAmountValidation(
             TransactionUtilities.validateWeiAmountForTransactionFee(
               TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
-              GlobalConfig.ERC20TransferGasLimit
+              this.gasLimit()
             )
           )
         if (this.props.info.balance != prevProps.info.balance)
@@ -57,8 +59,6 @@ class SendToken extends Component {
             balance: roundDownFour(this.props.info.balance).toFixed(2)
           })
     }
-
-    isEth = () => this.props.info.token === 'ETH'
 
     isNumber = amount => /^[0-9]\d*(\.\d+)?$/.test(amount)
 
@@ -68,24 +68,32 @@ class SendToken extends Component {
 
     getFullAmount = () => {
         const
-        tokenBalance = this.isEth()
-            ? new RoundDownBigNumberPlacesEighteen(this.props.info.option.wei)
+        tokenBalance = this.state.isEth
+            ? new RoundDownBigNumberPlacesEighteen(this.props.balance.wei)
             : this.props.info.balance,
         networkFeeLimit = new RoundDownBigNumberPlacesEighteen(
             TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
-        ).times(GlobalConfig.ETHTxGasLimit)
+        ).times(this.state.gasLimit)
 
-        return this.isEth()
+        return this.state.isEth
             ? tokenBalance.isLessThanOrEqualTo(networkFeeLimit)
             ? tokenBalance.minus(networkFeeLimit).toString()
             : tokenBalance.minus(networkFeeLimit).toString()
             : roundDownFour(tokenBalance).toString()
     }
 
+    isEfficientGas = () => {
+        const networkFeeLimit = new RoundDownBigNumberPlacesEighteen(
+            TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
+        ).times(this.state.gasLimit)
+        const ethBalance = new RoundDownBigNumberPlacesEighteen(this.props.balance.wei)
+        return ethBalance.isLessThanOrEqualTo(networkFeeLimit)
+    }
+
     validateForm = async (toAddress, amount) => {
         const { toAddressValidation, isOnline } = this.props
-        const amountValidation = this.isEth()
-            ? TransactionUtilities.validateWeiAmount(amount, GlobalConfig.ETHTxGasLimit)
+        const amountValidation = this.state.isEth
+            ? TransactionUtilities.validateWeiAmount(amount, this.state.gasLimit)
             : TransactionUtilities.validateDaiAmount(amount)
 
         if (toAddressValidation && amountValidation && isOnline) {
@@ -95,8 +103,8 @@ class SendToken extends Component {
             LogUtilities.logInfo('transaction objcet', transactionObject);
             this.props.saveOutgoingTransactionDataSend({
                 toaddress: toAddress,
-                amount: this.isEth() ? Web3.utils.fromWei(amount.toString(16)) : amount,
-                gasLimit: GlobalConfig.ETHTxGasLimit,
+                amount: this.state.isEth ? Web3.utils.fromWei(amount.toString(16)) : amount,
+                gasLimit: this.state.gasLimit,
                 transactionObject: transactionObject
             });
             this.props.saveTxConfirmationModalVisibility(true);
@@ -112,10 +120,10 @@ class SendToken extends Component {
         .setTo(this.props.outgoingTransactionData.send.toaddress)
         .setValue(new RoundDownBigNumberPlacesEighteen(this.state.amount).toString(16))
         .setGasPrice(TransactionUtilities.returnTransactionSpeed(this.props.gasChosen).toString(16))
-        .setGas(GlobalConfig.ETHTxGasLimit.toString(16))
+        .setGas(this.state.gasLimit.toString(16))
 
     render() {
-        const { amountValidation, loading, amount } = this.state
+        const { amountValidation, loading, amount, isEth, gasLimit } = this.state
         const { token } = this.props.info
         const fullAmount = this.getFullAmount()
 
@@ -135,7 +143,7 @@ class SendToken extends Component {
                         this.setState({
                             amount: fullAmount
                         });
-                        this.updateAmountValidation(this.isEth()
+                        this.updateAmountValidation(isEth
                             ? TransactionUtilities.validateWeiAmount(fullAmount, GlobalConfig.ETHTxGasLimit)
                             : TransactionUtilities.validateDaiAmount(fullAmount)
                         );
@@ -155,7 +163,7 @@ class SendToken extends Component {
                         onChangeText={amount => {
                             if (this.isNumber(amount)) {
                                 this.updateAmountValidation(
-                                    this.isEth()
+                                    isEth
                                     ? TransactionUtilities.validateWeiAmount(amount, GlobalConfig.ETHTxGasLimit)
                                     : TransactionUtilities.validateDaiAmount(amount)
                                 );
@@ -165,7 +173,7 @@ class SendToken extends Component {
                             this.updateAmountValidation(false);
                         }}
                         returnKeyType="done"
-                        value={this.isEth()
+                        value={isEth
                             ? amount
                             ? RoundDownBigNumberPlacesFour(Web3.utils.fromWei(amount)).toFixed(4)
                             : ''
@@ -175,7 +183,7 @@ class SendToken extends Component {
                     </SendTextInputContainer>
                 </Form>
                 <AdvancedContainer gasLimit={GlobalConfig.ERC20TransferGasLimit} />
-                <InsufficientWeiBalanceMessage weiAmountValidation={amountValidation} />
+                <InsufficientWeiBalanceMessage weiAmountValidation={amountValidation && !this.isEfficientGas()} />
                 <ButtonWrapper>
                 <TxNextButton
                     disabled={this.isDisabled()}
@@ -272,6 +280,7 @@ mapStateToProps = state => {
       gasChosen: state.ReducerGasPrice.gasChosen,
       outgoingTransactionData:
       state.ReducerOutgoingTransactionData.outgoingTransactionData,
+      balance: state.ReducerBalance.balance,
       toAddressValidation: state.ReducerTxFormValidation.toAddressValidation,
     };
 }
