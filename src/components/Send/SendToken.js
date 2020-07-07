@@ -26,6 +26,7 @@ import {
 import { AdvancedContainer } from '../../containers/common/AdvancedContainer';
 import ToAddressForm from '../../containers/common/ToAddressForm';
 import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
+import ABIEncoder from '../../utilities/AbiUtilities';
 import GlobalConfig from '../../config.json';
 import LogUtilities from '../../utilities/LogUtilities.js';
 import StyleUtilities from '../../utilities/StyleUtilities.js';
@@ -47,16 +48,12 @@ class SendToken extends Component {
         }
     }
 
-    componentDidMount() {
-        LogUtilities.logInfo('SendToken componentDidMount', this.state);
-    }
-
     componentDidUpdate(prevProps) {
         if (this.props.gasChosen != prevProps.gasChosen)
           this.updateAmountValidation(
             TransactionUtilities.validateWeiAmountForTransactionFee(
               TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
-              this.gasLimit()
+              this.state.gasLimit
             )
           )
         if (this.props.info.balance != prevProps.info.balance)
@@ -65,7 +62,11 @@ class SendToken extends Component {
           })
         if (this.props.info.token != prevProps.info.token)
           this.setState({
-            isEth: this.props.info.token === 'ETH'
+            amountValidation: undefined,
+            amount: 0,
+            displayAmount: 0,
+            isEth: this.props.info.token === 'ETH',
+            gasLimit: this.props.info.token === 'ETH' ? GlobalConfig.ETHTxGasLimit : GlobalConfig.ERC20TransferGasLimit
           })
     }
 
@@ -180,7 +181,8 @@ class SendToken extends Component {
                     textColor="#00A3E2"
                     onPress={() => {
                         this.setState({
-                            amount: fullAmount
+                            amount: fullAmount,
+                            displayAmount: Web3.utils.fromWei(fullAmount)
                         });
                         this.updateAmountValidation(isEth
                             ? TransactionUtilities.validateWeiAmount(fullAmount, GlobalConfig.ETHTxGasLimit)
@@ -212,9 +214,9 @@ class SendToken extends Component {
                             LogUtilities.logInfo('isNumber', this.isNumber(amount))
                         }}
                         returnKeyType="done"
-                        value={displayAmount}
+                        value={String(displayAmount)}
                         />
-                        <CurrencySymbolText>{token}/{String(amountValidation)}/{String(isEth)}</CurrencySymbolText>
+                        <CurrencySymbolText>{token}</CurrencySymbolText>
                     </SendTextInputContainer>
                 </Form>
                 <AdvancedContainer gasLimit={GlobalConfig.ERC20TransferGasLimit} />
