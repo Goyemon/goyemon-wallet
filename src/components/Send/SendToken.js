@@ -216,7 +216,7 @@ class SendToken extends Component {
                         returnKeyType="done"
                         value={String(displayAmount)}
                         />
-                        <CurrencySymbolText>{token}</CurrencySymbolText>
+                        <CurrencySymbolText>{token}/{String(amountValidation)}/{String(!this.isEfficientGas())}}</CurrencySymbolText>
                     </SendTextInputContainer>
                 </Form>
                 <AdvancedContainer gasLimit={GlobalConfig.ERC20TransferGasLimit} />
