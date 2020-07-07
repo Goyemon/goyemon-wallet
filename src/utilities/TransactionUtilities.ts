@@ -356,6 +356,34 @@ class TransactionUtilities {
     }
     else return 'all'
   }
+
+  constructEthTransfer = async (toAddr, amount, gasChosen, gasLimit) =>
+    (await TxStorage.storage.newTx())
+    .setTo(toAddr)
+    .setValue(new RoundDownBigNumberPlacesEighteen(amount).toString(16))
+    .setGasPrice(this.returnTransactionSpeed(gasChosen).toString(16))
+    .setGas(gasLimit.toString(16))
+
+  constructDaiTransfer = async (toAddr, amount, gasChosen, gasLimit) => {
+    const daiAmount = amount.split('.').join('');
+    const decimalPlaces = this.decimalPlaces(amount)
+    const decimals = 18 - decimalPlaces
+    const transferEncodedABI = ABIEncoder.encodeTransfer(toAddr,daiAmount,decimals)
+    const daiAmountWithDecimals = new RoundDownBigNumberPlacesEighteen(amount)
+    .times(new RoundDownBigNumberPlacesEighteen(10).pow(18))
+    .toString(16)
+
+    return (await TxStorage.storage.newTx())
+    .setTo(GlobalConfig.DAITokenContract)
+    .setGasPrice(this.returnTransactionSpeed(gasChosen).toString(16))
+    .setGas(gasLimit.toString(16))
+    .tempSetData(transferEncodedABI)
+    .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.transfer, [
+        TxStorage.storage.getOwnAddress(),
+        toAddr,
+        daiAmountWithDecimals
+    ])
+  }
 }
 
 export default new TransactionUtilities();

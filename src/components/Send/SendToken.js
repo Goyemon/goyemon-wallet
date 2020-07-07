@@ -125,42 +125,21 @@ class SendToken extends Component {
         this.setState({ loading: false });
     }
 
-    constructTransactionObject = async () => {
-        const { amount, gasLimit, isEth } = this.state
-        const daiAmount = amount.split('.').join('');
-        const decimalPlaces = TransactionUtilities.decimalPlaces(
-            amount
-        )
-        const decimals = 18 - parseInt(decimalPlaces);
-        const transferEncodedABI = ABIEncoder.encodeTransfer(
+    constructTransactionObject = async () =>
+        this.state.isEth
+        ? await TransactionUtilities.constructEthTransfer(
             this.props.outgoingTransactionData.send.toaddress,
-            daiAmount,
-            decimals
+            this.state.amount,
+            this.props.gasChosen,
+            this.state.gasLimit
         )
-        const daiAmountWithDecimals = new RoundDownBigNumberPlacesEighteen(
-            amount
-        )
-        .times(new RoundDownBigNumberPlacesEighteen(10).pow(18))
-        .toString(16);
 
-        return isEth
-        ? (await TxStorage.storage.newTx())
-        .setTo(this.props.outgoingTransactionData.send.toaddress)
-        .setValue(new RoundDownBigNumberPlacesEighteen(amount).toString(16))
-        .setGasPrice(TransactionUtilities.returnTransactionSpeed(this.props.gasChosen).toString(16))
-        .setGas(gasLimit.toString(16))
-
-        : (await TxStorage.storage.newTx())
-        .setTo(GlobalConfig.DAITokenContract)
-        .setGasPrice(TransactionUtilities.returnTransactionSpeed(this.props.gasChosen).toString(16))
-        .setGas(gasLimit.toString(16))
-        .tempSetData(transferEncodedABI)
-        .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.transfer, [
-            TxStorage.storage.getOwnAddress(),
+        : await TransactionUtilities.constructDaiTransfer(
             this.props.outgoingTransactionData.send.toaddress,
-            daiAmountWithDecimals
-        ]);
-    }
+            this.state.amount,
+            this.props.gasChosen,
+            this.state.gasLimit
+        )
 
     render() {
         const { amountValidation, loading, amount, displayAmount, isEth } = this.state
@@ -211,12 +190,11 @@ class SendToken extends Component {
                                 );
                                 this.setState({ amount });
                             }
-                            LogUtilities.logInfo('isNumber', this.isNumber(amount))
                         }}
                         returnKeyType="done"
                         value={String(displayAmount)}
                         />
-                        <CurrencySymbolText>{token}/{String(amountValidation)}/{String(!this.isEfficientGas())}}</CurrencySymbolText>
+                        <CurrencySymbolText>{token}</CurrencySymbolText>
                     </SendTextInputContainer>
                 </Form>
                 <AdvancedContainer gasLimit={GlobalConfig.ERC20TransferGasLimit} />
