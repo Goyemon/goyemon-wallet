@@ -19,19 +19,16 @@ import {
     UseMaxButton
   } from '../common';
 import {
-    RoundDownBigNumberPlacesFour,
     RoundDownBigNumberPlacesEighteen,
     roundDownFour
   } from '../../utilities/BigNumberUtilities';
 import { AdvancedContainer } from '../../containers/common/AdvancedContainer';
 import ToAddressForm from '../../containers/common/ToAddressForm';
 import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
-import ABIEncoder from '../../utilities/AbiUtilities';
 import GlobalConfig from '../../config.json';
 import LogUtilities from '../../utilities/LogUtilities.js';
 import StyleUtilities from '../../utilities/StyleUtilities.js';
 import I18n from '../../i18n/I18n';
-import TxStorage from '../../lib/tx.js';
 import Web3 from 'web3';
 
 class SendToken extends Component {
@@ -44,7 +41,7 @@ class SendToken extends Component {
             displayAmount: 0,
             loading: false,
             isEth: props.info.token === 'ETH',
-            gasLimit: props.info.token === 'ETH' ? GlobalConfig.ETHTxGasLimit : GlobalConfig.ERC20TransferGasLimit
+            gasLimit: gasLimit(props.info.token)
         }
     }
 
@@ -66,7 +63,7 @@ class SendToken extends Component {
             amount: 0,
             displayAmount: 0,
             isEth: this.props.info.token === 'ETH',
-            gasLimit: this.props.info.token === 'ETH' ? GlobalConfig.ETHTxGasLimit : GlobalConfig.ERC20TransferGasLimit
+            gasLimit: gasLimit(this.props.info.token)
           })
     }
 
@@ -75,6 +72,21 @@ class SendToken extends Component {
     isDisabled = () => !this.state.amountValidation || !this.props.toAddressValidation || !this.props.isOnline || this.state.loading
 
     updateAmountValidation = isValid => this.setState({ amountValidation: isValid})
+
+    gasLimit = token => {
+      switch(token) {
+        case 'ETH':
+          return GlobalConfig.ETHTxGasLimit
+        case 'DAI':
+          return GlobalConfig.ERC20TransferGasLimit
+        case 'cDAI':
+          return GlobalConfig.cDAITransferGasLimit
+        case 'plDAI':
+          return GlobalConfig.plDAITransferGasLimit
+        default:
+          return null
+      }
+    }
 
     getFullAmount = () => {
         const
