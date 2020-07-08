@@ -125,21 +125,33 @@ class SendToken extends Component {
         this.setState({ loading: false });
     }
 
-    constructTransactionObject = async () =>
-        this.state.isEth
-        ? await TransactionUtilities.constructEthTransfer(
-            this.props.outgoingTransactionData.send.toaddress,
-            this.state.amount,
-            this.props.gasChosen,
-            this.state.gasLimit
-        )
+    constructTransactionObject = async () => {
+      switch(this.props.info.token) {
+        case 'ETH':
+          return await TransactionUtilities.constructEthTransfer(
+              this.props.outgoingTransactionData.send.toaddress,
+              this.state.amount,
+              this.props.gasChosen,
+              this.state.gasLimit
+          )
 
-        : await TransactionUtilities.constructDaiTransfer(
+        case 'DAI':
+          return await TransactionUtilities.constructDaiTransfer(
             this.props.outgoingTransactionData.send.toaddress,
             this.state.amount,
             this.props.gasChosen,
             this.state.gasLimit
-        )
+          )
+
+        case 'cDAI':
+          return await TransactionUtilities.constructcDaiTransfer(
+            this.props.outgoingTransactionData.send.toaddress,
+            this.state.amount,
+            this.props.gasChosen,
+            this.state.gasLimit
+          )
+      }
+    }
 
     render() {
         const { amountValidation, loading, amount, displayAmount, isEth } = this.state

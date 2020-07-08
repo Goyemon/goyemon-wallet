@@ -59,17 +59,11 @@ class TransactionList extends Component {
   }
 
   getItemCount() {
-    LogUtilities.toDebugScreen(
-      `TransactionList getItemCount() called, returns ${TransactionUtilities.getFilter(this.props.tokenFilter.toLowerCase())}`
-    );
     const ret = TxStorage.storage.getTxCount(
       TransactionUtilities.getFilter(this.props.tokenFilter.toLowerCase())
     );
     if (ret != this.__tempcachecount) {
       // prevent flood
-      LogUtilities.toDebugScreen(
-        `TransactionList getItemCount() called, returns ${ret}`
-      );
       this.__tempcachecount = ret;
     }
     return ret;
