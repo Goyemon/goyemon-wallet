@@ -109,7 +109,6 @@ class SendToken extends Component {
         if (toAddressValidation && amountValidation && isOnline) {
             this.setState({ loading: true });
             const transactionObject = await this.constructTransactionObject();
-            LogUtilities.logInfo('transaction objcet', transactionObject);
             this.props.saveOutgoingTransactionDataSend({
                 toaddress: toAddress,
                 amount: this.state.isEth ? Web3.utils.fromWei(amount.toString(16)) : amount,

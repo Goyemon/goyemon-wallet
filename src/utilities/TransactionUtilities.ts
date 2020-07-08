@@ -409,18 +409,18 @@ class TransactionUtilities {
   constructplDaiTransfer = async (toAddr, amount, gasChosen, gasLimit) => {
     const pldaiAmount = amount.split('.').join('');
     const decimalPlaces = this.decimalPlaces(amount)
-    const decimals = 8 - decimalPlaces
+    const decimals = 18 - decimalPlaces
     const transferEncodedABI = ABIEncoder.encodeTransfer(toAddr,pldaiAmount,decimals)
     const pldaiAmountWithDecimals = new RoundDownBigNumberPlacesEighteen(amount)
-    .times(new RoundDownBigNumberPlacesEighteen(10).pow(8))
+    .times(new RoundDownBigNumberPlacesEighteen(10).pow(18))
     .toString(16)
 
     return (await TxStorage.storage.newTx())
-    .setTo(GlobalConfig.DAIPoolTogetherTokenV2)
+    .setTo(GlobalConfig.DAIPoolTogetherTokenContractV2)
     .setGasPrice(this.returnTransactionSpeed(gasChosen).toString(16))
     .setGas(gasLimit.toString(16))
     .tempSetData(transferEncodedABI)
-    .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.transfer, [
+    .addTokenOperation('pldai', TxStorage.TxTokenOpTypeToName.transfer, [
         TxStorage.storage.getOwnAddress(),
         toAddr,
         pldaiAmountWithDecimals
