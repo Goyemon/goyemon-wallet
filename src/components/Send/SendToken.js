@@ -150,6 +150,17 @@ class SendToken extends Component {
             this.props.gasChosen,
             this.state.gasLimit
           )
+
+        case 'plDAI':
+          return await TransactionUtilities.constructplDaiTransfer(
+            this.props.outgoingTransactionData.send.toaddress,
+            this.state.amount,
+            this.props.gasChosen,
+            this.state.gasLimit
+          )
+
+        default:
+          return null
       }
     }
 
