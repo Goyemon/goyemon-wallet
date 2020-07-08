@@ -41,7 +41,7 @@ class SendToken extends Component {
             displayAmount: 0,
             loading: false,
             isEth: props.info.token === 'ETH',
-            gasLimit: gasLimit(props.info.token)
+            gasLimit: this.gasLimit(props.info.token)
         }
     }
 
@@ -63,7 +63,7 @@ class SendToken extends Component {
             amount: 0,
             displayAmount: 0,
             isEth: this.props.info.token === 'ETH',
-            gasLimit: gasLimit(this.props.info.token)
+            gasLimit: this.gasLimit(this.props.info.token)
           })
     }
 

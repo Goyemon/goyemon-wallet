@@ -344,17 +344,7 @@ class TransactionUtilities {
   }
 
   getFilter(filter) {
-    if(filter) {
-      switch(filter) {
-        case 'cdai':
-          return 'odcda'
-        case 'pldai':
-          return 'odpta'
-        default:
-          return filter
-      }
-    }
-    else return 'all'
+    return !filter ? 'all' : filter
   }
 
   constructEthTransfer = async (toAddr, amount, gasChosen, gasLimit) =>
