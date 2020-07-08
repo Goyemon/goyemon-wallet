@@ -35,47 +35,34 @@ class Send extends Component {
     .div(new RoundDownBigNumberPlacesFour(10).pow(18))
     .toFixed(2)
 
-    const ethProps = {
-      icon: require('../../assets/ether_icon.png'),
-      token: 'ETH',
-      title: I18n.t('eth-wallet-balance'),
-      balance: ethBalance
+    const propsValue = {
+      'eth': {
+        icon: require('../../assets/ether_icon.png'),
+        token: 'ETH',
+        title: I18n.t('eth-wallet-balance'),
+        balance: ethBalance
+      },
+      'dai': {
+        icon: require('../../assets/dai_icon.png'),
+        token: 'DAI',
+        title: I18n.t('dai-wallet-balance'),
+        balance: daiBalance
+      },
+      'cdai': {
+        icon: require('../../assets/cdai_icon.png'),
+        token: 'cDAI',
+        title: I18n.t('cdai-wallet-balance'),
+        balance: cdaiBalance
+      },
+      'pldai': {
+        icon: require('../../assets/pldai_icon.png'),
+        token: 'plDAI',
+        title: I18n.t('pldai-wallet-balance'),
+        balance: pooltogetherDaiBalance
+      }
     }
 
-    const daiProps = {
-      icon: require('../../assets/dai_icon.png'),
-      token: 'DAI',
-      title: I18n.t('dai-wallet-balance'),
-      balance: daiBalance
-    }
-
-    const cdaiProps = {
-      icon: require('../../assets/cdai_icon.png'),
-      token: 'cDAI',
-      title: I18n.t('cdai-wallet-balance'),
-      balance: cdaiBalance
-    }
-
-    const pldaiProps = {
-      icon: require('../../assets/pldai_icon.png'),
-      token: 'plDAI',
-      title: I18n.t('pldai-wallet-balance'),
-      balance: pooltogetherDaiBalance
-    }
-
-    switch(this.state.currency) {
-      case 'eth':
-        return <SendToken info={ethProps}/>
-      case 'dai':
-        return <SendToken info={daiProps}/>
-      case 'cdai':
-        return <SendToken info={cdaiProps}/>
-      case 'pldai':
-        return <SendToken info={pldaiProps}/>
-      default:
-        LogUtilities.logInfo('no currency matches');
-        break
-    }
+    return this.state.currency ? <SendToken info={propsValue[this.state.currency]} /> : null
   }
 
   render() {

@@ -74,18 +74,13 @@ class SendToken extends Component {
     updateAmountValidation = isValid => this.setState({ amountValidation: isValid})
 
     gasLimit = token => {
-      switch(token) {
-        case 'ETH':
-          return GlobalConfig.ETHTxGasLimit
-        case 'DAI':
-          return GlobalConfig.ERC20TransferGasLimit
-        case 'cDAI':
-          return GlobalConfig.cDAITransferGasLimit
-        case 'plDAI':
-          return GlobalConfig.plDAITransferGasLimit
-        default:
-          return null
+      const gasLimit = {
+        'ETH': GlobalConfig.ETHTxGasLimit,
+        'DAI': GlobalConfig.ERC20TransferGasLimit,
+        'cDAI': GlobalConfig.cDAITransferGasLimit,
+        'plDAI': GlobalConfig.plDAITransferGasLimit
       }
+      return gasLimit[token] || null
     }
 
     getFullAmount = () => {
