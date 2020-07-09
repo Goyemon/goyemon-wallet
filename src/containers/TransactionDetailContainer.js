@@ -20,7 +20,7 @@ export default class TransactionDetailContainer extends Component {
             timestamp: TransactionUtilities.parseTransactionTime(props.timestamp),
             status: props.status,
             service: props.service || '',
-            token: props.txData[0].token === 'cdai' ? 'DAI' : props.txData[0].token.toUpperCase(),
+            token: props.txData[0].token === 'cdai' ? 'cDAI' : props.txData[0].token.toUpperCase(),
             method: this.getMethodName(props.txData, props.service, props.type),
             option: this.getOption(props.txData, props.service),
             icon: this.getIcon(props.txData, props.service),

@@ -134,6 +134,11 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
       return ret;
     }
 
+    componentDidMount() {
+      LogUtilities.toDebugScreen('TransactionDetail Tx', this.state.tx.tokenData)
+      LogUtilities.toDebugScreen('TransactionDetail Tx', this.state.txData)
+    }
+
     async componentDidUpdate(prevProps) {
       if (this.props.updateCounter !== prevProps.updateCounter) {
         TxStorage.storage
@@ -206,6 +211,8 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
                     <ToAndFromValue>
                       {this.state.txData[0].token === 'eth'
                       ? this.props.tx.getTo().substring(0, 24) + '...'
+                      : this.state.tx.tokenData.cdai[0]
+                      ? '0x' + this.state.tx.tokenData.cdai[0].to_addr.substring(0, 24) + '...'
                       : '0x' + this.state.tx.tokenData.dai[0].to_addr.substring(0, 24) + '...'}
                     </ToAndFromValue>
                     <Copy text={this.props.tx.getTo()} icon={false} />
