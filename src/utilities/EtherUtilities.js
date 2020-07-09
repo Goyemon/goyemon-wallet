@@ -21,7 +21,7 @@ class EtherUtilities {
       case 30 <= code && 38 >= code:
         return 'mint'
       case 39 <= code && 47 >= code:
-        return 'mint'
+        return 'redeem'
       case 74 <= code:
         return 'transfer'
       default:
@@ -95,7 +95,7 @@ class EtherUtilities {
     ) {
       return {
         type: 'failure',
-        failop: this.getCompErrorCode(top.info, 16),
+        failop: this.getCompErrorCode(parseInt(top.info, 16)),
         token: toptok
       }
     }
