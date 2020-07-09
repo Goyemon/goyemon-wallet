@@ -16,6 +16,19 @@ class EtherUtilities {
     return reasonablyAddress.toLowerCase()
   }
 
+  static getCompErrorCode(code) {
+    switch(true) {
+      case 30 <= code && 38 >= code:
+        return 'mint'
+      case 39 <= code && 47 >= code:
+        return 'mint'
+      case 74 <= code:
+        return 'transfer'
+      default:
+        return 'unknown'
+    }
+  }
+
   static topType(top, toptok, our_reasonably_stored_address) {
     if (
       top instanceof
@@ -79,17 +92,13 @@ class EtherUtilities {
     if (
       top instanceof
       TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.failure]
-    )
+    ) {
       return {
         type: 'failure',
-        failop:
-          parseInt(top.info, 16) == 38
-            ? 'mint'
-            : Array.from([42, 45, 46]).contains(parseInt(top.info, 16))
-            ? 'redeem'
-            : 'unknown',
+        failop: this.getCompErrorCode(top.info, 16),
         token: toptok
-      };
+      }
+    }
 
     if (
       top instanceof
