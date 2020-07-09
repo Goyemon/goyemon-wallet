@@ -217,7 +217,7 @@ class SendToken extends Component {
                                     ? TransactionUtilities.validateWeiAmount(Web3.utils.toWei(amount), GlobalConfig.ETHTxGasLimit)
                                     : TransactionUtilities.validateDaiAmount(amount)
                                 );
-                                this.setState({ amount });
+                                this.setState({ amount: isEth ?  Web3.utils.toWei(amount) : amount });
                             }
                         }}
                         returnKeyType="done"
