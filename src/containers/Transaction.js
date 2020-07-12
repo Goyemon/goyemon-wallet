@@ -15,6 +15,7 @@ import {
 import I18n from '../i18n/I18n';
 import TxStorage from '../lib/tx.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
+import LogUtilities from '../utilities/LogUtilities';
 
 class Transaction extends Component {
   constructor(props) {
@@ -45,6 +46,7 @@ class Transaction extends Component {
   }
 
   computeChildren(tx) {
+    LogUtilities.toDebugScreen('Transaction computeChildren', tx)
     const data = this.computeTxData(tx);
     const { index, filter } = this.props.transaction
     const time = TransactionUtilities.parseTransactionTime(tx.getTimestamp());

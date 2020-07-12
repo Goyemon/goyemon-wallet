@@ -173,6 +173,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
           >
             <TransactionDetailContainer
               txData={this.state.txData}
+              data={TransactionUtilities.txCommonObject(this.props.tx, EtherUtilities.getReasonablyAddress(this.props.checksumAddress))}
               timestamp={this.state.tx.getTimestamp()}
               status={this.state.tx.getState()}
               service={this.props.tx.getApplication(this.props.tx.getTo())}

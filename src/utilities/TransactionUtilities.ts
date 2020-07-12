@@ -11,11 +11,14 @@ import {
   RoundDownBigNumberPlacesFour,
   RoundDownBigNumberPlacesEighteen
 } from '../utilities/BigNumberUtilities';
+import I18n from '../i18n/I18n';
 import LogUtilities from '../utilities/LogUtilities.js';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 import WalletUtilities from './WalletUtilities.ts';
 import TxStorage from '../lib/tx.js';
 import GlobalConfig from '../config.json';
+import EtherUtilities from './EtherUtilities';
+import StyleUtilities from './StyleUtilities';
 
 class TransactionUtilities {
   parseEthValue(value) {
@@ -415,6 +418,134 @@ class TransactionUtilities {
         toAddr,
         pldaiAmountWithDecimals
     ])
+  }
+
+  prefixUpperCase = txType => txType.charAt(0).toUpperCase() + txType.slice(1)
+
+  computeTxData = (tx, checksumAddr) => {
+    if (!tx) return null
+    const reasonablyAddr = EtherUtilities.getReasonablyAddress(checksumAddr);
+    const ret = []
+
+    if (tx.getValue() != '00') {
+      const ethdirection =
+        tx.getFrom() === `0x${reasonablyAddr}`
+        ? 1
+        : tx.getTo() === `0x${reasonablyAddr}`
+        ? 2
+        : 0
+      if (ethdirection > 0)
+      ret.push({
+        type: 'transfer',
+        direction:
+          ethdirection == 1
+            ? 'outgoing'
+            : ethdirection == 2
+            ? 'incoming'
+            : 'self',
+        amount: parseFloat(
+          this.parseEthValue(`0x${tx.getValue()}`)
+        ).toFixed(4),
+        token: 'eth'
+      });
+    }
+
+    Object.entries(tx.getAllTokenOperations()).forEach(
+      ([toptok, toktops]) => {
+        toktops.forEach(x => ret.push(EtherUtilities.topType(x, toptok, reasonablyAddr)));
+      }
+    );
+
+    if (tx.getTo()) {
+      if (tx.getTo().toLowerCase() === GlobalConfig.DAIPoolTogetherContractV2.toLowerCase() && ret.length === 0)
+          ret.push({
+            type: 'outgoing',
+            token: 'dai',
+            direction: 'outgoing',
+            amount: '0.00'
+          })
+    }
+    else
+      ret.push({
+        type: 'Contract Creation',
+        direction: 'creation',
+        token: 'eth'
+      })
+
+    if(ret.length === 0)
+      ret.push({
+        type: 'Contract Interaction',
+        direction: 'outgoing',
+        token: 'eth',
+        amount: '0.00'
+      })
+
+    return ret;
+  }
+
+  setIconStyle = (type, direction) => StyleUtilities.inOrOutIcon(type, direction)
+
+  getIcon(txData, service) {
+    switch(service) {
+      case 'PoolTogether':
+        if (txData.length === 3)
+          for (const element of txData)
+            if (element.type == 'committed deposit withdraw')
+              return this.setIconStyle(txData[0].type, txData[0].direction)
+      case 'Uniswap':
+        if (txData.length == 2 && txData[1].type == 'swap')
+              return this.setIconStyle(txData[1].type, txData[1].direction)
+      case 'Contract Creation':
+        return this.setIconStyle(txData[0].type, txData[0].direction)
+      case 'Compound':
+      case '':
+      default:
+        return this.setIconStyle(txData[0].type, txData[0].direction)
+    }
+  }
+
+  getMethodName = tx => {
+    switch (tx.type) {
+      case 'contract_creation':
+        return 'Deploy';
+      case 'multicontract':
+        return 'Multi';
+      case 'approval':
+        return I18n.t('history-approve');
+      case 'deposit':
+        return I18n.t('deposit');
+      case 'withdraw':
+        return I18n.t('withdraw');
+      case 'rewarded':
+        return 'Reward';
+      case 'swap':
+        return I18n.t('history-swap');
+      case 'transfer':
+        return tx.direction == 'self'
+          ? 'Self'
+          : tx.direction == 'outgoing'
+          ? I18n.t('history-outgoing')
+          : I18n.t('history-incoming');
+      case 'failure':
+        return I18n.t('history-failed');
+      default:
+        return 'Contract Interaction'
+    }
+  }
+
+  getAmount = tx => tx[0].amount
+
+  txCommonObject = (tx, checksumAddr) => {
+    const
+    timestamp = this.parseTransactionTime(tx.getTimestamp()),
+    status = tx.getState(),
+    data = this.computeTxData(tx, checksumAddr),
+    method = this.getMethodName(data),
+    amount = this.getAmount(data),
+    token = data[0].token === 'cdai' ? 'cDAI' : data[0].token.toUpperCase(),
+    inOrOut = StyleUtilities.minusOrPlusIcon(data.type, data.direction),
+    icon = this.getIcon(data, tx.getApplication(tx.getTo()))
+    return { timestamp, status, method, amount, token, inOrOut, icon }
   }
 }
 

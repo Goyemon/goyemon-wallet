@@ -29,8 +29,7 @@ export default class TransactionDetailContainer extends Component {
     }
 
     componentDidMount() {
-      LogUtilities.toDebugScreen('TDC componentDidMount', this.state)
-      LogUtilities.toDebugScreen('TDC componentDidMount', this.state.txData)
+      LogUtilities.toDebugScreen('TDC componentDidMount', this.props.data)
     }
 
     getMethodName(txData, service) {
