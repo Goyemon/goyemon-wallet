@@ -1,5 +1,7 @@
 'use strict';
 
+import LogUtilities from '../utilities/LogUtilities';
+
 class StyleUtilities {
   static getBorderColor(validation) {
     if (validation === undefined) {
@@ -92,13 +94,11 @@ class StyleUtilities {
         return { name:"minus", size:16, color:"#F1860E" }
 
       case 'transfer':
-        return direction == 'self' ? (
-          { name:"plus-minus", size:16, color:"#5F5F5F" }
-        ) : direction == 'outgoing' ? (
-          { name:"minus", size:16, color:"#F1860E" }
-        ) : (
-          { name:"plus", size:16, color:"#1BA548" }
-        );
+        return direction === 'self'
+        ? { name:"plus-minus", size:16, color:"#5F5F5F" }
+        : direction === 'outgoing'
+        ? { name:"minus", size:16, color:"#F1860E" }
+        : { name:"plus", size:16, color:"#1BA548" }
 
       case 'rewarded':
       case 'withdraw':

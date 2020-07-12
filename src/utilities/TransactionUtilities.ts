@@ -543,7 +543,7 @@ class TransactionUtilities {
     method = this.getMethodName(data),
     amount = this.getAmount(data),
     token = data[0].token === 'cdai' ? 'cDAI' : data[0].token.toUpperCase(),
-    inOrOut = StyleUtilities.minusOrPlusIcon(data.type, data.direction),
+    inOrOut = StyleUtilities.minusOrPlusIcon(data[0].type, data[0].direction),
     icon = this.getIcon(data, tx.getApplication(tx.getTo()))
     return { timestamp, status, method, amount, token, inOrOut, icon }
   }
