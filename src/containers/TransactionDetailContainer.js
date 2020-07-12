@@ -16,50 +16,12 @@ export default class TransactionDetailContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            txData: props.txData,
-            timestamp: TransactionUtilities.parseTransactionTime(props.timestamp),
-            status: props.status,
-            service: props.service || '',
-            token: props.txData[0].token === 'cdai' ? 'cDAI' : props.txData[0].token.toUpperCase(),
-            method: this.getMethodName(props.txData, props.service, props.type),
-            option: this.getOption(props.txData, props.service),
-            icon: this.getIcon(props.txData, props.service),
-            latex: StyleUtilities.minusOrPlusIcon(props.txData[0].type, props.txData[0].direction)
+            txData: props.txData
         }
     }
 
     componentDidMount() {
       LogUtilities.toDebugScreen('TDC componentDidMount', this.props.data)
-    }
-
-    getMethodName(txData, service) {
-      LogUtilities.toDebugScreen('service -> ', service, txData[0].type)
-      switch(service) {
-        case 'PoolTogether':
-          if (txData.length === 3)
-            for (const element of txData)
-              if (element.type == 'committed deposit withdraw')
-                return 'Withdraw'
-          if (txData[0].type === 'deposit')
-            return 'Deposit'
-          return this.prefixUpperCase(
-          txData[0].type === 'transfer'
-          ? txData[0].direction
-          : txData[0].type
-          )
-        case 'Uniswap':
-            return 'Swap'
-        case 'Contract Creation':
-          return 'Contract Creation'
-        case 'Compound':
-        case '':
-        default:
-          return this.prefixUpperCase(
-            txData[0].type === 'transfer'
-            ? txData[0].direction
-            : txData[0].type
-          )
-      }
     }
 
     getOption(txData, service) {
@@ -78,25 +40,6 @@ export default class TransactionDetailContainer extends Component {
         case '':
         default:
           return ''
-      }
-    }
-
-    getIcon(txData, service) {
-      switch(service) {
-        case 'PoolTogether':
-          if (txData.length === 3)
-            for (const element of txData)
-              if (element.type == 'committed deposit withdraw')
-                return this.setIconStyle(txData[0].type, txData[0].direction)
-        case 'Uniswap':
-          if (txData.length == 2 && txData[1].type == 'swap')
-                return this.setIconStyle(txData[1].type, txData[1].direction)
-        case 'Contract Creation':
-          return this.setIconStyle(txData[0].type, txData[0].direction)
-        case 'Compound':
-        case '':
-        default:
-          return this.setIconStyle(txData[0].type, txData[0].direction)
       }
     }
 
@@ -126,8 +69,8 @@ export default class TransactionDetailContainer extends Component {
     prefixUpperCase = txType => txType.charAt(0).toUpperCase() + txType.slice(1)
 
     render() {
-        const { timestamp, service, status, method, option, icon, token } = this.state
-        const { name, size, color } = this.state.latex
+        const { timestamp, status, service, method, amount, token, icon } = this.props.data
+        const { name, size, color } = this.props.data.inOrOut
         return (
             <>
             <TransactionDetailHeader
@@ -159,10 +102,10 @@ export default class TransactionDetailContainer extends Component {
             : method === 'Swap'
             ? <SwapBox option={option}/>
             : <>
-                  {this.state.txData[0].amount && <SubtotalBox>
+                  {amount && <SubtotalBox>
                     <Icon name={name} size={size + 10} color={color} />
                     <GoyemonText fontSize={24}>
-                      {this.state.txData[0].amount}
+                      {amount}
                       {token}
                     </GoyemonText>
                   </SubtotalBox>}

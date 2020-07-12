@@ -46,7 +46,6 @@ class Transaction extends Component {
   }
 
   computeChildren(tx) {
-    LogUtilities.toDebugScreen('Transaction computeChildren', tx)
     const data = this.computeTxData(tx);
     const { index, filter } = this.props.transaction
     const time = TransactionUtilities.parseTransactionTime(tx.getTimestamp());

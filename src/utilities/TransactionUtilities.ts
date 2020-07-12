@@ -19,6 +19,7 @@ import TxStorage from '../lib/tx.js';
 import GlobalConfig from '../config.json';
 import EtherUtilities from './EtherUtilities';
 import StyleUtilities from './StyleUtilities';
+import { roundDownFour } from './BigNumberUtilities'
 
 class TransactionUtilities {
   parseEthValue(value) {
@@ -504,8 +505,9 @@ class TransactionUtilities {
     }
   }
 
-  getMethodName = tx => {
-    switch (tx.type) {
+  getMethodName = (tx, service) => {
+    LogUtilities.toDebugScreen('getMethod Name -> ', tx[0].type, tx[0].direction)
+    switch (tx[0].type) {
       case 'contract_creation':
         return 'Deploy';
       case 'multicontract':
@@ -521,11 +523,13 @@ class TransactionUtilities {
       case 'swap':
         return I18n.t('history-swap');
       case 'transfer':
-        return tx.direction == 'self'
+        return tx[0].direction == 'self'
           ? 'Self'
-          : tx.direction == 'outgoing'
+          : tx[0].direction == 'outgoing'
           ? I18n.t('history-outgoing')
           : I18n.t('history-incoming');
+      case 'outgoing':
+        return I18n.t('history-outgoing')
       case 'failure':
         return I18n.t('history-failed');
       default:
@@ -539,14 +543,20 @@ class TransactionUtilities {
     const
     timestamp = this.parseTransactionTime(tx.getTimestamp()),
     status = tx.getState(),
+    service = tx.getApplication(tx.getTo()),
     data = this.computeTxData(tx, checksumAddr),
-    method = this.getMethodName(data),
-    amount = this.getAmount(data),
+    method = this.getMethodName(data, service),
+    amount = tx.tokenData.cdai ? this.parseHexCDaiValue(tx.tokenData.cdai[0].amount) : this.getAmount(data),
     token = data[0].token === 'cdai' ? 'cDAI' : data[0].token.toUpperCase(),
     inOrOut = StyleUtilities.minusOrPlusIcon(data[0].type, data[0].direction),
-    icon = this.getIcon(data, tx.getApplication(tx.getTo()))
-    return { timestamp, status, method, amount, token, inOrOut, icon }
+    icon = this.getIcon(data, service)
+    return { timestamp, status, service, method, amount, token, inOrOut, icon }
   }
+
+  // txDetailObject = (tx, checksumAddr) => {
+  //   const { timestamp, status, method, amount, token, inOrOut, icon } = this.txCommonObject(tx, checksumAddr)
+  //   const networkFee = 
+  // }
 }
 
 export default new TransactionUtilities();
