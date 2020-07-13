@@ -99,7 +99,6 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
           });
       }
 
-
       Object.entries(tx.getAllTokenOperations()).forEach(
         ([toptok, toktops]) => {
           // toptok - TokenOP Token, toktops -> (given) token TokenOPs ;-)

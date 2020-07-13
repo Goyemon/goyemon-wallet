@@ -69,7 +69,7 @@ export default class TransactionDetailContainer extends Component {
     prefixUpperCase = txType => txType.charAt(0).toUpperCase() + txType.slice(1)
 
     render() {
-        const { timestamp, status, service, method, amount, token, icon } = this.props.data
+        const { timestamp, status, service, method, amount, token, icon, option } = this.props.data
         const { name, size, color } = this.props.data.inOrOut
         return (
             <>

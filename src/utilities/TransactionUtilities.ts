@@ -505,6 +505,13 @@ class TransactionUtilities {
     }
   }
 
+  getOption = (data, service, method) => {
+    if(service === 'Uniswap' || method === I18n.t('history-swap'))
+      return this.getSwapOption(data)
+  }
+
+  getSwapOption = data => ({eth: data[0].amount, dai : data[1].tokens_bought})
+
   getMethodName = (tx, service) => {
     LogUtilities.toDebugScreen('getMethod Name -> ', tx[0].type, tx[0].direction)
     switch (tx[0].type) {
@@ -523,11 +530,14 @@ class TransactionUtilities {
       case 'swap':
         return I18n.t('history-swap');
       case 'transfer':
-        return tx[0].direction == 'self'
-          ? 'Self'
-          : tx[0].direction == 'outgoing'
-          ? I18n.t('history-outgoing')
-          : I18n.t('history-incoming');
+        if(tx.length > 1 && tx[1].type === 'swap')
+          return I18n.t('history-swap');
+        else
+          return tx[0].direction === 'self'
+            ? 'Self'
+            : tx[0].direction === 'outgoing'
+            ? I18n.t('history-outgoing')
+            : I18n.t('history-incoming');
       case 'outgoing':
         return I18n.t('history-outgoing')
       case 'failure':
@@ -537,7 +547,7 @@ class TransactionUtilities {
     }
   }
 
-  getAmount = tx => tx[0].amount
+  getAmount = data => data[0].amount
 
   txCommonObject = (tx, checksumAddr) => {
     const
@@ -549,8 +559,9 @@ class TransactionUtilities {
     amount = tx.tokenData.cdai ? this.parseHexCDaiValue(tx.tokenData.cdai[0].amount) : this.getAmount(data),
     token = data[0].token === 'cdai' ? 'cDAI' : data[0].token.toUpperCase(),
     inOrOut = StyleUtilities.minusOrPlusIcon(data[0].type, data[0].direction),
-    icon = this.getIcon(data, service)
-    return { timestamp, status, service, method, amount, token, inOrOut, icon }
+    icon = this.getIcon(data, service),
+    option = this.getOption(data, service, method)
+    return { timestamp, status, service, method, amount, token, inOrOut, icon, option }
   }
 
   // txDetailObject = (tx, checksumAddr) => {
