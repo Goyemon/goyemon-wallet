@@ -507,12 +507,14 @@ class TransactionUtilities {
 
   getOption = (data, service, method) => {
     if(service === 'Uniswap' || method === I18n.t('history-swap'))
-      return this.getSwapOption(data)
-    else if (service === 'PoolTogether' && data.length > 3)
+      return data.length < 2 ? false : this.getSwapOption(data)
+    else if (service === 'PoolTogether' && data.length > 3) {
       data.forEach(element => {
         if (element.type == 'committed deposit withdraw')
           return this.getPTOption(data)
       })
+      return false
+    }
     else
       return ''
   }
@@ -536,6 +538,16 @@ class TransactionUtilities {
       if(element.type === type)
         return element.amount
     return '0.00'
+  }
+
+  getToken = data => {
+    if (data[0].token === 'cdai' && data[0].type === 'withdraw')
+      return 'DAI'
+    if (data[0].token === 'cdai' && data[0].type === 'deposit')
+      return 'DAI'
+    if (data[0].token === 'cdai' && data[0].type === 'transfer')
+      return 'cDAI'
+    return data[0].token.toUpperCase()
   }
 
   getMethodName = tx => {
@@ -572,7 +584,24 @@ class TransactionUtilities {
     }
   }
 
-  getAmount = data => data[0].amount
+  getFromAddr = (data, tx) => {
+    return data.length === 1 && data[0].direction == 'incoming' && data[0].type == 'transfer'
+    ? tx.getFrom()
+    : ''
+  }
+
+  getToAddr = (data, tx) => {
+    if (data.length === 1 && data[0].direction == 'outgoing' && data[0].type == 'transfer') {
+      if (data[0].token === 'eth')
+        return tx.getTo()
+      if (tx.tokenData.dai)
+        return "0x" + tx.tokenData.dai[0].to_addr
+      if (tx.tokenData.cdai)
+        return "0x" + tx.tokenData.cdai[0].to_addr
+    }
+    else
+      return ''
+  }
 
   txCommonObject = (tx, checksumAddr) => {
     const
@@ -581,12 +610,16 @@ class TransactionUtilities {
     service = tx.getApplication(tx.getTo()),
     data = this.computeTxData(tx, checksumAddr),
     method = this.getMethodName(data),
-    amount = tx.tokenData.cdai ? this.parseHexCDaiValue(tx.tokenData.cdai[0].amount) : this.getAmount(data),
-    token = data[0].token === 'cdai' ? 'cDAI' : data[0].token.toUpperCase(),
+    amount = tx.tokenData.cdai && data[0].type === 'transfer' ? this.parseHexCDaiValue(tx.tokenData.cdai[0].amount) : data[0].amount,
+    token = this.getToken(data),
+    networkFee = parseInt(tx.getGasPrice(), 16) * parseInt(tx.gas, 16) / 1000000000000000000,
+    hash = tx.getHash(),
+    from = data[0].direction ? this.getFromAddr(data, tx) : '',
+    to = data[0].direction ? this.getToAddr(data, tx) : '',
     inOrOut = StyleUtilities.minusOrPlusIcon(data[0].type, data[0].direction),
     icon = this.getIcon(data, service),
     option = this.getOption(data, service, method)
-    return { timestamp, status, service, method, amount, token, inOrOut, icon, option }
+    return { timestamp, status, service, method, amount, token, networkFee, hash, from, to, inOrOut, icon, option }
   }
 
   // txDetailObject = (tx, checksumAddr) => {

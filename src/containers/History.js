@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { TouchableOpacity, Linking, ScrollView, View, Dimensions } from 'react-native';
+import { TouchableOpacity, ScrollView, View, Dimensions } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Modal from 'react-native-modal';
 import styled from 'styled-components';
@@ -12,12 +12,10 @@ import {
   Container,
   HeaderOne,
   HeaderTwo,
-  HeaderFive,
   Button,
   GoyemonText,
   InsufficientWeiBalanceMessage,
   IsOnlineMessage,
-  TransactionStatus,
   ModalHandler,
   HorizontalLine,
   Loader
@@ -27,14 +25,12 @@ import { connect } from 'react-redux';
 // TODO: git rm those two:
 //import Transactions from '../containers/Transactions';
 //import TransactionsDai from '../containers/TransactionsDai';
-import Copy from './common/Copy';
 import OfflineNotice from './common/OfflineNotice';
 import TransactionList from './TransactionList';
 import I18n from '../i18n/I18n';
 import TxStorage from '../lib/tx.js';
 import LogUtilities from '../utilities/LogUtilities';
 import TransactionUtilities from '../utilities/TransactionUtilities';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import GlobalConfig from '../config.json';
 import Slider from '@react-native-community/slider';
 
@@ -62,75 +58,9 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
     constructor(props) {
       super(props);
       this.state = {
-        txData: this.computeTxData(props.tx),
-        tx: props.tx
+        tx: props.tx,
+        data: TransactionUtilities.txCommonObject(props.tx, EtherUtilities.getReasonablyAddress(props.checksumAddress))
       };
-    }
-
-    computeTxData(tx) {
-      if (!tx) return null;
-
-      const our_reasonably_stored_address = EtherUtilities.getReasonablyAddress(this.props.checksumAddress);
-
-      const ret = [];
-
-      if (tx.getValue() != '00') {
-        const ethdirection =
-          (tx.getFrom() && tx.getFrom() === `0x${our_reasonably_stored_address}`
-            ? 1
-            : 0) +
-          (tx.getTo() && tx.getTo() === `0x${our_reasonably_stored_address}`
-            ? 2
-            : 0);
-
-        if (ethdirection > 0)
-          ret.push({
-            type: 'transfer',
-            direction:
-              ethdirection == 1
-                ? 'outgoing'
-                : ethdirection == 2
-                ? 'incoming'
-                : 'self',
-            amount: parseFloat(
-              TransactionUtilities.parseEthValue(`0x${tx.getValue()}`)
-            ).toFixed(4),
-            token: 'eth'
-          });
-      }
-
-      Object.entries(tx.getAllTokenOperations()).forEach(
-        ([toptok, toktops]) => {
-          // toptok - TokenOP Token, toktops -> (given) token TokenOPs ;-)
-          toktops.forEach((x) => ret.push(EtherUtilities.topType(x, toptok, our_reasonably_stored_address)));
-        }
-      );
-
-      if (tx.getTo()) {
-        if (tx.getTo().toLowerCase() === GlobalConfig.DAIPoolTogetherContractV2.toLowerCase() && ret.length === 0)
-            ret.push({
-              type: 'outgoing',
-              token: 'dai',
-              direction: 'outgoing',
-              amount: '0.00'
-            })
-      }
-      else
-        ret.push({
-          type: 'Contract Creation',
-          direction: 'creation',
-          token: 'eth'
-        })
-
-      if(ret.length === 0)
-        ret.push({
-          type: 'Contract Interaction',
-          direction: 'outgoing',
-          token: 'eth',
-          amount: '0.00'
-        })
-
-      return ret;
     }
 
     componentDidMount() {
@@ -143,26 +73,17 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
         TxStorage.storage
         .getTx(this.props.index, this.props.filter)
         .then(async x => {
-          await this.setState({ txData: this.computeTxData(x), tx: x });
+          await this.setState({ data: TransactionUtilities.txCommonObject(x, EtherUtilities.getReasonablyAddress(props.checksumAddress)), tx: x });
         })
         .catch(e => LogUtilities.toDebugScreen('TransactionDetail Tx Error With', e));
       }
       await this.props.updateTx(this.state.tx)
     }
 
-    pooltogetherAmount(type) {
-      for(const element of this.state.txData)
-        if(element.type === type)
-          return element.amount
-      return '0.00'
-    }
-
     render() {
-      if (!this.state.txData)
-        return <GoyemonText fontSize={12}>nothink!</GoyemonText>;
-
-      return (
-        <>
+      return !this.state.tx
+      ? <GoyemonText fontSize={12}>nothink!</GoyemonText>
+      : <>
           <Container
             alignItems="flex-start"
             flexDirection="column"
@@ -170,117 +91,12 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
             marginTop={0}
             width="100%"
           >
-            <TransactionDetailContainer
-              txData={this.state.txData}
-              data={TransactionUtilities.txCommonObject(this.props.tx, EtherUtilities.getReasonablyAddress(this.props.checksumAddress))}
-              timestamp={this.state.tx.getTimestamp()}
-              status={this.state.tx.getState()}
-              service={this.props.tx.getApplication(this.props.tx.getTo())}
-            />
-            <TxNetworkAndHash>
-              {(() => {
-                const app = this.props.tx.getTo() === null ? null : this.props.tx.getApplication(this.props.tx.getTo())
-              return (
-                app === '' || app === null
-              ? null
-              : <>
-                  <HeaderFive fontSize={20}>Application</HeaderFive>
-                  <TxDetailValue>
-                    {this.props.tx.getTo() === null ? null : this.props.tx.getApplication(this.props.tx.getTo())}
-                  </TxDetailValue>
-                </>
-              )})()}
-
-              {this.state.txData[0].direction &&
-              <>
-                {this.state.txData.length === 1 && this.state.txData[0].direction == 'incoming' && this.state.txData[0].type == 'transfer' &&
-                <>
-                  <HeaderFive fontSize={20}>From</HeaderFive>
-                  <ToAndFromValueContainer>
-                    <ToAndFromValue>
-                      {this.props.tx.getFrom().substring(0, 24) + '...'}
-                    </ToAndFromValue>
-                    <Copy text={this.props.tx.getFrom()} icon={false} />
-                  </ToAndFromValueContainer>
-                </>}
-
-                {this.state.txData.length === 1 && this.state.txData[0].direction == 'outgoing' && this.state.txData[0].type == 'transfer' &&
-                <>
-                  <HeaderFive fontSize={20}>To</HeaderFive>
-                  <ToAndFromValueContainer>
-                    <ToAndFromValue>
-                      {this.state.txData[0].token === 'eth'
-                      ? this.props.tx.getTo().substring(0, 24) + '...'
-                      : this.state.tx.tokenData.cdai[0]
-                      ? '0x' + this.state.tx.tokenData.cdai[0].to_addr.substring(0, 24) + '...'
-                      : '0x' + this.state.tx.tokenData.dai[0].to_addr.substring(0, 24) + '...'}
-                    </ToAndFromValue>
-                    <Copy text={this.props.tx.getTo()} icon={false} />
-                  </ToAndFromValueContainer>
-                </>}
-
-              </>}
-
-              <HeaderFive fontSize={20}>Max Network Fee</HeaderFive>
-              <TxDetailValue>
-                {parseInt(this.props.tx.getGasPrice(), 16) * parseInt(this.props.tx.gas, 16) / 1000000000000000000} ETH
-              </TxDetailValue>
-
-              {(() => {
-              return (
-                this.props.tx.getState() < 1 ? null :
-                <View>
-                <HeaderFive fontSize={20}>Hash</HeaderFive>
-                <TxDetailValue
-                    onPress={() => {
-                      Linking.openURL(
-                        `${GlobalConfig.EtherscanLink}${'0x' + this.props.tx.getHash()}`
-                      ).catch((err) => LogUtilities.logError('An error occurred', err));
-                    }}
-                  >
-                    {'0x' + this.props.tx.getHash().substring(0, 24) + '...'}
-                    <Icon name="link-variant" size={16} color="#5f5f5f" />
-                </TxDetailValue>
-                </View>
-              )})()}
-            </TxNetworkAndHash>
+            <TransactionDetailContainer data={this.state.data}/>
           </Container>
         </>
-      );
     }
   }
 );
-
-const TxNetworkAndHash = styled.View`
-align-items: flex-start;
-font-family: 'HKGrotesk-Regular';
-justify-content: flex-start;
-flex-direction: column;
-margin: 24px auto;
-width: 90%;
-`;
-
-const TxDetailValue = styled.Text`
-color: #000;
-font-family: 'HKGrotesk-Bold';
-font-size: 18;
-margin-top: 4;
-margin-bottom: 16;
-`;
-
-const ToAndFromValueContainer = styled.View`
-  align-items: center;
-  flex-direction: row;
-  margin-top: 4;
-  margin-bottom: 16;
-  `;
-
-const ToAndFromValue = styled.Text`
-color: #000;
-font-family: 'HKGrotesk-Bold';
-font-size: 18;
-margin-right: 16;
-`;
 
 const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
   class MagicalGasPriceSlider extends Component {

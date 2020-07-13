@@ -1657,11 +1657,13 @@ class Tx {
 
   getApplication(to) {
     const UniswapV1 = '0x2a1530c4c41db0b0b2bb646cb5eb1a67b7158667'
+    const UniswapV2 = '0xf164fc0ec4e93095b804a4795bbe1e041497b92a'
     if (to) {
       switch (to.toLowerCase()) {
         case GlobalConfig.cDAIcontract.toLowerCase():
           return 'Compound'
         case UniswapV1:
+        case UniswapV2:
         case GlobalConfig.RouterUniswapV2.toLowerCase():
           return 'Uniswap'
         case GlobalConfig.DAIPoolTogetherContractV2.toLowerCase():
