@@ -45,7 +45,8 @@ class Transaction extends Component {
   computeChildren(tx) {
     const data = TransactionUtilities.txCommonObject(tx, EtherUtilities.getReasonablyAddress(this.props.checksumAddress))
     const { index, filter } = this.props.transaction
-    const { timestamp, status, service, amount, token, networkFee, hash, to, from, icon, inOrOut, option } = data
+    const { timestamp, status, service, amount, token, icon, inOrOut, option } = data
+    LogUtilities.toDebugScreen('CC inOrOut', inOrOut)
     let { method } = data
     if (service === 'PoolTogether' || service === 'Uniswap')
       if (!option)
@@ -73,8 +74,8 @@ class Transaction extends Component {
         <TransactionList>
           <InOrOutTransactionContainer>
             <GoyemonText fontSize={16}>
-              {inOrOut.name !== '' &&
-                <Icon name={inOrOut.name} size={inOrOut.size} color={inOrOut.color} />
+              {icon.name !== '' &&
+                <Icon name={icon.name} size={icon.size} color={icon.color} />
               }
             </GoyemonText>
           </InOrOutTransactionContainer>
@@ -91,8 +92,8 @@ class Transaction extends Component {
           <TransactionStatus width="26%" txState={status} />
 
           <ValueContainer>
-            {icon.name === '' &&
-              <Icon name={icon.name} size={icon.size} color={icon.color} />
+            {inOrOut.name !== '' &&
+              <Icon name={inOrOut.name} size={inOrOut.size} color={inOrOut.color} />
             }
             <TransactionAmount
               amount={amount}
