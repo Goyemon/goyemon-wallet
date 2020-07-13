@@ -508,12 +508,37 @@ class TransactionUtilities {
   getOption = (data, service, method) => {
     if(service === 'Uniswap' || method === I18n.t('history-swap'))
       return this.getSwapOption(data)
+    else if (service === 'PoolTogether' && data.length > 3)
+      data.forEach(element => {
+        if (element.type == 'committed deposit withdraw')
+          return this.getPTOption(data)
+      })
+    else
+      return ''
   }
 
   getSwapOption = data => ({eth: data[0].amount, dai : data[1].tokens_bought})
 
-  getMethodName = (tx, service) => {
-    LogUtilities.toDebugScreen('getMethod Name -> ', tx[0].type, tx[0].direction)
+  getPTOption = data => {
+    const open = this.pooltogetherAmount(data, 'open deposit withdraw')
+    const committed = this.pooltogetherAmount(data, 'committed deposit withdraw')
+    const sponsor = this.pooltogetherAmount(data, 'sponsorship withdraw')
+    return {
+      open,
+      committed,
+      sponsor,
+      sum: parseFloat(open) + parseFloat(committed) + parseFloat(sponsor)
+    }
+  }
+
+  pooltogetherAmount(txData, type) {
+    for(const element of txData)
+      if(element.type === type)
+        return element.amount
+    return '0.00'
+  }
+
+  getMethodName = tx => {
     switch (tx[0].type) {
       case 'contract_creation':
         return 'Deploy';
@@ -555,7 +580,7 @@ class TransactionUtilities {
     status = tx.getState(),
     service = tx.getApplication(tx.getTo()),
     data = this.computeTxData(tx, checksumAddr),
-    method = this.getMethodName(data, service),
+    method = this.getMethodName(data),
     amount = tx.tokenData.cdai ? this.parseHexCDaiValue(tx.tokenData.cdai[0].amount) : this.getAmount(data),
     token = data[0].token === 'cdai' ? 'cDAI' : data[0].token.toUpperCase(),
     inOrOut = StyleUtilities.minusOrPlusIcon(data[0].type, data[0].direction),
