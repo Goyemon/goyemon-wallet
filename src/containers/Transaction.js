@@ -46,9 +46,13 @@ class Transaction extends Component {
   }
 
   computeChildren(tx) {
-    const data = this.computeTxData(tx);
+    const data = TransactionUtilities.txCommonObject(tx, EtherUtilities.getReasonablyAddress(this.props.checksumAddress))
     const { index, filter } = this.props.transaction
-    const time = TransactionUtilities.parseTransactionTime(tx.getTimestamp());
+    const { timestamp, status, service, amount, token, networkFee, hash, to, from, icon, inOrOut, option } = data
+    let { method } = data
+    if (service === 'PoolTogether' || service === 'Uniswap')
+      if (!option)
+        method = 'Outgoing'
 
     return (
       <TouchableCardContainer
@@ -72,56 +76,27 @@ class Transaction extends Component {
         <TransactionList>
           <InOrOutTransactionContainer>
             <GoyemonText fontSize={16}>
-              {(() => {
-                const { name, size, color } = StyleUtilities.inOrOutIcon(data.type, data.direction)
-                return <Icon name={name} size={size} color={color} />
-              })()}
+              {inOrOut.name !== '' &&
+                <Icon name={inOrOut.name} size={inOrOut.size} color={inOrOut.color} />
+              }
             </GoyemonText>
           </InOrOutTransactionContainer>
 
           <TypeTimeContainer>
             <Type>
               <GoyemonText fontSize={18}>
-                {(() => {
-                  switch (data.type) {
-                    case 'contract_creation':
-                      return 'Deploy';
-                    case 'multicontract':
-                      return 'Multi';
-                    case 'approval':
-                      return I18n.t('history-approve');
-                    case 'deposit':
-                      return I18n.t('deposit');
-                    case 'withdraw':
-                      return I18n.t('withdraw');
-                    case 'rewarded':
-                      return 'Reward';
-                    case 'swap':
-                      return I18n.t('history-swap');
-                    case 'transfer':
-                      return data.direction == 'self'
-                        ? 'Self'
-                        : data.direction == 'outgoing'
-                        ? I18n.t('history-outgoing')
-                        : I18n.t('history-incoming');
-                    case 'failure':
-                      return I18n.t('history-failed');
-                  }
-                })()}
+                {method}
               </GoyemonText>
             </Type>
-            <Time>{time}</Time>
+            <Time>{timestamp}</Time>
           </TypeTimeContainer>
 
-          <TransactionStatus width="26%" txState={tx.getState()} />
+          <TransactionStatus width="26%" txState={status} />
 
           <ValueContainer>
-            {(() => {
-              const { name, size, color } = StyleUtilities.minusOrPlusIcon(data.type, data.direction)
-              return name === ''
-              ? null
-              : <Icon name={name} size={size} color={color} />
-            })()}
+            {icon.name === '' &&
+              <Icon name={icon.name} size={icon.size} color={icon.color} />
+            }
             {(() => {
               switch (data.type) {
                 case 'deposit':
@@ -197,107 +172,6 @@ class Transaction extends Component {
         </TransactionList>
       </TouchableCardContainer>
     );
-  }
-
-  computeTxData(tx) {
-    if (!tx) return null;
-
-    const our_reasonably_stored_address = EtherUtilities.getReasonablyAddress(this.props.checksumAddress);
-
-    const isPtWithdraw = (x) =>
-      x instanceof
-        TxStorage.TxTokenOpNameToClass[
-          TxStorage.TxTokenOpTypeToName.PTwithdrawn
-        ] ||
-      x instanceof
-        TxStorage.TxTokenOpNameToClass[
-          TxStorage.TxTokenOpTypeToName.PTopenDepositWithdrawn
-        ] ||
-      x instanceof
-        TxStorage.TxTokenOpNameToClass[
-          TxStorage.TxTokenOpTypeToName.PTsponsorshipAndFeesWithdrawn
-        ] ||
-      x instanceof
-        TxStorage.TxTokenOpNameToClass[
-          TxStorage.TxTokenOpTypeToName.PTcommittedDepositWithdrawn
-        ];
-
-    const tops = tx.getAllTokenOperations();
-
-    if (Object.keys(tops).length == 0) {
-      // no token operations.
-      if (tx.getTo() == null)
-        return {
-          type: 'contract_creation'
-        };
-
-      const ethdirection =
-        (tx.getFrom() && tx.getFrom() === `0x${our_reasonably_stored_address}`
-          ? 1
-          : 0) +
-        (tx.getTo() && tx.getTo() === `0x${our_reasonably_stored_address}`
-          ? 2
-          : 0);
-
-      if (ethdirection > 0)
-        return {
-          type: 'transfer',
-          direction:
-            ethdirection == 1
-              ? 'outgoing'
-              : ethdirection == 2
-              ? 'incoming'
-              : 'self',
-          amount: parseFloat(
-            TransactionUtilities.parseEthValue(`0x${tx.getValue()}`)
-          ).toFixed(4),
-          token: 'eth'
-        };
-
-      return {
-        type: 'oops'
-      };
-    }
-
-    if (
-      Object.keys(tops).length > 1 || // two different tokens operated on or
-      (Object.values(tops)[0].length > 1 && // more than one token op for givne token,
-        (!tops.pooltogether ||
-          tops.pooltogether.filter((x) => !isPtWithdraw(x)).length > 0)) // and the token is not pooltogether or it's all withdraws in PT.
-    )
-      return {
-        type: 'multicontract'
-      };
-
-    // at this point we should have either single token operation or a bunch of PT withdraws.
-    // currently out of known operations, only PT withdraw emits multiple operations normally
-
-    let top, toptok;
-    if (tops.pooltogether) {
-      if (isPtWithdraw(tops.pooltogether[0])) {
-        //TransactionUtilities.parseHexDaiValue(`0x${topdata.reduce((x, y) => x.plus(y.withdrawAmount, 16), new BigNumber(0)).toString(16)}`)
-        return {
-          type: 'withdraw',
-          token: toptok,
-          amount: TransactionUtilities.parseHexDaiValue(
-            `0x${tops.pooltogether
-              .reduce((sum, x) => {
-                if (isPtWithdraw(x)) return sum.plus(x.withdrawAmount, 16);
-
-                return sum;
-              }, new BigNumber(0))
-              .toString(16)}`
-          ) // TODO: why do we convert this to hex and then back? wouldnt it be better to just divide the BigNumber by decimal places of DAI?
-        };
-      }
-    }
-
-    [toptok, top] = Object.entries(tops).map(([toptok, toparr]) => [
-      toptok,
-      toparr[0]
-    ])[0]; // changes {x:[1]} to [x, 1], so extracts token name and the first token op (should only be one at this point anyway)
-
-    return EtherUtilities.topType(top, toptok, our_reasonably_stored_address);
   }
 
   render() {
