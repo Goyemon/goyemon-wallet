@@ -1,7 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
 import { Linking, View } from 'react-native';
-import StyleUtilities from '../utilities/StyleUtilities.js';
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
@@ -9,9 +8,7 @@ import {
     GoyemonText,
     TransactionStatus,
     HorizontalLine,
-    Copy
   } from '../components/common';
-import TransactionUtilities from '../utilities/TransactionUtilities';
 import LogUtilities from '../utilities/LogUtilities';
 import GlobalConfig from '../config.json';
 
@@ -209,10 +206,6 @@ class TransactionDetailHeader extends Component {
       status: props.status,
       method: props.method
     }
-  }
-
-  componentDidMount() {
-    LogUtilities.toDebugScreen('TransactionDetailHeader componentDidMount', this.props);
   }
 
   render() {

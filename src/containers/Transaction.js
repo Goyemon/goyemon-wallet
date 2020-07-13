@@ -1,10 +1,8 @@
 'use strict';
-import BigNumber from 'bignumber.js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
-import StyleUtilities from '../utilities/StyleUtilities';
 import EtherUtilities from '../utilities/EtherUtilities';
 import { saveTxDetailModalVisibility } from '../actions/ActionModal';
 import {
@@ -12,7 +10,6 @@ import {
   TouchableCardContainer,
   TransactionStatus
 } from '../components/common';
-import I18n from '../i18n/I18n';
 import TxStorage from '../lib/tx.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import LogUtilities from '../utilities/LogUtilities';
@@ -97,77 +94,12 @@ class Transaction extends Component {
             {icon.name === '' &&
               <Icon name={icon.name} size={icon.size} color={icon.color} />
             }
-            {(() => {
-              switch (data.type) {
-                case 'deposit':
-                  return (
-                    <GoyemonText fontSize={16} style={styles.valueStyleRed}>
-                      {data.amount} DAI
-                    </GoyemonText>
-                  );
-
-                case 'transfer':
-                  return (
-                    <GoyemonText
-                      fontSize={16}
-                      style={
-                        data.direction == 'incoming'
-                          ? styles.valueStyleGreen
-                          : styles.valueStyleRed
-                      }
-                    >
-                      {data.amount} {data.token.toUpperCase()}
-                    </GoyemonText>
-                  );
-
-                case 'rewarded':
-                case 'withdraw':
-                  return (
-                    <GoyemonText fontSize={16} style={styles.valueStyleGreen}>
-                      {data.amount} DAI
-                    </GoyemonText>
-                  );
-
-                case 'swap':
-                  return (
-                    <SwapValueContainer>
-                      <SwapValueTextContainer>
-                        <Icon name="minus" size={16} color="#F1860E" />
-                        <GoyemonText
-                          fontSize={16}
-                          style={styles.valueStyleGreen}
-                        >
-                          {data.eth_sold} ETH
-                        </GoyemonText>
-                      </SwapValueTextContainer>
-                      <Icon name="swap-vertical" size={16} color="#5f5f5f" />
-                      <SwapValueTextContainer>
-                        <Icon name="plus" size={16} color="#1BA548" />
-                        <GoyemonText
-                          fontSize={16}
-                          style={styles.valueStyleGreen}
-                        >
-                          {data.tokens_bought} DAI
-                        </GoyemonText>
-                      </SwapValueTextContainer>
-                    </SwapValueContainer>
-                  );
-
-                case 'approval':
-                  return null;
-
-                case 'failure':
-                  return <GoyemonText fontSize={16}>0</GoyemonText>;
-              }
-
-              /*
-								if (this.state.transaction.getFrom() === null)
-								return <GoyemonText fontSize={16}>Token Transfer</GoyemonText>;
-
-								if (this.state.transaction.getTo() === null)
-								return <GoyemonText fontSize={16}>Deploy</GoyemonText>;
-							*/
-            })()}
+            <TransactionAmount
+              amount={amount}
+              token={token}
+              option={option}
+              method={method}
+            />
           </ValueContainer>
         </TransactionList>
       </TouchableCardContainer>
@@ -231,9 +163,57 @@ const SwapValueTextContainer = styled.View`
   flex-direction: row;
 `;
 
-// const mapStateToProps = (state) => ({
-//   checksumAddress: state.ReducerChecksumAddress.checksumAddress
-// });
+const TransactionAmount = props => {
+  const { amount, token, option, method } = props
+  switch(method) {
+    case 'Deposit':
+      return <GoyemonText fontSize={16} style={styles.valueStyleRed}>
+              {amount} {token}
+             </GoyemonText>
+    case 'Reward':
+    case 'Withdraw':
+    case 'Incoming':
+      return <GoyemonText
+                fontSize={16}
+                style={styles.valueStyleGreen}
+              >
+                {amount} {token}
+             </GoyemonText>
+    case 'Outgoing':
+      return <GoyemonText
+                fontSize={16}
+                style={styles.valueStyleRed}
+              >
+                {amount} {token}
+             </GoyemonText>
+    case 'Swap':
+      return <SwapValueContainer>
+              <SwapValueTextContainer>
+                <Icon name="minus" size={16} color="#F1860E" />
+                <GoyemonText
+                  fontSize={16}
+                  style={styles.valueStyleGreen}
+                >
+                  {option.eth} ETH
+                </GoyemonText>
+              </SwapValueTextContainer>
+              <Icon name="swap-vertical" size={16} color="#5f5f5f" />
+              <SwapValueTextContainer>
+                <Icon name="plus" size={16} color="#1BA548" />
+                <GoyemonText
+                  fontSize={16}
+                  style={styles.valueStyleGreen}
+                >
+                  {option.dai} DAI
+                </GoyemonText>
+              </SwapValueTextContainer>
+             </SwapValueContainer>
+    case 'Failed':
+      return <GoyemonText fontSize={16}>0</GoyemonText>
+    default:
+      return null
+  }
+}
 
 const mapDispatchToProps = {
   saveTxDetailModalVisibility
