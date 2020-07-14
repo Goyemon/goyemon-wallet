@@ -66,7 +66,7 @@ These config files usually should NOT be changed. If you do, you need to be EXTR
 
 ## Debuggers
 You can see communication logs between the wallet and a server.
-- [Ropsten](http://192.168.1.3:31337/devs/)
+- [Ropsten](http://[240d:1a:2a:1000:8e70:5aff:febd:4328]:31337/devs/)
 - [Mainnet](http://51.89.42.181:31337/devs/)
 
 You can also send dummy messages to the wallet from [here](http://51.89.42.181:31330/debugmsgs).
