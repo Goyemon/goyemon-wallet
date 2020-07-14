@@ -17,6 +17,7 @@ const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
   whitelist: [
+    'ReducerApproval',
     'ReducerBalance',
     'ReducerCompound',
     'ReducerChecksumAddress',
