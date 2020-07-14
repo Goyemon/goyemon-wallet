@@ -46,8 +46,8 @@ class Transaction extends Component {
     const data = TransactionUtilities.txCommonObject(tx, EtherUtilities.getReasonablyAddress(this.props.checksumAddress))
     const { index, filter } = this.props.transaction
     const { timestamp, status, service, amount, token, icon, inOrOut, option } = data
-    LogUtilities.toDebugScreen('CC inOrOut', inOrOut)
     let { method } = data
+    LogUtilities.toDebugScreen('CC inOrOut', timestamp, service, method, amount)
     if (service === 'PoolTogether' || service === 'Uniswap') {
       if (!option && method === 'Withdraw')
         method = 'Outgoing'
@@ -180,6 +180,13 @@ const TransactionAmount = props => {
               </GoyemonText>
     case 'Reward':
     case 'Withdraw':
+      if (option)
+        return <GoyemonText
+                  fontSize={16}
+                  style={styles.valueStyleGreen}
+               >
+                  {option.sum} {token}
+               </GoyemonText>
     case 'Incoming':
       return <GoyemonText
                 fontSize={16}

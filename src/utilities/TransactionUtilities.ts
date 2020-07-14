@@ -504,14 +504,11 @@ class TransactionUtilities {
   }
 
   getOption = (data, service, method) => {
+    LogUtilities.toDebugScreen('TDC getOption', data, service, method)
     if(service === 'Uniswap' || method === I18n.t('history-swap'))
       return data.length < 2 ? false : this.getSwapOption(data)
-    else if (service === 'PoolTogether' && data.length > 3) {
-      data.forEach(element => {
-        if (element.type == 'committed deposit withdraw')
-          return this.getPTOption(data)
-      })
-      return false
+    else if (service === 'PoolTogether' && method === 'Withdraw') {
+      return this.getPTOption(data)
     }
     else
       return ''
@@ -527,7 +524,7 @@ class TransactionUtilities {
       open,
       committed,
       sponsor,
-      sum: parseFloat(open) + parseFloat(committed) + parseFloat(sponsor)
+      sum: (parseFloat(open) + parseFloat(committed) + parseFloat(sponsor)).toFixed(2)
     }
   }
 
@@ -545,10 +542,13 @@ class TransactionUtilities {
       return 'DAI'
     if (data[0].token === 'cdai' && data[0].type === 'transfer')
       return 'cDAI'
+    if (data[0].token === 'pooltogether' && data.length > 2)
+      return 'DAI'
     return data[0].token.toUpperCase()
   }
 
   getMethodName = tx => {
+    LogUtilities.toDebugScreen('TDC getMethodName', tx)
     switch (tx[0].type) {
       case 'contract_creation':
         return 'Deploy';
@@ -575,6 +575,10 @@ class TransactionUtilities {
             : I18n.t('history-incoming');
       case 'outgoing':
         return I18n.t('history-outgoing')
+      case 'sponsorship withdraw':
+      case 'committed deposit withdraw':
+      case 'open deposit withdraw':
+        return I18n.t('withdraw');
       case 'failure':
         return I18n.t('history-failed');
       default:
