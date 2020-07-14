@@ -608,7 +608,7 @@ class TransactionUtilities {
     service = tx.getApplication(tx.getTo()),
     data = this.computeTxData(tx, checksumAddr),
     method = this.getMethodName(data),
-    amount = tx.tokenData.cdai && data[0].type === 'transfer' ? this.parseHexCDaiValue(tx.tokenData.cdai[0].amount) : data[0].amount,
+    amount = tx.tokenData.cdai && data[0].type === 'transfer' && data[0].direction !== 'self' ? this.parseHexCDaiValue(tx.tokenData.cdai[0].amount) : data[0].amount,
     token = this.getToken(data),
     networkFee = parseInt(tx.getGasPrice(), 16) * parseInt(tx.gas, 16) / 1000000000000000000,
     hash = tx.getHash(),
