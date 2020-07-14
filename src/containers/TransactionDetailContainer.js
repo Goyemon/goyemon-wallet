@@ -21,9 +21,12 @@ export default class TransactionDetailContainer extends Component {
         const { timestamp, status, service, amount, token, networkFee, hash, to, from, icon, option } = this.props.data
         let { method } = this.props.data
         const { name, size, color } = this.props.data.inOrOut
-        if (service === 'PoolTogether' || service === 'Uniswap')
-          if (!option)
+        if (service === 'PoolTogether' || service === 'Uniswap') {
+          if (!option && method === 'Withdraw')
             method = 'Outgoing'
+          if (!option && method === 'Swap')
+            method = 'Outgoing'
+        }
 
         return (
             <>

@@ -48,9 +48,12 @@ class Transaction extends Component {
     const { timestamp, status, service, amount, token, icon, inOrOut, option } = data
     LogUtilities.toDebugScreen('CC inOrOut', inOrOut)
     let { method } = data
-    if (service === 'PoolTogether' || service === 'Uniswap')
-      if (!option)
+    if (service === 'PoolTogether' || service === 'Uniswap') {
+      if (!option && method === 'Withdraw')
         method = 'Outgoing'
+      if (!option && method === 'Swap')
+        method = 'Outgoing'
+    }
 
     return (
       <TouchableCardContainer
@@ -92,7 +95,7 @@ class Transaction extends Component {
           <TransactionStatus width="26%" txState={status} />
 
           <ValueContainer>
-            {inOrOut.name !== '' &&
+            {inOrOut.name !== '' && method !== 'Swap' &&
               <Icon name={inOrOut.name} size={inOrOut.size} color={inOrOut.color} />
             }
             <TransactionAmount
