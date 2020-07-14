@@ -50,6 +50,9 @@ Contact somebody in our team if the build fails.
 ## Networks
 We use the Mainnet in the master and the Ropsten in the develop(and other feature branches). You can switch between networks in your local but they should not be changed in remote branches. 
 
+## Addresses for Testing
+We have several addresses for testing both in the Ropsten and Mainnet. Make sure that you are not using the same address with other developers when you test outgoing transactions. Otherwise, you will get the "nonce too low" error from geth. 
+
 ## Config Files
 We have three config files:
 - `Goyemon/ios/GoogleService-Info.plist`
