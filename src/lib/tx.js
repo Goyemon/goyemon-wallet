@@ -1673,7 +1673,7 @@ class Tx {
       }
     }
     else {
-      return 'Contract Creation'
+      return ''
     }
   }
 

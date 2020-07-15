@@ -422,6 +422,7 @@ class TransactionUtilities {
   prefixUpperCase = txType => txType.charAt(0).toUpperCase() + txType.slice(1)
 
   computeTxData = (tx, checksumAddr) => {
+    LogUtilities.toDebugScreen('TDC computeTxData', tx.getTo())
     if (!tx) return null
     const reasonablyAddr = EtherUtilities.getReasonablyAddress(checksumAddr);
     const ret = []
@@ -455,25 +456,32 @@ class TransactionUtilities {
       }
     );
 
-    if (tx.getTo()) {
+    if (tx.getTo() !== '0x') {
       if (tx.getTo().toLowerCase() === GlobalConfig.DAIPoolTogetherContractV2.toLowerCase() && ret.length === 0)
-          ret.push({
-            type: 'outgoing',
-            token: 'dai',
-            direction: 'outgoing',
-            amount: '0.00'
-          })
+        ret.push({
+          type: 'outgoing',
+          token: 'dai',
+          direction: 'outgoing',
+          amount: '0.00'
+        })
+      else if (tx.getTo().toLowerCase() === GlobalConfig.DAIPoolTogetherTokenContractV2.toLowerCase() && ret.length === 0)
+        ret.push({
+          type: 'outgoing',
+          token: 'pldai',
+          direction: 'outgoing',
+          amount: '0.00'
+        })
     }
     else
       ret.push({
-        type: 'Contract Creation',
+        type: 'contract_creation',
         direction: 'creation',
         token: 'eth'
       })
 
     if(ret.length === 0)
       ret.push({
-        type: 'Contract Interaction',
+        type: 'contract_interaction',
         direction: 'outgoing',
         token: 'eth',
         amount: '0.00'
@@ -536,13 +544,14 @@ class TransactionUtilities {
   }
 
   getToken = data => {
+    LogUtilities.toDebugScreen('TDC getToken', data)
     if (data[0].token === 'cdai' && data[0].type === 'withdraw')
       return 'DAI'
     if (data[0].token === 'cdai' && data[0].type === 'deposit')
       return 'DAI'
     if (data[0].token === 'cdai' && data[0].type === 'transfer')
       return 'cDAI'
-    if (data[0].token === 'pooltogether' && data.length > 2)
+    if (data[0].token === 'pooltogether' && data.length > 1 && data[0].type !== 'deposit')
       return 'DAI'
     return data[0].token.toUpperCase()
   }
@@ -579,6 +588,8 @@ class TransactionUtilities {
       case 'committed deposit withdraw':
       case 'open deposit withdraw':
         return I18n.t('withdraw');
+      case 'contract_interaction':
+        return 'Contract Interaction'
       case 'failure':
         return I18n.t('history-failed');
       default:
