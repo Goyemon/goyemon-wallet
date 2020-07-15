@@ -14,6 +14,7 @@ import GlobalConfig from '../config.json';
 import SwapBox from '../components/TransactionDetailContainer/SwapBox'
 import TransactionDetailHeader from '../components/TransactionDetailContainer/TransactionDetailHeader'
 import PTWithdrawBox from '../components/TransactionDetailContainer/PTWithdrawBox'
+import NormalBox from '../components/TransactionDetailContainer/NormalBox'
 
 export default class TransactionDetailContainer extends Component {
     componentDidMount() {
@@ -43,15 +44,7 @@ export default class TransactionDetailContainer extends Component {
             ? <PTWithdrawBox name={name} size={size} color={color} option={option} token={token}/>
             : method === 'Swap'
             ? <SwapBox option={option}/>
-            : <>
-                  {amount && <SubtotalBox>
-                    <Icon name={name} size={size + 10} color={color} />
-                    <GoyemonText fontSize={24}>
-                      {amount}
-                      {token}
-                    </GoyemonText>
-                  </SubtotalBox>}
-              </>}
+            : <NormalBox amount={amount} name={name} size={size} color={color} token={token} />}
             <HorizontalLine borderColor="rgba(95, 95, 95, .2)"/>
             <TxNetworkAndHash>
               {service !== '' &&
@@ -112,14 +105,4 @@ font-family: 'HKGrotesk-Bold';
 font-size: 18;
 margin-top: 4;
 margin-bottom: 16;
-`;
-
-const SubtotalBox = styled.View`
-font-family: 'HKGrotesk-Regular';
-flex-direction: row;
-margin-left: 4%;
-margin-top: 32;
-margin-bottom: 32;
-align-items: center;
-width: 90%;
 `;
