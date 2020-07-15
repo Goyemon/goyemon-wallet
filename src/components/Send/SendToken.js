@@ -76,7 +76,7 @@ class SendToken extends Component {
     gasLimit = token => {
       const gasLimit = {
         'ETH': GlobalConfig.ETHTxGasLimit,
-        'DAI': GlobalConfig.ERC20TransferGasLimit,
+        'DAI': GlobalConfig.DAITransferGasLimit,
         'cDAI': GlobalConfig.cDAITransferGasLimit,
         'plDAI': GlobalConfig.plDAITransferGasLimit
       }
@@ -226,7 +226,7 @@ class SendToken extends Component {
                         <CurrencySymbolText>{token}</CurrencySymbolText>
                     </SendTextInputContainer>
                 </Form>
-                <AdvancedContainer gasLimit={GlobalConfig.ERC20TransferGasLimit} />
+                <AdvancedContainer gasLimit={GlobalConfig.DAITransferGasLimit} />
                 <ValidateMessage
                     amountValidation={amountValidation && !this.isEfficientGas()}
                     numberValidation={this.isNumber(displayAmount)}
