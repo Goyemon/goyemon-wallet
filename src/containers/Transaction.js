@@ -77,14 +77,14 @@ class Transaction extends Component {
 
           <TypeTimeContainer>
             <Type>
-              <GoyemonText fontSize={18}>
+              <GoyemonText fontSize={method === 'Contract Interaction' ? 14 : 18}>
                 {method}
               </GoyemonText>
             </Type>
             <Time>{timestamp}</Time>
           </TypeTimeContainer>
 
-          <TransactionStatus width="26%" txState={status} />
+          <TransactionStatus width="26%" txState={method === 'Failed' ? null : status} />
 
           <ValueContainer>
             {inOrOut.name !== '' && method !== 'Swap' &&

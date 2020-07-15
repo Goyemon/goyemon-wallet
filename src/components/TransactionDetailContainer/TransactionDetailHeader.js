@@ -33,7 +33,7 @@ export default class TransactionDetailHeader extends Component {
           <HeaderStatus>
             <TransactionStatus
               width="100%"
-              txState={status}
+              txState={method === 'Failed' ? null : status}
             />
           </HeaderStatus>
         </TxDetailHeader>

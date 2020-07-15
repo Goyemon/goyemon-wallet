@@ -232,7 +232,7 @@ class SendToken extends Component {
                         <CurrencySymbolText>{token}</CurrencySymbolText>
                     </SendTextInputContainer>
                 </Form>
-                <AdvancedContainer gasLimit={GlobalConfig.DAITransferGasLimit} />
+                <AdvancedContainer gasLimit={this.state.gasLimit} />
                 <ValidateMessage
                     amountValidation={amountValidation && !this.isEfficientGas()}
                     numberValidation={this.isNumber(displayAmount)}
