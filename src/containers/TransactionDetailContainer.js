@@ -13,6 +13,7 @@ import LogUtilities from '../utilities/LogUtilities';
 import GlobalConfig from '../config.json';
 import SwapBox from '../components/TransactionDetailContainer/SwapBox'
 import TransactionDetailHeader from '../components/TransactionDetailContainer/TransactionDetailHeader'
+import PTWithdrawBox from '../components/TransactionDetailContainer/PTWithdrawBox'
 
 export default class TransactionDetailContainer extends Component {
     componentDidMount() {
@@ -39,25 +40,7 @@ export default class TransactionDetailContainer extends Component {
               method={method}
             />
             {service === 'PoolTogether' && method === 'Withdraw'
-            ? <>
-                <SubtotalWithdrawBox>
-                  <Icon name={name} size={size + 10} color={color} />
-                  <GoyemonText fontSize={24}>
-                  {option.sum}
-                  {token}
-                  </GoyemonText>
-                  <LabelsBox>
-                    <GoyemonText fontSize={14}>Open</GoyemonText>
-                    <GoyemonText fontSize={14}>Committed</GoyemonText>
-                    <GoyemonText fontSize={14}>Sponsor</GoyemonText>
-                  </LabelsBox>
-                  <ValueBox>
-                    <GoyemonText fontSize={14}>{option.open}DAI</GoyemonText>
-                    <GoyemonText fontSize={14}>{option.committed}DAI</GoyemonText>
-                    <GoyemonText fontSize={14}>{option.sponsor}DAI</GoyemonText>
-                  </ValueBox>
-                </SubtotalWithdrawBox>
-              </>
+            ? <PTWithdrawBox name={name} size={size} color={color} option={option} token={token}/>
             : method === 'Swap'
             ? <SwapBox option={option}/>
             : <>
@@ -129,25 +112,6 @@ font-family: 'HKGrotesk-Bold';
 font-size: 18;
 margin-top: 4;
 margin-bottom: 16;
-`;
-
-const LabelsBox = styled.View`
-flex-direction: column;
-margin-left: 22%;
-`;
-
-const ValueBox = styled.View`
-flex-direction: column;
-margin-left: 5%;
-`
-
-const SubtotalWithdrawBox = styled.View`
-flex-direction: row;
-margin-left: 4%;
-margin-top: 32;
-margin-bottom: 32;
-align-items: flex-start;
-width: 90%;
 `;
 
 const SubtotalBox = styled.View`
