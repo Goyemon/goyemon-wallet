@@ -175,6 +175,32 @@ class TransactionUtilities {
     }
   }
 
+  validateTokenAmount = (amount, token) => {
+    const isNumber = /^[0-9]\d*(\.\d+)?$/.test(amount);
+    if (isNumber) {
+      const stateTree = store.getState();
+      const balanceState = stateTree.ReducerBalance.balance;
+      const balanceObject = {
+        'DAI': balanceState.dai,
+        'cDAI': balanceState.cDai,
+        'plDAI': balanceState.pooltogetherDai.committed,
+      }
+      const tokenBalance = new RoundDownBigNumberPlacesEighteen(balanceObject[token])
+      const tokenAmount = new RoundDownBigNumberPlacesEighteen(10)
+                          .pow(token === 'cDAI' ? 8 : 18)
+                          .times(amount);
+      if (
+        tokenBalance.isGreaterThanOrEqualTo(tokenAmount) &&
+        tokenAmount.isGreaterThanOrEqualTo(0)
+      ) {
+        LogUtilities.logInfo('the dai amount validated!');
+        return true;
+      }
+    }
+    LogUtilities.logInfo('wrong dai balance!');
+    return false;
+  }
+
   validateDaiPoolTogetherDepositAmount(daiAmount) {
     const isInteger = /^[1-9]\d*$/.test(daiAmount);
     if (isInteger) {

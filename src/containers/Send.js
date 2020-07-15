@@ -27,13 +27,7 @@ class Send extends Component {
     ethBalance = RoundDownBigNumberPlacesFour(Web3.utils.fromWei(wei)).toFixed(4),
     daiBalance = this.returnBalance(dai, 10, 18, 2),
     cdaiBalance = this.returnBalance(cDai, 10, 8, 2),
-    pooltogetherDaiBalance = RoundDownBigNumberPlacesFour(
-      pooltogetherDai.open
-    )
-    .plus(pooltogetherDai.committed)
-    .plus(pooltogetherDai.sponsored)
-    .div(new RoundDownBigNumberPlacesFour(10).pow(18))
-    .toFixed(2)
+    pooltogetherDaiBalance = this.returnBalance(pooltogetherDai.committed, 10, 8, 2)
 
     const propsValue = {
       'eth': {
