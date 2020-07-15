@@ -24,29 +24,21 @@ class Transaction extends Component {
   }
 
   componentDidMount() {
-    const filter = TransactionUtilities.getFilter(this.props.transaction.filter)
     TxStorage.storage
-      .getTx(this.props.transaction.index, filter)
-      .then((x) => {
-        this.setState({ children: this.computeChildren(x) });
-      });
+      .getTx(this.props.transaction.index, this.props.transaction.filter || 'all')
+      .then(x => this.setState({ children: this.computeChildren(x) }));
   }
 
   componentDidUpdate(prevProps) {
-    const filter = TransactionUtilities.getFilter(this.props.transaction.filter)
     if (this.props.updateCounter !== prevProps.updateCounter)
       TxStorage.storage
-        .getTx(this.props.transaction.index, filter)
-        .then((x) => {
-          this.setState({ children: this.computeChildren(x) });
-        });
+        .getTx(this.props.transaction.index, this.props.transaction.filter || 'all')
+        .then(x => this.setState({ children: this.computeChildren(x) }));
   }
 
   computeChildren(tx) {
-    const data = TransactionUtilities.txCommonObject(tx, EtherUtilities.getReasonablyAddress(this.props.checksumAddress))
+    let { timestamp, status, service, method, amount, token, icon, inOrOut, option } = TransactionUtilities.txCommonObject(tx, EtherUtilities.getReasonablyAddress(this.props.checksumAddress))
     const { index, filter } = this.props.transaction
-    const { timestamp, status, service, amount, token, icon, inOrOut, option } = data
-    let { method } = data
     LogUtilities.toDebugScreen('CC inOrOut', timestamp, service, method, amount)
     if (service === 'PoolTogether' || service === 'Uniswap') {
       if (!option && method === 'Withdraw')
@@ -110,9 +102,7 @@ class Transaction extends Component {
     );
   }
 
-  render() {
-    return this.state.children;
-  }
+  render = () => this.state.children
 }
 
 const styles = {

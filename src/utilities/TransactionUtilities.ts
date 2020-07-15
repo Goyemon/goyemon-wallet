@@ -345,10 +345,6 @@ class TransactionUtilities {
     return new RoundDownBigNumberPlacesEighteen(weiValue).toString(16)
   }
 
-  getFilter(filter) {
-    return !filter ? 'all' : filter
-  }
-
   constructEthTransfer = async (toAddr, amount, gasChosen, gasLimit) =>
     (await TxStorage.storage.newTx())
     .setTo(toAddr)

@@ -11,6 +11,7 @@ import {
   } from '../components/common';
 import LogUtilities from '../utilities/LogUtilities';
 import GlobalConfig from '../config.json';
+import SwapBox from '../components/TransactionDetailContainer/SwapBox'
 
 export default class TransactionDetailContainer extends Component {
     componentDidMount() {
@@ -129,20 +130,6 @@ margin-top: 4;
 margin-bottom: 16;
 `;
 
-const ToAndFromValueContainer = styled.View`
-  align-items: center;
-  flex-direction: row;
-  margin-top: 4;
-  margin-bottom: 16;
-  `;
-
-const ToAndFromValue = styled.Text`
-color: #000;
-font-family: 'HKGrotesk-Bold';
-font-size: 18;
-margin-right: 16;
-`;
-
 const HeaderStatus = styled.View`
 align-items: center;
 font-family: 'HKGrotesk-Regular';
@@ -166,28 +153,6 @@ margin-top: 32;
 margin-bottom: 32;
 align-items: flex-start;
 width: 90%;
-`;
-
-const SubtotalSwapBox = styled.View`
-flex-direction: column;
-margin-left: 4%;
-margin-top: 32;
-margin-bottom: 32;
-align-items: flex-start;
-width: 90%;
-`;
-
-const SoldBox = styled.View`
-  flex-direction: row;
-  align-items: center;
-  margin-top: 4;
-  margin-bottom: 16;
-`;
-
-const BoughtBox = styled.View`
-  flex-direction: row;
-  align-items: center;
-  margin-top: 4;
 `;
 
 const SubtotalBox = styled.View`
@@ -260,15 +225,3 @@ font-family: 'HKGrotesk-Regular';
 flex-direction: column;
 width: 40%;
 `;
-
-const SwapBox = props =>
-  <SubtotalSwapBox>
-    <HeaderFive>Sold</HeaderFive>
-    <SoldBox>
-      <Icon name="minus" size={26} color="#F1860E" /><GoyemonText fontSize={24}>{props.option.eth}ETH</GoyemonText>
-    </SoldBox>
-    <HeaderFive>Bought</HeaderFive>
-    <BoughtBox>
-      <Icon name="plus" size={26} color="#1BA548" /><GoyemonText fontSize={24}>{props.option.dai}DAI</GoyemonText>
-    </BoughtBox>
-  </SubtotalSwapBox>

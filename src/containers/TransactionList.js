@@ -53,14 +53,14 @@ class TransactionList extends Component {
 
     return {
       index: this.getItemCount() - index - 1, // basically reverse-sort. we want the LATEST index on top, not the earliest.
-      filter: TransactionUtilities.getFilter(this.props.tokenFilter.toLowerCase())
+      filter: this.props.tokenFilter.toLowerCase() || 'all'
       // ...refreshData
     };
   }
 
   getItemCount() {
     const ret = TxStorage.storage.getTxCount(
-      TransactionUtilities.getFilter(this.props.tokenFilter.toLowerCase())
+      this.props.tokenFilter.toLowerCase() || 'all'
     );
     if (ret != this.__tempcachecount) {
       // prevent flood
