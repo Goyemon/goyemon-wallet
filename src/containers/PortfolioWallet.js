@@ -29,13 +29,9 @@ class PortfolioWallet extends Component {
     ethBalance = RoundDownBigNumberPlacesFour(Web3.utils.fromWei(balance.wei)).toFixed(4),
     daiBalance = this.returnBalance(balance.dai, 10, 18, 2),
     cdaiBalance = this.returnBalance(balance.cDai, 10, 8, 2),
-    pooltogetherDaiBalance = RoundDownBigNumberPlacesFour(
-      balance.pooltogetherDai.open
-    )
-    .plus(balance.pooltogetherDai.committed)
-    .plus(balance.pooltogetherDai.sponsored)
-    .div(new RoundDownBigNumberPlacesFour(10).pow(18))
-    .toFixed(2)
+    plDaiBalance = RoundDownBigNumberPlacesFour(balance.pooltogetherDai.committed)
+      .div(new RoundDownBigNumberPlacesFour(10).pow(18))
+      .toFixed(2)
 
     const tokenBalanceCards = [
       {
@@ -61,8 +57,8 @@ class PortfolioWallet extends Component {
       },
       {
         price: price.dai,
-        balance: pooltogetherDaiBalance,
-        usd: PriceUtilities.convertDaiToUsd(pooltogetherDaiBalance).toFixed(2),
+        balance: plDaiBalance,
+        usd: PriceUtilities.convertDaiToUsd(plDaiBalance).toFixed(2),
         icon: require('../../assets/pldai_icon.png'),
         token: 'plDAI'
       },
