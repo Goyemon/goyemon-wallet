@@ -69,11 +69,7 @@ class PortfolioHome extends Component {
 
     const cdaiBalance = this.returnBalance(balance.cDai, 10, 8, 2)
 
-    const pldaiBalance = [
-      this.returnBalance(balance.pooltogetherDai.open, 10, 18, 0),
-      this.returnBalance(balance.pooltogetherDai.committed, 10, 18, 0),
-      this.returnBalance(balance.pooltogetherDai.sponsored, 10, 18, 0)
-    ]
+    const pldaiBalance = this.returnBalance(balance.pooltogetherDai.committed, 10, 18, 0);
 
     const compoundDaiBalance = RoundDownBigNumberPlacesFour(balance.compoundDai)
       .div(new RoundDownBigNumberPlacesFour(10).pow(36))

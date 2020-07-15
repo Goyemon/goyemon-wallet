@@ -25,15 +25,9 @@ const CoinBox = props =>
           ${props.usd}
         </UsdBalanceText>
       </UsdBalanceContainer>
-      <TokenBalanceContainer style={{marginLeft: props.token === 'plDAI'?4:16}}>
+      <TokenBalanceContainer style={{marginLeft: 16}}>
         <BalanceText>
-          {props.token === 'plDAI'
-          ? <><GoyemonText fontSize="16">{props.balance[0]}</GoyemonText>
-              <GoyemonText fontSize="16"> | {props.balance[1]} | </GoyemonText>
-              <GoyemonText fontSize="16">{props.balance[2]}</GoyemonText>
-            </>
-          : <GoyemonText fontSize="16">{props.balance}</GoyemonText>
-          }
+          <GoyemonText fontSize="16">{props.balance}</GoyemonText>
         </BalanceText>
       </TokenBalanceContainer>
     </CurrencyBalanceContainer>
