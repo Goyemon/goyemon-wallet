@@ -77,7 +77,7 @@ class Transaction extends Component {
 
           <TypeTimeContainer>
             <Type>
-              <GoyemonText fontSize={18}>
+              <GoyemonText fontSize={method === 'Contract Interaction' ? 14 : 18}>
                 {method}
               </GoyemonText>
             </Type>
