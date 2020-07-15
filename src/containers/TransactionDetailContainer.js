@@ -15,6 +15,7 @@ import SwapBox from '../components/TransactionDetailContainer/SwapBox'
 import TransactionDetailHeader from '../components/TransactionDetailContainer/TransactionDetailHeader'
 import PTWithdrawBox from '../components/TransactionDetailContainer/PTWithdrawBox'
 import NormalBox from '../components/TransactionDetailContainer/NormalBox'
+import TransactionDetailFooter from '../components/TransactionDetailContainer/TransactionDetailFooter'
 
 export default class TransactionDetailContainer extends Component {
     componentDidMount() {
@@ -41,68 +42,31 @@ export default class TransactionDetailContainer extends Component {
               method={method}
             />
             {service === 'PoolTogether' && method === 'Withdraw'
-            ? <PTWithdrawBox name={name} size={size} color={color} option={option} token={token}/>
+            ? <PTWithdrawBox
+                name={name}
+                size={size}
+                color={color}
+                option={option}
+                token={token}
+              />
             : method === 'Swap'
             ? <SwapBox option={option}/>
-            : <NormalBox amount={amount} name={name} size={size} color={color} token={token} />}
+            : <NormalBox
+                amount={amount}
+                name={name}
+                size={size}
+                color={color}
+                token={token}
+              />}
             <HorizontalLine borderColor="rgba(95, 95, 95, .2)"/>
-            <TxNetworkAndHash>
-              {service !== '' &&
-              <>
-                <HeaderFive fontSize={20}>Application</HeaderFive>
-                <TxDetailValue>{service}</TxDetailValue>
-              </>}
-              {from
-              ? <>
-                  <HeaderFive fontSize={20}>From</HeaderFive>
-                  <TxDetailValue>
-                    {from.substring(0, 24) + '...'}
-                  </TxDetailValue>
-                </>
-              : to
-              ? <>
-                  <HeaderFive fontSize={20}>To</HeaderFive>
-                  <TxDetailValue>
-                    {to.substring(0, 24) + '...'}
-                  </TxDetailValue>
-                </>
-              : null}
-              <HeaderFive fontSize={20}>Network Fee</HeaderFive>
-              <TxDetailValue>
-                {networkFee} ETH
-              </TxDetailValue>
-              {status >= 1 &&
-                <View>
-                  <HeaderFive fontSize={20}>Hash</HeaderFive>
-                  <TxDetailValue
-                      onPress={() => {
-                        Linking.openURL(
-                          `${GlobalConfig.EtherscanLink}${'0x' + hash}`
-                        ).catch((err) => LogUtilities.logError('An error occurred', err));
-                      }}
-                    >
-                      {'0x' + hash.substring(0, 24) + '...'}
-                      <Icon name="link-variant" size={16} color="#5f5f5f" />
-                  </TxDetailValue>
-                </View>}
-            </TxNetworkAndHash>
+            <TransactionDetailFooter
+              service={service}
+              from={from}
+              to={to}
+              networkFee={networkFee}
+              status={status}
+              hash={hash}
+            />
           </>)
     }
 }
-
-const TxNetworkAndHash = styled.View`
-align-items: flex-start;
-font-family: 'HKGrotesk-Regular';
-justify-content: flex-start;
-flex-direction: column;
-margin: 24px auto;
-width: 90%;
-`;
-
-const TxDetailValue = styled.Text`
-color: #000;
-font-family: 'HKGrotesk-Bold';
-font-size: 18;
-margin-top: 4;
-margin-bottom: 16;
-`;
