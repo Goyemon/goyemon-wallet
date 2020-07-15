@@ -84,7 +84,7 @@ class Transaction extends Component {
             <Time>{timestamp}</Time>
           </TypeTimeContainer>
 
-          <TransactionStatus width="26%" txState={status} />
+          <TransactionStatus width="26%" txState={method === 'Failed' ? null : status} />
 
           <ValueContainer>
             {inOrOut.name !== '' && method !== 'Swap' &&
