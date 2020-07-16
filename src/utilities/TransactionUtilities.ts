@@ -630,9 +630,9 @@ class TransactionUtilities {
       if (data[0].token === 'eth')
         return tx.getTo()
       if (tx.tokenData.dai)
-        return "0x" + tx.tokenData.dai[0].to_addr
+        return tx.tokenData.dai[0].to_addr.slice(0, 2) !== '0x' ? '0x' + tx.tokenData.dai[0].to_addr : tx.tokenData.dai[0].to_addr
       if (tx.tokenData.cdai)
-        return "0x" + tx.tokenData.cdai[0].to_addr
+        return "0x" + tx.tokenData.cdai[0].to_addr.slice(0, 2) !== '0x' ? '0x' + tx.tokenData.cdai[0].to_addr : tx.tokenData.cdai[0].to_addr
     }
     else
       return ''
