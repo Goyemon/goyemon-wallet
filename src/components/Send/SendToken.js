@@ -45,10 +45,6 @@ class SendToken extends Component {
         }
     }
 
-    // componentDidMount() {
-    //   LogUtilities.toDebugScreen('Token', this.props.info.token === 'cDAI', this.props.info.token)
-    // }
-
     componentDidUpdate(prevProps) {
         if (this.props.gasChosen != prevProps.gasChosen)
           this.updateAmountValidation(
@@ -62,7 +58,6 @@ class SendToken extends Component {
             balance: roundDownFour(this.props.info.balance).toFixed(2)
           })
         if (this.props.info.token != prevProps.info.token) {
-          LogUtilities.toDebugScreen('Token', this.props.info.token === 'cDAI', this.props.info.token)
           this.setState({
             amountValidation: undefined,
             amount: 0,
@@ -206,28 +201,28 @@ class SendToken extends Component {
                 />
                 </FormHeaderContainer>
                 <Form
-                    borderColor={StyleUtilities.getBorderColor(amountValidation)}
+                    borderColor={StyleUtilities.getBorderColor(amountValidation && this.isNumber(displayAmount))}
                     borderWidth={1}
                     height="56px"
                 >
                     <SendTextInputContainer>
                         <SendTextInput
-                        placeholder="0"
-                        keyboardType="numeric"
-                        clearButtonMode="while-editing"
-                        onChangeText={amount => {
-                            this.setState({ displayAmount: amount })
-                            if (this.isNumber(amount)) {
-                                this.updateAmountValidation(
-                                    isEth
-                                    ? TransactionUtilities.validateWeiAmount(Web3.utils.toWei(amount), GlobalConfig.ETHTxGasLimit)
-                                    : TransactionUtilities.validateTokenAmount(amount, token)
-                                );
-                                this.setState({ amount: isEth ?  Web3.utils.toWei(amount) : amount });
-                            }
-                        }}
-                        returnKeyType="done"
-                        value={String(displayAmount)}
+                          placeholder="0"
+                          keyboardType="numeric"
+                          clearButtonMode="while-editing"
+                          onChangeText={amount => {
+                              this.setState({ displayAmount: amount })
+                              if (this.isNumber(amount)) {
+                                  this.updateAmountValidation(
+                                      isEth
+                                      ? TransactionUtilities.validateWeiAmount(Web3.utils.toWei(amount), GlobalConfig.ETHTxGasLimit)
+                                      : TransactionUtilities.validateTokenAmount(amount, token)
+                                  );
+                                  this.setState({ amount: isEth ?  Web3.utils.toWei(amount) : amount });
+                              }
+                          }}
+                          returnKeyType="done"
+                          value={String(displayAmount)}
                         />
                         <CurrencySymbolText>{token}</CurrencySymbolText>
                     </SendTextInputContainer>
