@@ -68,7 +68,10 @@ class SendToken extends Component {
         }
     }
 
-    isNumber = amount => /^[0-9]\d*(\.\d+)?$/.test(amount)
+    isNumber = amount =>
+      String(amount).slice(0, 1) === '0'
+      ? String(amount).slice(1, 2) === '.' && /^[0-9]\d*(\.\d+)?$/.test(amount)
+      : /^[0-9]\d*(\.\d+)?$/.test(amount)
 
     isDisabled = () => !this.state.amountValidation || !this.props.toAddressValidation || !this.props.isOnline || this.state.loading
 
