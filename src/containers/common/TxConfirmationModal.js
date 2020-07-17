@@ -103,7 +103,8 @@ class TxConfirmationModal extends Component {
     if (
       modal.txConfirmationModalType === 'send-eth' ||
       modal.txConfirmationModalType === 'send-dai' ||
-      modal.txConfirmationModalType === 'send-cdai'
+      modal.txConfirmationModalType === 'send-cdai' ||
+      modal.txConfirmationModalType === 'send-pldai'
     ) {
       return (
         <View>
