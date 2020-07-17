@@ -243,7 +243,6 @@ class SendToken extends Component {
                 <AdvancedContainer gasLimit={gasLimit} />
                 <ValidateMessage
                     amountValidation={amountValidation && !this.isEfficientGas()}
-                    numberValidation={this.isNumber(displayAmount)}
                     isEth={isEth}
                 />
                 <ButtonWrapper>

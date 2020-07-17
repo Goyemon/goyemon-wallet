@@ -5,11 +5,9 @@ import { ErrorMessage } from './ErrorMessage';
 
 const ValidateMessage = props => {
     if (props.amountValidation || props.amountValidation === undefined)
-        return props.numberValidation
-        ? <View />
-        : <ErrorMessage textAlign="center">number is invalid!</ErrorMessage>
-  else
-    return <ErrorMessage textAlign="center">not enough {props.isEth ? 'ether' : 'token'}!</ErrorMessage>;
+      return <View />;
+    else
+      return <ErrorMessage textAlign="center">not enough {props.isEth ? 'eth' : 'token'}!</ErrorMessage>;
 }
 
 export { ValidateMessage }
