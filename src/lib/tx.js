@@ -1650,10 +1650,23 @@ class Tx {
     );
   }
 
-  getAllTokenOperations = () => this.tokenData
-  getFrom = () => this.from_addr ? `0x${this.from_addr.toString('hex')}` : ''
-  getTo = () => this.to_addr ? `0x${this.to_addr.toString('hex')}` : ''
-  getHash = () => this.hash
+
+  getAllTokenOperations() {
+    return this.tokenData;
+  }
+
+  getFrom() {
+    return this.from_addr ? `0x${this.from_addr.toString('hex')}` : null;
+  }
+
+  getTo() {
+    return this.to_addr ? `0x${this.to_addr.toString('hex')}` : null;
+  }
+
+  getHash() {
+    //return this.hash ? this.hash.toString('hex') : null;
+    return this.hash;
+  }
 
   getApplication(to) {
     const UniswapV1 = '0x2a1530c4c41db0b0b2bb646cb5eb1a67b7158667'
@@ -1677,12 +1690,29 @@ class Tx {
     }
   }
 
-  getState = () => this.state;
-  getValue = () => this.value ? this.value : 0;
-  getTimestamp = () => this.timestamp;
-  getNonce = () => this.nonce;
-  getGasPrice = () => this.gasPrice;
-  getGasLimit = () => this.gas;
+  getState() {
+    return this.state;
+  }
+
+  getValue() {
+    return this.value ? this.value : 0;
+  }
+
+  getTimestamp() {
+    return this.timestamp;
+  }
+
+  getNonce() {
+    return this.nonce;
+  }
+
+  getGasPrice() {
+    return this.gasPrice;
+  }
+
+  getGasLimit() {
+    return this.gas;
+  }
 
   toTransactionDict() {
     return {
