@@ -58,7 +58,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
       super(props);
       this.state = {
         tx: props.tx,
-        data: TransactionUtilities.txCommonObject(props.tx, EtherUtilities.getReasonablyAddress(props.checksumAddress))
+        data: TransactionUtilities.txDetailObject(props.tx, EtherUtilities.getReasonablyAddress(props.checksumAddress))
       };
     }
 
@@ -72,7 +72,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
         TxStorage.storage
         .getTx(this.props.index, this.props.filter)
         .then(async x => {
-          await this.setState({ data: TransactionUtilities.txCommonObject(x, EtherUtilities.getReasonablyAddress(props.checksumAddress)), tx: x });
+          await this.setState({ data: TransactionUtilities.txDetailObject(x, EtherUtilities.getReasonablyAddress(props.checksumAddress)), tx: x });
         })
         .catch(e => LogUtilities.toDebugScreen('TransactionDetail Tx Error With', e));
       }

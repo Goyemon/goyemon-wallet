@@ -26,26 +26,26 @@ class Transaction extends Component {
   componentDidMount() {
     TxStorage.storage
       .getTx(this.props.transaction.index, this.props.transaction.filter || 'all')
-      .then(x => this.setState({ children: this.computeChildren(x) }));
+      .then(x => {
+        this.setState({ children: this.computeChildren(x) })
+      });
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.updateCounter !== prevProps.updateCounter)
       TxStorage.storage
         .getTx(this.props.transaction.index, this.props.transaction.filter || 'all')
-        .then(x => this.setState({ children: this.computeChildren(x) }));
+        .then(x => {
+          this.setState({ children: this.computeChildren(x) })
+        });
   }
 
   computeChildren(tx) {
     let { timestamp, status, service, method, amount, token, icon, inOrOut, option } = TransactionUtilities.txCommonObject(tx, EtherUtilities.getReasonablyAddress(this.props.checksumAddress))
     const { index, filter } = this.props.transaction
-    LogUtilities.toDebugScreen('CC inOrOut', timestamp, service, method, amount)
-    if (service === 'PoolTogether' || service === 'Uniswap') {
-      if (!option && method === 'Withdraw')
+    if (service === 'PoolTogether' || service === 'Uniswap')
+      if ((!option && method === 'Withdraw') || (!option && method === 'Swap'))
         method = 'Outgoing'
-      if (!option && method === 'Swap')
-        method = 'Outgoing'
-    }
 
     return (
       <TouchableCardContainer

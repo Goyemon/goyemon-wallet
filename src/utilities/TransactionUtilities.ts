@@ -444,7 +444,6 @@ class TransactionUtilities {
   prefixUpperCase = txType => txType.charAt(0).toUpperCase() + txType.slice(1)
 
   computeTxData = (tx, checksumAddr) => {
-    LogUtilities.toDebugScreen('TDC computeTxData', tx.getTo())
     if (!tx) return null
     const reasonablyAddr = EtherUtilities.getReasonablyAddress(checksumAddr);
     const ret = []
@@ -534,7 +533,6 @@ class TransactionUtilities {
   }
 
   getOption = (data, service, method) => {
-    LogUtilities.toDebugScreen('TDC getOption', data, service, method)
     if(service === 'Uniswap' || method === I18n.t('history-swap'))
       return data.length < 2 ? false : this.getSwapOption(data)
     else if (service === 'PoolTogether' && method === 'Withdraw') {
@@ -566,20 +564,21 @@ class TransactionUtilities {
   }
 
   getToken = data => {
-    LogUtilities.toDebugScreen('TDC getToken', data)
-    if (data[0].token === 'cdai' && data[0].type === 'withdraw')
-      return 'DAI'
-    if (data[0].token === 'cdai' && data[0].type === 'deposit')
-      return 'DAI'
-    if (data[0].token === 'cdai' && data[0].type === 'transfer')
-      return 'cDAI'
-    if (data[0].token === 'pooltogether' && data.length > 1 && data[0].type !== 'deposit')
-      return 'DAI'
-    return data[0].token.toUpperCase()
+    switch(true) {
+      case (data[0].token === 'cdai' && data[0].type === 'withdraw'):
+        return 'DAI'
+      case (data[0].token === 'cdai' && data[0].type === 'deposit'):
+        return 'DAI'
+      case (data[0].token === 'cdai' && data[0].type === 'transfer'):
+        return 'cDAI'
+      case (data[0].token === 'pooltogether' && data.length > 1 && data[0].type !== 'deposit'):
+        return 'DAI'
+      default:
+        return data[0].token.toUpperCase()
+    }
   }
 
   getMethodName = tx => {
-    LogUtilities.toDebugScreen('TDC getMethodName', tx)
     switch (tx[0].type) {
       case 'contract_creation':
         return 'Deploy';
@@ -619,11 +618,10 @@ class TransactionUtilities {
     }
   }
 
-  getFromAddr = (data, tx) => {
-    return data.length === 1 && data[0].direction == 'incoming' && data[0].type == 'transfer'
+  getFromAddr = (data, tx) =>
+    data.length === 1 && data[0].direction == 'incoming' && data[0].type == 'transfer'
     ? tx.getFrom()
     : ''
-  }
 
   getToAddr = (data, tx) => {
     if (data.length === 1 && data[0].direction == 'outgoing' && data[0].type == 'transfer') {
@@ -647,20 +645,22 @@ class TransactionUtilities {
     method = this.getMethodName(data),
     amount = tx.tokenData.cdai && data[0].type === 'transfer' && data[0].direction !== 'self' ? this.parseHexCDaiValue(tx.tokenData.cdai[0].amount) : data[0].amount,
     token = this.getToken(data),
-    networkFee = parseInt(tx.getGasPrice(), 16) * parseInt(tx.gas, 16) / 1000000000000000000,
-    hash = tx.getHash(),
-    from = data[0].direction ? this.getFromAddr(data, tx) : '',
-    to = data[0].direction ? this.getToAddr(data, tx) : '',
     inOrOut = StyleUtilities.minusOrPlusIcon(data[0].type, data[0].direction),
     icon = this.getIcon(data, service),
     option = this.getOption(data, service, method)
-    return { timestamp, status, service, method, amount, token, networkFee, hash, from, to, inOrOut, icon, option }
+    return { timestamp, status, service, method, amount, token, icon, inOrOut, option }
   }
 
-  // txDetailObject = (tx, checksumAddr) => {
-  //   const { timestamp, status, method, amount, token, inOrOut, icon } = this.txCommonObject(tx, checksumAddr)
-  //   const networkFee = 
-  // }
+  txDetailObject = (tx, checksumAddr) => {
+    const { timestamp, status, service, method, amount, token, icon, inOrOut, option } = this.txCommonObject(tx, checksumAddr)
+    const networkFee = parseInt(tx.getGasPrice(), 16) * parseInt(tx.gas, 16) / 1000000000000000000,
+    hash = tx.getHash(),
+    data = this.computeTxData(tx, checksumAddr),
+    from = data[0].direction ? this.getFromAddr(data, tx) : '',
+    to = data[0].direction ? this.getToAddr(data, tx) : ''
+
+    return { timestamp, status, service, method, amount, token, networkFee, hash, from, to, inOrOut, icon, option }
+  }
 }
 
 export default new TransactionUtilities();
