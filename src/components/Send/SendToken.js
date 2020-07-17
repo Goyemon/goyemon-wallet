@@ -46,13 +46,21 @@ class SendToken extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.gasChosen != prevProps.gasChosen)
+        if (this.props.gasChosen != prevProps.gasChosen) {
           this.updateAmountValidation(
             TransactionUtilities.validateWeiAmountForTransactionFee(
               TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
               this.state.gasLimit
             )
           )
+          if(this.state.isEth)
+            this.updateAmountValidation(
+              TransactionUtilities.validateWeiAmount(	
+                this.state.amount,
+                GlobalConfig.ETHTxGasLimit	
+              )	
+            );
+        }
         if (this.props.info.balance != prevProps.info.balance)
           this.setState({
             balance: roundDownFour(this.props.info.balance).toFixed(2)
