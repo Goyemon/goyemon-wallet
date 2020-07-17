@@ -211,7 +211,7 @@ const TransactionAmount = props => {
               {amount} {token}
              </GoyemonText>
     case 'Failed':
-      return <GoyemonText fontSize={16}>0</GoyemonText>
+      return <GoyemonText fontSize={16}></GoyemonText>
     default:
       return null
   }
