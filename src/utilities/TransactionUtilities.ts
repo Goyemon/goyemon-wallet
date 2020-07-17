@@ -477,7 +477,7 @@ class TransactionUtilities {
       }
     );
 
-    if (tx.getTo() !== '0x') {
+    if (tx.getTo() !== '0x' && !!tx.getTo()) {
       if (tx.getTo().toLowerCase() === GlobalConfig.DAIPoolTogetherContractV2.toLowerCase() && ret.length === 0)
         ret.push({
           type: 'outgoing',

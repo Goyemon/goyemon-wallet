@@ -63,13 +63,11 @@ class PortfolioHome extends Component {
   render() {
     const { balance, navigation, checksumAddress } = this.props;
 
-    const ethBalance = RoundDownBigNumberPlacesFour(Web3.utils.fromWei(balance.wei)).toFixed(4);
-
-    const daiBalance = this.returnBalance(balance.dai, 10, 18, 2)
-
-    const cdaiBalance = this.returnBalance(balance.cDai, 10, 8, 2)
-
-    const pldaiBalance = this.returnBalance(balance.pooltogetherDai.committed, 10, 18, 0);
+    const
+    ethBalance = RoundDownBigNumberPlacesFour(Web3.utils.fromWei(balance.wei)).toFixed(4),
+    daiBalance = this.returnBalance(balance.dai, 10, 18, 2),
+    cdaiBalance = this.returnBalance(balance.cDai, 10, 8, 2),
+    pldaiBalance = this.returnBalance(balance.pooltogetherDai.committed, 10, 18, 0);
 
     const compoundDaiBalance = RoundDownBigNumberPlacesFour(balance.compoundDai)
       .div(new RoundDownBigNumberPlacesFour(10).pow(36))
@@ -122,7 +120,7 @@ class PortfolioHome extends Component {
         event: () => navigation.navigate('PortfolioWallet')
       },
       {
-        balance: PriceUtilities.convertDaiToUsd(compoundDaiBalance).toFixed(2),
+        balance: PriceUtilities.convertDaiToUsd(daiBalance).toFixed(2),
         name: 'Compound',
         event: () => navigation.navigate('PortfolioCompound')
       },
