@@ -72,6 +72,10 @@ class TxConfirmationModal extends Component {
       return 'ETH';
     } else if (modal.txConfirmationModalType === 'send-dai') {
       return 'DAI';
+    } else if (modal.txConfirmationModalType === 'send-cdai') {
+      return 'cDAI';
+    } else if (modal.txConfirmationModalType === 'send-pldai') {
+      return 'plDAI';
     }
   }
 
