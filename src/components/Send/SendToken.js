@@ -222,6 +222,8 @@ class SendToken extends Component {
                                       : TransactionUtilities.validateTokenAmount(amount, token)
                                   );
                                   this.setState({ amount: isEth ?  Web3.utils.toWei(amount) : amount });
+                              } else if (!this.isNumber(amount)){
+                                this.updateAmountValidation(false);
                               }
                           }}
                           returnKeyType="done"

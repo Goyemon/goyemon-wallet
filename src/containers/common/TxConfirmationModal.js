@@ -72,6 +72,10 @@ class TxConfirmationModal extends Component {
       return 'ETH';
     } else if (modal.txConfirmationModalType === 'send-dai') {
       return 'DAI';
+    } else if (modal.txConfirmationModalType === 'send-cdai') {
+      return 'cDAI';
+    } else if (modal.txConfirmationModalType === 'send-pldai') {
+      return 'plDAI';
     }
   }
 
@@ -99,7 +103,8 @@ class TxConfirmationModal extends Component {
     if (
       modal.txConfirmationModalType === 'send-eth' ||
       modal.txConfirmationModalType === 'send-dai' ||
-      modal.txConfirmationModalType === 'send-cdai'
+      modal.txConfirmationModalType === 'send-cdai' ||
+      modal.txConfirmationModalType === 'send-pldai'
     ) {
       return (
         <View>
