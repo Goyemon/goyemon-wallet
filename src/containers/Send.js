@@ -97,6 +97,7 @@ class Send extends Component {
             {tabs.map(tab =>
               <TouchableOpacity
                 onPress={tab.event}
+                key={tab.path}
               >
                 <CoinImage
                   opacity={tab.opacity}

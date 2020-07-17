@@ -8,6 +8,7 @@ const CoinBoxes = props =>
     {props.boxes.map(coin => <CoinBox
       source={coin.path}
       token={coin.token}
+      key={coin.token}
       usd={coin.usd}
       balance={coin.balance}
     />)}
