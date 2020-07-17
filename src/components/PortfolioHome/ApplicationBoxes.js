@@ -12,6 +12,7 @@ const ApplicationBoxes = props =>
       <ApplicationBox
         balance={application.balance}
         name={application.name}
+        key={application.name}
         onPress={application.event}
       />)
     }

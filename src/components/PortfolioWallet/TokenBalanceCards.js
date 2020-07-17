@@ -12,6 +12,7 @@ const TokenBalanceCards = props =>
         usd={card.usd}
         iconPath={card.icon}
         token={card.token}
+        key={card.token}
         />
     )}
     </>
