@@ -175,7 +175,7 @@ class SendToken extends Component {
     }
 
     render() {
-        const { amountValidation, loading, amount, displayAmount, isEth } = this.state
+        const { amountValidation, loading, amount, displayAmount, isEth, gasLimit } = this.state
         const { token } = this.props.info
         const fullAmount = this.getFullAmount()
 
@@ -232,7 +232,7 @@ class SendToken extends Component {
                         <CurrencySymbolText>{token}</CurrencySymbolText>
                     </SendTextInputContainer>
                 </Form>
-                <AdvancedContainer gasLimit={this.state.gasLimit} />
+                <AdvancedContainer gasLimit={gasLimit} />
                 <ValidateMessage
                     amountValidation={amountValidation && !this.isEfficientGas()}
                     numberValidation={this.isNumber(displayAmount)}

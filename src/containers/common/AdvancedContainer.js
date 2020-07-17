@@ -133,8 +133,6 @@ class AdvancedContainer extends Component {
       return (
         <>
           <TxSpeedSelectionContainer
-            gasPrice={this.props.gasPrice}
-            gasChosen={this.props.gasChosen}
             gasLimit={this.props.gasLimit}
             swap={this.props.swap}
           />
