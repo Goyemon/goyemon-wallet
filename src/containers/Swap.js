@@ -325,7 +325,7 @@ class Swap extends Component {
                   ethSold: Web3.utils.fromWei(weiMaxAmount)
                 });
                 this.updateEthSoldValidation(
-                  TransactionUtilities.validateWeiAmount(
+                  TransactionUtilities.hasSufficientWeiForAmount(
                     weiMaxAmount,
                     GlobalConfig.UniswapV2SwapExactETHForTokensGasLimit
                   )

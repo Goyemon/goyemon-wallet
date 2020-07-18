@@ -110,13 +110,13 @@ class TransactionUtilities {
     }
   }
 
-  validateWeiAmountForTransactionFee(gasPriceWei, gasLimit) {
+  hasSufficientWeiForNetworkFee(gasPriceWei, gasLimit) {
     const stateTree = store.getState();
     const balance = stateTree.ReducerBalance.balance;
     const weiBalance = new RoundDownBigNumberPlacesEighteen(balance.wei);
-    const transactionFeeLimitInWei = new RoundDownBigNumberPlacesEighteen(gasPriceWei).times(gasLimit);
+    const networkFeeLimitInWei = new RoundDownBigNumberPlacesEighteen(gasPriceWei).times(gasLimit);
 
-    if (weiBalance.isGreaterThan(transactionFeeLimitInWei)) {
+    if (weiBalance.isGreaterThan(networkFeeLimitInWei)) {
       LogUtilities.logInfo('the wei amount validated!');
       return true;
     }
@@ -124,8 +124,8 @@ class TransactionUtilities {
     return false;
   }
 
-  validateWeiAmount(weiAmount, gasLimit) {
-    LogUtilities.logInfo('validateWeiAmount -> ', weiAmount, gasLimit);
+  hasSufficientWeiForAmount(weiAmount, gasLimit) {
+    LogUtilities.logInfo('hasSufficientWeiForAmount -> ', weiAmount, gasLimit);
     const isNumber = /^[0-9]\d*(\.\d+)?$/.test(weiAmount);
 
     if (isNumber) {
@@ -134,13 +134,13 @@ class TransactionUtilities {
       const gasChosen = stateTree.ReducerGasPrice.gasChosen;
       const weiBalance = new RoundDownBigNumberPlacesEighteen(balance.wei);
       weiAmount = new RoundDownBigNumberPlacesEighteen(weiAmount);
-      const transactionFeeLimitInWei = new RoundDownBigNumberPlacesEighteen(
+      const networkFeeLimitInWei = new RoundDownBigNumberPlacesEighteen(
         this.returnTransactionSpeed(gasChosen)
       ).times(gasLimit);
 
       if (
         weiBalance.isGreaterThanOrEqualTo(
-          weiAmount.plus(transactionFeeLimitInWei)
+          weiAmount.plus(networkFeeLimitInWei)
         ) &&
         weiAmount.isGreaterThanOrEqualTo(0)
       ) {

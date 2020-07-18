@@ -166,7 +166,7 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
             maximumValue={this.state.maxPrice}
             onValueChange={(gasPriceWeiDecimal) => {
               this.updateWeiAmountValidation(
-                TransactionUtilities.validateWeiAmountForTransactionFee(
+                TransactionUtilities.hasSufficientWeiForNetworkFee(
                   gasPriceWeiDecimal,
                   this.props.gasLimit
                 )

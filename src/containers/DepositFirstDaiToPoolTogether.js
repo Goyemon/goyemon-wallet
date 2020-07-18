@@ -50,7 +50,7 @@ class DepositFirstDaiToPoolTogether extends Component {
 
   componentDidMount() {
     this.updateWeiAmountValidation(
-      TransactionUtilities.validateWeiAmountForTransactionFee(
+      TransactionUtilities.hasSufficientWeiForNetworkFee(
         TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
         GlobalConfig.ERC20ApproveGasLimit +
           GlobalConfig.PoolTogetherDepositPoolGasLimit
@@ -61,7 +61,7 @@ class DepositFirstDaiToPoolTogether extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.gasChosen != prevProps.gasChosen) {
       this.updateWeiAmountValidation(
-        TransactionUtilities.validateWeiAmountForTransactionFee(
+        TransactionUtilities.hasSufficientWeiForNetworkFee(
           TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
           GlobalConfig.ERC20ApproveGasLimit +
             GlobalConfig.PoolTogetherDepositPoolGasLimit
@@ -144,7 +144,7 @@ class DepositFirstDaiToPoolTogether extends Component {
     const daiAmountValidation = TransactionUtilities.validateDaiPoolTogetherDepositAmount(
       daiAmount
     );
-    const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(
+    const weiAmountValidation = TransactionUtilities.hasSufficientWeiForNetworkFee(
       TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
       gasLimit
     );
