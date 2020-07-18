@@ -34,13 +34,13 @@ class __TxSpeedSelectionContainer extends Component {
 
   toggleCurrency(gasPriceWei, gasLimit) {
     if (this.state.currency === 'ETH') {
-      const usdValue = TransactionUtilities.getTransactionFeeEstimateInUsd(
+      const usdValue = TransactionUtilities.getMaxNetworkFeeInUSD(
         gasPriceWei,
         gasLimit
       );
       return <NetworkFeeText>${usdValue}</NetworkFeeText>;
     } else if (this.state.currency === 'USD') {
-      let ethValue = TransactionUtilities.getTransactionFeeEstimateInEther(
+      let ethValue = TransactionUtilities.getMaxNetworkFeeInEther(
         gasPriceWei,
         gasLimit
       );

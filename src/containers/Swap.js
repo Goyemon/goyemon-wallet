@@ -189,7 +189,7 @@ class Swap extends Component {
       const weiSold = new RoundDownBigNumberPlacesEighteen(
         Web3.utils.toWei(ethSold)
       );
-      const transactionFeeLimitInWei = new RoundDownBigNumberPlacesEighteen(
+      const maxNetworkFeeInWei = new RoundDownBigNumberPlacesEighteen(
         TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
       ).times(GlobalConfig.UniswapV2SwapExactETHForTokensGasLimit);
       const tokenReserve = new RoundDownBigNumberPlacesEighteen(
@@ -199,7 +199,7 @@ class Swap extends Component {
 
       if (
         weiBalance.isGreaterThanOrEqualTo(
-          weiSold.plus(transactionFeeLimitInWei)
+          weiSold.plus(maxNetworkFeeInWei)
         ) &&
         weiSold.isGreaterThanOrEqualTo(0) &&
         tokenReserve.isGreaterThanOrEqualTo(this.state.tokenBought)
@@ -265,14 +265,14 @@ class Swap extends Component {
     const weiBalance = new RoundDownBigNumberPlacesEighteen(
       this.props.balance.wei
     );
-    const networkFeeLimit = new RoundDownBigNumberPlacesEighteen(
+    const maxNetworkFee = new RoundDownBigNumberPlacesEighteen(
       TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
     ).times(GlobalConfig.UniswapV2SwapExactETHForTokensGasLimit);
 
-    if (weiBalance.isLessThanOrEqualTo(networkFeeLimit)) {
+    if (weiBalance.isLessThanOrEqualTo(maxNetworkFee)) {
       weiMaxAmount = '0';
-    } else if (weiBalance.isGreaterThan(networkFeeLimit)) {
-      weiMaxAmount = weiBalance.minus(networkFeeLimit).toString();
+    } else if (weiBalance.isGreaterThan(maxNetworkFee)) {
+      weiMaxAmount = weiBalance.minus(maxNetworkFee).toString();
     }
 
     return (

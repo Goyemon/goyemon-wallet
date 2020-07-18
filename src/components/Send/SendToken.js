@@ -104,14 +104,14 @@ class SendToken extends Component {
         tokenBalance = this.state.isEth
             ? new RoundDownBigNumberPlacesEighteen(this.props.balance.wei)
             : new RoundDownBigNumberPlacesEighteen(this.props.info.balance),
-        networkFeeLimit = new RoundDownBigNumberPlacesEighteen(
+        maxNetworkFee = new RoundDownBigNumberPlacesEighteen(
             TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
         ).times(this.state.gasLimit)
 
         return this.state.isEth
-            ? tokenBalance.isLessThanOrEqualTo(networkFeeLimit)
-            ? tokenBalance.minus(networkFeeLimit).toString()
-            : tokenBalance.minus(networkFeeLimit).toString()
+            ? tokenBalance.isLessThanOrEqualTo(maxNetworkFee)
+            ? tokenBalance.minus(maxNetworkFee).toString()
+            : tokenBalance.minus(maxNetworkFee).toString()
             : tokenBalance.toString()
     }
 
@@ -119,7 +119,7 @@ class SendToken extends Component {
         const { toAddressValidation, isOnline } = this.props
         const amountValidation = this.state.isEth
             ? TransactionUtilities.hasSufficientWeiForAmount(amount, this.state.gasLimit)
-            : TransactionUtilities.validateTokenAmount(amount, this.props.info.token)
+            : TransactionUtilities.hasSufficientTokenForAmount(amount, this.props.info.token)
 
         if (toAddressValidation && amountValidation && networkFeeValidation && isOnline) {
             this.setState({ loading: true });
@@ -202,7 +202,7 @@ class SendToken extends Component {
                         });
                         this.updateAmountValidation(isEth
                             ? TransactionUtilities.hasSufficientWeiForAmount(fullAmount, GlobalConfig.ETHTxGasLimit)
-                            : TransactionUtilities.validateTokenAmount(fullAmount, token)
+                            : TransactionUtilities.hasSufficientTokenForAmount(fullAmount, token)
                         );
                     }}
                 />
@@ -223,7 +223,7 @@ class SendToken extends Component {
                                   this.updateAmountValidation(
                                       isEth
                                       ? TransactionUtilities.hasSufficientWeiForAmount(Web3.utils.toWei(amount), GlobalConfig.ETHTxGasLimit)
-                                      : TransactionUtilities.validateTokenAmount(amount, token)
+                                      : TransactionUtilities.hasSufficientTokenForAmount(amount, token)
                                   );
                                   this.setState({ amount: isEth ?  Web3.utils.toWei(amount) : amount });
                               } else {

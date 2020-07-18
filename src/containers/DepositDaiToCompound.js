@@ -133,7 +133,7 @@ class DepositDaiToCompound extends Component {
   }
 
   validateForm = async (daiAmount) => {
-    const daiAmountValidation = TransactionUtilities.validateDaiAmount(
+    const daiAmountValidation = TransactionUtilities.hasSufficientDaiForAmount(
       daiAmount
     );
     const weiAmountValidation = TransactionUtilities.hasSufficientWeiForNetworkFee(
@@ -200,7 +200,7 @@ class DepositDaiToCompound extends Component {
             onPress={() => {
               this.setState({ daiAmount: daiFullBalance });
               this.updateDaiAmountValidation(
-                TransactionUtilities.validateDaiAmount(daiFullBalance)
+                TransactionUtilities.hasSufficientDaiForAmount(daiFullBalance)
               );
             }}
           />
@@ -219,7 +219,7 @@ class DepositDaiToCompound extends Component {
               clearButtonMode="while-editing"
               onChangeText={(daiAmount) => {
                 this.updateDaiAmountValidation(
-                  TransactionUtilities.validateDaiAmount(daiAmount)
+                  TransactionUtilities.hasSufficientDaiForAmount(daiAmount)
                 );
                 this.setState({ daiAmount });
               }}
