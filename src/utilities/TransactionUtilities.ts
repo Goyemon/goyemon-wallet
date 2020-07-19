@@ -110,13 +110,13 @@ class TransactionUtilities {
     }
   }
 
-  validateWeiAmountForTransactionFee(gasPriceWei, gasLimit) {
+  hasSufficientWeiForNetworkFee(gasPriceWei, gasLimit) {
     const stateTree = store.getState();
     const balance = stateTree.ReducerBalance.balance;
     const weiBalance = new RoundDownBigNumberPlacesEighteen(balance.wei);
-    const transactionFeeLimitInWei = new RoundDownBigNumberPlacesEighteen(gasPriceWei).times(gasLimit);
+    const maxNetworkFeeInWei = new RoundDownBigNumberPlacesEighteen(gasPriceWei).times(gasLimit);
 
-    if (weiBalance.isGreaterThan(transactionFeeLimitInWei)) {
+    if (weiBalance.isGreaterThan(maxNetworkFeeInWei)) {
       LogUtilities.logInfo('the wei amount validated!');
       return true;
     }
@@ -124,8 +124,8 @@ class TransactionUtilities {
     return false;
   }
 
-  validateWeiAmount(weiAmount, gasLimit) {
-    LogUtilities.logInfo('validateWeiAmount -> ', weiAmount, gasLimit);
+  hasSufficientWeiForAmount(weiAmount, gasLimit) {
+    LogUtilities.logInfo('hasSufficientWeiForAmount -> ', weiAmount, gasLimit);
     const isNumber = /^[0-9]\d*(\.\d+)?$/.test(weiAmount);
 
     if (isNumber) {
@@ -134,13 +134,13 @@ class TransactionUtilities {
       const gasChosen = stateTree.ReducerGasPrice.gasChosen;
       const weiBalance = new RoundDownBigNumberPlacesEighteen(balance.wei);
       weiAmount = new RoundDownBigNumberPlacesEighteen(weiAmount);
-      const transactionFeeLimitInWei = new RoundDownBigNumberPlacesEighteen(
+      const maxNetworkFeeInWei = new RoundDownBigNumberPlacesEighteen(
         this.returnTransactionSpeed(gasChosen)
       ).times(gasLimit);
 
       if (
         weiBalance.isGreaterThanOrEqualTo(
-          weiAmount.plus(transactionFeeLimitInWei)
+          weiAmount.plus(maxNetworkFeeInWei)
         ) &&
         weiAmount.isGreaterThanOrEqualTo(0)
       ) {
@@ -153,7 +153,7 @@ class TransactionUtilities {
     }
   }
 
-  validateDaiAmount(daiAmount) {
+  hasSufficientDaiForAmount(daiAmount) {
     const isNumber = /^[0-9]\d*(\.\d+)?$/.test(daiAmount);
     if (isNumber) {
       const stateTree = store.getState();
@@ -175,7 +175,7 @@ class TransactionUtilities {
     }
   }
 
-  validateTokenAmount = (amount, token) => {
+  hasSufficientTokenForAmount = (amount, token) => {
     const isNumber = /^[0-9]\d*(\.\d+)?$/.test(amount);
     if (isNumber) {
       const stateTree = store.getState();
@@ -320,22 +320,22 @@ class TransactionUtilities {
       });
   }
 
-  getTransactionFeeEstimateInEther(gasPriceWei, gasLimit) {
-    const transactionFeeEstimateWei = Web3.utils
+  getMaxNetworkFeeInEther(gasPriceWei, gasLimit) {
+    const maxNetworkFeeInWei = Web3.utils
       .toBN(gasPriceWei)
       .mul(Web3.utils.toBN(gasLimit));
-    const transactionFeeEstimateInEther = Web3.utils
-      .fromWei(transactionFeeEstimateWei)
+    const maxNetworkFeeInEther = Web3.utils
+      .fromWei(maxNetworkFeeInWei)
       .toString();
-    return transactionFeeEstimateInEther;
+    return maxNetworkFeeInEther;
   }
 
-  getTransactionFeeEstimateInUsd(gasPriceWei, gasLimit) {
-    let transactionFeeEstimateInUsd = PriceUtilities.convertEthToUsd(
-      this.getTransactionFeeEstimateInEther(gasPriceWei, gasLimit)
+  getMaxNetworkFeeInUSD(gasPriceWei, gasLimit) {
+    let maxNetworkFeeInUsd = PriceUtilities.convertEthToUsd(
+      this.getMaxNetworkFeeInEther(gasPriceWei, gasLimit)
     );
-    transactionFeeEstimateInUsd = transactionFeeEstimateInUsd.toFixed(3);
-    return transactionFeeEstimateInUsd;
+    maxNetworkFeeInUsd = maxNetworkFeeInUsd.toFixed(3);
+    return maxNetworkFeeInUsd;
   }
 
   getApproveEncodedABI(addressSpender) {

@@ -115,12 +115,12 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
 
     getPriceState(gasPriceWeiDecimal) {
       return {
-        usdValue: TransactionUtilities.getTransactionFeeEstimateInUsd(
+        usdValue: TransactionUtilities.getMaxNetworkFeeInUSD(
           gasPriceWeiDecimal,
           this.props.gasLimit
         ),
         ethValue: parseFloat(
-          TransactionUtilities.getTransactionFeeEstimateInEther(
+          TransactionUtilities.getMaxNetworkFeeInEther(
             gasPriceWeiDecimal,
             this.props.gasLimit
           )
@@ -166,7 +166,7 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
             maximumValue={this.state.maxPrice}
             onValueChange={(gasPriceWeiDecimal) => {
               this.updateWeiAmountValidation(
-                TransactionUtilities.validateWeiAmountForTransactionFee(
+                TransactionUtilities.hasSufficientWeiForNetworkFee(
                   gasPriceWeiDecimal,
                   this.props.gasLimit
                 )

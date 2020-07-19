@@ -14,8 +14,9 @@ import {
     FormHeader,
     Loader,
     IsOnlineMessage,
+    NetworkFeeValidateMessage,
     TxNextButton,
-    ValidateMessage,
+    AmountValidateMessage,
     UseMaxButton
   } from '../common';
 import {
@@ -36,6 +37,7 @@ class SendToken extends Component {
         super(props);
         this.state = {
             amountValidation: undefined,
+            networkFeeValidation: undefined,
             balance: props.info.balance,
             amount: 0,
             displayAmount: 0,
@@ -47,15 +49,15 @@ class SendToken extends Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.gasChosen != prevProps.gasChosen) {
-          this.updateAmountValidation(
-            TransactionUtilities.validateWeiAmountForTransactionFee(
+          this.updateNetworkFeeValidation(
+            TransactionUtilities.hasSufficientWeiForNetworkFee(
               TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
               this.state.gasLimit
             )
           )
           if(this.state.isEth)
             this.updateAmountValidation(
-              TransactionUtilities.validateWeiAmount(	
+              TransactionUtilities.hasSufficientWeiForAmount(	
                 this.state.amount,
                 GlobalConfig.ETHTxGasLimit	
               )	
@@ -81,9 +83,11 @@ class SendToken extends Component {
       ? String(amount).slice(1, 2) === '.' && /^[0-9]\d*(\.\d+)?$/.test(amount)
       : /^[0-9]\d*(\.\d+)?$/.test(amount)
 
-    isDisabled = () => !this.state.amountValidation || !this.props.toAddressValidation || !this.props.isOnline || this.state.loading
+    isDisabled = () => !this.state.amountValidation || !this.state.networkFeeValidation || !this.props.toAddressValidation || !this.props.isOnline || this.state.loading
 
     updateAmountValidation = isValid => this.setState({ amountValidation: isValid})
+
+    updateNetworkFeeValidation = isValid => this.setState({ networkFeeValidation: isValid})
 
     gasLimit = token => {
       const gasLimit = {
@@ -100,32 +104,24 @@ class SendToken extends Component {
         tokenBalance = this.state.isEth
             ? new RoundDownBigNumberPlacesEighteen(this.props.balance.wei)
             : new RoundDownBigNumberPlacesEighteen(this.props.info.balance),
-        networkFeeLimit = new RoundDownBigNumberPlacesEighteen(
+        maxNetworkFee = new RoundDownBigNumberPlacesEighteen(
             TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
         ).times(this.state.gasLimit)
 
         return this.state.isEth
-            ? tokenBalance.isLessThanOrEqualTo(networkFeeLimit)
-            ? tokenBalance.minus(networkFeeLimit).toString()
-            : tokenBalance.minus(networkFeeLimit).toString()
+            ? tokenBalance.isLessThanOrEqualTo(maxNetworkFee)
+            ? tokenBalance.minus(maxNetworkFee).toString()
+            : tokenBalance.minus(maxNetworkFee).toString()
             : tokenBalance.toString()
-    }
-
-    isEfficientGas = () => {
-        const networkFeeLimit = new RoundDownBigNumberPlacesEighteen(
-            TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
-        ).times(this.state.gasLimit)
-        const ethBalance = new RoundDownBigNumberPlacesEighteen(this.props.balance.wei)
-        return ethBalance.isLessThanOrEqualTo(networkFeeLimit)
     }
 
     validateForm = async (toAddress, amount) => {
         const { toAddressValidation, isOnline } = this.props
         const amountValidation = this.state.isEth
-            ? TransactionUtilities.validateWeiAmount(amount, this.state.gasLimit)
-            : TransactionUtilities.validateTokenAmount(amount, this.props.info.token)
+            ? TransactionUtilities.hasSufficientWeiForAmount(amount, this.state.gasLimit)
+            : TransactionUtilities.hasSufficientTokenForAmount(amount, this.props.info.token)
 
-        if (toAddressValidation && amountValidation && isOnline) {
+        if (toAddressValidation && amountValidation && networkFeeValidation && isOnline) {
             this.setState({ loading: true });
             const transactionObject = await this.constructTransactionObject();
             this.props.saveOutgoingTransactionDataSend({
@@ -183,7 +179,7 @@ class SendToken extends Component {
     }
 
     render() {
-        const { amountValidation, loading, amount, displayAmount, isEth, gasLimit } = this.state
+        const { amountValidation, networkFeeValidation, loading, amount, displayAmount, isEth, gasLimit } = this.state
         const { token } = this.props.info
         const fullAmount = this.getFullAmount()
 
@@ -205,8 +201,8 @@ class SendToken extends Component {
                             displayAmount: isEth ? Web3.utils.fromWei(fullAmount) : fullAmount
                         });
                         this.updateAmountValidation(isEth
-                            ? TransactionUtilities.validateWeiAmount(fullAmount, GlobalConfig.ETHTxGasLimit)
-                            : TransactionUtilities.validateTokenAmount(fullAmount, token)
+                            ? TransactionUtilities.hasSufficientWeiForAmount(fullAmount, GlobalConfig.ETHTxGasLimit)
+                            : TransactionUtilities.hasSufficientTokenForAmount(fullAmount, token)
                         );
                     }}
                 />
@@ -226,11 +222,11 @@ class SendToken extends Component {
                               if (this.isNumber(amount)) {
                                   this.updateAmountValidation(
                                       isEth
-                                      ? TransactionUtilities.validateWeiAmount(Web3.utils.toWei(amount), GlobalConfig.ETHTxGasLimit)
-                                      : TransactionUtilities.validateTokenAmount(amount, token)
+                                      ? TransactionUtilities.hasSufficientWeiForAmount(Web3.utils.toWei(amount), GlobalConfig.ETHTxGasLimit)
+                                      : TransactionUtilities.hasSufficientTokenForAmount(amount, token)
                                   );
                                   this.setState({ amount: isEth ?  Web3.utils.toWei(amount) : amount });
-                              } else if (!this.isNumber(amount)){
+                              } else {
                                 this.updateAmountValidation(false);
                               }
                           }}
@@ -240,10 +236,13 @@ class SendToken extends Component {
                         <CurrencySymbolText>{token}</CurrencySymbolText>
                     </SendTextInputContainer>
                 </Form>
-                <AdvancedContainer gasLimit={gasLimit} />
-                <ValidateMessage
-                    amountValidation={amountValidation && !this.isEfficientGas()}
+                <AmountValidateMessage
+                    amountValidation={amountValidation}
                     isEth={isEth}
+                />
+                <AdvancedContainer gasLimit={gasLimit} />
+                <NetworkFeeValidateMessage
+                    networkFeeValidation={networkFeeValidation}
                 />
                 <ButtonWrapper>
                 <TxNextButton

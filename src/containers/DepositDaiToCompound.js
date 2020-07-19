@@ -50,7 +50,7 @@ class DepositDaiToCompound extends Component {
 
   componentDidMount() {
     this.updateWeiAmountValidation(
-      TransactionUtilities.validateWeiAmountForTransactionFee(
+      TransactionUtilities.hasSufficientWeiForNetworkFee(
         TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
         GlobalConfig.cTokenMintGasLimit
       )
@@ -60,7 +60,7 @@ class DepositDaiToCompound extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.gasChosen != prevProps.gasChosen) {
       this.updateWeiAmountValidation(
-        TransactionUtilities.validateWeiAmountForTransactionFee(
+        TransactionUtilities.hasSufficientWeiForNetworkFee(
           TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
           GlobalConfig.cTokenMintGasLimit
         )
@@ -133,10 +133,10 @@ class DepositDaiToCompound extends Component {
   }
 
   validateForm = async (daiAmount) => {
-    const daiAmountValidation = TransactionUtilities.validateDaiAmount(
+    const daiAmountValidation = TransactionUtilities.hasSufficientDaiForAmount(
       daiAmount
     );
-    const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(
+    const weiAmountValidation = TransactionUtilities.hasSufficientWeiForNetworkFee(
       TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
       GlobalConfig.cTokenMintGasLimit
     );
@@ -200,7 +200,7 @@ class DepositDaiToCompound extends Component {
             onPress={() => {
               this.setState({ daiAmount: daiFullBalance });
               this.updateDaiAmountValidation(
-                TransactionUtilities.validateDaiAmount(daiFullBalance)
+                TransactionUtilities.hasSufficientDaiForAmount(daiFullBalance)
               );
             }}
           />
@@ -219,7 +219,7 @@ class DepositDaiToCompound extends Component {
               clearButtonMode="while-editing"
               onChangeText={(daiAmount) => {
                 this.updateDaiAmountValidation(
-                  TransactionUtilities.validateDaiAmount(daiAmount)
+                  TransactionUtilities.hasSufficientDaiForAmount(daiAmount)
                 );
                 this.setState({ daiAmount });
               }}

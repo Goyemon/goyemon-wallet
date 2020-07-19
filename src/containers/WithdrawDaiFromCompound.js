@@ -50,7 +50,7 @@ class WithdrawDaiFromCompound extends Component {
 
   componentDidMount() {
     this.updateWeiAmountValidation(
-      TransactionUtilities.validateWeiAmountForTransactionFee(
+      TransactionUtilities.hasSufficientWeiForNetworkFee(
         TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
         GlobalConfig.cTokenRedeemUnderlyingGasLimit
       )
@@ -60,7 +60,7 @@ class WithdrawDaiFromCompound extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.gasChosen != prevProps.gasChosen) {
       this.updateWeiAmountValidation(
-        TransactionUtilities.validateWeiAmountForTransactionFee(
+        TransactionUtilities.hasSufficientWeiForNetworkFee(
           TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
           GlobalConfig.cTokenRedeemUnderlyingGasLimit
         )
@@ -141,7 +141,7 @@ class WithdrawDaiFromCompound extends Component {
     const daiSavingsAmountValidation = TransactionUtilities.validateDaiCompoundWithdrawAmount(
       daiWithdrawAmount
     );
-    const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(
+    const weiAmountValidation = TransactionUtilities.hasSufficientWeiForNetworkFee(
       TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
       GlobalConfig.cTokenRedeemUnderlyingGasLimit
     );

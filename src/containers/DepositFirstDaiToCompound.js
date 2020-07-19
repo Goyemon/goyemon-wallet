@@ -47,7 +47,7 @@ class DepositFirstDaiToCompound extends Component {
 
   componentDidMount() {
     this.updateWeiAmountValidation(
-      TransactionUtilities.validateWeiAmountForTransactionFee(
+      TransactionUtilities.hasSufficientWeiForNetworkFee(
         TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
         GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit
       )
@@ -57,7 +57,7 @@ class DepositFirstDaiToCompound extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.gasChosen != prevProps.gasChosen) {
       this.updateWeiAmountValidation(
-        TransactionUtilities.validateWeiAmountForTransactionFee(
+        TransactionUtilities.hasSufficientWeiForNetworkFee(
           TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
           GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit
         )
@@ -128,10 +128,10 @@ class DepositFirstDaiToCompound extends Component {
   }
 
   validateForm = async (daiAmount) => {
-    const daiAmountValidation = TransactionUtilities.validateDaiAmount(
+    const daiAmountValidation = TransactionUtilities.hasSufficientDaiForAmount(
       daiAmount
     );
-    const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(
+    const weiAmountValidation = TransactionUtilities.hasSufficientWeiForNetworkFee(
       TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
       GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit
     );
@@ -201,7 +201,7 @@ class DepositFirstDaiToCompound extends Component {
             onPress={() => {
               this.setState({ daiAmount: daiFullBalance });
               this.updateDaiAmountValidation(
-                TransactionUtilities.validateDaiAmount(daiFullBalance)
+                TransactionUtilities.hasSufficientDaiForAmount(daiFullBalance)
               );
             }}
           />
@@ -220,7 +220,7 @@ class DepositFirstDaiToCompound extends Component {
               clearButtonMode="while-editing"
               onChangeText={(daiAmount) => {
                 this.updateDaiAmountValidation(
-                  TransactionUtilities.validateDaiAmount(daiAmount)
+                  TransactionUtilities.hasSufficientDaiForAmount(daiAmount)
                 );
                 this.setState({ daiAmount });
               }}

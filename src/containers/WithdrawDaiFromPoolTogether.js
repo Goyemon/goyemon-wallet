@@ -53,7 +53,7 @@ class WithdrawDaiFromPoolTogether extends Component {
 
   componentDidMount() {
     this.updateWeiAmountValidation(
-      TransactionUtilities.validateWeiAmountForTransactionFee(
+      TransactionUtilities.hasSufficientWeiForNetworkFee(
         TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
         GlobalConfig.PoolTogetherWithdrawGasLimit
       )
@@ -63,7 +63,7 @@ class WithdrawDaiFromPoolTogether extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.gasChosen != prevProps.gasChosen) {
       this.updateWeiAmountValidation(
-        TransactionUtilities.validateWeiAmountForTransactionFee(
+        TransactionUtilities.hasSufficientWeiForNetworkFee(
           TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
           GlobalConfig.PoolTogetherWithdrawGasLimit
         )
@@ -148,7 +148,7 @@ class WithdrawDaiFromPoolTogether extends Component {
     const daiWithdrawAmountValidation = TransactionUtilities.validateDaiPoolTogetherWithdrawAmount(
       daiWithdrawAmount
     );
-    const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(
+    const weiAmountValidation = TransactionUtilities.hasSufficientWeiForNetworkFee(
       TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
       GlobalConfig.PoolTogetherWithdrawGasLimit
     );
