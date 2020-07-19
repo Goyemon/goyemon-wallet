@@ -960,11 +960,11 @@ class PersistTxStorageAbstraction {
       }
     }
 
-    this.__unlock(index);
-    LogUtilities.toDebugScreen(
-      `PersistTxStorageAbstraction __replaceKeyInIndex(${oldkey}, ${newkey}, ${index}, ${toplockremove}): item not found...`
-    );
-    throw new Error(`key "${oldkey}" not found in the index "${index}"`);
+    // this.__unlock(index);
+    // LogUtilities.toDebugScreen(
+    //   `PersistTxStorageAbstraction __replaceKeyInIndex(${oldkey}, ${newkey}, ${index}, ${toplockremove}): item not found...`
+    // );
+    // throw new Error(`key "${oldkey}" not found in the index "${index}"`);
   }
 
   async removeKey(oldkey, index = 'all') { // not used yet; will be used when indexDiff is tested and we actually have to remove stuff from some indices.
