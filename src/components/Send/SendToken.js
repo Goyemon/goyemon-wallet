@@ -121,7 +121,7 @@ class SendToken extends Component {
             ? TransactionUtilities.hasSufficientWeiForAmount(amount, this.state.gasLimit)
             : TransactionUtilities.hasSufficientTokenForAmount(amount, this.props.info.token)
 
-        if (toAddressValidation && amountValidation && networkFeeValidation && isOnline) {
+        if (toAddressValidation && amountValidation && this.state.networkFeeValidation && isOnline) {
             this.setState({ loading: true });
             const transactionObject = await this.constructTransactionObject();
             this.props.saveOutgoingTransactionDataSend({
