@@ -12,10 +12,10 @@ import {
   NewHeaderThree,
   HeaderFour,
   GoyemonText,
-  ReceiveIcon
+  ReceiveIcon,
 } from '../components/common';
-import CoinBoxes from '../components/PortfolioHome/CoinBoxes'
-import ApplicationBoxes from '../components/PortfolioHome/ApplicationBoxes'
+import CoinBoxes from '../components/PortfolioHome/CoinBoxes';
+import ApplicationBoxes from '../components/PortfolioHome/ApplicationBoxes';
 import Copy from '../containers/common/Copy';
 import FcmPermissions from '../firebase/FcmPermissions.js';
 import I18n from '../i18n/I18n';
@@ -35,13 +35,13 @@ class PortfolioHome extends Component {
             PortfolioStack.navigationOptions = () => {
               const tabBarVisible = false;
               return {
-                tabBarVisible
+                tabBarVisible,
               };
             };
             navigation.navigate('Settings');
           }}
         />
-      )
+      ),
     };
   };
 
@@ -49,31 +49,38 @@ class PortfolioHome extends Component {
     PortfolioStack.navigationOptions = () => {
       const tabBarVisible = true;
       return {
-        tabBarVisible
+        tabBarVisible,
       };
     };
     await FcmPermissions.checkFcmPermissions();
   }
 
-  returnBalance = (amount, round, pow, fix) => RoundDownBigNumberPlacesFour(amount)
-  .div(new RoundDownBigNumberPlacesFour(round).pow(pow))
-  .toFixed(fix);
+  returnBalance = (amount, round, pow, fix) =>
+    RoundDownBigNumberPlacesFour(amount)
+      .div(new RoundDownBigNumberPlacesFour(round).pow(pow))
+      .toFixed(fix);
 
   render() {
     const { balance, navigation, checksumAddress } = this.props;
 
-    const
-    ethBalance = RoundDownBigNumberPlacesFour(Web3.utils.fromWei(balance.wei)).toFixed(4),
-    daiBalance = this.returnBalance(balance.dai, 10, 18, 2),
-    cdaiBalance = this.returnBalance(balance.cDai, 10, 8, 2),
-    pldaiBalance = this.returnBalance(balance.pooltogetherDai.committed, 10, 18, 0);
+    const ethBalance = RoundDownBigNumberPlacesFour(
+        Web3.utils.fromWei(balance.wei),
+      ).toFixed(4),
+      daiBalance = this.returnBalance(balance.dai, 10, 18, 2),
+      cdaiBalance = this.returnBalance(balance.cDai, 10, 8, 2),
+      pldaiBalance = this.returnBalance(
+        balance.pooltogetherDai.committed,
+        10,
+        18,
+        0,
+      );
 
     const compoundDaiBalance = RoundDownBigNumberPlacesFour(balance.compoundDai)
       .div(new RoundDownBigNumberPlacesFour(10).pow(36))
       .toString();
 
     const pooltogetherDaiBalance = RoundDownBigNumberPlacesFour(
-      balance.pooltogetherDai.open
+      balance.pooltogetherDai.open,
     )
       .plus(balance.pooltogetherDai.committed)
       .plus(balance.pooltogetherDai.sponsored)
@@ -90,45 +97,47 @@ class PortfolioHome extends Component {
         path: require('../../assets/ether_icon.png'),
         token: 'ETH',
         usd: PriceUtilities.convertEthToUsd(ethBalance).toFixed(2),
-        balance: ethBalance
+        balance: ethBalance,
       },
       {
         path: require('../../assets/dai_icon.png'),
         token: 'DAI',
         usd: PriceUtilities.convertDaiToUsd(daiBalance).toFixed(2),
-        balance: daiBalance
+        balance: daiBalance,
       },
       {
         path: require('../../assets/cdai_icon.png'),
         token: 'cDAI',
         usd: PriceUtilities.convertcDaiToUsd(cdaiBalance).toFixed(2),
-        balance: cdaiBalance
+        balance: cdaiBalance,
       },
       {
         path: require('../../assets/pldai_icon.png'),
         token: 'plDAI',
         usd: PriceUtilities.convertDaiToUsd(pooltogetherDaiBalance).toFixed(2),
-        balance: pldaiBalance
+        balance: pldaiBalance,
       },
-    ]
+    ];
 
     const applicationBoxes = [
       {
         balance: PriceUtilities.getTotalWalletBalance(ethBalance, daiBalance),
         name: I18n.t('portfolio-home-wallet'),
-        event: () => navigation.navigate('PortfolioWallet')
+        event: () => navigation.navigate('PortfolioWallet'),
       },
       {
         balance: PriceUtilities.convertDaiToUsd(daiBalance).toFixed(2),
         name: 'Compound',
-        event: () => navigation.navigate('PortfolioCompound')
+        event: () => navigation.navigate('PortfolioCompound'),
       },
       {
-        balance: PriceUtilities.convertDaiToUsd(pooltogetherDaiBalance).toFixed(2),
+        balance: PriceUtilities.convertDaiToUsd(pooltogetherDaiBalance).toFixed(
+          2,
+        ),
         name: 'PoolTogether',
-        event: () => navigation.navigate('PortfolioPoolTogether')
-      }
-    ]
+        event: () => navigation.navigate('PortfolioPoolTogether'),
+      },
+    ];
 
     let truncatedAdderss;
     if (checksumAddress)
@@ -176,7 +185,7 @@ class PortfolioHome extends Component {
           contentContainerStyle={{ width: `${150}%` }}
           showsHorizontalScrollIndicator={false}
         >
-        <CoinBoxes boxes={coinBoxes} />
+          <CoinBoxes boxes={coinBoxes} />
         </CurrencyScrollView>
 
         <NewHeaderThree
@@ -220,7 +229,7 @@ const ReceiveIconContainer = styled.View`
 const mapStateToProps = (state) => ({
   balance: state.ReducerBalance.balance,
   checksumAddress: state.ReducerChecksumAddress.checksumAddress,
-  price: state.ReducerPrice.price
+  price: state.ReducerPrice.price,
 });
 
 export default withNavigation(connect(mapStateToProps)(PortfolioHome));

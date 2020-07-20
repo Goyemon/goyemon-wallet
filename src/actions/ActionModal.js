@@ -3,7 +3,7 @@ import {
   SAVE_TX_DETAIL_MODAL_VISIBILITY,
   SAVE_TX_CONFIRMATION_MODAL_VISIBILITY,
   UPDATE_TX_CONFIRMATION_MODAL_VISIBLE_TYPE,
-  SAVE_POP_UP_MODAL_VISIBILITY
+  SAVE_POP_UP_MODAL_VISIBILITY,
 } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
@@ -19,7 +19,7 @@ export function saveTxDetailModalVisibility(visibility) {
 
 const saveTxDetailModalVisibilitySuccess = (visibility) => ({
   type: SAVE_TX_DETAIL_MODAL_VISIBILITY,
-  payload: visibility
+  payload: visibility,
 });
 
 export function saveTxConfirmationModalVisibility(visibility) {
@@ -34,7 +34,7 @@ export function saveTxConfirmationModalVisibility(visibility) {
 
 const saveTxConfirmationModalVisibilitySuccess = (visibility) => ({
   type: SAVE_TX_CONFIRMATION_MODAL_VISIBILITY,
-  payload: visibility
+  payload: visibility,
 });
 
 export function updateTxConfirmationModalVisibleType(type) {
@@ -49,7 +49,7 @@ export function updateTxConfirmationModalVisibleType(type) {
 
 const updateTxConfirmationModalVisibleTypeSuccess = (type) => ({
   type: UPDATE_TX_CONFIRMATION_MODAL_VISIBLE_TYPE,
-  payload: type
+  payload: type,
 });
 
 export function savePopUpModalVisibility(visibility) {
@@ -64,5 +64,5 @@ export function savePopUpModalVisibility(visibility) {
 
 const savePopUpModalVisibilitySuccess = (visibility) => ({
   type: SAVE_POP_UP_MODAL_VISIBILITY,
-  payload: visibility
+  payload: visibility,
 });

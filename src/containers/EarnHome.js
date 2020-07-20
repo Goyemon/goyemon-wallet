@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
 import {
   saveDaiCompoundApproval,
-  saveDaiPoolTogetherApproval
+  saveDaiPoolTogetherApproval,
 } from '../actions/ActionApproval';
 import CompoundIcon from '../../assets/CompoundIcon.js';
 import PoolTogetherIcon from '../../assets/PoolTogetherIcon.js';
@@ -15,7 +15,7 @@ import {
   Container,
   TouchableCardContainer,
   HeaderOne,
-  GoyemonText
+  GoyemonText,
 } from '../components/common';
 import I18n from '../i18n/I18n';
 import TxStorage from '../lib/tx.js';
@@ -197,15 +197,15 @@ const CardImage = styled.Image`
 
 function mapStateToProps(state) {
   return {
-    approval: state.ReducerApproval.approval
+    approval: state.ReducerApproval.approval,
   };
 }
 
 const mapDispatchToProps = {
   saveDaiCompoundApproval,
-  saveDaiPoolTogetherApproval
+  saveDaiPoolTogetherApproval,
 };
 
 export default withNavigation(
-  connect(mapStateToProps, mapDispatchToProps)(EarnHome)
+  connect(mapStateToProps, mapDispatchToProps)(EarnHome),
 );

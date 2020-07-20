@@ -13,5 +13,5 @@ export function clearState() {
 }
 
 const clearStateSuccess = () => ({
-  type: CLEAR_STATE
+  type: CLEAR_STATE,
 });

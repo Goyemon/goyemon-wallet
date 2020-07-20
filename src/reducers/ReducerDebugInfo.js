@@ -1,14 +1,14 @@
 'use strict';
 import {
   SAVE_FCM_TOKEN,
-  SAVE_OTHER_DEBUG_INFO
+  SAVE_OTHER_DEBUG_INFO,
 } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
   debugInfo: {
     fcmToken: null,
-    others: []
-  }
+    others: [],
+  },
 };
 
 const debugInfo = (state = INITIAL_STATE, action) => {
@@ -19,8 +19,8 @@ const debugInfo = (state = INITIAL_STATE, action) => {
       return {
         debugInfo: {
           ...state.debugInfo,
-          others: [...state.debugInfo.others, action.payload]
-        }
+          others: [...state.debugInfo.others, action.payload],
+        },
       };
     default:
       return state || INITIAL_STATE;

@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import {
   HeaderFive,
   ConfirmationText,
-  ToggleCurrencySymbol
+  ToggleCurrencySymbol,
 } from '../../components/common';
 import I18n from '../../i18n/I18n';
 import LogUtilities from '../../utilities/LogUtilities.js';
@@ -16,7 +16,7 @@ class NetworkFeeContainerConfirmation extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currency: 'USD'
+      currency: 'USD',
     };
   }
 
@@ -24,13 +24,13 @@ class NetworkFeeContainerConfirmation extends Component {
     if (this.state.currency === 'ETH') {
       const usdValue = TransactionUtilities.getMaxNetworkFeeInUSD(
         gasPriceWei,
-        gasLimit
+        gasLimit,
       );
       return <ConfirmationText>${usdValue}</ConfirmationText>;
     } else if (this.state.currency === 'USD') {
       let ethValue = TransactionUtilities.getMaxNetworkFeeInEther(
         gasPriceWei,
-        gasLimit
+        gasLimit,
       );
       LogUtilities.logInfo('ethValue ==>', ethValue);
       ethValue = parseFloat(ethValue).toFixed(5);
@@ -58,7 +58,7 @@ class NetworkFeeContainerConfirmation extends Component {
         <ConfirmationText>
           {this.toggleCurrency(
             TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
-            this.props.gasLimit
+            this.props.gasLimit,
           )}
         </ConfirmationText>
       </View>
@@ -74,7 +74,7 @@ const NetworkFeeHeaderContainer = styled.View`
 function mapStateToProps(state) {
   return {
     gasPrice: state.ReducerGasPrice.gasPrice,
-    gasChosen: state.ReducerGasPrice.gasChosen
+    gasChosen: state.ReducerGasPrice.gasChosen,
   };
 }
 

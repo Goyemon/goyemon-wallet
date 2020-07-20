@@ -13,49 +13,59 @@ class Send extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currency: 'eth'
+      currency: 'eth',
     };
   }
 
-  returnBalance = (amount, round, pow, fix) => RoundDownBigNumberPlacesFour(amount)
-  .div(new RoundDownBigNumberPlacesFour(round).pow(pow))
-  .toFixed(fix);
+  returnBalance = (amount, round, pow, fix) =>
+    RoundDownBigNumberPlacesFour(amount)
+      .div(new RoundDownBigNumberPlacesFour(round).pow(pow))
+      .toFixed(fix);
 
   renderCurrency() {
     const { wei, dai, cDai, pooltogetherDai } = this.props.balance,
-    ethBalance = RoundDownBigNumberPlacesFour(Web3.utils.fromWei(wei)).toFixed(4),
-    daiBalance = this.returnBalance(dai, 10, 18, 2),
-    cdaiBalance = this.returnBalance(cDai, 10, 8, 2),
-    pooltogetherDaiBalance = this.returnBalance(pooltogetherDai.committed, 10, 8, 2)
+      ethBalance = RoundDownBigNumberPlacesFour(
+        Web3.utils.fromWei(wei),
+      ).toFixed(4),
+      daiBalance = this.returnBalance(dai, 10, 18, 2),
+      cdaiBalance = this.returnBalance(cDai, 10, 8, 2),
+      pooltogetherDaiBalance = this.returnBalance(
+        pooltogetherDai.committed,
+        10,
+        8,
+        2,
+      );
 
     const propsValue = {
-      'eth': {
+      eth: {
         icon: require('../../assets/ether_icon.png'),
         token: 'ETH',
         title: I18n.t('eth-wallet-balance'),
-        balance: ethBalance
+        balance: ethBalance,
       },
-      'dai': {
+      dai: {
         icon: require('../../assets/dai_icon.png'),
         token: 'DAI',
         title: I18n.t('dai-wallet-balance'),
-        balance: daiBalance
+        balance: daiBalance,
       },
-      'cdai': {
+      cdai: {
         icon: require('../../assets/cdai_icon.png'),
         token: 'cDAI',
         title: I18n.t('cdai-wallet-balance'),
-        balance: cdaiBalance
+        balance: cdaiBalance,
       },
-      'pldai': {
+      pldai: {
         icon: require('../../assets/pldai_icon.png'),
         token: 'plDAI',
         title: I18n.t('pldai-wallet-balance'),
-        balance: pooltogetherDaiBalance
-      }
-    }
+        balance: pooltogetherDaiBalance,
+      },
+    };
 
-    return this.state.currency ? <SendToken info={propsValue[this.state.currency]} /> : null
+    return this.state.currency ? (
+      <SendToken info={propsValue[this.state.currency]} />
+    ) : null;
   }
 
   render() {
@@ -63,24 +73,24 @@ class Send extends Component {
       {
         event: () => this.setState({ currency: 'eth' }),
         opacity: this.state.currency === 'eth' ? 1 : 0.4,
-        path: require('../../assets/ether_icon.png')
+        path: require('../../assets/ether_icon.png'),
       },
       {
         event: () => this.setState({ currency: 'dai' }),
         opacity: this.state.currency === 'dai' ? 1 : 0.4,
-        path: require('../../assets/dai_icon.png')
+        path: require('../../assets/dai_icon.png'),
       },
       {
         event: () => this.setState({ currency: 'cdai' }),
         opacity: this.state.currency === 'cdai' ? 1 : 0.4,
-        path: require('../../assets/cdai_icon.png')
+        path: require('../../assets/cdai_icon.png'),
       },
       {
         event: () => this.setState({ currency: 'pldai' }),
         opacity: this.state.currency === 'pldai' ? 1 : 0.4,
-        path: require('../../assets/pldai_icon.png')
+        path: require('../../assets/pldai_icon.png'),
       },
-    ]
+    ];
 
     return (
       <RootContainer>
@@ -93,17 +103,11 @@ class Send extends Component {
             marginTop={16}
             width="100%"
           >
-            {tabs.map(tab =>
-              <TouchableOpacity
-                onPress={tab.event}
-                key={tab.path}
-              >
-                <CoinImage
-                  opacity={tab.opacity}
-                  source={tab.path}
-                />
+            {tabs.map((tab) => (
+              <TouchableOpacity onPress={tab.event} key={tab.path}>
+                <CoinImage opacity={tab.opacity} source={tab.path} />
               </TouchableOpacity>
-            )}
+            ))}
           </Container>
         </ScrollView>
         {this.renderCurrency()}
@@ -122,8 +126,8 @@ const CoinImage = styled.Image`
 
 function mapStateToProps(state) {
   return {
-    balance: state.ReducerBalance.balance
+    balance: state.ReducerBalance.balance,
   };
 }
 
-export default connect(mapStateToProps)(Send)
+export default connect(mapStateToProps)(Send);

@@ -4,8 +4,8 @@ import { TouchableOpacity, ScrollView, View, Dimensions } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Modal from 'react-native-modal';
 import styled from 'styled-components';
-import EtherUtilities from '../utilities/EtherUtilities'
-import TransactionDetailContainer from './TransactionDetailContainer'
+import EtherUtilities from '../utilities/EtherUtilities';
+import TransactionDetailContainer from './TransactionDetailContainer';
 import Web3 from 'web3';
 import { saveTxDetailModalVisibility } from '../actions/ActionModal';
 import {
@@ -18,7 +18,7 @@ import {
   IsOnlineMessage,
   ModalHandler,
   HorizontalLine,
-  Loader
+  Loader,
 } from '../components/common';
 import { connect } from 'react-redux';
 
@@ -33,23 +33,23 @@ import LogUtilities from '../utilities/LogUtilities';
 import TransactionUtilities from '../utilities/TransactionUtilities';
 import Slider from '@react-native-community/slider';
 
-const window = Dimensions.get("window");
+const window = Dimensions.get('window');
 
 const mapChecksumAddressStateToProps = (state) => ({
-  checksumAddress: state.ReducerChecksumAddress.checksumAddress
+  checksumAddress: state.ReducerChecksumAddress.checksumAddress,
 });
 const mapGasPriceStateToProps = (state) => ({
-  gasPrice: state.ReducerGasPrice.gasPrice
+  gasPrice: state.ReducerGasPrice.gasPrice,
 });
 
 const mapAddressAndIsOnlineAndModalStateToProps = (state) => ({
   checksumAddress: state.ReducerChecksumAddress.checksumAddress,
   isOnline: state.ReducerNetInfo.isOnline,
-  modal: state.ReducerModal.modal
+  modal: state.ReducerModal.modal,
 });
 
 const mapDispatchToProps = {
-  saveTxDetailModalVisibility
+  saveTxDetailModalVisibility,
 };
 
 const TransactionDetail = connect(mapChecksumAddressStateToProps)(
@@ -58,31 +58,46 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
       super(props);
       this.state = {
         tx: props.tx,
-        data: TransactionUtilities.txDetailObject(props.tx, EtherUtilities.getReasonablyAddress(props.checksumAddress))
+        data: TransactionUtilities.txDetailObject(
+          props.tx,
+          EtherUtilities.getReasonablyAddress(props.checksumAddress),
+        ),
       };
     }
 
     componentDidMount() {
-      LogUtilities.toDebugScreen('TransactionDetail Tx', this.state.tx.tokenData)
-      LogUtilities.toDebugScreen('TransactionDetail Tx', this.state.txData)
+      LogUtilities.toDebugScreen(
+        'TransactionDetail Tx',
+        this.state.tx.tokenData,
+      );
+      LogUtilities.toDebugScreen('TransactionDetail Tx', this.state.txData);
     }
 
     async componentDidUpdate(prevProps) {
       if (this.props.updateCounter !== prevProps.updateCounter) {
         TxStorage.storage
-        .getTx(this.props.index, this.props.filter)
-        .then(async x => {
-          await this.setState({ data: TransactionUtilities.txDetailObject(x, EtherUtilities.getReasonablyAddress(props.checksumAddress)), tx: x });
-        })
-        .catch(e => LogUtilities.toDebugScreen('TransactionDetail Tx Error With', e));
+          .getTx(this.props.index, this.props.filter)
+          .then(async (x) => {
+            await this.setState({
+              data: TransactionUtilities.txDetailObject(
+                x,
+                EtherUtilities.getReasonablyAddress(props.checksumAddress),
+              ),
+              tx: x,
+            });
+          })
+          .catch((e) =>
+            LogUtilities.toDebugScreen('TransactionDetail Tx Error With', e),
+          );
       }
-      await this.props.updateTx(this.state.tx)
+      await this.props.updateTx(this.state.tx);
     }
 
     render() {
-      return !this.state.tx
-      ? <GoyemonText fontSize={12}>nothink!</GoyemonText>
-      : <>
+      return !this.state.tx ? (
+        <GoyemonText fontSize={12}>nothink!</GoyemonText>
+      ) : (
+        <>
           <Container
             alignItems="flex-start"
             flexDirection="column"
@@ -90,11 +105,12 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
             marginTop={0}
             width="100%"
           >
-            <TransactionDetailContainer data={this.state.data}/>
+            <TransactionDetailContainer data={this.state.data} />
           </Container>
         </>
+      );
     }
-  }
+  },
 );
 
 const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
@@ -102,10 +118,10 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
     constructor(props) {
       super(props);
       this.state = {
-        weiAmountValidation: undefined
+        weiAmountValidation: undefined,
       };
       this.state = this.getPriceState(
-        Math.ceil(this.props.currentGasPrice * 1.2)
+        Math.ceil(this.props.currentGasPrice * 1.2),
       );
       props.gasPrice.forEach((x) => {
         if (x.speed == 'super fast')
@@ -117,14 +133,14 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
       return {
         usdValue: TransactionUtilities.getMaxNetworkFeeInUSD(
           gasPriceWeiDecimal,
-          this.props.gasLimit
+          this.props.gasLimit,
         ),
         ethValue: parseFloat(
           TransactionUtilities.getMaxNetworkFeeInEther(
             gasPriceWeiDecimal,
-            this.props.gasLimit
-          )
-        ).toFixed(5)
+            this.props.gasLimit,
+          ),
+        ).toFixed(5),
       };
     }
 
@@ -137,11 +153,11 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
       this.props.updateWeiAmountValidationInModal(weiAmountValidation);
       if (weiAmountValidation) {
         this.setState({
-          weiAmountValidation: true
+          weiAmountValidation: true,
         });
       } else if (!weiAmountValidation) {
         this.setState({
-          weiAmountValidation: false
+          weiAmountValidation: false,
         });
       }
     }
@@ -168,8 +184,8 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
               this.updateWeiAmountValidation(
                 TransactionUtilities.hasSufficientWeiForNetworkFee(
                   gasPriceWeiDecimal,
-                  this.props.gasLimit
-                )
+                  this.props.gasLimit,
+                ),
               );
               this.sliderValueChange(gasPriceWeiDecimal);
             }}
@@ -180,7 +196,7 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
               marginLeft: 'auto',
               marginRight: 'auto',
               marginTop: 32,
-              marginBottom: 16
+              marginBottom: 16,
             }}
           />
           <InsufficientWeiBalanceMessage
@@ -193,7 +209,7 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
         </>
       );
     }
-  }
+  },
 );
 
 const NetworkFeeContainer = styled.View`
@@ -207,7 +223,7 @@ const Explanation = styled.View`
 
 const TransactionDetailModal = connect(
   mapAddressAndIsOnlineAndModalStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(
   class TransactionDetailModal extends Component {
     constructor(props) {
@@ -218,42 +234,46 @@ const TransactionDetailModal = connect(
         txResent: false,
         loading: false,
         modalHeigh: '60%',
-        weiAmountValidation: undefined
+        weiAmountValidation: undefined,
       };
       this.uniqcounter = 0;
-      this.updateTxState = this.updateTxState.bind(this)
+      this.updateTxState = this.updateTxState.bind(this);
     }
 
     updateWeiAmountValidationInModal(weiAmountValidation) {
-      this.setState({weiAmountValidation})
+      this.setState({ weiAmountValidation });
     }
 
     handleViewRef = (ref) => (this.view = ref);
 
     componentDidMount() {
-      this.unsub = TxStorage.storage.subscribe(this.updateTxListState.bind(this));
+      this.unsub = TxStorage.storage.subscribe(
+        this.updateTxListState.bind(this),
+      );
       (async () => {
         this.updateTxListState();
       })();
       if (window.height < 896) {
-        this.setState({modalHeigh: '80%'})
+        this.setState({ modalHeigh: '80%' });
       }
     }
 
     updateTxListState() {
-      LogUtilities.toDebugScreen('TransactionDetailModal updateTxListState() called');
+      LogUtilities.toDebugScreen(
+        'TransactionDetailModal updateTxListState() called',
+      );
       // this.refreshIndices = {0: true,1: true,2: true,3: true,4: true,5: true,6:true,7:true,8:true,9:true};
 
       this.setState({
         transactions_update_counter: this.uniqcounter++,
-        transactionsLoaded: true
+        transactionsLoaded: true,
       });
     }
 
     updateTxState(x) {
       this.setState({
-        txToUpdate: x
-      })
+        txToUpdate: x,
+      });
     }
 
     componentDidUpdate(prevProps) {
@@ -262,7 +282,7 @@ const TransactionDetailModal = connect(
         if (this.props.txToUpdate != null)
           newState.newGasPrice = parseInt(
             this.props.txToUpdate.getGasPrice(),
-            16
+            16,
           );
 
         this.setState(newState);
@@ -285,7 +305,7 @@ const TransactionDetailModal = connect(
     priceSliderSettled(value) {
       LogUtilities.dumpObject('priceSliderSettled() value', Math.floor(value));
       this.setState({
-        newGasPrice: Math.floor(value)
+        newGasPrice: Math.floor(value),
       });
     }
 
@@ -317,71 +337,88 @@ const TransactionDetailModal = connect(
               marginRight: 4,
               marginBottom: 0,
               flexDirection: 'row',
-              alignItems: 'flex-end'
+              alignItems: 'flex-end',
             }}
           >
-            <ModalContainer style={{height: this.state.modalHeigh}}>
+            <ModalContainer style={{ height: this.state.modalHeigh }}>
               <ModalHandlerContainer>
                 <ModalHandler />
               </ModalHandlerContainer>
               <ScrollView>
-              <TouchableOpacity activeOpacity={1}>
-                  <TransactionDetail tx={this.state.txToUpdate}
-                                     updateTx={this.updateTxState}
-                                     updateCounter={this.state.transactions_update_counter}
-                                     index={this.props.txIndex}
-                                     filter={this.props.txFilter}/>
-              </TouchableOpacity>
-              {this.props.checksumAddress ===
-                Web3.utils.toChecksumAddress(this.state.txToUpdate.getFrom()) &&
-              (this.state.txToUpdate.getState() === 0 ||
-                this.state.txToUpdate.getState() === 1) ? (
-                <>
-                  <MagicalGasPriceSlider
-                    currentGasPrice={parseInt(
-                      this.state.txToUpdate.getGasPrice(),
-                      16
-                    )}
-                    gasLimit={parseInt(this.state.txToUpdate.getGasLimit(), 16)}
-                    onSettle={this.priceSliderSettled.bind(this)}
-                    updateWeiAmountValidationInModal={this.updateWeiAmountValidationInModal.bind(this)}
+                <TouchableOpacity activeOpacity={1}>
+                  <TransactionDetail
+                    tx={this.state.txToUpdate}
+                    updateTx={this.updateTxState}
+                    updateCounter={this.state.transactions_update_counter}
+                    index={this.props.txIndex}
+                    filter={this.props.txFilter}
                   />
-                  <Button
-                    text="Speed Up Transaction"
-                    textColor="#00A3E2"
-                    backgroundColor="#FFF"
-                    borderColor="#00A3E2"
-                    margin="16px auto"
-                    marginBottom="8px"
-                    disabled={
-                      !this.props.isOnline || this.state.loading || !this.state.weiAmountValidation
-                    }
-                    opacity={!this.props.isOnline || this.state.loading || !this.state.weiAmountValidation ? 0.5 : 1}
-                    onPress={async () => {
-                      await this.resendTx();
-                      this.zoomIn();
-                      this.setState({ loading: false });
-                    }}
-                  />
-                  <AnimationContainer>
-                    <CopyAnimation
-                      animation={this.state.txResent ? 'zoomIn' : null}
-                      ref={this.handleViewRef}
-                    >
-                      {this.state.txResent ? (
-                        <>
-                          <GoyemonText fontSize={16}>
-                            you sped up your transaction!
-                          </GoyemonText>
-                          <GoyemonText fontSize={16}>🚀</GoyemonText>
-                        </>
-                      ) : null}
-                    </CopyAnimation>
-                  </AnimationContainer>
-                  <Loader animating={this.state.loading} size="small" />
-                  <IsOnlineMessage isOnline={this.props.isOnline} />
-                </>
-              ) : null}
+                </TouchableOpacity>
+                {this.props.checksumAddress ===
+                  Web3.utils.toChecksumAddress(
+                    this.state.txToUpdate.getFrom(),
+                  ) &&
+                (this.state.txToUpdate.getState() === 0 ||
+                  this.state.txToUpdate.getState() === 1) ? (
+                  <>
+                    <MagicalGasPriceSlider
+                      currentGasPrice={parseInt(
+                        this.state.txToUpdate.getGasPrice(),
+                        16,
+                      )}
+                      gasLimit={parseInt(
+                        this.state.txToUpdate.getGasLimit(),
+                        16,
+                      )}
+                      onSettle={this.priceSliderSettled.bind(this)}
+                      updateWeiAmountValidationInModal={this.updateWeiAmountValidationInModal.bind(
+                        this,
+                      )}
+                    />
+                    <Button
+                      text="Speed Up Transaction"
+                      textColor="#00A3E2"
+                      backgroundColor="#FFF"
+                      borderColor="#00A3E2"
+                      margin="16px auto"
+                      marginBottom="8px"
+                      disabled={
+                        !this.props.isOnline ||
+                        this.state.loading ||
+                        !this.state.weiAmountValidation
+                      }
+                      opacity={
+                        !this.props.isOnline ||
+                        this.state.loading ||
+                        !this.state.weiAmountValidation
+                          ? 0.5
+                          : 1
+                      }
+                      onPress={async () => {
+                        await this.resendTx();
+                        this.zoomIn();
+                        this.setState({ loading: false });
+                      }}
+                    />
+                    <AnimationContainer>
+                      <CopyAnimation
+                        animation={this.state.txResent ? 'zoomIn' : null}
+                        ref={this.handleViewRef}
+                      >
+                        {this.state.txResent ? (
+                          <>
+                            <GoyemonText fontSize={16}>
+                              you sped up your transaction!
+                            </GoyemonText>
+                            <GoyemonText fontSize={16}>🚀</GoyemonText>
+                          </>
+                        ) : null}
+                      </CopyAnimation>
+                    </AnimationContainer>
+                    <Loader animating={this.state.loading} size="small" />
+                    <IsOnlineMessage isOnline={this.props.isOnline} />
+                  </>
+                ) : null}
               </ScrollView>
             </ModalContainer>
           </Modal>
@@ -390,7 +427,7 @@ const TransactionDetailModal = connect(
 
       return null;
     }
-  }
+  },
 );
 
 const ModalContainer = styled.View`
@@ -425,7 +462,7 @@ export default connect(mapChecksumAddressStateToProps)(
         editedTxIndex: '',
         editedTxFilter: '',
       };
-      this.txTapped = this.txTapped.bind(this)
+      this.txTapped = this.txTapped.bind(this);
     }
 
     toggleFilterChoiceText() {
@@ -446,7 +483,7 @@ export default connect(mapChecksumAddressStateToProps)(
             onPress={() => this.setState({ filter })}
           >
             <FilterChoiceTextUnselected>{filter}</FilterChoiceTextUnselected>
-            <HorizontalLine borderColor="rgba(95, 95, 95, .2)"/>
+            <HorizontalLine borderColor="rgba(95, 95, 95, .2)" />
           </TouchableOpacity>
         );
       });
@@ -456,7 +493,11 @@ export default connect(mapChecksumAddressStateToProps)(
 
     async txTapped(tx, index, filter) {
       LogUtilities.dumpObject('tx', tx);
-      await this.setState({ editedTx: tx, editedTxIndex: index, editedTxFilter: filter });
+      await this.setState({
+        editedTx: tx,
+        editedTxIndex: index,
+        editedTxFilter: filter,
+      });
     }
 
     txClear() {
@@ -484,7 +525,7 @@ export default connect(mapChecksumAddressStateToProps)(
         </HistoryContainer>
       );
     }
-  }
+  },
 );
 
 const HistoryContainer = styled.View`

@@ -9,20 +9,20 @@ const SendStack = createStackNavigator(
       screen: Send,
       navigationOptions: () => ({
         headerTransparent: true,
-        headerBackTitle: 'Send'
-      })
+        headerBackTitle: 'Send',
+      }),
     },
     QRCodeScan: {
       screen: QRCodeScan,
       navigationOptions: () => ({
         header: null,
-        gesturesEnabled: false
-      })
-    }
+        gesturesEnabled: false,
+      }),
+    },
   },
   {
-    initialRouteName: 'Send'
-  }
+    initialRouteName: 'Send',
+  },
 );
 
 export default SendStack;

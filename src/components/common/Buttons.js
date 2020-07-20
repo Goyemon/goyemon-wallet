@@ -59,8 +59,8 @@ const MnemonicWordButton = (props) => (
 );
 
 const MnemonicWordButtonContainer = styled.TouchableOpacity`
-  background-color: #FFF;
-  border-color: #FFF;
+  background-color: #fff;
+  border-color: #fff;
   border-radius: 16px;
   border-width: 1;
   margin: 0 auto;
@@ -69,7 +69,7 @@ const MnemonicWordButtonContainer = styled.TouchableOpacity`
 `;
 
 const MnemonicWordButtonText = styled.Text`
-  color: #5F5F5F;
+  color: #5f5f5f;
   font-family: 'HKGrotesk-Bold';
   font-size: 16;
   padding: 8px 12px;
@@ -160,4 +160,10 @@ const UseMaxButtonText = styled.Text`
   font-size: 14;
 `;
 
-export { Button, MnemonicWordButton, TxConfirmationButton, TxNextButton, UseMaxButton };
+export {
+  Button,
+  MnemonicWordButton,
+  TxConfirmationButton,
+  TxNextButton,
+  UseMaxButton,
+};

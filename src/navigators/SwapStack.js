@@ -8,13 +8,13 @@ const SwapStack = createStackNavigator(
       screen: Swap,
       navigationOptions: () => ({
         headerTransparent: true,
-        headerBackTitle: 'Swap'
-      })
-    }
+        headerBackTitle: 'Swap',
+      }),
+    },
   },
   {
-    initialRouteName: 'Swap'
-  }
+    initialRouteName: 'Swap',
+  },
 );
 
 export default SwapStack;

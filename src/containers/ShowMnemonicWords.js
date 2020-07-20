@@ -21,8 +21,8 @@ class ShowMnemonicWords extends Component {
 const styles = {
   table: {
     flexWrap: 'wrap',
-    flexDirection: 'row'
-  }
+    flexDirection: 'row',
+  },
 };
 
 const MnemonicWordsContainer = styled.View`
@@ -33,7 +33,7 @@ const MnemonicWordsContainer = styled.View`
 
 function mapStateToProps(state) {
   return {
-    mnemonicWords: state.ReducerMnemonic.mnemonicWords
+    mnemonicWords: state.ReducerMnemonic.mnemonicWords,
   };
 }
 

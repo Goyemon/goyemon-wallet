@@ -43,7 +43,7 @@ class Initial extends Component {
       rehydration,
       mnemonicWords,
       mnemonicWordsValidation,
-      permissions
+      permissions,
     } = this.props;
 
     if (rehydration) {
@@ -114,7 +114,7 @@ class Initial extends Component {
         }
 
         return {
-          tabBarVisible
+          tabBarVisible,
         };
       };
 
@@ -126,7 +126,7 @@ class Initial extends Component {
       ) {
         const resetAction = StackActions.reset({
           index: 0,
-          actions: [NavigationActions.navigate({ routeName: mainPage })]
+          actions: [NavigationActions.navigate({ routeName: mainPage })],
         });
         this.props.navigation.dispatch(resetAction);
       } else if (mainPage === 'ShowMnemonic') {
@@ -135,8 +135,8 @@ class Initial extends Component {
           actions: [
             NavigationActions.navigate({ routeName: 'Welcome' }),
             NavigationActions.navigate({ routeName: 'CreateWalletTutorial' }),
-            NavigationActions.navigate({ routeName: 'ShowMnemonic' })
-          ]
+            NavigationActions.navigate({ routeName: 'ShowMnemonic' }),
+          ],
         });
         this.props.navigation.dispatch(resetAction);
       } else {
@@ -198,7 +198,7 @@ class Initial extends Component {
             }}
             style={{
               width: 120,
-              height: 120
+              height: 120,
             }}
             autoPlay
             loop={true}
@@ -232,7 +232,7 @@ function mapStateToProps(state) {
     permissions: state.ReducerPermissions.permissions,
     price: state.ReducerPrice.price,
     rehydration: state.ReducerRehydration.rehydration,
-    transactionsLoaded: state.ReducerTransactionsLoaded.transactionsLoaded
+    transactionsLoaded: state.ReducerTransactionsLoaded.transactionsLoaded,
   };
 }
 
@@ -240,7 +240,7 @@ const mapDispatchToProps = {
   getcDaiPrice,
   getEthPrice,
   getDaiPrice,
-  getGasPrice
+  getGasPrice,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Initial);

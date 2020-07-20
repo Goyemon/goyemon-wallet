@@ -1,7 +1,7 @@
 'use strict';
 import {
   SAVE_POOLTOGETHER_DAI_INFO,
-  TOGGLE_POOLTOGETHER_WINNER_REVEALED
+  TOGGLE_POOLTOGETHER_WINNER_REVEALED,
 } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
@@ -13,10 +13,10 @@ const INITIAL_STATE = {
       estimatedInterestRate: '',
       currentCommittedDrawId: '',
       lastWinner: '',
-      winningAmount: ''
+      winningAmount: '',
     },
-    winnerRevealed: true
-  }
+    winnerRevealed: true,
+  },
 };
 
 const poolTogether = (state = INITIAL_STATE, action) => {
@@ -34,16 +34,16 @@ const poolTogether = (state = INITIAL_STATE, action) => {
             currentCommittedDrawId:
               action.payload.pooltogether_committed_drawid,
             lastWinner: action.payload.pooltogether_rewarded,
-            winningAmount: action.payload.pooltogether_winnings
-          }
-        }
+            winningAmount: action.payload.pooltogether_winnings,
+          },
+        },
       };
     case TOGGLE_POOLTOGETHER_WINNER_REVEALED:
       return {
         poolTogether: {
           ...state.poolTogether,
-          winnerRevealed: action.payload
-        }
+          winnerRevealed: action.payload,
+        },
       };
     default:
       return state || INITIAL_STATE;

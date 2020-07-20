@@ -11,7 +11,7 @@ import {
   Container,
   HeaderOne,
   HeaderThree,
-  GoyemonText
+  GoyemonText,
 } from '../components/common';
 import Copy from '../containers/common/Copy';
 import GlobalConfig from '../config.json';
@@ -24,7 +24,7 @@ class Advanced extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      canSendToHttp: true
+      canSendToHttp: true,
     };
     this.AnimationRef;
   }
@@ -59,8 +59,8 @@ class Advanced extends Component {
         body: JSON.stringify({
           fcmToken: fcmtoken,
           logData: log,
-          ctime: new Date().toString()
-        })
+          ctime: new Date().toString(),
+        }),
       });
 
       if (this.sendStateChangeTimer) clearTimeout(this.sendStateChangeTimer);
@@ -209,12 +209,12 @@ const PostWaitText = styled.Text`
 function mapStateToProps(state) {
   return {
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
-    debugInfo: state.ReducerDebugInfo.debugInfo
+    debugInfo: state.ReducerDebugInfo.debugInfo,
   };
 }
 
 const mapDispatchToProps = {
-  saveFcmToken
+  saveFcmToken,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Advanced);

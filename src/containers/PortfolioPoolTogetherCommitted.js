@@ -11,11 +11,11 @@ import { RoundDownBigNumberPlacesFour } from '../utilities/BigNumberUtilities';
 class PortfolioPoolTogetherCommitted extends Component {
   renderChanceOfWinning() {
     const pooltogetherDaiCommittedBalance = RoundDownBigNumberPlacesFour(
-      this.props.balance.pooltogetherDai.committed
+      this.props.balance.pooltogetherDai.committed,
     ).div(new RoundDownBigNumberPlacesFour(10).pow(18));
 
     const ticketsSold = RoundDownBigNumberPlacesFour(
-      this.props.poolTogether.dai.committedSupply
+      this.props.poolTogether.dai.committedSupply,
     ).div(new RoundDownBigNumberPlacesFour(10).pow(18));
 
     const chanceOfWinning = ticketsSold
@@ -41,23 +41,23 @@ class PortfolioPoolTogetherCommitted extends Component {
 
   render() {
     const pooltogetherDaiCommittedBalance = RoundDownBigNumberPlacesFour(
-      this.props.balance.pooltogetherDai.committed
+      this.props.balance.pooltogetherDai.committed,
     ).div(new RoundDownBigNumberPlacesFour(10).pow(18));
 
     const poolBalance = RoundDownBigNumberPlacesFour(
-      this.props.poolTogether.dai.totalBalance
+      this.props.poolTogether.dai.totalBalance,
     )
       .minus(this.props.poolTogether.dai.openSupply)
       .div(new RoundDownBigNumberPlacesFour(10).pow(18))
       .toFixed(2);
 
     const estimatedPrize = RoundDownBigNumberPlacesFour(
-      this.props.poolTogether.dai.estimatedInterestRate
+      this.props.poolTogether.dai.estimatedInterestRate,
     )
       .times(
         RoundDownBigNumberPlacesFour(
-          this.props.poolTogether.dai.totalBalance
-        ).minus(this.props.poolTogether.dai.openSupply)
+          this.props.poolTogether.dai.totalBalance,
+        ).minus(this.props.poolTogether.dai.openSupply),
       )
       .div(new RoundDownBigNumberPlacesFour(10).pow(36))
       .toFixed(2);
@@ -145,9 +145,9 @@ const CoinImage = styled.Image`
 
 const mapStateToProps = (state) => ({
   balance: state.ReducerBalance.balance,
-  poolTogether: state.ReducerPoolTogether.poolTogether
+  poolTogether: state.ReducerPoolTogether.poolTogether,
 });
 
 export default withNavigation(
-  connect(mapStateToProps)(PortfolioPoolTogetherCommitted)
+  connect(mapStateToProps)(PortfolioPoolTogetherCommitted),
 );

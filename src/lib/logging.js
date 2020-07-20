@@ -80,7 +80,7 @@ class PersistentLogging {
       });
       if (remove_keys.length > 0) {
         this.timed_dump_str(
-          `PersistentLogging: Removing old keys: ${remove_keys.join(', ')}`
+          `PersistentLogging: Removing old keys: ${remove_keys.join(', ')}`,
         );
         AsyncStorage.multiRemove(remove_keys);
       }

@@ -6,7 +6,9 @@ const HeaderOne = (props) => (
   <HeaderOneText marginTop={props.marginTop}>{props.children}</HeaderOneText>
 );
 
-const NewHeaderOne = props => <HeaderOneText marginTop={props.marginTop}>{props.text}</HeaderOneText>
+const NewHeaderOne = (props) => (
+  <HeaderOneText marginTop={props.marginTop}>{props.text}</HeaderOneText>
+);
 
 const HeaderOneText = styled.Text`
   font-size: 32;
@@ -36,15 +38,16 @@ const HeaderTwoText = styled.Text`
   width: 95%;
 `;
 
-const NewHeaderThree = props =>
+const NewHeaderThree = (props) => (
   <HeaderThreeText
     color={props.color}
     marginBottom={props.marginBottom}
     marginLeft={props.marginLeft}
     marginTop={props.marginTop}
   >
-  {props.text}
+    {props.text}
   </HeaderThreeText>
+);
 
 const HeaderThree = (props) => (
   <HeaderThreeText
@@ -67,7 +70,9 @@ const HeaderThreeText = styled.Text`
   text-transform: uppercase;
 `;
 
-const NewHeaderFour = (props) => <HeaderFourText marginTop={props.marginTop}>{props.text}</HeaderFourText>
+const NewHeaderFour = (props) => (
+  <HeaderFourText marginTop={props.marginTop}>{props.text}</HeaderFourText>
+);
 
 const HeaderFour = (props) => (
   <HeaderFourText marginTop={props.marginTop}>{props.children}</HeaderFourText>
@@ -123,4 +128,14 @@ const FormHeaderText = styled.Text`
   margin-top: ${(props) => `${props.marginTop}`};
 `;
 
-export { HeaderOne, NewHeaderOne, HeaderTwo, NewHeaderThree, HeaderThree, NewHeaderFour, HeaderFour, HeaderFive, FormHeader };
+export {
+  HeaderOne,
+  NewHeaderOne,
+  HeaderTwo,
+  NewHeaderThree,
+  HeaderThree,
+  NewHeaderFour,
+  HeaderFour,
+  HeaderFive,
+  FormHeader,
+};

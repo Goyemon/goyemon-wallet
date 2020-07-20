@@ -4,14 +4,14 @@ import { connect } from 'react-redux';
 import {
   NavigationActions,
   StackActions,
-  withNavigation
+  withNavigation,
 } from 'react-navigation';
 import { View } from 'react-native';
 import Modal from 'react-native-modal';
 import styled from 'styled-components';
 import {
   saveTxConfirmationModalVisibility,
-  updateTxConfirmationModalVisibleType
+  updateTxConfirmationModalVisibleType,
 } from '../../actions/ActionModal';
 import { saveOutgoingTransactionDataSend } from '../../actions/ActionOutgoingTransactionData';
 import { updateToAddressValidation } from '../../actions/ActionTxFormValidation';
@@ -23,7 +23,7 @@ import {
   HeaderTwo,
   TxConfirmationButton,
   ModalHandler,
-  HorizontalLine
+  HorizontalLine,
 } from '../../components/common';
 import NetworkFeeContainerConfirmation from './NetworkFeeContainerConfirmation';
 import I18n from '../../i18n/I18n';
@@ -35,7 +35,7 @@ class TxConfirmationModal extends Component {
     super(props);
     this.state = {
       loading: false,
-      buttonDisabled: false
+      buttonDisabled: false,
     };
   }
 
@@ -43,7 +43,7 @@ class TxConfirmationModal extends Component {
     const resetAction = StackActions.reset({
       index: 0,
       actions: [NavigationActions.navigate({ routeName })],
-      key: null
+      key: null,
     });
     this.props.navigation.dispatch(resetAction);
   };
@@ -129,7 +129,7 @@ class TxConfirmationModal extends Component {
                 if (isOnline) {
                   this.setState({ loading: true, buttonDisabled: true });
                   await TransactionUtilities.sendOutgoingTransactionToServer(
-                    outgoingTransactionData.send.transactionObject
+                    outgoingTransactionData.send.transactionObject,
                   );
                   this.resetNavigation('Send');
                   navigation.navigate('History');
@@ -166,10 +166,10 @@ class TxConfirmationModal extends Component {
                 if (isOnline) {
                   this.setState({ loading: true, buttonDisabled: true });
                   await TransactionUtilities.sendOutgoingTransactionToServer(
-                    outgoingTransactionData.compound.approveTransactionObject
+                    outgoingTransactionData.compound.approveTransactionObject,
                   );
                   await TransactionUtilities.sendOutgoingTransactionToServer(
-                    outgoingTransactionData.compound.transactionObject
+                    outgoingTransactionData.compound.transactionObject,
                   );
                   this.resetNavigation('EarnHome');
                   navigation.navigate('History');
@@ -207,7 +207,7 @@ class TxConfirmationModal extends Component {
                 if (isOnline) {
                   this.setState({ loading: true, buttonDisabled: true });
                   await TransactionUtilities.sendOutgoingTransactionToServer(
-                    outgoingTransactionData.compound.transactionObject
+                    outgoingTransactionData.compound.transactionObject,
                   );
                   this.resetNavigation('EarnHome');
                   navigation.navigate('History');
@@ -243,10 +243,10 @@ class TxConfirmationModal extends Component {
                   this.setState({ loading: true, buttonDisabled: true });
                   await TransactionUtilities.sendOutgoingTransactionToServer(
                     outgoingTransactionData.poolTogether
-                      .approveTransactionObject
+                      .approveTransactionObject,
                   );
                   await TransactionUtilities.sendOutgoingTransactionToServer(
-                    outgoingTransactionData.poolTogether.transactionObject
+                    outgoingTransactionData.poolTogether.transactionObject,
                   );
                   this.resetNavigation('EarnHome');
                   navigation.navigate('History');
@@ -284,7 +284,7 @@ class TxConfirmationModal extends Component {
                 if (isOnline) {
                   this.setState({ loading: true, buttonDisabled: true });
                   await TransactionUtilities.sendOutgoingTransactionToServer(
-                    outgoingTransactionData.poolTogether.transactionObject
+                    outgoingTransactionData.poolTogether.transactionObject,
                   );
                   this.resetNavigation('EarnHome');
                   navigation.navigate('History');
@@ -327,7 +327,7 @@ class TxConfirmationModal extends Component {
                 if (isOnline) {
                   this.setState({ loading: true, buttonDisabled: true });
                   await TransactionUtilities.sendOutgoingTransactionToServer(
-                    outgoingTransactionData.swap.transactionObject
+                    outgoingTransactionData.swap.transactionObject,
                   );
                   this.resetNavigation('Swap');
                   navigation.navigate('History');
@@ -367,7 +367,7 @@ class TxConfirmationModal extends Component {
           marginRight: 4,
           marginBottom: 0,
           flexDirection: 'row',
-          alignItems: 'flex-end'
+          alignItems: 'flex-end',
         }}
       >
         <ModalContainer>
@@ -376,7 +376,7 @@ class TxConfirmationModal extends Component {
             <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
               Confirm Transaction
             </HeaderTwo>
-            <HorizontalLine borderColor="rgba(95, 95, 95, .2)"/>
+            <HorizontalLine borderColor="rgba(95, 95, 95, .2)" />
           </HeaderContainer>
           <ModalInner>{this.renderModalContent()}</ModalInner>
         </ModalContainer>
@@ -423,7 +423,7 @@ function mapStateToProps(state) {
     isOnline: state.ReducerNetInfo.isOnline,
     outgoingTransactionData:
       state.ReducerOutgoingTransactionData.outgoingTransactionData,
-    modal: state.ReducerModal.modal
+    modal: state.ReducerModal.modal,
   };
 }
 
@@ -431,9 +431,9 @@ const mapDispatchToProps = {
   saveOutgoingTransactionDataSend,
   saveTxConfirmationModalVisibility,
   updateToAddressValidation,
-  updateTxConfirmationModalVisibleType
+  updateTxConfirmationModalVisibleType,
 };
 
 export default withNavigation(
-  connect(mapStateToProps, mapDispatchToProps)(TxConfirmationModal)
+  connect(mapStateToProps, mapDispatchToProps)(TxConfirmationModal),
 );

@@ -14,5 +14,5 @@ export function rehydrationComplete(completed) {
 
 const rehydrationCompleteSuccess = (completed) => ({
   type: REHYDRATION_COMPLETE,
-  payload: completed
+  payload: completed,
 });

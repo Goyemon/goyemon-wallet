@@ -17,7 +17,7 @@ import {
   HeaderFour,
   HeaderFive,
   GoyemonText,
-  ApplicationDescription
+  ApplicationDescription,
 } from '../components/common';
 import Countdown from '../components/Countdown';
 import PopUpModal from './common/PopUpModal';
@@ -31,7 +31,7 @@ class PortfolioPoolTogether extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      draw: 'open'
+      draw: 'open',
     };
   }
 
@@ -72,7 +72,7 @@ class PortfolioPoolTogether extends Component {
   renderModalContent() {
     const winningAmount = RoundDownBigNumberPlacesFour(
       this.props.poolTogether.dai.winningAmount,
-      16
+      16,
     )
       .div(new RoundDownBigNumberPlacesFour(10).pow(18))
       .toFixed(2);
@@ -80,7 +80,7 @@ class PortfolioPoolTogether extends Component {
     if (this.props.poolTogether.dai.lastWinner != '') {
       if (
         Web3.utils.toChecksumAddress(
-          `0x${this.props.poolTogether.dai.lastWinner}`
+          `0x${this.props.poolTogether.dai.lastWinner}`,
         ) === this.props.checksumAddress
       ) {
         return (
@@ -101,7 +101,7 @@ class PortfolioPoolTogether extends Component {
                 style={{
                   width: 120,
                   height: 120,
-                  marginBottom: 12
+                  marginBottom: 12,
                 }}
                 autoPlay
                 loop={true}
@@ -128,7 +128,7 @@ class PortfolioPoolTogether extends Component {
                     this.props.savePopUpModalVisibility(false);
                     this.props.togglePoolTogetherWinnerRevealed(true);
                     this.props.navigation.navigate(
-                      'WithdrawDaiFromPoolTogether'
+                      'WithdrawDaiFromPoolTogether',
                     );
                   }}
                 />
@@ -291,14 +291,14 @@ const CountdownContainer = styled.View`
 const mapStateToProps = (state) => ({
   balance: state.ReducerBalance.balance,
   checksumAddress: state.ReducerChecksumAddress.checksumAddress,
-  poolTogether: state.ReducerPoolTogether.poolTogether
+  poolTogether: state.ReducerPoolTogether.poolTogether,
 });
 
 const mapDispatchToProps = {
   savePopUpModalVisibility,
-  togglePoolTogetherWinnerRevealed
+  togglePoolTogetherWinnerRevealed,
 };
 
 export default withNavigation(
-  connect(mapStateToProps, mapDispatchToProps)(PortfolioPoolTogether)
+  connect(mapStateToProps, mapDispatchToProps)(PortfolioPoolTogether),
 );

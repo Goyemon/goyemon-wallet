@@ -14,5 +14,5 @@ export function saveTransactionsLoaded(transactionLoaded) {
 
 const saveTransactionsLoadedSuccess = (transactionLoaded) => ({
   type: SAVE_TRANSACTIONS_LOADED,
-  payload: transactionLoaded
+  payload: transactionLoaded,
 });

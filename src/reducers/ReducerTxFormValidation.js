@@ -2,7 +2,7 @@
 import { UPDATE_TOADDRESS_VALIDATION } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
-  toAddressValidation: undefined
+  toAddressValidation: undefined,
 };
 
 const toAddressValidation = (state = INITIAL_STATE, action) => {

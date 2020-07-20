@@ -14,5 +14,5 @@ export function saveNetInfo(isOnline) {
 
 const saveNetInfoSuccess = (isOnline) => ({
   type: SAVE_NET_INFO,
-  payload: isOnline
+  payload: isOnline,
 });

@@ -11,7 +11,7 @@ import UniswapIcon from '../../assets/UniswapIcon.js';
 import {
   RootContainer,
   HeaderThree,
-  TouchableCardContainer
+  TouchableCardContainer,
 } from '../components/common';
 import I18n from '../i18n/I18n';
 import WalletUtilities from '../utilities/WalletUtilities';
@@ -20,7 +20,7 @@ export default class Welcome extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      timePassed: false
+      timePassed: false,
     };
   }
 
@@ -70,7 +70,9 @@ export default class Welcome extends Component {
         <WelcomeFirstContainer animation="fadeIn" delay={4000}>
           <Logo>Goyemon</Logo>
           <OneLinerContainer>
-            <OneLiner>new generation financial services at your fingertips</OneLiner>
+            <OneLiner>
+              new generation financial services at your fingertips
+            </OneLiner>
           </OneLinerContainer>
           <IconContainer>
             <IconImage>

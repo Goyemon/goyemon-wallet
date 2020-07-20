@@ -2,7 +2,7 @@
 import { SAVE_NET_INFO } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
-  isOnline: true
+  isOnline: true,
 };
 
 const isOnline = (state = INITIAL_STATE, action) => {

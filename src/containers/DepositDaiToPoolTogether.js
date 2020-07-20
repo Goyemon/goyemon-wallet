@@ -5,7 +5,7 @@ import styled from 'styled-components/native';
 import { saveOutgoingTransactionDataPoolTogether } from '../actions/ActionOutgoingTransactionData';
 import {
   saveTxConfirmationModalVisibility,
-  updateTxConfirmationModalVisibleType
+  updateTxConfirmationModalVisibleType,
 } from '../actions/ActionModal';
 import {
   RootContainer,
@@ -17,15 +17,15 @@ import {
   Loader,
   IsOnlineMessage,
   InsufficientWeiBalanceMessage,
-  TxNextButton
+  TxNextButton,
 } from '../components/common';
-import Countdown from '../components/Countdown'
+import Countdown from '../components/Countdown';
 import { AdvancedContainer } from './common/AdvancedContainer';
 import TxConfirmationModal from '../containers/common/TxConfirmationModal';
 import I18n from '../i18n/I18n';
 import {
   RoundDownBigNumberPlacesFour,
-  RoundDownBigNumberPlacesEighteen
+  RoundDownBigNumberPlacesEighteen,
 } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
@@ -44,7 +44,7 @@ class DepositDaiToPoolTogether extends Component {
       daiAmount: '',
       daiAmountValidation: undefined,
       weiAmountValidation: undefined,
-      loading: false
+      loading: false,
     };
   }
 
@@ -52,8 +52,8 @@ class DepositDaiToPoolTogether extends Component {
     this.updateWeiAmountValidation(
       TransactionUtilities.hasSufficientWeiForNetworkFee(
         TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
-        GlobalConfig.PoolTogetherDepositPoolGasLimit
-      )
+        GlobalConfig.PoolTogetherDepositPoolGasLimit,
+      ),
     );
   }
 
@@ -62,15 +62,15 @@ class DepositDaiToPoolTogether extends Component {
       this.updateWeiAmountValidation(
         TransactionUtilities.hasSufficientWeiForNetworkFee(
           TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
-          GlobalConfig.PoolTogetherDepositPoolGasLimit
-        )
+          GlobalConfig.PoolTogetherDepositPoolGasLimit,
+        ),
       );
     }
     if (this.props.balance.dai != prevProps.balance.dai) {
       this.setState({
         daiBalance: RoundDownBigNumberPlacesFour(this.props.balance.dai)
           .div(new RoundDownBigNumberPlacesFour(10).pow(18))
-          .toFixed(2)
+          .toFixed(2),
       });
     }
   }
@@ -78,17 +78,17 @@ class DepositDaiToPoolTogether extends Component {
   async constructTransactionObject() {
     const daiAmount = this.state.daiAmount.split('.').join('');
     const decimalPlaces = TransactionUtilities.decimalPlaces(
-      this.state.daiAmount
+      this.state.daiAmount,
     );
     const decimals = 18 - parseInt(decimalPlaces);
 
     const depositPoolEncodedABI = ABIEncoder.encodeDepositPool(
       daiAmount,
-      decimals
+      decimals,
     );
 
     const daiAmountWithDecimals = new RoundDownBigNumberPlacesEighteen(
-      this.state.daiAmount
+      this.state.daiAmount,
     )
       .times(new RoundDownBigNumberPlacesEighteen(10).pow(18))
       .toString(16);
@@ -97,15 +97,15 @@ class DepositDaiToPoolTogether extends Component {
       .setTo(GlobalConfig.DAIPoolTogetherContractV2)
       .setGasPrice(
         TransactionUtilities.returnTransactionSpeed(
-          this.props.gasChosen
-        ).toString(16)
+          this.props.gasChosen,
+        ).toString(16),
       )
       .setGas(GlobalConfig.PoolTogetherDepositPoolGasLimit.toString(16))
       .tempSetData(depositPoolEncodedABI)
       .addTokenOperation(
         'pooltogether',
         TxStorage.TxTokenOpTypeToName.PTdeposited,
-        [TxStorage.storage.getOwnAddress(), daiAmountWithDecimals]
+        [TxStorage.storage.getOwnAddress(), daiAmountWithDecimals],
       );
 
     return transactionObject;
@@ -114,11 +114,11 @@ class DepositDaiToPoolTogether extends Component {
   updateDaiAmountValidation(daiAmountValidation) {
     if (daiAmountValidation) {
       this.setState({
-        daiAmountValidation: true
+        daiAmountValidation: true,
       });
     } else if (!daiAmountValidation) {
       this.setState({
-        daiAmountValidation: false
+        daiAmountValidation: false,
       });
     }
   }
@@ -126,22 +126,22 @@ class DepositDaiToPoolTogether extends Component {
   updateWeiAmountValidation(weiAmountValidation) {
     if (weiAmountValidation) {
       this.setState({
-        weiAmountValidation: true
+        weiAmountValidation: true,
       });
     } else if (!weiAmountValidation) {
       this.setState({
-        weiAmountValidation: false
+        weiAmountValidation: false,
       });
     }
   }
 
   validateForm = async (daiAmount) => {
     const daiAmountValidation = TransactionUtilities.validateDaiPoolTogetherDepositAmount(
-      daiAmount
+      daiAmount,
     );
     const weiAmountValidation = TransactionUtilities.hasSufficientWeiForNetworkFee(
       TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
-      GlobalConfig.PoolTogetherDepositPoolGasLimit
+      GlobalConfig.PoolTogetherDepositPoolGasLimit,
     );
     const isOnline = this.props.isOnline;
 
@@ -152,7 +152,7 @@ class DepositDaiToPoolTogether extends Component {
       this.props.saveOutgoingTransactionDataPoolTogether({
         amount: daiAmount,
         gasLimit: GlobalConfig.PoolTogetherDepositPoolGasLimit,
-        transactionObject: transactionObject
+        transactionObject: transactionObject,
       });
       this.props.saveTxConfirmationModalVisibility(true);
       this.props.updateTxConfirmationModalVisibleType('pool-together-deposit');
@@ -200,15 +200,15 @@ class DepositDaiToPoolTogether extends Component {
               this.setState({ daiAmount: daiFullBalance });
               this.updateDaiAmountValidation(
                 TransactionUtilities.validateDaiPoolTogetherDepositAmount(
-                  daiFullBalance
-                )
+                  daiFullBalance,
+                ),
               );
             }}
           />
         </DepositAmountHeaderContainer>
         <Form
           borderColor={StyleUtilities.getBorderColor(
-            this.state.daiAmountValidation
+            this.state.daiAmountValidation,
           )}
           borderWidth={1}
           height="56px"
@@ -221,8 +221,8 @@ class DepositDaiToPoolTogether extends Component {
               onChangeText={(daiAmount) => {
                 this.updateDaiAmountValidation(
                   TransactionUtilities.validateDaiPoolTogetherDepositAmount(
-                    daiAmount
-                  )
+                    daiAmount,
+                  ),
                 );
                 this.setState({ daiAmount });
               }}
@@ -322,17 +322,17 @@ function mapStateToProps(state) {
     balance: state.ReducerBalance.balance,
     gasChosen: state.ReducerGasPrice.gasChosen,
     gasPrice: state.ReducerGasPrice.gasPrice,
-    isOnline: state.ReducerNetInfo.isOnline
+    isOnline: state.ReducerNetInfo.isOnline,
   };
 }
 
 const mapDispatchToProps = {
   saveOutgoingTransactionDataPoolTogether,
   saveTxConfirmationModalVisibility,
-  updateTxConfirmationModalVisibleType
+  updateTxConfirmationModalVisibleType,
 };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(DepositDaiToPoolTogether);

@@ -6,7 +6,7 @@ import styled from 'styled-components/native';
 import { saveOutgoingTransactionDataCompound } from '../actions/ActionOutgoingTransactionData';
 import {
   saveTxConfirmationModalVisibility,
-  updateTxConfirmationModalVisibleType
+  updateTxConfirmationModalVisibleType,
 } from '../actions/ActionModal';
 import {
   RootContainer,
@@ -18,12 +18,15 @@ import {
   Loader,
   IsOnlineMessage,
   InsufficientWeiBalanceMessage,
-  TxNextButton
+  TxNextButton,
 } from '../components/common';
 import TxConfirmationModal from '../containers/common/TxConfirmationModal';
 import { AdvancedContainer } from './common/AdvancedContainer';
 import I18n from '../i18n/I18n';
-import { RoundDownBigNumberPlacesFour, RoundDownBigNumberPlacesEighteen } from '../utilities/BigNumberUtilities';
+import {
+  RoundDownBigNumberPlacesFour,
+  RoundDownBigNumberPlacesEighteen,
+} from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
@@ -41,7 +44,7 @@ class DepositFirstDaiToCompound extends Component {
       daiAmount: '',
       daiAmountValidation: undefined,
       weiAmountValidation: undefined,
-      loading: false
+      loading: false,
     };
   }
 
@@ -49,8 +52,8 @@ class DepositFirstDaiToCompound extends Component {
     this.updateWeiAmountValidation(
       TransactionUtilities.hasSufficientWeiForNetworkFee(
         TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
-        GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit
-      )
+        GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit,
+      ),
     );
   }
 
@@ -59,15 +62,15 @@ class DepositFirstDaiToCompound extends Component {
       this.updateWeiAmountValidation(
         TransactionUtilities.hasSufficientWeiForNetworkFee(
           TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
-          GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit
-        )
+          GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit,
+        ),
       );
     }
     if (this.props.balance.dai != prevProps.balance.dai) {
       this.setState({
         daiBalance: RoundDownBigNumberPlacesFour(this.props.balance.dai)
           .div(new RoundDownBigNumberPlacesFour(10).pow(18))
-          .toFixed(2)
+          .toFixed(2),
       });
     }
   }
@@ -75,13 +78,15 @@ class DepositFirstDaiToCompound extends Component {
   async constructMintTransactionObject() {
     const daiAmount = this.state.daiAmount.split('.').join('');
     const decimalPlaces = TransactionUtilities.decimalPlaces(
-      this.state.daiAmount
+      this.state.daiAmount,
     );
     const decimals = 18 - parseInt(decimalPlaces);
 
     const mintEncodedABI = ABIEncoder.encodeCDAIMint(daiAmount, decimals);
 
-    const daiAmountWithDecimals = new RoundDownBigNumberPlacesEighteen(this.state.daiAmount)
+    const daiAmountWithDecimals = new RoundDownBigNumberPlacesEighteen(
+      this.state.daiAmount,
+    )
       .times(new RoundDownBigNumberPlacesEighteen(10).pow(18))
       .toString(16);
 
@@ -89,15 +94,15 @@ class DepositFirstDaiToCompound extends Component {
       .setTo(GlobalConfig.cDAIcontract)
       .setGasPrice(
         TransactionUtilities.returnTransactionSpeed(
-          this.props.gasChosen
-        ).toString(16)
+          this.props.gasChosen,
+        ).toString(16),
       )
       .setGas(GlobalConfig.cTokenMintGasLimit.toString(16))
       .tempSetData(mintEncodedABI)
       .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.mint, [
         TxStorage.storage.getOwnAddress(),
         daiAmountWithDecimals,
-        0
+        0,
       ]);
 
     return transactionObject.setNonce(transactionObject.getNonce() + 1);
@@ -106,11 +111,11 @@ class DepositFirstDaiToCompound extends Component {
   updateDaiAmountValidation(daiAmountValidation) {
     if (daiAmountValidation) {
       this.setState({
-        daiAmountValidation: true
+        daiAmountValidation: true,
       });
     } else if (!daiAmountValidation) {
       this.setState({
-        daiAmountValidation: false
+        daiAmountValidation: false,
       });
     }
   }
@@ -118,22 +123,22 @@ class DepositFirstDaiToCompound extends Component {
   updateWeiAmountValidation(weiAmountValidation) {
     if (weiAmountValidation) {
       this.setState({
-        weiAmountValidation: true
+        weiAmountValidation: true,
       });
     } else if (!weiAmountValidation) {
       this.setState({
-        weiAmountValidation: false
+        weiAmountValidation: false,
       });
     }
   }
 
   validateForm = async (daiAmount) => {
     const daiAmountValidation = TransactionUtilities.hasSufficientDaiForAmount(
-      daiAmount
+      daiAmount,
     );
     const weiAmountValidation = TransactionUtilities.hasSufficientWeiForNetworkFee(
       TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
-      GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit
+      GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit,
     );
     const isOnline = this.props.isOnline;
 
@@ -142,7 +147,7 @@ class DepositFirstDaiToCompound extends Component {
       LogUtilities.logInfo('validation successful');
       const approveTransactionObject = await TransactionUtilities.constructApproveTransactionObject(
         GlobalConfig.cDAIcontract,
-        this.props.gasChosen
+        this.props.gasChosen,
       );
       const mintTransactionObject = await this.constructMintTransactionObject();
       this.props.saveOutgoingTransactionDataCompound({
@@ -150,7 +155,7 @@ class DepositFirstDaiToCompound extends Component {
         gasLimit:
           GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit,
         approveTransactionObject: approveTransactionObject,
-        transactionObject: mintTransactionObject
+        transactionObject: mintTransactionObject,
       });
       this.props.saveTxConfirmationModalVisibility(true);
       this.props.updateTxConfirmationModalVisibleType('compound-approve');
@@ -201,14 +206,14 @@ class DepositFirstDaiToCompound extends Component {
             onPress={() => {
               this.setState({ daiAmount: daiFullBalance });
               this.updateDaiAmountValidation(
-                TransactionUtilities.hasSufficientDaiForAmount(daiFullBalance)
+                TransactionUtilities.hasSufficientDaiForAmount(daiFullBalance),
               );
             }}
           />
         </DepositAmountHeaderContainer>
         <Form
           borderColor={StyleUtilities.getBorderColor(
-            this.state.daiAmountValidation
+            this.state.daiAmountValidation,
           )}
           borderWidth={1}
           height="56px"
@@ -220,7 +225,7 @@ class DepositFirstDaiToCompound extends Component {
               clearButtonMode="while-editing"
               onChangeText={(daiAmount) => {
                 this.updateDaiAmountValidation(
-                  TransactionUtilities.hasSufficientDaiForAmount(daiAmount)
+                  TransactionUtilities.hasSufficientDaiForAmount(daiAmount),
                 );
                 this.setState({ daiAmount });
               }}
@@ -323,17 +328,17 @@ function mapStateToProps(state) {
     gasPrice: state.ReducerGasPrice.gasPrice,
     gasChosen: state.ReducerGasPrice.gasChosen,
     balance: state.ReducerBalance.balance,
-    isOnline: state.ReducerNetInfo.isOnline
+    isOnline: state.ReducerNetInfo.isOnline,
   };
 }
 
 const mapDispatchToProps = {
   saveOutgoingTransactionDataCompound,
   saveTxConfirmationModalVisibility,
-  updateTxConfirmationModalVisibleType
+  updateTxConfirmationModalVisibleType,
 };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(DepositFirstDaiToCompound);

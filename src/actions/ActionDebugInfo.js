@@ -1,7 +1,7 @@
 'use strict';
 import {
   SAVE_FCM_TOKEN,
-  SAVE_OTHER_DEBUG_INFO
+  SAVE_OTHER_DEBUG_INFO,
 } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
@@ -17,7 +17,7 @@ export function saveFcmToken(fcmToken) {
 
 const saveFcmTokenSuccess = (fcmToken) => ({
   type: SAVE_FCM_TOKEN,
-  payload: fcmToken
+  payload: fcmToken,
 });
 
 export function saveOtherDebugInfo(otherDebugInfo) {
@@ -32,5 +32,5 @@ export function saveOtherDebugInfo(otherDebugInfo) {
 
 const saveOtherDebugInfoSuccess = (otherDebugInfo) => ({
   type: SAVE_OTHER_DEBUG_INFO,
-  payload: otherDebugInfo
+  payload: otherDebugInfo,
 });

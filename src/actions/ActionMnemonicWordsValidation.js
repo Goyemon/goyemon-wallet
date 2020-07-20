@@ -14,5 +14,5 @@ export function updateMnemonicWordsValidation(validation) {
 
 const updateMnemonicWordsValidationSuccess = (validation) => ({
   type: UPDATE_MNEMONIC_WORDS_VALIDATION,
-  payload: validation
+  payload: validation,
 });

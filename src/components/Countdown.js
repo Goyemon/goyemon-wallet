@@ -9,7 +9,7 @@ class Countdown extends Component {
       remainingDays: 0,
       remainingHours: 0,
       remainingMins: 0,
-      remainingSecs: 0
+      remainingSecs: 0,
     };
   }
 
@@ -28,7 +28,7 @@ class Countdown extends Component {
         dateObject.getUTCHours(),
         dateObject.getUTCMinutes(),
         dateObject.getUTCSeconds(),
-        dateObject.getUTCMilliseconds()
+        dateObject.getUTCMilliseconds(),
       );
       let targetUTCDate = new Date(
         Date.UTC(
@@ -37,8 +37,8 @@ class Countdown extends Component {
           dateObject.getUTCDate(),
           19,
           0,
-          0
-        )
+          0,
+        ),
       );
       let targetUTCTime = targetUTCDate.getTime();
       // PoolTogether reveals a winner every Friday 3 p.m. EST which is every Friday at 7 p.m. in UTC
@@ -82,7 +82,7 @@ class Countdown extends Component {
       remainingDays,
       remainingHours,
       remainingMins,
-      remainingSecs
+      remainingSecs,
     });
   }
 
@@ -91,7 +91,7 @@ class Countdown extends Component {
       remainingDays,
       remainingHours,
       remainingMins,
-      remainingSecs
+      remainingSecs,
     } = this.state;
 
     return (

@@ -6,7 +6,7 @@ import {
   ProgressBar,
   Button,
   HeaderTwo,
-  Description
+  Description,
 } from '../components/common';
 import ShowMnemonicWords from '../containers/ShowMnemonicWords';
 
@@ -15,7 +15,7 @@ class ShowMnemonic extends Component {
     super();
     this.state = {
       twoColor: '#eeeeee',
-      progressBarWidth: '0%'
+      progressBarWidth: '0%',
     };
   }
 

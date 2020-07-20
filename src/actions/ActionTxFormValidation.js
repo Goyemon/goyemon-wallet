@@ -14,5 +14,5 @@ export function updateToAddressValidation(validation) {
 
 const updateToAddressValidationSuccess = (validation) => ({
   type: UPDATE_TOADDRESS_VALIDATION,
-  payload: validation
+  payload: validation,
 });

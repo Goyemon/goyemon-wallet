@@ -100,12 +100,12 @@ const UnselectedButton = styled.Text`
 
 function mapStateToProps(state) {
   return {
-    uniswap: state.ReducerUniswap.uniswap
+    uniswap: state.ReducerUniswap.uniswap,
   };
 }
 
 const mapDispatchToProps = {
-  updateSlippageChosen
+  updateSlippageChosen,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SlippageContainer);

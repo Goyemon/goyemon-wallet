@@ -3,7 +3,7 @@ import {
   SAVE_TX_DETAIL_MODAL_VISIBILITY,
   SAVE_TX_CONFIRMATION_MODAL_VISIBILITY,
   UPDATE_TX_CONFIRMATION_MODAL_VISIBLE_TYPE,
-  SAVE_POP_UP_MODAL_VISIBILITY
+  SAVE_POP_UP_MODAL_VISIBILITY,
 } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
@@ -11,8 +11,8 @@ const INITIAL_STATE = {
     txDetailModalVisibility: false,
     txConfirmationModalVisibility: false,
     txConfirmationModalType: null,
-    popUpModalVisibility: false
-  }
+    popUpModalVisibility: false,
+  },
 };
 
 const modal = (state = INITIAL_STATE, action) => {
@@ -21,29 +21,29 @@ const modal = (state = INITIAL_STATE, action) => {
       return {
         modal: {
           ...state.modal,
-          txDetailModalVisibility: action.payload
-        }
+          txDetailModalVisibility: action.payload,
+        },
       };
     case SAVE_TX_CONFIRMATION_MODAL_VISIBILITY:
       return {
         modal: {
           ...state.modal,
-          txConfirmationModalVisibility: action.payload
-        }
+          txConfirmationModalVisibility: action.payload,
+        },
       };
     case UPDATE_TX_CONFIRMATION_MODAL_VISIBLE_TYPE:
       return {
         modal: {
           ...state.modal,
-          txConfirmationModalType: action.payload
-        }
+          txConfirmationModalType: action.payload,
+        },
       };
     case SAVE_POP_UP_MODAL_VISIBILITY:
       return {
         modal: {
           ...state.modal,
-          popUpModalVisibility: action.payload
-        }
+          popUpModalVisibility: action.payload,
+        },
       };
     default:
       return state || INITIAL_STATE;

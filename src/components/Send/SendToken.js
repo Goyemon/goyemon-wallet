@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import { View } from "react-native";
-import { connect } from "react-redux";
-import styled from "styled-components/native";
+import React, { Component } from 'react';
+import { View } from 'react-native';
+import { connect } from 'react-redux';
+import styled from 'styled-components/native';
 import {
   saveTxConfirmationModalVisibility,
   updateTxConfirmationModalVisibleType,
-} from "../../actions/ActionModal";
-import { saveOutgoingTransactionDataSend } from "../../actions/ActionOutgoingTransactionData";
-import TxConfirmationModal from "../../containers/common/TxConfirmationModal";
+} from '../../actions/ActionModal';
+import { saveOutgoingTransactionDataSend } from '../../actions/ActionOutgoingTransactionData';
+import TxConfirmationModal from '../../containers/common/TxConfirmationModal';
 import {
   UntouchableCardContainer,
   Form,
@@ -18,19 +18,19 @@ import {
   TxNextButton,
   AmountValidateMessage,
   UseMaxButton,
-} from "../common";
+} from '../common';
 import {
   RoundDownBigNumberPlacesEighteen,
   roundDownFour,
-} from "../../utilities/BigNumberUtilities";
-import { AdvancedContainer } from "../../containers/common/AdvancedContainer";
-import ToAddressForm from "../../containers/common/ToAddressForm";
-import TransactionUtilities from "../../utilities/TransactionUtilities.ts";
-import GlobalConfig from "../../config.json";
-import LogUtilities from "../../utilities/LogUtilities.js";
-import StyleUtilities from "../../utilities/StyleUtilities.js";
-import I18n from "../../i18n/I18n";
-import Web3 from "web3";
+} from '../../utilities/BigNumberUtilities';
+import { AdvancedContainer } from '../../containers/common/AdvancedContainer';
+import ToAddressForm from '../../containers/common/ToAddressForm';
+import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
+import GlobalConfig from '../../config.json';
+import LogUtilities from '../../utilities/LogUtilities.js';
+import StyleUtilities from '../../utilities/StyleUtilities.js';
+import I18n from '../../i18n/I18n';
+import Web3 from 'web3';
 
 class SendToken extends Component {
   constructor(props) {
@@ -42,7 +42,7 @@ class SendToken extends Component {
       amount: 0,
       displayAmount: 0,
       loading: false,
-      isEth: props.info.token === "ETH",
+      isEth: props.info.token === 'ETH',
       gasLimit: this.gasLimit(props.info.token),
     };
   }
@@ -51,8 +51,8 @@ class SendToken extends Component {
     this.updateNetworkFeeValidation(
       TransactionUtilities.hasSufficientWeiForNetworkFee(
         TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
-        this.state.gasLimit
-      )
+        this.state.gasLimit,
+      ),
     );
   }
 
@@ -61,15 +61,15 @@ class SendToken extends Component {
       this.updateNetworkFeeValidation(
         TransactionUtilities.hasSufficientWeiForNetworkFee(
           TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
-          this.state.gasLimit
-        )
+          this.state.gasLimit,
+        ),
       );
       if (this.state.isEth)
         this.updateAmountValidation(
           TransactionUtilities.hasSufficientWeiForAmount(
             this.state.amount,
-            GlobalConfig.ETHTxGasLimit
-          )
+            GlobalConfig.ETHTxGasLimit,
+          ),
         );
     }
     if (this.props.info.balance != prevProps.info.balance)
@@ -81,15 +81,15 @@ class SendToken extends Component {
         amountValidation: undefined,
         amount: 0,
         displayAmount: 0,
-        isEth: this.props.info.token === "ETH",
+        isEth: this.props.info.token === 'ETH',
         gasLimit: this.gasLimit(this.props.info.token),
       });
     }
   }
 
   isNumber = (amount) =>
-    String(amount).slice(0, 1) === "0"
-      ? String(amount).slice(1, 2) === "." && /^[0-9]\d*(\.\d+)?$/.test(amount)
+    String(amount).slice(0, 1) === '0'
+      ? String(amount).slice(1, 2) === '.' && /^[0-9]\d*(\.\d+)?$/.test(amount)
       : /^[0-9]\d*(\.\d+)?$/.test(amount);
 
   isDisabled = () =>
@@ -120,7 +120,7 @@ class SendToken extends Component {
         ? new RoundDownBigNumberPlacesEighteen(this.props.balance.wei)
         : new RoundDownBigNumberPlacesEighteen(this.props.info.balance),
       maxNetworkFee = new RoundDownBigNumberPlacesEighteen(
-        TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
+        TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
       ).times(this.state.gasLimit);
 
     return this.state.isEth
@@ -135,11 +135,11 @@ class SendToken extends Component {
     const amountValidation = this.state.isEth
       ? TransactionUtilities.hasSufficientWeiForAmount(
           amount,
-          this.state.gasLimit
+          this.state.gasLimit,
         )
       : TransactionUtilities.hasSufficientTokenForAmount(
           amount,
-          this.props.info.token
+          this.props.info.token,
         );
 
     if (
@@ -160,45 +160,45 @@ class SendToken extends Component {
       });
       this.props.saveTxConfirmationModalVisibility(true);
       this.props.updateTxConfirmationModalVisibleType(
-        `send-${this.props.info.token.toLowerCase()}`
+        `send-${this.props.info.token.toLowerCase()}`,
       );
-      LogUtilities.logInfo("validation successful");
-    } else LogUtilities.logInfo("form validation failed!");
+      LogUtilities.logInfo('validation successful');
+    } else LogUtilities.logInfo('form validation failed!');
     this.setState({ loading: false });
   };
 
   constructTransactionObject = async () => {
     switch (this.props.info.token) {
-      case "ETH":
+      case 'ETH':
         return await TransactionUtilities.constructEthTransfer(
           this.props.outgoingTransactionData.send.toaddress,
           this.state.amount,
           this.props.gasChosen,
-          this.state.gasLimit
+          this.state.gasLimit,
         );
 
-      case "DAI":
+      case 'DAI':
         return await TransactionUtilities.constructDaiTransfer(
           this.props.outgoingTransactionData.send.toaddress,
           this.state.amount,
           this.props.gasChosen,
-          this.state.gasLimit
+          this.state.gasLimit,
         );
 
-      case "cDAI":
+      case 'cDAI':
         return await TransactionUtilities.constructcDaiTransfer(
           this.props.outgoingTransactionData.send.toaddress,
           this.state.amount,
           this.props.gasChosen,
-          this.state.gasLimit
+          this.state.gasLimit,
         );
 
-      case "plDAI":
+      case 'plDAI':
         return await TransactionUtilities.constructplDaiTransfer(
           this.props.outgoingTransactionData.send.toaddress,
           this.state.amount,
           this.props.gasChosen,
-          this.state.gasLimit
+          this.state.gasLimit,
         );
 
       default:
@@ -226,10 +226,10 @@ class SendToken extends Component {
         <ToAddressForm />
         <FormHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
-            {I18n.t("amount")}
+            {I18n.t('amount')}
           </FormHeader>
           <UseMaxButton
-            text={I18n.t("use-max")}
+            text={I18n.t('use-max')}
             textColor="#00A3E2"
             onPress={() => {
               this.setState({
@@ -242,19 +242,19 @@ class SendToken extends Component {
                 isEth
                   ? TransactionUtilities.hasSufficientWeiForAmount(
                       fullAmount,
-                      GlobalConfig.ETHTxGasLimit
+                      GlobalConfig.ETHTxGasLimit,
                     )
                   : TransactionUtilities.hasSufficientTokenForAmount(
                       fullAmount,
-                      token
-                    )
+                      token,
+                    ),
               );
             }}
           />
         </FormHeaderContainer>
         <Form
           borderColor={StyleUtilities.getBorderColor(
-            amountValidation && this.isNumber(displayAmount)
+            amountValidation && this.isNumber(displayAmount),
           )}
           borderWidth={1}
           height="56px"
@@ -271,12 +271,12 @@ class SendToken extends Component {
                     isEth
                       ? TransactionUtilities.hasSufficientWeiForAmount(
                           Web3.utils.toWei(amount),
-                          GlobalConfig.ETHTxGasLimit
+                          GlobalConfig.ETHTxGasLimit,
                         )
                       : TransactionUtilities.hasSufficientTokenForAmount(
                           amount,
-                          token
-                        )
+                          token,
+                        ),
                   );
                   this.setState({
                     amount: isEth ? Web3.utils.toWei(amount) : amount,
@@ -306,7 +306,7 @@ class SendToken extends Component {
             onPress={async () =>
               await this.validateForm(
                 this.props.outgoingTransactionData.send.toaddress,
-                amount
+                amount,
               )
             }
           />
@@ -342,7 +342,7 @@ const SendTextInput = styled.TextInput`
 `;
 
 const CurrencySymbolText = styled.Text`
-  font-family: "HKGrotesk-Regular";
+  font-family: 'HKGrotesk-Regular';
 `;
 
 const ButtonWrapper = styled.View`
@@ -379,7 +379,7 @@ const CoinImage = styled.Image`
 
 const Title = styled.Text`
   color: #5f5f5f;
-  font-family: "HKGrotesk-Regular";
+  font-family: 'HKGrotesk-Regular';
   font-size: 16;
   margin-top: 16px;
   text-transform: uppercase;
@@ -392,7 +392,7 @@ const BalanceContainer = styled.View`
 `;
 
 const Value = styled.Text`
-  font-family: "HKGrotesk-Regular";
+  font-family: 'HKGrotesk-Regular';
   font-size: 16;
   margin-left: 4;
 `;

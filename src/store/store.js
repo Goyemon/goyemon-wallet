@@ -12,11 +12,11 @@ const migrations = {
       ReducerPrice: {
         price: {
           ...state.price,
-          cdai: ''
-        }
-      }
+          cdai: '',
+        },
+      },
     };
-  }
+  },
 };
 
 const persistConfig = {
@@ -33,10 +33,10 @@ const persistConfig = {
     'ReducerPoolTogether',
     'ReducerPrice',
     'ReducerTransactionsLoaded',
-    'ReducerUniswap'
+    'ReducerUniswap',
   ],
   version: 0, // default version is -1
-  migrate: createMigrate(migrations, { debug: true })
+  migrate: createMigrate(migrations, { debug: true }),
 };
 
 // 'ReducerTransactionHistory',

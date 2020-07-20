@@ -5,7 +5,7 @@ import {
   SAVE_C_DAI_BALANCE,
   SAVE_COMPOUND_DAI_BALANCE,
   SAVE_POOL_TOGETHER_DAI_BALANCE,
-  MOVE_POOL_TOGETHER_DAI_BALANCE
+  MOVE_POOL_TOGETHER_DAI_BALANCE,
 } from '../constants/ActionTypes';
 import { RoundDownBigNumberPlacesEighteen } from '../utilities/BigNumberUtilities';
 
@@ -18,9 +18,9 @@ const INITIAL_STATE = {
     pooltogetherDai: {
       open: '',
       committed: '',
-      sponsored: ''
-    }
-  }
+      sponsored: '',
+    },
+  },
 };
 
 const balance = (state = INITIAL_STATE, action) => {
@@ -33,7 +33,7 @@ const balance = (state = INITIAL_STATE, action) => {
       return { balance: { ...state.balance, cDai: action.payload } };
     case SAVE_COMPOUND_DAI_BALANCE:
       return {
-        balance: { ...state.balance, compoundDai: action.payload }
+        balance: { ...state.balance, compoundDai: action.payload },
       };
     case SAVE_POOL_TOGETHER_DAI_BALANCE:
       return {
@@ -42,9 +42,9 @@ const balance = (state = INITIAL_STATE, action) => {
           pooltogetherDai: {
             open: action.payload[0],
             committed: action.payload[1],
-            sponsored: action.payload[2]
-          }
-        }
+            sponsored: action.payload[2],
+          },
+        },
       };
     case MOVE_POOL_TOGETHER_DAI_BALANCE:
       return {
@@ -54,12 +54,12 @@ const balance = (state = INITIAL_STATE, action) => {
             ...state.balance.pooltogetherDai,
             open: '0',
             committed: new RoundDownBigNumberPlacesEighteen(
-              state.balance.pooltogetherDai.open
+              state.balance.pooltogetherDai.open,
             )
               .plus(state.balance.pooltogetherDai.committed)
-              .toString(10)
-          }
-        }
+              .toString(10),
+          },
+        },
       };
     default:
       return state || INITIAL_STATE;

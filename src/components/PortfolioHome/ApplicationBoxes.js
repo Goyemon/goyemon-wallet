@@ -6,19 +6,20 @@ import CompoundIcon from '../../../assets/CompoundIcon.js';
 import PoolTogetherIcon from '../../../assets/PoolTogetherIcon.js';
 import styled from 'styled-components';
 
-const ApplicationBoxes = props =>
+const ApplicationBoxes = (props) => (
   <>
-    {props.boxes.map(application =>
+    {props.boxes.map((application) => (
       <ApplicationBox
         balance={application.balance}
         name={application.name}
         key={application.name}
         onPress={application.event}
-      />)
-    }
+      />
+    ))}
   </>
+);
 
-const ApplicationBox = props =>
+const ApplicationBox = (props) => (
   <TouchableCardContainer
     alignItems="center"
     flexDirection="row"
@@ -29,25 +30,28 @@ const ApplicationBox = props =>
     onPress={props.onPress}
   >
     <IconImageContainer>
-      {(() => {switch(props.name) {
-        case 'Wallet':
-          return <Icon name="wallet-outline" size={40} color="#5f5f5f" />
-        case 'Compound':
-          return <CompoundIcon />
-        case 'PoolTogether':
-          return <PoolTogetherIcon />
-      }})()}
+      {(() => {
+        switch (props.name) {
+          case 'Wallet':
+            return <Icon name="wallet-outline" size={40} color="#5f5f5f" />;
+          case 'Compound':
+            return <CompoundIcon />;
+          case 'PoolTogether':
+            return <PoolTogetherIcon />;
+        }
+      })()}
     </IconImageContainer>
     <NameContainer>
       <NameText>{props.name}</NameText>
-      {props.name === 'Wallet' && <GoyemonText fontSize={12}>ETH and ERC20</GoyemonText>}
+      {props.name === 'Wallet' && (
+        <GoyemonText fontSize={12}>ETH and ERC20</GoyemonText>
+      )}
     </NameContainer>
     <BalanceContainer>
-      <ApplicationBalanceText>
-        ${props.balance}
-      </ApplicationBalanceText>
+      <ApplicationBalanceText>${props.balance}</ApplicationBalanceText>
     </BalanceContainer>
   </TouchableCardContainer>
+);
 
 const IconImageContainer = styled.View`
   align-items: center;
@@ -75,4 +79,4 @@ const ApplicationBalanceText = styled.Text`
   font-size: 20;
 `;
 
-export default ApplicationBoxes
+export default ApplicationBoxes;

@@ -8,7 +8,7 @@ import {
   Container,
   HeaderFive,
   GoyemonText,
-  Button
+  Button,
 } from '../components/common';
 import I18n from '../i18n/I18n';
 import { RoundDownBigNumberPlacesFour } from '../utilities/BigNumberUtilities';
@@ -16,7 +16,7 @@ import { RoundDownBigNumberPlacesFour } from '../utilities/BigNumberUtilities';
 class PortfolioPoolTogetherOpen extends Component {
   render() {
     const pooltogetherDaiOpenBalance = RoundDownBigNumberPlacesFour(
-      this.props.balance.pooltogetherDai.open
+      this.props.balance.pooltogetherDai.open,
     )
       .div(new RoundDownBigNumberPlacesFour(10).pow(18))
       .toFixed(0);
@@ -93,9 +93,9 @@ const ButtonContainer = styled.View`
 `;
 
 const mapStateToProps = (state) => ({
-  balance: state.ReducerBalance.balance
+  balance: state.ReducerBalance.balance,
 });
 
 export default withNavigation(
-  connect(mapStateToProps)(PortfolioPoolTogetherOpen)
+  connect(mapStateToProps)(PortfolioPoolTogetherOpen),
 );

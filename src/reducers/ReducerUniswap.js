@@ -1,28 +1,28 @@
 'use strict';
 import {
   UPDATE_SLIPPAGE_CHOSEN,
-  SAVE_UNISWAPV2_WETH_DAI_RESERVE
+  SAVE_UNISWAPV2_WETH_DAI_RESERVE,
 } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
   uniswap: {
     slippage: [
       {
-        value: 0.1
+        value: 0.1,
       },
       {
-        value: 0.5
+        value: 0.5,
       },
       {
-        value: 1
-      }
+        value: 1,
+      },
     ],
     slippageChosen: 1,
     daiExchange: {
       weiReserve: '',
-      daiReserve: ''
-    }
-  }
+      daiReserve: '',
+    },
+  },
 };
 
 const uniswap = (state = INITIAL_STATE, action) => {
@@ -33,16 +33,16 @@ const uniswap = (state = INITIAL_STATE, action) => {
           ...state.uniswap,
           daiExchange: {
             weiReserve: action.payload.reserve1,
-            daiReserve: action.payload.reserve0
-          }
-        }
+            daiReserve: action.payload.reserve0,
+          },
+        },
       };
     case UPDATE_SLIPPAGE_CHOSEN:
       return {
         uniswap: {
           ...state.uniswap,
-          slippageChosen: action.payload
-        }
+          slippageChosen: action.payload,
+        },
       };
     default:
       return state || INITIAL_STATE;

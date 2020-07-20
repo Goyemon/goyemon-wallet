@@ -74,7 +74,7 @@ class WalletUtilities {
       const result = await Keychain.setGenericPassword(
         'PRIVATEKEY',
         privateKey,
-        KEY_WALLET_PRIVATE_KEY
+        KEY_WALLET_PRIVATE_KEY,
       );
     }
     return result;
@@ -94,7 +94,7 @@ class WalletUtilities {
     while (true) {
       const words = mnemonic.split(' ');
       const uniqueWords = words.filter(
-        (word, index) => words.indexOf(word) == index
+        (word, index) => words.indexOf(word) == index,
       );
       if (words.length == uniqueWords.length) {
         break;
@@ -112,7 +112,7 @@ class WalletUtilities {
     }
     const words = mnemonic.split(' ');
     const uniqueWords = words.filter(
-      (word, index) => words.indexOf(word) == index
+      (word, index) => words.indexOf(word) == index,
     );
     return words.length === uniqueWords.length;
   }
@@ -134,7 +134,7 @@ class WalletUtilities {
     const result = await Keychain.setGenericPassword(
       'MNEMONIC',
       mnemonic,
-      KEY_WALLET_MNEMONIC
+      KEY_WALLET_MNEMONIC,
     );
     return result;
   }

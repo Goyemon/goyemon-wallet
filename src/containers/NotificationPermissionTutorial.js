@@ -8,7 +8,7 @@ import {
   Button,
   HeaderTwo,
   Description,
-  Loader
+  Loader,
 } from '../components/common';
 import FcmPermissions from '../firebase/FcmPermissions.js';
 import I18n from '../i18n/I18n';
@@ -19,7 +19,7 @@ class NotificationPermissionTutorial extends Component {
     super();
     this.state = {
       loading: false,
-      buttonDisabled: false
+      buttonDisabled: false,
     };
   }
 
@@ -81,7 +81,7 @@ class NotificationPermissionTutorial extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  permissions: state.ReducerPermissions.permissions
+  permissions: state.ReducerPermissions.permissions,
 });
 
 export default connect(mapStateToProps)(NotificationPermissionTutorial);

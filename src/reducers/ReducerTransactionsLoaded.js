@@ -2,7 +2,7 @@
 import { SAVE_TRANSACTIONS_LOADED } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
-  transactionsLoaded: null
+  transactionsLoaded: null,
 };
 
 const transactionsLoaded = (state = INITIAL_STATE, action) => {

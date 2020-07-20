@@ -1,7 +1,7 @@
 'use strict';
 import {
   SAVE_DAI_COMPOUND_APPROVAL,
-  SAVE_DAI_POOLTOGETHER_APPROVAL
+  SAVE_DAI_POOLTOGETHER_APPROVAL,
 } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
@@ -17,7 +17,7 @@ export function saveDaiCompoundApproval(daiCompoundApproval) {
 
 const saveDaiCompoundApprovalSuccess = (daiCompoundApproval) => ({
   type: SAVE_DAI_COMPOUND_APPROVAL,
-  payload: daiCompoundApproval
+  payload: daiCompoundApproval,
 });
 
 export function saveDaiPoolTogetherApproval(daiPoolTogetherApproval) {
@@ -32,5 +32,5 @@ export function saveDaiPoolTogetherApproval(daiPoolTogetherApproval) {
 
 const saveDaiPoolTogetherApprovalSuccess = (daiPoolTogetherApproval) => ({
   type: SAVE_DAI_POOLTOGETHER_APPROVAL,
-  payload: daiPoolTogetherApproval
+  payload: daiPoolTogetherApproval,
 });

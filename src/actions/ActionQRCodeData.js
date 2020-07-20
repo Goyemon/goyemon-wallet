@@ -12,7 +12,7 @@ export function clearQRCodeData() {
 }
 
 const clearQRCodeDataSuccess = () => ({
-  type: CLEAR_QRCODE_DATA
+  type: CLEAR_QRCODE_DATA,
 });
 
 export function saveQRCodeData(qrCodeData) {
@@ -27,5 +27,5 @@ export function saveQRCodeData(qrCodeData) {
 
 const saveQRCodeDataSuccess = (qrCodeData) => ({
   type: SAVE_QRCODE_DATA,
-  payload: qrCodeData
+  payload: qrCodeData,
 });

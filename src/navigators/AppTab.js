@@ -25,8 +25,8 @@ const AppTab = createBottomTabNavigator(
         tabBarLabel: I18n.t('portfolio'),
         tabBarIcon: ({ tintColor }) => (
           <Icon name="chart-pie" size={30} color={tintColor} />
-        )
-      }
+        ),
+      },
     },
     Send: {
       screen: SendStack,
@@ -34,8 +34,8 @@ const AppTab = createBottomTabNavigator(
         tabBarLabel: I18n.t('send'),
         tabBarIcon: ({ tintColor }) => (
           <Icon name="send" size={30} color={tintColor} />
-        )
-      }
+        ),
+      },
     },
     Earn: {
       screen: EarnStack,
@@ -43,8 +43,8 @@ const AppTab = createBottomTabNavigator(
         tabBarLabel: I18n.t('earn'),
         tabBarIcon: ({ tintColor }) => (
           <Icon name="signal-cellular-3" size={30} color={tintColor} />
-        )
-      }
+        ),
+      },
     },
     Swap: {
       screen: SwapStack,
@@ -52,8 +52,8 @@ const AppTab = createBottomTabNavigator(
         tabBarLabel: I18n.t('swap'),
         tabBarIcon: ({ tintColor }) => (
           <Icon name="swap-horizontal" size={30} color={tintColor} />
-        )
-      }
+        ),
+      },
     },
     History: {
       screen: HistoryStack,
@@ -61,29 +61,29 @@ const AppTab = createBottomTabNavigator(
         tabBarLabel: I18n.t('history'),
         tabBarIcon: ({ tintColor }) => (
           <Icon name="script-text-outline" size={30} color={tintColor} />
-        )
-      }
-    }
+        ),
+      },
+    },
   },
   {
     tabBarOptions: {
       activeTintColor: '#00A3E2',
       style: {
-        height: 56
+        height: 56,
       },
       labelStyle: {
         fontSize: 12,
         fontFamily: 'HKGrotesk-Bold',
-        marginBottom: 0
+        marginBottom: 0,
       },
       tabStyle: {
-        marginTop: 8
-      }
-    }
+        marginTop: 8,
+      },
+    },
   },
   {
-    initialRouteName: 'Portfolio'
-  }
+    initialRouteName: 'Portfolio',
+  },
 );
 
 const App = createAppContainer(AppTab);

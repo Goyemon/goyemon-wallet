@@ -14,7 +14,7 @@ import {
   Button,
   ErrorMessage,
   Loader,
-  GoyemonText
+  GoyemonText,
 } from '../components/common';
 import I18n from '../i18n/I18n';
 import LogUtilities from '../utilities/LogUtilities.js';
@@ -27,7 +27,7 @@ class ImportMnemonicWords extends Component {
       mnemonicWords: '',
       mnemonicWordsValidation: true,
       loading: false,
-      copiedText: ''
+      copiedText: '',
     };
   }
 
@@ -136,8 +136,8 @@ const styles = {
   avoidKeyboard: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'center'
-  }
+    justifyContent: 'center',
+  },
 };
 
 const MnemonicWordsContainer = styled.View`
@@ -168,7 +168,7 @@ const PasteText = styled.Text`
 
 const mapDispatchToProps = {
   saveMnemonicWords,
-  updateMnemonicWordsValidation
+  updateMnemonicWordsValidation,
 };
 
 export default connect(null, mapDispatchToProps)(ImportMnemonicWords);

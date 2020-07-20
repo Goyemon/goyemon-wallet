@@ -8,7 +8,7 @@ import { store } from '../store/store.js';
 import ABIEncoder from '../utilities/AbiUtilities';
 import {
   RoundDownBigNumberPlacesFour,
-  RoundDownBigNumberPlacesEighteen
+  RoundDownBigNumberPlacesEighteen,
 } from '../utilities/BigNumberUtilities';
 import I18n from '../i18n/I18n';
 import LogUtilities from '../utilities/LogUtilities.js';
@@ -56,7 +56,7 @@ class TransactionUtilities {
       'September',
       'October',
       'November',
-      'December'
+      'December',
     ];
     if (seconds < 5) {
       return 'just now';
@@ -92,7 +92,7 @@ class TransactionUtilities {
     }
     return Math.max(
       0,
-      (match[1] ? match[1].length : 0) - (match[2] ? +match[2] : 0)
+      (match[1] ? match[1].length : 0) - (match[2] ? +match[2] : 0),
     );
   }
 
@@ -114,7 +114,9 @@ class TransactionUtilities {
     const stateTree = store.getState();
     const balance = stateTree.ReducerBalance.balance;
     const weiBalance = new RoundDownBigNumberPlacesEighteen(balance.wei);
-    const maxNetworkFeeInWei = new RoundDownBigNumberPlacesEighteen(gasPriceWei).times(gasLimit);
+    const maxNetworkFeeInWei = new RoundDownBigNumberPlacesEighteen(
+      gasPriceWei,
+    ).times(gasLimit);
 
     if (weiBalance.isGreaterThan(maxNetworkFeeInWei)) {
       LogUtilities.logInfo('the wei amount validated!');
@@ -135,13 +137,11 @@ class TransactionUtilities {
       const weiBalance = new RoundDownBigNumberPlacesEighteen(balance.wei);
       weiAmount = new RoundDownBigNumberPlacesEighteen(weiAmount);
       const maxNetworkFeeInWei = new RoundDownBigNumberPlacesEighteen(
-        this.returnTransactionSpeed(gasChosen)
+        this.returnTransactionSpeed(gasChosen),
       ).times(gasLimit);
 
       if (
-        weiBalance.isGreaterThanOrEqualTo(
-          weiAmount.plus(maxNetworkFeeInWei)
-        ) &&
+        weiBalance.isGreaterThanOrEqualTo(weiAmount.plus(maxNetworkFeeInWei)) &&
         weiAmount.isGreaterThanOrEqualTo(0)
       ) {
         return true;
@@ -159,7 +159,9 @@ class TransactionUtilities {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
       const daiBalance = new RoundDownBigNumberPlacesEighteen(balance.dai);
-      daiAmount = new RoundDownBigNumberPlacesEighteen(10).pow(18).times(daiAmount);
+      daiAmount = new RoundDownBigNumberPlacesEighteen(10)
+        .pow(18)
+        .times(daiAmount);
 
       if (
         daiBalance.isGreaterThanOrEqualTo(daiAmount) &&
@@ -181,14 +183,16 @@ class TransactionUtilities {
       const stateTree = store.getState();
       const balanceState = stateTree.ReducerBalance.balance;
       const balanceObject = {
-        'DAI': balanceState.dai,
-        'cDAI': balanceState.cDai,
-        'plDAI': balanceState.pooltogetherDai.committed,
-      }
-      const tokenBalance = new RoundDownBigNumberPlacesEighteen(balanceObject[token])
+        DAI: balanceState.dai,
+        cDAI: balanceState.cDai,
+        plDAI: balanceState.pooltogetherDai.committed,
+      };
+      const tokenBalance = new RoundDownBigNumberPlacesEighteen(
+        balanceObject[token],
+      );
       const tokenAmount = new RoundDownBigNumberPlacesEighteen(10)
-                          .pow(token === 'cDAI' ? 8 : 18)
-                          .times(amount);
+        .pow(token === 'cDAI' ? 8 : 18)
+        .times(amount);
       if (
         tokenBalance.isGreaterThanOrEqualTo(tokenAmount) &&
         tokenAmount.isGreaterThanOrEqualTo(0)
@@ -199,7 +203,7 @@ class TransactionUtilities {
     }
     LogUtilities.logInfo('wrong dai balance!');
     return false;
-  }
+  };
 
   validateDaiPoolTogetherDepositAmount(daiAmount) {
     const isInteger = /^[1-9]\d*$/.test(daiAmount);
@@ -207,7 +211,9 @@ class TransactionUtilities {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
       const daiBalance = new RoundDownBigNumberPlacesEighteen(balance.dai);
-      daiAmount = new RoundDownBigNumberPlacesEighteen(10).pow(18).times(daiAmount);
+      daiAmount = new RoundDownBigNumberPlacesEighteen(10)
+        .pow(18)
+        .times(daiAmount);
 
       if (
         daiBalance.isGreaterThanOrEqualTo(daiAmount) &&
@@ -228,9 +234,13 @@ class TransactionUtilities {
     if (isNumber) {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
-      const compoundDaiBalance = new RoundDownBigNumberPlacesEighteen(balance.compoundDai);
+      const compoundDaiBalance = new RoundDownBigNumberPlacesEighteen(
+        balance.compoundDai,
+      );
 
-      daiWithdrawAmount = new RoundDownBigNumberPlacesEighteen(10).pow(36).times(daiWithdrawAmount);
+      daiWithdrawAmount = new RoundDownBigNumberPlacesEighteen(10)
+        .pow(36)
+        .times(daiWithdrawAmount);
 
       if (
         compoundDaiBalance.isGreaterThanOrEqualTo(daiWithdrawAmount) &&
@@ -252,12 +262,14 @@ class TransactionUtilities {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
       const pooltogetherDaiBalance = RoundDownBigNumberPlacesFour(
-        balance.pooltogetherDai.open
+        balance.pooltogetherDai.open,
       )
         .plus(balance.pooltogetherDai.committed)
         .plus(balance.pooltogetherDai.sponsored);
 
-      daiWithdrawAmount = new RoundDownBigNumberPlacesEighteen(10).pow(18).times(daiWithdrawAmount);
+      daiWithdrawAmount = new RoundDownBigNumberPlacesEighteen(10)
+        .pow(18)
+        .times(daiWithdrawAmount);
 
       if (
         pooltogetherDaiBalance.isGreaterThanOrEqualTo(daiWithdrawAmount) &&
@@ -276,7 +288,7 @@ class TransactionUtilities {
 
   async constructSignedOutgoingTransactionObject(outgoingTransactionObject) {
     outgoingTransactionObject = new ethTx(
-      outgoingTransactionObject.toTransactionDict()
+      outgoingTransactionObject.toTransactionDict(),
     );
     let privateKey = await WalletUtilities.retrievePrivateKey();
     privateKey = Buffer.from(privateKey, 'hex');
@@ -297,7 +309,7 @@ class TransactionUtilities {
     const messageId = uuidv4();
     const serverAddress = GlobalConfig.FCM_server_address;
     const signedTransaction = await this.constructSignedOutgoingTransactionObject(
-      txObject
+      txObject,
     );
     const nonce = txObject.getNonce();
 
@@ -307,11 +319,13 @@ class TransactionUtilities {
       data: {
         type: 'outgoing_tx',
         nonce: nonce.toString(),
-        data: signedTransaction
-      }
-    }
+        data: signedTransaction,
+      },
+    };
 
-    firebase.messaging().sendMessage(upstreamMessage)
+    firebase
+      .messaging()
+      .sendMessage(upstreamMessage)
       .then((response) => {
         console.log('Successfully sent message:', response);
       })
@@ -332,7 +346,7 @@ class TransactionUtilities {
 
   getMaxNetworkFeeInUSD(gasPriceWei, gasLimit) {
     let maxNetworkFeeInUsd = PriceUtilities.convertEthToUsd(
-      this.getMaxNetworkFeeInEther(gasPriceWei, gasLimit)
+      this.getMaxNetworkFeeInEther(gasPriceWei, gasLimit),
     );
     maxNetworkFeeInUsd = maxNetworkFeeInUsd.toFixed(3);
     return maxNetworkFeeInUsd;
@@ -344,7 +358,7 @@ class TransactionUtilities {
     const approveEncodedABI = ABIEncoder.encodeApprove(
       addressSpender,
       amount,
-      0
+      0,
     );
 
     return approveEncodedABI;
@@ -360,225 +374,255 @@ class TransactionUtilities {
       .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.approval, [
         (spender.startsWith('0x') ? spender.substr(2) : spender).toLowerCase(),
         TxStorage.storage.getOwnAddress(),
-        'ff'.repeat(256 / 8)
+        'ff'.repeat(256 / 8),
       ]);
 
     return approveTransactionObject;
   }
 
   etherToHexWei(etherValue) {
-    const weiValue = Web3.utils.toWei(etherValue)
-    return new RoundDownBigNumberPlacesEighteen(weiValue).toString(16)
+    const weiValue = Web3.utils.toWei(etherValue);
+    return new RoundDownBigNumberPlacesEighteen(weiValue).toString(16);
   }
 
   constructEthTransfer = async (toAddr, amount, gasChosen, gasLimit) =>
     (await TxStorage.storage.newTx())
-    .setTo(toAddr)
-    .setValue(new RoundDownBigNumberPlacesEighteen(amount).toString(16))
-    .setGasPrice(this.returnTransactionSpeed(gasChosen).toString(16))
-    .setGas(gasLimit.toString(16))
+      .setTo(toAddr)
+      .setValue(new RoundDownBigNumberPlacesEighteen(amount).toString(16))
+      .setGasPrice(this.returnTransactionSpeed(gasChosen).toString(16))
+      .setGas(gasLimit.toString(16));
 
   constructDaiTransfer = async (toAddr, amount, gasChosen, gasLimit) => {
     const daiAmount = amount.split('.').join('');
-    const decimalPlaces = this.decimalPlaces(amount)
-    const decimals = 18 - decimalPlaces
-    const transferEncodedABI = ABIEncoder.encodeTransfer(toAddr,daiAmount,decimals)
+    const decimalPlaces = this.decimalPlaces(amount);
+    const decimals = 18 - decimalPlaces;
+    const transferEncodedABI = ABIEncoder.encodeTransfer(
+      toAddr,
+      daiAmount,
+      decimals,
+    );
     const daiAmountWithDecimals = new RoundDownBigNumberPlacesEighteen(amount)
-    .times(new RoundDownBigNumberPlacesEighteen(10).pow(18))
-    .toString(16)
+      .times(new RoundDownBigNumberPlacesEighteen(10).pow(18))
+      .toString(16);
 
     return (await TxStorage.storage.newTx())
-    .setTo(GlobalConfig.DAITokenContract)
-    .setGasPrice(this.returnTransactionSpeed(gasChosen).toString(16))
-    .setGas(gasLimit.toString(16))
-    .tempSetData(transferEncodedABI)
-    .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.transfer, [
+      .setTo(GlobalConfig.DAITokenContract)
+      .setGasPrice(this.returnTransactionSpeed(gasChosen).toString(16))
+      .setGas(gasLimit.toString(16))
+      .tempSetData(transferEncodedABI)
+      .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.transfer, [
         TxStorage.storage.getOwnAddress(),
         toAddr,
-        daiAmountWithDecimals
-    ])
-  }
+        daiAmountWithDecimals,
+      ]);
+  };
 
   constructcDaiTransfer = async (toAddr, amount, gasChosen, gasLimit) => {
     const cdaiAmount = amount.split('.').join('');
-    const decimalPlaces = this.decimalPlaces(amount)
-    const decimals = 8 - decimalPlaces
-    const transferEncodedABI = ABIEncoder.encodeTransfer(toAddr,cdaiAmount,decimals)
+    const decimalPlaces = this.decimalPlaces(amount);
+    const decimals = 8 - decimalPlaces;
+    const transferEncodedABI = ABIEncoder.encodeTransfer(
+      toAddr,
+      cdaiAmount,
+      decimals,
+    );
     const cdaiAmountWithDecimals = new RoundDownBigNumberPlacesEighteen(amount)
-    .times(new RoundDownBigNumberPlacesEighteen(10).pow(8))
-    .toString(16)
+      .times(new RoundDownBigNumberPlacesEighteen(10).pow(8))
+      .toString(16);
 
     return (await TxStorage.storage.newTx())
-    .setTo(GlobalConfig.cDAIcontract)
-    .setGasPrice(this.returnTransactionSpeed(gasChosen).toString(16))
-    .setGas(gasLimit.toString(16))
-    .tempSetData(transferEncodedABI)
-    .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.transfer, [
+      .setTo(GlobalConfig.cDAIcontract)
+      .setGasPrice(this.returnTransactionSpeed(gasChosen).toString(16))
+      .setGas(gasLimit.toString(16))
+      .tempSetData(transferEncodedABI)
+      .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.transfer, [
         TxStorage.storage.getOwnAddress(),
         toAddr,
-        cdaiAmountWithDecimals
-    ])
-  }
+        cdaiAmountWithDecimals,
+      ]);
+  };
 
   constructplDaiTransfer = async (toAddr, amount, gasChosen, gasLimit) => {
     const pldaiAmount = amount.split('.').join('');
-    const decimalPlaces = this.decimalPlaces(amount)
-    const decimals = 18 - decimalPlaces
-    const transferEncodedABI = ABIEncoder.encodeTransfer(toAddr,pldaiAmount,decimals)
+    const decimalPlaces = this.decimalPlaces(amount);
+    const decimals = 18 - decimalPlaces;
+    const transferEncodedABI = ABIEncoder.encodeTransfer(
+      toAddr,
+      pldaiAmount,
+      decimals,
+    );
     const pldaiAmountWithDecimals = new RoundDownBigNumberPlacesEighteen(amount)
-    .times(new RoundDownBigNumberPlacesEighteen(10).pow(18))
-    .toString(16)
+      .times(new RoundDownBigNumberPlacesEighteen(10).pow(18))
+      .toString(16);
 
     return (await TxStorage.storage.newTx())
-    .setTo(GlobalConfig.DAIPoolTogetherTokenContractV2)
-    .setGasPrice(this.returnTransactionSpeed(gasChosen).toString(16))
-    .setGas(gasLimit.toString(16))
-    .tempSetData(transferEncodedABI)
-    .addTokenOperation('pldai', TxStorage.TxTokenOpTypeToName.transfer, [
+      .setTo(GlobalConfig.DAIPoolTogetherTokenContractV2)
+      .setGasPrice(this.returnTransactionSpeed(gasChosen).toString(16))
+      .setGas(gasLimit.toString(16))
+      .tempSetData(transferEncodedABI)
+      .addTokenOperation('pldai', TxStorage.TxTokenOpTypeToName.transfer, [
         TxStorage.storage.getOwnAddress(),
         toAddr,
-        pldaiAmountWithDecimals
-    ])
-  }
+        pldaiAmountWithDecimals,
+      ]);
+  };
 
-  prefixUpperCase = txType => txType.charAt(0).toUpperCase() + txType.slice(1)
+  prefixUpperCase = (txType) =>
+    txType.charAt(0).toUpperCase() + txType.slice(1);
 
   computeTxData = (tx, checksumAddr) => {
-    if (!tx) return null
+    if (!tx) return null;
     const reasonablyAddr = EtherUtilities.getReasonablyAddress(checksumAddr);
-    const ret = []
+    const ret = [];
 
     if (tx.getValue() != '00') {
       const ethdirection =
         tx.getFrom() === `0x${reasonablyAddr}`
-        ? 1
-        : tx.getTo() === `0x${reasonablyAddr}`
-        ? 2
-        : 0
+          ? 1
+          : tx.getTo() === `0x${reasonablyAddr}`
+          ? 2
+          : 0;
       if (ethdirection > 0)
-      ret.push({
-        type: 'transfer',
-        direction:
-          ethdirection == 1
-            ? 'outgoing'
-            : ethdirection == 2
-            ? 'incoming'
-            : 'self',
-        amount: parseFloat(
-          this.parseEthValue(`0x${tx.getValue()}`)
-        ).toFixed(4),
-        token: 'eth'
-      });
+        ret.push({
+          type: 'transfer',
+          direction:
+            ethdirection == 1
+              ? 'outgoing'
+              : ethdirection == 2
+              ? 'incoming'
+              : 'self',
+          amount: parseFloat(this.parseEthValue(`0x${tx.getValue()}`)).toFixed(
+            4,
+          ),
+          token: 'eth',
+        });
     }
 
-    Object.entries(tx.getAllTokenOperations()).forEach(
-      ([toptok, toktops]) => {
-        toktops.forEach(x => ret.push(EtherUtilities.topType(x, toptok, reasonablyAddr)));
-      }
-    );
+    Object.entries(tx.getAllTokenOperations()).forEach(([toptok, toktops]) => {
+      toktops.forEach((x) =>
+        ret.push(EtherUtilities.topType(x, toptok, reasonablyAddr)),
+      );
+    });
 
     if (tx.getTo() !== '0x' && !!tx.getTo()) {
-      if (tx.getTo().toLowerCase() === GlobalConfig.DAIPoolTogetherContractV2.toLowerCase() && ret.length === 0)
+      if (
+        tx.getTo().toLowerCase() ===
+          GlobalConfig.DAIPoolTogetherContractV2.toLowerCase() &&
+        ret.length === 0
+      )
         ret.push({
           type: 'outgoing',
           token: 'dai',
           direction: 'outgoing',
-          amount: '0.00'
-        })
-      else if (tx.getTo().toLowerCase() === GlobalConfig.DAIPoolTogetherTokenContractV2.toLowerCase() && ret.length === 0)
+          amount: '0.00',
+        });
+      else if (
+        tx.getTo().toLowerCase() ===
+          GlobalConfig.DAIPoolTogetherTokenContractV2.toLowerCase() &&
+        ret.length === 0
+      )
         ret.push({
           type: 'outgoing',
           token: 'pldai',
           direction: 'outgoing',
-          amount: '0.00'
-        })
-    }
-    else
+          amount: '0.00',
+        });
+    } else
       ret.push({
         type: 'contract_creation',
         direction: 'creation',
-        token: 'eth'
-      })
+        token: 'eth',
+      });
 
-    if(ret.length === 0)
+    if (ret.length === 0)
       ret.push({
         type: 'contract_interaction',
         direction: 'outgoing',
         token: 'eth',
-        amount: '0.00'
-      })
+        amount: '0.00',
+      });
 
     return ret;
-  }
+  };
 
-  setIconStyle = (type, direction) => StyleUtilities.inOrOutIcon(type, direction)
+  setIconStyle = (type, direction) =>
+    StyleUtilities.inOrOutIcon(type, direction);
 
   getIcon(txData, service) {
-    switch(service) {
+    switch (service) {
       case 'PoolTogether':
         if (txData.length === 3)
           for (const element of txData)
             if (element.type == 'committed deposit withdraw')
-              return this.setIconStyle(txData[0].type, txData[0].direction)
+              return this.setIconStyle(txData[0].type, txData[0].direction);
       case 'Uniswap':
         if (txData.length == 2 && txData[1].type == 'swap')
-              return this.setIconStyle(txData[1].type, txData[1].direction)
+          return this.setIconStyle(txData[1].type, txData[1].direction);
       case 'Contract Creation':
-        return this.setIconStyle(txData[0].type, txData[0].direction)
+        return this.setIconStyle(txData[0].type, txData[0].direction);
       case 'Compound':
       case '':
       default:
-        return this.setIconStyle(txData[0].type, txData[0].direction)
+        return this.setIconStyle(txData[0].type, txData[0].direction);
     }
   }
 
   getOption = (data, service, method) => {
-    if(service === 'Uniswap' || method === I18n.t('history-swap'))
-      return data.length < 2 ? false : this.getSwapOption(data)
+    if (service === 'Uniswap' || method === I18n.t('history-swap'))
+      return data.length < 2 ? false : this.getSwapOption(data);
     else if (service === 'PoolTogether' && method === 'Withdraw') {
-      return this.getPTOption(data)
-    }
-    else
-      return ''
-  }
+      return this.getPTOption(data);
+    } else return '';
+  };
 
-  getSwapOption = data => ({eth: data[0].amount, dai : data[1].tokens_bought})
+  getSwapOption = (data) => ({
+    eth: data[0].amount,
+    dai: data[1].tokens_bought,
+  });
 
-  getPTOption = data => {
-    const open = this.pooltogetherAmount(data, 'open deposit withdraw')
-    const committed = this.pooltogetherAmount(data, 'committed deposit withdraw')
-    const sponsor = this.pooltogetherAmount(data, 'sponsorship withdraw')
+  getPTOption = (data) => {
+    const open = this.pooltogetherAmount(data, 'open deposit withdraw');
+    const committed = this.pooltogetherAmount(
+      data,
+      'committed deposit withdraw',
+    );
+    const sponsor = this.pooltogetherAmount(data, 'sponsorship withdraw');
     return {
       open,
       committed,
       sponsor,
-      sum: (parseFloat(open) + parseFloat(committed) + parseFloat(sponsor)).toFixed(2)
-    }
-  }
+      sum: (
+        parseFloat(open) +
+        parseFloat(committed) +
+        parseFloat(sponsor)
+      ).toFixed(2),
+    };
+  };
 
   pooltogetherAmount(txData, type) {
-    for(const element of txData)
-      if(element.type === type)
-        return element.amount
-    return '0.00'
+    for (const element of txData)
+      if (element.type === type) return element.amount;
+    return '0.00';
   }
 
-  getToken = data => {
-    switch(true) {
-      case (data[0].token === 'cdai' && data[0].type === 'withdraw'):
-        return 'DAI'
-      case (data[0].token === 'cdai' && data[0].type === 'deposit'):
-        return 'DAI'
-      case (data[0].token === 'cdai' && data[0].type === 'transfer'):
-        return 'cDAI'
-      case (data[0].token === 'pooltogether' && data.length > 1 && data[0].type !== 'deposit'):
-        return 'DAI'
+  getToken = (data) => {
+    switch (true) {
+      case data[0].token === 'cdai' && data[0].type === 'withdraw':
+        return 'DAI';
+      case data[0].token === 'cdai' && data[0].type === 'deposit':
+        return 'DAI';
+      case data[0].token === 'cdai' && data[0].type === 'transfer':
+        return 'cDAI';
+      case data[0].token === 'pooltogether' &&
+        data.length > 1 &&
+        data[0].type !== 'deposit':
+        return 'DAI';
       default:
-        return data[0].token.toUpperCase()
+        return data[0].token.toUpperCase();
     }
-  }
+  };
 
-  getMethodName = tx => {
+  getMethodName = (tx) => {
     switch (tx[0].type) {
       case 'contract_creation':
         return 'Deploy';
@@ -595,7 +639,7 @@ class TransactionUtilities {
       case 'swap':
         return I18n.t('history-swap');
       case 'transfer':
-        if(tx.length > 1 && tx[1].type === 'swap')
+        if (tx.length > 1 && tx[1].type === 'swap')
           return I18n.t('history-swap');
         else
           return tx[0].direction === 'self'
@@ -604,63 +648,110 @@ class TransactionUtilities {
             ? I18n.t('history-outgoing')
             : I18n.t('history-incoming');
       case 'outgoing':
-        return I18n.t('history-outgoing')
+        return I18n.t('history-outgoing');
       case 'sponsorship withdraw':
       case 'committed deposit withdraw':
       case 'open deposit withdraw':
         return I18n.t('withdraw');
       case 'contract_interaction':
-        return 'Contract Interaction'
+        return 'Contract Interaction';
       case 'failure':
         return I18n.t('history-failed');
       default:
-        return 'Contract Interaction'
+        return 'Contract Interaction';
     }
-  }
+  };
 
   getFromAddr = (data, tx) =>
-    data.length === 1 && data[0].direction == 'incoming' && data[0].type == 'transfer'
-    ? tx.getFrom()
-    : ''
+    data.length === 1 &&
+    data[0].direction == 'incoming' &&
+    data[0].type == 'transfer'
+      ? tx.getFrom()
+      : '';
 
   getToAddr = (data, tx) => {
-    if (data.length === 1 && data[0].direction == 'outgoing' && data[0].type == 'transfer') {
-      if (data[0].token === 'eth')
-        return tx.getTo()
+    if (
+      data.length === 1 &&
+      data[0].direction == 'outgoing' &&
+      data[0].type == 'transfer'
+    ) {
+      if (data[0].token === 'eth') return tx.getTo();
       if (tx.tokenData.dai)
-        return tx.tokenData.dai[0].to_addr.slice(0, 2) !== '0x' ? '0x' + tx.tokenData.dai[0].to_addr : tx.tokenData.dai[0].to_addr
+        return tx.tokenData.dai[0].to_addr.slice(0, 2) !== '0x'
+          ? '0x' + tx.tokenData.dai[0].to_addr
+          : tx.tokenData.dai[0].to_addr;
       if (tx.tokenData.cdai)
-        return "0x" + tx.tokenData.cdai[0].to_addr.slice(0, 2) !== '0x' ? '0x' + tx.tokenData.cdai[0].to_addr : tx.tokenData.cdai[0].to_addr
-    }
-    else
-      return ''
-  }
+        return '0x' + tx.tokenData.cdai[0].to_addr.slice(0, 2) !== '0x'
+          ? '0x' + tx.tokenData.cdai[0].to_addr
+          : tx.tokenData.cdai[0].to_addr;
+    } else return '';
+  };
 
   txCommonObject = (tx, checksumAddr) => {
-    const
-    timestamp = this.parseTransactionTime(tx.getTimestamp()),
-    status = tx.getState(),
-    service = tx.getApplication(tx.getTo()),
-    data = this.computeTxData(tx, checksumAddr),
-    method = this.getMethodName(data),
-    amount = tx.tokenData.cdai && data[0].type === 'transfer' && data[0].direction !== 'self' ? this.parseHexCDaiValue(tx.tokenData.cdai[0].amount) : data[0].amount,
-    token = this.getToken(data),
-    inOrOut = StyleUtilities.minusOrPlusIcon(data[0].type, data[0].direction),
-    icon = this.getIcon(data, service),
-    option = this.getOption(data, service, method)
-    return { timestamp, status, service, method, amount, token, icon, inOrOut, option }
-  }
+    const timestamp = this.parseTransactionTime(tx.getTimestamp()),
+      status = tx.getState(),
+      service = tx.getApplication(tx.getTo()),
+      data = this.computeTxData(tx, checksumAddr),
+      method = this.getMethodName(data),
+      amount =
+        tx.tokenData.cdai &&
+        data[0].type === 'transfer' &&
+        data[0].direction !== 'self'
+          ? this.parseHexCDaiValue(tx.tokenData.cdai[0].amount)
+          : data[0].amount,
+      token = this.getToken(data),
+      inOrOut = StyleUtilities.minusOrPlusIcon(data[0].type, data[0].direction),
+      icon = this.getIcon(data, service),
+      option = this.getOption(data, service, method);
+    return {
+      timestamp,
+      status,
+      service,
+      method,
+      amount,
+      token,
+      icon,
+      inOrOut,
+      option,
+    };
+  };
 
   txDetailObject = (tx, checksumAddr) => {
-    const { timestamp, status, service, method, amount, token, icon, inOrOut, option } = this.txCommonObject(tx, checksumAddr)
-    const networkFee = parseInt(tx.getGasPrice(), 16) * parseInt(tx.gas, 16) / 1000000000000000000,
-    hash = tx.getHash(),
-    data = this.computeTxData(tx, checksumAddr),
-    from = data[0].direction ? this.getFromAddr(data, tx) : '',
-    to = data[0].direction ? this.getToAddr(data, tx) : ''
+    const {
+      timestamp,
+      status,
+      service,
+      method,
+      amount,
+      token,
+      icon,
+      inOrOut,
+      option,
+    } = this.txCommonObject(tx, checksumAddr);
+    const networkFee =
+        (parseInt(tx.getGasPrice(), 16) * parseInt(tx.gas, 16)) /
+        1000000000000000000,
+      hash = tx.getHash(),
+      data = this.computeTxData(tx, checksumAddr),
+      from = data[0].direction ? this.getFromAddr(data, tx) : '',
+      to = data[0].direction ? this.getToAddr(data, tx) : '';
 
-    return { timestamp, status, service, method, amount, token, networkFee, hash, from, to, inOrOut, icon, option }
-  }
+    return {
+      timestamp,
+      status,
+      service,
+      method,
+      amount,
+      token,
+      networkFee,
+      hash,
+      from,
+      to,
+      inOrOut,
+      icon,
+      option,
+    };
+  };
 }
 
 export default new TransactionUtilities();

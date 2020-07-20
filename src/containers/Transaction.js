@@ -8,7 +8,7 @@ import { saveTxDetailModalVisibility } from '../actions/ActionModal';
 import {
   GoyemonText,
   TouchableCardContainer,
-  TransactionStatus
+  TransactionStatus,
 } from '../components/common';
 import TxStorage from '../lib/tx.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
@@ -18,33 +18,52 @@ class Transaction extends Component {
     super(props);
     this.state = {
       transaction: null,
-      children: <GoyemonText fontSize={12}>...</GoyemonText>
+      children: <GoyemonText fontSize={12}>...</GoyemonText>,
     };
   }
 
   componentDidMount() {
     TxStorage.storage
-      .getTx(this.props.transaction.index, this.props.transaction.filter || 'all')
-      .then(x => {
-        this.setState({ children: this.computeChildren(x) })
+      .getTx(
+        this.props.transaction.index,
+        this.props.transaction.filter || 'all',
+      )
+      .then((x) => {
+        this.setState({ children: this.computeChildren(x) });
       });
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.updateCounter !== prevProps.updateCounter)
       TxStorage.storage
-        .getTx(this.props.transaction.index, this.props.transaction.filter || 'all')
-        .then(x => {
-          this.setState({ children: this.computeChildren(x) })
+        .getTx(
+          this.props.transaction.index,
+          this.props.transaction.filter || 'all',
+        )
+        .then((x) => {
+          this.setState({ children: this.computeChildren(x) });
         });
   }
 
   computeChildren(tx) {
-    let { timestamp, status, service, method, amount, token, icon, inOrOut, option } = TransactionUtilities.txCommonObject(tx, EtherUtilities.getReasonablyAddress(this.props.checksumAddress))
-    const { index, filter } = this.props.transaction
+    let {
+      timestamp,
+      status,
+      service,
+      method,
+      amount,
+      token,
+      icon,
+      inOrOut,
+      option,
+    } = TransactionUtilities.txCommonObject(
+      tx,
+      EtherUtilities.getReasonablyAddress(this.props.checksumAddress),
+    );
+    const { index, filter } = this.props.transaction;
     if (service === 'PoolTogether' || service === 'Uniswap')
       if ((!option && method === 'Withdraw') || (!option && method === 'Swap'))
-        method = 'Outgoing'
+        method = 'Outgoing';
 
     return (
       <TouchableCardContainer
@@ -58,8 +77,8 @@ class Transaction extends Component {
         width="90%"
         onPress={() => {
           // if (tx.getState() === 0 || tx.getState() === 1) {
-            this.props.saveTxDetailModalVisibility(true);
-            this.props.onTxTapped(tx, index, filter);
+          this.props.saveTxDetailModalVisibility(true);
+          this.props.onTxTapped(tx, index, filter);
           // } else {
           //   return null;
           // }
@@ -68,27 +87,36 @@ class Transaction extends Component {
         <TransactionList>
           <InOrOutTransactionContainer>
             <GoyemonText fontSize={16}>
-              {icon.name !== '' &&
+              {icon.name !== '' && (
                 <Icon name={icon.name} size={icon.size} color={icon.color} />
-              }
+              )}
             </GoyemonText>
           </InOrOutTransactionContainer>
 
           <TypeTimeContainer>
             <Type>
-              <GoyemonText fontSize={method === 'Contract Interaction' ? 14 : 18}>
+              <GoyemonText
+                fontSize={method === 'Contract Interaction' ? 14 : 18}
+              >
                 {method}
               </GoyemonText>
             </Type>
             <Time>{timestamp}</Time>
           </TypeTimeContainer>
 
-          <TransactionStatus width="26%" txState={method === 'Failed' ? null : status} />
+          <TransactionStatus
+            width="26%"
+            txState={method === 'Failed' ? null : status}
+          />
 
           <ValueContainer>
-            {inOrOut.name !== '' && method !== 'Swap' &&
-              <Icon name={inOrOut.name} size={inOrOut.size} color={inOrOut.color} />
-            }
+            {inOrOut.name !== '' && method !== 'Swap' && (
+              <Icon
+                name={inOrOut.name}
+                size={inOrOut.size}
+                color={inOrOut.color}
+              />
+            )}
             <TransactionAmount
               amount={amount}
               token={token}
@@ -101,16 +129,16 @@ class Transaction extends Component {
     );
   }
 
-  render = () => this.state.children
+  render = () => this.state.children;
 }
 
 const styles = {
   valueStyleRed: {
-    color: '#F1860E'
+    color: '#F1860E',
   },
   valueStyleGreen: {
-    color: '#1BA548'
-  }
+    color: '#1BA548',
+  },
 };
 
 const TransactionList = styled.View`
@@ -156,68 +184,63 @@ const SwapValueTextContainer = styled.View`
   flex-direction: row;
 `;
 
-const TransactionAmount = props => {
-  const { amount, token, option, method } = props
-  switch(method) {
+const TransactionAmount = (props) => {
+  const { amount, token, option, method } = props;
+  switch (method) {
     case 'Deposit':
     case 'Outgoing':
-      return <GoyemonText
-                fontSize={16}
-                style={styles.valueStyleRed}
-              >
-                {amount} {token}
-              </GoyemonText>
+      return (
+        <GoyemonText fontSize={16} style={styles.valueStyleRed}>
+          {amount} {token}
+        </GoyemonText>
+      );
     case 'Reward':
     case 'Withdraw':
       if (option)
-        return <GoyemonText
-                  fontSize={16}
-                  style={styles.valueStyleGreen}
-               >
-                  {option.sum} {token}
-               </GoyemonText>
+        return (
+          <GoyemonText fontSize={16} style={styles.valueStyleGreen}>
+            {option.sum} {token}
+          </GoyemonText>
+        );
     case 'Incoming':
-      return <GoyemonText
-                fontSize={16}
-                style={styles.valueStyleGreen}
-              >
-                {amount} {token}
-             </GoyemonText>
+      return (
+        <GoyemonText fontSize={16} style={styles.valueStyleGreen}>
+          {amount} {token}
+        </GoyemonText>
+      );
     case 'Swap':
-      return <SwapValueContainer>
-              <SwapValueTextContainer>
-                <Icon name="minus" size={16} color="#F1860E" />
-                <GoyemonText
-                  fontSize={16}
-                  style={styles.valueStyleGreen}
-                >
-                  {option.eth} ETH
-                </GoyemonText>
-              </SwapValueTextContainer>
-              <Icon name="swap-vertical" size={16} color="#5f5f5f" />
-              <SwapValueTextContainer>
-                <Icon name="plus" size={16} color="#1BA548" />
-                <GoyemonText
-                  fontSize={16}
-                  style={styles.valueStyleGreen}
-                >
-                  {option.dai} DAI
-                </GoyemonText>
-              </SwapValueTextContainer>
-             </SwapValueContainer>
+      return (
+        <SwapValueContainer>
+          <SwapValueTextContainer>
+            <Icon name="minus" size={16} color="#F1860E" />
+            <GoyemonText fontSize={16} style={styles.valueStyleGreen}>
+              {option.eth} ETH
+            </GoyemonText>
+          </SwapValueTextContainer>
+          <Icon name="swap-vertical" size={16} color="#5f5f5f" />
+          <SwapValueTextContainer>
+            <Icon name="plus" size={16} color="#1BA548" />
+            <GoyemonText fontSize={16} style={styles.valueStyleGreen}>
+              {option.dai} DAI
+            </GoyemonText>
+          </SwapValueTextContainer>
+        </SwapValueContainer>
+      );
     case 'Self':
-      return <GoyemonText fontSize={16}>
-              {amount} {token}
-             </GoyemonText>
+      return (
+        <GoyemonText fontSize={16}>
+          {amount} {token}
+        </GoyemonText>
+      );
     case 'Failed':
-      return <GoyemonText fontSize={16}></GoyemonText>
+      return <GoyemonText fontSize={16}></GoyemonText>;
     default:
-      return null
+      return null;
   }
-}
+};
 
 const mapDispatchToProps = {
-  saveTxDetailModalVisibility
+  saveTxDetailModalVisibility,
 };
 
 export default connect(null, mapDispatchToProps)(Transaction);

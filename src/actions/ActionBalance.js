@@ -6,7 +6,7 @@ import {
   SAVE_C_DAI_BALANCE,
   SAVE_COMPOUND_DAI_BALANCE,
   SAVE_POOL_TOGETHER_DAI_BALANCE,
-  MOVE_POOL_TOGETHER_DAI_BALANCE
+  MOVE_POOL_TOGETHER_DAI_BALANCE,
 } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
@@ -23,7 +23,7 @@ export function saveWeiBalance(weiBalance) {
 
 const saveWeiBalanceSuccess = (weiBalance) => ({
   type: SAVE_WEI_BALANCE,
-  payload: weiBalance
+  payload: weiBalance,
 });
 
 export function saveCDaiBalance(cDaiBalance) {
@@ -38,7 +38,7 @@ export function saveCDaiBalance(cDaiBalance) {
 
 const saveCDaiBalanceSuccess = (cDaiBalance) => ({
   type: SAVE_C_DAI_BALANCE,
-  payload: cDaiBalance
+  payload: cDaiBalance,
 });
 
 export function saveDaiBalance(daiBalance) {
@@ -53,14 +53,14 @@ export function saveDaiBalance(daiBalance) {
 
 const saveDaiBalanceSuccess = (daiBalance) => ({
   type: SAVE_DAI_BALANCE,
-  payload: daiBalance
+  payload: daiBalance,
 });
 
 export function saveCompoundDaiBalance(cDaiBalance, currentExchangeRate) {
   return async function (dispatch) {
     try {
       let compoundDaiBalance = new BigNumber(cDaiBalance).times(
-        currentExchangeRate
+        currentExchangeRate,
       );
       compoundDaiBalance = compoundDaiBalance.toString();
       dispatch(saveCompoundDaiBalanceSuccess(compoundDaiBalance));
@@ -72,7 +72,7 @@ export function saveCompoundDaiBalance(cDaiBalance, currentExchangeRate) {
 
 const saveCompoundDaiBalanceSuccess = (compoundDaiBalance) => ({
   type: SAVE_COMPOUND_DAI_BALANCE,
-  payload: compoundDaiBalance
+  payload: compoundDaiBalance,
 });
 
 export function savePoolTogetherDaiBalance(daiBalance) {
@@ -87,7 +87,7 @@ export function savePoolTogetherDaiBalance(daiBalance) {
 
 const savePoolTogetherDaiBalanceSuccess = (daiBalance) => ({
   type: SAVE_POOL_TOGETHER_DAI_BALANCE,
-  payload: daiBalance
+  payload: daiBalance,
 });
 
 export function movePoolTogetherDaiBalance() {
@@ -101,5 +101,5 @@ export function movePoolTogetherDaiBalance() {
 }
 
 const movePoolTogetherDaiBalanceSuccess = () => ({
-  type: MOVE_POOL_TOGETHER_DAI_BALANCE
+  type: MOVE_POOL_TOGETHER_DAI_BALANCE,
 });
