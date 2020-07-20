@@ -24,12 +24,12 @@ class Send extends Component {
 
   renderCurrency() {
     const { wei, dai, cDai, pooltogetherDai } = this.props.balance,
-      ethBalance = RoundDownBigNumberPlacesFour(
+      ETHBalance = RoundDownBigNumberPlacesFour(
         Web3.utils.fromWei(wei),
       ).toFixed(4),
-      daiBalance = this.returnBalance(dai, 10, 18, 2),
-      cdaiBalance = this.returnBalance(cDai, 10, 8, 2),
-      pooltogetherDaiBalance = this.returnBalance(
+      DAIBalance = this.returnBalance(dai, 10, 18, 2),
+      CDAIBalance = this.returnBalance(cDai, 10, 8, 2),
+      poolTogetherDAIBalance = this.returnBalance(
         pooltogetherDai.committed,
         10,
         8,
@@ -41,25 +41,25 @@ class Send extends Component {
         icon: require('../../assets/ether_icon.png'),
         token: 'ETH',
         title: I18n.t('eth-wallet-balance'),
-        balance: ethBalance,
+        balance: ETHBalance,
       },
       dai: {
         icon: require('../../assets/dai_icon.png'),
         token: 'DAI',
         title: I18n.t('dai-wallet-balance'),
-        balance: daiBalance,
+        balance: DAIBalance,
       },
       cdai: {
         icon: require('../../assets/cdai_icon.png'),
         token: 'cDAI',
         title: I18n.t('cdai-wallet-balance'),
-        balance: cdaiBalance,
+        balance: CDAIBalance,
       },
       pldai: {
         icon: require('../../assets/pldai_icon.png'),
         token: 'plDAI',
         title: I18n.t('pldai-wallet-balance'),
-        balance: pooltogetherDaiBalance,
+        balance: poolTogetherDAIBalance,
       },
     };
 

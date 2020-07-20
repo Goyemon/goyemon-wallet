@@ -3,71 +3,53 @@ import { store } from '../store/store.js';
 import LogUtilities from './LogUtilities';
 
 class PriceUtilities {
-  convertEthToUsd(ether) {
+  convertETHToUSD(ether) {
     const stateTree = store.getState();
     const price = stateTree.ReducerPrice.price;
 
     try {
-      const usdValue = parseFloat(price.eth) * parseFloat(ether);
-      const roundedEthUsdValue = usdValue;
-      return roundedEthUsdValue;
+      const USDValue = parseFloat(price.eth) * parseFloat(ether);
+      const roundedETHValueInUSD = USDValue;
+      return roundedETHValueInUSD;
     } catch (error) {
       LogUtilities.logError(error);
     }
   }
 
-  convertDaiToUsd(dai) {
+  convertDAIToUSD(dai) {
     const stateTree = store.getState();
     const price = stateTree.ReducerPrice.price;
 
     try {
-      const usdValue = price.dai * parseFloat(dai);
-      const roundedDaiUsdValue = parseFloat(usdValue);
-      return roundedDaiUsdValue;
+      const USDValue = price.dai * parseFloat(dai);
+      const roundedDAIValueInUSD = parseFloat(USDValue);
+      return roundedDAIValueInUSD;
     } catch (error) {
       LogUtilities.logError(error);
     }
   }
 
-  convertcDaiToUsd(cdai) {
+  convertCDAIToUSD(cdai) {
     const stateTree = store.getState();
     const price = stateTree.ReducerPrice.price;
 
     try {
-      const usdValue = price.cdai * parseFloat(cdai);
-      const roundedDaiUsdValue = parseFloat(usdValue);
-      return roundedDaiUsdValue;
+      const USDValue = price.cdai * parseFloat(cdai);
+      const roundedDAIValueInUSD = parseFloat(USDValue);
+      return roundedDAIValueInUSD;
     } catch (error) {
       LogUtilities.logError(error);
     }
   }
 
-  getDaiUsdBalance(daiBalance) {
-    try {
-      return this.convertDaiToUsd(daiBalance).toFixed(2);
-    } catch (err) {
-      LogUtilities.logError(err);
-    }
-  }
-
-  getEthUsdBalance(ethBalance) {
-    try {
-      let ethUsdBalance = this.convertEthToUsd(ethBalance);
-      ethUsdBalance = ethUsdBalance.toFixed(2);
-      return ethUsdBalance;
-    } catch (err) {
-      LogUtilities.logError(err);
-    }
-  }
-
-  getTotalWalletBalance(ethBalance, daiBalance, cdaiBalance, pldaiBalance) {
-    let totalUsdBalance =
-      parseFloat(this.convertEthToUsd(ethBalance)) +
-      parseFloat(this.convertDaiToUsd(daiBalance)) +
-      parseFloat(this.convertcDaiToUsd(cdaiBalance)) +
-      parseFloat(this.convertDaiToUsd(pldaiBalance));
-    totalUsdBalance = parseFloat(totalUsdBalance).toFixed(2);
-    return totalUsdBalance;
+  getTotalWalletBalance(ETHBalance, DAIBalance, CDAIBalance, PLDAIBalance) {
+    let totalUSDBalance =
+      parseFloat(this.convertETHToUSD(ETHBalance)) +
+      parseFloat(this.convertDAIToUSD(DAIBalance)) +
+      parseFloat(this.convertCDAIToUSD(CDAIBalance)) +
+      parseFloat(this.convertDAIToUSD(PLDAIBalance));
+    totalUSDBalance = parseFloat(totalUSDBalance).toFixed(2);
+    return totalUSDBalance;
   }
 }
 

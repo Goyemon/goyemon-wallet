@@ -36,21 +36,21 @@ class WithdrawDaiFromCompound extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      compoundDaiBalance: RoundDownBigNumberPlacesFour(
+      compoundDAIBalance: RoundDownBigNumberPlacesFour(
         props.balance.compoundDai,
       )
         .div(new RoundDownBigNumberPlacesFour(10).pow(36))
         .toFixed(2),
-      daiWithdrawAmount: '',
-      daiSavingsAmountValidation: undefined,
-      weiAmountValidation: undefined,
+      DAIWithdrawAmount: '',
+      DAISavingsAmountValidation: undefined,
+      WEIAmountValidation: undefined,
       loading: false,
     };
   }
 
   componentDidMount() {
     this.updateWeiAmountValidation(
-      TransactionUtilities.hasSufficientWeiForNetworkFee(
+      TransactionUtilities.hasSufficientWEIForNetworkFee(
         TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
         GlobalConfig.cTokenRedeemUnderlyingGasLimit,
       ),
@@ -60,7 +60,7 @@ class WithdrawDaiFromCompound extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.gasChosen != prevProps.gasChosen) {
       this.updateWeiAmountValidation(
-        TransactionUtilities.hasSufficientWeiForNetworkFee(
+        TransactionUtilities.hasSufficientWEIForNetworkFee(
           TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
           GlobalConfig.cTokenRedeemUnderlyingGasLimit,
         ),
@@ -68,7 +68,7 @@ class WithdrawDaiFromCompound extends Component {
     }
     if (this.props.balance.compoundDai != prevProps.balance.compoundDai) {
       this.setState({
-        compoundDaiBalance: RoundDownBigNumberPlacesFour(
+        compoundDAIBalance: RoundDownBigNumberPlacesFour(
           this.props.balance.compoundDai,
         )
           .div(new RoundDownBigNumberPlacesFour(10).pow(18))
@@ -78,19 +78,19 @@ class WithdrawDaiFromCompound extends Component {
   }
 
   async constructTransactionObject() {
-    const daiWithdrawAmount = this.state.daiWithdrawAmount.split('.').join('');
+    const DAIWithdrawAmount = this.state.DAIWithdrawAmount.split('.').join('');
     const decimalPlaces = TransactionUtilities.decimalPlaces(
-      this.state.daiWithdrawAmount,
+      this.state.DAIWithdrawAmount,
     );
     const decimals = 18 - parseInt(decimalPlaces);
 
     const redeemUnderlyingEncodedABI = ABIEncoder.encodeCDAIRedeemUnderlying(
-      daiWithdrawAmount,
+      DAIWithdrawAmount,
       decimals,
     );
 
-    const daiWithdrawAmountWithDecimals = new RoundDownBigNumberPlacesEighteen(
-      this.state.daiWithdrawAmount,
+    const DAIWithdrawAmountWithDecimals = new RoundDownBigNumberPlacesEighteen(
+      this.state.DAIWithdrawAmount,
     )
       .times(new RoundDownBigNumberPlacesEighteen(10).pow(18))
       .toString(16);
@@ -106,53 +106,53 @@ class WithdrawDaiFromCompound extends Component {
       .tempSetData(redeemUnderlyingEncodedABI)
       .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.redeem, [
         TxStorage.storage.getOwnAddress(),
-        daiWithdrawAmountWithDecimals,
+        DAIWithdrawAmountWithDecimals,
         0,
       ]);
 
     return transactionObject;
   }
 
-  updateDaiSavingsAmountValidation(daiSavingsAmountValidation) {
-    if (daiSavingsAmountValidation) {
+  updateDaiSavingsAmountValidation(DAISavingsAmountValidation) {
+    if (DAISavingsAmountValidation) {
       this.setState({
-        daiSavingsAmountValidation: true,
+        DAISavingsAmountValidation: true,
       });
-    } else if (!daiSavingsAmountValidation) {
+    } else if (!DAISavingsAmountValidation) {
       this.setState({
-        daiSavingsAmountValidation: false,
-      });
-    }
-  }
-
-  updateWeiAmountValidation(weiAmountValidation) {
-    if (weiAmountValidation) {
-      this.setState({
-        weiAmountValidation: true,
-      });
-    } else if (!weiAmountValidation) {
-      this.setState({
-        weiAmountValidation: false,
+        DAISavingsAmountValidation: false,
       });
     }
   }
 
-  validateForm = async (daiWithdrawAmount) => {
-    const daiSavingsAmountValidation = TransactionUtilities.validateDaiCompoundWithdrawAmount(
-      daiWithdrawAmount,
+  updateWeiAmountValidation(WEIAmountValidation) {
+    if (WEIAmountValidation) {
+      this.setState({
+        WEIAmountValidation: true,
+      });
+    } else if (!WEIAmountValidation) {
+      this.setState({
+        WEIAmountValidation: false,
+      });
+    }
+  }
+
+  validateForm = async (DAIWithdrawAmount) => {
+    const DAISavingsAmountValidation = TransactionUtilities.validateDAICompoundWithdrawAmount(
+      DAIWithdrawAmount,
     );
-    const weiAmountValidation = TransactionUtilities.hasSufficientWeiForNetworkFee(
+    const WEIAmountValidation = TransactionUtilities.hasSufficientWEIForNetworkFee(
       TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
       GlobalConfig.cTokenRedeemUnderlyingGasLimit,
     );
     const isOnline = this.props.isOnline;
 
-    if (daiSavingsAmountValidation && weiAmountValidation && isOnline) {
+    if (DAISavingsAmountValidation && WEIAmountValidation && isOnline) {
       this.setState({ loading: true });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       this.props.saveOutgoingTransactionDataCompound({
-        amount: daiWithdrawAmount,
+        amount: DAIWithdrawAmount,
         gasLimit: GlobalConfig.cTokenRedeemUnderlyingGasLimit,
         transactionObject: transactionObject,
       });
@@ -182,7 +182,7 @@ class WithdrawDaiFromCompound extends Component {
         >
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <Title>dai savings</Title>
-          <Value>{this.state.compoundDaiBalance} DAI</Value>
+          <Value>{this.state.compoundDAIBalance} DAI</Value>
         </UntouchableCardContainer>
         <WithDrawAmountHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
@@ -191,7 +191,7 @@ class WithdrawDaiFromCompound extends Component {
         </WithDrawAmountHeaderContainer>
         <Form
           borderColor={StyleUtilities.getBorderColor(
-            this.state.daiSavingsAmountValidation,
+            this.state.DAISavingsAmountValidation,
           )}
           borderWidth={1}
           height="56px"
@@ -201,13 +201,13 @@ class WithdrawDaiFromCompound extends Component {
               placeholder="0"
               keyboardType="numeric"
               clearButtonMode="while-editing"
-              onChangeText={(daiWithdrawAmount) => {
+              onChangeText={(DAIWithdrawAmount) => {
                 this.updateDaiSavingsAmountValidation(
-                  TransactionUtilities.validateDaiCompoundWithdrawAmount(
-                    daiWithdrawAmount,
+                  TransactionUtilities.validateDAICompoundWithdrawAmount(
+                    DAIWithdrawAmount,
                   ),
                 );
-                this.setState({ daiWithdrawAmount });
+                this.setState({ DAIWithdrawAmount });
               }}
               returnKeyType="done"
             />
@@ -218,26 +218,26 @@ class WithdrawDaiFromCompound extends Component {
           gasLimit={GlobalConfig.cTokenRedeemUnderlyingGasLimit}
         />
         <InsufficientWeiBalanceMessage
-          weiAmountValidation={this.state.weiAmountValidation}
+          weiAmountValidation={this.state.WEIAmountValidation}
         />
         <ButtonWrapper>
           <TxNextButton
             disabled={
               !(
-                this.state.daiSavingsAmountValidation &&
-                this.state.weiAmountValidation &&
+                this.state.DAISavingsAmountValidation &&
+                this.state.WEIAmountValidation &&
                 isOnline
               ) || this.state.loading
             }
             opacity={
-              this.state.daiSavingsAmountValidation &&
-              this.state.weiAmountValidation &&
+              this.state.DAISavingsAmountValidation &&
+              this.state.WEIAmountValidation &&
               isOnline
                 ? 1
                 : 0.5
             }
             onPress={async () => {
-              await this.validateForm(this.state.daiWithdrawAmount);
+              await this.validateForm(this.state.DAIWithdrawAmount);
               this.setState({ loading: false });
             }}
           />

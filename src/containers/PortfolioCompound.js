@@ -27,11 +27,11 @@ class PortfolioCompound extends Component {
       .div(new BigNumber(10).pow(24))
       .toFixed(2);
 
-    const compoundDaiBalance = RoundDownBigNumberPlacesFour(balance.compoundDai)
+    const compoundDAIBalance = RoundDownBigNumberPlacesFour(balance.compoundDai)
       .div(new RoundDownBigNumberPlacesFour(10).pow(36))
       .toFixed(2);
 
-    const lifetimeEarnedInDai = RoundDownBigNumberPlacesFour(
+    const lifetimeEarnedInDAI = RoundDownBigNumberPlacesFour(
       compound.dai.lifetimeEarned,
     )
       .div(new RoundDownBigNumberPlacesFour(10).pow(36))
@@ -61,14 +61,14 @@ class PortfolioCompound extends Component {
           <BalanceText>
             $
             {parseFloat(
-              PriceUtilities.convertDaiToUsd(compoundDaiBalance),
+              PriceUtilities.convertDAIToUSD(compoundDAIBalance),
             ).toFixed(2)}
           </BalanceText>
           <InterestEarnedTextContainer>
             <InterestEarnedText>
               $
               {parseFloat(
-                PriceUtilities.convertDaiToUsd(lifetimeEarnedInDai),
+                PriceUtilities.convertDAIToUSD(lifetimeEarnedInDAI),
               ).toFixed(4)}
             </InterestEarnedText>
             <GoyemonText fontSize={14}> earned! </GoyemonText>
@@ -101,7 +101,7 @@ class PortfolioCompound extends Component {
                 <HeaderFive>
                   {I18n.t('portfolio-compound-dai-savings')}
                 </HeaderFive>
-                <ValueText>{compoundDaiBalance} DAI</ValueText>
+                <ValueText>{compoundDAIBalance} DAI</ValueText>
               </View>
             </ValueContainerInner>
             <ValueContainerInner>
@@ -123,9 +123,9 @@ class PortfolioCompound extends Component {
                 <HeaderFive>
                   {I18n.t('portfolio-compound-interest-earned')}
                 </HeaderFive>
-                <DaiInterestEarnedText>
-                  {lifetimeEarnedInDai} DAI
-                </DaiInterestEarnedText>
+                <DAIInterestEarnedText>
+                  {lifetimeEarnedInDAI} DAI
+                </DAIInterestEarnedText>
               </View>
             </ValueContainerInner>
           </ValueContainer>
@@ -180,7 +180,7 @@ const ValueText = styled.Text`
   margin-bottom: 8;
 `;
 
-const DaiInterestEarnedText = styled.Text`
+const DAIInterestEarnedText = styled.Text`
   color: #1ba548;
   font-family: 'HKGrotesk-Regular';
   font-size: 20;

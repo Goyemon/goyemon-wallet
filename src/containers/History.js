@@ -118,7 +118,7 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
     constructor(props) {
       super(props);
       this.state = {
-        weiAmountValidation: undefined,
+        WEIAmountValidation: undefined,
       };
       this.state = this.getPriceState(
         Math.ceil(this.props.currentGasPrice * 1.2),
@@ -136,7 +136,7 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
           this.props.gasLimit,
         ),
         ethValue: parseFloat(
-          TransactionUtilities.getMaxNetworkFeeInEther(
+          TransactionUtilities.getMaxNetworkFeeInETH(
             gasPriceWeiDecimal,
             this.props.gasLimit,
           ),
@@ -149,15 +149,15 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
       this.setState(this.getPriceState(gasPriceWeiDecimal));
     }
 
-    updateWeiAmountValidation(weiAmountValidation) {
-      this.props.updateWeiAmountValidationInModal(weiAmountValidation);
-      if (weiAmountValidation) {
+    updateWeiAmountValidation(WEIAmountValidation) {
+      this.props.updateWeiAmountValidationInModal(WEIAmountValidation);
+      if (WEIAmountValidation) {
         this.setState({
-          weiAmountValidation: true,
+          WEIAmountValidation: true,
         });
-      } else if (!weiAmountValidation) {
+      } else if (!WEIAmountValidation) {
         this.setState({
-          weiAmountValidation: false,
+          WEIAmountValidation: false,
         });
       }
     }
@@ -182,7 +182,7 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
             maximumValue={this.state.maxPrice}
             onValueChange={(gasPriceWeiDecimal) => {
               this.updateWeiAmountValidation(
-                TransactionUtilities.hasSufficientWeiForNetworkFee(
+                TransactionUtilities.hasSufficientWEIForNetworkFee(
                   gasPriceWeiDecimal,
                   this.props.gasLimit,
                 ),
@@ -200,7 +200,7 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
             }}
           />
           <InsufficientWeiBalanceMessage
-            weiAmountValidation={this.state.weiAmountValidation}
+            weiAmountValidation={this.state.WEIAmountValidation}
           />
           <NetworkFeeContainer>
             <GoyemonText fontSize={20}>{this.state.ethValue} ETH</GoyemonText>
@@ -234,14 +234,14 @@ const TransactionDetailModal = connect(
         txResent: false,
         loading: false,
         modalHeigh: '60%',
-        weiAmountValidation: undefined,
+        WEIAmountValidation: undefined,
       };
       this.uniqcounter = 0;
       this.updateTxState = this.updateTxState.bind(this);
     }
 
-    updateWeiAmountValidationInModal(weiAmountValidation) {
-      this.setState({ weiAmountValidation });
+    updateWeiAmountValidationInModal(WEIAmountValidation) {
+      this.setState({ WEIAmountValidation });
     }
 
     handleViewRef = (ref) => (this.view = ref);
@@ -385,12 +385,12 @@ const TransactionDetailModal = connect(
                       disabled={
                         !this.props.isOnline ||
                         this.state.loading ||
-                        !this.state.weiAmountValidation
+                        !this.state.WEIAmountValidation
                       }
                       opacity={
                         !this.props.isOnline ||
                         this.state.loading ||
-                        !this.state.weiAmountValidation
+                        !this.state.WEIAmountValidation
                           ? 0.5
                           : 1
                       }

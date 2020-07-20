@@ -40,9 +40,9 @@ class EtherUtilities {
       return {
         type: 'swap',
         eth_sold: parseFloat(
-          TransactionUtilities.parseEthValue(`0x${top.eth_sold}`),
+          TransactionUtilities.parseETHValue(`0x${top.eth_sold}`),
         ).toFixed(4),
-        tokens_bought: TransactionUtilities.parseHexDaiValue(
+        tokens_bought: TransactionUtilities.parseHexDAIValue(
           `0x${top.tok_bought}`,
         ),
         token: toptok,
@@ -64,7 +64,7 @@ class EtherUtilities {
     )
       return {
         type: 'deposit',
-        amount: TransactionUtilities.parseHexDaiValue(
+        amount: TransactionUtilities.parseHexDAIValue(
           `0x${top.depositPoolAmount}`,
         ),
         token: 'DAI',
@@ -76,7 +76,7 @@ class EtherUtilities {
     )
       return {
         type: 'transfer',
-        amount: TransactionUtilities.parseHexDaiValue(`0x${top.amount}`),
+        amount: TransactionUtilities.parseHexDAIValue(`0x${top.amount}`),
         direction:
           top.from_addr === our_reasonably_stored_address
             ? top.to_addr === our_reasonably_stored_address
@@ -114,7 +114,7 @@ class EtherUtilities {
     )
       return {
         type: 'deposit',
-        amount: TransactionUtilities.parseHexDaiValue(
+        amount: TransactionUtilities.parseHexDAIValue(
           `0x${top.mintUnderlying}`,
         ),
         token: toptok,
@@ -126,7 +126,7 @@ class EtherUtilities {
     )
       return {
         type: 'withdraw',
-        amount: TransactionUtilities.parseHexDaiValue(
+        amount: TransactionUtilities.parseHexDAIValue(
           `0x${top.redeemUnderlying}`,
         ),
         token: toptok,
@@ -138,7 +138,7 @@ class EtherUtilities {
     )
       return {
         type: 'rewarded',
-        amount: TransactionUtilities.parseHexDaiValue(`0x${top.winnings}`),
+        amount: TransactionUtilities.parseHexDAIValue(`0x${top.winnings}`),
         token: toptok,
       };
 
@@ -149,7 +149,7 @@ class EtherUtilities {
       return {
         type: 'withdraw',
         token: toptok,
-        amount: TransactionUtilities.parseHexDaiValue(
+        amount: TransactionUtilities.parseHexDAIValue(
           `0x${top.withdrawAmount}`,
         ),
       };
@@ -163,7 +163,7 @@ class EtherUtilities {
       return {
         type: 'open deposit withdraw',
         token: toptok,
-        amount: TransactionUtilities.parseHexDaiValue(
+        amount: TransactionUtilities.parseHexDAIValue(
           `0x${top.withdrawAmount}`,
         ),
       };
@@ -177,7 +177,7 @@ class EtherUtilities {
       return {
         type: 'sponsorship withdraw',
         token: toptok,
-        amount: TransactionUtilities.parseHexDaiValue(
+        amount: TransactionUtilities.parseHexDAIValue(
           `0x${top.withdrawAmount}`,
         ),
       };
@@ -191,7 +191,7 @@ class EtherUtilities {
       return {
         type: 'committed deposit withdraw',
         token: toptok,
-        amount: TransactionUtilities.parseHexDaiValue(
+        amount: TransactionUtilities.parseHexDAIValue(
           `0x${top.withdrawAmount}`,
         ),
       };

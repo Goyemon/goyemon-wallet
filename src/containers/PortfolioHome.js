@@ -62,23 +62,23 @@ class PortfolioHome extends Component {
   render() {
     const { balance, navigation, checksumAddress } = this.props;
 
-    const ethBalance = RoundDownBigNumberPlacesFour(
+    const ETHBalance = RoundDownBigNumberPlacesFour(
         Web3.utils.fromWei(balance.wei),
       ).toFixed(4),
-      daiBalance = this.returnBalance(balance.dai, 10, 18, 2),
-      cdaiBalance = this.returnBalance(balance.cDai, 10, 8, 2),
-      pldaiBalance = this.returnBalance(
+      DAIBalance = this.returnBalance(balance.dai, 10, 18, 2),
+      CDAIBalance = this.returnBalance(balance.cDai, 10, 8, 2),
+      PLDAIBalance = this.returnBalance(
         balance.pooltogetherDai.committed,
         10,
         18,
         0,
       );
 
-    const compoundDaiBalance = RoundDownBigNumberPlacesFour(balance.compoundDai)
+    const compoundDAIBalance = RoundDownBigNumberPlacesFour(balance.compoundDai)
       .div(new RoundDownBigNumberPlacesFour(10).pow(36))
       .toString();
 
-    const pooltogetherDaiBalance = RoundDownBigNumberPlacesFour(
+    const poolTogetherDAIBalance = RoundDownBigNumberPlacesFour(
       balance.pooltogetherDai.open,
     )
       .plus(balance.pooltogetherDai.committed)
@@ -87,21 +87,21 @@ class PortfolioHome extends Component {
       .toFixed(2);
 
     const totalBalance =
-      parseFloat(PriceUtilities.getTotalWalletBalance(ethBalance, daiBalance, cdaiBalance, pldaiBalance));
+      parseFloat(PriceUtilities.getTotalWalletBalance(ETHBalance, DAIBalance, CDAIBalance, PLDAIBalance));
 
     const applicationBoxes = [
       {
-        balance: PriceUtilities.getTotalWalletBalance(ethBalance, daiBalance, cdaiBalance, pldaiBalance),
+        balance: PriceUtilities.getTotalWalletBalance(ETHBalance, DAIBalance, CDAIBalance, PLDAIBalance),
         name: I18n.t('portfolio-home-wallet'),
         event: () => navigation.navigate('PortfolioWallet'),
       },
       {
-        balance: PriceUtilities.convertDaiToUsd(compoundDaiBalance).toFixed(2),
+        balance: PriceUtilities.convertDAIToUSD(compoundDAIBalance).toFixed(2),
         name: 'Compound',
         event: () => navigation.navigate('PortfolioCompound'),
       },
       {
-        balance: PriceUtilities.convertDaiToUsd(pooltogetherDaiBalance).toFixed(
+        balance: PriceUtilities.convertDAIToUSD(poolTogetherDAIBalance).toFixed(
           2,
         ),
         name: 'PoolTogether',

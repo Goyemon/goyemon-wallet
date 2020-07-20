@@ -49,7 +49,7 @@ class SendToken extends Component {
 
   componentDidMount() {
     this.updateNetworkFeeValidation(
-      TransactionUtilities.hasSufficientWeiForNetworkFee(
+      TransactionUtilities.hasSufficientWEIForNetworkFee(
         TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
         this.state.gasLimit,
       ),
@@ -59,7 +59,7 @@ class SendToken extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.gasChosen != prevProps.gasChosen) {
       this.updateNetworkFeeValidation(
-        TransactionUtilities.hasSufficientWeiForNetworkFee(
+        TransactionUtilities.hasSufficientWEIForNetworkFee(
           TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
           this.state.gasLimit,
         ),
@@ -170,7 +170,7 @@ class SendToken extends Component {
   constructTransactionObject = async () => {
     switch (this.props.info.token) {
       case 'ETH':
-        return await TransactionUtilities.constructEthTransfer(
+        return await TransactionUtilities.constructETHTransfer(
           this.props.outgoingTransactionData.send.toaddress,
           this.state.amount,
           this.props.gasChosen,
@@ -178,7 +178,7 @@ class SendToken extends Component {
         );
 
       case 'DAI':
-        return await TransactionUtilities.constructDaiTransfer(
+        return await TransactionUtilities.constructDAITransfer(
           this.props.outgoingTransactionData.send.toaddress,
           this.state.amount,
           this.props.gasChosen,
@@ -186,7 +186,7 @@ class SendToken extends Component {
         );
 
       case 'cDAI':
-        return await TransactionUtilities.constructcDaiTransfer(
+        return await TransactionUtilities.constructCDAITransfer(
           this.props.outgoingTransactionData.send.toaddress,
           this.state.amount,
           this.props.gasChosen,
@@ -194,7 +194,7 @@ class SendToken extends Component {
         );
 
       case 'plDAI':
-        return await TransactionUtilities.constructplDaiTransfer(
+        return await TransactionUtilities.constructPLDAITransfer(
           this.props.outgoingTransactionData.send.toaddress,
           this.state.amount,
           this.props.gasChosen,

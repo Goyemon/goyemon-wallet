@@ -25,12 +25,12 @@ class PortfolioWallet extends Component {
   render() {
     const { balance, price } = this.props;
 
-    const ethBalance = RoundDownBigNumberPlacesFour(
+    const ETHBalance = RoundDownBigNumberPlacesFour(
         Web3.utils.fromWei(balance.wei),
       ).toFixed(4),
-      daiBalance = this.returnBalance(balance.dai, 10, 18, 2),
-      cdaiBalance = this.returnBalance(balance.cDai, 10, 8, 2),
-      plDaiBalance = RoundDownBigNumberPlacesFour(
+      DAIBalance = this.returnBalance(balance.dai, 10, 18, 2),
+      CDAIBalance = this.returnBalance(balance.cDai, 10, 8, 2),
+      PLDAIBalance = RoundDownBigNumberPlacesFour(
         balance.pooltogetherDai.committed,
       )
         .div(new RoundDownBigNumberPlacesFour(10).pow(18))
@@ -39,29 +39,29 @@ class PortfolioWallet extends Component {
     const tokenBalanceCards = [
       {
         price: price.eth,
-        balance: ethBalance,
-        usd: PriceUtilities.convertEthToUsd(ethBalance).toFixed(2),
+        balance: ETHBalance,
+        usd: PriceUtilities.convertETHToUSD(ETHBalance).toFixed(2),
         icon: require('../../assets/ether_icon.png'),
         token: 'ETH',
       },
       {
         price: price.dai,
-        balance: daiBalance,
-        usd: PriceUtilities.convertDaiToUsd(daiBalance).toFixed(2),
+        balance: DAIBalance,
+        usd: PriceUtilities.convertDAIToUSD(DAIBalance).toFixed(2),
         icon: require('../../assets/dai_icon.png'),
         token: 'DAI',
       },
       {
         price: price.cdai,
-        balance: cdaiBalance,
-        usd: PriceUtilities.convertcDaiToUsd(cdaiBalance).toFixed(2),
+        balance: CDAIBalance,
+        usd: PriceUtilities.convertCDAIToUSD(CDAIBalance).toFixed(2),
         icon: require('../../assets/cdai_icon.png'),
         token: 'cDAI',
       },
       {
         price: price.dai,
-        balance: plDaiBalance,
-        usd: PriceUtilities.convertDaiToUsd(plDaiBalance).toFixed(2),
+        balance: PLDAIBalance,
+        usd: PriceUtilities.convertDAIToUSD(PLDAIBalance).toFixed(2),
         icon: require('../../assets/pldai_icon.png'),
         token: 'plDAI',
       },
@@ -88,7 +88,7 @@ class PortfolioWallet extends Component {
             text={I18n.t('portfolio-wallet-totalbalance')}
           />
           <UsdBalance>
-            ${PriceUtilities.getTotalWalletBalance(ethBalance, daiBalance, cdaiBalance, plDaiBalance)}
+            ${PriceUtilities.getTotalWalletBalance(ETHBalance, DAIBalance, CDAIBalance, PLDAIBalance)}
           </UsdBalance>
         </UntouchableCardContainer>
         <NewHeaderThree
