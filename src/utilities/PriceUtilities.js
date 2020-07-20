@@ -60,10 +60,12 @@ class PriceUtilities {
     }
   }
 
-  getTotalWalletBalance(ethBalance, daiBalance) {
+  getTotalWalletBalance(ethBalance, daiBalance, cdaiBalance, pldaiBalance) {
     let totalUsdBalance =
       parseFloat(this.convertEthToUsd(ethBalance)) +
-      parseFloat(this.convertDaiToUsd(daiBalance));
+      parseFloat(this.convertDaiToUsd(daiBalance)) +
+      parseFloat(this.convertcDaiToUsd(cdaiBalance)) +
+      parseFloat(this.convertDaiToUsd(pldaiBalance));
     totalUsdBalance = parseFloat(totalUsdBalance).toFixed(2);
     return totalUsdBalance;
   }
