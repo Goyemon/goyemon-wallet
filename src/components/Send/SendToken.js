@@ -47,6 +47,15 @@ class SendToken extends Component {
         }
     }
 
+    componentDidMount() {
+      this.updateNetworkFeeValidation(
+        TransactionUtilities.hasSufficientWeiForNetworkFee(
+          TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
+          this.state.gasLimit
+        )
+      )
+    }
+  
     componentDidUpdate(prevProps) {
         if (this.props.gasChosen != prevProps.gasChosen) {
           this.updateNetworkFeeValidation(
