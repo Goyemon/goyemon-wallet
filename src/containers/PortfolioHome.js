@@ -87,14 +87,11 @@ class PortfolioHome extends Component {
       .toFixed(2);
 
     const totalBalance =
-      parseFloat(PriceUtilities.getTotalWalletBalance(ethBalance, daiBalance)) +
-      parseFloat(PriceUtilities.convertDaiToUsd(compoundDaiBalance)) +
-      parseFloat(PriceUtilities.convertDaiToUsd(pooltogetherDaiBalance));
-
+      parseFloat(PriceUtilities.getTotalWalletBalance(ethBalance, daiBalance, cdaiBalance, pldaiBalance));
 
     const applicationBoxes = [
       {
-        balance: PriceUtilities.getTotalWalletBalance(ethBalance, daiBalance),
+        balance: PriceUtilities.getTotalWalletBalance(ethBalance, daiBalance, cdaiBalance, pldaiBalance),
         name: I18n.t('portfolio-home-wallet'),
         event: () => navigation.navigate('PortfolioWallet'),
       },

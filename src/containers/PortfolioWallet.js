@@ -88,7 +88,7 @@ class PortfolioWallet extends Component {
             text={I18n.t('portfolio-wallet-totalbalance')}
           />
           <UsdBalance>
-            ${PriceUtilities.getTotalWalletBalance(ethBalance, daiBalance)}
+            ${PriceUtilities.getTotalWalletBalance(ethBalance, daiBalance, cdaiBalance, plDaiBalance)}
           </UsdBalance>
         </UntouchableCardContainer>
         <NewHeaderThree
