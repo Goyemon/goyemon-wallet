@@ -7,7 +7,6 @@ import { RootContainer, Container, HeaderOne } from '../components/common';
 import SendToken from '../components/Send/SendToken';
 import I18n from '../i18n/I18n';
 import Web3 from 'web3';
-import LogUtilities from '../utilities/LogUtilities.js';
 import { RoundDownBigNumberPlacesFour } from '../utilities/BigNumberUtilities';
 
 class Send extends Component {

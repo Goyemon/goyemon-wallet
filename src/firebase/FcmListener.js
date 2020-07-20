@@ -28,9 +28,7 @@ import {
 } from '../actions/ActionTransactionHistory';
 import { FCMMsgs } from '../lib/fcm.js';
 import LogUtilities from '../utilities/LogUtilities.js';
-import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import { store } from '../store/store';
-import { saveOtherDebugInfo } from '../actions/ActionDebugInfo.js';
 
 import TxStorage from '../lib/tx.js';
 

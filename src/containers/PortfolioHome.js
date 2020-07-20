@@ -22,7 +22,6 @@ import I18n from '../i18n/I18n';
 import PortfolioStack from '../navigators/PortfolioStack';
 import { RoundDownBigNumberPlacesFour } from '../utilities/BigNumberUtilities';
 import PriceUtilities from '../utilities/PriceUtilities.js';
-import LogUtilities from '../utilities/LogUtilities.js';
 
 class PortfolioHome extends Component {
   static navigationOptions = ({ navigation }) => {

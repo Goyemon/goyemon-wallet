@@ -1,16 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
-import { Linking, View } from 'react-native';
-import styled from 'styled-components';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {
-    HeaderFive,
-    GoyemonText,
-    TransactionStatus,
-    HorizontalLine,
-  } from '../components/common';
+import { HorizontalLine } from '../components/common';
 import LogUtilities from '../utilities/LogUtilities';
-import GlobalConfig from '../config.json';
 import SwapBox from '../components/TransactionDetailContainer/SwapBox'
 import TransactionDetailHeader from '../components/TransactionDetailContainer/TransactionDetailHeader'
 import PTWithdrawBox from '../components/TransactionDetailContainer/PTWithdrawBox'

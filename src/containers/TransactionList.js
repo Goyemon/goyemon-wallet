@@ -5,7 +5,6 @@ import styled from 'styled-components/native';
 import Transaction from './Transaction';
 import I18n from '../i18n/I18n';
 import LogUtilities from '../utilities/LogUtilities';
-import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 import TxStorage from '../lib/tx.js';
 
 class TransactionList extends Component {

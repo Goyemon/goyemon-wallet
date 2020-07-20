@@ -12,7 +12,6 @@ import {
 } from '../components/common';
 import TxStorage from '../lib/tx.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
-import LogUtilities from '../utilities/LogUtilities';
 
 class Transaction extends Component {
   constructor(props) {

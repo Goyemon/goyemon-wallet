@@ -1,7 +1,5 @@
 'use strict';
 
-import LogUtilities from '../utilities/LogUtilities';
-
 class StyleUtilities {
   static getBorderColor(validation) {
     if (validation === undefined) {
