@@ -20,7 +20,6 @@
   "wallet-creation-caution": "もうすぐ終わります",
   // balance
   "portfolio-home-totalbalance": "総資産",
-  "portfolio-home-coins": "通貨",
   "portfolio-home-applications": "アプリケーション",
   "portfolio-home-wallet": "ウォレット",
   "portfolio-receive-qrcode": "QRコード",

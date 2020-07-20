@@ -20,7 +20,6 @@
   "wallet-creation-caution": "this shouldn't take too long",
   // balance
   "portfolio-home-totalbalance": "total balance",
-  "portfolio-home-coins": "coins",
   "portfolio-home-applications": "applications",
   "portfolio-home-wallet": "Wallet",
   "portfolio-receive-qrcode": "Your QR Code",

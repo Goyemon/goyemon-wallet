@@ -14,7 +14,6 @@ import {
   GoyemonText,
   ReceiveIcon,
 } from '../components/common';
-import CoinBoxes from '../components/PortfolioHome/CoinBoxes';
 import ApplicationBoxes from '../components/PortfolioHome/ApplicationBoxes';
 import Copy from '../containers/common/Copy';
 import FcmPermissions from '../firebase/FcmPermissions.js';
@@ -92,32 +91,6 @@ class PortfolioHome extends Component {
       parseFloat(PriceUtilities.convertDaiToUsd(compoundDaiBalance)) +
       parseFloat(PriceUtilities.convertDaiToUsd(pooltogetherDaiBalance));
 
-    const coinBoxes = [
-      {
-        path: require('../../assets/ether_icon.png'),
-        token: 'ETH',
-        usd: PriceUtilities.convertEthToUsd(ethBalance).toFixed(2),
-        balance: ethBalance,
-      },
-      {
-        path: require('../../assets/dai_icon.png'),
-        token: 'DAI',
-        usd: PriceUtilities.convertDaiToUsd(daiBalance).toFixed(2),
-        balance: daiBalance,
-      },
-      {
-        path: require('../../assets/cdai_icon.png'),
-        token: 'cDAI',
-        usd: PriceUtilities.convertcDaiToUsd(cdaiBalance).toFixed(2),
-        balance: cdaiBalance,
-      },
-      {
-        path: require('../../assets/pldai_icon.png'),
-        token: 'plDAI',
-        usd: PriceUtilities.convertDaiToUsd(pooltogetherDaiBalance).toFixed(2),
-        balance: pldaiBalance,
-      },
-    ];
 
     const applicationBoxes = [
       {
@@ -175,24 +148,9 @@ class PortfolioHome extends Component {
         </UntouchableCardContainer>
         <NewHeaderThree
           color="#000"
-          marginBottom="8"
-          marginLeft="24"
-          marginTop="0"
-          text={I18n.t('portfolio-home-coins')}
-        />
-        <CurrencyScrollView
-          horizontal={true}
-          contentContainerStyle={{ width: `${150}%` }}
-          showsHorizontalScrollIndicator={false}
-        >
-          <CoinBoxes boxes={coinBoxes} />
-        </CurrencyScrollView>
-
-        <NewHeaderThree
-          color="#000"
           marginBottom="0"
           marginLeft="24"
-          marginTop="24"
+          marginTop="0"
           text={I18n.t('portfolio-home-applications')}
         />
         <ApplicationBoxes boxes={applicationBoxes} />
@@ -200,11 +158,6 @@ class PortfolioHome extends Component {
     );
   }
 }
-
-const CurrencyScrollView = styled.ScrollView`
-  width: 100%;
-  margin-left: 5%;
-`;
 
 const UsdBalance = styled.Text`
   color: #000;
