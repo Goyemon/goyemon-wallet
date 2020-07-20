@@ -74,9 +74,23 @@
   },
   "devDependencies": {
     "babel-jest": "^24.9.0",
+    "husky": "^4.2.5",
     "jest": "^24.9.0",
+    "lint-staged": "^10.2.11",
     "metro-react-native-babel-preset": "^0.56.0",
+    "prettier": "^2.0.5",
     "react-test-renderer": "16.9.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "jest": {
     "preset": "react-native"
