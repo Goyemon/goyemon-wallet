@@ -90,9 +90,10 @@
   "prettier": {
     "bracketSpacing": true,
     "printWidth": 80,
+    "tabWidth": 2,
     "semi": true,
     "singleQuote": true,
-    "trailingComma": "all",
+    "trailingComma": "none",
     "useTabs": false
   },
   "lint-staged": {
