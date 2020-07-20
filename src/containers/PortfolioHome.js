@@ -126,7 +126,7 @@ class PortfolioHome extends Component {
         event: () => navigation.navigate('PortfolioWallet'),
       },
       {
-        balance: PriceUtilities.convertDaiToUsd(daiBalance).toFixed(2),
+        balance: PriceUtilities.convertDaiToUsd(compoundDaiBalance).toFixed(2),
         name: 'Compound',
         event: () => navigation.navigate('PortfolioCompound'),
       },
