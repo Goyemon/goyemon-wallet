@@ -40,14 +40,14 @@ let SettingsListText;
 //     width: 80%;
 //   `;
 // } else {
-  SettingsListText = styled.Text`
-    padding: 8px 12px;
-    color: #5f5f5f;
-    font-family: 'HKGrotesk-Regular';
-    font-size: 20;
-    margin-left: 16;
-    width: 80%;
-  `;
+SettingsListText = styled.Text`
+  padding: 8px 12px;
+  color: #5f5f5f;
+  font-family: 'HKGrotesk-Regular';
+  font-size: 20;
+  margin-left: 16;
+  width: 80%;
+`;
 // }
 
 export { SettingsListCard };

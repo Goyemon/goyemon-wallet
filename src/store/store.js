@@ -5,13 +5,19 @@ import { createMigrate, persistReducer, persistStore } from 'redux-persist';
 import thunk from 'redux-thunk';
 import rootReducers from '../reducers/ReducerIndex';
 
-// const migrations = {
-//   0: (state) => {
-//     return {
-//       ...state,
-//     }
-//   }
-// }
+const migrations = {
+  0: (state) => {
+    return {
+      ...state,
+      ReducerPrice: {
+        price: {
+          ...state.price,
+          cdai: ''
+        }
+      }
+    };
+  }
+};
 
 const persistConfig = {
   key: 'root',
@@ -30,8 +36,8 @@ const persistConfig = {
     'ReducerTransactionsLoaded',
     'ReducerUniswap'
   ],
-  // version: 0 // default version is -1
-  // migrate: createMigrate(migrations, { debug: true })
+  version: 0, // default version is -1
+  migrate: createMigrate(migrations, { debug: true })
 };
 
 // 'ReducerTransactionHistory',

@@ -6,7 +6,7 @@ import { StackActions, NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { getGasPrice } from '../actions/ActionGasPrice';
-import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
+import { getEthPrice, getDaiPrice, getcDaiPrice } from '../actions/ActionPrice';
 import { Container } from '../components/common';
 import FcmPermissions from '../firebase/FcmPermissions.js';
 import { FCMMsgs } from '../lib/fcm.js';
@@ -26,6 +26,7 @@ class Initial extends Component {
   async componentDidMount() {
     await this.props.getEthPrice();
     await this.props.getDaiPrice();
+    await this.props.getcDaiPrice();
     this.props.getGasPrice();
     FCMMsgs.requestCompoundDaiInfo(this.props.checksumAddress);
     FCMMsgs.requestPoolTogetherDaiInfo(this.props.checksumAddress);
@@ -236,6 +237,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
+  getcDaiPrice,
   getEthPrice,
   getDaiPrice,
   getGasPrice

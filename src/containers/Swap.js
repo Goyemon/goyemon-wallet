@@ -38,10 +38,10 @@ class Swap extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ethBalance: Web3.utils.fromWei(props.balance.wei),
-      ethSold: '',
+      ETHBalance: Web3.utils.fromWei(props.balance.wei),
+      ETHSold: '',
       tokenBought: new RoundDownBigNumberPlacesEighteen(0),
-      ethSoldValidation: undefined,
+      ETHSoldValidation: undefined,
       loading: false
     };
   }
@@ -49,37 +49,37 @@ class Swap extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.balance != prevProps.balance) {
       this.setState({
-        ethBalance: Web3.utils.fromWei(this.props.balance.wei)
+        ETHBalance: Web3.utils.fromWei(this.props.balance.wei)
       });
     }
     if (this.props.gasChosen != prevProps.gasChosen) {
-      this.updateEthSoldValidation(this.validateAmount(this.state.ethSold));
+      this.updateEthSoldValidation(this.validateAmount(this.state.ETHSold));
     }
   }
 
-  getTokenBought(ethSold, weiReserve, tokenReserve) {
-    weiReserve = new RoundDownBigNumberPlacesEighteen(weiReserve, 16);
+  getTokenBought(ETHSold, WEIReserve, tokenReserve) {
+    WEIReserve = new RoundDownBigNumberPlacesEighteen(WEIReserve, 16);
     tokenReserve = new RoundDownBigNumberPlacesEighteen(tokenReserve, 16);
-    let weiSold = Web3.utils.toWei(ethSold.toString());
-    weiSold = new RoundDownBigNumberPlacesEighteen(weiSold);
-    const weiSoldWithFee = weiSold.times(997);
-    const numerator = weiSoldWithFee.times(tokenReserve);
-    const denominator = weiReserve.times(1000).plus(weiSoldWithFee);
+    let WEISold = Web3.utils.toWei(ETHSold.toString());
+    WEISold = new RoundDownBigNumberPlacesEighteen(WEISold);
+    const WEISoldWithFee = WEISold.times(997);
+    const numerator = WEISoldWithFee.times(tokenReserve);
+    const denominator = WEIReserve.times(1000).plus(WEISoldWithFee);
     const tokenBought = numerator.div(denominator);
     return tokenBought;
   }
 
-  updateTokenBought(ethSold) {
-    const isNumber = /^[0-9]\d*(\.\d+)?$/.test(ethSold);
+  updateTokenBought(ETHSold) {
+    const isNumber = /^[0-9]\d*(\.\d+)?$/.test(ETHSold);
     if (isNumber) {
       const tokenBought = this.getTokenBought(
-        ethSold,
+        ETHSold,
         this.props.uniswap.daiExchange.weiReserve,
         this.props.uniswap.daiExchange.daiReserve
       ).div(new RoundDownBigNumberPlacesEighteen(10).pow(18));
       this.setState({ tokenBought });
     } else {
-      LogUtilities.logInfo('ethSold is not a number');
+      LogUtilities.logInfo('ETHSold is not a number');
     }
   }
 
@@ -103,7 +103,7 @@ class Swap extends Component {
   }
 
   async constructTransactionObject() {
-    const hexWei = TransactionUtilities.etherToHexWei(this.state.ethSold);
+    const hexWEI = TransactionUtilities.ETHToHexWEI(this.state.ETHSold);
     const minTokens = this.getMinTokens(this.state.tokenBought)
       .toString(10)
       .split('.')
@@ -133,7 +133,7 @@ class Swap extends Component {
 
     const transactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.RouterUniswapV2)
-      .setValue(hexWei)
+      .setValue(hexWEI)
       .setGasPrice(
         TransactionUtilities.returnTransactionSpeed(
           this.props.gasChosen
@@ -147,7 +147,7 @@ class Swap extends Component {
         [
           GlobalConfig.RouterUniswapV2,
           '0',
-          hexWei,
+          hexWEI,
           minTokensWithDecimals,
           '0',
           this.props.checksumAddress
@@ -157,15 +157,15 @@ class Swap extends Component {
   }
 
   validateForm = async () => {
-    const ethSoldValidation = this.validateAmount(this.state.ethSold);
+    const ETHSoldValidation = this.validateAmount(this.state.ETHSold);
     const isOnline = this.props.isOnline;
 
-    if (ethSoldValidation && isOnline) {
+    if (ETHSoldValidation && isOnline) {
       this.setState({ loading: true });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
       this.props.saveOutgoingTransactionDataSwap({
-        sold: this.state.ethSold,
+        sold: this.state.ETHSold,
         bought: this.state.tokenBought.toFixed(4),
         minBought: this.getMinTokens(this.state.tokenBought),
         slippage: this.props.uniswap.slippage[this.props.uniswap.slippageChosen]
@@ -180,16 +180,16 @@ class Swap extends Component {
     }
   };
 
-  validateAmount(ethSold) {
-    const isNumber = /^[0-9]\d*(\.\d+)?$/.test(ethSold);
+  validateAmount(ETHSold) {
+    const isNumber = /^[0-9]\d*(\.\d+)?$/.test(ETHSold);
     if (isNumber) {
-      const weiBalance = new RoundDownBigNumberPlacesEighteen(
+      const WEIBalance = new RoundDownBigNumberPlacesEighteen(
         this.props.balance.wei
       );
-      const weiSold = new RoundDownBigNumberPlacesEighteen(
-        Web3.utils.toWei(ethSold)
+      const WEISold = new RoundDownBigNumberPlacesEighteen(
+        Web3.utils.toWei(ETHSold)
       );
-      const transactionFeeLimitInWei = new RoundDownBigNumberPlacesEighteen(
+      const maxNetworkFeeInWEI = new RoundDownBigNumberPlacesEighteen(
         TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
       ).times(GlobalConfig.UniswapV2SwapExactETHForTokensGasLimit);
       const tokenReserve = new RoundDownBigNumberPlacesEighteen(
@@ -198,13 +198,11 @@ class Swap extends Component {
       );
 
       if (
-        weiBalance.isGreaterThanOrEqualTo(
-          weiSold.plus(transactionFeeLimitInWei)
-        ) &&
-        weiSold.isGreaterThanOrEqualTo(0) &&
+        WEIBalance.isGreaterThanOrEqualTo(WEISold.plus(maxNetworkFeeInWEI)) &&
+        WEISold.isGreaterThanOrEqualTo(0) &&
         tokenReserve.isGreaterThanOrEqualTo(this.state.tokenBought)
       ) {
-        LogUtilities.logInfo('the ethSold validated!');
+        LogUtilities.logInfo('the ETHSold validated!');
         return true;
       }
       LogUtilities.logInfo('wrong balance!');
@@ -214,15 +212,15 @@ class Swap extends Component {
     }
   }
 
-  updateEthSoldValidation(ethSoldValidation) {
+  updateEthSoldValidation(ETHSoldValidation) {
     const isOnline = this.props.isOnline;
-    if (ethSoldValidation && isOnline) {
+    if (ETHSoldValidation && isOnline) {
       this.setState({
-        ethSoldValidation: true
+        ETHSoldValidation: true
       });
-    } else if (!ethSoldValidation || !isOnline) {
+    } else if (!ETHSoldValidation || !isOnline) {
       this.setState({
-        ethSoldValidation: false
+        ETHSoldValidation: false
       });
     }
   }
@@ -241,8 +239,8 @@ class Swap extends Component {
 
   renderInsufficientBalanceMessage() {
     if (
-      this.state.ethSoldValidation ||
-      this.state.ethSoldValidation === undefined
+      this.state.ETHSoldValidation ||
+      this.state.ETHSoldValidation === undefined
     ) {
     } else {
       return (
@@ -258,21 +256,21 @@ class Swap extends Component {
 
   render() {
     const isOnline = this.props.isOnline;
-    let ethBalance = Web3.utils.fromWei(this.props.balance.wei);
-    ethBalance = RoundDownBigNumberPlacesEighteen(ethBalance).toFixed(4);
+    let ETHBalance = Web3.utils.fromWei(this.props.balance.wei);
+    ETHBalance = RoundDownBigNumberPlacesEighteen(ETHBalance).toFixed(4);
 
-    let weiMaxAmount;
-    const weiBalance = new RoundDownBigNumberPlacesEighteen(
+    let WEIMaxAmount;
+    const WEIBalance = new RoundDownBigNumberPlacesEighteen(
       this.props.balance.wei
     );
-    const networkFeeLimit = new RoundDownBigNumberPlacesEighteen(
+    const maxNetworkFee = new RoundDownBigNumberPlacesEighteen(
       TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
     ).times(GlobalConfig.UniswapV2SwapExactETHForTokensGasLimit);
 
-    if (weiBalance.isLessThanOrEqualTo(networkFeeLimit)) {
-      weiMaxAmount = '0';
-    } else if (weiBalance.isGreaterThan(networkFeeLimit)) {
-      weiMaxAmount = weiBalance.minus(networkFeeLimit).toString();
+    if (WEIBalance.isLessThanOrEqualTo(maxNetworkFee)) {
+      WEIMaxAmount = '0';
+    } else if (WEIBalance.isGreaterThan(maxNetworkFee)) {
+      WEIMaxAmount = WEIBalance.minus(maxNetworkFee).toString();
     }
 
     return (
@@ -299,7 +297,7 @@ class Swap extends Component {
             <Title>{I18n.t('swap-sell-title')}</Title>
             <SwapForm
               borderBottomColor={StyleUtilities.getBorderColor(
-                this.state.ethSoldValidation
+                this.state.ETHSoldValidation
               )}
               borderBottomWidth={1}
             >
@@ -307,13 +305,13 @@ class Swap extends Component {
                 placeholder="0"
                 keyboardType="numeric"
                 clearButtonMode="while-editing"
-                onChangeText={(ethSold) => {
-                  this.setState({ ethSold });
-                  this.updateEthSoldValidation(this.validateAmount(ethSold));
-                  this.updateTokenBought(ethSold);
+                onChangeText={(ETHSold) => {
+                  this.setState({ ETHSold });
+                  this.updateEthSoldValidation(this.validateAmount(ETHSold));
+                  this.updateTokenBought(ETHSold);
                 }}
                 returnKeyType="done"
-                value={this.state.ethSold}
+                value={this.state.ETHSold}
               />
             </SwapForm>
             <View>{this.renderInsufficientBalanceMessage()}</View>
@@ -322,15 +320,15 @@ class Swap extends Component {
               textColor="#00A3E2"
               onPress={() => {
                 this.setState({
-                  ethSold: Web3.utils.fromWei(weiMaxAmount)
+                  ETHSold: Web3.utils.fromWei(WEIMaxAmount)
                 });
                 this.updateEthSoldValidation(
-                  TransactionUtilities.validateWeiAmount(
-                    weiMaxAmount,
+                  TransactionUtilities.hasSufficientWeiForAmount(
+                    WEIMaxAmount,
                     GlobalConfig.UniswapV2SwapExactETHForTokensGasLimit
                   )
                 );
-                this.updateTokenBought(Web3.utils.fromWei(weiMaxAmount));
+                this.updateTokenBought(Web3.utils.fromWei(WEIMaxAmount));
               }}
             />
           </Container>
@@ -346,7 +344,7 @@ class Swap extends Component {
               <CurrencySymbolText>ETH</CurrencySymbolText>
             </CurrencyContainer>
             <BalanceText>
-              {I18n.t('balance')}: {ethBalance}
+              {I18n.t('balance')}: {ETHBalance}
             </BalanceText>
           </Container>
         </UntouchableCardContainer>
@@ -397,9 +395,9 @@ class Swap extends Component {
         <ButtonWrapper>
           <TxNextButton
             disabled={
-              !(this.state.ethSoldValidation && isOnline) || this.state.loading
+              !(this.state.ETHSoldValidation && isOnline) || this.state.loading
             }
-            opacity={this.state.ethSoldValidation && isOnline ? 1 : 0.5}
+            opacity={this.state.ETHSoldValidation && isOnline ? 1 : 0.5}
             onPress={async () => {
               await this.validateForm();
               this.setState({ loading: false });

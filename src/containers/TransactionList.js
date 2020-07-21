@@ -5,7 +5,6 @@ import styled from 'styled-components/native';
 import Transaction from './Transaction';
 import I18n from '../i18n/I18n';
 import LogUtilities from '../utilities/LogUtilities';
-
 import TxStorage from '../lib/tx.js';
 
 class TransactionList extends Component {
@@ -53,22 +52,17 @@ class TransactionList extends Component {
 
     return {
       index: this.getItemCount() - index - 1, // basically reverse-sort. we want the LATEST index on top, not the earliest.
-      filter: this.props.tokenFilter
-        ? this.props.tokenFilter.toLowerCase()
-        : 'all'
+      filter: this.props.tokenFilter.toLowerCase() || 'all'
       // ...refreshData
     };
   }
 
-  getItemCount(data) {
+  getItemCount() {
     const ret = TxStorage.storage.getTxCount(
-      this.props.tokenFilter ? this.props.tokenFilter.toLowerCase() : 'all'
+      this.props.tokenFilter.toLowerCase() || 'all'
     );
     if (ret != this.__tempcachecount) {
       // prevent flood
-      LogUtilities.toDebugScreen(
-        `TransactionList getItemCount() called, returns ${ret}`
-      );
       this.__tempcachecount = ret;
     }
     return ret;

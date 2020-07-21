@@ -1,6 +1,5 @@
 'use strict';
 import web3 from 'web3';
-// https://web3js.readthedocs.io/en/v1.2.0/web3-utils.html
 // https://github.com/indutny/bn.js/blob/master/lib/bn.js
 
 class RuDataBuilder {
@@ -22,9 +21,12 @@ class RuDataBuilder {
   }
 
   putAddressArray(addrs) {
-    this.__numToUint256(addrs.length, false).copy(this.buf, this.current_offset);
+    this.__numToUint256(addrs.length, false).copy(
+      this.buf,
+      this.current_offset
+    );
     this.current_offset += 32;
-    for (let i = 0; i < addrs.length; i ++) {
+    for (let i = 0; i < addrs.length; i++) {
       this.__addrToBuf(addrs[i]).copy(this.buf, this.current_offset);
       this.current_offset += 32;
     }
@@ -111,17 +113,21 @@ class ABIEncoder {
       .get();
   }
 
-
-
-  static encodeSwapExactETHForTokens(minTokens, path, recipient, deadline, decimals = 18) {
-    let fields = 5 + path.length
+  static encodeSwapExactETHForTokens(
+    minTokens,
+    path,
+    recipient,
+    deadline,
+    decimals = 18
+  ) {
+    let fields = 5 + path.length;
     return new RuDataBuilder([0x7f, 0xf3, 0x6a, 0xb5], fields, decimals)
-    .putUint256Scaled(minTokens)
-    .putPrefix(128)
-    .putAddress(recipient)
-    .putUint256Unscaled(deadline)
-    .putAddressArray(path)
-    .get();
+      .putUint256Scaled(minTokens)
+      .putPrefix(128)
+      .putAddress(recipient)
+      .putUint256Unscaled(deadline)
+      .putAddressArray(path)
+      .get();
   }
 
   static encodeDepositPool(amount, decimals = 18) {

@@ -38,19 +38,19 @@ class DepositDaiToCompound extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      daiBalance: RoundDownBigNumberPlacesFour(props.balance.dai)
+      DAIBalance: RoundDownBigNumberPlacesFour(props.balance.dai)
         .div(new RoundDownBigNumberPlacesFour(10).pow(18))
         .toFixed(2),
       daiAmount: '',
-      daiAmountValidation: undefined,
-      weiAmountValidation: undefined,
+      DAIAmountValidation: undefined,
+      WEIAmountValidation: undefined,
       loading: false
     };
   }
 
   componentDidMount() {
-    this.updateWeiAmountValidation(
-      TransactionUtilities.validateWeiAmountForTransactionFee(
+    this.updateWEIAmountValidation(
+      TransactionUtilities.hasSufficientWEIForNetworkFee(
         TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
         GlobalConfig.cTokenMintGasLimit
       )
@@ -59,8 +59,8 @@ class DepositDaiToCompound extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.gasChosen != prevProps.gasChosen) {
-      this.updateWeiAmountValidation(
-        TransactionUtilities.validateWeiAmountForTransactionFee(
+      this.updateWEIAmountValidation(
+        TransactionUtilities.hasSufficientWEIForNetworkFee(
           TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
           GlobalConfig.cTokenMintGasLimit
         )
@@ -68,7 +68,7 @@ class DepositDaiToCompound extends Component {
     }
     if (this.props.balance.dai != prevProps.balance.dai) {
       this.setState({
-        daiBalance: RoundDownBigNumberPlacesFour(this.props.balance.dai)
+        DAIBalance: RoundDownBigNumberPlacesFour(this.props.balance.dai)
           .div(new RoundDownBigNumberPlacesFour(10).pow(18))
           .toFixed(2)
       });
@@ -108,41 +108,41 @@ class DepositDaiToCompound extends Component {
     return transactionObject;
   }
 
-  updateDaiAmountValidation(daiAmountValidation) {
-    if (daiAmountValidation) {
+  updateDAIAmountValidation(DAIAmountValidation) {
+    if (DAIAmountValidation) {
       this.setState({
-        daiAmountValidation: true
+        DAIAmountValidation: true
       });
-    } else if (!daiAmountValidation) {
+    } else if (!DAIAmountValidation) {
       this.setState({
-        daiAmountValidation: false
+        DAIAmountValidation: false
       });
     }
   }
 
-  updateWeiAmountValidation(weiAmountValidation) {
-    if (weiAmountValidation) {
+  updateWEIAmountValidation(WEIAmountValidation) {
+    if (WEIAmountValidation) {
       this.setState({
-        weiAmountValidation: true
+        WEIAmountValidation: true
       });
-    } else if (!weiAmountValidation) {
+    } else if (!WEIAmountValidation) {
       this.setState({
-        weiAmountValidation: false
+        WEIAmountValidation: false
       });
     }
   }
 
   validateForm = async (daiAmount) => {
-    const daiAmountValidation = TransactionUtilities.validateDaiAmount(
+    const DAIAmountValidation = TransactionUtilities.hasSufficientDAIForAmount(
       daiAmount
     );
-    const weiAmountValidation = TransactionUtilities.validateWeiAmountForTransactionFee(
+    const WEIAmountValidation = TransactionUtilities.hasSufficientWEIForNetworkFee(
       TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
       GlobalConfig.cTokenMintGasLimit
     );
     const isOnline = this.props.isOnline;
 
-    if (daiAmountValidation && weiAmountValidation && isOnline) {
+    if (DAIAmountValidation && WEIAmountValidation && isOnline) {
       this.setState({ loading: true });
       LogUtilities.logInfo('validation successful');
       const transactionObject = await this.constructTransactionObject();
@@ -186,7 +186,7 @@ class DepositDaiToCompound extends Component {
         >
           <CoinImage source={require('../../assets/dai_icon.png')} />
           <Title>{I18n.t('dai-wallet-balance')}</Title>
-          <Value>{this.state.daiBalance} DAI</Value>
+          <Value>{this.state.DAIBalance} DAI</Value>
           <Title>interest rate</Title>
           <Value>{currentInterestRate} %</Value>
         </UntouchableCardContainer>
@@ -199,15 +199,15 @@ class DepositDaiToCompound extends Component {
             textColor="#00A3E2"
             onPress={() => {
               this.setState({ daiAmount: daiFullBalance });
-              this.updateDaiAmountValidation(
-                TransactionUtilities.validateDaiAmount(daiFullBalance)
+              this.updateDAIAmountValidation(
+                TransactionUtilities.hasSufficientDAIForAmount(daiFullBalance)
               );
             }}
           />
         </DepositAmountHeaderContainer>
         <Form
           borderColor={StyleUtilities.getBorderColor(
-            this.state.daiAmountValidation
+            this.state.DAIAmountValidation
           )}
           borderWidth={1}
           height="56px"
@@ -218,8 +218,8 @@ class DepositDaiToCompound extends Component {
               keyboardType="numeric"
               clearButtonMode="while-editing"
               onChangeText={(daiAmount) => {
-                this.updateDaiAmountValidation(
-                  TransactionUtilities.validateDaiAmount(daiAmount)
+                this.updateDAIAmountValidation(
+                  TransactionUtilities.hasSufficientDAIForAmount(daiAmount)
                 );
                 this.setState({ daiAmount });
               }}
@@ -231,20 +231,20 @@ class DepositDaiToCompound extends Component {
         </Form>
         <AdvancedContainer gasLimit={GlobalConfig.cTokenMintGasLimit} />
         <InsufficientWeiBalanceMessage
-          weiAmountValidation={this.state.weiAmountValidation}
+          weiAmountValidation={this.state.WEIAmountValidation}
         />
         <ButtonWrapper>
           <TxNextButton
             disabled={
               !(
-                this.state.daiAmountValidation &&
-                this.state.weiAmountValidation &&
+                this.state.DAIAmountValidation &&
+                this.state.WEIAmountValidation &&
                 isOnline
               ) || this.state.loading
             }
             opacity={
-              this.state.daiAmountValidation &&
-              this.state.weiAmountValidation &&
+              this.state.DAIAmountValidation &&
+              this.state.WEIAmountValidation &&
               isOnline
                 ? 1
                 : 0.5

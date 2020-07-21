@@ -20,21 +20,21 @@ class NetworkFeeContainerConfirmation extends Component {
     };
   }
 
-  toggleCurrency(gasPriceWei, gasLimit) {
+  toggleCurrency(gasPriceWEI, gasLimit) {
     if (this.state.currency === 'ETH') {
-      const usdValue = TransactionUtilities.getTransactionFeeEstimateInUsd(
-        gasPriceWei,
+      const USDValue = TransactionUtilities.getMaxNetworkFeeInUSD(
+        gasPriceWEI,
         gasLimit
       );
-      return <ConfirmationText>${usdValue}</ConfirmationText>;
+      return <ConfirmationText>${USDValue}</ConfirmationText>;
     } else if (this.state.currency === 'USD') {
-      let ethValue = TransactionUtilities.getTransactionFeeEstimateInEther(
-        gasPriceWei,
+      let ETHValue = TransactionUtilities.getMaxNetworkFeeInETH(
+        gasPriceWEI,
         gasLimit
       );
-      LogUtilities.logInfo('ethValue ==>', ethValue);
-      ethValue = parseFloat(ethValue).toFixed(5);
-      return <ConfirmationText>{ethValue}ETH</ConfirmationText>;
+      LogUtilities.logInfo('ETHValue ==>', ETHValue);
+      ETHValue = parseFloat(ETHValue).toFixed(5);
+      return <ConfirmationText>{ETHValue}ETH</ConfirmationText>;
     }
   }
 

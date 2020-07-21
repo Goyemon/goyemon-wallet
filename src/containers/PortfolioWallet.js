@@ -7,31 +7,72 @@ import Web3 from 'web3';
 import {
   RootContainer,
   UntouchableCardContainer,
-  HeaderOne,
-  HeaderThree,
-  HeaderFour,
-  GoyemonText
+  NewHeaderOne,
+  NewHeaderThree,
+  NewHeaderFour
 } from '../components/common';
 import I18n from '../i18n/I18n';
 import { RoundDownBigNumberPlacesFour } from '../utilities/BigNumberUtilities';
+import TokenBalanceCards from '../components/PortfolioWallet/TokenBalanceCards';
 import PriceUtilities from '../utilities/PriceUtilities.js';
 
 class PortfolioWallet extends Component {
+  returnBalance = (amount, round, pow, fix) =>
+    RoundDownBigNumberPlacesFour(amount)
+      .div(new RoundDownBigNumberPlacesFour(round).pow(pow))
+      .toFixed(fix);
+
   render() {
     const { balance, price } = this.props;
 
-    let ethBalance = Web3.utils.fromWei(balance.wei);
-    ethBalance = RoundDownBigNumberPlacesFour(ethBalance).toFixed(4);
+    const ETHBalance = RoundDownBigNumberPlacesFour(
+        Web3.utils.fromWei(balance.wei)
+      ).toFixed(4),
+      DAIBalance = this.returnBalance(balance.dai, 10, 18, 2),
+      CDAIBalance = this.returnBalance(balance.cDai, 10, 8, 2),
+      PLDAIBalance = RoundDownBigNumberPlacesFour(
+        balance.pooltogetherDai.committed
+      )
+        .div(new RoundDownBigNumberPlacesFour(10).pow(18))
+        .toFixed(2);
 
-    const daiBalance = RoundDownBigNumberPlacesFour(balance.dai)
-      .div(new RoundDownBigNumberPlacesFour(10).pow(18))
-      .toFixed(2);
+    const tokenBalanceCards = [
+      {
+        price: price.eth,
+        balance: ETHBalance,
+        usd: PriceUtilities.convertETHToUSD(ETHBalance).toFixed(2),
+        icon: require('../../assets/ether_icon.png'),
+        token: 'ETH'
+      },
+      {
+        price: price.dai,
+        balance: DAIBalance,
+        usd: PriceUtilities.convertDAIToUSD(DAIBalance).toFixed(2),
+        icon: require('../../assets/dai_icon.png'),
+        token: 'DAI'
+      },
+      {
+        price: price.cdai,
+        balance: CDAIBalance,
+        usd: PriceUtilities.convertCDAIToUSD(CDAIBalance).toFixed(2),
+        icon: require('../../assets/cdai_icon.png'),
+        token: 'cDAI'
+      },
+      {
+        price: price.dai,
+        balance: PLDAIBalance,
+        usd: PriceUtilities.convertDAIToUSD(PLDAIBalance).toFixed(2),
+        icon: require('../../assets/pldai_icon.png'),
+        token: 'plDAI'
+      }
+    ];
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="112">
-          {I18n.t('portfolio-wallet-header')}
-        </HeaderOne>
+        <NewHeaderOne
+          marginTop="112"
+          text={I18n.t('portfolio-wallet-header')}
+        />
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8"
@@ -42,75 +83,28 @@ class PortfolioWallet extends Component {
           textAlign="left"
           width="90%"
         >
-          <HeaderFour marginTop="0">
-            {I18n.t('portfolio-wallet-totalbalance')}
-          </HeaderFour>
+          <NewHeaderFour
+            marginTop="0"
+            text={I18n.t('portfolio-wallet-totalbalance')}
+          />
           <UsdBalance>
-            ${PriceUtilities.getTotalWalletBalance(ethBalance, daiBalance)}
+            $
+            {PriceUtilities.getTotalWalletBalance(
+              ETHBalance,
+              DAIBalance,
+              CDAIBalance,
+              PLDAIBalance
+            )}
           </UsdBalance>
         </UntouchableCardContainer>
-        <HeaderThree
+        <NewHeaderThree
           color="#000"
           marginBottom="0"
           marginLeft="24"
           marginTop="0"
-        >
-          {I18n.t('portfolio-wallet-coins')}
-        </HeaderThree>
-        <UntouchableCardContainer
-          alignItems="center"
-          borderRadius="8"
-          flexDirection="row"
-          height="120px"
-          justifyContent="space-between"
-          marginTop={8}
-          textAlign="left"
-          width="90%"
-        >
-          <CoinImageContainer>
-            <CoinImage source={require('../../assets/ether_icon.png')} />
-            <CoinText>ETH</CoinText>
-          </CoinImageContainer>
-          <PriceContainer>
-            <PriceText>1 ETH</PriceText>
-            <PriceText>= ${price.eth}</PriceText>
-          </PriceContainer>
-          <BalanceContainer>
-            <UsdBalanceText>
-              ${PriceUtilities.convertEthToUsd(ethBalance).toFixed(2)}
-            </UsdBalanceText>
-            <BalanceText>
-              <GoyemonText fontSize="20">{ethBalance} ETH</GoyemonText>
-            </BalanceText>
-          </BalanceContainer>
-        </UntouchableCardContainer>
-        <UntouchableCardContainer
-          alignItems="center"
-          borderRadius="8"
-          flexDirection="row"
-          height="120px"
-          justifyContent="space-between"
-          marginTop={8}
-          textAlign="left"
-          width="90%"
-        >
-          <CoinImageContainer>
-            <CoinImage source={require('../../assets/dai_icon.png')} />
-            <CoinText>DAI</CoinText>
-          </CoinImageContainer>
-          <PriceContainer>
-            <PriceText>1 DAI</PriceText>
-            <PriceText>= ${price.dai}</PriceText>
-          </PriceContainer>
-          <BalanceContainer>
-            <UsdBalanceText>
-              ${PriceUtilities.convertDaiToUsd(daiBalance).toFixed(2)}
-            </UsdBalanceText>
-            <BalanceText>
-              <GoyemonText fontSize="20">{daiBalance} DAI</GoyemonText>
-            </BalanceText>
-          </BalanceContainer>
-        </UntouchableCardContainer>
+          text={I18n.t('portfolio-wallet-coins')}
+        />
+        <TokenBalanceCards cards={tokenBalanceCards} />
       </RootContainer>
     );
   }
@@ -120,55 +114,6 @@ const UsdBalance = styled.Text`
   color: #000;
   font-family: 'HKGrotesk-Regular';
   font-size: 32;
-`;
-
-const CoinImageContainer = styled.View`
-  align-items: center;
-  width: 20%;
-`;
-
-const CoinImage = styled.Image`
-  border-radius: 20px;
-  height: 40px;
-  width: 40px;
-`;
-
-const PriceContainer = styled.View`
-  margin-left: 16;
-  width: 35%;
-`;
-
-const PriceText = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 16;
-  margin-top: 4;
-  margin-bottom: 4;
-`;
-
-const CoinText = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 16;
-  margin-top: 4;
-  margin-bottom: 4;
-`;
-
-const BalanceContainer = styled.View`
-  width: 45%;
-`;
-
-const BalanceText = styled.Text`
-  color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 20;
-`;
-
-const UsdBalanceText = styled.Text`
-  color: #000;
-  font-family: 'HKGrotesk-Regular';
-  font-size: 22;
-  margin-bottom: 4;
 `;
 
 const mapStateToProps = (state) => ({

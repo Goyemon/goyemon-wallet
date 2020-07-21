@@ -424,12 +424,12 @@ class PersistTxStorageAbstraction {
   async getHashes(index = 'all', offset = 0) {
     // currently also precaches top 128 txes.
     // TODO: this perhaps could use cache.
-	await this.__lock(index);
+    await this.__lock(index);
 
-	if (this.counts[index] == 0) {
-		this.__unlock(index);
-		return [];
-	}
+    if (this.counts[index] == 0) {
+      this.__unlock(index);
+      return [];
+    }
 
     const high_bucket = Math.floor(
       (this.counts[index] - 1) / storage_bucket_size
@@ -539,8 +539,10 @@ class PersistTxStorageAbstraction {
   async updateTxDataIfExists(hash, tx) {
     // TODO: does not re-check indices, so be careful if anything can change there.
 
-	const key = `${this.prefix}_${hash}`;
-	const oldTx = await this.__getKey(key, (data) => this.__decodeTx(hash, data));
+    const key = `${this.prefix}_${hash}`;
+    const oldTx = await this.__getKey(key, (data) =>
+      this.__decodeTx(hash, data)
+    );
     if (oldTx) {
       await this.__setKey(key, tx, JSON.stringify);
       return oldTx;
@@ -573,7 +575,7 @@ class PersistTxStorageAbstraction {
           await this.__lock(index);
           const last_bucket_num = Math.floor(
             Math.max(0, this.counts[index] - 1) / storage_bucket_size
-		  );
+          );
 
           if (toplock) {
             // easy, just insert at the top as last element
@@ -766,7 +768,11 @@ class PersistTxStorageAbstraction {
     let removekeys = [];
 
     indices.forEach((x) => {
-      for (let i = 0; i < Math.floor((this.counts[x] - 1) / storage_bucket_size); ++i)
+      for (
+        let i = 0;
+        i < Math.floor((this.counts[x] - 1) / storage_bucket_size);
+        ++i
+      )
         removekeys.push(`${this.prefix}i${x}${i}`); //tasks.push(AsyncStorage.removeItem(`${this.prefix}i${x}${i}`)); // remove buckets
 
       removekeys.push(`${this.prefix}i${x}c`); //tasks.push(AsyncStorage.removeItem(`${this.prefix}i${x}c`)); // and the count
@@ -775,7 +781,11 @@ class PersistTxStorageAbstraction {
     // now we only have index `all' to go through, but we actually need to read it and remove all hashes
     let readtasks = [];
     removekeys.push(`${this.prefix}iallc`); // tasks.push(AsyncStorage.removeItem(`${this.prefix}iallc`));
-    for (let i = 0; i < Math.floor((this.counts.all - 1) / storage_bucket_size); ++i) {
+    for (
+      let i = 0;
+      i < Math.floor((this.counts.all - 1) / storage_bucket_size);
+      ++i
+    ) {
       removekeys.push(`${this.prefix}iall${i}`); // tasks.push(AsyncStorage.removeItem(`${this.prefix}iall${i}`));
       readtasks.push(
         this.__getKey(`${this.prefix}iall${i}`, this.__decodeBucket).then(
@@ -960,14 +970,15 @@ class PersistTxStorageAbstraction {
       }
     }
 
-    this.__unlock(index);
-    LogUtilities.toDebugScreen(
-      `PersistTxStorageAbstraction __replaceKeyInIndex(${oldkey}, ${newkey}, ${index}, ${toplockremove}): item not found...`
-    );
-    throw new Error(`key "${oldkey}" not found in the index "${index}"`);
+    // this.__unlock(index);
+    // LogUtilities.toDebugScreen(
+    //   `PersistTxStorageAbstraction __replaceKeyInIndex(${oldkey}, ${newkey}, ${index}, ${toplockremove}): item not found...`
+    // );
+    // throw new Error(`key "${oldkey}" not found in the index "${index}"`);
   }
 
-  async removeKey(oldkey, index = 'all') { // not used yet; will be used when indexDiff is tested and we actually have to remove stuff from some indices.
+  async removeKey(oldkey, index = 'all') {
+    // not used yet; will be used when indexDiff is tested and we actually have to remove stuff from some indices.
     await this.__lock(index);
 
     const last_bucket_index = Math.floor(
@@ -1061,7 +1072,7 @@ class PersistTxStorageAbstraction {
   async replaceTx(oldtx, newtx, oldhash, newhash, toplockremove = false) {
     // for now this can only be called when changing nonce_xxx to proper txhash, so when 'sent' state goes into included. soon added: nonce_xxx to fail_xxx when a tx errors out (and we dont want to keep the nonce_xxx key as it'll get overwritten)
 
-	const indexDiff = this.__indexDiff(oldtx, newtx);
+    const indexDiff = this.__indexDiff(oldtx, newtx);
     // TODO: index differences disregarded for now.
     // also, what if new tx goes into new indices? at which position should it be?
 
@@ -1078,8 +1089,8 @@ class PersistTxStorageAbstraction {
         `PersistTxStorageAbstraction replaceTx(): newtx:${JSON.stringify(
           newtx
         )}`
-	  );
-	  LogUtilities.toDebugScreen(
+      );
+      LogUtilities.toDebugScreen(
         `PersistTxStorageAbstraction replaceTx(): indexDiff:${JSON.stringify(
           indexDiff
         )}`
@@ -1117,13 +1128,13 @@ class PersistTxStorageAbstraction {
         `PersistTxStorageAbstraction updateTx(): replace (${hash}) oldtx:${JSON.stringify(
           oldtx
         )} with newtx:${JSON.stringify(newtx)}`
-	  );
-	  LogUtilities.toDebugScreen(
+      );
+      LogUtilities.toDebugScreen(
         `PersistTxStorageAbstraction updateTx(): indexDiff:${JSON.stringify(
           indexDiff
         )}`
-	  );
-	}
+      );
+    }
 
     await this.__setKey(`${this.prefix}_${hash}`, newtx, JSON.stringify);
 
@@ -1668,22 +1679,23 @@ class Tx {
   }
 
   getApplication(to) {
-    const UniswapV1 = '0x2a1530c4c41db0b0b2bb646cb5eb1a67b7158667'
+    const UniswapV1 = '0x2a1530c4c41db0b0b2bb646cb5eb1a67b7158667';
+    const UniswapV2 = '0xf164fc0ec4e93095b804a4795bbe1e041497b92a';
     if (to) {
       switch (to.toLowerCase()) {
         case GlobalConfig.cDAIcontract.toLowerCase():
-          return 'Compound'
+          return 'Compound';
         case UniswapV1:
+        case UniswapV2:
         case GlobalConfig.RouterUniswapV2.toLowerCase():
-          return 'Uniswap'
+          return 'Uniswap';
         case GlobalConfig.DAIPoolTogetherContractV2.toLowerCase():
-          return 'PoolTogether'
+          return 'PoolTogether';
         default:
-          return ''
+          return '';
       }
-    }
-    else {
-      return 'Contract Creation'
+    } else {
+      return '';
     }
   }
 
@@ -1702,9 +1714,11 @@ class Tx {
   getNonce() {
     return this.nonce;
   }
+
   getGasPrice() {
     return this.gasPrice;
   }
+
   getGasLimit() {
     return this.gas;
   }
@@ -2037,9 +2051,7 @@ class TxStorage {
     const nonceKey = `${txNoncePrefix}${tx.getNonce()}`;
     const oldTx = await this.txes.updateTxDataIfExists(nonceKey, tx);
     LogUtilities.toDebugScreen(
-      `updateTx(): tx ${
-        oldTx ? 'updated' : 'NOT updated'
-      } (key:${nonceKey}): `,
+      `updateTx(): tx ${oldTx ? 'updated' : 'NOT updated'} (key:${nonceKey}): `,
       tx
     );
     this.__unlock('txes');
@@ -2251,12 +2263,20 @@ class TxStorage {
   }
 
   async getNextNonce() {
-	const failed_nonce = Object.keys(this.failed_nonces).map(x => parseInt(x)).reduce((a, b) => (a !== null ? (a > b ? b : a) : b), null);
+    const failed_nonce = Object.keys(this.failed_nonces)
+      .map((x) => parseInt(x))
+      .reduce((a, b) => (a !== null ? (a > b ? b : a) : b), null);
     LogUtilities.toDebugScreen(
-      `getNextNonce(): next nonce:${failed_nonce !== null ? failed_nonce : this.our_max_nonce + 1} our_max_nonce:${this.our_max_nonce}, failed_nonce:${failed_nonce} failed_nonces:${JSON.stringify(this.failed_nonces)}`
-	);
+      `getNextNonce(): next nonce:${
+        failed_nonce !== null ? failed_nonce : this.our_max_nonce + 1
+      } our_max_nonce:${
+        this.our_max_nonce
+      }, failed_nonce:${failed_nonce} failed_nonces:${JSON.stringify(
+        this.failed_nonces
+      )}`
+    );
 
-    return (failed_nonce !== null ? failed_nonce : this.our_max_nonce + 1);
+    return failed_nonce !== null ? failed_nonce : this.our_max_nonce + 1;
   }
 
   async clear(batch = false) {

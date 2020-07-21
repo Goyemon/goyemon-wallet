@@ -9,7 +9,8 @@
     "ios": "react-native run-ios",
     "android": "react-native run-android",
     "start": "react-native start",
-    "npmreinstall": "rm -rf node_modules/ package-lock.json && npm install"
+    "npmreinstall": "rm -rf node_modules/ package-lock.json && npm install",
+    "prettier": "prettier --write src"
   },
   "dependencies": {
     "@react-native-community/netinfo": "^5.3.3",
@@ -74,9 +75,32 @@
   },
   "devDependencies": {
     "babel-jest": "^24.9.0",
+    "husky": "^4.2.5",
     "jest": "^24.9.0",
+    "lint-staged": "^10.2.11",
     "metro-react-native-babel-preset": "^0.56.0",
+    "prettier": "^2.0.5",
     "react-test-renderer": "16.9.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "prettier": {
+    "bracketSpacing": true,
+    "printWidth": 80,
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "none",
+    "useTabs": false
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "prettier --write src",
+      "git add"
+    ]
   },
   "jest": {
     "preset": "react-native"
