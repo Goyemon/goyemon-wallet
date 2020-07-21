@@ -1,5 +1,5 @@
 <h1 align="center">Goyemon</h1>
-<h2 align="center">a new generation bank at your fingertips<h2>
+<h2 align="center">earn passive income with capital-safe crypto investing<h2>
 
 ## How to Build and Run the Application
 
