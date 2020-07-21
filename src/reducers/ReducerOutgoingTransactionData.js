@@ -63,10 +63,8 @@ const outgoingTransactionData = (state = INITIAL_STATE, action) => {
     case SAVE_OUTGOING_TRANSACTION_DATA_SWAP:
       return {
         outgoingTransactionData: {
-          swap: {
-            ...state.outgoingTransactionData.swap,
-            ...action.payload
-          }
+          ...state.outgoingTransactionData,
+          swap: action.payload
         }
       };
 

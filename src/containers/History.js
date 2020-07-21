@@ -1,23 +1,21 @@
 'use strict';
 import React, { Component } from 'react';
-import { TouchableOpacity, Linking, ScrollView, View, Dimensions } from 'react-native';
+import { TouchableOpacity, ScrollView, View, Dimensions } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Modal from 'react-native-modal';
 import styled from 'styled-components';
-import StyleUtilities from '../utilities/StyleUtilities.js';
-import EtherUtilities from '../utilities/EtherUtilities'
+import EtherUtilities from '../utilities/EtherUtilities';
+import TransactionDetailContainer from './TransactionDetailContainer';
 import Web3 from 'web3';
 import { saveTxDetailModalVisibility } from '../actions/ActionModal';
 import {
   Container,
   HeaderOne,
   HeaderTwo,
-  HeaderFive,
   Button,
   GoyemonText,
   InsufficientWeiBalanceMessage,
   IsOnlineMessage,
-  TransactionStatus,
   ModalHandler,
   HorizontalLine,
   Loader
@@ -27,18 +25,15 @@ import { connect } from 'react-redux';
 // TODO: git rm those two:
 //import Transactions from '../containers/Transactions';
 //import TransactionsDai from '../containers/TransactionsDai';
-import Copy from './common/Copy';
 import OfflineNotice from './common/OfflineNotice';
 import TransactionList from './TransactionList';
 import I18n from '../i18n/I18n';
 import TxStorage from '../lib/tx.js';
 import LogUtilities from '../utilities/LogUtilities';
 import TransactionUtilities from '../utilities/TransactionUtilities';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import GlobalConfig from '../config.json';
 import Slider from '@react-native-community/slider';
 
-const window = Dimensions.get("window");
+const window = Dimensions.get('window');
 
 const mapChecksumAddressStateToProps = (state) => ({
   checksumAddress: state.ReducerChecksumAddress.checksumAddress
@@ -62,105 +57,46 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
     constructor(props) {
       super(props);
       this.state = {
-        txData: this.computeTxData(props.tx),
-        tx: props.tx
+        tx: props.tx,
+        data: TransactionUtilities.txDetailObject(
+          props.tx,
+          EtherUtilities.getReasonablyAddress(props.checksumAddress)
+        )
       };
     }
 
-    computeTxData(tx) {
-      if (!tx) return null;
-
-      const our_reasonably_stored_address = EtherUtilities.getReasonablyAddress(this.props.checksumAddress);
-
-      const ret = [];
-
-      if (tx.getValue() != '00') {
-        const ethdirection =
-          (tx.getFrom() && tx.getFrom() === `0x${our_reasonably_stored_address}`
-            ? 1
-            : 0) +
-          (tx.getTo() && tx.getTo() === `0x${our_reasonably_stored_address}`
-            ? 2
-            : 0);
-
-        if (ethdirection > 0)
-          ret.push({
-            type: 'transfer',
-            direction:
-              ethdirection == 1
-                ? 'outgoing'
-                : ethdirection == 2
-                ? 'incoming'
-                : 'self',
-            amount: parseFloat(
-              TransactionUtilities.parseEthValue(`0x${tx.getValue()}`)
-            ).toFixed(4),
-            token: 'eth'
-          });
-      }
-
-
-      Object.entries(tx.getAllTokenOperations()).forEach(
-        ([toptok, toktops]) => {
-          // toptok - TokenOP Token, toktops -> (given) token TokenOPs ;-)
-          toktops.forEach((x) => ret.push(EtherUtilities.topType(x, toptok, our_reasonably_stored_address)));
-        }
+    componentDidMount() {
+      LogUtilities.toDebugScreen(
+        'TransactionDetail Tx',
+        this.state.tx.tokenData
       );
-
-      if (tx.getTo()) {
-        if (tx.getTo().toLowerCase() === GlobalConfig.DAIPoolTogetherContractV2.toLowerCase() && ret.length === 0)
-            ret.push({
-              type: 'outgoing',
-              token: 'dai',
-              direction: 'outgoing',
-              amount: '0.00'
-            })
-      }
-      else
-        ret.push({
-          type: 'Contract Creation',
-          direction: 'creation',
-          token: 'eth'
-        })
-
-      if(ret.length === 0)
-        ret.push({
-          type: 'Contract Interaction',
-          direction: 'outgoing',
-          token: 'eth',
-          amount: '0.00'
-        })
-
-      return ret;
+      LogUtilities.toDebugScreen('TransactionDetail Tx', this.state.txData);
     }
 
     async componentDidUpdate(prevProps) {
       if (this.props.updateCounter !== prevProps.updateCounter) {
         TxStorage.storage
-        .getTx(this.props.index, this.props.filter)
-        .then(async x => {
-          await this.setState({ txData: this.computeTxData(x), tx: x });
-        })
-        .catch(e => LogUtilities.toDebugScreen('TransactionDetail Tx Error With', e));
+          .getTx(this.props.index, this.props.filter)
+          .then(async (x) => {
+            await this.setState({
+              data: TransactionUtilities.txDetailObject(
+                x,
+                EtherUtilities.getReasonablyAddress(props.checksumAddress)
+              ),
+              tx: x
+            });
+          })
+          .catch((e) =>
+            LogUtilities.toDebugScreen('TransactionDetail Tx Error With', e)
+          );
       }
-      await this.props.updateTx(this.state.tx)
+      await this.props.updateTx(this.state.tx);
     }
-
-    pooltogetherAmount(type) {
-      for(const element of this.state.txData)
-        if(element.type === type)
-          return element.amount
-      return '0.00'
-    }
-
-    prefixUpperCase = txType =>
-      txType.charAt(0).toUpperCase() + txType.slice(1)
 
     render() {
-      if (!this.state.txData)
-        return <GoyemonText fontSize={12}>nothink!</GoyemonText>;
-
-      return (
+      return !this.state.tx ? (
+        <GoyemonText fontSize={12}>nothink!</GoyemonText>
+      ) : (
         <>
           <Container
             alignItems="flex-start"
@@ -169,284 +105,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
             marginTop={0}
             width="100%"
           >
-            {this.state.txData.length === 0
-            ? <><GoyemonText fontSize={18}>Withdraw</GoyemonText></>
-            : (() => {
-                if (this.state.txData.length === 3)
-                  for (const element of this.state.txData)
-                    if (element.type == 'committed deposit withdraw')
-                      return true
-                return false
-              })()
-            ? <>
-                <TxDetailHeader>
-                  <TxIcon>
-                    {(() => {
-                      const { name, size, color } = StyleUtilities.inOrOutIcon(this.state.txData[0].type, this.state.txData[0].direction)
-                      return <Icon name={name} size={size + 8} color={color}/>
-                    })()}
-                  </TxIcon>
-                  <TypeAndTime>
-                    <GoyemonText fontSize={18}>
-                        Withdraw
-                    </GoyemonText>
-                    <GoyemonText fontSize={16}>
-                      {TransactionUtilities.parseTransactionTime(
-                        this.state.tx.getTimestamp()
-                      )}
-                    </GoyemonText>
-                  </TypeAndTime>
-                  <HeaderStatus>
-                    <TransactionStatus
-                        width="100%"
-                        txState={this.state.tx.getState()}
-                    />
-                  </HeaderStatus>
-                </TxDetailHeader>
-                <SubtotalWithdrawBox>
-                  {(() => {
-                      const { name, size, color } = StyleUtilities.minusOrPlusIcon(this.state.txData[0].type, this.state.txData[0].direction)
-                      return (
-                      name === ''
-                      ? null
-                      : <Icon name={name} size={size + 10} color={color} />
-                  )})()}
-                  <GoyemonText fontSize={24}>
-                  {parseFloat(this.state.txData[0].amount) + parseFloat(this.state.txData[1].amount) + parseFloat(this.state.txData[2].amount)}
-                  {this.state.txData[0].token === 'cdai' || this.state.txData[0].token === 'pooltogether' ? ' DAI' : this.state.txData[0].token.toUpperCase()}
-                  </GoyemonText>
-                  <LabelsBox>
-                    <GoyemonText fontSize={14}>Open</GoyemonText>
-                    <GoyemonText fontSize={14}>Committed</GoyemonText>
-                    <GoyemonText fontSize={14}>Sponsor</GoyemonText>
-                  </LabelsBox>
-                  <ValueBox>
-                    <GoyemonText fontSize={14}>{this.pooltogetherAmount('open deposit withdraw')}DAI</GoyemonText>
-                    <GoyemonText fontSize={14}>{this.pooltogetherAmount('committed deposit withdraw')}DAI</GoyemonText>
-                    <GoyemonText fontSize={14}>{this.pooltogetherAmount('sponsorship withdraw')}DAI</GoyemonText>
-                  </ValueBox>
-                </SubtotalWithdrawBox>
-                <HorizontalLine />
-              </>
-            : this.state.txData.length == 2 && this.state.txData[1].type == 'swap'
-            ? <>
-                <TxDetailHeader>
-                  <TxIcon>
-                    {(() => {
-                      const { name, size, color } = StyleUtilities.inOrOutIcon(this.state.txData[1].type, this.state.txData[1].direction)
-                      return <Icon name={name} size={size + 8} color={color}/>
-                    })()}
-                  </TxIcon>
-                  <TypeAndTime>
-                    <GoyemonText fontSize={18}>
-                        {this.prefixUpperCase(this.state.txData[1].type)}
-                    </GoyemonText>
-                    <GoyemonText fontSize={16}>
-                      {TransactionUtilities.parseTransactionTime(
-                        this.state.tx.getTimestamp()
-                      )}
-                    </GoyemonText>
-                  </TypeAndTime>
-                  <HeaderStatus>
-                    <TransactionStatus
-                        width="100%"
-                        txState={this.state.tx.getState()}
-                    />
-                  </HeaderStatus>
-                </TxDetailHeader>
-                <SubtotalSwapBox>
-                    <HeaderFive>Sold</HeaderFive>
-                    <SoldBox>
-                      {(() => {
-                          const { name, size, color } = StyleUtilities.minusOrPlusIcon(this.state.txData[0].type, this.state.txData[0].direction)
-                          return (
-                          name === ''
-                          ? null
-                          : <Icon name={name} size={size + 10} color={color} />
-                      )})()}
-                      <GoyemonText fontSize={24}>
-                      {this.state.txData[0].amount}
-                      {this.state.txData[0].token === 'cdai' ? 'Dai' : this.state.txData[0].token.toUpperCase()}
-                      </GoyemonText>
-                    </SoldBox>
-                    <HeaderFive>Bought</HeaderFive>
-                    <BoughtBox>
-                      <Icon name="plus" size={26} color="#1BA548" /><GoyemonText fontSize={24}>{this.state.txData[1].tokens_bought}DAI</GoyemonText>
-                    </BoughtBox>
-                </SubtotalSwapBox>
-                <HorizontalLine borderColor="rgba(95, 95, 95, .2)"/>
-              </>
-            : (() => {
-                if (this.state.txData && this.state.txData.length > 1) {
-                    if(this.state.txData[1].direction === 'creation')
-                      return true
-                    else
-                      return false
-                }
-                else
-                  return false
-              })()
-            ? <>
-                <TxDetailHeader>
-                    <TxIcon>
-                      {(() => {
-                        const { name, size, color } = StyleUtilities.inOrOutIcon(this.state.txData[0].type, this.state.txData[0].direction)
-                        return <Icon name={name} size={size + 8} color={color}/>
-                      })()}
-                    </TxIcon>
-                    <TypeAndTime>
-                      <GoyemonText fontSize={18}>
-                        Contract Creation
-                      </GoyemonText>
-                      <GoyemonText fontSize={15}>
-                        {TransactionUtilities.parseTransactionTime(
-                          this.state.tx.getTimestamp()
-                        )}
-                      </GoyemonText>
-                    </TypeAndTime>
-                    <HeaderStatus>
-                      <TransactionStatus
-                        width="100%"
-                        txState={this.state.tx.getState()}
-                      />
-                    </HeaderStatus>
-                  </TxDetailHeader>
-                  {this.state.txData[0].amount && <SubtotalBox>
-                    {(() => {
-                        const { name, size, color } = StyleUtilities.minusOrPlusIcon(this.state.txData[0].type, this.state.txData[0].direction)
-                        return (
-                        name === ''
-                        ? null
-                        : <Icon name={name} size={size + 10} color={color} />
-                    )})()}
-                    <GoyemonText fontSize={24}>
-                      {this.state.txData[0].amount}
-                      {this.state.txData[0].token === 'cdai' ? ' DAI' : this.state.txData[0].token.toUpperCase()}
-                    </GoyemonText>
-                  </SubtotalBox>}
-                  {this.state.txData[0].type === 'swap' && <SubtotalBox>
-                    <Icon name="plus" size={26} color="#1BA548" />
-                    <GoyemonText fontSize={24}>{this.state.txData[0].tokens_bought} DAI</GoyemonText>
-                  </SubtotalBox>}
-                  <HorizontalLine />
-                </>
-            : this.state.txData.map((x) => {
-              return (
-                <>
-                  <TxDetailHeader>
-                    <TxIcon>
-                      {(() => {
-                        const { name, size, color } = StyleUtilities.inOrOutIcon(x.type, x.direction)
-                        return <Icon name={name} size={size + 8} color={color}/>
-                      })()}
-                    </TxIcon>
-                    <TypeAndTime>
-                      <GoyemonText fontSize={18}>
-                        {this.prefixUpperCase(
-                          x.type === 'transfer'
-                          ? x.direction
-                          : x.type
-                        )}
-                      </GoyemonText>
-                      <GoyemonText fontSize={15}>
-                        {TransactionUtilities.parseTransactionTime(
-                          this.state.tx.getTimestamp()
-                        )}
-                      </GoyemonText>
-                    </TypeAndTime>
-                    <HeaderStatus>
-                      <TransactionStatus
-                        width="100%"
-                        txState={this.state.tx.getState()}
-                      />
-                    </HeaderStatus>
-                  </TxDetailHeader>
-                  {x.amount && <SubtotalBox>
-                    {(() => {
-                        const { name, size, color } = StyleUtilities.minusOrPlusIcon(x.type, x.direction)
-                        return (
-                        name === ''
-                        ? null
-                        : <Icon name={name} size={size + 10} color={color} />
-                    )})()}
-                    <GoyemonText fontSize={24}>
-                      {x.amount}
-                      {x.token === 'cdai' ? ' DAI' : x.token.toUpperCase()}
-                    </GoyemonText>
-                  </SubtotalBox>}
-                  {x.type === 'swap' && <SubtotalBox>
-                    <Icon name="plus" size={26} color="#1BA548" />
-                    <GoyemonText fontSize={24}>{x.tokens_bought} DAI</GoyemonText>
-                  </SubtotalBox>}
-                  <HorizontalLine borderColor="rgba(95, 95, 95, .2)"/>
-                </>
-              );
-            })}
-            <TxNetworkAndHash>
-              {(() => {
-                const app = this.props.tx.getTo() === null ? null : this.props.tx.getApplication(this.props.tx.getTo())
-              return (
-                app === '' || app === null
-              ? null
-              : <>
-                  <HeaderFive fontSize={20}>Application</HeaderFive>
-                  <TxDetailValue>
-                    {this.props.tx.getTo() === null ? null : this.props.tx.getApplication(this.props.tx.getTo())}
-                  </TxDetailValue>
-                </>
-              )})()}
-
-              {this.state.txData[0].direction &&
-              <>
-                {this.state.txData.length === 1 && this.state.txData[0].direction == 'incoming' && this.state.txData[0].type == 'transfer' &&
-                <>
-                  <HeaderFive fontSize={20}>From</HeaderFive>
-                  <ToAndFromValueContainer>
-                    <ToAndFromValue>
-                      {this.props.tx.getFrom().substring(0, 24) + '...'}
-                    </ToAndFromValue>
-                    <Copy text={this.props.tx.getFrom()} icon={false} />
-                  </ToAndFromValueContainer>
-                </>}
-
-                {this.state.txData.length === 1 && this.state.txData[0].direction == 'outgoing' && this.state.txData[0].type == 'transfer' &&
-                <>
-                  <HeaderFive fontSize={20}>To</HeaderFive>
-                  <ToAndFromValueContainer>
-                    <ToAndFromValue>
-                      {this.state.txData[0].token === 'eth'
-                      ? this.props.tx.getTo().substring(0, 24) + '...'
-                      : '0x' + this.state.tx.tokenData.dai[0].to_addr.substring(0, 24) + '...'}
-                    </ToAndFromValue>
-                    <Copy text={this.props.tx.getTo()} icon={false} />
-                  </ToAndFromValueContainer>
-                </>}
-
-              </>}
-
-              <HeaderFive fontSize={20}>Max Network Fee</HeaderFive>
-              <TxDetailValue>
-                {parseInt(this.props.tx.getGasPrice(), 16) * parseInt(this.props.tx.gas, 16) / 1000000000000000000} ETH
-              </TxDetailValue>
-
-              {(() => {
-              return (
-                this.props.tx.getState() < 1 ? null :
-                <View>
-                <HeaderFive fontSize={20}>Hash</HeaderFive>
-                <TxDetailValue
-                    onPress={() => {
-                      Linking.openURL(
-                        `${GlobalConfig.EtherscanLink}${'0x' + this.props.tx.getHash()}`
-                      ).catch((err) => LogUtilities.logError('An error occurred', err));
-                    }}
-                  >
-                    {'0x' + this.props.tx.getHash().substring(0, 24) + '...'}
-                    <Icon name="link-variant" size={16} color="#5f5f5f" />
-                </TxDetailValue>
-                </View>
-              )})()}
-            </TxNetworkAndHash>
+            <TransactionDetailContainer data={this.state.data} />
           </Container>
         </>
       );
@@ -454,123 +113,12 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
   }
 );
 
-const TxDetailHeader = styled.View`
-align-items: center;
-background-color: #f8f8f8;
-flex-direction: row;
-justify-content: center;
-font-family: 'HKGrotesk-Regular';
-padding-top: 24px;
-padding-bottom: 24px;
-width: 100%;
-`;
-
-const TxIcon = styled.View`
-align-items: center;
-width: 20%;
-`;
-
-const TypeAndTime = styled.View`
-align-items: flex-start;
-font-family: 'HKGrotesk-Regular';
-flex-direction: column;
-width: 40%;
-`;
-
-const HeaderStatus = styled.View`
-align-items: center;
-font-family: 'HKGrotesk-Regular';
-width: 40%;
-`;
-
-const LabelsBox = styled.View`
-flex-direction: column;
-margin-left: 22%;
-`;
-
-const ValueBox = styled.View`
-flex-direction: column;
-margin-left: 5%;
-`
-
-const SubtotalWithdrawBox = styled.View`
-flex-direction: row;
-margin-left: 4%;
-margin-top: 32;
-margin-bottom: 32;
-align-items: flex-start;
-width: 90%;
-`;
-
-const SubtotalSwapBox = styled.View`
-flex-direction: column;
-margin-left: 4%;
-margin-top: 32;
-margin-bottom: 32;
-align-items: flex-start;
-width: 90%;
-`;
-
-const SoldBox = styled.View`
-  flex-direction: row;
-  align-items: center;
-  margin-top: 4;
-  margin-bottom: 16;
-`;
-
-const BoughtBox = styled.View`
-  flex-direction: row;
-  align-items: center;
-  margin-top: 4;
-`;
-
-const SubtotalBox = styled.View`
-font-family: 'HKGrotesk-Regular';
-flex-direction: row;
-margin-left: 4%;
-margin-top: 32;
-margin-bottom: 32;
-align-items: center;
-width: 90%;
-`;
-
-const TxNetworkAndHash = styled.View`
-align-items: flex-start;
-font-family: 'HKGrotesk-Regular';
-justify-content: flex-start;
-flex-direction: column;
-margin: 24px auto;
-width: 90%;
-`;
-
-const TxDetailValue = styled.Text`
-color: #000;
-font-family: 'HKGrotesk-Bold';
-font-size: 18;
-margin-top: 4;
-margin-bottom: 16;
-`;
-
-const ToAndFromValueContainer = styled.View`
-  align-items: center;
-  flex-direction: row;
-  margin-top: 4;
-  margin-bottom: 16;
-  `;
-
-const ToAndFromValue = styled.Text`
-color: #000;
-font-family: 'HKGrotesk-Bold';
-font-size: 18;
-margin-right: 16;
-`;
-
 const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
   class MagicalGasPriceSlider extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        weiAmountValidation: undefined
+        WEIAmountValidation: undefined
       };
       this.state = this.getPriceState(
         Math.ceil(this.props.currentGasPrice * 1.2)
@@ -583,12 +131,12 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
 
     getPriceState(gasPriceWeiDecimal) {
       return {
-        usdValue: TransactionUtilities.getTransactionFeeEstimateInUsd(
+        usdValue: TransactionUtilities.getMaxNetworkFeeInUSD(
           gasPriceWeiDecimal,
           this.props.gasLimit
         ),
         ethValue: parseFloat(
-          TransactionUtilities.getTransactionFeeEstimateInEther(
+          TransactionUtilities.getMaxNetworkFeeInETH(
             gasPriceWeiDecimal,
             this.props.gasLimit
           )
@@ -601,15 +149,15 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
       this.setState(this.getPriceState(gasPriceWeiDecimal));
     }
 
-    updateWeiAmountValidation(weiAmountValidation) {
-      this.props.updateWeiAmountValidationInModal(weiAmountValidation);
-      if (weiAmountValidation) {
+    updateWeiAmountValidation(WEIAmountValidation) {
+      this.props.updateWeiAmountValidationInModal(WEIAmountValidation);
+      if (WEIAmountValidation) {
         this.setState({
-          weiAmountValidation: true
+          WEIAmountValidation: true
         });
-      } else if (!weiAmountValidation) {
+      } else if (!WEIAmountValidation) {
         this.setState({
-          weiAmountValidation: false
+          WEIAmountValidation: false
         });
       }
     }
@@ -634,7 +182,7 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
             maximumValue={this.state.maxPrice}
             onValueChange={(gasPriceWeiDecimal) => {
               this.updateWeiAmountValidation(
-                TransactionUtilities.validateWeiAmountForTransactionFee(
+                TransactionUtilities.hasSufficientWEIForNetworkFee(
                   gasPriceWeiDecimal,
                   this.props.gasLimit
                 )
@@ -652,7 +200,7 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
             }}
           />
           <InsufficientWeiBalanceMessage
-            weiAmountValidation={this.state.weiAmountValidation}
+            weiAmountValidation={this.state.WEIAmountValidation}
           />
           <NetworkFeeContainer>
             <GoyemonText fontSize={20}>{this.state.ethValue} ETH</GoyemonText>
@@ -686,30 +234,34 @@ const TransactionDetailModal = connect(
         txResent: false,
         loading: false,
         modalHeigh: '60%',
-        weiAmountValidation: undefined
+        WEIAmountValidation: undefined
       };
       this.uniqcounter = 0;
-      this.updateTxState = this.updateTxState.bind(this)
+      this.updateTxState = this.updateTxState.bind(this);
     }
 
-    updateWeiAmountValidationInModal(weiAmountValidation) {
-      this.setState({weiAmountValidation})
+    updateWeiAmountValidationInModal(WEIAmountValidation) {
+      this.setState({ WEIAmountValidation });
     }
 
     handleViewRef = (ref) => (this.view = ref);
 
     componentDidMount() {
-      this.unsub = TxStorage.storage.subscribe(this.updateTxListState.bind(this));
+      this.unsub = TxStorage.storage.subscribe(
+        this.updateTxListState.bind(this)
+      );
       (async () => {
         this.updateTxListState();
       })();
       if (window.height < 896) {
-        this.setState({modalHeigh: '80%'})
+        this.setState({ modalHeigh: '80%' });
       }
     }
 
     updateTxListState() {
-      LogUtilities.toDebugScreen('TransactionDetailModal updateTxListState() called');
+      LogUtilities.toDebugScreen(
+        'TransactionDetailModal updateTxListState() called'
+      );
       // this.refreshIndices = {0: true,1: true,2: true,3: true,4: true,5: true,6:true,7:true,8:true,9:true};
 
       this.setState({
@@ -721,7 +273,7 @@ const TransactionDetailModal = connect(
     updateTxState(x) {
       this.setState({
         txToUpdate: x
-      })
+      });
     }
 
     componentDidUpdate(prevProps) {
@@ -788,68 +340,85 @@ const TransactionDetailModal = connect(
               alignItems: 'flex-end'
             }}
           >
-            <ModalContainer style={{height: this.state.modalHeigh}}>
+            <ModalContainer style={{ height: this.state.modalHeigh }}>
               <ModalHandlerContainer>
                 <ModalHandler />
               </ModalHandlerContainer>
               <ScrollView>
-              <TouchableOpacity activeOpacity={1}>
-                  <TransactionDetail tx={this.state.txToUpdate}
-                                     updateTx={this.updateTxState}
-                                     updateCounter={this.state.transactions_update_counter}
-                                     index={this.props.txIndex}
-                                     filter={this.props.txFilter}/>
-              </TouchableOpacity>
-              {this.props.checksumAddress ===
-                Web3.utils.toChecksumAddress(this.state.txToUpdate.getFrom()) &&
-              (this.state.txToUpdate.getState() === 0 ||
-                this.state.txToUpdate.getState() === 1) ? (
-                <>
-                  <MagicalGasPriceSlider
-                    currentGasPrice={parseInt(
-                      this.state.txToUpdate.getGasPrice(),
-                      16
-                    )}
-                    gasLimit={parseInt(this.state.txToUpdate.getGasLimit(), 16)}
-                    onSettle={this.priceSliderSettled.bind(this)}
-                    updateWeiAmountValidationInModal={this.updateWeiAmountValidationInModal.bind(this)}
+                <TouchableOpacity activeOpacity={1}>
+                  <TransactionDetail
+                    tx={this.state.txToUpdate}
+                    updateTx={this.updateTxState}
+                    updateCounter={this.state.transactions_update_counter}
+                    index={this.props.txIndex}
+                    filter={this.props.txFilter}
                   />
-                  <Button
-                    text="Speed Up Transaction"
-                    textColor="#00A3E2"
-                    backgroundColor="#FFF"
-                    borderColor="#00A3E2"
-                    margin="16px auto"
-                    marginBottom="8px"
-                    disabled={
-                      !this.props.isOnline || this.state.loading || !this.state.weiAmountValidation
-                    }
-                    opacity={!this.props.isOnline || this.state.loading || !this.state.weiAmountValidation ? 0.5 : 1}
-                    onPress={async () => {
-                      await this.resendTx();
-                      this.zoomIn();
-                      this.setState({ loading: false });
-                    }}
-                  />
-                  <AnimationContainer>
-                    <CopyAnimation
-                      animation={this.state.txResent ? 'zoomIn' : null}
-                      ref={this.handleViewRef}
-                    >
-                      {this.state.txResent ? (
-                        <>
-                          <GoyemonText fontSize={16}>
-                            you sped up your transaction!
-                          </GoyemonText>
-                          <GoyemonText fontSize={16}>🚀</GoyemonText>
-                        </>
-                      ) : null}
-                    </CopyAnimation>
-                  </AnimationContainer>
-                  <Loader animating={this.state.loading} size="small" />
-                  <IsOnlineMessage isOnline={this.props.isOnline} />
-                </>
-              ) : null}
+                </TouchableOpacity>
+                {this.props.checksumAddress ===
+                  Web3.utils.toChecksumAddress(
+                    this.state.txToUpdate.getFrom()
+                  ) &&
+                (this.state.txToUpdate.getState() === 0 ||
+                  this.state.txToUpdate.getState() === 1) ? (
+                  <>
+                    <MagicalGasPriceSlider
+                      currentGasPrice={parseInt(
+                        this.state.txToUpdate.getGasPrice(),
+                        16
+                      )}
+                      gasLimit={parseInt(
+                        this.state.txToUpdate.getGasLimit(),
+                        16
+                      )}
+                      onSettle={this.priceSliderSettled.bind(this)}
+                      updateWeiAmountValidationInModal={this.updateWeiAmountValidationInModal.bind(
+                        this
+                      )}
+                    />
+                    <Button
+                      text="Speed Up Transaction"
+                      textColor="#00A3E2"
+                      backgroundColor="#FFF"
+                      borderColor="#00A3E2"
+                      margin="16px auto"
+                      marginBottom="8px"
+                      disabled={
+                        !this.props.isOnline ||
+                        this.state.loading ||
+                        !this.state.WEIAmountValidation
+                      }
+                      opacity={
+                        !this.props.isOnline ||
+                        this.state.loading ||
+                        !this.state.WEIAmountValidation
+                          ? 0.5
+                          : 1
+                      }
+                      onPress={async () => {
+                        await this.resendTx();
+                        this.zoomIn();
+                        this.setState({ loading: false });
+                      }}
+                    />
+                    <AnimationContainer>
+                      <CopyAnimation
+                        animation={this.state.txResent ? 'zoomIn' : null}
+                        ref={this.handleViewRef}
+                      >
+                        {this.state.txResent ? (
+                          <>
+                            <GoyemonText fontSize={16}>
+                              you sped up your transaction!
+                            </GoyemonText>
+                            <GoyemonText fontSize={16}>🚀</GoyemonText>
+                          </>
+                        ) : null}
+                      </CopyAnimation>
+                    </AnimationContainer>
+                    <Loader animating={this.state.loading} size="small" />
+                    <IsOnlineMessage isOnline={this.props.isOnline} />
+                  </>
+                ) : null}
               </ScrollView>
             </ModalContainer>
           </Modal>
@@ -891,9 +460,9 @@ export default connect(mapChecksumAddressStateToProps)(
         filter: 'All',
         editedTx: null,
         editedTxIndex: '',
-        editedTxFilter: '',
+        editedTxFilter: ''
       };
-      this.txTapped = this.txTapped.bind(this)
+      this.txTapped = this.txTapped.bind(this);
     }
 
     toggleFilterChoiceText() {
@@ -914,7 +483,7 @@ export default connect(mapChecksumAddressStateToProps)(
             onPress={() => this.setState({ filter })}
           >
             <FilterChoiceTextUnselected>{filter}</FilterChoiceTextUnselected>
-            <HorizontalLine borderColor="rgba(95, 95, 95, .2)"/>
+            <HorizontalLine borderColor="rgba(95, 95, 95, .2)" />
           </TouchableOpacity>
         );
       });
@@ -924,7 +493,11 @@ export default connect(mapChecksumAddressStateToProps)(
 
     async txTapped(tx, index, filter) {
       LogUtilities.dumpObject('tx', tx);
-      await this.setState({ editedTx: tx, editedTxIndex: index, editedTxFilter: filter });
+      await this.setState({
+        editedTx: tx,
+        editedTxIndex: index,
+        editedTxFilter: filter
+      });
     }
 
     txClear() {

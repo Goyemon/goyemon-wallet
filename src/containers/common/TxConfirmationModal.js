@@ -13,6 +13,8 @@ import {
   saveTxConfirmationModalVisibility,
   updateTxConfirmationModalVisibleType
 } from '../../actions/ActionModal';
+import { saveOutgoingTransactionDataSend } from '../../actions/ActionOutgoingTransactionData';
+import { updateToAddressValidation } from '../../actions/ActionTxFormValidation';
 import {
   HeaderFive,
   ConfirmationText,
@@ -70,6 +72,10 @@ class TxConfirmationModal extends Component {
       return 'ETH';
     } else if (modal.txConfirmationModalType === 'send-dai') {
       return 'DAI';
+    } else if (modal.txConfirmationModalType === 'send-cdai') {
+      return 'cDAI';
+    } else if (modal.txConfirmationModalType === 'send-pldai') {
+      return 'plDAI';
     }
   }
 
@@ -96,7 +102,9 @@ class TxConfirmationModal extends Component {
 
     if (
       modal.txConfirmationModalType === 'send-eth' ||
-      modal.txConfirmationModalType === 'send-dai'
+      modal.txConfirmationModalType === 'send-dai' ||
+      modal.txConfirmationModalType === 'send-cdai' ||
+      modal.txConfirmationModalType === 'send-pldai'
     ) {
       return (
         <View>
@@ -128,6 +136,8 @@ class TxConfirmationModal extends Component {
                   this.setState({ loading: false, buttonDisabled: false });
                   this.props.saveTxConfirmationModalVisibility(false);
                   this.props.updateTxConfirmationModalVisibleType(null);
+                  this.props.saveOutgoingTransactionDataSend('');
+                  this.props.updateToAddressValidation(undefined);
                 }
               }}
             />
@@ -366,7 +376,7 @@ class TxConfirmationModal extends Component {
             <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
               Confirm Transaction
             </HeaderTwo>
-            <HorizontalLine borderColor="rgba(95, 95, 95, .2)"/>
+            <HorizontalLine borderColor="rgba(95, 95, 95, .2)" />
           </HeaderContainer>
           <ModalInner>{this.renderModalContent()}</ModalInner>
         </ModalContainer>
@@ -418,7 +428,9 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
+  saveOutgoingTransactionDataSend,
   saveTxConfirmationModalVisibility,
+  updateToAddressValidation,
   updateTxConfirmationModalVisibleType
 };
 

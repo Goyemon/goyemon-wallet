@@ -1,5 +1,8 @@
 'use strict';
-import { SAVE_POOLTOGETHER_DAI_INFO, TOGGLE_POOLTOGETHER_WINNER_REVEALED } from '../constants/ActionTypes';
+import {
+  SAVE_POOLTOGETHER_DAI_INFO,
+  TOGGLE_POOLTOGETHER_WINNER_REVEALED
+} from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
 export function savePoolTogetherDaiInfo(poolTogetherDaiInfo) {

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { withNavigation } from 'react-navigation';
 import {
-  RootContainer,
+  Container,
   HeaderFive,
   GoyemonText,
   Button
@@ -22,7 +22,13 @@ class PortfolioPoolTogetherOpen extends Component {
       .toFixed(0);
 
     return (
-      <RootContainer>
+      <Container
+        alignItems="center"
+        flexDirection="column"
+        justifyContent="center"
+        marginTop={0}
+        width="100%"
+      >
         <PoolTogetherContainer>
           <RoundInfoContainer>
             <IconContainer>
@@ -50,7 +56,7 @@ class PortfolioPoolTogetherOpen extends Component {
             }}
           />
         </ButtonContainer>
-      </RootContainer>
+      </Container>
     );
   }
 }

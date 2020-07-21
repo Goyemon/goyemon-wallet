@@ -1,5 +1,5 @@
 <h1 align="center">Goyemon</h1>
-<h2 align="center">a new generation bank at your fingertips<h2>
+<h2 align="center">earn passive income with capital-safe crypto investing<h2>
 
 ## How to Build and Run the Application
 
@@ -50,6 +50,9 @@ Contact somebody in our team if the build fails.
 ## Networks
 We use the Mainnet in the master and the Ropsten in the develop(and other feature branches). You can switch between networks in your local but they should not be changed in remote branches. 
 
+## Addresses for Testing
+We have several addresses for testing both in the Ropsten and Mainnet. Make sure that you are not using the same address with other developers when you test outgoing transactions. Otherwise, you will get the "nonce too low" error from geth. 
+
 ## Config Files
 We have three config files:
 - `Goyemon/ios/GoogleService-Info.plist`
@@ -63,7 +66,7 @@ These config files usually should NOT be changed. If you do, you need to be EXTR
 
 ## Debuggers
 You can see communication logs between the wallet and a server.
-- [Ropsten](http://192.168.1.3:31337/devs/)
+- [Ropsten](http://[240d:1a:2a:1000:8e70:5aff:febd:4328]:31337/devs/)
 - [Mainnet](http://51.89.42.181:31337/devs/)
 
 You can also send dummy messages to the wallet from [here](http://51.89.42.181:31330/debugmsgs).

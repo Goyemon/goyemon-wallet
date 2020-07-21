@@ -2,6 +2,7 @@
 import './shim';
 import './base64-polyfill';
 import { YellowBox } from 'react-native';
+import messaging from '@react-native-firebase/messaging';
 import 'react-native-gesture-handler';
 import { AppRegistry } from 'react-native';
 import { persistStore } from 'redux-persist';
@@ -10,18 +11,21 @@ import App from './src/navigators/AppTab';
 import { name as appName } from './app.json';
 import FcmListener from './src/firebase/FcmListener';
 import FCM from './src/lib/fcm';
-import FcmBackgroundListener from './src/firebase/FcmBackgroundListener';
 import { store } from './src/store/store';
 import TxStorage from './src/lib/tx';
 import LogUtilities from './src/utilities/LogUtilities';
 
+// Register background fcm handler
+messaging().setBackgroundMessageHandler(async (downstreamMessage) => {
+  LogUtilities.logInfo('downstreamMessage handled in the background ==>', downstreamMessage);
+  FCM.FCMMsgs.setMsgCallback(FcmListener.downstreamMessageHandler); // so now FcmListener is just a callback we attach to FCMMsgs.
+  await FCM.downstreamMessageHandler(downstreamMessage, true);
+  return Promise.resolve();
+});
+
 YellowBox.ignoreWarnings(['Remote debugger']);
 
 AppRegistry.registerComponent(appName, () => App);
-AppRegistry.registerHeadlessTask(
-  'RNFirebaseBackgroundMessage',
-  () => FcmBackgroundListener
-);
 
 async function FCMcheckForUpdates() {
   const data = await TxStorage.storage.getVerificationData();

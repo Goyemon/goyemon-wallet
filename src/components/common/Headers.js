@@ -6,6 +6,10 @@ const HeaderOne = (props) => (
   <HeaderOneText marginTop={props.marginTop}>{props.children}</HeaderOneText>
 );
 
+const NewHeaderOne = (props) => (
+  <HeaderOneText marginTop={props.marginTop}>{props.text}</HeaderOneText>
+);
+
 const HeaderOneText = styled.Text`
   font-size: 32;
   font-family: 'HKGrotesk-Bold';
@@ -34,6 +38,17 @@ const HeaderTwoText = styled.Text`
   width: 95%;
 `;
 
+const NewHeaderThree = (props) => (
+  <HeaderThreeText
+    color={props.color}
+    marginBottom={props.marginBottom}
+    marginLeft={props.marginLeft}
+    marginTop={props.marginTop}
+  >
+    {props.text}
+  </HeaderThreeText>
+);
+
 const HeaderThree = (props) => (
   <HeaderThreeText
     color={props.color}
@@ -54,6 +69,10 @@ const HeaderThreeText = styled.Text`
   margin-top: ${(props) => `${props.marginTop}`};
   text-transform: uppercase;
 `;
+
+const NewHeaderFour = (props) => (
+  <HeaderFourText marginTop={props.marginTop}>{props.text}</HeaderFourText>
+);
 
 const HeaderFour = (props) => (
   <HeaderFourText marginTop={props.marginTop}>{props.children}</HeaderFourText>
@@ -109,4 +128,14 @@ const FormHeaderText = styled.Text`
   margin-top: ${(props) => `${props.marginTop}`};
 `;
 
-export { HeaderOne, HeaderTwo, HeaderThree, HeaderFour, HeaderFive, FormHeader };
+export {
+  HeaderOne,
+  NewHeaderOne,
+  HeaderTwo,
+  NewHeaderThree,
+  HeaderThree,
+  NewHeaderFour,
+  HeaderFour,
+  HeaderFive,
+  FormHeader
+};

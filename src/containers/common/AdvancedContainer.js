@@ -32,21 +32,21 @@ class __TxSpeedSelectionContainer extends Component {
     this.props.getGasPrice();
   }
 
-  toggleCurrency(gasPriceWei, gasLimit) {
+  toggleCurrency(gasPriceWEI, gasLimit) {
     if (this.state.currency === 'ETH') {
-      const usdValue = TransactionUtilities.getTransactionFeeEstimateInUsd(
-        gasPriceWei,
+      const usdValue = TransactionUtilities.getMaxNetworkFeeInUSD(
+        gasPriceWEI,
         gasLimit
       );
       return <NetworkFeeText>${usdValue}</NetworkFeeText>;
     } else if (this.state.currency === 'USD') {
-      let ethValue = TransactionUtilities.getTransactionFeeEstimateInEther(
-        gasPriceWei,
+      let ETHValue = TransactionUtilities.getMaxNetworkFeeInETH(
+        gasPriceWEI,
         gasLimit
       );
-      LogUtilities.logInfo('ethValue ==>', ethValue);
-      ethValue = parseFloat(ethValue).toFixed(5);
-      return <NetworkFeeText>{ethValue}ETH</NetworkFeeText>;
+      LogUtilities.logInfo('ETHValue ==>', ETHValue);
+      ETHValue = parseFloat(ETHValue).toFixed(5);
+      return <NetworkFeeText>{ETHValue}ETH</NetworkFeeText>;
     }
   }
 
@@ -133,8 +133,6 @@ class AdvancedContainer extends Component {
       return (
         <>
           <TxSpeedSelectionContainer
-            gasPrice={this.props.gasPrice}
-            gasChosen={this.props.gasChosen}
             gasLimit={this.props.gasLimit}
             swap={this.props.swap}
           />

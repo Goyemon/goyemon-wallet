@@ -8,29 +8,41 @@ class EtherUtilities {
   }
 
   static getReasonablyAddress(checksumAddress) {
-    const reasonablyAddress = checksumAddress.substr(0, 2) == '0x' && checksumAddress.length > 2
-    ? checksumAddress.substr(2)
-    : checksumAddress.length < 2
-    ? '0000000000000000000000000000000000000000'
-    : checksumAddress
-    return reasonablyAddress.toLowerCase()
+    const reasonablyAddress =
+      checksumAddress.substr(0, 2) == '0x' && checksumAddress.length > 2
+        ? checksumAddress.substr(2)
+        : checksumAddress.length < 2
+        ? '0000000000000000000000000000000000000000'
+        : checksumAddress;
+    return reasonablyAddress.toLowerCase();
+  }
+
+  static getCompErrorCode(code) {
+    switch (true) {
+      case 30 <= code && 38 >= code:
+        return 'mint';
+      case 39 <= code && 47 >= code:
+        return 'redeem';
+      case 74 <= code:
+        return 'transfer';
+      default:
+        return 'unknown';
+    }
   }
 
   static topType(top, toptok, our_reasonably_stored_address) {
     if (
       top instanceof
-        TxStorage.TxTokenOpNameToClass[
-          TxStorage.TxTokenOpTypeToName.eth2tok
-        ] ||
+        TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.eth2tok] ||
       top instanceof
         TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.U2swap]
     )
       return {
         type: 'swap',
         eth_sold: parseFloat(
-          TransactionUtilities.parseEthValue(`0x${top.eth_sold}`)
+          TransactionUtilities.parseETHValue(`0x${top.eth_sold}`)
         ).toFixed(4),
-        tokens_bought: TransactionUtilities.parseHexDaiValue(
+        tokens_bought: TransactionUtilities.parseHexDAIValue(
           `0x${top.tok_bought}`
         ),
         token: toptok
@@ -52,7 +64,7 @@ class EtherUtilities {
     )
       return {
         type: 'deposit',
-        amount: TransactionUtilities.parseHexDaiValue(
+        amount: TransactionUtilities.parseHexDAIValue(
           `0x${top.depositPoolAmount}`
         ),
         token: 'DAI'
@@ -64,7 +76,7 @@ class EtherUtilities {
     )
       return {
         type: 'transfer',
-        amount: TransactionUtilities.parseHexDaiValue(`0x${top.amount}`),
+        amount: TransactionUtilities.parseHexDAIValue(`0x${top.amount}`),
         direction:
           top.from_addr === our_reasonably_stored_address
             ? top.to_addr === our_reasonably_stored_address
@@ -79,17 +91,13 @@ class EtherUtilities {
     if (
       top instanceof
       TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.failure]
-    )
+    ) {
       return {
         type: 'failure',
-        failop:
-          parseInt(top.info, 16) == 38
-            ? 'mint'
-            : Array.from([42, 45, 46]).contains(parseInt(top.info, 16))
-            ? 'redeem'
-            : 'unknown',
+        failop: this.getCompErrorCode(parseInt(top.info, 16)),
         token: toptok
       };
+    }
 
     if (
       top instanceof
@@ -106,7 +114,7 @@ class EtherUtilities {
     )
       return {
         type: 'deposit',
-        amount: TransactionUtilities.parseHexDaiValue(
+        amount: TransactionUtilities.parseHexDAIValue(
           `0x${top.mintUnderlying}`
         ),
         token: toptok
@@ -118,7 +126,7 @@ class EtherUtilities {
     )
       return {
         type: 'withdraw',
-        amount: TransactionUtilities.parseHexDaiValue(
+        amount: TransactionUtilities.parseHexDAIValue(
           `0x${top.redeemUnderlying}`
         ),
         token: toptok
@@ -126,28 +134,22 @@ class EtherUtilities {
 
     if (
       top instanceof
-      TxStorage.TxTokenOpNameToClass[
-        TxStorage.TxTokenOpTypeToName.PTrewarded
-      ]
+      TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.PTrewarded]
     )
       return {
         type: 'rewarded',
-        amount: TransactionUtilities.parseHexDaiValue(`0x${top.winnings}`),
+        amount: TransactionUtilities.parseHexDAIValue(`0x${top.winnings}`),
         token: toptok
       };
 
     if (
       top instanceof
-      TxStorage.TxTokenOpNameToClass[
-        TxStorage.TxTokenOpTypeToName.PTwithdrawn
-      ]
+      TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.PTwithdrawn]
     )
       return {
         type: 'withdraw',
         token: toptok,
-        amount: TransactionUtilities.parseHexDaiValue(
-          `0x${top.withdrawAmount}`
-        )
+        amount: TransactionUtilities.parseHexDAIValue(`0x${top.withdrawAmount}`)
       };
 
     if (
@@ -159,9 +161,7 @@ class EtherUtilities {
       return {
         type: 'open deposit withdraw',
         token: toptok,
-        amount: TransactionUtilities.parseHexDaiValue(
-          `0x${top.withdrawAmount}`
-        )
+        amount: TransactionUtilities.parseHexDAIValue(`0x${top.withdrawAmount}`)
       };
 
     if (
@@ -173,9 +173,7 @@ class EtherUtilities {
       return {
         type: 'sponsorship withdraw',
         token: toptok,
-        amount: TransactionUtilities.parseHexDaiValue(
-          `0x${top.withdrawAmount}`
-        )
+        amount: TransactionUtilities.parseHexDAIValue(`0x${top.withdrawAmount}`)
       };
 
     if (
@@ -187,9 +185,7 @@ class EtherUtilities {
       return {
         type: 'committed deposit withdraw',
         token: toptok,
-        amount: TransactionUtilities.parseHexDaiValue(
-          `0x${top.withdrawAmount}`
-        )
+        amount: TransactionUtilities.parseHexDAIValue(`0x${top.withdrawAmount}`)
       };
 
     return {
