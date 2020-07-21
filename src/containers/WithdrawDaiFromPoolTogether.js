@@ -5,7 +5,7 @@ import styled from 'styled-components/native';
 import { saveOutgoingTransactionDataPoolTogether } from '../actions/ActionOutgoingTransactionData';
 import {
   saveTxConfirmationModalVisibility,
-  updateTxConfirmationModalVisibleType,
+  updateTxConfirmationModalVisibleType
 } from '../actions/ActionModal';
 import {
   RootContainer,
@@ -17,14 +17,14 @@ import {
   IsOnlineMessage,
   InsufficientWeiBalanceMessage,
   TxNextButton,
-  UseMaxButton,
+  UseMaxButton
 } from '../components/common';
 import TxConfirmationModal from '../containers/common/TxConfirmationModal';
 import { AdvancedContainer } from './common/AdvancedContainer';
 import I18n from '../i18n/I18n';
 import {
   RoundDownBigNumberPlacesFour,
-  RoundDownBigNumberPlacesEighteen,
+  RoundDownBigNumberPlacesEighteen
 } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
@@ -38,7 +38,7 @@ class WithdrawDaiFromPoolTogether extends Component {
     super(props);
     this.state = {
       poolTogetherDAIBalance: RoundDownBigNumberPlacesFour(
-        props.balance.pooltogetherDai.open,
+        props.balance.pooltogetherDai.open
       )
         .plus(props.balance.pooltogetherDai.committed)
         .plus(props.balance.pooltogetherDai.sponsored)
@@ -47,7 +47,7 @@ class WithdrawDaiFromPoolTogether extends Component {
       DAIWithdrawAmount: '',
       DAIWithdrawAmountValidation: undefined,
       WEIAmountValidation: undefined,
-      loading: false,
+      loading: false
     };
   }
 
@@ -55,8 +55,8 @@ class WithdrawDaiFromPoolTogether extends Component {
     this.updateWeiAmountValidation(
       TransactionUtilities.hasSufficientWEIForNetworkFee(
         TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
-        GlobalConfig.PoolTogetherWithdrawGasLimit,
-      ),
+        GlobalConfig.PoolTogetherWithdrawGasLimit
+      )
     );
   }
 
@@ -65,8 +65,8 @@ class WithdrawDaiFromPoolTogether extends Component {
       this.updateWeiAmountValidation(
         TransactionUtilities.hasSufficientWEIForNetworkFee(
           TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
-          GlobalConfig.PoolTogetherWithdrawGasLimit,
-        ),
+          GlobalConfig.PoolTogetherWithdrawGasLimit
+        )
       );
     }
     if (
@@ -74,12 +74,12 @@ class WithdrawDaiFromPoolTogether extends Component {
     ) {
       this.setState({
         poolTogetherDAIBalance: RoundDownBigNumberPlacesFour(
-          this.props.balance.pooltogetherDai.open,
+          this.props.balance.pooltogetherDai.open
         )
           .plus(this.props.balance.pooltogetherDai.committed)
           .plus(this.props.balance.pooltogetherDai.sponsored)
           .div(new RoundDownBigNumberPlacesFour(10).pow(18))
-          .toFixed(0),
+          .toFixed(0)
       });
     }
   }
@@ -87,17 +87,17 @@ class WithdrawDaiFromPoolTogether extends Component {
   async constructTransactionObject() {
     const DAIWithdrawAmount = this.state.DAIWithdrawAmount.split('.').join('');
     const decimalPlaces = TransactionUtilities.decimalPlaces(
-      this.state.DAIWithdrawAmount,
+      this.state.DAIWithdrawAmount
     );
     const decimals = 18 - parseInt(decimalPlaces);
 
     const withdrawEncodedABI = ABIEncoder.encodeWithdraw(
       DAIWithdrawAmount,
-      decimals,
+      decimals
     );
 
     const DAIWithdrawAmountWithDecimals = new RoundDownBigNumberPlacesEighteen(
-      this.state.DAIWithdrawAmount,
+      this.state.DAIWithdrawAmount
     )
       .times(new RoundDownBigNumberPlacesEighteen(10).pow(18))
       .toString(16);
@@ -106,15 +106,15 @@ class WithdrawDaiFromPoolTogether extends Component {
       .setTo(GlobalConfig.DAIPoolTogetherContractV2)
       .setGasPrice(
         TransactionUtilities.returnTransactionSpeed(
-          this.props.gasChosen,
-        ).toString(16),
+          this.props.gasChosen
+        ).toString(16)
       )
       .setGas(GlobalConfig.PoolTogetherWithdrawGasLimit.toString(16))
       .tempSetData(withdrawEncodedABI)
       .addTokenOperation(
         'pooltogether',
         TxStorage.TxTokenOpTypeToName.PTwithdrawn,
-        [TxStorage.storage.getOwnAddress(), DAIWithdrawAmountWithDecimals],
+        [TxStorage.storage.getOwnAddress(), DAIWithdrawAmountWithDecimals]
       );
 
     return transactionObject;
@@ -123,11 +123,11 @@ class WithdrawDaiFromPoolTogether extends Component {
   updateDaiWithdrawAmountValidation(DAIWithdrawAmountValidation) {
     if (DAIWithdrawAmountValidation) {
       this.setState({
-        DAIWithdrawAmountValidation: true,
+        DAIWithdrawAmountValidation: true
       });
     } else if (!DAIWithdrawAmountValidation) {
       this.setState({
-        DAIWithdrawAmountValidation: false,
+        DAIWithdrawAmountValidation: false
       });
     }
   }
@@ -135,22 +135,22 @@ class WithdrawDaiFromPoolTogether extends Component {
   updateWeiAmountValidation(WEIAmountValidation) {
     if (WEIAmountValidation) {
       this.setState({
-        WEIAmountValidation: true,
+        WEIAmountValidation: true
       });
     } else if (!WEIAmountValidation) {
       this.setState({
-        WEIAmountValidation: false,
+        WEIAmountValidation: false
       });
     }
   }
 
   validateForm = async (DAIWithdrawAmount) => {
     const DAIWithdrawAmountValidation = TransactionUtilities.validateDAIPoolTogetherWithdrawAmount(
-      DAIWithdrawAmount,
+      DAIWithdrawAmount
     );
     const WEIAmountValidation = TransactionUtilities.hasSufficientWEIForNetworkFee(
       TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
-      GlobalConfig.PoolTogetherWithdrawGasLimit,
+      GlobalConfig.PoolTogetherWithdrawGasLimit
     );
     const isOnline = this.props.isOnline;
 
@@ -161,7 +161,7 @@ class WithdrawDaiFromPoolTogether extends Component {
       this.props.saveOutgoingTransactionDataPoolTogether({
         amount: DAIWithdrawAmount,
         gasLimit: GlobalConfig.PoolTogetherWithdrawGasLimit,
-        transactionObject: transactionObject,
+        transactionObject: transactionObject
       });
       this.props.saveTxConfirmationModalVisibility(true);
       this.props.updateTxConfirmationModalVisibleType('pool-together-withdraw');
@@ -200,19 +200,19 @@ class WithdrawDaiFromPoolTogether extends Component {
             textColor="#00A3E2"
             onPress={() => {
               this.setState({
-                DAIWithdrawAmount: this.state.poolTogetherDAIBalance,
+                DAIWithdrawAmount: this.state.poolTogetherDAIBalance
               });
               this.updateDaiWithdrawAmountValidation(
                 TransactionUtilities.validateDAIPoolTogetherWithdrawAmount(
-                  this.state.poolTogetherDAIBalance,
-                ),
+                  this.state.poolTogetherDAIBalance
+                )
               );
             }}
           />
         </WithDrawAmountHeaderContainer>
         <Form
           borderColor={StyleUtilities.getBorderColor(
-            this.state.DAIWithdrawAmountValidation,
+            this.state.DAIWithdrawAmountValidation
           )}
           borderWidth={1}
           height="56px"
@@ -225,8 +225,8 @@ class WithdrawDaiFromPoolTogether extends Component {
               onChangeText={(DAIWithdrawAmount) => {
                 this.updateDaiWithdrawAmountValidation(
                   TransactionUtilities.validateDAIPoolTogetherWithdrawAmount(
-                    DAIWithdrawAmount,
-                  ),
+                    DAIWithdrawAmount
+                  )
                 );
                 this.setState({ DAIWithdrawAmount });
               }}
@@ -326,17 +326,17 @@ function mapStateToProps(state) {
     balance: state.ReducerBalance.balance,
     gasPrice: state.ReducerGasPrice.gasPrice,
     gasChosen: state.ReducerGasPrice.gasChosen,
-    isOnline: state.ReducerNetInfo.isOnline,
+    isOnline: state.ReducerNetInfo.isOnline
   };
 }
 
 const mapDispatchToProps = {
   saveOutgoingTransactionDataPoolTogether,
   saveTxConfirmationModalVisibility,
-  updateTxConfirmationModalVisibleType,
+  updateTxConfirmationModalVisibleType
 };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(WithdrawDaiFromPoolTogether);

@@ -9,7 +9,7 @@ class OfflineNotice extends Component {
   constructor(props) {
     super();
     this.state = {
-      isConnected: true,
+      isConnected: true
     };
   }
 
@@ -57,7 +57,7 @@ const OfflineText = styled.Text`
 
 function mapStateToProps(state) {
   return {
-    isOnline: state.ReducerNetInfo.isOnline,
+    isOnline: state.ReducerNetInfo.isOnline
   };
 }
 

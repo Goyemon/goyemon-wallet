@@ -21,7 +21,7 @@ class QRCodeScan extends Component {
     SendStack.navigationOptions = () => {
       const tabBarVisible = true;
       return {
-        tabBarVisible,
+        tabBarVisible
       };
     };
   }
@@ -33,7 +33,7 @@ class QRCodeScan extends Component {
     SendStack.navigationOptions = () => {
       const tabBarVisible = true;
       return {
-        tabBarVisible,
+        tabBarVisible
       };
     };
   };
@@ -59,7 +59,7 @@ class QRCodeScan extends Component {
                 SendStack.navigationOptions = () => {
                   const tabBarVisible = true;
                   return {
-                    tabBarVisible,
+                    tabBarVisible
                   };
                 };
                 this.props.navigation.goBack();
@@ -85,7 +85,7 @@ const GoBackText = styled.Text`
 `;
 
 const mapDispatchToProps = {
-  saveQRCodeData,
+  saveQRCodeData
 };
 
 export default connect(null, mapDispatchToProps)(QRCodeScan);

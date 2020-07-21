@@ -17,7 +17,7 @@ function obj_property_default(obj, prop, def) {
 const msgtype_compressed = {
   txhistory: true,
   txstate: true,
-  txsync: true,
+  txsync: true
 };
 
 class Msg {
@@ -32,7 +32,7 @@ class Msg {
 
   addPart(num, data) {
     LogUtilities.toDebugScreen(
-      `MSG addPart, id:${this.id}, num:${num}, have:${this.have}+1/${this.count}`,
+      `MSG addPart, id:${this.id}, num:${num}, have:${this.have}+1/${this.count}`
     );
     if (this.data[num])
       throw new Error(`duplicate part ${num} for message batch id ${this.id}`);
@@ -113,8 +113,8 @@ class FCMMsgs {
       to: GlobalConfig.FCM_server_address,
       data: {
         type: type,
-        ...otherData,
-      },
+        ...otherData
+      }
     };
 
     firebase
@@ -167,7 +167,7 @@ class FCMMsgs {
 
     if (frombg && d && d.type && d.count && d.no && d.uid && d.data)
       LogUtilities.toDebugScreen(
-        `BG message: uid:${d.uid} type:${d.type} no/cnt:${d.no}/${d.count}`,
+        `BG message: uid:${d.uid} type:${d.type} no/cnt:${d.no}/${d.count}`
       );
 
     if (d && d.type && d.count && d.no && d.uid && d.data)
@@ -178,7 +178,7 @@ class FCMMsgs {
     else
       LogUtilities.toDebugScreen(
         `unknown FCM message type (bg:${frombg}):`,
-        msg,
+        msg
       );
   }
 
@@ -208,7 +208,7 @@ class FCMMsgs {
       sums: checksums.join(','),
       items: count.toString(),
       offset: offset.toString(),
-      v: TxStorage.storage.temporary_since_you_wont_add_build_number_i_will.toString(),
+      v: TxStorage.storage.temporary_since_you_wont_add_build_number_i_will.toString()
     });
   }
 
@@ -227,5 +227,5 @@ function registerHandler() {
 module.exports = {
   registerHandler: registerHandler,
   downstreamMessageHandler: handler,
-  FCMMsgs: instance,
+  FCMMsgs: instance
 };

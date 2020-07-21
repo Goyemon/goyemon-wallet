@@ -19,14 +19,14 @@ class ToAddressForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      copiedText: '',
+      copiedText: ''
     };
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.qrCodeData != prevProps.qrCodeData) {
       this.props.saveOutgoingTransactionDataSend({
-        toaddress: this.props.qrCodeData,
+        toaddress: this.props.qrCodeData
       });
       this.validateToAddress(this.props.qrCodeData);
     }
@@ -48,7 +48,7 @@ class ToAddressForm extends Component {
     const copiedText = await Clipboard.getString();
     this.validateToAddress(copiedText);
     this.props.saveOutgoingTransactionDataSend({
-      toaddress: copiedText,
+      toaddress: copiedText
     });
   };
 
@@ -62,7 +62,7 @@ class ToAddressForm extends Component {
         </FormHeaderContainer>
         <Form
           borderColor={StyleUtilities.getBorderColor(
-            this.props.toAddressValidation,
+            this.props.toAddressValidation
           )}
           borderWidth={1}
           height="56px"
@@ -74,7 +74,7 @@ class ToAddressForm extends Component {
               onChangeText={(toAddress) => {
                 this.validateToAddress(toAddress);
                 this.props.saveOutgoingTransactionDataSend({
-                  toaddress: toAddress,
+                  toaddress: toAddress
                 });
               }}
               value={this.props.outgoingTransactionData.send.toaddress}
@@ -89,7 +89,7 @@ class ToAddressForm extends Component {
                   SendStack.navigationOptions = () => {
                     const tabBarVisible = false;
                     return {
-                      tabBarVisible,
+                      tabBarVisible
                     };
                   };
                   this.props.navigation.navigate('QRCodeScan');
@@ -151,15 +151,15 @@ function mapStateToProps(state) {
     outgoingTransactionData:
       state.ReducerOutgoingTransactionData.outgoingTransactionData,
     qrCodeData: state.ReducerQRCodeData.qrCodeData,
-    toAddressValidation: state.ReducerTxFormValidation.toAddressValidation,
+    toAddressValidation: state.ReducerTxFormValidation.toAddressValidation
   };
 }
 const mapDispatchToProps = {
   clearQRCodeData,
   saveOutgoingTransactionDataSend,
-  updateToAddressValidation,
+  updateToAddressValidation
 };
 
 export default withNavigation(
-  connect(mapStateToProps, mapDispatchToProps)(ToAddressForm),
+  connect(mapStateToProps, mapDispatchToProps)(ToAddressForm)
 );

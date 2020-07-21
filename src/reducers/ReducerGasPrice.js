@@ -2,7 +2,7 @@
 import Web3 from 'web3';
 import {
   GET_GAS_PRICE,
-  UPDATE_GAS_PRICE_CHOSEN,
+  UPDATE_GAS_PRICE_CHOSEN
 } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
@@ -10,18 +10,18 @@ const INITIAL_STATE = {
   gasPrice: [
     {
       speed: 'super fast',
-      value: 0,
+      value: 0
     },
     {
       speed: 'fast',
-      value: 0,
+      value: 0
     },
     {
       speed: 'normal',
-      value: 0,
-    },
+      value: 0
+    }
   ],
-  gasChosen: 1,
+  gasChosen: 1
 };
 
 const gasPrice = (state = INITIAL_STATE, action) => {
@@ -30,7 +30,7 @@ const gasPrice = (state = INITIAL_STATE, action) => {
       const gasPriceSuperFastGwei = (action.payload.fast / 10).toString();
       const gasPriceSuperFastWei = Web3.utils.toWei(
         gasPriceSuperFastGwei,
-        'Gwei',
+        'Gwei'
       );
       const gasPriceFastGwei = (action.payload.average / 10).toString();
       const gasPriceFastWei = Web3.utils.toWei(gasPriceFastGwei, 'Gwei');
@@ -49,7 +49,7 @@ const gasPrice = (state = INITIAL_STATE, action) => {
             LogUtilities.logInfo('no gas speed matches');
           }
         }),
-        gasChosen: state.gasChosen,
+        gasChosen: state.gasChosen
       };
     case UPDATE_GAS_PRICE_CHOSEN:
       return { ...state, gasChosen: action.payload };

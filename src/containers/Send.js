@@ -13,7 +13,7 @@ class Send extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currency: 'eth',
+      currency: 'eth'
     };
   }
 
@@ -25,7 +25,7 @@ class Send extends Component {
   renderCurrency() {
     const { wei, dai, cDai, pooltogetherDai } = this.props.balance,
       ETHBalance = RoundDownBigNumberPlacesFour(
-        Web3.utils.fromWei(wei),
+        Web3.utils.fromWei(wei)
       ).toFixed(4),
       DAIBalance = this.returnBalance(dai, 10, 18, 2),
       CDAIBalance = this.returnBalance(cDai, 10, 8, 2),
@@ -33,7 +33,7 @@ class Send extends Component {
         pooltogetherDai.committed,
         10,
         8,
-        2,
+        2
       );
 
     const propsValue = {
@@ -41,26 +41,26 @@ class Send extends Component {
         icon: require('../../assets/ether_icon.png'),
         token: 'ETH',
         title: I18n.t('eth-wallet-balance'),
-        balance: ETHBalance,
+        balance: ETHBalance
       },
       dai: {
         icon: require('../../assets/dai_icon.png'),
         token: 'DAI',
         title: I18n.t('dai-wallet-balance'),
-        balance: DAIBalance,
+        balance: DAIBalance
       },
       cdai: {
         icon: require('../../assets/cdai_icon.png'),
         token: 'cDAI',
         title: I18n.t('cdai-wallet-balance'),
-        balance: CDAIBalance,
+        balance: CDAIBalance
       },
       pldai: {
         icon: require('../../assets/pldai_icon.png'),
         token: 'plDAI',
         title: I18n.t('pldai-wallet-balance'),
-        balance: poolTogetherDAIBalance,
-      },
+        balance: poolTogetherDAIBalance
+      }
     };
 
     return this.state.currency ? (
@@ -73,23 +73,23 @@ class Send extends Component {
       {
         event: () => this.setState({ currency: 'eth' }),
         opacity: this.state.currency === 'eth' ? 1 : 0.4,
-        path: require('../../assets/ether_icon.png'),
+        path: require('../../assets/ether_icon.png')
       },
       {
         event: () => this.setState({ currency: 'dai' }),
         opacity: this.state.currency === 'dai' ? 1 : 0.4,
-        path: require('../../assets/dai_icon.png'),
+        path: require('../../assets/dai_icon.png')
       },
       {
         event: () => this.setState({ currency: 'cdai' }),
         opacity: this.state.currency === 'cdai' ? 1 : 0.4,
-        path: require('../../assets/cdai_icon.png'),
+        path: require('../../assets/cdai_icon.png')
       },
       {
         event: () => this.setState({ currency: 'pldai' }),
         opacity: this.state.currency === 'pldai' ? 1 : 0.4,
-        path: require('../../assets/pldai_icon.png'),
-      },
+        path: require('../../assets/pldai_icon.png')
+      }
     ];
 
     return (
@@ -126,7 +126,7 @@ const CoinImage = styled.Image`
 
 function mapStateToProps(state) {
   return {
-    balance: state.ReducerBalance.balance,
+    balance: state.ReducerBalance.balance
   };
 }
 

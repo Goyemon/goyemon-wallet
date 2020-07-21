@@ -6,14 +6,14 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import {
   getGasPrice,
-  updateGasPriceChosen,
+  updateGasPriceChosen
 } from '../../actions/ActionGasPrice';
 import {
   Container,
   FormHeader,
   GoyemonText,
   MenuContainer,
-  ToggleCurrencySymbol,
+  ToggleCurrencySymbol
 } from '../../components/common';
 import SlippageContainer from './SlippageContainer';
 import I18n from '../../i18n/I18n';
@@ -24,7 +24,7 @@ class __TxSpeedSelectionContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currency: 'USD',
+      currency: 'USD'
     };
   }
 
@@ -36,13 +36,13 @@ class __TxSpeedSelectionContainer extends Component {
     if (this.state.currency === 'ETH') {
       const usdValue = TransactionUtilities.getMaxNetworkFeeInUSD(
         gasPriceWEI,
-        gasLimit,
+        gasLimit
       );
       return <NetworkFeeText>${usdValue}</NetworkFeeText>;
     } else if (this.state.currency === 'USD') {
       let ETHValue = TransactionUtilities.getMaxNetworkFeeInETH(
         gasPriceWEI,
-        gasLimit,
+        gasLimit
       );
       LogUtilities.logInfo('ETHValue ==>', ETHValue);
       ETHValue = parseFloat(ETHValue).toFixed(5);
@@ -124,7 +124,7 @@ class AdvancedContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showAdvanced: false,
+      showAdvanced: false
     };
   }
 
@@ -232,21 +232,21 @@ const UnselectedButton = styled.Text`
 function mapStateToProps(state) {
   return {
     gasPrice: state.ReducerGasPrice.gasPrice,
-    gasChosen: state.ReducerGasPrice.gasChosen,
+    gasChosen: state.ReducerGasPrice.gasChosen
   };
 }
 
 const mapDispatchToProps = {
   getGasPrice,
-  updateGasPriceChosen,
+  updateGasPriceChosen
 };
 
 const TxSpeedSelectionContainer = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(__TxSpeedSelectionContainer);
 
 module.exports = {
   TxSpeedSelectionContainer,
-  AdvancedContainer,
+  AdvancedContainer
 };

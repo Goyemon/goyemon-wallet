@@ -23,12 +23,12 @@ class StyleUtilities {
           return {
             name: 'arrow-top-right-bold-outline',
             size: 20,
-            color: '#F1860E',
+            color: '#F1860E'
           };
         return {
           name: 'arrow-bottom-left-bold-outline',
           size: 20,
-          color: '#1BA548',
+          color: '#1BA548'
         };
 
       case 'approval':
@@ -36,7 +36,7 @@ class StyleUtilities {
         return {
           name: 'arrow-top-right-bold-outline',
           size: 20,
-          color: '#F1860E',
+          color: '#F1860E'
         };
 
       case 'withdraw':
@@ -46,28 +46,28 @@ class StyleUtilities {
         return {
           name: 'arrow-bottom-left-bold-outline',
           size: 20,
-          color: '#1BA548',
+          color: '#1BA548'
         };
 
       case 'multicontract':
         return {
           name: 'call-split',
           size: 20,
-          color: '#5F5F5F',
+          color: '#5F5F5F'
         };
 
       case 'failure':
         return {
           name: 'alert-circle-outline',
           size: 20,
-          color: '#E41B13',
+          color: '#E41B13'
         };
 
       default:
         return {
           name: 'arrow-top-right-bold-outline',
           size: 20,
-          color: '#F1860E',
+          color: '#F1860E'
         };
     }
   }

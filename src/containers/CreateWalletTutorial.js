@@ -8,7 +8,7 @@ import {
   Button,
   HeaderTwo,
   Description,
-  Loader,
+  Loader
 } from '../components/common';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
@@ -17,7 +17,7 @@ class CreateWalletTutorial extends Component {
     super();
     this.state = {
       loading: false,
-      buttonDisabled: false,
+      buttonDisabled: false
     };
   }
 
@@ -63,7 +63,7 @@ class CreateWalletTutorial extends Component {
             onPress={async () => {
               this.setState({
                 loading: true,
-                buttonDisabled: true,
+                buttonDisabled: true
               });
               await WalletUtilities.init();
               await this.props.saveMnemonicWords();
@@ -78,15 +78,15 @@ class CreateWalletTutorial extends Component {
 
 function mapStateToProps(state) {
   return {
-    mnemonicWords: state.ReducerMnemonic.mnemonicWords,
+    mnemonicWords: state.ReducerMnemonic.mnemonicWords
   };
 }
 
 const mapDispatchToProps = {
-  saveMnemonicWords,
+  saveMnemonicWords
 };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(CreateWalletTutorial);

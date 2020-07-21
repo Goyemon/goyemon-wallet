@@ -16,5 +16,5 @@ export function createChecksumAddress() {
 
 const createChecksumAddressSuccess = (checksumAddress) => ({
   type: CREATE_CHECKSUM_ADDRESS,
-  payload: checksumAddress,
+  payload: checksumAddress
 });

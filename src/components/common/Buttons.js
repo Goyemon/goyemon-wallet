@@ -165,5 +165,5 @@ export {
   MnemonicWordButton,
   TxConfirmationButton,
   TxNextButton,
-  UseMaxButton,
+  UseMaxButton
 };

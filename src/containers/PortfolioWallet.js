@@ -9,7 +9,7 @@ import {
   UntouchableCardContainer,
   NewHeaderOne,
   NewHeaderThree,
-  NewHeaderFour,
+  NewHeaderFour
 } from '../components/common';
 import I18n from '../i18n/I18n';
 import { RoundDownBigNumberPlacesFour } from '../utilities/BigNumberUtilities';
@@ -26,12 +26,12 @@ class PortfolioWallet extends Component {
     const { balance, price } = this.props;
 
     const ETHBalance = RoundDownBigNumberPlacesFour(
-        Web3.utils.fromWei(balance.wei),
+        Web3.utils.fromWei(balance.wei)
       ).toFixed(4),
       DAIBalance = this.returnBalance(balance.dai, 10, 18, 2),
       CDAIBalance = this.returnBalance(balance.cDai, 10, 8, 2),
       PLDAIBalance = RoundDownBigNumberPlacesFour(
-        balance.pooltogetherDai.committed,
+        balance.pooltogetherDai.committed
       )
         .div(new RoundDownBigNumberPlacesFour(10).pow(18))
         .toFixed(2);
@@ -42,29 +42,29 @@ class PortfolioWallet extends Component {
         balance: ETHBalance,
         usd: PriceUtilities.convertETHToUSD(ETHBalance).toFixed(2),
         icon: require('../../assets/ether_icon.png'),
-        token: 'ETH',
+        token: 'ETH'
       },
       {
         price: price.dai,
         balance: DAIBalance,
         usd: PriceUtilities.convertDAIToUSD(DAIBalance).toFixed(2),
         icon: require('../../assets/dai_icon.png'),
-        token: 'DAI',
+        token: 'DAI'
       },
       {
         price: price.cdai,
         balance: CDAIBalance,
         usd: PriceUtilities.convertCDAIToUSD(CDAIBalance).toFixed(2),
         icon: require('../../assets/cdai_icon.png'),
-        token: 'cDAI',
+        token: 'cDAI'
       },
       {
         price: price.dai,
         balance: PLDAIBalance,
         usd: PriceUtilities.convertDAIToUSD(PLDAIBalance).toFixed(2),
         icon: require('../../assets/pldai_icon.png'),
-        token: 'plDAI',
-      },
+        token: 'plDAI'
+      }
     ];
 
     return (
@@ -88,7 +88,13 @@ class PortfolioWallet extends Component {
             text={I18n.t('portfolio-wallet-totalbalance')}
           />
           <UsdBalance>
-            ${PriceUtilities.getTotalWalletBalance(ETHBalance, DAIBalance, CDAIBalance, PLDAIBalance)}
+            $
+            {PriceUtilities.getTotalWalletBalance(
+              ETHBalance,
+              DAIBalance,
+              CDAIBalance,
+              PLDAIBalance
+            )}
           </UsdBalance>
         </UntouchableCardContainer>
         <NewHeaderThree
@@ -113,7 +119,7 @@ const UsdBalance = styled.Text`
 const mapStateToProps = (state) => ({
   balance: state.ReducerBalance.balance,
   checksumAddress: state.ReducerChecksumAddress.checksumAddress,
-  price: state.ReducerPrice.price,
+  price: state.ReducerPrice.price
 });
 
 export default withNavigation(connect(mapStateToProps)(PortfolioWallet));

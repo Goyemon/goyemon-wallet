@@ -14,7 +14,7 @@ export function saveFcmMsg(fcmMsg) {
 
 const saveFcmMsgSuccess = (fcmMsg) => ({
   type: SAVE_FCM_MSG,
-  payload: fcmMsg,
+  payload: fcmMsg
 });
 
 export function appendFcmMsg(fcmMsg) {
@@ -29,5 +29,5 @@ export function appendFcmMsg(fcmMsg) {
 
 const appendFcmMsgSuccess = (fcmMsg) => ({
   type: APPEND_FCM_MSG,
-  payload: fcmMsg,
+  payload: fcmMsg
 });

@@ -18,7 +18,7 @@ import {
   IsOnlineMessage,
   ModalHandler,
   HorizontalLine,
-  Loader,
+  Loader
 } from '../components/common';
 import { connect } from 'react-redux';
 
@@ -36,20 +36,20 @@ import Slider from '@react-native-community/slider';
 const window = Dimensions.get('window');
 
 const mapChecksumAddressStateToProps = (state) => ({
-  checksumAddress: state.ReducerChecksumAddress.checksumAddress,
+  checksumAddress: state.ReducerChecksumAddress.checksumAddress
 });
 const mapGasPriceStateToProps = (state) => ({
-  gasPrice: state.ReducerGasPrice.gasPrice,
+  gasPrice: state.ReducerGasPrice.gasPrice
 });
 
 const mapAddressAndIsOnlineAndModalStateToProps = (state) => ({
   checksumAddress: state.ReducerChecksumAddress.checksumAddress,
   isOnline: state.ReducerNetInfo.isOnline,
-  modal: state.ReducerModal.modal,
+  modal: state.ReducerModal.modal
 });
 
 const mapDispatchToProps = {
-  saveTxDetailModalVisibility,
+  saveTxDetailModalVisibility
 };
 
 const TransactionDetail = connect(mapChecksumAddressStateToProps)(
@@ -60,15 +60,15 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
         tx: props.tx,
         data: TransactionUtilities.txDetailObject(
           props.tx,
-          EtherUtilities.getReasonablyAddress(props.checksumAddress),
-        ),
+          EtherUtilities.getReasonablyAddress(props.checksumAddress)
+        )
       };
     }
 
     componentDidMount() {
       LogUtilities.toDebugScreen(
         'TransactionDetail Tx',
-        this.state.tx.tokenData,
+        this.state.tx.tokenData
       );
       LogUtilities.toDebugScreen('TransactionDetail Tx', this.state.txData);
     }
@@ -81,13 +81,13 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
             await this.setState({
               data: TransactionUtilities.txDetailObject(
                 x,
-                EtherUtilities.getReasonablyAddress(props.checksumAddress),
+                EtherUtilities.getReasonablyAddress(props.checksumAddress)
               ),
-              tx: x,
+              tx: x
             });
           })
           .catch((e) =>
-            LogUtilities.toDebugScreen('TransactionDetail Tx Error With', e),
+            LogUtilities.toDebugScreen('TransactionDetail Tx Error With', e)
           );
       }
       await this.props.updateTx(this.state.tx);
@@ -110,7 +110,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
         </>
       );
     }
-  },
+  }
 );
 
 const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
@@ -118,10 +118,10 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
     constructor(props) {
       super(props);
       this.state = {
-        WEIAmountValidation: undefined,
+        WEIAmountValidation: undefined
       };
       this.state = this.getPriceState(
-        Math.ceil(this.props.currentGasPrice * 1.2),
+        Math.ceil(this.props.currentGasPrice * 1.2)
       );
       props.gasPrice.forEach((x) => {
         if (x.speed == 'super fast')
@@ -133,14 +133,14 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
       return {
         usdValue: TransactionUtilities.getMaxNetworkFeeInUSD(
           gasPriceWeiDecimal,
-          this.props.gasLimit,
+          this.props.gasLimit
         ),
         ethValue: parseFloat(
           TransactionUtilities.getMaxNetworkFeeInETH(
             gasPriceWeiDecimal,
-            this.props.gasLimit,
-          ),
-        ).toFixed(5),
+            this.props.gasLimit
+          )
+        ).toFixed(5)
       };
     }
 
@@ -153,11 +153,11 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
       this.props.updateWeiAmountValidationInModal(WEIAmountValidation);
       if (WEIAmountValidation) {
         this.setState({
-          WEIAmountValidation: true,
+          WEIAmountValidation: true
         });
       } else if (!WEIAmountValidation) {
         this.setState({
-          WEIAmountValidation: false,
+          WEIAmountValidation: false
         });
       }
     }
@@ -184,8 +184,8 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
               this.updateWeiAmountValidation(
                 TransactionUtilities.hasSufficientWEIForNetworkFee(
                   gasPriceWeiDecimal,
-                  this.props.gasLimit,
-                ),
+                  this.props.gasLimit
+                )
               );
               this.sliderValueChange(gasPriceWeiDecimal);
             }}
@@ -196,7 +196,7 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
               marginLeft: 'auto',
               marginRight: 'auto',
               marginTop: 32,
-              marginBottom: 16,
+              marginBottom: 16
             }}
           />
           <InsufficientWeiBalanceMessage
@@ -209,7 +209,7 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
         </>
       );
     }
-  },
+  }
 );
 
 const NetworkFeeContainer = styled.View`
@@ -223,7 +223,7 @@ const Explanation = styled.View`
 
 const TransactionDetailModal = connect(
   mapAddressAndIsOnlineAndModalStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(
   class TransactionDetailModal extends Component {
     constructor(props) {
@@ -234,7 +234,7 @@ const TransactionDetailModal = connect(
         txResent: false,
         loading: false,
         modalHeigh: '60%',
-        WEIAmountValidation: undefined,
+        WEIAmountValidation: undefined
       };
       this.uniqcounter = 0;
       this.updateTxState = this.updateTxState.bind(this);
@@ -248,7 +248,7 @@ const TransactionDetailModal = connect(
 
     componentDidMount() {
       this.unsub = TxStorage.storage.subscribe(
-        this.updateTxListState.bind(this),
+        this.updateTxListState.bind(this)
       );
       (async () => {
         this.updateTxListState();
@@ -260,19 +260,19 @@ const TransactionDetailModal = connect(
 
     updateTxListState() {
       LogUtilities.toDebugScreen(
-        'TransactionDetailModal updateTxListState() called',
+        'TransactionDetailModal updateTxListState() called'
       );
       // this.refreshIndices = {0: true,1: true,2: true,3: true,4: true,5: true,6:true,7:true,8:true,9:true};
 
       this.setState({
         transactions_update_counter: this.uniqcounter++,
-        transactionsLoaded: true,
+        transactionsLoaded: true
       });
     }
 
     updateTxState(x) {
       this.setState({
-        txToUpdate: x,
+        txToUpdate: x
       });
     }
 
@@ -282,7 +282,7 @@ const TransactionDetailModal = connect(
         if (this.props.txToUpdate != null)
           newState.newGasPrice = parseInt(
             this.props.txToUpdate.getGasPrice(),
-            16,
+            16
           );
 
         this.setState(newState);
@@ -305,7 +305,7 @@ const TransactionDetailModal = connect(
     priceSliderSettled(value) {
       LogUtilities.dumpObject('priceSliderSettled() value', Math.floor(value));
       this.setState({
-        newGasPrice: Math.floor(value),
+        newGasPrice: Math.floor(value)
       });
     }
 
@@ -337,7 +337,7 @@ const TransactionDetailModal = connect(
               marginRight: 4,
               marginBottom: 0,
               flexDirection: 'row',
-              alignItems: 'flex-end',
+              alignItems: 'flex-end'
             }}
           >
             <ModalContainer style={{ height: this.state.modalHeigh }}>
@@ -356,7 +356,7 @@ const TransactionDetailModal = connect(
                 </TouchableOpacity>
                 {this.props.checksumAddress ===
                   Web3.utils.toChecksumAddress(
-                    this.state.txToUpdate.getFrom(),
+                    this.state.txToUpdate.getFrom()
                   ) &&
                 (this.state.txToUpdate.getState() === 0 ||
                   this.state.txToUpdate.getState() === 1) ? (
@@ -364,15 +364,15 @@ const TransactionDetailModal = connect(
                     <MagicalGasPriceSlider
                       currentGasPrice={parseInt(
                         this.state.txToUpdate.getGasPrice(),
-                        16,
+                        16
                       )}
                       gasLimit={parseInt(
                         this.state.txToUpdate.getGasLimit(),
-                        16,
+                        16
                       )}
                       onSettle={this.priceSliderSettled.bind(this)}
                       updateWeiAmountValidationInModal={this.updateWeiAmountValidationInModal.bind(
-                        this,
+                        this
                       )}
                     />
                     <Button
@@ -427,7 +427,7 @@ const TransactionDetailModal = connect(
 
       return null;
     }
-  },
+  }
 );
 
 const ModalContainer = styled.View`
@@ -460,7 +460,7 @@ export default connect(mapChecksumAddressStateToProps)(
         filter: 'All',
         editedTx: null,
         editedTxIndex: '',
-        editedTxFilter: '',
+        editedTxFilter: ''
       };
       this.txTapped = this.txTapped.bind(this);
     }
@@ -496,7 +496,7 @@ export default connect(mapChecksumAddressStateToProps)(
       await this.setState({
         editedTx: tx,
         editedTxIndex: index,
-        editedTxFilter: filter,
+        editedTxFilter: filter
       });
     }
 
@@ -525,7 +525,7 @@ export default connect(mapChecksumAddressStateToProps)(
         </HistoryContainer>
       );
     }
-  },
+  }
 );
 
 const HistoryContainer = styled.View`

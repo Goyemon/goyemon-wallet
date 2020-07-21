@@ -6,7 +6,7 @@ import styled from 'styled-components/native';
 import { saveOutgoingTransactionDataCompound } from '../actions/ActionOutgoingTransactionData';
 import {
   saveTxConfirmationModalVisibility,
-  updateTxConfirmationModalVisibleType,
+  updateTxConfirmationModalVisibleType
 } from '../actions/ActionModal';
 import {
   RootContainer,
@@ -18,14 +18,14 @@ import {
   Loader,
   IsOnlineMessage,
   InsufficientWeiBalanceMessage,
-  TxNextButton,
+  TxNextButton
 } from '../components/common';
 import { AdvancedContainer } from './common/AdvancedContainer';
 import TxConfirmationModal from '../containers/common/TxConfirmationModal';
 import I18n from '../i18n/I18n';
 import {
   RoundDownBigNumberPlacesFour,
-  RoundDownBigNumberPlacesEighteen,
+  RoundDownBigNumberPlacesEighteen
 } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
@@ -44,7 +44,7 @@ class DepositDaiToCompound extends Component {
       daiAmount: '',
       DAIAmountValidation: undefined,
       WEIAmountValidation: undefined,
-      loading: false,
+      loading: false
     };
   }
 
@@ -52,8 +52,8 @@ class DepositDaiToCompound extends Component {
     this.updateWEIAmountValidation(
       TransactionUtilities.hasSufficientWEIForNetworkFee(
         TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
-        GlobalConfig.cTokenMintGasLimit,
-      ),
+        GlobalConfig.cTokenMintGasLimit
+      )
     );
   }
 
@@ -62,15 +62,15 @@ class DepositDaiToCompound extends Component {
       this.updateWEIAmountValidation(
         TransactionUtilities.hasSufficientWEIForNetworkFee(
           TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
-          GlobalConfig.cTokenMintGasLimit,
-        ),
+          GlobalConfig.cTokenMintGasLimit
+        )
       );
     }
     if (this.props.balance.dai != prevProps.balance.dai) {
       this.setState({
         DAIBalance: RoundDownBigNumberPlacesFour(this.props.balance.dai)
           .div(new RoundDownBigNumberPlacesFour(10).pow(18))
-          .toFixed(2),
+          .toFixed(2)
       });
     }
   }
@@ -78,14 +78,14 @@ class DepositDaiToCompound extends Component {
   async constructTransactionObject() {
     const daiAmount = this.state.daiAmount.split('.').join('');
     const decimalPlaces = TransactionUtilities.decimalPlaces(
-      this.state.daiAmount,
+      this.state.daiAmount
     );
     const decimals = 18 - parseInt(decimalPlaces);
 
     const mintEncodedABI = ABIEncoder.encodeCDAIMint(daiAmount, decimals);
 
     const daiAmountWithDecimals = new RoundDownBigNumberPlacesEighteen(
-      this.state.daiAmount,
+      this.state.daiAmount
     )
       .times(new RoundDownBigNumberPlacesEighteen(10).pow(18))
       .toString(16);
@@ -94,15 +94,15 @@ class DepositDaiToCompound extends Component {
       .setTo(GlobalConfig.cDAIcontract)
       .setGasPrice(
         TransactionUtilities.returnTransactionSpeed(
-          this.props.gasChosen,
-        ).toString(16),
+          this.props.gasChosen
+        ).toString(16)
       )
       .setGas(GlobalConfig.cTokenMintGasLimit.toString(16))
       .tempSetData(mintEncodedABI)
       .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.mint, [
         TxStorage.storage.getOwnAddress(),
         daiAmountWithDecimals,
-        0,
+        0
       ]);
 
     return transactionObject;
@@ -111,11 +111,11 @@ class DepositDaiToCompound extends Component {
   updateDAIAmountValidation(DAIAmountValidation) {
     if (DAIAmountValidation) {
       this.setState({
-        DAIAmountValidation: true,
+        DAIAmountValidation: true
       });
     } else if (!DAIAmountValidation) {
       this.setState({
-        DAIAmountValidation: false,
+        DAIAmountValidation: false
       });
     }
   }
@@ -123,22 +123,22 @@ class DepositDaiToCompound extends Component {
   updateWEIAmountValidation(WEIAmountValidation) {
     if (WEIAmountValidation) {
       this.setState({
-        WEIAmountValidation: true,
+        WEIAmountValidation: true
       });
     } else if (!WEIAmountValidation) {
       this.setState({
-        WEIAmountValidation: false,
+        WEIAmountValidation: false
       });
     }
   }
 
   validateForm = async (daiAmount) => {
     const DAIAmountValidation = TransactionUtilities.hasSufficientDAIForAmount(
-      daiAmount,
+      daiAmount
     );
     const WEIAmountValidation = TransactionUtilities.hasSufficientWEIForNetworkFee(
       TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
-      GlobalConfig.cTokenMintGasLimit,
+      GlobalConfig.cTokenMintGasLimit
     );
     const isOnline = this.props.isOnline;
 
@@ -149,7 +149,7 @@ class DepositDaiToCompound extends Component {
       this.props.saveOutgoingTransactionDataCompound({
         amount: daiAmount,
         gasLimit: GlobalConfig.cTokenMintGasLimit,
-        transactionObject: transactionObject,
+        transactionObject: transactionObject
       });
       this.props.saveTxConfirmationModalVisibility(true);
       this.props.updateTxConfirmationModalVisibleType('compound-deposit');
@@ -200,14 +200,14 @@ class DepositDaiToCompound extends Component {
             onPress={() => {
               this.setState({ daiAmount: daiFullBalance });
               this.updateDAIAmountValidation(
-                TransactionUtilities.hasSufficientDAIForAmount(daiFullBalance),
+                TransactionUtilities.hasSufficientDAIForAmount(daiFullBalance)
               );
             }}
           />
         </DepositAmountHeaderContainer>
         <Form
           borderColor={StyleUtilities.getBorderColor(
-            this.state.DAIAmountValidation,
+            this.state.DAIAmountValidation
           )}
           borderWidth={1}
           height="56px"
@@ -219,7 +219,7 @@ class DepositDaiToCompound extends Component {
               clearButtonMode="while-editing"
               onChangeText={(daiAmount) => {
                 this.updateDAIAmountValidation(
-                  TransactionUtilities.hasSufficientDAIForAmount(daiAmount),
+                  TransactionUtilities.hasSufficientDAIForAmount(daiAmount)
                 );
                 this.setState({ daiAmount });
               }}
@@ -318,17 +318,17 @@ function mapStateToProps(state) {
     gasPrice: state.ReducerGasPrice.gasPrice,
     gasChosen: state.ReducerGasPrice.gasChosen,
     balance: state.ReducerBalance.balance,
-    isOnline: state.ReducerNetInfo.isOnline,
+    isOnline: state.ReducerNetInfo.isOnline
   };
 }
 
 const mapDispatchToProps = {
   saveOutgoingTransactionDataCompound,
   saveTxConfirmationModalVisibility,
-  updateTxConfirmationModalVisibleType,
+  updateTxConfirmationModalVisibleType
 };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(DepositDaiToCompound);

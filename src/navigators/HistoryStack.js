@@ -8,13 +8,13 @@ const HistoryStack = createStackNavigator(
       screen: History,
       navigationOptions: () => ({
         headerTransparent: true,
-        headerBackTitle: 'History',
-      }),
-    },
+        headerBackTitle: 'History'
+      })
+    }
   },
   {
-    initialRouteName: 'History',
-  },
+    initialRouteName: 'History'
+  }
 );
 
 export default HistoryStack;

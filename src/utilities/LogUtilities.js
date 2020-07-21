@@ -46,7 +46,7 @@ class LogUtilities {
     let out = `${arguments[0]} --> `;
     for (let i = 1; i < arguments.length; ++i)
       out += `${i > 1 ? ' ' : ''}${LogUtilities.__dumpObjectRecursively(
-        arguments[i],
+        arguments[i]
       )}`;
 
     LogUtilities.toDebugScreen(out);
@@ -55,7 +55,7 @@ class LogUtilities {
   static __dumpObjectRecursively(
     x,
     level = 0,
-    maxlevel = DUMPOBJECT_DEFAULT_DEPTH,
+    maxlevel = DUMPOBJECT_DEFAULT_DEPTH
   ) {
     if (typeof x === 'string') return `"${x}"`;
     else if (typeof x === 'number') return `${x}`;
@@ -66,7 +66,7 @@ class LogUtilities {
         return `[${x
           .map(
             (x, idx) =>
-              `${LogUtilities.__dumpObjectRecursively(x, level + 1, maxlevel)}`,
+              `${LogUtilities.__dumpObjectRecursively(x, level + 1, maxlevel)}`
           )
           .join(', ')}]`;
       else if (x instanceof Object)
@@ -75,8 +75,8 @@ class LogUtilities {
             `${xk}: ${LogUtilities.__dumpObjectRecursively(
               x[xk],
               level + 1,
-              maxlevel,
-            )}`,
+              maxlevel
+            )}`
         )} }`;
     }
 

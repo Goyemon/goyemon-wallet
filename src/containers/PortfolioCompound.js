@@ -14,7 +14,7 @@ import {
   HeaderFour,
   HeaderFive,
   GoyemonText,
-  ApplicationDescription,
+  ApplicationDescription
 } from '../components/common';
 import I18n from '../i18n/I18n';
 import { RoundDownBigNumberPlacesFour } from '../utilities/BigNumberUtilities';
@@ -32,7 +32,7 @@ class PortfolioCompound extends Component {
       .toFixed(2);
 
     const lifetimeEarnedInDAI = RoundDownBigNumberPlacesFour(
-      compound.dai.lifetimeEarned,
+      compound.dai.lifetimeEarned
     )
       .div(new RoundDownBigNumberPlacesFour(10).pow(36))
       .toString();
@@ -61,14 +61,14 @@ class PortfolioCompound extends Component {
           <BalanceText>
             $
             {parseFloat(
-              PriceUtilities.convertDAIToUSD(compoundDAIBalance),
+              PriceUtilities.convertDAIToUSD(compoundDAIBalance)
             ).toFixed(2)}
           </BalanceText>
           <InterestEarnedTextContainer>
             <InterestEarnedText>
               $
               {parseFloat(
-                PriceUtilities.convertDAIToUSD(lifetimeEarnedInDAI),
+                PriceUtilities.convertDAIToUSD(lifetimeEarnedInDAI)
               ).toFixed(4)}
             </InterestEarnedText>
             <GoyemonText fontSize={14}> earned! </GoyemonText>
@@ -192,7 +192,7 @@ const mapStateToProps = (state) => ({
   balance: state.ReducerBalance.balance,
   compound: state.ReducerCompound.compound,
   checksumAddress: state.ReducerChecksumAddress.checksumAddress,
-  price: state.ReducerPrice.price,
+  price: state.ReducerPrice.price
 });
 
 export default withNavigation(connect(mapStateToProps)(PortfolioCompound));

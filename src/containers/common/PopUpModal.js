@@ -38,7 +38,7 @@ const CloseButton = styled.TouchableOpacity`
 
 function mapStateToProps(state) {
   return {
-    modal: state.ReducerModal.modal,
+    modal: state.ReducerModal.modal
   };
 }
 

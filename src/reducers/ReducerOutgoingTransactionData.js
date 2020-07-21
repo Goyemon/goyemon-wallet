@@ -3,7 +3,7 @@ import {
   SAVE_OUTGOING_TRANSACTION_DATA_SEND,
   SAVE_OUTGOING_TRANSACTION_DATA_COMPOUND,
   SAVE_OUTGOING_TRANSACTION_DATA_POOLTOGETHER,
-  SAVE_OUTGOING_TRANSACTION_DATA_SWAP,
+  SAVE_OUTGOING_TRANSACTION_DATA_SWAP
 } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
@@ -12,19 +12,19 @@ const INITIAL_STATE = {
       toaddress: '',
       amount: '',
       gasLimit: '',
-      transactionObject: {},
+      transactionObject: {}
     },
     compound: {
       amount: '',
       gasLimit: '',
       approveTransactionObject: {},
-      transactionObject: {},
+      transactionObject: {}
     },
     poolTogether: {
       amount: '',
       gasLimit: '',
       approveTransactionObject: {},
-      transactionObject: {},
+      transactionObject: {}
     },
     swap: {
       sold: '',
@@ -32,9 +32,9 @@ const INITIAL_STATE = {
       minBought: '',
       slippage: '',
       gasLimit: '',
-      transactionObject: {},
-    },
-  },
+      transactionObject: {}
+    }
+  }
 };
 
 const outgoingTransactionData = (state = INITIAL_STATE, action) => {
@@ -43,22 +43,22 @@ const outgoingTransactionData = (state = INITIAL_STATE, action) => {
       return {
         outgoingTransactionData: {
           ...state.outgoingTransactionData,
-          send: action.payload,
-        },
+          send: action.payload
+        }
       };
     case SAVE_OUTGOING_TRANSACTION_DATA_COMPOUND:
       return {
         outgoingTransactionData: {
           ...state.outgoingTransactionData,
-          compound: action.payload,
-        },
+          compound: action.payload
+        }
       };
     case SAVE_OUTGOING_TRANSACTION_DATA_POOLTOGETHER:
       return {
         outgoingTransactionData: {
           ...state.outgoingTransactionData,
-          poolTogether: action.payload,
-        },
+          poolTogether: action.payload
+        }
       };
     case SAVE_OUTGOING_TRANSACTION_DATA_SWAP:
       return {

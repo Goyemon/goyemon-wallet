@@ -14,55 +14,55 @@ const EarnStack = createStackNavigator(
       screen: EarnHome,
       navigationOptions: () => ({
         headerTransparent: true,
-        headerBackTitle: 'Earn',
-      }),
+        headerBackTitle: 'Earn'
+      })
     },
     DepositDaiToCompound: {
       screen: DepositDaiToCompound,
       navigationOptions: () => ({
         headerTransparent: true,
-        headerBackTitle: 'Deposit',
-      }),
+        headerBackTitle: 'Deposit'
+      })
     },
     DepositFirstDaiToCompound: {
       screen: DepositFirstDaiToCompound,
       navigationOptions: () => ({
         headerTransparent: true,
-        headerBackTitle: 'Deposit',
-      }),
+        headerBackTitle: 'Deposit'
+      })
     },
     WithdrawDaiFromCompound: {
       screen: WithdrawDaiFromCompound,
       navigationOptions: () => ({
         headerTransparent: true,
-        headerBackTitle: 'Withdraw',
-      }),
+        headerBackTitle: 'Withdraw'
+      })
     },
     DepositDaiToPoolTogether: {
       screen: DepositDaiToPoolTogether,
       navigationOptions: () => ({
         headerTransparent: true,
-        headerBackTitle: 'Deposit',
-      }),
+        headerBackTitle: 'Deposit'
+      })
     },
     DepositFirstDaiToPoolTogether: {
       screen: DepositFirstDaiToPoolTogether,
       navigationOptions: () => ({
         headerTransparent: true,
-        headerBackTitle: 'Deposit',
-      }),
+        headerBackTitle: 'Deposit'
+      })
     },
     WithdrawDaiFromPoolTogether: {
       screen: WithdrawDaiFromPoolTogether,
       navigationOptions: () => ({
         headerTransparent: true,
-        headerBackTitle: 'Deposit',
-      }),
-    },
+        headerBackTitle: 'Deposit'
+      })
+    }
   },
   {
-    initialRouteName: 'EarnHome',
-  },
+    initialRouteName: 'EarnHome'
+  }
 );
 
 export default EarnStack;

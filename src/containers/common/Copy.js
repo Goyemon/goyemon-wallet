@@ -10,7 +10,7 @@ class Copy extends Component {
   constructor(props) {
     super();
     this.state = {
-      clipboardContent: null,
+      clipboardContent: null
     };
   }
 
@@ -19,8 +19,8 @@ class Copy extends Component {
       .fadeOutUp(800)
       .then((endState) =>
         console.log(
-          endState.finished ? 'fadeOutUp finished' : 'fadeOutUp cancelled',
-        ),
+          endState.finished ? 'fadeOutUp finished' : 'fadeOutUp cancelled'
+        )
       );
 
   async writeToClipboard(clipboardContent) {
@@ -77,7 +77,7 @@ const CopyAddressText = styled.Text`
 
 function mapStateToProps(state) {
   return {
-    checksumAddress: state.ReducerChecksumAddress.checksumAddress,
+    checksumAddress: state.ReducerChecksumAddress.checksumAddress
   };
 }
 

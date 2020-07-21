@@ -6,7 +6,7 @@ import styled from 'styled-components/native';
 import {
   RootContainer,
   UntouchableCardContainer,
-  GoyemonText,
+  GoyemonText
 } from '../components/common';
 import Copy from '../containers/common/Copy';
 import I18n from '../i18n/I18n';
@@ -56,7 +56,7 @@ const QrCodeText = styled.Text`
 
 function mapStateToProps(state) {
   return {
-    checksumAddress: state.ReducerChecksumAddress.checksumAddress,
+    checksumAddress: state.ReducerChecksumAddress.checksumAddress
   };
 }
 

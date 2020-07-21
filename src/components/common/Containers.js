@@ -113,5 +113,5 @@ export {
   MenuContainer,
   RootContainer,
   TouchableCardContainer,
-  UntouchableCardContainer,
+  UntouchableCardContainer
 };

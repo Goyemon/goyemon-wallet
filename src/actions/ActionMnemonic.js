@@ -16,5 +16,5 @@ export function saveMnemonicWords() {
 
 const saveMnemonicWordsSuccess = (mnemonicWords) => ({
   type: SAVE_MNEMONIC,
-  payload: mnemonicWords,
+  payload: mnemonicWords
 });

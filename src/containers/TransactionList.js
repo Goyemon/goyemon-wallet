@@ -13,7 +13,7 @@ class TransactionList extends Component {
 
     this.state = {
       transactions: null,
-      transactionsLoaded: false,
+      transactionsLoaded: false
     };
     this.uniqcounter = 0;
     // this.refreshIndices = {};
@@ -39,7 +39,7 @@ class TransactionList extends Component {
 
     this.setState({
       transactions_update_counter: this.uniqcounter++,
-      transactionsLoaded: true,
+      transactionsLoaded: true
     });
   }
 
@@ -52,14 +52,14 @@ class TransactionList extends Component {
 
     return {
       index: this.getItemCount() - index - 1, // basically reverse-sort. we want the LATEST index on top, not the earliest.
-      filter: this.props.tokenFilter.toLowerCase() || 'all',
+      filter: this.props.tokenFilter.toLowerCase() || 'all'
       // ...refreshData
     };
   }
 
   getItemCount() {
     const ret = TxStorage.storage.getTxCount(
-      this.props.tokenFilter.toLowerCase() || 'all',
+      this.props.tokenFilter.toLowerCase() || 'all'
     );
     if (ret != this.__tempcachecount) {
       // prevent flood

@@ -33,7 +33,7 @@ const TransactionDetailFooter = (props) => (
         <TxDetailValue
           onPress={() => {
             Linking.openURL(
-              `${GlobalConfig.EtherscanLink}${'0x' + props.hash}`,
+              `${GlobalConfig.EtherscanLink}${'0x' + props.hash}`
             ).catch((err) => LogUtilities.logError('An error occurred', err));
           }}
         >

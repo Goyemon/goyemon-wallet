@@ -24,7 +24,7 @@ class WalletCreation extends Component {
     this.state = {
       refreshing: false,
       modalVisible: false,
-      isWalletReady: false,
+      isWalletReady: false
     };
   }
 
@@ -71,15 +71,15 @@ class WalletCreation extends Component {
   handleRefresh = () => {
     this.setState(
       {
-        refreshing: true,
+        refreshing: true
       },
       async () => {
         await this.createWallet();
         await this.isWalletReady();
         this.setState({
-          refreshing: false,
+          refreshing: false
         });
-      },
+      }
     );
   };
 
@@ -100,7 +100,7 @@ class WalletCreation extends Component {
   async createWallet() {
     await WalletUtilities.generateWallet(this.props.mnemonicWords);
     await WalletUtilities.setPrivateKey(
-      await WalletUtilities.createPrivateKey(),
+      await WalletUtilities.createPrivateKey()
     );
     await this.props.createChecksumAddress();
     TxStorage.storage.setOwnAddress(this.props.checksumAddress);
@@ -155,7 +155,7 @@ class WalletCreation extends Component {
     };
     const resetAction = StackActions.reset({
       index: 0,
-      actions: [NavigationActions.navigate({ routeName: 'PortfolioHome' })],
+      actions: [NavigationActions.navigate({ routeName: 'PortfolioHome' })]
     });
     this.props.navigation.dispatch(resetAction);
   }
@@ -288,7 +288,7 @@ function mapStateToProps(state) {
     balance: state.ReducerBalance.balance,
     mnemonicWords: state.ReducerMnemonic.mnemonicWords,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
-    transactionsLoaded: state.ReducerTransactionsLoaded.transactionsLoaded,
+    transactionsLoaded: state.ReducerTransactionsLoaded.transactionsLoaded
   };
 }
 
@@ -296,7 +296,7 @@ const mapDispatchToProps = {
   createChecksumAddress,
   getEthPrice,
   getDaiPrice,
-  getGasPrice,
+  getGasPrice
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletCreation);

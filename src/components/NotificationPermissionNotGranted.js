@@ -8,7 +8,7 @@ import {
   Button,
   HeaderTwo,
   Description,
-  GoyemonText,
+  GoyemonText
 } from '../components/common';
 
 export default class NotificationPermissionNotGranted extends Component {

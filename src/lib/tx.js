@@ -13,7 +13,7 @@ const TxStates = {
   STATE_NEW: 0,
   STATE_PENDING: 1,
   STATE_INCLUDED: 2,
-  STATE_CONFIRMED: 3,
+  STATE_CONFIRMED: 3
 };
 
 const TxTokenOpTypeToName = {
@@ -33,7 +33,7 @@ const TxTokenOpTypeToName = {
   PTopenDepositWithdrawn: 'PTopdepwi',
   PTsponsorshipAndFeesWithdrawn: 'PTspafwi',
   PTcommittedDepositWithdrawn: 'PTcodewi',
-  PTrewarded: 'PTrew',
+  PTrewarded: 'PTrew'
 };
 
 // ========== helper functions ==========
@@ -104,7 +104,7 @@ const storage_bucket_size = Math.floor(4096 / (64 + 1));
 class PersistTxStorageAbstraction {
   constructor(prefix = '') {
     LogUtilities.toDebugScreen(
-      'PersistTxStorageAbstraction constructor called',
+      'PersistTxStorageAbstraction constructor called'
     );
 
     this.cache = {};
@@ -160,8 +160,8 @@ class PersistTxStorageAbstraction {
       if (load_count == 0) {
         LogUtilities.toDebugScreen(
           `PersistTxStorageAbstraction init_storage(): tasks executed. counts:${JSON.stringify(
-            this.counts,
-          )} toplocked:${JSON.stringify(this.toplocked_per_filter)}`,
+            this.counts
+          )} toplocked:${JSON.stringify(this.toplocked_per_filter)}`
         );
 
         if (this.debug) {
@@ -192,7 +192,7 @@ class PersistTxStorageAbstraction {
           AsyncStorage.multiGet(temp_debug_bucket_names).then((x) => {
             x.sort((a, b) => a[0].localeCompare(b[0]));
             x.forEach(([n, v]) =>
-              LogUtilities.toDebugScreen(`${n} --> ${bstats(v)}`),
+              LogUtilities.toDebugScreen(`${n} --> ${bstats(v)}`)
             );
           });
         }
@@ -205,7 +205,7 @@ class PersistTxStorageAbstraction {
       // also gets failed nonces until first included
       this.__getKey(
         `${this.prefix}i${name}${bucketnum}`,
-        this.__decodeBucket,
+        this.__decodeBucket
       ).then((x) => {
         for (let i = x.length - 1; i >= 0; --i) {
           if (x[i].startsWith(txNoncePrefix)) this.toplocked_per_filter[name]++;
@@ -238,7 +238,7 @@ class PersistTxStorageAbstraction {
         this.counts[name] = x ? parseInt(x) : 0;
         if (this.counts[name] > 0) {
           const lastBucketNum = Math.floor(
-            (this.counts[name] - 1) / storage_bucket_size,
+            (this.counts[name] - 1) / storage_bucket_size
           );
           countToplocked(name, lastBucketNum);
         } else checkFinish();
@@ -260,7 +260,7 @@ class PersistTxStorageAbstraction {
       const val = await AsyncStorage.getItem(k);
       if (this.debug && (val === null || val === undefined))
         LogUtilities.toDebugScreen(
-          `PersistTxStorageAbstraction __getKey(${k}) warning - returned null!`,
+          `PersistTxStorageAbstraction __getKey(${k}) warning - returned null!`
         );
 
       this.cache[k] = processfunc ? processfunc(val) : val;
@@ -303,24 +303,24 @@ class PersistTxStorageAbstraction {
     if (this.debug) {
       if (!this.counts[index])
         LogUtilities.toDebugScreen(
-          `PersistTxStorageAbstraction getTxByNum() requested data from index that has no count defined:${index}`,
+          `PersistTxStorageAbstraction getTxByNum() requested data from index that has no count defined:${index}`
         );
       else if (num >= this.counts[index])
         LogUtilities.toDebugScreen(
-          `PersistTxStorageAbstraction getTxByNum() requested data index:${index} num:${num}, but count is ${this.counts[index]}`,
+          `PersistTxStorageAbstraction getTxByNum() requested data index:${index} num:${num}, but count is ${this.counts[index]}`
         );
     }
 
     const bucket = await this.__getKey(
       `${this.prefix}i${index}${bucket_num}`,
-      this.__decodeBucket,
+      this.__decodeBucket
     );
     return await this.getTxByHash(bucket[bucket_pos]);
   }
 
   async getTxByHash(hash) {
     return await this.__getKey(`${this.prefix}_${hash}`, (data) =>
-      this.__decodeTx(hash, data),
+      this.__decodeTx(hash, data)
     );
   }
 
@@ -328,11 +328,11 @@ class PersistTxStorageAbstraction {
     if (this.counts[index] == 0) return null;
 
     const bucket_num = Math.floor(
-      (this.counts[index] - 1) / storage_bucket_size,
+      (this.counts[index] - 1) / storage_bucket_size
     );
     const bucket = await this.__getKey(
       `${this.prefix}i${index}${bucket_num}`,
-      this.__decodeBucket,
+      this.__decodeBucket
     );
 
     return await this.getTxByHash(bucket[bucket.length - 1]);
@@ -432,7 +432,7 @@ class PersistTxStorageAbstraction {
     }
 
     const high_bucket = Math.floor(
-      (this.counts[index] - 1) / storage_bucket_size,
+      (this.counts[index] - 1) / storage_bucket_size
     );
     const low_bucket = Math.floor(offset / storage_bucket_size);
     const low_bucket_off = offset % storage_bucket_size;
@@ -443,7 +443,7 @@ class PersistTxStorageAbstraction {
 
     const bucketdata = await AsyncStorage.multiGet(bucketnames); // looks like the results returned are in the same order we're requesting them https://github.com/react-native-community/async-storage/blob/master/lib/AsyncStorage.js#L266
     LogUtilities.toDebugScreen(
-      `getHashes(): bucketnames.length = ${bucketnames.length}, bucketdata.length == ${bucketdata.length}`,
+      `getHashes(): bucketnames.length = ${bucketnames.length}, bucketdata.length == ${bucketdata.length}`
     );
 
     const ret = [];
@@ -463,11 +463,11 @@ class PersistTxStorageAbstraction {
     // LogUtilities.toDebugScreen(`getHashes(): ret == ${ret}}`);
 
     const txdata = await AsyncStorage.multiGet(
-      ret.map((x) => `${this.prefix}_${x}`),
+      ret.map((x) => `${this.prefix}_${x}`)
     );
 
     LogUtilities.toDebugScreen(
-      `getHashes(): txdata.length == ${txdata.length}, ret.length == ${ret.length}`,
+      `getHashes(): txdata.length == ${txdata.length}, ret.length == ${ret.length}`
     );
     for (let i = 0; i < ret.length; ++i) {
       try {
@@ -541,7 +541,7 @@ class PersistTxStorageAbstraction {
 
     const key = `${this.prefix}_${hash}`;
     const oldTx = await this.__getKey(key, (data) =>
-      this.__decodeTx(hash, data),
+      this.__decodeTx(hash, data)
     );
     if (oldTx) {
       await this.__setKey(key, tx, JSON.stringify);
@@ -562,7 +562,7 @@ class PersistTxStorageAbstraction {
       LogUtilities.toDebugScreen(
         `appendTx(${hash}): matches indices:${append_indices
           .map((x) => `${x}: ${this.counts[x]}`)
-          .join()}; tx:${JSON.stringify(tx)})`,
+          .join()}; tx:${JSON.stringify(tx)})`
       );
 
     let tasks = [this.__setKey(`${this.prefix}_${hash}`, tx, JSON.stringify)];
@@ -574,7 +574,7 @@ class PersistTxStorageAbstraction {
 
           await this.__lock(index);
           const last_bucket_num = Math.floor(
-            Math.max(0, this.counts[index] - 1) / storage_bucket_size,
+            Math.max(0, this.counts[index] - 1) / storage_bucket_size
           );
 
           if (toplock) {
@@ -584,17 +584,17 @@ class PersistTxStorageAbstraction {
               // new bucket
               if (this.debug)
                 LogUtilities.toDebugScreen(
-                  `PersistTxStorageAbstraction appendTx(top): index:${index} item_num:${this.counts[index]} new bucket, last_bucket_num:${last_bucket_num}`,
+                  `PersistTxStorageAbstraction appendTx(top): index:${index} item_num:${this.counts[index]} new bucket, last_bucket_num:${last_bucket_num}`
                 );
 
               localtasks.push(
-                this.__setKey(bucket_key, [hash], this.__encodeBucket),
+                this.__setKey(bucket_key, [hash], this.__encodeBucket)
               );
             } else {
               // add to bucket
               if (this.debug)
                 LogUtilities.toDebugScreen(
-                  `PersistTxStorageAbstraction appendTx(top): index:${index} item_num:${this.counts[index]} last_bucket_num:${last_bucket_num}`,
+                  `PersistTxStorageAbstraction appendTx(top): index:${index} item_num:${this.counts[index]} last_bucket_num:${last_bucket_num}`
                 );
 
               localtasks.push(
@@ -602,8 +602,8 @@ class PersistTxStorageAbstraction {
                   async (x) => {
                     x.push(hash);
                     await this.__setKey(bucket_key, x, this.__encodeBucket);
-                  },
-                ),
+                  }
+                )
               );
             }
           } else {
@@ -611,13 +611,13 @@ class PersistTxStorageAbstraction {
             const global_position =
               this.counts[index] - this.toplocked_per_filter[index]; // this is actually destination position now, not count
             const bucket_num = Math.floor(
-              global_position / storage_bucket_size,
+              global_position / storage_bucket_size
             );
             const bucket_pos = global_position % storage_bucket_size;
 
             if (this.debug)
               LogUtilities.toDebugScreen(
-                `PersistTxStorageAbstraction appendTx(): index:${index} item_num:${global_position} bucket_num:${bucket_num} last_bucket_num:${last_bucket_num} toplocked:${this.toplocked_per_filter[index]}`,
+                `PersistTxStorageAbstraction appendTx(): index:${index} item_num:${global_position} bucket_num:${bucket_num} last_bucket_num:${last_bucket_num} toplocked:${this.toplocked_per_filter[index]}`
               );
 
             localtasks.push(
@@ -638,7 +638,7 @@ class PersistTxStorageAbstraction {
                         x.length
                       } carry:${carry !== null}${
                         i == bucket_num ? ` splice_position:${bucket_pos}` : ''
-                      }`,
+                      }`
                     );
 
                   if (carry !== null) {
@@ -666,7 +666,7 @@ class PersistTxStorageAbstraction {
                     LogUtilities.toDebugScreen(
                       `PersistTxStorageAbstraction appendTx(): index:${index} new bucket:${
                         last_bucket_num + 1
-                      } carry:${carry !== null}`,
+                      } carry:${carry !== null}`
                     );
 
                   const bucket_key = `${this.prefix}i${index}${
@@ -674,13 +674,13 @@ class PersistTxStorageAbstraction {
                   }`;
                   await this.__setKey(bucket_key, [hash], this.__encodeBucket);
                 }
-              })(),
+              })()
             );
           }
 
           const new_count = this.counts[index] + 1;
           localtasks.push(
-            this.__setKey(`${this.prefix}i${index}c`, new_count.toString()),
+            this.__setKey(`${this.prefix}i${index}c`, new_count.toString())
           );
 
           await Promise.all(localtasks);
@@ -689,7 +689,7 @@ class PersistTxStorageAbstraction {
           if (toplock) this.toplocked_per_filter[index]++;
 
           this.__unlock(index);
-        })(x),
+        })(x)
       );
     });
 
@@ -699,10 +699,10 @@ class PersistTxStorageAbstraction {
   async bulkLoad(txarray) {
     // TODO: add locking
     var index_counts = {
-      all: 0,
+      all: 0
     };
     var index_buckets = {
-      all: [],
+      all: []
     };
 
     const startTime = Date.now();
@@ -740,7 +740,7 @@ class PersistTxStorageAbstraction {
       buckets.forEach((bucket, idx) => {
         tasks.push([
           `${this.prefix}i${index}${idx}`,
-          this.__encodeBucket(bucket),
+          this.__encodeBucket(bucket)
         ]);
       });
     });
@@ -748,7 +748,7 @@ class PersistTxStorageAbstraction {
     LogUtilities.toDebugScreen(
       `PersistTxStorageAbstraction bulkLoad(): tasks to execute:${
         tasks.length
-      }, index counts:${JSON.stringify(index_counts)}`,
+      }, index counts:${JSON.stringify(index_counts)}`
     );
 
     await AsyncStorage.multiSet(tasks);
@@ -758,7 +758,7 @@ class PersistTxStorageAbstraction {
     LogUtilities.toDebugScreen(
       `PersistTxStorageAbstraction bulkLoad(): tasks executed. load time:${
         Date.now() - startTime
-      }ms`,
+      }ms`
     );
   }
 
@@ -791,20 +791,20 @@ class PersistTxStorageAbstraction {
         this.__getKey(`${this.prefix}iall${i}`, this.__decodeBucket).then(
           (bucket) => {
             bucket.forEach(
-              (x) => removekeys.push(`${this.prefix}_${x}`), // tasks.push(AsyncStorage.removeItem(`${this.prefix}_${x}`))
+              (x) => removekeys.push(`${this.prefix}_${x}`) // tasks.push(AsyncStorage.removeItem(`${this.prefix}_${x}`))
             );
-          },
-        ),
+          }
+        )
       );
     }
     LogUtilities.toDebugScreen(
       `PersistTxStorageAbstraction wipe(): readtasks to execute:${
         readtasks.length
-      }, index counts:${JSON.stringify(this.counts)}`,
+      }, index counts:${JSON.stringify(this.counts)}`
     );
     await Promise.all(readtasks); // first we run readtasks to make sure we've processed all the buckets, this should also fill tasks with removes.
     LogUtilities.toDebugScreen(
-      `PersistTxStorageAbstraction wipe(): remove tasks to execute:${removekeys.length}`,
+      `PersistTxStorageAbstraction wipe(): remove tasks to execute:${removekeys.length}`
     );
     await AsyncStorage.multiRemove(removekeys); // aand we removed everything now.
 
@@ -820,7 +820,7 @@ class PersistTxStorageAbstraction {
     oldkey,
     newkey,
     index = 'all',
-    toplockremove = false,
+    toplockremove = false
   ) {
     await this.__lock(index);
 
@@ -835,7 +835,7 @@ class PersistTxStorageAbstraction {
     // when we reach the destination bucket, we just splice the item in in its intended position (since at this point we have carried last item to the bucket+1, we have room for it here)
 
     const last_bucket = Math.floor(
-      (this.counts[index] - 1) / storage_bucket_size, // this func should not be called for empty indices anyway, so not checking if counts[idx] > 0
+      (this.counts[index] - 1) / storage_bucket_size // this func should not be called for empty indices anyway, so not checking if counts[idx] > 0
     );
 
     if (!toplockremove) {
@@ -843,26 +843,26 @@ class PersistTxStorageAbstraction {
 
       if (this.debug)
         LogUtilities.toDebugScreen(
-          `PersistTxStorageAbstraction __replaceKeyInIndex(${oldkey}, ${newkey}, ${index}, ${toplockremove}): last bucket id: ${last_bucket}`,
+          `PersistTxStorageAbstraction __replaceKeyInIndex(${oldkey}, ${newkey}, ${index}, ${toplockremove}): last bucket id: ${last_bucket}`
         );
 
       while (bucket_count >= 0) {
         let bucket = await this.__getKey(
           `${this.prefix}i${index}${bucket_count}`,
-          this.__decodeBucket,
+          this.__decodeBucket
         );
         let pos = bucket.indexOf(oldkey);
         if (pos >= 0) {
           if (this.debug)
             LogUtilities.toDebugScreen(
-              `PersistTxStorageAbstraction __replaceKeyInIndex(): found item at position ${pos} in bucket ${bucket_count}`,
+              `PersistTxStorageAbstraction __replaceKeyInIndex(): found item at position ${pos} in bucket ${bucket_count}`
             );
 
           bucket[pos] = newkey;
           await this.__setKey(
             `${this.prefix}i${index}${bucket_count}`,
             bucket,
-            this.__encodeBucket,
+            this.__encodeBucket
           );
 
           this.__unlock(index);
@@ -876,7 +876,7 @@ class PersistTxStorageAbstraction {
       const destination_pos =
         this.counts[index] - this.toplocked_per_filter[index];
       const destination_bucket = Math.floor(
-        destination_pos / storage_bucket_size,
+        destination_pos / storage_bucket_size
       );
       const destination_bucket_pos = destination_pos % storage_bucket_size;
 
@@ -892,7 +892,7 @@ class PersistTxStorageAbstraction {
       ) {
         bucket = await this.__getKey(
           `${this.prefix}i${index}${item_bucket_num}`,
-          this.__decodeBucket,
+          this.__decodeBucket
         );
         item_bucket_pos = bucket.indexOf(oldkey);
         if (item_bucket_pos >= 0) break;
@@ -902,7 +902,7 @@ class PersistTxStorageAbstraction {
         // we found it!
         if (this.debug)
           LogUtilities.toDebugScreen(
-            `PersistTxStorageAbstraction __replaceKeyInIndex(${index}): found item at position ${item_bucket_pos} in bucket ${item_bucket_num}, moving to ${destination_bucket_pos}@${destination_bucket}, toplocked:${this.toplocked_per_filter[index]}`,
+            `PersistTxStorageAbstraction __replaceKeyInIndex(${index}): found item at position ${item_bucket_pos} in bucket ${item_bucket_num}, moving to ${destination_bucket_pos}@${destination_bucket}, toplocked:${this.toplocked_per_filter[index]}`
           );
 
         if (
@@ -912,7 +912,7 @@ class PersistTxStorageAbstraction {
         ) {
           this.__unlock(index);
           LogUtilities.toDebugScreen(
-            `PersistTxStorageAbstraction __replaceKeyInIndex(${oldkey}, ${newkey}, ${index}, ${toplockremove}): item was already not in toplocks`,
+            `PersistTxStorageAbstraction __replaceKeyInIndex(${oldkey}, ${newkey}, ${index}, ${toplockremove}): item was already not in toplocks`
           );
           throw new Error(`key "${oldkey}" not found in the index "${index}"`);
         }
@@ -927,12 +927,12 @@ class PersistTxStorageAbstraction {
             LogUtilities.toDebugScreen(
               `PersistTxStorageAbstraction __replaceKeyInIndex(${index}): last item of bucket ${
                 i - 1
-              } -> first item of bucket ${i}`,
+              } -> first item of bucket ${i}`
             );
 
           const prev_bucket = await this.__getKey(
             `${this.prefix}i${index}${i - 1}`,
-            this.__decodeBucket,
+            this.__decodeBucket
           );
 
           bucket.unshift(prev_bucket.pop()); // move last item of prev bucket as first of current
@@ -940,8 +940,8 @@ class PersistTxStorageAbstraction {
             this.__setKey(
               `${this.prefix}i${index}${i}`,
               bucket,
-              this.__encodeBucket,
-            ),
+              this.__encodeBucket
+            )
           ); // save current bucket, no need to touch previous yet
 
           bucket = prev_bucket;
@@ -949,7 +949,7 @@ class PersistTxStorageAbstraction {
 
         if (this.debug)
           LogUtilities.toDebugScreen(
-            `PersistTxStorageAbstraction __replaceKeyInIndex(${index}): inserting ${newkey} at ${destination_bucket_pos} in bucket ${destination_bucket}. end.`,
+            `PersistTxStorageAbstraction __replaceKeyInIndex(${index}): inserting ${newkey} at ${destination_bucket_pos} in bucket ${destination_bucket}. end.`
           );
 
         bucket.splice(destination_bucket_pos, 0, newkey);
@@ -957,8 +957,8 @@ class PersistTxStorageAbstraction {
           this.__setKey(
             `${this.prefix}i${index}${destination_bucket}`,
             bucket,
-            this.__encodeBucket,
-          ),
+            this.__encodeBucket
+          )
         );
 
         await Promise.all(bgtasks); // now write it all.
@@ -982,7 +982,7 @@ class PersistTxStorageAbstraction {
     await this.__lock(index);
 
     const last_bucket_index = Math.floor(
-      (this.counts[index] - 1) / storage_bucket_size,
+      (this.counts[index] - 1) / storage_bucket_size
     ); // not exactly count, more like index and those go from 0
     const bgtasks = [];
 
@@ -990,7 +990,7 @@ class PersistTxStorageAbstraction {
     const buckets = {}; // since those arent huge, let's just precache them
     while (current_bucket >= 0) {
       let bucket = await this.__getKey(
-        `${this.prefix}i${index}${current_bucket}`,
+        `${this.prefix}i${index}${current_bucket}`
       );
       let pos = bucket.indexOf(oldkey);
 
@@ -1006,8 +1006,8 @@ class PersistTxStorageAbstraction {
             this.__setKey(
               `${this.prefix}i${index}${current_bucket}`,
               bucket,
-              this.__encodeBucket,
-            ),
+              this.__encodeBucket
+            )
           );
           bucket = buckets[current_bucket + 1];
         }
@@ -1015,16 +1015,16 @@ class PersistTxStorageAbstraction {
           this.__setKey(
             `${this.prefix}i${index}${current_bucket}`,
             bucket,
-            this.__encodeBucket,
-          ),
+            this.__encodeBucket
+          )
         );
 
         this.counts[index]--;
         bgtasks.push(
           AsyncStorage.setItem(
             `${this.prefix}i${index}c`,
-            this.counts[index].toString(),
-          ),
+            this.counts[index].toString()
+          )
         );
 
         await Promise.all(bgtasks); // now write it all.
@@ -1045,7 +1045,7 @@ class PersistTxStorageAbstraction {
     const ret = {
       common: [],
       add: [],
-      remove: [],
+      remove: []
     };
 
     const oldidx = {};
@@ -1078,22 +1078,22 @@ class PersistTxStorageAbstraction {
 
     if (this.debug) {
       LogUtilities.toDebugScreen(
-        `PersistTxStorageAbstraction replaceTx(): replace oldtx ${oldhash} -> newtx ${newhash}`,
+        `PersistTxStorageAbstraction replaceTx(): replace oldtx ${oldhash} -> newtx ${newhash}`
       );
       LogUtilities.toDebugScreen(
         `PersistTxStorageAbstraction replaceTx(): oldtx:${JSON.stringify(
-          oldtx,
-        )}`,
+          oldtx
+        )}`
       );
       LogUtilities.toDebugScreen(
         `PersistTxStorageAbstraction replaceTx(): newtx:${JSON.stringify(
-          newtx,
-        )}`,
+          newtx
+        )}`
       );
       LogUtilities.toDebugScreen(
         `PersistTxStorageAbstraction replaceTx(): indexDiff:${JSON.stringify(
-          indexDiff,
-        )}`,
+          indexDiff
+        )}`
       );
     }
 
@@ -1108,10 +1108,10 @@ class PersistTxStorageAbstraction {
               oldhash,
               newhash,
               index,
-              toplockremove,
+              toplockremove
             );
-        }),
-      ),
+        })
+      )
     );
 
     // throw new Error("not implemented yet");
@@ -1126,13 +1126,13 @@ class PersistTxStorageAbstraction {
     if (this.debug) {
       LogUtilities.toDebugScreen(
         `PersistTxStorageAbstraction updateTx(): replace (${hash}) oldtx:${JSON.stringify(
-          oldtx,
-        )} with newtx:${JSON.stringify(newtx)}`,
+          oldtx
+        )} with newtx:${JSON.stringify(newtx)}`
       );
       LogUtilities.toDebugScreen(
         `PersistTxStorageAbstraction updateTx(): indexDiff:${JSON.stringify(
-          indexDiff,
-        )}`,
+          indexDiff
+        )}`
       );
     }
 
@@ -1143,7 +1143,7 @@ class PersistTxStorageAbstraction {
 
   async debugDumpAllTxes(index = 'all') {
     const bucket_count = Math.floor(
-      (this.counts[index] - 1) / storage_bucket_size,
+      (this.counts[index] - 1) / storage_bucket_size
     );
     const bucketnames = [];
     for (let i = 0; i <= bucket_count; ++i)
@@ -1153,18 +1153,18 @@ class PersistTxStorageAbstraction {
 
     const buckets = {};
     (await AsyncStorage.multiGet(bucketnames)).forEach(
-      ([k, v]) => (buckets[k] = v),
+      ([k, v]) => (buckets[k] = v)
     );
     bucketnames.forEach((n) => {
       this.__decodeBucket(buckets[n]).forEach((hash) =>
-        hashes_in_order.push(`${this.prefix}_${hash}`),
+        hashes_in_order.push(`${this.prefix}_${hash}`)
       );
     });
     // delete(buckets);
 
     const txes = [];
     (await AsyncStorage.multiGet(hashes_in_order)).forEach(
-      ([k, v]) => (txes[k] = v),
+      ([k, v]) => (txes[k] = v)
     );
 
     hashes_in_order.forEach((n) => {
@@ -1215,8 +1215,8 @@ class TxTokenMintOp extends TxTokenOp {
       [TxTokenOpTypeToName.mint]: [
         this.minter,
         this.mintUnderlying,
-        this.mintAmount,
-      ],
+        this.mintAmount
+      ]
     };
   }
 }
@@ -1232,8 +1232,8 @@ class TxTokenRedeemOp extends TxTokenOp {
       [TxTokenOpTypeToName.redeem]: [
         this.redeemer,
         this.redeemUnderlying,
-        this.redeemAmount,
-      ],
+        this.redeemAmount
+      ]
     };
   }
 }
@@ -1249,8 +1249,8 @@ class TxTokenTransferOp extends TxTokenOp {
       [TxTokenOpTypeToName.transfer]: [
         this.from_addr,
         this.to_addr,
-        this.amount,
-      ],
+        this.amount
+      ]
     };
   }
 }
@@ -1263,11 +1263,7 @@ class TxTokenApproveOp extends TxTokenOp {
 
   toJSON() {
     return {
-      [TxTokenOpTypeToName.approval]: [
-        this.spender,
-        this.approver,
-        this.amount,
-      ],
+      [TxTokenOpTypeToName.approval]: [this.spender, this.approver, this.amount]
     };
   }
 }
@@ -1280,7 +1276,7 @@ class TxTokenFailureOp extends TxTokenOp {
 
   toJSON() {
     return {
-      [TxTokenOpTypeToName.failure]: [this.error, this.info, this.detail],
+      [TxTokenOpTypeToName.failure]: [this.error, this.info, this.detail]
     };
   }
 }
@@ -1296,8 +1292,8 @@ class TxTokenEth2TokOp extends TxTokenOp {
       [TxTokenOpTypeToName.eth2tok]: [
         this.from_addr,
         this.eth_sold,
-        this.tok_bought,
-      ],
+        this.tok_bought
+      ]
     };
   }
 }
@@ -1313,8 +1309,8 @@ class TxTokenTok2EthOp extends TxTokenOp {
       [TxTokenOpTypeToName.tok2eth]: [
         this.from_addr,
         this.tok_sold,
-        this.eth_bought,
-      ],
+        this.eth_bought
+      ]
     };
   }
 }
@@ -1328,7 +1324,7 @@ class TxTokenU2swapOp extends TxTokenOp {
       this.eth_sold,
       this.tok_bought,
       this.amount1Out,
-      this.from_addr,
+      this.from_addr
     ] = arr;
   }
 
@@ -1340,8 +1336,8 @@ class TxTokenU2swapOp extends TxTokenOp {
         this.eth_sold,
         this.tok_bought,
         this.amount1Out,
-        this.from_addr,
-      ],
+        this.from_addr
+      ]
     };
   }
 }
@@ -1357,8 +1353,8 @@ class TxTokenPTdepositedOp extends TxTokenOp {
     return {
       [TxTokenOpTypeToName.PTdeposited]: [
         this.depositor,
-        this.depositPoolAmount,
-      ],
+        this.depositPoolAmount
+      ]
     };
   }
 }
@@ -1374,8 +1370,8 @@ class TxTokenPTdepositedAndCommittedOp extends TxTokenOp {
     return {
       [TxTokenOpTypeToName.PTdepositedAndCommitted]: [
         this.depositor,
-        this.depositPoolAmount,
-      ],
+        this.depositPoolAmount
+      ]
     };
   }
 }
@@ -1391,8 +1387,8 @@ class TxTokenPTsponsorshipDepositedOp extends TxTokenOp {
     return {
       [TxTokenOpTypeToName.PTsponsorshipDeposited]: [
         this.depositor,
-        this.depositPoolAmount,
-      ],
+        this.depositPoolAmount
+      ]
     };
   }
 }
@@ -1406,7 +1402,7 @@ class TxTokenPTwithdrawnOp extends TxTokenOp {
 
   toJSON() {
     return {
-      [TxTokenOpTypeToName.PTwithdrawn]: [this.withdrawer, this.withdrawAmount],
+      [TxTokenOpTypeToName.PTwithdrawn]: [this.withdrawer, this.withdrawAmount]
     };
   }
 }
@@ -1422,8 +1418,8 @@ class TxTokenPTopenDepositWithdrawnOp extends TxTokenOp {
     return {
       [TxTokenOpTypeToName.PTopenDepositWithdrawn]: [
         this.withdrawer,
-        this.withdrawAmount,
-      ],
+        this.withdrawAmount
+      ]
     };
   }
 }
@@ -1439,8 +1435,8 @@ class TxTokenPTsponsorshipAndFeesWithdrawnOp extends TxTokenOp {
     return {
       [TxTokenOpTypeToName.PTsponsorshipAndFeesWithdrawn]: [
         this.withdrawer,
-        this.withdrawAmount,
-      ],
+        this.withdrawAmount
+      ]
     };
   }
 }
@@ -1456,8 +1452,8 @@ class TxTokenPTcommittedDepositWithdrawnOp extends TxTokenOp {
     return {
       [TxTokenOpTypeToName.PTcommittedDepositWithdrawn]: [
         this.withdrawer,
-        this.withdrawAmount,
-      ],
+        this.withdrawAmount
+      ]
     };
   }
 }
@@ -1514,7 +1510,7 @@ const TxTokenOpNameToClass = {
   [TxTokenOpTypeToName.PTopenDepositWithdrawn]: TxTokenPTopenDepositWithdrawnOp,
   [TxTokenOpTypeToName.PTsponsorshipAndFeesWithdrawn]: TxTokenPTsponsorshipAndFeesWithdrawnOp,
   [TxTokenOpTypeToName.PTcommittedDepositWithdrawn]: TxTokenPTcommittedDepositWithdrawnOp,
-  [TxTokenOpTypeToName.PTrewarded]: TxTokenPTrewardedOp,
+  [TxTokenOpTypeToName.PTrewarded]: TxTokenPTrewardedOp
 };
 
 class Tx {
@@ -1605,10 +1601,10 @@ class Tx {
               this.addTokenOperation(
                 token,
                 op,
-                opdata.map((x) => dropHexPrefix(x)),
-              ),
-            ),
-          ),
+                opdata.map((x) => dropHexPrefix(x))
+              )
+            )
+          )
         );
       else {
         Object.entries(data[8]).forEach(([token, ops]) =>
@@ -1617,10 +1613,10 @@ class Tx {
               this.addTokenOperation(
                 token,
                 op,
-                opdata.map((x) => dropHexPrefix(x)),
-              ),
-            ),
-          ),
+                opdata.map((x) => dropHexPrefix(x))
+              )
+            )
+          )
         );
       }
     }
@@ -1661,7 +1657,7 @@ class Tx {
     if (!this.tokenData.hasOwnProperty(token)) return [];
     const cls = operation ? TxTokenOpNameToClass[operation] : null;
     return this.tokenData[token].filter(
-      (x) => operation == null || x instanceof cls,
+      (x) => operation == null || x instanceof cls
     );
   }
 
@@ -1735,7 +1731,7 @@ class Tx {
       gasLimit: `0x${this.gas}`,
       value: `0x${this.getValue()}`,
       chainId: GlobalConfig.network_id,
-      data: this.data.data,
+      data: this.data.data
     };
   }
 
@@ -1750,7 +1746,7 @@ class Tx {
       this.timestamp,
       this.state,
       this.tokenData,
-      this.data,
+      this.data
     ];
   }
 
@@ -1817,7 +1813,7 @@ class TxStorage {
         new Promise((res, rej) => {
           promise_resolves.push(res);
           promise_rejects.push(rej);
-        }),
+        })
       );
     });
 
@@ -1835,7 +1831,7 @@ class TxStorage {
 
       promise_resolves[1]();
       LogUtilities.toDebugScreen(
-        `MaxNonce: ${this.our_max_nonce}, LastCheckpointOffset: ${this.last_checkpoint_offset}`,
+        `MaxNonce: ${this.our_max_nonce}, LastCheckpointOffset: ${this.last_checkpoint_offset}`
       );
     });
 
@@ -1845,12 +1841,12 @@ class TxStorage {
       {
         dai: this.txfilter_isRelevantToDai, // doesn't use this, no need for .bind(this)
         odcda: this.txfilter_ourDAIForCDAIApprovals.bind(this),
-        odpta: this.txfilter_ourDAIForPTApprovals.bind(this),
+        odpta: this.txfilter_ourDAIForPTApprovals.bind(this)
       },
       (x) => {
         this.failed_nonces = x;
         promise_resolves[0]();
-      },
+      }
     );
 
     if (ourAddress) this.our_address = hexToBuf(ourAddress);
@@ -1877,7 +1873,7 @@ class TxStorage {
     const t = Date.now();
     await this.locks.lock(name);
     LogUtilities.toDebugScreen(
-      `TxStorage __lock(${name}) succeeded, wait time:${Date.now() - t}ms`,
+      `TxStorage __lock(${name}) succeeded, wait time:${Date.now() - t}ms`
     );
   }
 
@@ -1929,7 +1925,7 @@ class TxStorage {
       this.on_update.forEach((x) => x(oldTx, newTx));
     } catch (e) {
       LogUtilities.toDebugScreen(
-        `__executeUpdateCallbacks exception: ${e.message} @ ${e.stack}`,
+        `__executeUpdateCallbacks exception: ${e.message} @ ${e.stack}`
       );
     }
     return this;
@@ -1972,31 +1968,31 @@ class TxStorage {
       (tx.hasTokenOperations('pooltogether') &&
         (tx.hasTokenOperation(
           'pooltogether',
-          TxTokenOpTypeToName.PTdeposited,
+          TxTokenOpTypeToName.PTdeposited
         ) ||
           tx.hasTokenOperation(
             'pooltogether',
-            TxTokenOpTypeToName.PTdepositedAndCommitted,
+            TxTokenOpTypeToName.PTdepositedAndCommitted
           ) ||
           tx.hasTokenOperation(
             'pooltogether',
-            TxTokenOpTypeToName.PTsponsorshipDeposited,
+            TxTokenOpTypeToName.PTsponsorshipDeposited
           ) ||
           tx.hasTokenOperation(
             'pooltogether',
-            TxTokenOpTypeToName.PTwithdrawn,
+            TxTokenOpTypeToName.PTwithdrawn
           ) ||
           tx.hasTokenOperation(
             'pooltogether',
-            TxTokenOpTypeToName.PTopenDepositWithdrawn,
+            TxTokenOpTypeToName.PTopenDepositWithdrawn
           ) ||
           tx.hasTokenOperation(
             'pooltogether',
-            TxTokenOpTypeToName.PTsponsorshipAndFeesWithdrawn,
+            TxTokenOpTypeToName.PTsponsorshipAndFeesWithdrawn
           ) ||
           tx.hasTokenOperation(
             'pooltogether',
-            TxTokenOpTypeToName.PTcommittedDepositWithdrawn,
+            TxTokenOpTypeToName.PTcommittedDepositWithdrawn
           ) ||
           tx.hasTokenOperation('pooltogether', TxTokenOpTypeToName.PTrewarded)))
     );
@@ -2017,7 +2013,7 @@ class TxStorage {
   txfilter_ourDAIForPTApprovals(tx) {
     const our_hex_address = this.our_address.toString('hex');
     const pooltogether_address = GlobalConfig.DAIPoolTogetherContractV2.startsWith(
-      '0x',
+      '0x'
     )
       ? GlobalConfig.DAIPoolTogetherContractV2.substr(2).toLowerCase()
       : GlobalConfig.DAIPoolTogetherContractV2.toLowerCase();
@@ -2025,7 +2021,7 @@ class TxStorage {
       .getTokenOperations('dai', TxTokenOpTypeToName.approval)
       .some(
         (x) =>
-          x.spender == pooltogether_address && x.approver == our_hex_address,
+          x.spender == pooltogether_address && x.approver == our_hex_address
       );
   }
 
@@ -2038,7 +2034,7 @@ class TxStorage {
     if (this.txfilter_checkMaxNonce(tx)) {
       await AsyncStorage.setItem(maxNonceKey, this.our_max_nonce.toString());
       LogUtilities.toDebugScreen(
-        `saveTx(): our_max_nonce changed to ${this.our_max_nonce}`,
+        `saveTx(): our_max_nonce changed to ${this.our_max_nonce}`
       );
     }
 
@@ -2056,7 +2052,7 @@ class TxStorage {
     const oldTx = await this.txes.updateTxDataIfExists(nonceKey, tx);
     LogUtilities.toDebugScreen(
       `updateTx(): tx ${oldTx ? 'updated' : 'NOT updated'} (key:${nonceKey}): `,
-      tx,
+      tx
     );
     this.__unlock('txes');
     if (oldTx) this.__onUpdate(oldTx, tx); // TODO: should we actually call that? we're replacing a tx manually, we kinda know it was changed. well if the outside code is smart enough to know that and wont just trigger stuff "because something changed", then ok.
@@ -2068,7 +2064,7 @@ class TxStorage {
     if (histObj['_contracts']) delete histObj['_contracts'];
 
     histObj = Object.entries(histObj).map(([hash, data]) =>
-      new Tx(data[7]).setHash(hash).fromDataArray(data),
+      new Tx(data[7]).setHash(hash).fromDataArray(data)
     );
     await this.__lock('txes');
     histObj.forEach((tx) => this.txfilter_checkMaxNonce(tx));
@@ -2080,7 +2076,7 @@ class TxStorage {
 
     AsyncStorage.setItem(maxNonceKey, this.our_max_nonce.toString());
     LogUtilities.toDebugScreen(
-      `parseTxHistory(): our_max_nonce changed to ${this.our_max_nonce}`,
+      `parseTxHistory(): our_max_nonce changed to ${this.our_max_nonce}`
     );
     this.failed_nonces = {};
 
@@ -2098,7 +2094,7 @@ class TxStorage {
       // sounds like state update.
       LogUtilities.toDebugScreen(
         `processTxState(hash:${hash}) known included+ tx: `,
-        tx,
+        tx
       );
 
       let newtx = tx.deepClone();
@@ -2111,7 +2107,7 @@ class TxStorage {
 
       LogUtilities.toDebugScreen(
         `processTxState(hash: ${hash}) known included+ tx updated: `,
-        newtx,
+        newtx
       );
 
       await this.txes.updateTx(tx, newtx, hash);
@@ -2129,13 +2125,13 @@ class TxStorage {
       // we have the data, nice
       const ourTx = this.our_address.equals(Buffer.from(data[0], 'hex'));
       const savedState = await AsyncStorage.getItem(
-        `tx_${txStatePrefix}${hash}`,
+        `tx_${txStatePrefix}${hash}`
       );
       if (savedState) {
         await AsyncStorage.removeItem(`tx_${txStatePrefix}${hash}`);
         LogUtilities.toDebugScreen(
           `processTxState(hash:${hash}) savedState present: `,
-          savedState,
+          savedState
         );
         savedState = JSON.parse(savedState);
       }
@@ -2149,10 +2145,10 @@ class TxStorage {
           this.our_max_nonce = nonce;
           await AsyncStorage.setItem(
             maxNonceKey,
-            this.our_max_nonce.toString(),
+            this.our_max_nonce.toString()
           );
           LogUtilities.toDebugScreen(
-            `processTxState(): our_max_nonce changed to ${this.our_max_nonce}`,
+            `processTxState(): our_max_nonce changed to ${this.our_max_nonce}`
           );
 
           this.failed_nonces = {}; // since it's a nonce higher than all our known nonces, clearly everything below went through
@@ -2162,7 +2158,7 @@ class TxStorage {
         if (tx) {
           LogUtilities.toDebugScreen(
             `processTxState(hash:${hash}) known OUR tx by nonce: `,
-            tx,
+            tx
           );
 
           if (this.failed_nonces.hasOwnProperty(nonce))
@@ -2179,7 +2175,7 @@ class TxStorage {
 
           LogUtilities.toDebugScreen(
             `processTxState(hash:${hash}) known OUR tx, promoted: `,
-            newtx,
+            newtx
           );
 
           this.__unlock('txes');
@@ -2200,7 +2196,7 @@ class TxStorage {
         `processTxState(hash:${hash}) not known ${
           ourTx ? 'OUR ' : ''
         }tx, saving: `,
-        tx,
+        tx
       );
 
       await this.txes.appendTx(hash, tx, false);
@@ -2218,11 +2214,11 @@ class TxStorage {
 
     await AsyncStorage.setItem(
       `tx_${txStatePrefix}${hash}`,
-      JSON.stringify(tx),
+      JSON.stringify(tx)
     );
     LogUtilities.toDebugScreen(
       `processTxState(hash: ${hash}) not known tx WITH NO DATA (OOPS...), state saved: `,
-      tx,
+      tx
     );
     this.__unlock('txes');
     // no onupdate here as we did not save that Tx, umm, in the pool... yet.
@@ -2230,7 +2226,7 @@ class TxStorage {
 
   async markNotIncludedTxAsErrorByNonce(nonce) {
     LogUtilities.toDebugScreen(
-      `markNotIncludedTxAsErrorByNonce(nonce:${nonce})`,
+      `markNotIncludedTxAsErrorByNonce(nonce:${nonce})`
     );
     await this.__lock('txes');
     const nonceKey = `${txNoncePrefix}${nonce}`;
@@ -2247,21 +2243,21 @@ class TxStorage {
         newtx,
         nonceKey,
         `${txFailPrefix}${nonce}_${this.txes.getItemCount('all')}`,
-        true,
+        true
       );
 
       this.__unlock('txes');
       LogUtilities.toDebugScreen(
-        `markNotIncludedTxAsErrorByNonce(nonce:${nonce}) state updated`,
+        `markNotIncludedTxAsErrorByNonce(nonce:${nonce}) state updated`
       );
       this.__onUpdate();
     } else {
       this.__unlock('txes');
       LogUtilities.toDebugScreen(
-        `markNotIncludedTxAsErrorByNonce(nonce:${nonce}) key not found!`,
+        `markNotIncludedTxAsErrorByNonce(nonce:${nonce}) key not found!`
       );
       throw new NoSuchTxException(
-        `markNotIncludedTxAsErrorByNonce(): unknown tx nonce: ${nonce}`,
+        `markNotIncludedTxAsErrorByNonce(): unknown tx nonce: ${nonce}`
       );
     }
   }
@@ -2276,8 +2272,8 @@ class TxStorage {
       } our_max_nonce:${
         this.our_max_nonce
       }, failed_nonce:${failed_nonce} failed_nonces:${JSON.stringify(
-        this.failed_nonces,
-      )}`,
+        this.failed_nonces
+      )}`
     );
 
     return failed_nonce !== null ? failed_nonce : this.our_max_nonce + 1;
@@ -2314,7 +2310,7 @@ class TxStorage {
           .some(
             (x) =>
               x.amount ===
-              'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
+              'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
           );
     }
 
@@ -2332,7 +2328,7 @@ class TxStorage {
           .some(
             (x) =>
               x.amount ==
-              'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
+              'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
           );
     }
 
@@ -2383,8 +2379,7 @@ class TxStorage {
 
     //const hashes = await this.txes.getHashes('all', offset);
     const hashes = (await this.txes.getHashes('all', offset)).filter(
-      ([x, derp]) =>
-        !x.startsWith(txNoncePrefix) && !x.startsWith(txFailPrefix),
+      ([x, derp]) => !x.startsWith(txNoncePrefix) && !x.startsWith(txFailPrefix)
     );
     const checkpoints = this.getCheckpoints(hashes.length, offset);
     const ret = [];
@@ -2413,7 +2408,7 @@ class TxStorage {
       hashes: ret,
       count: hashes.length,
       offset: offset,
-      checkpoints: checkpoints,
+      checkpoints: checkpoints
     };
   }
 
@@ -2424,7 +2419,7 @@ class TxStorage {
       delete data['_contracts'];
 
     data = Object.entries(data).map(([hash, txdata]) =>
-      new Tx(txdata[7]).setHash(hash).fromDataArray(txdata),
+      new Tx(txdata[7]).setHash(hash).fromDataArray(txdata)
     );
     data.sort((a, b) => {
       const diff = a.getTimestamp() - b.getTimestamp();
@@ -2455,11 +2450,11 @@ class TxStorage {
           // replacetx
           LogUtilities.toDebugScreen(
             'processTxSync(): found OUR tx by nonce: ',
-            oldTx,
+            oldTx
           );
           LogUtilities.toDebugScreen(
             'processTxSync(): to be replaced with: ',
-            tx,
+            tx
           );
           await this.txes.replaceTx(oldTx, tx, nonceKey, tx.getHash(), true); // since we're replacing with server data, there is no 'input' field already, no need to drop anything.
           changed++;
@@ -2474,12 +2469,12 @@ class TxStorage {
         // updateTx, perhaps after comparing if changed
         LogUtilities.toDebugScreen(
           'processTxSync(): found tx by hash: ',
-          oldTx,
+          oldTx
         );
         if (oldTx.getState() !== tx.getState()) {
           LogUtilities.toDebugScreen(
             'processTxSync(): to be replaced with: ',
-            tx,
+            tx
           );
           await this.txes.updateTx(oldTx, tx, tx.getHash());
           // await this.txes.replaceTx(oldTx, tx, tx.getHash(), tx.getHash(), false);
@@ -2487,7 +2482,7 @@ class TxStorage {
         } else
           LogUtilities.toDebugScreen(
             'processTxSync(): replacement has same state, skipping: ',
-            tx,
+            tx
           );
 
         continue;
@@ -2495,14 +2490,14 @@ class TxStorage {
 
       LogUtilities.toDebugScreen(
         'processTxSync(): inserting new, unknown tx: ',
-        tx,
+        tx
       );
 
       await this.txes.appendTx(tx.getHash(), tx, false);
       changed++;
     }
     LogUtilities.toDebugScreen(
-      `processTxSync(): removeKeys: ${removeKeys.join()}`,
+      `processTxSync(): removeKeys: ${removeKeys.join()}`
     );
     await AsyncStorage.multiRemove(removeKeys);
 
@@ -2511,7 +2506,7 @@ class TxStorage {
       this.our_max_nonce = newNonce;
       await AsyncStorage.setItem(maxNonceKey, this.our_max_nonce.toString());
       LogUtilities.toDebugScreen(
-        `processTxSync(): our_max_nonce changed to ${this.our_max_nonce}`,
+        `processTxSync(): our_max_nonce changed to ${this.our_max_nonce}`
       );
     }
 
@@ -2538,5 +2533,5 @@ module.exports = {
   DuplicateHashTxException: DuplicateHashTxException,
   //InvalidStateTxException: InvalidStateTxException,
 
-  storage: new TxStorage(),
+  storage: new TxStorage()
 };

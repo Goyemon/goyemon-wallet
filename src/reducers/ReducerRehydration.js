@@ -2,7 +2,7 @@
 import { REHYDRATION_COMPLETE } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
-  rehydration: false,
+  rehydration: false
 };
 
 const rehydration = (state = INITIAL_STATE, action) => {

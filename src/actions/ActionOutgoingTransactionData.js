@@ -3,7 +3,7 @@ import {
   SAVE_OUTGOING_TRANSACTION_DATA_SEND,
   SAVE_OUTGOING_TRANSACTION_DATA_COMPOUND,
   SAVE_OUTGOING_TRANSACTION_DATA_POOLTOGETHER,
-  SAVE_OUTGOING_TRANSACTION_DATA_SWAP,
+  SAVE_OUTGOING_TRANSACTION_DATA_SWAP
 } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
@@ -19,7 +19,7 @@ export function saveOutgoingTransactionDataSend(sendData) {
 
 const saveOutgoingTransactionDataSendSuccess = (sendData) => ({
   type: SAVE_OUTGOING_TRANSACTION_DATA_SEND,
-  payload: sendData,
+  payload: sendData
 });
 
 export function saveOutgoingTransactionDataCompound(compoundData) {
@@ -34,7 +34,7 @@ export function saveOutgoingTransactionDataCompound(compoundData) {
 
 const saveOutgoingTransactionDataCompoundSuccess = (compoundData) => ({
   type: SAVE_OUTGOING_TRANSACTION_DATA_COMPOUND,
-  payload: compoundData,
+  payload: compoundData
 });
 
 export function saveOutgoingTransactionDataPoolTogether(poolTogether) {
@@ -49,7 +49,7 @@ export function saveOutgoingTransactionDataPoolTogether(poolTogether) {
 
 const saveOutgoingTransactionDataPoolTogetherSuccess = (poolTogether) => ({
   type: SAVE_OUTGOING_TRANSACTION_DATA_POOLTOGETHER,
-  payload: poolTogether,
+  payload: poolTogether
 });
 
 export function saveOutgoingTransactionDataSwap(swapData) {
@@ -64,5 +64,5 @@ export function saveOutgoingTransactionDataSwap(swapData) {
 
 const saveOutgoingTransactionDataSwapSuccess = (swapData) => ({
   type: SAVE_OUTGOING_TRANSACTION_DATA_SWAP,
-  payload: swapData,
+  payload: swapData
 });

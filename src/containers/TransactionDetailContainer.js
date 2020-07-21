@@ -25,7 +25,7 @@ export default class TransactionDetailContainer extends Component {
       to,
       from,
       icon,
-      option,
+      option
     } = this.props.data;
     let { method } = this.props.data;
     const { name, size, color } = this.props.data.inOrOut;

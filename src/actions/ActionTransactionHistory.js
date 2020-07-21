@@ -9,7 +9,7 @@ import {
   ADD_CONFIRMED_TRANSACTION,
   UPDATE_CONFIRMED_TRANSACTION_DATA,
   REMOVE_EXISTING_TRANSACTION_OBJECT,
-  UPDATE_ERROR_SENT_TRANSACTION,
+  UPDATE_ERROR_SENT_TRANSACTION
 } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
@@ -28,7 +28,7 @@ export function saveEmptyTransaction(emptyTransaction) {
 
 const saveEmptyTransactionSuccess = (parsedEmptyTransaction) => ({
   type: SAVE_EMPTY_TRANSACTION,
-  payload: parsedEmptyTransaction,
+  payload: parsedEmptyTransaction
 });
 
 export function saveExistingTransactions(transactions) {
@@ -43,7 +43,7 @@ export function saveExistingTransactions(transactions) {
 
 const saveExistingTransactionsSuccess = (transactions) => ({
   type: SAVE_EXISTING_TRANSACTIONS,
-  payload: transactions,
+  payload: transactions
 });
 
 export function addSentTransaction(transactionObject) {
@@ -67,23 +67,23 @@ export function addSentTransaction(transactionObject) {
     try {
       if (isToDaiTokenContract && isTransferFunctionSignature) {
         parsedSentTransaction = await TransactionUtilities.parseSentDaiTransaction(
-          transactionObject,
+          transactionObject
         );
       } else if (isToDaiTokenContract && isApproveFunctionSignature) {
         parsedSentTransaction = await TransactionUtilities.parseSentDaiApproveTransaction(
-          transactionObject,
+          transactionObject
         );
       } else if (isToCDaiContract && isMintFunctionSignature) {
         parsedSentTransaction = await TransactionUtilities.parseSentCDaiMintTransaction(
-          transactionObject,
+          transactionObject
         );
       } else if (isToCDaiContract && isRedeemUnderlyingFunctionSignature) {
         parsedSentTransaction = await TransactionUtilities.parseSentCDaiRedeemUnderlyingTransaction(
-          transactionObject,
+          transactionObject
         );
       } else {
         parsedSentTransaction = TransactionUtilities.parseSentEthTransaction(
-          transactionObject,
+          transactionObject
         );
       }
       dispatch(addSentTransactionSuccess(parsedSentTransaction));
@@ -95,7 +95,7 @@ export function addSentTransaction(transactionObject) {
 
 const addSentTransactionSuccess = (parsedSentTransaction) => ({
   type: ADD_SENT_TRANSACTION,
-  payload: parsedSentTransaction,
+  payload: parsedSentTransaction
 });
 
 export function addPendingOrIncludedTransaction(transactionObject) {
@@ -110,14 +110,14 @@ export function addPendingOrIncludedTransaction(transactionObject) {
 
 const addPendingOrIncludedTransactionSuccess = (transactionObject) => ({
   type: ADD_PENDING_OR_INCLUDED_TRANSACTION,
-  payload: transactionObject,
+  payload: transactionObject
 });
 
 export function updateWithPendingOrIncludedTransaction(transactionObject) {
   return function (dispatch) {
     try {
       dispatch(
-        updateWithPendingOrIncludedTransactionSuccess(transactionObject),
+        updateWithPendingOrIncludedTransactionSuccess(transactionObject)
       );
     } catch (err) {
       LogUtilities.logError(err);
@@ -127,7 +127,7 @@ export function updateWithPendingOrIncludedTransaction(transactionObject) {
 
 const updateWithPendingOrIncludedTransactionSuccess = (transactionObject) => ({
   type: UPDATE_PENDING_OR_INCLUDED_TRANSACTION,
-  payload: transactionObject,
+  payload: transactionObject
 });
 
 export function updateTransactionState(updatedTransaction) {
@@ -142,7 +142,7 @@ export function updateTransactionState(updatedTransaction) {
 
 const updateTransactionStateSuccess = (updatedTransaction) => ({
   type: UPDATE_TRANSACTION_STATE,
-  payload: updatedTransaction,
+  payload: updatedTransaction
 });
 
 export function addConfirmedTransaction(transactionObject) {
@@ -157,7 +157,7 @@ export function addConfirmedTransaction(transactionObject) {
 
 const addConfirmedTransactionSuccess = (transactionObject) => ({
   type: ADD_CONFIRMED_TRANSACTION,
-  payload: transactionObject,
+  payload: transactionObject
 });
 
 export function updateConfirmedTransactionData(transactionObject) {
@@ -172,7 +172,7 @@ export function updateConfirmedTransactionData(transactionObject) {
 
 const updateConfirmedTransactionDataSuccess = (transactionObject) => ({
   type: UPDATE_CONFIRMED_TRANSACTION_DATA,
-  payload: transactionObject,
+  payload: transactionObject
 });
 
 export function removeExistingTransactionObject(transactionObject) {
@@ -187,7 +187,7 @@ export function removeExistingTransactionObject(transactionObject) {
 
 const removeExistingTransactionObjectSuccess = (transactionObject) => ({
   type: REMOVE_EXISTING_TRANSACTION_OBJECT,
-  payload: transactionObject,
+  payload: transactionObject
 });
 
 export function updateErrorSentTransaction(nonce) {
@@ -202,5 +202,5 @@ export function updateErrorSentTransaction(nonce) {
 
 const updateErrorSentTransactionSuccess = (nonce) => ({
   type: UPDATE_ERROR_SENT_TRANSACTION,
-  payload: nonce,
+  payload: nonce
 });

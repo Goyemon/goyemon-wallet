@@ -6,12 +6,12 @@ import {
   saveCompoundDaiBalance,
   savePoolTogetherDaiBalance,
   saveWeiBalance,
-  movePoolTogetherDaiBalance,
+  movePoolTogetherDaiBalance
 } from '../actions/ActionBalance';
 import { saveCompoundDaiInfo } from '../actions/ActionCompound';
 import {
   savePoolTogetherDaiInfo,
-  togglePoolTogetherWinnerRevealed,
+  togglePoolTogetherWinnerRevealed
 } from '../actions/ActionPoolTogether';
 import { saveUniswapV2WETHxDAIReserve } from '../actions/ActionUniswap';
 import { saveTransactionsLoaded } from '../actions/ActionTransactionsLoaded';
@@ -24,7 +24,7 @@ import {
   addConfirmedTransaction,
   updateConfirmedTransactionData,
   removeExistingTransactionObject,
-  updateErrorSentTransaction,
+  updateErrorSentTransaction
 } from '../actions/ActionTransactionHistory';
 import { FCMMsgs } from '../lib/fcm.js';
 import LogUtilities from '../utilities/LogUtilities.js';
@@ -62,8 +62,8 @@ async function downstreamMessageHandler(type, data) {
     case 'txstate':
       await Promise.all(
         Object.entries(data).map(([hash, data]) =>
-          TxStorage.storage.processTxState(hash, data),
-        ),
+          TxStorage.storage.processTxState(hash, data)
+        )
       );
       break;
 
@@ -74,20 +74,20 @@ async function downstreamMessageHandler(type, data) {
     case 'balance':
       if (data.hasOwnProperty('eth'))
         store.dispatch(
-          saveWeiBalance(new BigNumber(`0x${data.eth}`).toString(10)),
+          saveWeiBalance(new BigNumber(`0x${data.eth}`).toString(10))
         );
 
       if (data.hasOwnProperty('dai'))
         store.dispatch(
-          saveDaiBalance(new BigNumber(`0x${data.dai}`).toString(10)),
+          saveDaiBalance(new BigNumber(`0x${data.dai}`).toString(10))
         );
 
       if (data.hasOwnProperty('cdai')) {
         FCMMsgs.requestCompoundDaiInfo(
-          stateTree.ReducerChecksumAddress.checksumAddress,
+          stateTree.ReducerChecksumAddress.checksumAddress
         );
         store.dispatch(
-          saveCDaiBalance(new BigNumber(`0x${data.cdai}`).toString(10)),
+          saveCDaiBalance(new BigNumber(`0x${data.cdai}`).toString(10))
         );
       }
 
@@ -105,15 +105,15 @@ async function downstreamMessageHandler(type, data) {
       store.dispatch(
         saveCompoundDaiBalance(
           stateTree.ReducerBalance.balance.cDai,
-          data.current_exchange_rate,
-        ),
+          data.current_exchange_rate
+        )
       );
       break;
 
     case 'transactionError':
       LogUtilities.toDebugScreen(
         `downstreamMessageHandler(): received transactionError for nonce:${data.nonce}:`,
-        data,
+        data
       );
       TxStorage.storage.markNotIncludedTxAsErrorByNonce(parseInt(data.nonce));
 
@@ -123,20 +123,20 @@ async function downstreamMessageHandler(type, data) {
       const pooltogetherDaiInfo = {
         ...data,
         pooltogether_accounted_balance: new BigNumber(
-          `0x${data.pooltogether_accounted_balance}`,
+          `0x${data.pooltogether_accounted_balance}`
         ).toString(10),
         pooltogether_open_supply: new BigNumber(
-          `0x${data.pooltogether_open_supply}`,
+          `0x${data.pooltogether_open_supply}`
         ).toString(10),
         pooltogether_committed_supply: new BigNumber(
-          `0x${data.pooltogether_committed_supply}`,
+          `0x${data.pooltogether_committed_supply}`
         ).toString(10),
         pooltogether_estimated_interest_rate: new BigNumber(
-          `0x${data.pooltogether_estimated_interest_rate}`,
+          `0x${data.pooltogether_estimated_interest_rate}`
         ).toString(10),
         pooltogether_committed_drawid: data.pooltogether_committed_drawid,
         pooltogether_rewarded: data.pooltogether_rewarded,
-        pooltogether_winnings: data.pooltogether_winnings,
+        pooltogether_winnings: data.pooltogether_winnings
       };
       store.dispatch(savePoolTogetherDaiInfo(pooltogetherDaiInfo));
       if (
@@ -161,5 +161,5 @@ async function downstreamMessageHandler(type, data) {
 
 module.exports = {
   setStoreReadyPromise: setStoreReadyPromise,
-  downstreamMessageHandler: downstreamMessageHandler,
+  downstreamMessageHandler: downstreamMessageHandler
 };

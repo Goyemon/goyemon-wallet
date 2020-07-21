@@ -6,7 +6,7 @@ class RuDataBuilder {
   constructor(method, fields, decimalat = -1) {
     this.decimal_places = decimalat >= 0 ? decimalat : 18;
     this.multiplier = new web3.utils.BN(10).pow(
-      new web3.utils.BN(this.decimal_places),
+      new web3.utils.BN(this.decimal_places)
     );
     this.current_offset = 4;
     this.buf = Buffer.allocUnsafe(4 + fields * 32);
@@ -23,7 +23,7 @@ class RuDataBuilder {
   putAddressArray(addrs) {
     this.__numToUint256(addrs.length, false).copy(
       this.buf,
-      this.current_offset,
+      this.current_offset
     );
     this.current_offset += 32;
     for (let i = 0; i < addrs.length; i++) {
@@ -118,7 +118,7 @@ class ABIEncoder {
     path,
     recipient,
     deadline,
-    decimals = 18,
+    decimals = 18
   ) {
     let fields = 5 + path.length;
     return new RuDataBuilder([0x7f, 0xf3, 0x6a, 0xb5], fields, decimals)

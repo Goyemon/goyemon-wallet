@@ -1,7 +1,7 @@
 'use strict';
 import {
   SAVE_UNISWAPV2_WETH_DAI_RESERVE,
-  UPDATE_SLIPPAGE_CHOSEN,
+  UPDATE_SLIPPAGE_CHOSEN
 } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
@@ -17,7 +17,7 @@ export function saveUniswapV2WETHxDAIReserve(reserves) {
 
 const saveUniswapV2WETHxDAIReserveSuccess = (reserves) => ({
   type: SAVE_UNISWAPV2_WETH_DAI_RESERVE,
-  payload: reserves,
+  payload: reserves
 });
 
 export function updateSlippageChosen(key) {
@@ -32,5 +32,5 @@ export function updateSlippageChosen(key) {
 
 const updateSlippageChosenSuccess = (key) => ({
   type: UPDATE_SLIPPAGE_CHOSEN,
-  payload: key,
+  payload: key
 });

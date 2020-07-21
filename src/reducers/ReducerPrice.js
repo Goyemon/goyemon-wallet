@@ -2,15 +2,15 @@
 import {
   GET_DAI_PRICE,
   GET_ETH_PRICE,
-  GET_CDAI_PRICE,
+  GET_CDAI_PRICE
 } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
   price: {
     dai: '',
     eth: '',
-    cdai: '',
-  },
+    cdai: ''
+  }
 };
 
 const price = (state = INITIAL_STATE, action) => {

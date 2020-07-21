@@ -6,7 +6,7 @@ import {
   RootContainer,
   Container,
   HeaderOne,
-  Description,
+  Description
 } from '../components/common';
 import I18n from '../i18n/I18n';
 
@@ -45,12 +45,12 @@ class BackupWords extends Component {
 const styles = {
   table: {
     flexWrap: 'wrap',
-    flexDirection: 'row',
+    flexDirection: 'row'
   },
   cell: {
     flexBasis: '25%',
-    flex: 1,
-  },
+    flex: 1
+  }
 };
 
 const MnemonicWordsContainer = styled.View`
@@ -77,7 +77,7 @@ const MnemonicWordsText = styled.Text`
 
 function mapStateToProps(state) {
   return {
-    mnemonicWords: state.ReducerMnemonic.mnemonicWords,
+    mnemonicWords: state.ReducerMnemonic.mnemonicWords
   };
 }
 

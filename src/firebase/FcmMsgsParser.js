@@ -27,7 +27,7 @@ class FcmMsgsParser {
     const fcmMsgs = stateTree.ReducerFcmMsgs.fcmMsgs;
 
     const sortedFcmMsgs = fcmMsgs[fcmMsg.uid].sort(
-      (a, b) => parseInt(a.no) - parseInt(b.no),
+      (a, b) => parseInt(a.no) - parseInt(b.no)
     );
     let transactions = sortedFcmMsgs.map((el) => el.data).join('');
     transactions = JSON.parse(transactions);

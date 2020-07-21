@@ -5,7 +5,7 @@ import styled from 'styled-components/native';
 import { saveOutgoingTransactionDataCompound } from '../actions/ActionOutgoingTransactionData';
 import {
   saveTxConfirmationModalVisibility,
-  updateTxConfirmationModalVisibleType,
+  updateTxConfirmationModalVisibleType
 } from '../actions/ActionModal';
 import {
   RootContainer,
@@ -16,14 +16,14 @@ import {
   Loader,
   IsOnlineMessage,
   InsufficientWeiBalanceMessage,
-  TxNextButton,
+  TxNextButton
 } from '../components/common';
 import { AdvancedContainer } from './common/AdvancedContainer';
 import TxConfirmationModal from '../containers/common/TxConfirmationModal';
 import I18n from '../i18n/I18n';
 import {
   RoundDownBigNumberPlacesFour,
-  RoundDownBigNumberPlacesEighteen,
+  RoundDownBigNumberPlacesEighteen
 } from '../utilities/BigNumberUtilities';
 import LogUtilities from '../utilities/LogUtilities.js';
 import StyleUtilities from '../utilities/StyleUtilities.js';
@@ -37,14 +37,14 @@ class WithdrawDaiFromCompound extends Component {
     super(props);
     this.state = {
       compoundDAIBalance: RoundDownBigNumberPlacesFour(
-        props.balance.compoundDai,
+        props.balance.compoundDai
       )
         .div(new RoundDownBigNumberPlacesFour(10).pow(36))
         .toFixed(2),
       DAIWithdrawAmount: '',
       DAISavingsAmountValidation: undefined,
       WEIAmountValidation: undefined,
-      loading: false,
+      loading: false
     };
   }
 
@@ -52,8 +52,8 @@ class WithdrawDaiFromCompound extends Component {
     this.updateWeiAmountValidation(
       TransactionUtilities.hasSufficientWEIForNetworkFee(
         TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
-        GlobalConfig.cTokenRedeemUnderlyingGasLimit,
-      ),
+        GlobalConfig.cTokenRedeemUnderlyingGasLimit
+      )
     );
   }
 
@@ -62,17 +62,17 @@ class WithdrawDaiFromCompound extends Component {
       this.updateWeiAmountValidation(
         TransactionUtilities.hasSufficientWEIForNetworkFee(
           TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
-          GlobalConfig.cTokenRedeemUnderlyingGasLimit,
-        ),
+          GlobalConfig.cTokenRedeemUnderlyingGasLimit
+        )
       );
     }
     if (this.props.balance.compoundDai != prevProps.balance.compoundDai) {
       this.setState({
         compoundDAIBalance: RoundDownBigNumberPlacesFour(
-          this.props.balance.compoundDai,
+          this.props.balance.compoundDai
         )
           .div(new RoundDownBigNumberPlacesFour(10).pow(18))
-          .toFixed(2),
+          .toFixed(2)
       });
     }
   }
@@ -80,17 +80,17 @@ class WithdrawDaiFromCompound extends Component {
   async constructTransactionObject() {
     const DAIWithdrawAmount = this.state.DAIWithdrawAmount.split('.').join('');
     const decimalPlaces = TransactionUtilities.decimalPlaces(
-      this.state.DAIWithdrawAmount,
+      this.state.DAIWithdrawAmount
     );
     const decimals = 18 - parseInt(decimalPlaces);
 
     const redeemUnderlyingEncodedABI = ABIEncoder.encodeCDAIRedeemUnderlying(
       DAIWithdrawAmount,
-      decimals,
+      decimals
     );
 
     const DAIWithdrawAmountWithDecimals = new RoundDownBigNumberPlacesEighteen(
-      this.state.DAIWithdrawAmount,
+      this.state.DAIWithdrawAmount
     )
       .times(new RoundDownBigNumberPlacesEighteen(10).pow(18))
       .toString(16);
@@ -99,15 +99,15 @@ class WithdrawDaiFromCompound extends Component {
       .setTo(GlobalConfig.cDAIcontract)
       .setGasPrice(
         TransactionUtilities.returnTransactionSpeed(
-          this.props.gasChosen,
-        ).toString(16),
+          this.props.gasChosen
+        ).toString(16)
       )
       .setGas(GlobalConfig.cTokenRedeemUnderlyingGasLimit.toString(16))
       .tempSetData(redeemUnderlyingEncodedABI)
       .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.redeem, [
         TxStorage.storage.getOwnAddress(),
         DAIWithdrawAmountWithDecimals,
-        0,
+        0
       ]);
 
     return transactionObject;
@@ -116,11 +116,11 @@ class WithdrawDaiFromCompound extends Component {
   updateDaiSavingsAmountValidation(DAISavingsAmountValidation) {
     if (DAISavingsAmountValidation) {
       this.setState({
-        DAISavingsAmountValidation: true,
+        DAISavingsAmountValidation: true
       });
     } else if (!DAISavingsAmountValidation) {
       this.setState({
-        DAISavingsAmountValidation: false,
+        DAISavingsAmountValidation: false
       });
     }
   }
@@ -128,22 +128,22 @@ class WithdrawDaiFromCompound extends Component {
   updateWeiAmountValidation(WEIAmountValidation) {
     if (WEIAmountValidation) {
       this.setState({
-        WEIAmountValidation: true,
+        WEIAmountValidation: true
       });
     } else if (!WEIAmountValidation) {
       this.setState({
-        WEIAmountValidation: false,
+        WEIAmountValidation: false
       });
     }
   }
 
   validateForm = async (DAIWithdrawAmount) => {
     const DAISavingsAmountValidation = TransactionUtilities.validateDAICompoundWithdrawAmount(
-      DAIWithdrawAmount,
+      DAIWithdrawAmount
     );
     const WEIAmountValidation = TransactionUtilities.hasSufficientWEIForNetworkFee(
       TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
-      GlobalConfig.cTokenRedeemUnderlyingGasLimit,
+      GlobalConfig.cTokenRedeemUnderlyingGasLimit
     );
     const isOnline = this.props.isOnline;
 
@@ -154,7 +154,7 @@ class WithdrawDaiFromCompound extends Component {
       this.props.saveOutgoingTransactionDataCompound({
         amount: DAIWithdrawAmount,
         gasLimit: GlobalConfig.cTokenRedeemUnderlyingGasLimit,
-        transactionObject: transactionObject,
+        transactionObject: transactionObject
       });
       this.props.saveTxConfirmationModalVisibility(true);
       this.props.updateTxConfirmationModalVisibleType('compound-withdraw');
@@ -191,7 +191,7 @@ class WithdrawDaiFromCompound extends Component {
         </WithDrawAmountHeaderContainer>
         <Form
           borderColor={StyleUtilities.getBorderColor(
-            this.state.DAISavingsAmountValidation,
+            this.state.DAISavingsAmountValidation
           )}
           borderWidth={1}
           height="56px"
@@ -204,8 +204,8 @@ class WithdrawDaiFromCompound extends Component {
               onChangeText={(DAIWithdrawAmount) => {
                 this.updateDaiSavingsAmountValidation(
                   TransactionUtilities.validateDAICompoundWithdrawAmount(
-                    DAIWithdrawAmount,
-                  ),
+                    DAIWithdrawAmount
+                  )
                 );
                 this.setState({ DAIWithdrawAmount });
               }}
@@ -304,17 +304,17 @@ function mapStateToProps(state) {
     balance: state.ReducerBalance.balance,
     gasPrice: state.ReducerGasPrice.gasPrice,
     gasChosen: state.ReducerGasPrice.gasChosen,
-    isOnline: state.ReducerNetInfo.isOnline,
+    isOnline: state.ReducerNetInfo.isOnline
   };
 }
 
 const mapDispatchToProps = {
   saveOutgoingTransactionDataCompound,
   saveTxConfirmationModalVisibility,
-  updateTxConfirmationModalVisibleType,
+  updateTxConfirmationModalVisibleType
 };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(WithdrawDaiFromCompound);

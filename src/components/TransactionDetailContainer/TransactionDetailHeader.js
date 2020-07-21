@@ -10,7 +10,7 @@ export default class TransactionDetailHeader extends Component {
       icon: props.icon,
       timestamp: props.timestamp,
       status: props.status,
-      method: props.method,
+      method: props.method
     };
   }
 

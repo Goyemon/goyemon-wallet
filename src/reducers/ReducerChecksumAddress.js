@@ -2,7 +2,7 @@
 import { CREATE_CHECKSUM_ADDRESS } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
-  checksumAddress: null,
+  checksumAddress: null
 };
 
 const checksumAddress = (state = INITIAL_STATE, action) => {

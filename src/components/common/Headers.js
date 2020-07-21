@@ -137,5 +137,5 @@ export {
   NewHeaderFour,
   HeaderFour,
   HeaderFive,
-  FormHeader,
+  FormHeader
 };

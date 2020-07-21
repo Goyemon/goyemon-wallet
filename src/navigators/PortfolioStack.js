@@ -25,57 +25,57 @@ const PortfolioStack = createStackNavigator(
     Initial: {
       screen: Initial,
       navigationOptions: () => ({
-        header: null,
-      }),
+        header: null
+      })
     },
     Welcome: {
       screen: Welcome,
       navigationOptions: () => ({
-        header: null,
-      }),
+        header: null
+      })
     },
     NotificationPermissionTutorial: {
       screen: NotificationPermissionTutorial,
       navigationOptions: () => ({
-        header: null,
-      }),
+        header: null
+      })
     },
     NotificationPermissionNotGranted: {
       screen: NotificationPermissionNotGranted,
       navigationOptions: () => ({
-        header: null,
-      }),
+        header: null
+      })
     },
     WalletCreation: {
       screen: WalletCreation,
       navigationOptions: () => ({
-        header: null,
-      }),
+        header: null
+      })
     },
     ImportMnemonicWords: {
       screen: ImportMnemonicWords,
       navigationOptions: () => ({
         headerTransparent: true,
-        headerBackTitle: 'Import',
-      }),
+        headerBackTitle: 'Import'
+      })
     },
     CreateWalletTutorial: {
       screen: CreateWalletTutorial,
       navigationOptions: () => ({
-        headerTransparent: true,
-      }),
+        headerTransparent: true
+      })
     },
     ShowMnemonic: {
       screen: ShowMnemonic,
       navigationOptions: () => ({
-        headerTransparent: true,
-      }),
+        headerTransparent: true
+      })
     },
     VerifyMnemonic: {
       screen: VerifyMnemonic,
       navigationOptions: () => ({
-        headerTransparent: true,
-      }),
+        headerTransparent: true
+      })
     },
     PortfolioHome: {
       screen: PortfolioHome,
@@ -84,9 +84,9 @@ const PortfolioStack = createStackNavigator(
         headerBackTitle: 'Portfolio',
         headerStyle: {
           marginTop: 16,
-          marginRight: 16,
-        },
-      }),
+          marginRight: 16
+        }
+      })
     },
     Receive: {
       screen: Receive,
@@ -94,9 +94,9 @@ const PortfolioStack = createStackNavigator(
         headerTransparent: true,
         headerStyle: {
           marginTop: 16,
-          marginRight: 16,
-        },
-      }),
+          marginRight: 16
+        }
+      })
     },
     PortfolioWallet: {
       screen: PortfolioWallet,
@@ -104,9 +104,9 @@ const PortfolioStack = createStackNavigator(
         headerTransparent: true,
         headerStyle: {
           marginTop: 16,
-          marginRight: 16,
-        },
-      }),
+          marginRight: 16
+        }
+      })
     },
     PortfolioCompound: {
       screen: PortfolioCompound,
@@ -114,9 +114,9 @@ const PortfolioStack = createStackNavigator(
         headerTransparent: true,
         headerStyle: {
           marginTop: 16,
-          marginRight: 16,
-        },
-      }),
+          marginRight: 16
+        }
+      })
     },
     PortfolioPoolTogether: {
       screen: PortfolioPoolTogether,
@@ -124,9 +124,9 @@ const PortfolioStack = createStackNavigator(
         headerTransparent: true,
         headerStyle: {
           marginTop: 16,
-          marginRight: 16,
-        },
-      }),
+          marginRight: 16
+        }
+      })
     },
     PortfolioPoolTogetherOpen: {
       screen: PortfolioPoolTogetherOpen,
@@ -134,9 +134,9 @@ const PortfolioStack = createStackNavigator(
         headerTransparent: true,
         headerStyle: {
           marginTop: 16,
-          marginRight: 16,
-        },
-      }),
+          marginRight: 16
+        }
+      })
     },
     PortfolioPoolTogetherCommitted: {
       screen: PortfolioPoolTogetherCommitted,
@@ -144,9 +144,9 @@ const PortfolioStack = createStackNavigator(
         headerTransparent: true,
         headerStyle: {
           marginTop: 16,
-          marginRight: 16,
-        },
-      }),
+          marginRight: 16
+        }
+      })
     },
     Settings: {
       screen: Settings,
@@ -155,31 +155,31 @@ const PortfolioStack = createStackNavigator(
         gesturesEnabled: false,
         headerStyle: {
           marginTop: 16,
-          marginRight: 16,
-        },
-      }),
+          marginRight: 16
+        }
+      })
     },
     BackupWords: {
       screen: BackupWords,
       navigationOptions: () => ({
-        headerTransparent: true,
-      }),
+        headerTransparent: true
+      })
     },
     Advanced: {
       screen: Advanced,
       navigationOptions: () => ({
-        headerTransparent: true,
-      }),
-    },
+        headerTransparent: true
+      })
+    }
   },
   {
     navigationOptions: {
-      tabBarVisible: false,
-    },
+      tabBarVisible: false
+    }
   },
   {
-    initialRouteName: 'Initial',
-  },
+    initialRouteName: 'Initial'
+  }
 );
 
 export default PortfolioStack;

@@ -9,11 +9,11 @@ import {
   ADD_CONFIRMED_TRANSACTION,
   UPDATE_CONFIRMED_TRANSACTION_DATA,
   REMOVE_EXISTING_TRANSACTION_OBJECT,
-  UPDATE_ERROR_SENT_TRANSACTION,
+  UPDATE_ERROR_SENT_TRANSACTION
 } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
-  transactions: null,
+  transactions: null
 };
 
 const transactions = (state = INITIAL_STATE, action) => {
@@ -32,11 +32,11 @@ const transactions = (state = INITIAL_STATE, action) => {
       }
 
       return {
-        transactions,
+        transactions
       };
     case ADD_SENT_TRANSACTION:
       return {
-        transactions: [action.payload, ...state.transactions],
+        transactions: [action.payload, ...state.transactions]
       };
     case ADD_PENDING_OR_INCLUDED_TRANSACTION:
       if (
@@ -44,11 +44,11 @@ const transactions = (state = INITIAL_STATE, action) => {
         Object.keys(state.transactions).length === 0
       ) {
         return {
-          transactions: [action.payload],
+          transactions: [action.payload]
         };
       } else if (state.transactions.length > 0) {
         return {
-          transactions: [action.payload, ...state.transactions],
+          transactions: [action.payload, ...state.transactions]
         };
       }
     case UPDATE_PENDING_OR_INCLUDED_TRANSACTION:
@@ -61,7 +61,7 @@ const transactions = (state = INITIAL_STATE, action) => {
             return { ...transaction, ...action.payload };
           }
           return transaction;
-        }),
+        })
       };
     case UPDATE_TRANSACTION_STATE:
       return {
@@ -70,11 +70,11 @@ const transactions = (state = INITIAL_STATE, action) => {
             return { ...transaction, state: action.payload.state };
           }
           return transaction;
-        }),
+        })
       };
     case ADD_CONFIRMED_TRANSACTION:
       return {
-        transactions: [action.payload, ...state.transactions],
+        transactions: [action.payload, ...state.transactions]
       };
     case UPDATE_CONFIRMED_TRANSACTION_DATA:
       return {
@@ -83,7 +83,7 @@ const transactions = (state = INITIAL_STATE, action) => {
             return { ...transaction, ...action.payload, state: 'confirmed' };
           }
           return transaction;
-        }),
+        })
       };
     case REMOVE_EXISTING_TRANSACTION_OBJECT:
       return {
@@ -98,7 +98,7 @@ const transactions = (state = INITIAL_STATE, action) => {
           } else {
             return true;
           }
-        }),
+        })
       };
     case UPDATE_ERROR_SENT_TRANSACTION:
       return {
@@ -110,7 +110,7 @@ const transactions = (state = INITIAL_STATE, action) => {
             return { ...transaction, state: 'error' };
           }
           return transaction;
-        }),
+        })
       };
     default:
       return state;

@@ -14,5 +14,5 @@ export function saveNotificationPermission(notificationPermission) {
 
 const saveNotificationPermissionSuccess = (notificationPermission) => ({
   type: SAVE_NOTIFICATION_PERMISSION,
-  payload: notificationPermission,
+  payload: notificationPermission
 });

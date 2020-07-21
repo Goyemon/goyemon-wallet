@@ -8,7 +8,7 @@ import { saveTxDetailModalVisibility } from '../actions/ActionModal';
 import {
   GoyemonText,
   TouchableCardContainer,
-  TransactionStatus,
+  TransactionStatus
 } from '../components/common';
 import TxStorage from '../lib/tx.js';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
@@ -18,7 +18,7 @@ class Transaction extends Component {
     super(props);
     this.state = {
       transaction: null,
-      children: <GoyemonText fontSize={12}>...</GoyemonText>,
+      children: <GoyemonText fontSize={12}>...</GoyemonText>
     };
   }
 
@@ -26,7 +26,7 @@ class Transaction extends Component {
     TxStorage.storage
       .getTx(
         this.props.transaction.index,
-        this.props.transaction.filter || 'all',
+        this.props.transaction.filter || 'all'
       )
       .then((x) => {
         this.setState({ children: this.computeChildren(x) });
@@ -38,7 +38,7 @@ class Transaction extends Component {
       TxStorage.storage
         .getTx(
           this.props.transaction.index,
-          this.props.transaction.filter || 'all',
+          this.props.transaction.filter || 'all'
         )
         .then((x) => {
           this.setState({ children: this.computeChildren(x) });
@@ -55,10 +55,10 @@ class Transaction extends Component {
       token,
       icon,
       inOrOut,
-      option,
+      option
     } = TransactionUtilities.txCommonObject(
       tx,
-      EtherUtilities.getReasonablyAddress(this.props.checksumAddress),
+      EtherUtilities.getReasonablyAddress(this.props.checksumAddress)
     );
     const { index, filter } = this.props.transaction;
     if (service === 'PoolTogether' || service === 'Uniswap')
@@ -134,11 +134,11 @@ class Transaction extends Component {
 
 const styles = {
   valueStyleRed: {
-    color: '#F1860E',
+    color: '#F1860E'
   },
   valueStyleGreen: {
-    color: '#1BA548',
-  },
+    color: '#1BA548'
+  }
 };
 
 const TransactionList = styled.View`
@@ -240,7 +240,7 @@ const TransactionAmount = (props) => {
 };
 
 const mapDispatchToProps = {
-  saveTxDetailModalVisibility,
+  saveTxDetailModalVisibility
 };
 
 export default connect(null, mapDispatchToProps)(Transaction);

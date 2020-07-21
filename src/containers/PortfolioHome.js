@@ -12,7 +12,7 @@ import {
   NewHeaderThree,
   HeaderFour,
   GoyemonText,
-  ReceiveIcon,
+  ReceiveIcon
 } from '../components/common';
 import ApplicationBoxes from '../components/PortfolioHome/ApplicationBoxes';
 import Copy from '../containers/common/Copy';
@@ -34,13 +34,13 @@ class PortfolioHome extends Component {
             PortfolioStack.navigationOptions = () => {
               const tabBarVisible = false;
               return {
-                tabBarVisible,
+                tabBarVisible
               };
             };
             navigation.navigate('Settings');
           }}
         />
-      ),
+      )
     };
   };
 
@@ -48,7 +48,7 @@ class PortfolioHome extends Component {
     PortfolioStack.navigationOptions = () => {
       const tabBarVisible = true;
       return {
-        tabBarVisible,
+        tabBarVisible
       };
     };
     await FcmPermissions.checkFcmPermissions();
@@ -63,7 +63,7 @@ class PortfolioHome extends Component {
     const { balance, navigation, checksumAddress } = this.props;
 
     const ETHBalance = RoundDownBigNumberPlacesFour(
-        Web3.utils.fromWei(balance.wei),
+        Web3.utils.fromWei(balance.wei)
       ).toFixed(4),
       DAIBalance = this.returnBalance(balance.dai, 10, 18, 2),
       CDAIBalance = this.returnBalance(balance.cDai, 10, 8, 2),
@@ -71,7 +71,7 @@ class PortfolioHome extends Component {
         balance.pooltogetherDai.committed,
         10,
         18,
-        0,
+        0
       );
 
     const compoundDAIBalance = RoundDownBigNumberPlacesFour(balance.compoundDai)
@@ -79,34 +79,45 @@ class PortfolioHome extends Component {
       .toString();
 
     const poolTogetherDAIBalance = RoundDownBigNumberPlacesFour(
-      balance.pooltogetherDai.open,
+      balance.pooltogetherDai.open
     )
       .plus(balance.pooltogetherDai.committed)
       .plus(balance.pooltogetherDai.sponsored)
       .div(new RoundDownBigNumberPlacesFour(10).pow(18))
       .toFixed(2);
 
-    const totalBalance =
-      parseFloat(PriceUtilities.getTotalWalletBalance(ETHBalance, DAIBalance, CDAIBalance, PLDAIBalance));
+    const totalBalance = parseFloat(
+      PriceUtilities.getTotalWalletBalance(
+        ETHBalance,
+        DAIBalance,
+        CDAIBalance,
+        PLDAIBalance
+      )
+    );
 
     const applicationBoxes = [
       {
-        balance: PriceUtilities.getTotalWalletBalance(ETHBalance, DAIBalance, CDAIBalance, PLDAIBalance),
+        balance: PriceUtilities.getTotalWalletBalance(
+          ETHBalance,
+          DAIBalance,
+          CDAIBalance,
+          PLDAIBalance
+        ),
         name: I18n.t('portfolio-home-wallet'),
-        event: () => navigation.navigate('PortfolioWallet'),
+        event: () => navigation.navigate('PortfolioWallet')
       },
       {
         balance: PriceUtilities.convertDAIToUSD(compoundDAIBalance).toFixed(2),
         name: 'Compound',
-        event: () => navigation.navigate('PortfolioCompound'),
+        event: () => navigation.navigate('PortfolioCompound')
       },
       {
         balance: PriceUtilities.convertDAIToUSD(poolTogetherDAIBalance).toFixed(
-          2,
+          2
         ),
         name: 'PoolTogether',
-        event: () => navigation.navigate('PortfolioPoolTogether'),
-      },
+        event: () => navigation.navigate('PortfolioPoolTogether')
+      }
     ];
 
     let truncatedAdderss;
@@ -179,7 +190,7 @@ const ReceiveIconContainer = styled.View`
 const mapStateToProps = (state) => ({
   balance: state.ReducerBalance.balance,
   checksumAddress: state.ReducerChecksumAddress.checksumAddress,
-  price: state.ReducerPrice.price,
+  price: state.ReducerPrice.price
 });
 
 export default withNavigation(connect(mapStateToProps)(PortfolioHome));

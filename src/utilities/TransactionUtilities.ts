@@ -8,7 +8,7 @@ import { store } from '../store/store.js';
 import ABIEncoder from '../utilities/AbiUtilities';
 import {
   RoundDownBigNumberPlacesFour,
-  RoundDownBigNumberPlacesEighteen,
+  RoundDownBigNumberPlacesEighteen
 } from '../utilities/BigNumberUtilities';
 import I18n from '../i18n/I18n';
 import LogUtilities from '../utilities/LogUtilities.js';
@@ -56,7 +56,7 @@ class TransactionUtilities {
       'September',
       'October',
       'November',
-      'December',
+      'December'
     ];
     if (seconds < 5) {
       return 'just now';
@@ -92,7 +92,7 @@ class TransactionUtilities {
     }
     return Math.max(
       0,
-      (match[1] ? match[1].length : 0) - (match[2] ? +match[2] : 0),
+      (match[1] ? match[1].length : 0) - (match[2] ? +match[2] : 0)
     );
   }
 
@@ -115,7 +115,7 @@ class TransactionUtilities {
     const balance = stateTree.ReducerBalance.balance;
     const WEIBalance = new RoundDownBigNumberPlacesEighteen(balance.wei);
     const maxNetworkFeeInWEI = new RoundDownBigNumberPlacesEighteen(
-      gasPriceWei,
+      gasPriceWei
     ).times(gasLimit);
 
     if (WEIBalance.isGreaterThan(maxNetworkFeeInWEI)) {
@@ -137,7 +137,7 @@ class TransactionUtilities {
       const WEIBalance = new RoundDownBigNumberPlacesEighteen(balance.wei);
       WEIAmount = new RoundDownBigNumberPlacesEighteen(WEIAmount);
       const maxNetworkFeeInWEI = new RoundDownBigNumberPlacesEighteen(
-        this.returnTransactionSpeed(gasChosen),
+        this.returnTransactionSpeed(gasChosen)
       ).times(gasLimit);
 
       if (
@@ -185,10 +185,10 @@ class TransactionUtilities {
       const balanceObject = {
         DAI: balanceState.dai,
         cDAI: balanceState.cDai,
-        plDAI: balanceState.pooltogetherDai.committed,
+        plDAI: balanceState.pooltogetherDai.committed
       };
       const tokenBalance = new RoundDownBigNumberPlacesEighteen(
-        balanceObject[token],
+        balanceObject[token]
       );
       const tokenAmount = new RoundDownBigNumberPlacesEighteen(10)
         .pow(token === 'cDAI' ? 8 : 18)
@@ -235,7 +235,7 @@ class TransactionUtilities {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
       const compoundDAIBalance = new RoundDownBigNumberPlacesEighteen(
-        balance.compoundDai,
+        balance.compoundDai
       );
 
       DAIWithdrawAmount = new RoundDownBigNumberPlacesEighteen(10)
@@ -262,7 +262,7 @@ class TransactionUtilities {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
       const pooltogetherDAIBalance = RoundDownBigNumberPlacesFour(
-        balance.pooltogetherDai.open,
+        balance.pooltogetherDai.open
       )
         .plus(balance.pooltogetherDai.committed)
         .plus(balance.pooltogetherDai.sponsored);
@@ -288,7 +288,7 @@ class TransactionUtilities {
 
   async constructSignedOutgoingTransactionObject(outgoingTransactionObject) {
     outgoingTransactionObject = new ethTx(
-      outgoingTransactionObject.toTransactionDict(),
+      outgoingTransactionObject.toTransactionDict()
     );
     let privateKey = await WalletUtilities.retrievePrivateKey();
     privateKey = Buffer.from(privateKey, 'hex');
@@ -309,7 +309,7 @@ class TransactionUtilities {
     const messageId = uuidv4();
     const serverAddress = GlobalConfig.FCM_server_address;
     const signedTransaction = await this.constructSignedOutgoingTransactionObject(
-      txObject,
+      txObject
     );
     const nonce = txObject.getNonce();
 
@@ -319,8 +319,8 @@ class TransactionUtilities {
       data: {
         type: 'outgoing_tx',
         nonce: nonce.toString(),
-        data: signedTransaction,
-      },
+        data: signedTransaction
+      }
     };
 
     firebase
@@ -346,7 +346,7 @@ class TransactionUtilities {
 
   getMaxNetworkFeeInUSD(gasPriceWei, gasLimit) {
     let maxNetworkFeeInUSD = PriceUtilities.convertETHToUSD(
-      this.getMaxNetworkFeeInETH(gasPriceWei, gasLimit),
+      this.getMaxNetworkFeeInETH(gasPriceWei, gasLimit)
     );
     maxNetworkFeeInUSD = maxNetworkFeeInUSD.toFixed(3);
     return maxNetworkFeeInUSD;
@@ -358,7 +358,7 @@ class TransactionUtilities {
     const approveEncodedABI = ABIEncoder.encodeApprove(
       addressSpender,
       amount,
-      0,
+      0
     );
 
     return approveEncodedABI;
@@ -374,7 +374,7 @@ class TransactionUtilities {
       .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.approval, [
         (spender.startsWith('0x') ? spender.substr(2) : spender).toLowerCase(),
         TxStorage.storage.getOwnAddress(),
-        'ff'.repeat(256 / 8),
+        'ff'.repeat(256 / 8)
       ]);
 
     return approveTransactionObject;
@@ -399,7 +399,7 @@ class TransactionUtilities {
     const transferEncodedABI = ABIEncoder.encodeTransfer(
       toAddr,
       DAIAmount,
-      decimals,
+      decimals
     );
     const DAIAmountWithDecimals = new RoundDownBigNumberPlacesEighteen(amount)
       .times(new RoundDownBigNumberPlacesEighteen(10).pow(18))
@@ -413,7 +413,7 @@ class TransactionUtilities {
       .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.transfer, [
         TxStorage.storage.getOwnAddress(),
         toAddr,
-        DAIAmountWithDecimals,
+        DAIAmountWithDecimals
       ]);
   };
 
@@ -424,7 +424,7 @@ class TransactionUtilities {
     const transferEncodedABI = ABIEncoder.encodeTransfer(
       toAddr,
       CDAIAmount,
-      decimals,
+      decimals
     );
     const CDAIAmountWithDecimals = new RoundDownBigNumberPlacesEighteen(amount)
       .times(new RoundDownBigNumberPlacesEighteen(10).pow(8))
@@ -438,7 +438,7 @@ class TransactionUtilities {
       .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.transfer, [
         TxStorage.storage.getOwnAddress(),
         toAddr,
-        CDAIAmountWithDecimals,
+        CDAIAmountWithDecimals
       ]);
   };
 
@@ -449,7 +449,7 @@ class TransactionUtilities {
     const transferEncodedABI = ABIEncoder.encodeTransfer(
       toAddr,
       PLDAIAmount,
-      decimals,
+      decimals
     );
     const PLDAIAmountWithDecimals = new RoundDownBigNumberPlacesEighteen(amount)
       .times(new RoundDownBigNumberPlacesEighteen(10).pow(18))
@@ -463,7 +463,7 @@ class TransactionUtilities {
       .addTokenOperation('pldai', TxStorage.TxTokenOpTypeToName.transfer, [
         TxStorage.storage.getOwnAddress(),
         toAddr,
-        PLDAIAmountWithDecimals,
+        PLDAIAmountWithDecimals
       ]);
   };
 
@@ -492,15 +492,15 @@ class TransactionUtilities {
               ? 'incoming'
               : 'self',
           amount: parseFloat(this.parseETHValue(`0x${tx.getValue()}`)).toFixed(
-            4,
+            4
           ),
-          token: 'eth',
+          token: 'eth'
         });
     }
 
     Object.entries(tx.getAllTokenOperations()).forEach(([toptok, toktops]) => {
       toktops.forEach((x) =>
-        ret.push(EtherUtilities.topType(x, toptok, reasonablyAddr)),
+        ret.push(EtherUtilities.topType(x, toptok, reasonablyAddr))
       );
     });
 
@@ -514,7 +514,7 @@ class TransactionUtilities {
           type: 'outgoing',
           token: 'dai',
           direction: 'outgoing',
-          amount: '0.00',
+          amount: '0.00'
         });
       else if (
         tx.getTo().toLowerCase() ===
@@ -525,13 +525,13 @@ class TransactionUtilities {
           type: 'outgoing',
           token: 'pldai',
           direction: 'outgoing',
-          amount: '0.00',
+          amount: '0.00'
         });
     } else
       ret.push({
         type: 'contract_creation',
         direction: 'creation',
-        token: 'eth',
+        token: 'eth'
       });
 
     if (ret.length === 0)
@@ -539,7 +539,7 @@ class TransactionUtilities {
         type: 'contract_interaction',
         direction: 'outgoing',
         token: 'eth',
-        amount: '0.00',
+        amount: '0.00'
       });
 
     return ret;
@@ -577,14 +577,14 @@ class TransactionUtilities {
 
   getSwapOption = (data) => ({
     eth: data[0].amount,
-    dai: data[1].tokens_bought,
+    dai: data[1].tokens_bought
   });
 
   getPTOption = (data) => {
     const open = this.poolTogetherAmount(data, 'open deposit withdraw');
     const committed = this.poolTogetherAmount(
       data,
-      'committed deposit withdraw',
+      'committed deposit withdraw'
     );
     const sponsor = this.poolTogetherAmount(data, 'sponsorship withdraw');
     return {
@@ -595,7 +595,7 @@ class TransactionUtilities {
         parseFloat(open) +
         parseFloat(committed) +
         parseFloat(sponsor)
-      ).toFixed(2),
+      ).toFixed(2)
     };
   };
 
@@ -712,7 +712,7 @@ class TransactionUtilities {
       token,
       icon,
       inOrOut,
-      option,
+      option
     };
   };
 
@@ -726,7 +726,7 @@ class TransactionUtilities {
       token,
       icon,
       inOrOut,
-      option,
+      option
     } = this.txCommonObject(tx, checksumAddr);
     const networkFee =
         (parseInt(tx.getGasPrice(), 16) * parseInt(tx.gas, 16)) /
@@ -749,7 +749,7 @@ class TransactionUtilities {
       to,
       inOrOut,
       icon,
-      option,
+      option
     };
   };
 }

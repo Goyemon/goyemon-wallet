@@ -14,7 +14,7 @@ import {
   UntouchableCardContainer,
   Button,
   Description,
-  SettingsListCard,
+  SettingsListCard
 } from '../components/common';
 import PopUpModal from './common/PopUpModal';
 import I18n from '../i18n/I18n';
@@ -28,7 +28,7 @@ class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      deleteTextValidation: false,
+      deleteTextValidation: false
     };
   }
 
@@ -40,14 +40,14 @@ class Settings extends Component {
           PortfolioStack.navigationOptions = () => {
             const tabBarVisible = true;
             return {
-              tabBarVisible,
+              tabBarVisible
             };
           };
         }}
       >
         <Icon color="#00A3E2" name="chevron-left" size={40} />
       </BackButtonContainer>
-    ),
+    )
   });
 
   componentDidMount() {
@@ -62,7 +62,7 @@ class Settings extends Component {
     PortfolioStack.navigationOptions = () => {
       const tabBarVisible = true;
       return {
-        tabBarVisible,
+        tabBarVisible
       };
     };
   }
@@ -71,13 +71,13 @@ class Settings extends Component {
     if (deleteText === 'delete') {
       LogUtilities.logInfo('the delete text validated!');
       this.setState({
-        deleteTextValidation: true,
+        deleteTextValidation: true
       });
       return true;
     }
     LogUtilities.logInfo('wrong delete text!');
     this.setState({
-      deleteTextValidation: false,
+      deleteTextValidation: false
     });
     return false;
   }
@@ -91,7 +91,7 @@ class Settings extends Component {
           onPress={() => {
             this.props.savePopUpModalVisibility(false);
             this.setState({
-              deleteTextValidation: false,
+              deleteTextValidation: false
             });
           }}
         >
@@ -127,7 +127,7 @@ class Settings extends Component {
               onPress={() => {
                 this.props.savePopUpModalVisibility(false);
                 this.setState({
-                  deleteTextValidation: false,
+                  deleteTextValidation: false
                 });
               }}
             />
@@ -158,9 +158,9 @@ class Settings extends Component {
             <Icon
               onPress={() => {
                 Linking.openURL(
-                  'https://twitter.com/GoyemonOfficial',
+                  'https://twitter.com/GoyemonOfficial'
                 ).catch((err) =>
-                  LogUtilities.logError('An error occurred', err),
+                  LogUtilities.logError('An error occurred', err)
                 );
               }}
               name="twitter"
@@ -172,7 +172,7 @@ class Settings extends Component {
             <Icon
               onPress={() => {
                 Linking.openURL('https://github.com/Goyemon').catch((err) =>
-                  LogUtilities.logError('An error occurred', err),
+                  LogUtilities.logError('An error occurred', err)
                 );
               }}
               name="github-circle"
@@ -184,7 +184,7 @@ class Settings extends Component {
             <Icon
               onPress={() => {
                 Linking.openURL('https://discord.gg/MXGfnJG').catch((err) =>
-                  LogUtilities.logError('An error occurred', err),
+                  LogUtilities.logError('An error occurred', err)
                 );
               }}
               name="discord"
@@ -207,7 +207,7 @@ class Settings extends Component {
             iconName="discord"
             onPress={() => {
               Linking.openURL('https://discord.gg/MXGfnJG').catch((err) =>
-                LogUtilities.logError('An error occurred', err),
+                LogUtilities.logError('An error occurred', err)
               );
             }}
           >
@@ -339,7 +339,7 @@ const LoveText = styled.Text`
 
 const mapDispatchToProps = {
   clearState,
-  savePopUpModalVisibility,
+  savePopUpModalVisibility
 };
 
 export default connect(null, mapDispatchToProps)(Settings);

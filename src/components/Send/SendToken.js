@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import {
   saveTxConfirmationModalVisibility,
-  updateTxConfirmationModalVisibleType,
+  updateTxConfirmationModalVisibleType
 } from '../../actions/ActionModal';
 import { saveOutgoingTransactionDataSend } from '../../actions/ActionOutgoingTransactionData';
 import TxConfirmationModal from '../../containers/common/TxConfirmationModal';
@@ -17,11 +17,11 @@ import {
   NetworkFeeValidateMessage,
   TxNextButton,
   AmountValidateMessage,
-  UseMaxButton,
+  UseMaxButton
 } from '../common';
 import {
   RoundDownBigNumberPlacesEighteen,
-  roundDownFour,
+  roundDownFour
 } from '../../utilities/BigNumberUtilities';
 import { AdvancedContainer } from '../../containers/common/AdvancedContainer';
 import ToAddressForm from '../../containers/common/ToAddressForm';
@@ -43,7 +43,7 @@ class SendToken extends Component {
       displayAmount: 0,
       loading: false,
       isEth: props.info.token === 'ETH',
-      gasLimit: this.gasLimit(props.info.token),
+      gasLimit: this.gasLimit(props.info.token)
     };
   }
 
@@ -51,8 +51,8 @@ class SendToken extends Component {
     this.updateNetworkFeeValidation(
       TransactionUtilities.hasSufficientWEIForNetworkFee(
         TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
-        this.state.gasLimit,
-      ),
+        this.state.gasLimit
+      )
     );
   }
 
@@ -61,20 +61,20 @@ class SendToken extends Component {
       this.updateNetworkFeeValidation(
         TransactionUtilities.hasSufficientWEIForNetworkFee(
           TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
-          this.state.gasLimit,
-        ),
+          this.state.gasLimit
+        )
       );
       if (this.state.isEth)
         this.updateAmountValidation(
           TransactionUtilities.hasSufficientWeiForAmount(
             this.state.amount,
-            GlobalConfig.ETHTxGasLimit,
-          ),
+            GlobalConfig.ETHTxGasLimit
+          )
         );
     }
     if (this.props.info.balance != prevProps.info.balance)
       this.setState({
-        balance: roundDownFour(this.props.info.balance).toFixed(2),
+        balance: roundDownFour(this.props.info.balance).toFixed(2)
       });
     if (this.props.info.token != prevProps.info.token) {
       this.setState({
@@ -82,7 +82,7 @@ class SendToken extends Component {
         amount: 0,
         displayAmount: 0,
         isEth: this.props.info.token === 'ETH',
-        gasLimit: this.gasLimit(this.props.info.token),
+        gasLimit: this.gasLimit(this.props.info.token)
       });
     }
   }
@@ -110,7 +110,7 @@ class SendToken extends Component {
       ETH: GlobalConfig.ETHTxGasLimit,
       DAI: GlobalConfig.DAITransferGasLimit,
       cDAI: GlobalConfig.cDAITransferGasLimit,
-      plDAI: GlobalConfig.plDAITransferGasLimit,
+      plDAI: GlobalConfig.plDAITransferGasLimit
     };
     return gasLimit[token] || null;
   };
@@ -120,7 +120,7 @@ class SendToken extends Component {
         ? new RoundDownBigNumberPlacesEighteen(this.props.balance.wei)
         : new RoundDownBigNumberPlacesEighteen(this.props.info.balance),
       maxNetworkFee = new RoundDownBigNumberPlacesEighteen(
-        TransactionUtilities.returnTransactionSpeed(this.props.gasChosen),
+        TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
       ).times(this.state.gasLimit);
 
     return this.state.isEth
@@ -135,11 +135,11 @@ class SendToken extends Component {
     const amountValidation = this.state.isEth
       ? TransactionUtilities.hasSufficientWeiForAmount(
           amount,
-          this.state.gasLimit,
+          this.state.gasLimit
         )
       : TransactionUtilities.hasSufficientTokenForAmount(
           amount,
-          this.props.info.token,
+          this.props.info.token
         );
 
     if (
@@ -156,11 +156,11 @@ class SendToken extends Component {
           ? Web3.utils.fromWei(amount.toString(16))
           : amount,
         gasLimit: this.state.gasLimit,
-        transactionObject: transactionObject,
+        transactionObject: transactionObject
       });
       this.props.saveTxConfirmationModalVisibility(true);
       this.props.updateTxConfirmationModalVisibleType(
-        `send-${this.props.info.token.toLowerCase()}`,
+        `send-${this.props.info.token.toLowerCase()}`
       );
       LogUtilities.logInfo('validation successful');
     } else LogUtilities.logInfo('form validation failed!');
@@ -174,7 +174,7 @@ class SendToken extends Component {
           this.props.outgoingTransactionData.send.toaddress,
           this.state.amount,
           this.props.gasChosen,
-          this.state.gasLimit,
+          this.state.gasLimit
         );
 
       case 'DAI':
@@ -182,7 +182,7 @@ class SendToken extends Component {
           this.props.outgoingTransactionData.send.toaddress,
           this.state.amount,
           this.props.gasChosen,
-          this.state.gasLimit,
+          this.state.gasLimit
         );
 
       case 'cDAI':
@@ -190,7 +190,7 @@ class SendToken extends Component {
           this.props.outgoingTransactionData.send.toaddress,
           this.state.amount,
           this.props.gasChosen,
-          this.state.gasLimit,
+          this.state.gasLimit
         );
 
       case 'plDAI':
@@ -198,7 +198,7 @@ class SendToken extends Component {
           this.props.outgoingTransactionData.send.toaddress,
           this.state.amount,
           this.props.gasChosen,
-          this.state.gasLimit,
+          this.state.gasLimit
         );
 
       default:
@@ -214,7 +214,7 @@ class SendToken extends Component {
       amount,
       displayAmount,
       isEth,
-      gasLimit,
+      gasLimit
     } = this.state;
     const { token } = this.props.info;
     const fullAmount = this.getFullAmount();
@@ -236,25 +236,25 @@ class SendToken extends Component {
                 amount: fullAmount,
                 displayAmount: isEth
                   ? Web3.utils.fromWei(fullAmount)
-                  : fullAmount,
+                  : fullAmount
               });
               this.updateAmountValidation(
                 isEth
                   ? TransactionUtilities.hasSufficientWeiForAmount(
                       fullAmount,
-                      GlobalConfig.ETHTxGasLimit,
+                      GlobalConfig.ETHTxGasLimit
                     )
                   : TransactionUtilities.hasSufficientTokenForAmount(
                       fullAmount,
-                      token,
-                    ),
+                      token
+                    )
               );
             }}
           />
         </FormHeaderContainer>
         <Form
           borderColor={StyleUtilities.getBorderColor(
-            amountValidation && this.isNumber(displayAmount),
+            amountValidation && this.isNumber(displayAmount)
           )}
           borderWidth={1}
           height="56px"
@@ -271,15 +271,15 @@ class SendToken extends Component {
                     isEth
                       ? TransactionUtilities.hasSufficientWeiForAmount(
                           Web3.utils.toWei(amount),
-                          GlobalConfig.ETHTxGasLimit,
+                          GlobalConfig.ETHTxGasLimit
                         )
                       : TransactionUtilities.hasSufficientTokenForAmount(
                           amount,
-                          token,
-                        ),
+                          token
+                        )
                   );
                   this.setState({
-                    amount: isEth ? Web3.utils.toWei(amount) : amount,
+                    amount: isEth ? Web3.utils.toWei(amount) : amount
                   });
                 } else {
                   this.updateAmountValidation(false);
@@ -306,7 +306,7 @@ class SendToken extends Component {
             onPress={async () =>
               await this.validateForm(
                 this.props.outgoingTransactionData.send.toaddress,
-                amount,
+                amount
               )
             }
           />
@@ -404,14 +404,14 @@ mapStateToProps = (state) => {
     outgoingTransactionData:
       state.ReducerOutgoingTransactionData.outgoingTransactionData,
     balance: state.ReducerBalance.balance,
-    toAddressValidation: state.ReducerTxFormValidation.toAddressValidation,
+    toAddressValidation: state.ReducerTxFormValidation.toAddressValidation
   };
 };
 
 const mapDispatchToProps = {
   saveTxConfirmationModalVisibility,
   updateTxConfirmationModalVisibleType,
-  saveOutgoingTransactionDataSend,
+  saveOutgoingTransactionDataSend
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SendToken);

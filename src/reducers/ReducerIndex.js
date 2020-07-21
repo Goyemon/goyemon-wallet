@@ -45,7 +45,7 @@ const appReducers = combineReducers({
   ReducerTransactionsLoaded,
   ReducerTransactionHistory,
   ReducerTxFormValidation,
-  ReducerUniswap,
+  ReducerUniswap
 });
 
 const rootReducers = (state, action) => {

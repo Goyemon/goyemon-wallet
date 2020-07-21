@@ -2,7 +2,7 @@
 import { SAVE_MNEMONIC } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
-  mnemonicWords: null,
+  mnemonicWords: null
 };
 
 const mnemonicWords = (state = INITIAL_STATE, action) => {
