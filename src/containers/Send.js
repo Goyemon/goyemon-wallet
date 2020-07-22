@@ -32,7 +32,7 @@ class Send extends Component {
       poolTogetherDAIBalance = this.returnBalance(
         pooltogetherDai.committed,
         10,
-        8,
+        18,
         2
       );
 
