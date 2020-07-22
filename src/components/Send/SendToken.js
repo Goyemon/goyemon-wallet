@@ -89,7 +89,9 @@ class SendToken extends Component {
 
   isNumber = (amount) =>
     String(amount).slice(0, 1) === '0'
-      ? String(amount).slice(1, 2) === '.' && /^[0-9]\d*(\.\d+)?$/.test(amount)
+      ? String(amount).slice(1, 2) === '.' &&
+        /^[0-9]\d*(\.\d+)?$/.test(amount) &&
+        String(amount).length < 21
       : /^[0-9]\d*(\.\d+)?$/.test(amount);
 
   isDisabled = () =>
