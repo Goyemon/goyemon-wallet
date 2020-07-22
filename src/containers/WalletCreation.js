@@ -10,7 +10,7 @@ import { StackActions, NavigationActions } from 'react-navigation';
 import styled from 'styled-components/native';
 import { createChecksumAddress } from '../actions/ActionChecksumAddress';
 import { getGasPrice } from '../actions/ActionGasPrice';
-import { getEthPrice, getDaiPrice } from '../actions/ActionPrice';
+import { getETHPrice, getDAIPrice } from '../actions/ActionPrice';
 import { Container } from '../components/common';
 import I18n from '../i18n/I18n';
 import { FCMMsgs } from '../lib/fcm.js';
@@ -89,8 +89,8 @@ class WalletCreation extends Component {
       await this.isWalletReady();
     }, 8000);
 
-    await this.props.getEthPrice();
-    await this.props.getDaiPrice();
+    await this.props.getETHPrice();
+    await this.props.getDAIPrice();
     this.props.getGasPrice();
     FCMMsgs.requestCompoundDaiInfo(this.props.checksumAddress);
     FCMMsgs.requestPoolTogetherDaiInfo(this.props.checksumAddress);
@@ -294,8 +294,8 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   createChecksumAddress,
-  getEthPrice,
-  getDaiPrice,
+  getETHPrice,
+  getDAIPrice,
   getGasPrice
 };
 
