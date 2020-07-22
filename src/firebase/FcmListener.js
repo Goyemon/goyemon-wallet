@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js';
 import {
   saveCDaiBalance,
   saveDaiBalance,
+  savePLDAIBalance,
   saveCompoundDaiBalance,
   savePoolTogetherDaiBalance,
   saveWeiBalance,
@@ -88,6 +89,12 @@ async function downstreamMessageHandler(type, data) {
         );
         store.dispatch(
           saveCDaiBalance(new BigNumber(`0x${data.cdai}`).toString(10))
+        );
+      }
+
+      if (data.hasOwnProperty('pldai')) {
+        store.dispatch(
+          savePLDAIBalance(new BigNumber(`0x${data.pldai}`).toString(10))
         );
       }
 
