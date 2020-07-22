@@ -71,7 +71,7 @@ export default class Welcome extends Component {
           <Logo>Goyemon</Logo>
           <OneLinerContainer>
             <OneLiner>
-              new generation financial services at your fingertips
+              earn passive income with capital-safe crypto investing
             </OneLiner>
           </OneLinerContainer>
           <IconContainer>
@@ -184,6 +184,7 @@ const Logo = Animatable.createAnimatableComponent(styled.Text`
 
 const OneLinerContainer = styled.View`
   margin-bottom: 32;
+  width: 90%;
 `;
 
 const OneLiner = styled.Text`
