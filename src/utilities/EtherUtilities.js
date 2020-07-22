@@ -79,7 +79,8 @@ class EtherUtilities {
         amount: TransactionUtilities.parseHexDAIValue(`0x${top.amount}`),
         direction:
           top.from_addr === our_reasonably_stored_address
-            ? top.to_addr === our_reasonably_stored_address
+            ? top.to_addr.toLowerCase() ===
+              our_reasonably_stored_address.toLowerCase()
               ? 'self'
               : 'outgoing'
             : top.to_addr === our_reasonably_stored_address
