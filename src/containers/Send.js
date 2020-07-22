@@ -23,18 +23,13 @@ class Send extends Component {
       .toFixed(fix);
 
   renderCurrency() {
-    const { wei, dai, cDai, pooltogetherDai } = this.props.balance,
+    const { wei, dai, cDai, plDai } = this.props.balance,
       ETHBalance = RoundDownBigNumberPlacesFour(
         Web3.utils.fromWei(wei)
       ).toFixed(4),
       DAIBalance = this.returnBalance(dai, 10, 18, 2),
       CDAIBalance = this.returnBalance(cDai, 10, 8, 2),
-      poolTogetherDAIBalance = this.returnBalance(
-        pooltogetherDai.committed,
-        10,
-        18,
-        2
-      );
+      PLDAIBalance = this.returnBalance(plDai, 10, 18, 2);
 
     const propsValue = {
       eth: {
@@ -59,7 +54,7 @@ class Send extends Component {
         icon: require('../../assets/pldai_icon.png'),
         token: 'plDAI',
         title: I18n.t('pldai-wallet-balance'),
-        balance: poolTogetherDAIBalance
+        balance: PLDAIBalance
       }
     };
 

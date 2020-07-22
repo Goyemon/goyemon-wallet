@@ -504,6 +504,17 @@ class TransactionUtilities {
       );
     });
 
+    if (tx.getTo() === tx.getFrom()) {
+      ret.push({
+        type: 'transfer',
+          token: 'eth',
+          direction: 'self',
+          amount: parseFloat(this.parseETHValue(`0x${tx.getValue()}`)).toFixed(
+            4
+          )
+      })
+    }
+
     if (tx.getTo() !== '0x' && !!tx.getTo()) {
       if (
         tx.getTo().toLowerCase() ===

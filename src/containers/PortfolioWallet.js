@@ -30,11 +30,7 @@ class PortfolioWallet extends Component {
       ).toFixed(4),
       DAIBalance = this.returnBalance(balance.dai, 10, 18, 2),
       CDAIBalance = this.returnBalance(balance.cDai, 10, 8, 2),
-      PLDAIBalance = RoundDownBigNumberPlacesFour(
-        balance.pooltogetherDai.committed
-      )
-        .div(new RoundDownBigNumberPlacesFour(10).pow(18))
-        .toFixed(2);
+      PLDAIBalance = this.returnBalance(balance.plDai, 10, 18, 2);
 
     const tokenBalanceCards = [
       {
