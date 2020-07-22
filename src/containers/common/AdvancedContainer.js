@@ -20,7 +20,7 @@ import I18n from '../../i18n/I18n';
 import LogUtilities from '../../utilities/LogUtilities.js';
 import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
 
-class __TxSpeedSelectionContainer extends Component {
+class __MaxNetworkFeeSelectionContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -132,7 +132,7 @@ class AdvancedContainer extends Component {
     if (this.state.showAdvanced)
       return (
         <>
-          <TxSpeedSelectionContainer
+          <MaxNetworkFeeSelectionContainer
             gasLimit={this.props.gasLimit}
             swap={this.props.swap}
           />
@@ -241,12 +241,12 @@ const mapDispatchToProps = {
   updateGasPriceChosen
 };
 
-const TxSpeedSelectionContainer = connect(
+const MaxNetworkFeeSelectionContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(__TxSpeedSelectionContainer);
+)(__MaxNetworkFeeSelectionContainer);
 
 module.exports = {
-  TxSpeedSelectionContainer,
+  MaxNetworkFeeSelectionContainer,
   AdvancedContainer
 };
