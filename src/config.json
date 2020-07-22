@@ -18,7 +18,7 @@
 //   "cTokenMintGasLimit": 404679,
 //   "cTokenRedeemUnderlyingGasLimit": 727455,
 //   "UniswapV2SwapExactETHForTokensGasLimit": 688658,
-//   "PoolTogetherDepositPoolGasLimit": 681139,
+//   "PoolTogetherDepositPoolGasLimit": 743061,
 //   "PoolTogetherWithdrawGasLimit": 955509
 // }
 
@@ -42,6 +42,6 @@
   "cTokenMintGasLimit": 404679,
   "cTokenRedeemUnderlyingGasLimit": 727455,
   "UniswapV2SwapExactETHForTokensGasLimit": 688658,
-  "PoolTogetherDepositPoolGasLimit": 681139,
+  "PoolTogetherDepositPoolGasLimit": 743061,
   "PoolTogetherWithdrawGasLimit": 955509
 }
