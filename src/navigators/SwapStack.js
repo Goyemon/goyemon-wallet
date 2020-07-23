@@ -1,6 +1,6 @@
 'use strict';
 import { createStackNavigator } from 'react-navigation-stack';
-import Swap from '../containers/Swap';
+import Swap from '../components/Swap/Swap';
 
 const SwapStack = createStackNavigator(
   {

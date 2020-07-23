@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react';
 import styled from 'styled-components/native';
-import OfflineNotice from '../../containers/common/OfflineNotice';
+import OfflineNotice from '../OfflineNotice';
 
 const Container = (props) => (
   <ContainerInner
