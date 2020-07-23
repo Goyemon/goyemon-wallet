@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { TouchableOpacity, ScrollView } from 'react-native';
 import styled from 'styled-components';
 import { RootContainer, Container, HeaderOne } from '../components/common';
-import SendToken from '../components/send/SendToken';
+import SendToken from '../components/Send/SendToken';
 import I18n from '../i18n/I18n';
 import Web3 from 'web3';
 import { RoundDownBigNumberPlacesFour } from '../utilities/BigNumberUtilities';
