@@ -161,6 +161,7 @@ class DepositDaiToCompound extends Component {
   render() {
     const { balance, compound } = this.props;
     const isOnline = this.props.isOnline;
+    const daiAmount = this.state;
 
     const currentInterestRate = new BigNumber(compound.dai.currentInterestRate)
       .div(new BigNumber(10).pow(24))
@@ -217,21 +218,26 @@ class DepositDaiToCompound extends Component {
               placeholder="0"
               keyboardType="numeric"
               clearButtonMode="while-editing"
-              onChangeText={(daiAmount) => {
+              onChangeText={(amount) => {
                 this.updateDAIAmountValidation(
-                  TransactionUtilities.hasSufficientDAIForAmount(daiAmount)
+                  TransactionUtilities.hasSufficientDAIForAmount(amount) &&
+                    TransactionUtilities.isLessThan18Digits(amount)
                 );
-                this.setState({ daiAmount });
+                if (TransactionUtilities.isLessThan18Digits(amount))
+                  this.setState({ daiAmount: amount });
               }}
               returnKeyType="done"
-              value={this.state.daiAmount}
+              value={daiAmount}
             />
             <CurrencySymbolText>DAI</CurrencySymbolText>
           </SendTextInputContainer>
         </Form>
         <AdvancedContainer gasLimit={GlobalConfig.cTokenMintGasLimit} />
         <InsufficientWeiBalanceMessage
-          weiAmountValidation={this.state.WEIAmountValidation}
+          weiAmountValidation={
+            this.state.WEIAmountValidation &&
+            TransactionUtilities.isLessThan18Digits(daiAmount)
+          }
         />
         <ButtonWrapper>
           <TxNextButton
