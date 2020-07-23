@@ -92,9 +92,6 @@ class SendToken extends Component {
       ? String(amount).slice(1, 2) === '.' && /^[0-9]\d*(\.\d+)?$/.test(amount)
       : /^[0-9]\d*(\.\d+)?$/.test(amount);
 
-  isLessThan18Digits = (amount) =>
-    String(amount).slice(0, 2) === '0.' ? amount.length < 21 : true;
-
   isDisabled = () =>
     !this.state.amountValidation ||
     !this.state.networkFeeValidation ||
@@ -259,7 +256,7 @@ class SendToken extends Component {
           borderColor={StyleUtilities.getBorderColor(
             amountValidation &&
               this.isNumber(displayAmount) &&
-              this.isLessThan18Digits(displayAmount)
+              TransactionUtilities.isLessThan18Digits(displayAmount)
           )}
           borderWidth={1}
           height="56px"
@@ -271,7 +268,10 @@ class SendToken extends Component {
               clearButtonMode="while-editing"
               onChangeText={(amount) => {
                 this.setState({ displayAmount: amount });
-                if (this.isNumber(amount) && this.isLessThan18Digits(amount)) {
+                if (
+                  this.isNumber(amount) &&
+                  TransactionUtilities.isLessThan18Digits(amount)
+                ) {
                   this.updateAmountValidation(
                     isEth
                       ? TransactionUtilities.hasSufficientWeiForAmount(

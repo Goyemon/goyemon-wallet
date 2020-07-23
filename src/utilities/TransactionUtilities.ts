@@ -507,12 +507,10 @@ class TransactionUtilities {
     if (tx.getTo() === tx.getFrom()) {
       ret.push({
         type: 'transfer',
-          token: 'eth',
-          direction: 'self',
-          amount: parseFloat(this.parseETHValue(`0x${tx.getValue()}`)).toFixed(
-            4
-          )
-      })
+        token: 'eth',
+        direction: 'self',
+        amount: parseFloat(this.parseETHValue(`0x${tx.getValue()}`)).toFixed(4)
+      });
     }
 
     if (tx.getTo() !== '0x' && !!tx.getTo()) {
@@ -763,6 +761,9 @@ class TransactionUtilities {
       option
     };
   };
+
+  isLessThan18Digits = (amount) =>
+    String(amount).slice(0, 2) === '0.' ? amount.length < 21 : true;
 }
 
 export default new TransactionUtilities();
