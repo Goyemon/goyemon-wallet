@@ -165,6 +165,7 @@ class WithdrawDaiFromCompound extends Component {
 
   render() {
     const isOnline = this.props.isOnline;
+    const { DAIWithdrawAmount } = this.state;
 
     return (
       <RootContainer>
@@ -201,13 +202,14 @@ class WithdrawDaiFromCompound extends Component {
               placeholder="0"
               keyboardType="numeric"
               clearButtonMode="while-editing"
-              onChangeText={(DAIWithdrawAmount) => {
+              onChangeText={(amount) => {
                 this.updateDaiSavingsAmountValidation(
                   TransactionUtilities.validateDAICompoundWithdrawAmount(
-                    DAIWithdrawAmount
-                  )
+                    amount
+                  ) && TransactionUtilities.isLessThan18Digits(amount)
                 );
-                this.setState({ DAIWithdrawAmount });
+                if (TransactionUtilities.isLessThan18Digits(amount))
+                  this.setState({ DAIWithdrawAmount: amount });
               }}
               returnKeyType="done"
             />
@@ -218,7 +220,10 @@ class WithdrawDaiFromCompound extends Component {
           gasLimit={GlobalConfig.cTokenRedeemUnderlyingGasLimit}
         />
         <InsufficientWeiBalanceMessage
-          weiAmountValidation={this.state.WEIAmountValidation}
+          weiAmountValidation={
+            this.state.WEIAmountValidation &&
+            TransactionUtilities.isLessThan18Digits(DAIWithdrawAmount)
+          }
         />
         <ButtonWrapper>
           <TxNextButton
