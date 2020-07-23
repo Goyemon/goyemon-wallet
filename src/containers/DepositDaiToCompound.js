@@ -17,7 +17,7 @@ import {
   FormHeader,
   Loader,
   IsOnlineMessage,
-  InsufficientWeiBalanceMessage,
+  WeiBalanceValidateMessage,
   TxNextButton
 } from '../components/common';
 import { AdvancedContainer } from './common/AdvancedContainer';
@@ -230,7 +230,7 @@ class DepositDaiToCompound extends Component {
           </SendTextInputContainer>
         </Form>
         <AdvancedContainer gasLimit={GlobalConfig.cTokenMintGasLimit} />
-        <InsufficientWeiBalanceMessage
+        <WeiBalanceValidateMessage
           weiAmountValidation={this.state.WEIAmountValidation}
         />
         <ButtonWrapper>

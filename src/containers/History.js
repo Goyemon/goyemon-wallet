@@ -14,7 +14,7 @@ import {
   HeaderTwo,
   Button,
   GoyemonText,
-  InsufficientWeiBalanceMessage,
+  WeiBalanceValidateMessage,
   IsOnlineMessage,
   ModalHandler,
   HorizontalLine,
@@ -199,7 +199,7 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
               marginBottom: 16
             }}
           />
-          <InsufficientWeiBalanceMessage
+          <WeiBalanceValidateMessage
             weiAmountValidation={this.state.WEIAmountValidation}
           />
           <NetworkFeeContainer>

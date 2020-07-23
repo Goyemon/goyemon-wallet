@@ -17,7 +17,7 @@ import {
   FormHeader,
   Loader,
   IsOnlineMessage,
-  InsufficientWeiBalanceMessage,
+  WeiBalanceValidateMessage,
   TxNextButton
 } from '../components/common';
 import TxConfirmationModal from '../containers/common/TxConfirmationModal';
@@ -240,7 +240,7 @@ class DepositFirstDaiToCompound extends Component {
             GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit
           }
         />
-        <InsufficientWeiBalanceMessage
+        <WeiBalanceValidateMessage
           weiAmountValidation={this.state.WEIAmountValidation}
         />
         <ButtonWrapper>

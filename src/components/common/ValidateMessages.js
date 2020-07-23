@@ -25,7 +25,7 @@ const NetworkFeeValidateMessage = (props) => {
     );
 };
 
-const InsufficientWeiBalanceMessage = (props) => {
+const WeiBalanceValidateMessage = (props) => {
   if (props.weiAmountValidation || props.weiAmountValidation === undefined) {
     return <View />;
   } else if (!props.weiAmountValidation) {
@@ -36,5 +36,5 @@ const InsufficientWeiBalanceMessage = (props) => {
 export {
   AmountValidateMessage,
   NetworkFeeValidateMessage,
-  InsufficientWeiBalanceMessage
+  WeiBalanceValidateMessage
 };

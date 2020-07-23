@@ -15,7 +15,7 @@ import {
   FormHeader,
   Loader,
   IsOnlineMessage,
-  InsufficientWeiBalanceMessage,
+  WeiBalanceValidateMessage,
   TxNextButton
 } from '../components/common';
 import { AdvancedContainer } from './common/AdvancedContainer';
@@ -217,7 +217,7 @@ class WithdrawDaiFromCompound extends Component {
         <AdvancedContainer
           gasLimit={GlobalConfig.cTokenRedeemUnderlyingGasLimit}
         />
-        <InsufficientWeiBalanceMessage
+        <WeiBalanceValidateMessage
           weiAmountValidation={this.state.WEIAmountValidation}
         />
         <ButtonWrapper>

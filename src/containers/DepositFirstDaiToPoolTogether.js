@@ -16,7 +16,7 @@ import {
   FormHeader,
   Loader,
   IsOnlineMessage,
-  InsufficientWeiBalanceMessage,
+  WeiBalanceValidateMessage,
   TxNextButton
 } from '../components/common';
 import Countdown from '../components/Countdown';
@@ -248,7 +248,7 @@ class DepositFirstDaiToPoolTogether extends Component {
             GlobalConfig.PoolTogetherDepositPoolGasLimit
           }
         />
-        <InsufficientWeiBalanceMessage
+        <WeiBalanceValidateMessage
           weiAmountValidation={this.state.WEIAmountValidation}
         />
         <ButtonWrapper>
