@@ -6,7 +6,6 @@ export * from './ErrorMessage';
 export * from './Forms';
 export * from './Headers';
 export * from './Icons';
-export * from './InsufficientWeiBalanceMessage';
 export * from './IsOnlineMessage';
 export * from './Lines';
 export * from './Loader';

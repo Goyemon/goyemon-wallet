@@ -1,24 +1,24 @@
 'use strict';
 import { createStackNavigator } from 'react-navigation-stack';
-import Initial from '../containers/Initial';
-import Welcome from '../components/Welcome';
-import NotificationPermissionTutorial from '../containers/NotificationPermissionTutorial';
-import NotificationPermissionNotGranted from '../components/NotificationPermissionNotGranted';
-import WalletCreation from '../containers/WalletCreation';
-import ImportMnemonicWords from '../containers/ImportMnemonicWords';
-import CreateWalletTutorial from '../containers/CreateWalletTutorial';
-import ShowMnemonic from '../components/ShowMnemonic';
-import VerifyMnemonic from '../containers/VerifyMnemonic';
-import PortfolioHome from '../containers/PortfolioHome';
-import Receive from '../containers/Receive';
-import PortfolioWallet from '../containers/PortfolioWallet';
-import PortfolioCompound from '../containers/PortfolioCompound';
-import PortfolioPoolTogether from '../containers/PortfolioPoolTogether';
-import PortfolioPoolTogetherOpen from '../containers/PortfolioPoolTogetherOpen';
-import PortfolioPoolTogetherCommitted from '../containers/PortfolioPoolTogetherCommitted';
-import Settings from '../containers/Settings';
-import BackupWords from '../containers/BackupWords';
-import Advanced from '../containers/Advanced';
+import Initial from '../components/Initial';
+import Welcome from '../components/Portfolio/Welcome/Welcome';
+import NotificationPermissionTutorial from '../components/Portfolio/NotificationPermission/NotificationPermissionTutorial';
+import NotificationPermissionNotGranted from '../components/Portfolio/NotificationPermission/NotificationPermissionNotGranted';
+import WalletCreation from '../components/Portfolio/WalletCreation/WalletCreation';
+import ImportMnemonicWords from '../components/Portfolio/ImportMnemonicWords/ImportMnemonicWords';
+import CreateWalletTutorial from '../components/Portfolio/CreateWalletTutorial/CreateWalletTutorial';
+import ShowMnemonic from '../components/Portfolio/ShowMnemonic/ShowMnemonic';
+import VerifyMnemonic from '../components/Portfolio/VerifyMnemonic/VerifyMnemonic';
+import PortfolioHome from '../components/Portfolio/PortfolioHome/PortfolioHome';
+import Receive from '../components/Portfolio/Receive/Receive';
+import PortfolioWallet from '../components/Portfolio/PortfolioWallet/PortfolioWallet';
+import PortfolioCompound from '../components/Portfolio/PortfolioCompound/PortfolioCompound';
+import PortfolioPoolTogether from '../components/Portfolio/PortfolioPoolTogether/PortfolioPoolTogether';
+import PortfolioPoolTogetherOpen from '../components/Portfolio/PortfolioPoolTogether/PortfolioPoolTogetherOpen';
+import PortfolioPoolTogetherCommitted from '../components/Portfolio/PortfolioPoolTogether/PortfolioPoolTogetherCommitted';
+import Settings from '../components/Portfolio/Settings/Settings';
+import BackupWords from '../components/Portfolio/Settings/BackupWords';
+import Advanced from '../components/Portfolio/Settings/Advanced';
 
 const PortfolioStack = createStackNavigator(
   {

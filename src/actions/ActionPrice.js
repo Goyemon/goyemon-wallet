@@ -6,62 +6,62 @@ import {
 } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
-export function getDaiPrice() {
+export function getDAIPrice() {
   return async function (dispatch) {
     try {
       let res = await fetch(
         'https://min-api.cryptocompare.com/data/price?fsym=DAI&tsyms=USD'
       );
       res = await res.json();
-      const daiPrice = parseFloat(res.USD).toFixed(2);
-      dispatch(getDaiPriceSuccess(daiPrice));
+      const DAIPrice = parseFloat(res.USD).toFixed(2);
+      dispatch(getDAIPriceSuccess(DAIPrice));
     } catch (err) {
       LogUtilities.logError(err);
     }
   };
 }
 
-const getDaiPriceSuccess = (daiPrice) => ({
+const getDAIPriceSuccess = (DAIPrice) => ({
   type: GET_DAI_PRICE,
-  payload: daiPrice
+  payload: DAIPrice
 });
 
-export function getEthPrice() {
+export function getETHPrice() {
   return async function (dispatch) {
     try {
       let res = await fetch(
         'https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD'
       );
       res = await res.json();
-      const ethPrice = parseFloat(res.USD).toFixed(2);
-      dispatch(getEthPriceSuccess(ethPrice));
+      const ETHPrice = parseFloat(res.USD).toFixed(2);
+      dispatch(getETHPriceSuccess(ETHPrice));
     } catch (err) {
       LogUtilities.logError(err);
     }
   };
 }
 
-const getEthPriceSuccess = (ethPrice) => ({
+const getETHPriceSuccess = (ETHPrice) => ({
   type: GET_ETH_PRICE,
-  payload: ethPrice
+  payload: ETHPrice
 });
 
-export function getcDaiPrice() {
+export function getCDAIPrice() {
   return async function (dispatch) {
     try {
       let res = await fetch('https://api.compound.finance/api/v2/ctoken');
       res = await res.json();
-      const cDaiPrice = parseFloat(res.cToken[0].exchange_rate.value).toFixed(
+      const CDAIPrice = parseFloat(res.cToken[0].exchange_rate.value).toFixed(
         2
       );
-      dispatch(getcDaiPriceSuccess(cDaiPrice));
+      dispatch(getCDAIPriceSuccess(CDAIPrice));
     } catch (err) {
       LogUtilities.logError(err);
     }
   };
 }
 
-const getcDaiPriceSuccess = (cDaiPrice) => ({
+const getCDAIPriceSuccess = (CDAIPrice) => ({
   type: GET_CDAI_PRICE,
-  payload: cDaiPrice
+  payload: CDAIPrice
 });

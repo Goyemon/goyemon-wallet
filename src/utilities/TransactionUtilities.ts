@@ -128,9 +128,8 @@ class TransactionUtilities {
 
   hasSufficientWeiForAmount(WEIAmount, gasLimit) {
     LogUtilities.logInfo('hasSufficientWeiForAmount -> ', WEIAmount, gasLimit);
-    const isNumber = /^[0-9]\d*(\.\d+)?$/.test(WEIAmount);
 
-    if (isNumber) {
+    if (this.isNumber(WEIAmount)) {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
       const gasChosen = stateTree.ReducerGasPrice.gasChosen;
@@ -154,8 +153,7 @@ class TransactionUtilities {
   }
 
   hasSufficientDAIForAmount(DAIAmount) {
-    const isNumber = /^[0-9]\d*(\.\d+)?$/.test(DAIAmount);
-    if (isNumber) {
+    if (this.isNumber(DAIAmount) && this.isLessThan18Digits(DAIAmount)) {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
       const DAIBalance = new RoundDownBigNumberPlacesEighteen(balance.dai);
@@ -178,8 +176,7 @@ class TransactionUtilities {
   }
 
   hasSufficientTokenForAmount = (amount, token) => {
-    const isNumber = /^[0-9]\d*(\.\d+)?$/.test(amount);
-    if (isNumber) {
+    if (this.isNumber(amount)) {
       const stateTree = store.getState();
       const balanceState = stateTree.ReducerBalance.balance;
       const balanceObject = {
@@ -205,9 +202,8 @@ class TransactionUtilities {
     return false;
   };
 
-  validateDAIPoolTogetherDepositAmount(DAIAmount) {
-    const isInteger = /^[1-9]\d*$/.test(DAIAmount);
-    if (isInteger) {
+  hasSufficientDAIForPoolTogetherDepositAmount(DAIAmount) {
+    if (this.isInteger(DAIAmount) && this.isLessThan18Digits(DAIAmount)) {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
       const DAIBalance = new RoundDownBigNumberPlacesEighteen(balance.dai);
@@ -230,8 +226,10 @@ class TransactionUtilities {
   }
 
   validateDAICompoundWithdrawAmount(DAIWithdrawAmount) {
-    const isNumber = /^[0-9]\d*(\.\d+)?$/.test(DAIWithdrawAmount);
-    if (isNumber) {
+    if (
+      this.isNumber(DAIWithdrawAmount) &&
+      this.isLessThan18Digits(DAIWithdrawAmount)
+    ) {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
       const compoundDAIBalance = new RoundDownBigNumberPlacesEighteen(
@@ -257,8 +255,10 @@ class TransactionUtilities {
   }
 
   validateDAIPoolTogetherWithdrawAmount(DAIWithdrawAmount) {
-    const isInteger = /^[1-9]\d*$/.test(DAIWithdrawAmount);
-    if (isInteger) {
+    if (
+      this.isInteger(DAIWithdrawAmount) &&
+      this.isLessThan18Digits(DAIWithdrawAmount)
+    ) {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
       const pooltogetherDAIBalance = RoundDownBigNumberPlacesFour(
@@ -507,12 +507,10 @@ class TransactionUtilities {
     if (tx.getTo() === tx.getFrom()) {
       ret.push({
         type: 'transfer',
-          token: 'eth',
-          direction: 'self',
-          amount: parseFloat(this.parseETHValue(`0x${tx.getValue()}`)).toFixed(
-            4
-          )
-      })
+        token: 'eth',
+        direction: 'self',
+        amount: parseFloat(this.parseETHValue(`0x${tx.getValue()}`)).toFixed(4)
+      });
     }
 
     if (tx.getTo() !== '0x' && !!tx.getTo()) {
@@ -763,6 +761,15 @@ class TransactionUtilities {
       option
     };
   };
+
+  isNumber = (value) => /^[0-9]\d*(\.\d+)?$/.test(value);
+
+  isInteger = (number) => /^[1-9]\d*$/.test(number);
+
+  isLessThan18Digits = (amount) =>
+    String(amount).slice(0, 2) === '0.'
+      ? amount.length < 21
+      : amount.length < 19;
 }
 
 export default new TransactionUtilities();

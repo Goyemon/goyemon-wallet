@@ -1,12 +1,12 @@
 'use strict';
 import { createStackNavigator } from 'react-navigation-stack';
-import EarnHome from '../containers/EarnHome';
-import DepositDaiToCompound from '../containers/DepositDaiToCompound';
-import DepositFirstDaiToCompound from '../containers/DepositFirstDaiToCompound';
-import WithdrawDaiFromCompound from '../containers/WithdrawDaiFromCompound';
-import DepositDaiToPoolTogether from '../containers/DepositDaiToPoolTogether';
-import DepositFirstDaiToPoolTogether from '../containers/DepositFirstDaiToPoolTogether';
-import WithdrawDaiFromPoolTogether from '../containers/WithdrawDaiFromPoolTogether';
+import EarnHome from '../components/Earn/EarnHome';
+import DepositDaiToCompound from '../components/Earn/DepositDaiToCompound';
+import DepositFirstDaiToCompound from '../components/Earn/DepositFirstDaiToCompound';
+import WithdrawDaiFromCompound from '../components/Earn/WithdrawDaiFromCompound';
+import DepositDaiToPoolTogether from '../components/Earn/DepositDaiToPoolTogether';
+import DepositFirstDaiToPoolTogether from '../components/Earn/DepositFirstDaiToPoolTogether';
+import WithdrawDaiFromPoolTogether from '../components/Earn/WithdrawDaiFromPoolTogether';
 
 const EarnStack = createStackNavigator(
   {

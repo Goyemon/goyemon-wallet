@@ -7,7 +7,7 @@ import {
   updateTxConfirmationModalVisibleType
 } from '../../actions/ActionModal';
 import { saveOutgoingTransactionDataSend } from '../../actions/ActionOutgoingTransactionData';
-import TxConfirmationModal from '../../containers/common/TxConfirmationModal';
+import TxConfirmationModal from '../TxConfirmationModal';
 import {
   UntouchableCardContainer,
   Form,
@@ -23,8 +23,8 @@ import {
   RoundDownBigNumberPlacesEighteen,
   roundDownFour
 } from '../../utilities/BigNumberUtilities';
-import { AdvancedContainer } from '../../containers/common/AdvancedContainer';
-import ToAddressForm from '../../containers/common/ToAddressForm';
+import { AdvancedContainer } from '../AdvancedContainer';
+import ToAddressForm from './ToAddressForm';
 import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
 import GlobalConfig from '../../config.json';
 import LogUtilities from '../../utilities/LogUtilities.js';
@@ -253,9 +253,7 @@ class SendToken extends Component {
           />
         </FormHeaderContainer>
         <Form
-          borderColor={StyleUtilities.getBorderColor(
-            amountValidation && this.isNumber(displayAmount)
-          )}
+          borderColor={StyleUtilities.getBorderColor(amountValidation)}
           borderWidth={1}
           height="56px"
         >
@@ -266,7 +264,10 @@ class SendToken extends Component {
               clearButtonMode="while-editing"
               onChangeText={(amount) => {
                 this.setState({ displayAmount: amount });
-                if (this.isNumber(amount)) {
+                if (
+                  this.isNumber(amount) &&
+                  TransactionUtilities.isLessThan18Digits(amount)
+                ) {
                   this.updateAmountValidation(
                     isEth
                       ? TransactionUtilities.hasSufficientWeiForAmount(

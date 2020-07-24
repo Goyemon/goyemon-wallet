@@ -25,4 +25,16 @@ const NetworkFeeValidateMessage = (props) => {
     );
 };
 
-export { AmountValidateMessage, NetworkFeeValidateMessage };
+const WeiBalanceValidateMessage = (props) => {
+  if (props.weiAmountValidation || props.weiAmountValidation === undefined) {
+    return <View />;
+  } else if (!props.weiAmountValidation) {
+    return <ErrorMessage textAlign="center">not enough ether!</ErrorMessage>;
+  }
+};
+
+export {
+  AmountValidateMessage,
+  NetworkFeeValidateMessage,
+  WeiBalanceValidateMessage
+};
