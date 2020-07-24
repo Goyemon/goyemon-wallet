@@ -123,10 +123,10 @@ class SendToken extends Component {
         TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
       ).times(this.state.gasLimit);
 
-    return this.state.isEth
-      ? tokenBalance.isLessThanOrEqualTo(maxNetworkFee)
-        ? tokenBalance.minus(maxNetworkFee).toString()
-        : tokenBalance.minus(maxNetworkFee).toString()
+    return this.state.isEth && tokenBalance.isLessThanOrEqualTo(maxNetworkFee)
+      ? '0'
+      : this.state.isEth
+      ? tokenBalance.minus(maxNetworkFee).toString()
       : tokenBalance.toString();
   };
 
