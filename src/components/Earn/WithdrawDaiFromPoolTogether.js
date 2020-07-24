@@ -171,7 +171,12 @@ class WithdrawDaiFromPoolTogether extends Component {
   };
 
   render() {
-    const isOnline = this.props.isOnline;
+    const { isOnline } = this.props;
+    const {
+      WEIAmountValidation,
+      DAIWithdrawAmountValidation,
+      loading
+    } = this.state;
 
     return (
       <RootContainer>
@@ -212,7 +217,7 @@ class WithdrawDaiFromPoolTogether extends Component {
         </WithDrawAmountHeaderContainer>
         <Form
           borderColor={StyleUtilities.getBorderColor(
-            this.state.DAIWithdrawAmountValidation
+            DAIWithdrawAmountValidation
           )}
           borderWidth={1}
           height="56px"
@@ -239,22 +244,18 @@ class WithdrawDaiFromPoolTogether extends Component {
         <AdvancedContainer
           gasLimit={GlobalConfig.PoolTogetherWithdrawGasLimit}
         />
-        <WeiBalanceValidateMessage
-          weiAmountValidation={this.state.WEIAmountValidation}
-        />
+        <WeiBalanceValidateMessage weiAmountValidation={WEIAmountValidation} />
         <ButtonWrapper>
           <TxNextButton
             disabled={
               !(
-                this.state.DAIWithdrawAmountValidation &&
-                this.state.WEIAmountValidation &&
+                DAIWithdrawAmountValidation &&
+                WEIAmountValidation &&
                 isOnline
-              ) || this.state.loading
+              ) || loading
             }
             opacity={
-              this.state.DAIWithdrawAmountValidation &&
-              this.state.WEIAmountValidation &&
-              isOnline
+              DAIWithdrawAmountValidation && WEIAmountValidation && isOnline
                 ? 1
                 : 0.5
             }
@@ -263,9 +264,9 @@ class WithdrawDaiFromPoolTogether extends Component {
               this.setState({ loading: false });
             }}
           />
-          <Loader animating={this.state.loading} size="small" />
+          <Loader animating={loading} size="small" />
         </ButtonWrapper>
-        <IsOnlineMessage isOnline={this.props.isOnline} />
+        <IsOnlineMessage isOnline={isOnline} />
       </RootContainer>
     );
   }
