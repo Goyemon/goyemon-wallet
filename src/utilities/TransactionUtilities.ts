@@ -128,9 +128,8 @@ class TransactionUtilities {
 
   hasSufficientWeiForAmount(WEIAmount, gasLimit) {
     LogUtilities.logInfo('hasSufficientWeiForAmount -> ', WEIAmount, gasLimit);
-    const isNumber = /^[0-9]\d*(\.\d+)?$/.test(WEIAmount);
 
-    if (isNumber) {
+    if (this.isNumber(WEIAmount)) {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
       const gasChosen = stateTree.ReducerGasPrice.gasChosen;
@@ -154,8 +153,7 @@ class TransactionUtilities {
   }
 
   hasSufficientDAIForAmount(DAIAmount) {
-    const isNumber = /^[0-9]\d*(\.\d+)?$/.test(DAIAmount);
-    if (isNumber) {
+    if (this.isNumber(DAIAmount)) {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
       const DAIBalance = new RoundDownBigNumberPlacesEighteen(balance.dai);
@@ -178,8 +176,7 @@ class TransactionUtilities {
   }
 
   hasSufficientTokenForAmount = (amount, token) => {
-    const isNumber = /^[0-9]\d*(\.\d+)?$/.test(amount);
-    if (isNumber) {
+    if (this.isNumber(amount)) {
       const stateTree = store.getState();
       const balanceState = stateTree.ReducerBalance.balance;
       const balanceObject = {
@@ -230,8 +227,7 @@ class TransactionUtilities {
   }
 
   validateDAICompoundWithdrawAmount(DAIWithdrawAmount) {
-    const isNumber = /^[0-9]\d*(\.\d+)?$/.test(DAIWithdrawAmount);
-    if (isNumber) {
+    if (this.isNumber(DAIWithdrawAmount)) {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
       const compoundDAIBalance = new RoundDownBigNumberPlacesEighteen(
@@ -761,6 +757,9 @@ class TransactionUtilities {
       option
     };
   };
+
+  isNumber = (value) => /^[0-9]\d*(\.\d+)?$/.test(value);
+
 }
 
 export default new TransactionUtilities();
