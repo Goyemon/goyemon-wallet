@@ -136,7 +136,7 @@ class DepositDaiToPoolTogether extends Component {
   }
 
   validateForm = async (DAIAmount) => {
-    const DAIAmountValidation = TransactionUtilities.validateDAIPoolTogetherDepositAmount(
+    const DAIAmountValidation = TransactionUtilities.hasSufficientDAIForPoolTogetherDepositAmount(
       DAIAmount
     );
     const WEIAmountValidation = TransactionUtilities.hasSufficientWEIForNetworkFee(
@@ -163,6 +163,7 @@ class DepositDaiToPoolTogether extends Component {
 
   render() {
     const { balance } = this.props;
+    const { WEIAmountValidation, DAIAmountValidation, loading } = this.state;
     const isOnline = this.props.isOnline;
 
     const DAIFullBalance = RoundDownBigNumberPlacesFour(balance.dai)
@@ -199,7 +200,7 @@ class DepositDaiToPoolTogether extends Component {
             onPress={() => {
               this.setState({ daiAmount: DAIFullBalance });
               this.updateDAIAmountValidation(
-                TransactionUtilities.validateDAIPoolTogetherDepositAmount(
+                TransactionUtilities.hasSufficientDAIForPoolTogetherDepositAmount(
                   DAIFullBalance
                 )
               );
@@ -207,9 +208,7 @@ class DepositDaiToPoolTogether extends Component {
           />
         </DepositAmountHeaderContainer>
         <Form
-          borderColor={StyleUtilities.getBorderColor(
-            this.state.DAIAmountValidation
-          )}
+          borderColor={StyleUtilities.getBorderColor(DAIAmountValidation)}
           borderWidth={1}
           height="56px"
         >
@@ -221,7 +220,7 @@ class DepositDaiToPoolTogether extends Component {
               onChangeText={(daiAmount) => {
                 this.setState({ daiAmount });
                 this.updateDAIAmountValidation(
-                  TransactionUtilities.validateDAIPoolTogetherDepositAmount(
+                  TransactionUtilities.hasSufficientDAIForPoolTogetherDepositAmount(
                     daiAmount
                   )
                 );
@@ -235,31 +234,22 @@ class DepositDaiToPoolTogether extends Component {
         <AdvancedContainer
           gasLimit={GlobalConfig.PoolTogetherDepositPoolGasLimit}
         />
-        <WeiBalanceValidateMessage
-          weiAmountValidation={this.state.WEIAmountValidation}
-        />
+        <WeiBalanceValidateMessage weiAmountValidation={WEIAmountValidation} />
         <ButtonWrapper>
           <TxNextButton
             disabled={
-              !(
-                this.state.DAIAmountValidation &&
-                this.state.WEIAmountValidation &&
-                isOnline
-              ) || this.state.loading
+              !(DAIAmountValidation && WEIAmountValidation && isOnline) ||
+              loading
             }
             opacity={
-              this.state.DAIAmountValidation &&
-              this.state.WEIAmountValidation &&
-              isOnline
-                ? 1
-                : 0.5
+              DAIAmountValidation && WEIAmountValidation && isOnline ? 1 : 0.5
             }
             onPress={async () => {
               await this.validateForm(this.state.daiAmount);
               this.setState({ loading: false });
             }}
           />
-          <Loader animating={this.state.loading} size="small" />
+          <Loader animating={loading} size="small" />
         </ButtonWrapper>
         <IsOnlineMessage isOnline={this.props.isOnline} />
       </RootContainer>

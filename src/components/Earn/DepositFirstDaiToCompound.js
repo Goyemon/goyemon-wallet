@@ -166,6 +166,7 @@ class DepositFirstDaiToCompound extends Component {
 
   render() {
     const { balance, compound } = this.props;
+    const { WEIAmountValidation, DAIAmountValidation, loading } = this.state;
     const isOnline = this.props.isOnline;
 
     const currentInterestRate = new BigNumber(compound.dai.currentInterestRate)
@@ -212,9 +213,7 @@ class DepositFirstDaiToCompound extends Component {
           />
         </DepositAmountHeaderContainer>
         <Form
-          borderColor={StyleUtilities.getBorderColor(
-            this.state.DAIAmountValidation
-          )}
+          borderColor={StyleUtilities.getBorderColor(DAIAmountValidation)}
           borderWidth={1}
           height="56px"
         >
@@ -240,31 +239,22 @@ class DepositFirstDaiToCompound extends Component {
             GlobalConfig.ERC20ApproveGasLimit + GlobalConfig.cTokenMintGasLimit
           }
         />
-        <WeiBalanceValidateMessage
-          weiAmountValidation={this.state.WEIAmountValidation}
-        />
+        <WeiBalanceValidateMessage weiAmountValidation={WEIAmountValidation} />
         <ButtonWrapper>
           <TxNextButton
             disabled={
-              !(
-                this.state.DAIAmountValidation &&
-                this.state.WEIAmountValidation &&
-                isOnline
-              ) || this.state.loading
+              !(DAIAmountValidation && WEIAmountValidation && isOnline) ||
+              loading
             }
             opacity={
-              this.state.DAIAmountValidation &&
-              this.state.WEIAmountValidation &&
-              isOnline
-                ? 1
-                : 0.5
+              DAIAmountValidation && WEIAmountValidation && isOnline ? 1 : 0.5
             }
             onPress={async () => {
               await this.validateForm(this.state.daiAmount);
               this.setState({ loading: false });
             }}
           />
-          <Loader animating={this.state.loading} size="small" />
+          <Loader animating={loading} size="small" />
         </ButtonWrapper>
         <IsOnlineMessage isOnline={this.props.isOnline} />
       </RootContainer>
