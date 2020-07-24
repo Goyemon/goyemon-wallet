@@ -760,6 +760,10 @@ class TransactionUtilities {
 
   isInteger = (number) => /^[1-9]\d*$/.test(number);
 
+  isLessThan18Digits = (amount) =>
+    String(amount).slice(0, 2) === '0.'
+      ? amount.length < 21
+      : amount.length < 19;
 }
 
 export default new TransactionUtilities();
