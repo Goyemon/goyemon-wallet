@@ -266,7 +266,10 @@ class SendToken extends Component {
               clearButtonMode="while-editing"
               onChangeText={(amount) => {
                 this.setState({ displayAmount: amount });
-                if (this.isNumber(amount)) {
+                if (
+                  this.isNumber(amount) &&
+                  TransactionUtilities.isLessThan18Digits(amount)
+                ) {
                   this.updateAmountValidation(
                     isEth
                       ? TransactionUtilities.hasSufficientWeiForAmount(
