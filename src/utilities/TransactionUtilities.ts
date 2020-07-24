@@ -226,7 +226,10 @@ class TransactionUtilities {
   }
 
   validateDAICompoundWithdrawAmount(DAIWithdrawAmount) {
-    if (this.isNumber(DAIWithdrawAmount)) {
+    if (
+      this.isNumber(DAIWithdrawAmount) &&
+      this.isLessThan18Digits(DAIWithdrawAmount)
+    ) {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
       const compoundDAIBalance = new RoundDownBigNumberPlacesEighteen(
@@ -252,7 +255,10 @@ class TransactionUtilities {
   }
 
   validateDAIPoolTogetherWithdrawAmount(DAIWithdrawAmount) {
-    if (this.isInteger(DAIWithdrawAmount)) {
+    if (
+      this.isInteger(DAIWithdrawAmount) &&
+      this.isLessThan18Digits(DAIWithdrawAmount)
+    ) {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
       const pooltogetherDAIBalance = RoundDownBigNumberPlacesFour(

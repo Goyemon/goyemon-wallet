@@ -223,12 +223,12 @@ class WithdrawDaiFromPoolTogether extends Component {
               keyboardType="numeric"
               clearButtonMode="while-editing"
               onChangeText={(DAIWithdrawAmount) => {
+                this.setState({ DAIWithdrawAmount });
                 this.updateDaiWithdrawAmountValidation(
                   TransactionUtilities.validateDAIPoolTogetherWithdrawAmount(
                     DAIWithdrawAmount
                   )
                 );
-                this.setState({ DAIWithdrawAmount });
               }}
               returnKeyType="done"
               value={this.state.DAIWithdrawAmount}

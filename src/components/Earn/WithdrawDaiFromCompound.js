@@ -202,12 +202,12 @@ class WithdrawDaiFromCompound extends Component {
               keyboardType="numeric"
               clearButtonMode="while-editing"
               onChangeText={(DAIWithdrawAmount) => {
+                this.setState({ DAIWithdrawAmount });
                 this.updateDaiSavingsAmountValidation(
                   TransactionUtilities.validateDAICompoundWithdrawAmount(
                     DAIWithdrawAmount
                   )
                 );
-                this.setState({ DAIWithdrawAmount });
               }}
               returnKeyType="done"
             />
