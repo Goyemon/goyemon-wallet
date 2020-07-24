@@ -203,8 +203,7 @@ class TransactionUtilities {
   };
 
   validateDAIPoolTogetherDepositAmount(DAIAmount) {
-    const isInteger = /^[1-9]\d*$/.test(DAIAmount);
-    if (isInteger) {
+    if (this.isInteger(DAIAmount)) {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
       const DAIBalance = new RoundDownBigNumberPlacesEighteen(balance.dai);
@@ -253,8 +252,7 @@ class TransactionUtilities {
   }
 
   validateDAIPoolTogetherWithdrawAmount(DAIWithdrawAmount) {
-    const isInteger = /^[1-9]\d*$/.test(DAIWithdrawAmount);
-    if (isInteger) {
+    if (this.isInteger(DAIWithdrawAmount)) {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
       const pooltogetherDAIBalance = RoundDownBigNumberPlacesFour(
@@ -759,6 +757,8 @@ class TransactionUtilities {
   };
 
   isNumber = (value) => /^[0-9]\d*(\.\d+)?$/.test(value);
+
+  isInteger = (number) => /^[1-9]\d*$/.test(number);
 
 }
 
