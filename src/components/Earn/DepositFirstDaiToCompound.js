@@ -224,10 +224,10 @@ class DepositFirstDaiToCompound extends Component {
               keyboardType="numeric"
               clearButtonMode="while-editing"
               onChangeText={(daiAmount) => {
+                this.setState({ daiAmount });
                 this.updateDAIAmountValidation(
                   TransactionUtilities.hasSufficientDAIForAmount(daiAmount)
                 );
-                this.setState({ daiAmount });
               }}
               returnKeyType="done"
               value={this.state.daiAmount}

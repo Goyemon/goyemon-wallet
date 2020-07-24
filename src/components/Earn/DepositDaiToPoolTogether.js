@@ -219,12 +219,12 @@ class DepositDaiToPoolTogether extends Component {
               keyboardType="numeric"
               clearButtonMode="while-editing"
               onChangeText={(daiAmount) => {
+                this.setState({ daiAmount });
                 this.updateDAIAmountValidation(
                   TransactionUtilities.validateDAIPoolTogetherDepositAmount(
                     daiAmount
                   )
                 );
-                this.setState({ daiAmount });
               }}
               returnKeyType="done"
               value={this.state.daiAmount}

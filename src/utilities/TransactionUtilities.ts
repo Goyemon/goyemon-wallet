@@ -153,7 +153,7 @@ class TransactionUtilities {
   }
 
   hasSufficientDAIForAmount(DAIAmount) {
-    if (this.isNumber(DAIAmount)) {
+    if (this.isNumber(DAIAmount) && this.isLessThan18Digits(DAIAmount)) {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
       const DAIBalance = new RoundDownBigNumberPlacesEighteen(balance.dai);
@@ -203,7 +203,7 @@ class TransactionUtilities {
   };
 
   hasSufficientDAIForPoolTogetherDepositAmount(DAIAmount) {
-    if (this.isInteger(DAIAmount)) {
+    if (this.isInteger(DAIAmount) && this.isLessThan18Digits(DAIAmount)) {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
       const DAIBalance = new RoundDownBigNumberPlacesEighteen(balance.dai);
