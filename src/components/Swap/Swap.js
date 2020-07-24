@@ -70,8 +70,7 @@ class Swap extends Component {
   }
 
   updateTokenBought(ETHSold) {
-    const isNumber = /^[0-9]\d*(\.\d+)?$/.test(ETHSold);
-    if (isNumber) {
+    if (TransactionUtilities.isNumber(ETHSold)) {
       const tokenBought = this.getTokenBought(
         ETHSold,
         this.props.uniswap.daiExchange.weiReserve,
@@ -181,35 +180,30 @@ class Swap extends Component {
   };
 
   validateAmount(ETHSold) {
-    const isNumber = /^[0-9]\d*(\.\d+)?$/.test(ETHSold);
-    if (isNumber) {
-      const WEIBalance = new RoundDownBigNumberPlacesEighteen(
-        this.props.balance.wei
-      );
-      const WEISold = new RoundDownBigNumberPlacesEighteen(
-        Web3.utils.toWei(ETHSold)
-      );
-      const maxNetworkFeeInWEI = new RoundDownBigNumberPlacesEighteen(
-        TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
-      ).times(GlobalConfig.UniswapV2SwapExactETHForTokensGasLimit);
-      const tokenReserve = new RoundDownBigNumberPlacesEighteen(
-        this.props.uniswap.daiExchange.daiReserve,
-        16
-      );
+    const WEIBalance = new RoundDownBigNumberPlacesEighteen(
+      this.props.balance.wei
+    );
+    const WEISold = new RoundDownBigNumberPlacesEighteen(
+      Web3.utils.toWei(ETHSold)
+    );
+    const maxNetworkFeeInWEI = new RoundDownBigNumberPlacesEighteen(
+      TransactionUtilities.returnTransactionSpeed(this.props.gasChosen)
+    ).times(GlobalConfig.UniswapV2SwapExactETHForTokensGasLimit);
+    const tokenReserve = new RoundDownBigNumberPlacesEighteen(
+      this.props.uniswap.daiExchange.daiReserve,
+      16
+    );
 
-      if (
-        WEIBalance.isGreaterThanOrEqualTo(WEISold.plus(maxNetworkFeeInWEI)) &&
-        WEISold.isGreaterThanOrEqualTo(0) &&
-        tokenReserve.isGreaterThanOrEqualTo(this.state.tokenBought)
-      ) {
-        LogUtilities.logInfo('the ETHSold validated!');
-        return true;
-      }
-      LogUtilities.logInfo('wrong balance!');
-      return false;
-    } else {
-      return false;
+    if (
+      WEIBalance.isGreaterThanOrEqualTo(WEISold.plus(maxNetworkFeeInWEI)) &&
+      WEISold.isGreaterThanOrEqualTo(0) &&
+      tokenReserve.isGreaterThanOrEqualTo(this.state.tokenBought)
+    ) {
+      LogUtilities.logInfo('the ETHSold validated!');
+      return true;
     }
+    LogUtilities.logInfo('wrong balance!');
+    return false;
   }
 
   updateEthSoldValidation(ETHSoldValidation) {
@@ -307,12 +301,12 @@ class Swap extends Component {
                 clearButtonMode="while-editing"
                 onChangeText={(ETHSold) => {
                   this.setState({ ETHSold });
-                  this.updateEthSoldValidation(this.validateAmount(ETHSold));
-                  this.updateTokenBought(ETHSold);
                   if (
                     TransactionUtilities.isNumber(ETHSold) &&
                     TransactionUtilities.isLessThan18Digits(ETHSold)
                   ) {
+                    this.updateEthSoldValidation(this.validateAmount(ETHSold));
+                    this.updateTokenBought(ETHSold);
                   } else {
                     this.updateEthSoldValidation(false);
                   }

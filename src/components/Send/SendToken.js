@@ -253,9 +253,7 @@ class SendToken extends Component {
           />
         </FormHeaderContainer>
         <Form
-          borderColor={StyleUtilities.getBorderColor(
-            amountValidation && this.isNumber(displayAmount)
-          )}
+          borderColor={StyleUtilities.getBorderColor(amountValidation)}
           borderWidth={1}
           height="56px"
         >

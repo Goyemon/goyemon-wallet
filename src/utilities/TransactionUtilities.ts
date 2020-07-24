@@ -202,7 +202,7 @@ class TransactionUtilities {
     return false;
   };
 
-  validateDAIPoolTogetherDepositAmount(DAIAmount) {
+  hasSufficientDAIForPoolTogetherDepositAmount(DAIAmount) {
     if (this.isInteger(DAIAmount)) {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
