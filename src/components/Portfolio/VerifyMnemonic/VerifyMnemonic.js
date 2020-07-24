@@ -136,7 +136,7 @@ class VerifyMnemonic extends Component {
     return count;
   }
 
-  async validateForm() {
+  validateForm() {
     const mnemonicWords = this.state.mnemonicWords.join(' ');
 
     if (
@@ -424,8 +424,8 @@ class VerifyMnemonic extends Component {
               margin="0 auto"
               marginBottom="12px"
               opacity="1"
-              onPress={async () => {
-                await this.validateForm();
+              onPress={() => {
+                this.validateForm();
               }}
             />
             <View>{this.renderInvalidMnemonicWordsMessage()}</View>

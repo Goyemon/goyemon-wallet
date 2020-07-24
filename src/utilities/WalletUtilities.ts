@@ -99,7 +99,7 @@ class WalletUtilities {
       if (words.length == uniqueWords.length) {
         break;
       } else {
-        let mnemonic = await bip39.generateMnemonic(256);
+        mnemonic = await bip39.generateMnemonic(256);
         break;
       }
     }
