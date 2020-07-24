@@ -11,8 +11,12 @@ export function getGasPrice() {
       let gasPrice = await fetch(
         'https://ethgasstation.info/json/ethgasAPI.json'
       );
-      gasPrice = await gasPrice.json();
-      dispatch(getGasPriceSuccess(gasPrice));
+      if (gasPrice.status === 200) {
+        gasPrice = await gasPrice.json();
+        dispatch(getGasPriceSuccess(gasPrice));
+      } else {
+        LogUtilities.logInfo('http error');
+      }
     } catch (err) {
       LogUtilities.logError(err);
     }
