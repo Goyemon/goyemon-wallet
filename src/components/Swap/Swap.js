@@ -309,6 +309,13 @@ class Swap extends Component {
                   this.setState({ ETHSold });
                   this.updateEthSoldValidation(this.validateAmount(ETHSold));
                   this.updateTokenBought(ETHSold);
+                  if (
+                    TransactionUtilities.isNumber(ETHSold) &&
+                    TransactionUtilities.isLessThan18Digits(ETHSold)
+                  ) {
+                  } else {
+                    this.updateEthSoldValidation(false);
+                  }
                 }}
                 returnKeyType="done"
                 value={this.state.ETHSold}
