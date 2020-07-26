@@ -4,7 +4,6 @@ import {
   SAVE_WEI_BALANCE,
   SAVE_DAI_BALANCE,
   SAVE_C_DAI_BALANCE,
-  SAVE_PLDAI_BALANCE,
   SAVE_COMPOUND_DAI_BALANCE,
   SAVE_POOL_TOGETHER_DAI_BALANCE,
   MOVE_POOL_TOGETHER_DAI_BALANCE
@@ -40,21 +39,6 @@ export function saveCDaiBalance(cDaiBalance) {
 const saveCDaiBalanceSuccess = (cDaiBalance) => ({
   type: SAVE_C_DAI_BALANCE,
   payload: cDaiBalance
-});
-
-export function savePLDAIBalance(PLDAIBalance) {
-  return async function (dispatch) {
-    try {
-      dispatch(savePLDAIBalanceSuccess(PLDAIBalance));
-    } catch (err) {
-      LogUtilities.logError(err);
-    }
-  };
-}
-
-const savePLDAIBalanceSuccess = (PLDAIBalance) => ({
-  type: SAVE_PLDAI_BALANCE,
-  payload: PLDAIBalance
 });
 
 export function saveDaiBalance(daiBalance) {
