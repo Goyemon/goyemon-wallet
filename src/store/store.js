@@ -16,17 +16,6 @@ const migrations = {
         }
       }
     };
-  },
-  1: (state) => {
-    return {
-      ...state,
-      ReducerBalance: {
-        balance: {
-          ...state.balance,
-          plDai: ''
-        }
-      }
-    };
   }
 };
 
@@ -47,7 +36,7 @@ const persistConfig = {
     'ReducerTransactionsLoaded',
     'ReducerUniswap'
   ],
-  version: 1, // default version is -1
+  version: 0, // default version is -1
   migrate: createMigrate(migrations, { debug: true })
 };
 

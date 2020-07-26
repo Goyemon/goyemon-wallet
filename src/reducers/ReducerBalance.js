@@ -3,7 +3,6 @@ import {
   SAVE_WEI_BALANCE,
   SAVE_DAI_BALANCE,
   SAVE_C_DAI_BALANCE,
-  SAVE_PLDAI_BALANCE,
   SAVE_COMPOUND_DAI_BALANCE,
   SAVE_POOL_TOGETHER_DAI_BALANCE,
   MOVE_POOL_TOGETHER_DAI_BALANCE
@@ -15,7 +14,6 @@ const INITIAL_STATE = {
     wei: '',
     dai: '',
     cDai: '',
-    plDai: '',
     compoundDai: '',
     pooltogetherDai: {
       open: '',
@@ -33,8 +31,6 @@ const balance = (state = INITIAL_STATE, action) => {
       return { balance: { ...state.balance, dai: action.payload } };
     case SAVE_C_DAI_BALANCE:
       return { balance: { ...state.balance, cDai: action.payload } };
-    case SAVE_PLDAI_BALANCE:
-      return { balance: { ...state.balance, plDai: action.payload } };
     case SAVE_COMPOUND_DAI_BALANCE:
       return {
         balance: { ...state.balance, compoundDai: action.payload }
