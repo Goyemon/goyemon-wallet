@@ -474,12 +474,6 @@ class TransactionUtilities {
     // LogUtilities.toDebugScreen('computeTxData -> ', tx);
     if (!tx) return null;
     const walletAddress = EtherUtilities.getAddressWithout0x(checksumAddr);
-    LogUtilities.toDebugScreen(
-      'transaction to and from -> ',
-      tx.getTo(),
-      tx.getFrom(),
-      walletAddress
-    );
     const ret = [];
 
     if (tx.getValue() !== '00') {
@@ -610,6 +604,7 @@ class TransactionUtilities {
   }
 
   getToken = (data) => {
+    // LogUtilities.toDebugScreen('getToken data is', data)
     switch (true) {
       case data[0].token === 'cdai' && data[0].type === 'withdraw':
         return 'DAI';
@@ -621,6 +616,8 @@ class TransactionUtilities {
         data.length > 1 &&
         data[0].type !== 'deposit':
         return 'DAI';
+      case data[0].token === 'pldai' && data[0].type === 'transfer':
+        return 'plDAI'
       default:
         return data[0].token.toUpperCase();
     }
@@ -675,6 +672,7 @@ class TransactionUtilities {
       : '';
 
   getToAddr = (data, tx) => {
+    // LogUtilities.toDebugScreen('getToAddr -> ', data, tx);
     if (
       data.length === 1 &&
       data[0].direction == 'outgoing' &&
@@ -689,6 +687,10 @@ class TransactionUtilities {
         return '0x' + tx.tokenData.cdai[0].to_addr.slice(0, 2) !== '0x'
           ? '0x' + tx.tokenData.cdai[0].to_addr
           : tx.tokenData.cdai[0].to_addr;
+      if (tx.tokenData.pldai)
+        return '0x' + tx.tokenData.pldai[0].to_addr.slice(0, 2) !== '0x'
+        ? '0x' + tx.tokenData.pldai[0].to_addr
+        : tx.tokenData.pldai[0].to_addr;
     } else return '';
   };
 
