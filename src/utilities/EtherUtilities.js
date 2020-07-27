@@ -7,7 +7,7 @@ class EtherUtilities {
     return Buffer.from(array).toString('hex');
   }
 
-  static getReasonablyAddress(checksumAddress) {
+  static getAddressWithout0x(checksumAddress) {
     const reasonablyAddress =
       checksumAddress.substr(0, 2) == '0x' && checksumAddress.length > 2
         ? checksumAddress.substr(2)
