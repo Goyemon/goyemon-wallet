@@ -695,8 +695,8 @@ class TransactionUtilities {
   txCommonObject = (tx, checksumAddr) => {
     const timestamp = this.parseTransactionTime(tx.getTimestamp()),
       status = tx.getState(),
-      service = tx.getApplication(tx.getTo()),
       data = this.computeTxData(tx, checksumAddr),
+      service = data[0].type === 'transfer' ? '' : tx.getApplication(tx.getTo()),
       method = this.getMethodName(data),
       amount =
         tx.tokenData.cdai &&
