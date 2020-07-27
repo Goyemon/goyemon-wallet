@@ -471,26 +471,30 @@ class TransactionUtilities {
     txType.charAt(0).toUpperCase() + txType.slice(1);
 
   computeTxData = (tx, checksumAddr) => {
+    // LogUtilities.toDebugScreen('computeTxData -> ', tx);
     if (!tx) return null;
-    const reasonablyAddr = EtherUtilities.getReasonablyAddress(checksumAddr);
+    const walletAddress = EtherUtilities.getAddressWithout0x(checksumAddr);
+    LogUtilities.toDebugScreen(
+      'transaction to and from -> ',
+      tx.getTo(),
+      tx.getFrom(),
+      walletAddress
+    );
     const ret = [];
 
-    if (tx.getValue() != '00') {
-      const ethdirection =
-        tx.getFrom() === `0x${reasonablyAddr}`
-          ? 1
-          : tx.getTo() === `0x${reasonablyAddr}`
-          ? 2
-          : 0;
-      if (ethdirection > 0)
+    if (tx.getValue() !== '00') {
+      const direction = tx.getFrom() === tx.getTo()
+      ? 'self'
+      : tx.getFrom() === `0x${walletAddress}`
+      ? 'outgoing'
+      : tx.getTo() === `0x${walletAddress}`
+      ? 'incoming'
+      : undefined
+
+      if (direction)
         ret.push({
           type: 'transfer',
-          direction:
-            ethdirection == 1
-              ? 'outgoing'
-              : ethdirection == 2
-              ? 'incoming'
-              : 'self',
+          direction: direction,
           amount: parseFloat(this.parseETHValue(`0x${tx.getValue()}`)).toFixed(
             4
           ),
@@ -500,18 +504,9 @@ class TransactionUtilities {
 
     Object.entries(tx.getAllTokenOperations()).forEach(([toptok, toktops]) => {
       toktops.forEach((x) =>
-        ret.push(EtherUtilities.topType(x, toptok, reasonablyAddr))
+        ret.push(EtherUtilities.topType(x, toptok, walletAddress))
       );
     });
-
-    if (tx.getTo() === tx.getFrom()) {
-      ret.push({
-        type: 'transfer',
-        token: 'eth',
-        direction: 'self',
-        amount: parseFloat(this.parseETHValue(`0x${tx.getValue()}`)).toFixed(4)
-      });
-    }
 
     if (tx.getTo() !== '0x' && !!tx.getTo()) {
       if (
@@ -632,6 +627,7 @@ class TransactionUtilities {
   };
 
   getMethodName = (tx) => {
+    // LogUtilities.toDebugScreen('getMethodName -> ', tx);
     switch (tx[0].type) {
       case 'contract_creation':
         return 'Deploy';
