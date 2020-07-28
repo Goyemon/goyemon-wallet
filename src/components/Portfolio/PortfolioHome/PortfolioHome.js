@@ -74,10 +74,6 @@ class PortfolioHome extends Component {
         0
       );
 
-    const compoundDAIBalance = RoundDownBigNumberPlacesFour(balance.compoundDai)
-      .div(new RoundDownBigNumberPlacesFour(10).pow(36))
-      .toString();
-
     const poolTogetherDAIBalance = RoundDownBigNumberPlacesFour(
       balance.pooltogetherDai.open
     )
@@ -107,7 +103,7 @@ class PortfolioHome extends Component {
         event: () => navigation.navigate('PortfolioWallet')
       },
       {
-        balance: PriceUtilities.convertDAIToUSD(compoundDAIBalance).toFixed(2),
+        balance: PriceUtilities.convertCDAIToUSD(CDAIBalance).toFixed(2),
         name: 'Compound',
         event: () => navigation.navigate('PortfolioCompound')
       },
