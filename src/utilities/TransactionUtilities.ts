@@ -473,17 +473,20 @@ class TransactionUtilities {
   computeTxData = (tx, checksumAddr) => {
     // LogUtilities.toDebugScreen('computeTxData -> ', tx);
     if (!tx) return null;
-    const walletAddressWithout0x = EtherUtilities.getAddressWithout0x(checksumAddr);
+    const walletAddressWithout0x = EtherUtilities.getAddressWithout0x(
+      checksumAddr
+    );
     const ret = [];
 
     if (tx.getValue() !== '00') {
-      const direction = tx.getFrom() === tx.getTo()
-      ? 'self'
-      : tx.getFrom() === `0x${walletAddressWithout0x}`
-      ? 'outgoing'
-      : tx.getTo() === `0x${walletAddressWithout0x}`
-      ? 'incoming'
-      : undefined
+      const direction =
+        tx.getFrom() === tx.getTo()
+          ? 'self'
+          : tx.getFrom() === `0x${walletAddressWithout0x}`
+          ? 'outgoing'
+          : tx.getTo() === `0x${walletAddressWithout0x}`
+          ? 'incoming'
+          : undefined;
 
       if (direction)
         ret.push({
@@ -617,7 +620,7 @@ class TransactionUtilities {
         data[0].type !== 'deposit':
         return 'DAI';
       case data[0].token === 'pldai' && data[0].type === 'transfer':
-        return 'plDAI'
+        return 'plDAI';
       default:
         return data[0].token.toUpperCase();
     }
@@ -689,8 +692,8 @@ class TransactionUtilities {
           : tx.tokenData.cdai[0].to_addr;
       if (tx.tokenData.pldai)
         return '0x' + tx.tokenData.pldai[0].to_addr.slice(0, 2) !== '0x'
-        ? '0x' + tx.tokenData.pldai[0].to_addr
-        : tx.tokenData.pldai[0].to_addr;
+          ? '0x' + tx.tokenData.pldai[0].to_addr
+          : tx.tokenData.pldai[0].to_addr;
     } else return '';
   };
 
@@ -698,7 +701,8 @@ class TransactionUtilities {
     const timestamp = this.parseTransactionTime(tx.getTimestamp()),
       status = tx.getState(),
       data = this.computeTxData(tx, checksumAddr),
-      service = data[0].type === 'transfer' ? '' : tx.getApplication(tx.getTo()),
+      service =
+        data[0].type === 'transfer' ? '' : tx.getApplication(tx.getTo()),
       method = this.getMethodName(data),
       amount =
         tx.tokenData.cdai &&
