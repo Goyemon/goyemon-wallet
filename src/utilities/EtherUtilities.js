@@ -8,13 +8,13 @@ class EtherUtilities {
   }
 
   static getAddressWithout0x(checksumAddress) {
-    const reasonablyAddress =
+    const addressWithout0x =
       checksumAddress.substr(0, 2) == '0x' && checksumAddress.length > 2
         ? checksumAddress.substr(2)
         : checksumAddress.length < 2
         ? '0000000000000000000000000000000000000000'
         : checksumAddress;
-    return reasonablyAddress.toLowerCase();
+    return addressWithout0x.toLowerCase();
   }
 
   static getCompErrorCode(code) {
@@ -30,7 +30,7 @@ class EtherUtilities {
     }
   }
 
-  static topType(top, toptok, our_reasonably_stored_address) {
+  static topType(top, toptok, our_address_without_0x) {
     if (
       top instanceof
         TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.eth2tok] ||
@@ -78,12 +78,11 @@ class EtherUtilities {
         type: 'transfer',
         amount: TransactionUtilities.parseHexDAIValue(`0x${top.amount}`),
         direction:
-          top.from_addr === our_reasonably_stored_address
-            ? top.to_addr.toLowerCase() ===
-              our_reasonably_stored_address.toLowerCase()
+          top.from_addr === our_address_without_0x
+            ? top.to_addr.toLowerCase() === our_address_without_0x.toLowerCase()
               ? 'self'
               : 'outgoing'
-            : top.to_addr === our_reasonably_stored_address
+            : top.to_addr === our_address_without_0x
             ? 'incoming'
             : 'unknown',
         token: toptok

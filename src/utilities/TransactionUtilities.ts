@@ -473,15 +473,15 @@ class TransactionUtilities {
   computeTxData = (tx, checksumAddr) => {
     // LogUtilities.toDebugScreen('computeTxData -> ', tx);
     if (!tx) return null;
-    const walletAddress = EtherUtilities.getAddressWithout0x(checksumAddr);
+    const walletAddressWithout0x = EtherUtilities.getAddressWithout0x(checksumAddr);
     const ret = [];
 
     if (tx.getValue() !== '00') {
       const direction = tx.getFrom() === tx.getTo()
       ? 'self'
-      : tx.getFrom() === `0x${walletAddress}`
+      : tx.getFrom() === `0x${walletAddressWithout0x}`
       ? 'outgoing'
-      : tx.getTo() === `0x${walletAddress}`
+      : tx.getTo() === `0x${walletAddressWithout0x}`
       ? 'incoming'
       : undefined
 
@@ -498,7 +498,7 @@ class TransactionUtilities {
 
     Object.entries(tx.getAllTokenOperations()).forEach(([toptok, toktops]) => {
       toktops.forEach((x) =>
-        ret.push(EtherUtilities.topType(x, toptok, walletAddress))
+        ret.push(EtherUtilities.topType(x, toptok, walletAddressWithout0x))
       );
     });
 
