@@ -27,7 +27,11 @@ class PortfolioCompound extends Component {
       .div(new BigNumber(10).pow(24))
       .toFixed(2);
 
-    const compoundDAIBalance = RoundDownBigNumberPlacesFour(balance.cDai)
+    const compoundDAIBalance = RoundDownBigNumberPlacesFour(balance.compoundDai)
+      .div(new RoundDownBigNumberPlacesFour(10).pow(36))
+      .toFixed(2);
+
+    const CDAIBalance = RoundDownBigNumberPlacesFour(balance.cDai)
       .div(new RoundDownBigNumberPlacesFour(10).pow(8))
       .toFixed(2);
 
@@ -60,9 +64,9 @@ class PortfolioCompound extends Component {
           </HeaderFour>
           <BalanceText>
             $
-            {parseFloat(
-              PriceUtilities.convertCDAIToUSD(compoundDAIBalance)
-            ).toFixed(2)}
+            {parseFloat(PriceUtilities.convertCDAIToUSD(CDAIBalance)).toFixed(
+              2
+            )}
           </BalanceText>
           <InterestEarnedTextContainer>
             <InterestEarnedText>
