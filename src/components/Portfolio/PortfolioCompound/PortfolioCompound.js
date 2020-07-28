@@ -31,6 +31,10 @@ class PortfolioCompound extends Component {
       .div(new RoundDownBigNumberPlacesFour(10).pow(36))
       .toFixed(2);
 
+    const CDAIBalance = RoundDownBigNumberPlacesFour(balance.cDai)
+      .div(new RoundDownBigNumberPlacesFour(10).pow(8))
+      .toFixed(2);
+
     const lifetimeEarnedInDAI = RoundDownBigNumberPlacesFour(
       compound.dai.lifetimeEarned
     )
@@ -60,9 +64,9 @@ class PortfolioCompound extends Component {
           </HeaderFour>
           <BalanceText>
             $
-            {parseFloat(
-              PriceUtilities.convertDAIToUSD(compoundDAIBalance)
-            ).toFixed(2)}
+            {parseFloat(PriceUtilities.convertCDAIToUSD(CDAIBalance)).toFixed(
+              2
+            )}
           </BalanceText>
           <InterestEarnedTextContainer>
             <InterestEarnedText>
