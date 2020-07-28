@@ -52,7 +52,7 @@ export function getCDAIPrice() {
       let res = await fetch('https://api.compound.finance/api/v2/ctoken');
       res = await res.json();
       const cDAIRes = res.cToken.filter((cToken) => cToken.symbol === 'cDAI');
-      const CDAIPrice = parseFloat(cDAIRes[0].exchange_rate.value).toFixed(6);
+      const CDAIPrice = parseFloat(cDAIRes[0].exchange_rate.value).toFixed(8);
       dispatch(getCDAIPriceSuccess(CDAIPrice));
     } catch (err) {
       LogUtilities.logError(err);
