@@ -474,12 +474,12 @@ class TransactionUtilities {
     // LogUtilities.toDebugScreen('computeTxData -> ', tx);
     if (!tx) return null;
     const walletAddress = EtherUtilities.getAddressWithout0x(checksumAddr);
-    LogUtilities.toDebugScreen(
-      'transaction to and from -> ',
-      tx.getTo(),
-      tx.getFrom(),
-      walletAddress
-    );
+    // LogUtilities.toDebugScreen(
+    //   'transaction to and from -> ',
+    //   tx.getTo(),
+    //   tx.getFrom(),
+    //   walletAddress
+    // );
     const ret = [];
 
     if (tx.getValue() !== '00') {
