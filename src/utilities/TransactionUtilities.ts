@@ -471,46 +471,39 @@ class TransactionUtilities {
     txType.charAt(0).toUpperCase() + txType.slice(1);
 
   computeTxData = (tx, checksumAddr) => {
+    // LogUtilities.toDebugScreen('computeTxData -> ', tx);
     if (!tx) return null;
-    const reasonablyAddr = EtherUtilities.getReasonablyAddress(checksumAddr);
+    const walletAddressWithout0x = EtherUtilities.getAddressWithout0x(
+      checksumAddr
+    );
     const ret = [];
 
-    if (tx.getValue() != '00') {
-      const ethdirection =
-        tx.getFrom() === `0x${reasonablyAddr}`
-          ? 1
-          : tx.getTo() === `0x${reasonablyAddr}`
-          ? 2
-          : 0;
-      if (ethdirection > 0)
+    Object.entries(tx.getAllTokenOperations()).forEach(([toptok, toktops]) => {
+      toktops.forEach((x) => {
+        // LogUtilities.toDebugScreen('toktops for each', x);
+        ret.push(EtherUtilities.topType(x, toptok, walletAddressWithout0x));
+      });
+    });
+
+    if (tx.getValue() !== '00' && ret.length === 0) {
+      const direction =
+        tx.getFrom() === tx.getTo()
+          ? 'self'
+          : tx.getFrom() === `0x${walletAddressWithout0x}`
+          ? 'outgoing'
+          : tx.getTo() === `0x${walletAddressWithout0x}`
+          ? 'incoming'
+          : undefined;
+
+      if (direction)
         ret.push({
           type: 'transfer',
-          direction:
-            ethdirection == 1
-              ? 'outgoing'
-              : ethdirection == 2
-              ? 'incoming'
-              : 'self',
+          direction: direction,
           amount: parseFloat(this.parseETHValue(`0x${tx.getValue()}`)).toFixed(
             4
           ),
           token: 'eth'
         });
-    }
-
-    Object.entries(tx.getAllTokenOperations()).forEach(([toptok, toktops]) => {
-      toktops.forEach((x) =>
-        ret.push(EtherUtilities.topType(x, toptok, reasonablyAddr))
-      );
-    });
-
-    if (tx.getTo() === tx.getFrom()) {
-      ret.push({
-        type: 'transfer',
-        token: 'eth',
-        direction: 'self',
-        amount: parseFloat(this.parseETHValue(`0x${tx.getValue()}`)).toFixed(4)
-      });
     }
 
     if (tx.getTo() !== '0x' && !!tx.getTo()) {
@@ -577,16 +570,17 @@ class TransactionUtilities {
   }
 
   getOption = (data, service, method) => {
+    // LogUtilities.toDebugScreen('getOption data is', data)
     if (service === 'Uniswap' || method === I18n.t('history-swap'))
-      return data.length < 2 ? false : this.getSwapOption(data);
+      return data.length < 1 ? false : this.getSwapOption(data);
     else if (service === 'PoolTogether' && method === 'Withdraw') {
       return this.getPTOption(data);
     } else return '';
   };
 
   getSwapOption = (data) => ({
-    eth: data[0].amount,
-    dai: data[1].tokens_bought
+    eth: data[0].eth_sold,
+    dai: data[0].tokens_bought
   });
 
   getPTOption = (data) => {
@@ -615,6 +609,7 @@ class TransactionUtilities {
   }
 
   getToken = (data) => {
+    // LogUtilities.toDebugScreen('getToken data is', data)
     switch (true) {
       case data[0].token === 'cdai' && data[0].type === 'withdraw':
         return 'DAI';
@@ -622,16 +617,17 @@ class TransactionUtilities {
         return 'DAI';
       case data[0].token === 'cdai' && data[0].type === 'transfer':
         return 'cDAI';
-      case data[0].token === 'pooltogether' &&
-        data.length > 1 &&
-        data[0].type !== 'deposit':
+      case data[0].token === 'pooltogether' && data[0].type === 'withdraw':
         return 'DAI';
+      case data[0].token === 'pldai' && data[0].type === 'transfer':
+        return 'plDAI';
       default:
         return data[0].token.toUpperCase();
     }
   };
 
   getMethodName = (tx) => {
+    // LogUtilities.toDebugScreen('getMethodName -> ', tx);
     switch (tx[0].type) {
       case 'contract_creation':
         return 'Deploy';
@@ -679,6 +675,7 @@ class TransactionUtilities {
       : '';
 
   getToAddr = (data, tx) => {
+    // LogUtilities.toDebugScreen('getToAddr -> ', data, tx);
     if (
       data.length === 1 &&
       data[0].direction == 'outgoing' &&
@@ -693,14 +690,19 @@ class TransactionUtilities {
         return '0x' + tx.tokenData.cdai[0].to_addr.slice(0, 2) !== '0x'
           ? '0x' + tx.tokenData.cdai[0].to_addr
           : tx.tokenData.cdai[0].to_addr;
+      if (tx.tokenData.pldai)
+        return '0x' + tx.tokenData.pldai[0].to_addr.slice(0, 2) !== '0x'
+          ? '0x' + tx.tokenData.pldai[0].to_addr
+          : tx.tokenData.pldai[0].to_addr;
     } else return '';
   };
 
   txCommonObject = (tx, checksumAddr) => {
     const timestamp = this.parseTransactionTime(tx.getTimestamp()),
       status = tx.getState(),
-      service = tx.getApplication(tx.getTo()),
       data = this.computeTxData(tx, checksumAddr),
+      service =
+        data[0].type === 'transfer' ? '' : tx.getApplication(tx.getTo()),
       method = this.getMethodName(data),
       amount =
         tx.tokenData.cdai &&

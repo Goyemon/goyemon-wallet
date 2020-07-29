@@ -17,7 +17,10 @@ import LogUtilities from './src/utilities/LogUtilities';
 
 // Register background fcm handler
 messaging().setBackgroundMessageHandler(async (downstreamMessage) => {
-  LogUtilities.logInfo('downstreamMessage handled in the background ==>', downstreamMessage);
+  LogUtilities.logInfo(
+    'downstreamMessage handled in the background ==>',
+    downstreamMessage
+  );
   FCM.FCMMsgs.setMsgCallback(FcmListener.downstreamMessageHandler); // so now FcmListener is just a callback we attach to FCMMsgs.
   await FCM.downstreamMessageHandler(downstreamMessage, true);
   return Promise.resolve();
@@ -47,9 +50,9 @@ FcmListener.setStoreReadyPromise(
   new Promise((resolve, reject) => {
     persistStore(store, {}, () => {
       LogUtilities.toDebugScreen('Redux-persist ready.');
+      store.dispatch(rehydrationComplete(true));
 
       TxStorage.storage.isStorageReady().then(() => {
-        store.dispatch(rehydrationComplete(true));
         TxStorage.storage.setOwnAddress(
           store.getState().ReducerChecksumAddress.checksumAddress
         );

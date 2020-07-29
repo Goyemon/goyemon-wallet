@@ -60,7 +60,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
         tx: props.tx,
         data: TransactionUtilities.txDetailObject(
           props.tx,
-          EtherUtilities.getReasonablyAddress(props.checksumAddress)
+          EtherUtilities.getAddressWithout0x(props.checksumAddress)
         )
       };
     }
@@ -81,7 +81,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
             await this.setState({
               data: TransactionUtilities.txDetailObject(
                 x,
-                EtherUtilities.getReasonablyAddress(props.checksumAddress)
+                EtherUtilities.getAddressWithout0x(props.checksumAddress)
               ),
               tx: x
             });

@@ -58,7 +58,7 @@ class Transaction extends Component {
       option
     } = TransactionUtilities.txCommonObject(
       tx,
-      EtherUtilities.getReasonablyAddress(this.props.checksumAddress)
+      EtherUtilities.getAddressWithout0x(this.props.checksumAddress)
     );
     const { index, filter } = this.props.transaction;
     if (service === 'PoolTogether' || service === 'Uniswap')
