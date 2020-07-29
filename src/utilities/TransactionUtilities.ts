@@ -478,7 +478,14 @@ class TransactionUtilities {
     );
     const ret = [];
 
-    if (tx.getValue() !== '00') {
+    Object.entries(tx.getAllTokenOperations()).forEach(([toptok, toktops]) => {
+      toktops.forEach((x) => {
+        LogUtilities.toDebugScreen('toktops for each', x)
+        ret.push(EtherUtilities.topType(x, toptok, walletAddressWithout0x))
+      });
+    });
+
+    if (tx.getValue() !== '00' && ret.length === 0) {
       const direction =
         tx.getFrom() === tx.getTo()
           ? 'self'
@@ -498,12 +505,6 @@ class TransactionUtilities {
           token: 'eth'
         });
     }
-
-    Object.entries(tx.getAllTokenOperations()).forEach(([toptok, toktops]) => {
-      toktops.forEach((x) =>
-        ret.push(EtherUtilities.topType(x, toptok, walletAddressWithout0x))
-      );
-    });
 
     if (tx.getTo() !== '0x' && !!tx.getTo()) {
       if (
