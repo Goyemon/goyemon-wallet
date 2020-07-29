@@ -478,7 +478,14 @@ class TransactionUtilities {
     );
     const ret = [];
 
-    if (tx.getValue() !== '00') {
+    Object.entries(tx.getAllTokenOperations()).forEach(([toptok, toktops]) => {
+      toktops.forEach((x) => {
+        // LogUtilities.toDebugScreen('toktops for each', x);
+        ret.push(EtherUtilities.topType(x, toptok, walletAddressWithout0x));
+      });
+    });
+
+    if (tx.getValue() !== '00' && ret.length === 0) {
       const direction =
         tx.getFrom() === tx.getTo()
           ? 'self'
@@ -498,12 +505,6 @@ class TransactionUtilities {
           token: 'eth'
         });
     }
-
-    Object.entries(tx.getAllTokenOperations()).forEach(([toptok, toktops]) => {
-      toktops.forEach((x) =>
-        ret.push(EtherUtilities.topType(x, toptok, walletAddressWithout0x))
-      );
-    });
 
     if (tx.getTo() !== '0x' && !!tx.getTo()) {
       if (
@@ -569,16 +570,17 @@ class TransactionUtilities {
   }
 
   getOption = (data, service, method) => {
+    // LogUtilities.toDebugScreen('getOption data is', data)
     if (service === 'Uniswap' || method === I18n.t('history-swap'))
-      return data.length < 2 ? false : this.getSwapOption(data);
+      return data.length < 1 ? false : this.getSwapOption(data);
     else if (service === 'PoolTogether' && method === 'Withdraw') {
       return this.getPTOption(data);
     } else return '';
   };
 
   getSwapOption = (data) => ({
-    eth: data[0].amount,
-    dai: data[1].tokens_bought
+    eth: data[0].eth_sold,
+    dai: data[0].tokens_bought
   });
 
   getPTOption = (data) => {
@@ -615,9 +617,7 @@ class TransactionUtilities {
         return 'DAI';
       case data[0].token === 'cdai' && data[0].type === 'transfer':
         return 'cDAI';
-      case data[0].token === 'pooltogether' &&
-        data.length > 1 &&
-        data[0].type !== 'deposit':
+      case data[0].token === 'pooltogether' && data[0].type === 'withdraw':
         return 'DAI';
       case data[0].token === 'pldai' && data[0].type === 'transfer':
         return 'plDAI';

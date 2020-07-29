@@ -31,6 +31,7 @@ class EtherUtilities {
   }
 
   static topType(top, toptok, our_address_without_0x) {
+    // LogUtilities.toDebugScreen('computeTxData -> ', typeof top);
     if (
       top instanceof
         TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.eth2tok] ||
