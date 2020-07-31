@@ -32,8 +32,8 @@ import { store } from '../store/store';
 
 import TxStorage from '../lib/tx.js';
 
-var storeReady = false;
-var storeReadyPromise;
+let storeReady = false;
+let storeReadyPromise;
 
 function setStoreReadyPromise(p) {
   storeReadyPromise = p;

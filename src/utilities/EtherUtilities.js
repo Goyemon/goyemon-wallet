@@ -7,6 +7,14 @@ class EtherUtilities {
     return Buffer.from(array).toString('hex');
   }
 
+  static dropHexPrefix(hex) {
+    return typeof hex === 'string'
+      ? hex.startsWith('0x')
+        ? hex.substr(2)
+        : hex
+      : hex;
+  }
+
   static getAddressWithout0x(checksumAddress) {
     const addressWithout0x =
       checksumAddress.substr(0, 2) == '0x' && checksumAddress.length > 2

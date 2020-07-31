@@ -5,7 +5,7 @@ import PersistentLogging from '../lib/logging.js';
 
 const DUMPOBJECT_DEFAULT_DEPTH = 4;
 
-var log_line_number = 0;
+let log_line_number = 0;
 
 class LogUtilities {
   static __getFormattedDate() {

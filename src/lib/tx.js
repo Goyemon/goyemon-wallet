@@ -1,13 +1,10 @@
 'use strict';
-
-import LogUtilities from '../utilities/LogUtilities';
-import AsyncStorage from '@react-native-community/async-storage';
-
 import crypto from 'crypto';
-
+import AsyncStorage from '@react-native-community/async-storage';
 import GlobalConfig from '../config.json';
+import EtherUtilities from '../utilities/EtherUtilities';
+import LogUtilities from '../utilities/LogUtilities';
 
-// ========== consts ==========
 const TxStates = {
   STATE_ERROR: -1,
   STATE_NEW: 0,
@@ -37,13 +34,6 @@ const TxTokenOpTypeToName = {
 };
 
 // ========== helper functions ==========
-function dropHexPrefix(hex) {
-  return typeof hex === 'string'
-    ? hex.startsWith('0x')
-      ? hex.substr(2)
-      : hex
-    : hex;
-}
 function hexToBuf(hex) {
   return typeof hex === 'string'
     ? Buffer.from(hex.startsWith('0x') ? hex.substr(2) : hex, 'hex')
@@ -254,32 +244,32 @@ class PersistTxStorageAbstraction {
     });
   }
 
-  async __getKey(k, processfunc) {
+  async __getKey(key, processfunc) {
     // TODO: needs cache cleaning
-    if (!this.cache[k]) {
-      const val = await AsyncStorage.getItem(k);
+    if (!this.cache[key]) {
+      const val = await AsyncStorage.getItem(key);
       if (this.debug && (val === null || val === undefined))
         LogUtilities.toDebugScreen(
-          `PersistTxStorageAbstraction __getKey(${k}) warning - returned null!`
+          `PersistTxStorageAbstraction __getKey(${key}) warning - returned null!`
         );
 
-      this.cache[k] = processfunc ? processfunc(val) : val;
+      this.cache[key] = processfunc ? processfunc(val) : val;
     }
 
-    return this.cache[k];
+    return this.cache[key];
   }
 
-  async __setKey(k, v, processfunc) {
-    this.cache[k] = v;
+  async __setKey(key, v, processfunc) {
+    this.cache[key] = v;
 
-    await AsyncStorage.setItem(k, processfunc ? processfunc(v) : v);
+    await AsyncStorage.setItem(key, processfunc ? processfunc(v) : v);
   }
 
-  async __removeKey(k) {
+  async __removeKey(key) {
     // there's a bit of a race condition. if we removeKey and at the same time getKey, remove will clear it from cache, but not from storage yet. getKey will potentially fetch it from storage then, before removeKey removes it from there.
-    delete this.cache[k];
+    delete this.cache[key];
 
-    await AsyncStorage.removeItem(k);
+    await AsyncStorage.removeItem(key);
   }
 
   __decodeBucket(b) {
@@ -1203,6 +1193,7 @@ class TxTokenOp {
     return Object.assign(new this.constructor([]), this);
   }
 }
+
 class TxTokenMintOp extends TxTokenOp {
   constructor(arr) {
     super();
@@ -1220,6 +1211,7 @@ class TxTokenMintOp extends TxTokenOp {
     };
   }
 }
+
 class TxTokenRedeemOp extends TxTokenOp {
   constructor(arr) {
     super();
@@ -1237,6 +1229,7 @@ class TxTokenRedeemOp extends TxTokenOp {
     };
   }
 }
+
 class TxTokenTransferOp extends TxTokenOp {
   constructor(arr) {
     super();
@@ -1254,6 +1247,7 @@ class TxTokenTransferOp extends TxTokenOp {
     };
   }
 }
+
 class TxTokenApproveOp extends TxTokenOp {
   constructor(arr) {
     super();
@@ -1267,6 +1261,7 @@ class TxTokenApproveOp extends TxTokenOp {
     };
   }
 }
+
 class TxTokenFailureOp extends TxTokenOp {
   constructor(arr) {
     super();
@@ -1280,6 +1275,7 @@ class TxTokenFailureOp extends TxTokenOp {
     };
   }
 }
+
 class TxTokenEth2TokOp extends TxTokenOp {
   constructor(arr) {
     super();
@@ -1297,6 +1293,7 @@ class TxTokenEth2TokOp extends TxTokenOp {
     };
   }
 }
+
 class TxTokenTok2EthOp extends TxTokenOp {
   constructor(arr) {
     super();
@@ -1601,7 +1598,7 @@ class Tx {
               this.addTokenOperation(
                 token,
                 op,
-                opdata.map((x) => dropHexPrefix(x))
+                opdata.map((x) => EtherUtilities.dropHexPrefix(x))
               )
             )
           )
@@ -1613,7 +1610,7 @@ class Tx {
               this.addTokenOperation(
                 token,
                 op,
-                opdata.map((x) => dropHexPrefix(x))
+                opdata.map((x) => EtherUtilities.dropHexPrefix(x))
               )
             )
           )
@@ -1625,9 +1622,9 @@ class Tx {
 
     return this.setFrom(data[0])
       .setTo(data[1])
-      .setGas(dropHexPrefix(data[2]))
-      .setGasPrice(dropHexPrefix(data[3]))
-      .setValue(dropHexPrefix(data[4]))
+      .setGas(EtherUtilities.dropHexPrefix(data[2]))
+      .setGasPrice(EtherUtilities.dropHexPrefix(data[3]))
+      .setValue(EtherUtilities.dropHexPrefix(data[4]))
       .setNonce(typeof data[5] === 'string' ? parseInt(data[5]) : data[5])
       .upgradeState(data[7], data[6]);
   }
