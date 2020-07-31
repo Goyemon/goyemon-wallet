@@ -53,7 +53,7 @@ class PortfolioWallet extends Component {
         token: 'DAI'
       },
       {
-        price: price.cdai,
+        price: parseFloat(price.cdai).toFixed(2),
         balance: CDAIBalance,
         usd: PriceUtilities.convertCDAIToUSD(CDAIBalance).toFixed(2),
         icon: require('../../../../assets/cdai_icon.png'),
