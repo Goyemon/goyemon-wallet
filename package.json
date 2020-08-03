@@ -108,7 +108,7 @@
       "git add"
     ],
     "*.js": [
-      "eslint --fix",
+      "eslint --fix src/**/*.js",
       "git add"
     ]
   },
