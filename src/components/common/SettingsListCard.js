@@ -3,7 +3,7 @@ import React from 'react';
 import { TouchableHighlight } from 'react-native';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import I18n from '../../i18n/I18n';
+// import I18n from '../../i18n/I18n';
 
 const SettingsListCard = (props) => (
   <TouchableHighlight onPress={props.onPress} underlayColor="#FFF">

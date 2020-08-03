@@ -154,7 +154,7 @@ class WalletCreation extends Component {
   }
 
   navigateToPortfolioHome() {
-    PortfolioStack.navigationOptions = ({ navigation }) => {
+    PortfolioStack.navigationOptions = () => {
       const tabBarVisible = true;
       return tabBarVisible;
     };

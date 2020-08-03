@@ -13,7 +13,7 @@ import {
 import WalletUtilities from '../../../utilities/WalletUtilities.ts';
 
 class CreateWalletTutorial extends Component {
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       loading: false,

@@ -81,7 +81,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
             await this.setState({
               data: TransactionUtilities.txDetailObject(
                 x,
-                EtherUtilities.getAddressWithout0x(props.checksumAddress)
+                EtherUtilities.getAddressWithout0x(this.props.checksumAddress)
               ),
               tx: x
             });
@@ -118,14 +118,15 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
     constructor(props) {
       super(props);
       this.state = {
-        WEIAmountValidation: undefined
+        WEIAmountValidation: undefined,
+        maxPrice: ''
       };
       this.state = this.getPriceState(
         Math.ceil(this.props.currentGasPrice * 1.2)
       );
       props.gasPrice.forEach((x) => {
         if (x.speed == 'super fast')
-          this.state.maxPrice = Math.ceil(x.value * 1.2);
+          this.setState({ maxPrice: Math.ceil(x.value * 1.2) });
       });
     }
 

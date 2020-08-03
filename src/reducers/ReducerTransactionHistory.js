@@ -20,7 +20,7 @@ const transactions = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SAVE_EMPTY_TRANSACTION:
       return { transactions: action.payload };
-    case SAVE_EXISTING_TRANSACTIONS:
+    case SAVE_EXISTING_TRANSACTIONS: {
       const transactions = [...action.payload];
 
       let removeSentTx;
@@ -34,6 +34,7 @@ const transactions = (state = INITIAL_STATE, action) => {
       return {
         transactions
       };
+    }
     case ADD_SENT_TRANSACTION:
       return {
         transactions: [action.payload, ...state.transactions]
@@ -51,9 +52,10 @@ const transactions = (state = INITIAL_STATE, action) => {
           transactions: [action.payload, ...state.transactions]
         };
       }
+      break;
     case UPDATE_PENDING_OR_INCLUDED_TRANSACTION:
       return {
-        transactions: state.transactions.map((transaction, index) => {
+        transactions: state.transactions.map((transaction) => {
           if (
             transaction.nonce === action.payload.nonce &&
             transaction.state === 'sent'
@@ -65,7 +67,7 @@ const transactions = (state = INITIAL_STATE, action) => {
       };
     case UPDATE_TRANSACTION_STATE:
       return {
-        transactions: state.transactions.map((transaction, index) => {
+        transactions: state.transactions.map((transaction) => {
           if (action.payload.hash === transaction.hash) {
             return { ...transaction, state: action.payload.state };
           }
@@ -102,7 +104,7 @@ const transactions = (state = INITIAL_STATE, action) => {
       };
     case UPDATE_ERROR_SENT_TRANSACTION:
       return {
-        transactions: state.transactions.map((transaction, index) => {
+        transactions: state.transactions.map((transaction) => {
           if (
             transaction.nonce === action.payload &&
             transaction.state === 'sent'
