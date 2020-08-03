@@ -2,8 +2,26 @@
   "parser": "babel-eslint",
   "env": {
       "browser": true,
-      "node": true
+      "node": true,
+      "es6": true
   },
+  "plugins": [
+    "react",
+    "prettier"
+  ],
+  "parserOptions": {
+    "version": 2018,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended",
+    "prettier/react"
+  ],
   "rules": {
       "quotes": [2, "single"],
       "no-unused-vars": ["error", { "vars": "local" }],
