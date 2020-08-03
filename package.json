@@ -10,7 +10,8 @@
     "android": "react-native run-android",
     "start": "react-native start",
     "npmreinstall": "rm -rf node_modules/ package-lock.json && npm install",
-    "prettier": "prettier --write src"
+    "prettier": "prettier --write src",
+    "lint": "eslint --fix src/**/*.js"
   },
   "dependencies": {
     "@react-native-community/netinfo": "^5.3.3",
@@ -74,7 +75,9 @@
     "web3": "1.2.8"
   },
   "devDependencies": {
+    "babel-eslint": "^10.1.0",
     "babel-jest": "^24.9.0",
+    "eslint": "^7.6.0",
     "husky": "^4.2.5",
     "jest": "^24.9.0",
     "lint-staged": "^10.2.11",

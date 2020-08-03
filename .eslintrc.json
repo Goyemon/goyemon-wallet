@@ -1,0 +1,12 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+      "browser": true,
+      "node": true
+  },
+  "rules": {
+      "quotes": [2, "single"],
+      "no-unused-vars": ["error", { "vars": "local" }],
+      "no-undef": "error"
+  }
+}
