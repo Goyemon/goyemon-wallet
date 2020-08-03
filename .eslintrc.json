@@ -25,6 +25,7 @@
   "rules": {
       "quotes": [2, "single"],
       "no-unused-vars": ["error", { "vars": "local" }],
-      "no-undef": "error"
+      "no-undef": "error",
+      "react/prop-types": 0
   }
 }

@@ -127,16 +127,16 @@ class PersistTxStorageAbstraction {
 		*/
   }
 
-  __init_lock(index) {
+  __init_lock() {
     // locks are noop for now, locking happens in TxStorage.
     return;
   }
 
-  async __lock(index) {
+  async __lock() {
     return;
   }
 
-  __unlock(index) {
+  __unlock() {
     return;
   }
 
@@ -164,20 +164,6 @@ class PersistTxStorageAbstraction {
             )
               temp_debug_bucket_names.push(`${this.prefix}i${x}${i}`);
           });
-          function bstats(buck) {
-            if (typeof buck !== 'string') return JSON.stringify(buck);
-
-            let itemlens = {};
-            let cnt = 0;
-            buck.split(',').forEach((x) => {
-              itemlens[x.length] = itemlens[x.length]
-                ? itemlens[x.length] + 1
-                : 1;
-              ++cnt;
-            });
-
-            return `cnt:${cnt} lengths:${JSON.stringify(itemlens)}`;
-          }
 
           AsyncStorage.multiGet(temp_debug_bucket_names).then((x) => {
             x.sort((a, b) => a[0].localeCompare(b[0]));
@@ -189,6 +175,19 @@ class PersistTxStorageAbstraction {
 
         if (init_finish_callback) init_finish_callback(failed_nonces);
       }
+    };
+
+    const bstats = (buck) => {
+      if (typeof buck !== 'string') return JSON.stringify(buck);
+
+      let itemlens = {};
+      let cnt = 0;
+      buck.split(',').forEach((x) => {
+        itemlens[x.length] = itemlens[x.length] ? itemlens[x.length] + 1 : 1;
+        ++cnt;
+      });
+
+      return `cnt:${cnt} lengths:${JSON.stringify(itemlens)}`;
     };
 
     const countToplocked = (name, bucketnum) => {
@@ -1172,7 +1171,7 @@ class TxException extends Error {
 }
 
 class NoSuchTxException extends TxException {}
-class InvalidStateTxException extends TxException {}
+// class InvalidStateTxException extends TxException {}
 class DuplicateNonceTxException extends TxException {}
 class DuplicateHashTxException extends TxException {}
 
@@ -1778,17 +1777,17 @@ class Tx {
   }
 }
 
-function arraySortUnique(x, sortfunc) {
-  // modifies input array
-  x.sort(sortfunc);
+// function arraySortUnique(x, sortfunc) {
+//   // modifies input array
+//   x.sort(sortfunc);
 
-  for (let lastElement, i = x.length - 1; i >= 0; i--) {
-    if (x[i] === lastElement) x.splice(i, 1);
-    else lastElement = x[i];
-  }
+//   for (let lastElement, i = x.length - 1; i >= 0; i--) {
+//     if (x[i] === lastElement) x.splice(i, 1);
+//     else lastElement = x[i];
+//   }
 
-  return x;
-}
+//   return x;
+// }
 
 // ========== storage class for all transactions ==========
 // this is the one we instantiate (once) to use the TX data in storage.
@@ -2121,9 +2120,7 @@ class TxStorage {
     if (data[0] !== null) {
       // we have the data, nice
       const ourTx = this.our_address.equals(Buffer.from(data[0], 'hex'));
-      const savedState = await AsyncStorage.getItem(
-        `tx_${txStatePrefix}${hash}`
-      );
+      let savedState = await AsyncStorage.getItem(`tx_${txStatePrefix}${hash}`);
       if (savedState) {
         await AsyncStorage.removeItem(`tx_${txStatePrefix}${hash}`);
         LogUtilities.toDebugScreen(
@@ -2376,7 +2373,7 @@ class TxStorage {
 
     //const hashes = await this.txes.getHashes('all', offset);
     const hashes = (await this.txes.getHashes('all', offset)).filter(
-      ([x, derp]) => !x.startsWith(txNoncePrefix) && !x.startsWith(txFailPrefix)
+      ([x]) => !x.startsWith(txNoncePrefix) && !x.startsWith(txFailPrefix)
     );
     const checkpoints = this.getCheckpoints(hashes.length, offset);
     const ret = [];

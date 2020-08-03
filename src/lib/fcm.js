@@ -7,12 +7,12 @@ import TxStorage from '../lib/tx.js';
 
 import GlobalConfig from '../config.json';
 
-function obj_property_default(obj, prop, def) {
-  if (obj.hasOwnProperty(prop)) return obj[prop];
-  obj[prop] = def;
+// function obj_property_default(obj, prop, def) {
+//   if (obj.hasOwnProperty(prop)) return obj[prop];
+//   obj[prop] = def;
 
-  return def;
-}
+//   return def;
+// }
 
 const msgtype_compressed = {
   txhistory: true,
@@ -212,7 +212,7 @@ class FCMMsgs {
     });
   }
 
-  sendTx(rawTx) {}
+  sendTx() {}
 }
 
 const instance = new FCMMsgs();

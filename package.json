@@ -90,7 +90,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "prettier --write src && eslint --fix && git add ."
+      "pre-commit": "lint-staged"
     }
   },
   "prettier": {

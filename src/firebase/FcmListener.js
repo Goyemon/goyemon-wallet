@@ -15,17 +15,17 @@ import {
 } from '../actions/ActionPoolTogether';
 import { saveUniswapV2WETHxDAIReserve } from '../actions/ActionUniswap';
 import { saveTransactionsLoaded } from '../actions/ActionTransactionsLoaded';
-import {
-  saveExistingTransactions,
-  saveEmptyTransaction,
-  addPendingOrIncludedTransaction,
-  updateWithPendingOrIncludedTransaction,
-  updateTransactionState,
-  addConfirmedTransaction,
-  updateConfirmedTransactionData,
-  removeExistingTransactionObject,
-  updateErrorSentTransaction
-} from '../actions/ActionTransactionHistory';
+// import {
+//   saveExistingTransactions,
+//   saveEmptyTransaction,
+//   addPendingOrIncludedTransaction,
+//   updateWithPendingOrIncludedTransaction,
+//   updateTransactionState,
+//   addConfirmedTransaction,
+//   updateConfirmedTransactionData,
+//   removeExistingTransactionObject,
+//   updateErrorSentTransaction
+// } from '../actions/ActionTransactionHistory';
 import { FCMMsgs } from '../lib/fcm.js';
 import LogUtilities from '../utilities/LogUtilities.js';
 import { store } from '../store/store';
@@ -119,7 +119,7 @@ async function downstreamMessageHandler(type, data) {
 
       break;
 
-    case 'pool_together_DAI_info':
+    case 'pool_together_DAI_info': {
       const pooltogetherDaiInfo = {
         ...data,
         pooltogether_accounted_balance: new BigNumber(
@@ -149,6 +149,7 @@ async function downstreamMessageHandler(type, data) {
         store.dispatch(togglePoolTogetherWinnerRevealed(false));
       }
       break;
+    }
 
     case 'uniswapV2_WETHxDAI_reserve':
       store.dispatch(saveUniswapV2WETHxDAIReserve(data));

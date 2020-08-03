@@ -12,7 +12,7 @@ class FcmPermissions {
       LogUtilities.logInfo('user has permissions');
       store.dispatch(saveNotificationPermission(true));
     } else {
-      LogUtilities.logInfo("user doesn't have permission");
+      LogUtilities.logInfo('user does not have permission');
       try {
         await firebase.messaging().requestPermission();
         const enabled = await firebase.messaging().hasPermission();

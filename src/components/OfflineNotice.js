@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 
 class OfflineNotice extends Component {
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       isConnected: true
@@ -27,7 +27,7 @@ class OfflineNotice extends Component {
     if (!this.state.isConnected) {
       return (
         <OfflineContainer>
-          <OfflineText>Whoops. You're Offline </OfflineText>
+          <OfflineText>Whoops. You&apos;re Offline </OfflineText>
           <Icon name="cloud-off-outline" size={18} color="#FFF" />
         </OfflineContainer>
       );
