@@ -1,6 +1,6 @@
 'use strict';
 import TransactionUtilities from './TransactionUtilities';
-import TxStorage from '../lib/tx.js';
+import TxStorage from '../lib/tx';
 
 class EtherUtilities {
   static hexArrayToString(array) {

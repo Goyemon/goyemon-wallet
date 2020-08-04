@@ -5,19 +5,19 @@ import '@react-native-firebase/messaging';
 import uuidv4 from 'uuid/v4';
 import Web3 from 'web3';
 import { store } from '../store/store.js';
-import ABIEncoder from '../utilities/AbiUtilities';
+import I18n from '../i18n/I18n';
+import TxStorage from '../lib/tx.js';
+import ABIEncoder from './AbiUtilities';
 import {
   RoundDownBigNumberPlacesFour,
   RoundDownBigNumberPlacesEighteen
-} from '../utilities/BigNumberUtilities';
-import I18n from '../i18n/I18n';
-import LogUtilities from '../utilities/LogUtilities.js';
-import PriceUtilities from '../utilities/PriceUtilities.js';
-import WalletUtilities from './WalletUtilities.ts';
-import TxStorage from '../lib/tx.js';
-import GlobalConfig from '../config.json';
+} from './BigNumberUtilities';
 import EtherUtilities from './EtherUtilities';
+import LogUtilities from './LogUtilities';
+import PriceUtilities from './PriceUtilities';
 import StyleUtilities from './StyleUtilities';
+import WalletUtilities from './WalletUtilities.ts';
+import GlobalConfig from '../config.json';
 
 class TransactionUtilities {
   parseETHValue(value) {
