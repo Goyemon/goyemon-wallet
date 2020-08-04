@@ -147,7 +147,7 @@ class FCMMsgs {
 
     if (msg.isComplete()) {
       if (this.tos[id]) {
-        // cancelTimeout(this.tos[id]);
+        clearTimeout(this.tos[id]);
         delete this.tos[id];
       }
       delete this.msgs[id];
