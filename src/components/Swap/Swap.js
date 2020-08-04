@@ -233,10 +233,9 @@ class Swap extends Component {
 
   renderInsufficientBalanceMessage() {
     if (
-      this.state.ETHSoldValidation ||
-      this.state.ETHSoldValidation === undefined
+      !this.state.ETHSoldValidation &&
+      !this.state.ETHSoldValidation === undefined
     ) {
-    } else {
       return (
         <View>
           <ErrorMessage textAlign="left">invalid amount!</ErrorMessage>

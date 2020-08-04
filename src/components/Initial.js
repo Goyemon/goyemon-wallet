@@ -107,8 +107,9 @@ class Initial extends Component {
           tabBarVisible = true;
         } else if (
           (navigation.state.index >= 0 && mainPage === 'Welcome') ||
-          'NotificationPermissionNotGranted' ||
-          'WalletCreation'
+          (navigation.state.index >= 0 &&
+            mainPage === 'NotificationPermissionNotGranted') ||
+          (navigation.state.index >= 0 && mainPage === 'WalletCreation')
         ) {
           tabBarVisible = false;
         }

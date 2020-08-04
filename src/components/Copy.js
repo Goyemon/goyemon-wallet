@@ -7,7 +7,7 @@ import styled from 'styled-components/native';
 import { CopyIcon } from './common';
 
 class Copy extends Component {
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       clipboardContent: null

@@ -64,7 +64,7 @@ class LogUtilities {
       if (x instanceof Array)
         return `[${x
           .map(
-            (x, idx) =>
+            (x) =>
               `${LogUtilities.__dumpObjectRecursively(x, level + 1, maxlevel)}`
           )
           .join(', ')}]`;

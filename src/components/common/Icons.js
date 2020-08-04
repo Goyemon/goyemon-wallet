@@ -30,7 +30,7 @@ const ReceiveIconContainer = styled.TouchableOpacity`
   width: 40px;
 `;
 
-const CopyIcon = (props) => (
+const CopyIcon = () => (
   <CopyIconContainer>
     <Icon name="content-copy" size={18} color="#fff" />
   </CopyIconContainer>

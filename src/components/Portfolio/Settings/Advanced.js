@@ -18,7 +18,7 @@ import GlobalConfig from '../../../config.json';
 import I18n from '../../../i18n/I18n';
 import { FCMMsgs } from '../../../lib/fcm.js';
 import LogUtilities from '../../../utilities/LogUtilities.js';
-import TxStorage from '../../../lib/tx.js';
+// import TxStorage from '../../../lib/tx.js';
 
 class Advanced extends Component {
   constructor(props) {
@@ -183,10 +183,11 @@ class Advanced extends Component {
             {I18n.t('settings-advanced-credit')}
           </HeaderThree>
           <GoyemonText fontSize="14">
-            "Dino Loading" by aan hamdani is licensed under CC BY 2.0
+            &quot;Dino Loading&quot; by aan hamdani is licensed under CC BY 2.0
           </GoyemonText>
           <GoyemonText fontSize="14">
-            "Trophy Success" by Brett Bertola is licensed under CC BY 2.0
+            &quot;Trophy Success&quot; by Brett Bertola is licensed under CC BY
+            2.0
           </GoyemonText>
         </Container>
       </RootContainer>

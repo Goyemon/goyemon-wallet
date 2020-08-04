@@ -26,7 +26,7 @@ const INITIAL_STATE = {
 
 const gasPrice = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case GET_GAS_PRICE:
+    case GET_GAS_PRICE: {
       const gasPriceSuperFastGwei = (action.payload.fast / 10).toString();
       const gasPriceSuperFastWei = Web3.utils.toWei(
         gasPriceSuperFastGwei,
@@ -51,6 +51,7 @@ const gasPrice = (state = INITIAL_STATE, action) => {
         }),
         gasChosen: state.gasChosen
       };
+    }
     case UPDATE_GAS_PRICE_CHOSEN:
       return { ...state, gasChosen: action.payload };
     default:

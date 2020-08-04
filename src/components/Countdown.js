@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 class Countdown extends Component {
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       remainingDays: 0,

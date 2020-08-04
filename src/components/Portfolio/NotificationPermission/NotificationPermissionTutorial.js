@@ -15,7 +15,7 @@ import I18n from '../../../i18n/I18n';
 import LogUtilities from '../../../utilities/LogUtilities.js';
 
 class NotificationPermissionTutorial extends Component {
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       loading: false,
