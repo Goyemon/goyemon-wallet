@@ -15,17 +15,6 @@ import {
 } from '../actions/ActionPoolTogether';
 import { saveUniswapV2WETHxDAIReserve } from '../actions/ActionUniswap';
 import { saveTransactionsLoaded } from '../actions/ActionTransactionsLoaded';
-// import {
-//   saveExistingTransactions,
-//   saveEmptyTransaction,
-//   addPendingOrIncludedTransaction,
-//   updateWithPendingOrIncludedTransaction,
-//   updateTransactionState,
-//   addConfirmedTransaction,
-//   updateConfirmedTransactionData,
-//   removeExistingTransactionObject,
-//   updateErrorSentTransaction
-// } from '../actions/ActionTransactionHistory';
 import { FCMMsgs } from '../lib/fcm.js';
 import LogUtilities from '../utilities/LogUtilities.js';
 import { store } from '../store/store';
