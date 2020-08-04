@@ -1,5 +1,6 @@
 apply plugin: "com.android.application"
-apply plugin: "io.fabric"
+apply plugin: 'com.google.gms.google-services'  // Google Play services Gradle plugin
+apply plugin: 'com.google.firebase.crashlytics' 
 
 import com.android.build.OutputFile
 
@@ -191,9 +192,6 @@ dependencies {
 
     implementation 'me.leolin:ShortcutBadger:1.1.21@aar'
     implementation 'com.android.support:multidex:1.0.3'
-    implementation('com.crashlytics.sdk.android:crashlytics:2.9.9@aar') {
-      transitive = true
-    }
 }
 
 // Run this once to be able to run the application with BUCK
@@ -202,7 +200,5 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
-
-apply plugin: 'com.google.gms.google-services'  // Google Play services Gradle plugin
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
