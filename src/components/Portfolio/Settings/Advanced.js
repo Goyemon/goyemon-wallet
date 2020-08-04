@@ -186,7 +186,8 @@ class Advanced extends Component {
             &quot;Dino Loading&quot; by aan hamdani is licensed under CC BY 2.0
           </GoyemonText>
           <GoyemonText fontSize="14">
-            &quot;Trophy Success&quot; by Brett Bertola is licensed under CC BY 2.0
+            &quot;Trophy Success&quot; by Brett Bertola is licensed under CC BY
+            2.0
           </GoyemonText>
         </Container>
       </RootContainer>

@@ -398,7 +398,7 @@ const Value = styled.Text`
   margin-left: 4;
 `;
 
-mapStateToProps = (state) => {
+const mapStateToProps = (state) => {
   return {
     isOnline: state.ReducerNetInfo.isOnline,
     gasChosen: state.ReducerGasPrice.gasChosen,

@@ -202,7 +202,7 @@ const TransactionAmount = (props) => {
             {option.sum} {token}
           </GoyemonText>
         );
-      break
+      break;
     case 'Incoming':
       return (
         <GoyemonText fontSize={16} style={styles.valueStyleGreen}>
