@@ -20,7 +20,6 @@ import ReducerPrice from './ReducerPrice';
 import ReducerRehydration from './ReducerRehydration';
 import ReducerModal from './ReducerModal';
 import ReducerTransactionsLoaded from './ReducerTransactionsLoaded';
-import ReducerTransactionHistory from './ReducerTransactionHistory';
 import ReducerTxFormValidation from './ReducerTxFormValidation';
 import ReducerUniswap from './ReducerUniswap';
 
@@ -43,7 +42,6 @@ const appReducers = combineReducers({
   ReducerPrice,
   ReducerRehydration,
   ReducerTransactionsLoaded,
-  ReducerTransactionHistory,
   ReducerTxFormValidation,
   ReducerUniswap
 });
