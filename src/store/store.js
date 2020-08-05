@@ -40,8 +40,6 @@ const persistConfig = {
   migrate: createMigrate(migrations, { debug: true })
 };
 
-// 'ReducerTransactionHistory',
-
 const persistedReducer = persistReducer(persistConfig, rootReducers);
 
 const store = createStore(persistedReducer, applyMiddleware(thunk));
