@@ -25,7 +25,11 @@ const TransactionDetailFooter = (props) => (
         <TxDetailValue>{props.to.substring(0, 24) + '...'}</TxDetailValue>
       </>
     ) : null}
-    <HeaderFive fontSize={20}>Network Fee</HeaderFive>
+    {props.status > 1 ? (
+      <HeaderFive fontSize={20}>Network Fee Paid</HeaderFive>
+    ) : (
+      <HeaderFive fontSize={20}>Max Network Fee</HeaderFive>
+    )}
     <TxDetailValue>{props.networkFee} ETH</TxDetailValue>
     {props.status >= 1 && (
       <View>
