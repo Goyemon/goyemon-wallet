@@ -47,7 +47,7 @@ TxStorage.storage.isStorageReady().then(() => {
 
 FCM.FCMMsgs.setMsgCallback(FcmListener.downstreamMessageHandler); // so now FcmListener is just a callback we attach to FCMMsgs.
 FcmListener.setStoreReadyPromise(
-  new Promise((resolve, reject) => {
+  new Promise((resolve) => {
     persistStore(store, {}, () => {
       LogUtilities.toDebugScreen('Redux-persist ready.');
       store.dispatch(rehydrationComplete(true));
@@ -63,5 +63,3 @@ FcmListener.setStoreReadyPromise(
   })
 );
 FCM.registerHandler(); // Then we call FCM.registerHandler() to actually initialize FCM.
-
-import __temp from './src/lib/debug';
