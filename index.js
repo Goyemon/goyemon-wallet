@@ -26,7 +26,7 @@ messaging().setBackgroundMessageHandler(async (downstreamMessage) => {
   return Promise.resolve();
 });
 
-YellowBox.ignoreWarnings(['Remote debugger']);
+YellowBox.ignoreWarnings(['Remote debugger', 'Require cycle']);
 
 AppRegistry.registerComponent(appName, () => App);
 
