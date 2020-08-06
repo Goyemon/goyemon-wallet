@@ -16,8 +16,8 @@ import EtherUtilities from './EtherUtilities';
 import LogUtilities from './LogUtilities';
 import PriceUtilities from './PriceUtilities';
 import StyleUtilities from './StyleUtilities';
-import WalletUtilities from './WalletUtilities.ts';
-import GlobalConfig from '../config.json';
+import WalletUtilities from './WalletUtilities';
+const GlobalConfig = require('../config.json');
 
 class TransactionUtilities {
   parseETHValue(value) {
@@ -290,9 +290,9 @@ class TransactionUtilities {
     outgoingTransactionObject = new ethTx(
       outgoingTransactionObject.toTransactionDict()
     );
-    let privateKey = await WalletUtilities.retrievePrivateKey();
-    privateKey = Buffer.from(privateKey, 'hex');
-    outgoingTransactionObject.sign(privateKey);
+    const privateKey = await WalletUtilities.retrievePrivateKey();
+    const privateKeyData = Buffer.from(privateKey, 'hex');
+    outgoingTransactionObject.sign(privateKeyData);
     let signedTransaction = outgoingTransactionObject.serialize();
     signedTransaction = `0x${signedTransaction.toString('hex')}`;
     return signedTransaction;
@@ -479,10 +479,11 @@ class TransactionUtilities {
     const ret = [];
 
     Object.entries(tx.getAllTokenOperations()).forEach(([toptok, toktops]) => {
-      toktops.forEach((x) => {
-        // LogUtilities.toDebugScreen('toktops for each', x);
-        ret.push(EtherUtilities.topType(x, toptok, walletAddressWithout0x));
-      });
+      if (toktops instanceof Array)
+        toktops.forEach((x) => {
+          // LogUtilities.toDebugScreen('toktops for each', x);
+          ret.push(EtherUtilities.topType(x, toptok, walletAddressWithout0x));
+        });
     });
 
     if (tx.getValue() !== '00' && ret.length === 0) {
