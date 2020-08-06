@@ -2,7 +2,6 @@
 import crypto from 'crypto';
 import AsyncStorage from '@react-native-community/async-storage';
 import GlobalConfig from '../config.json';
-import EtherUtilities from '../utilities/EtherUtilities';
 import LogUtilities from '../utilities/LogUtilities';
 
 const TxStates = {
@@ -34,6 +33,14 @@ const TxTokenOpTypeToName = {
 };
 
 // ========== helper functions ==========
+function dropHexPrefix(hex) {
+  return typeof hex === 'string'
+    ? hex.startsWith('0x')
+      ? hex.substr(2)
+      : hex
+    : hex;
+}
+
 function hexToBuf(hex) {
   return typeof hex === 'string'
     ? Buffer.from(hex.startsWith('0x') ? hex.substr(2) : hex, 'hex')
@@ -1597,7 +1604,7 @@ class Tx {
               this.addTokenOperation(
                 token,
                 op,
-                opdata.map((x) => EtherUtilities.dropHexPrefix(x))
+                opdata.map((x) => dropHexPrefix(x))
               )
             )
           )
@@ -1609,7 +1616,7 @@ class Tx {
               this.addTokenOperation(
                 token,
                 op,
-                opdata.map((x) => EtherUtilities.dropHexPrefix(x))
+                opdata.map((x) => dropHexPrefix(x))
               )
             )
           )
@@ -1621,9 +1628,9 @@ class Tx {
 
     return this.setFrom(data[0])
       .setTo(data[1])
-      .setGas(EtherUtilities.dropHexPrefix(data[2]))
-      .setGasPrice(EtherUtilities.dropHexPrefix(data[3]))
-      .setValue(EtherUtilities.dropHexPrefix(data[4]))
+      .setGas(dropHexPrefix(data[2]))
+      .setGasPrice(dropHexPrefix(data[3]))
+      .setValue(dropHexPrefix(data[4]))
       .setNonce(typeof data[5] === 'string' ? parseInt(data[5]) : data[5])
       .upgradeState(data[7], data[6]);
   }
