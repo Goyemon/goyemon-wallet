@@ -119,7 +119,8 @@
     ]
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "setupFiles": "./jest.setup.js"
   },
   "react-native": {
     "_stream_transform": "readable-stream/transform",

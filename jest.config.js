@@ -7,6 +7,7 @@ module.exports = {
   },
   moduleFileExtensions: ['js', 'ts', 'json'],
   moduleNameMapper: {
-    '@react-native-firebase/*': '<rootDir>/jest/mocks/firebase/mock.js'
+    '@react-native-firebase/*': '<rootDir>/jest/mocks/firebase/mock.js',
+    'react-native-localize': '<rootDir>/jest/mocks/react-native-localize/mock.js',
   }
 };
