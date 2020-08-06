@@ -5,7 +5,7 @@
   "scripts": {
     "postinstall": "rn-nodeify --install stream,crypto,http,https,url,os,process,buffer,events,assert,vm --hack",
     "jetifier": "jetifier -r",
-    "test": "jeQAZ!@#st",
+    "test": "NODE_ENV=test jest",
     "ios": "react-native run-ios",
     "android": "react-native run-android",
     "start": "react-native start",
@@ -75,6 +75,7 @@
     "web3": "1.2.8"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.9",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^24.9.0",
     "eslint": "^7.6.0",
@@ -86,7 +87,8 @@
     "lint-staged": "^10.2.11",
     "metro-react-native-babel-preset": "^0.56.0",
     "prettier": "^2.0.5",
-    "react-test-renderer": "16.9.0"
+    "react-test-renderer": "16.9.0",
+    "ts-jest": "^26.1.4"
   },
   "husky": {
     "hooks": {
