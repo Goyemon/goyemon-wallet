@@ -188,13 +188,16 @@ const TransactionAmount = (props) => {
   const { amount, token, option, method } = props;
   switch (method) {
     case 'Deposit':
+    // falls through
     case 'Outgoing':
       return (
         <GoyemonText fontSize={16} style={styles.valueStyleRed}>
           {amount} {token}
         </GoyemonText>
       );
+    // falls through
     case 'Reward':
+    // falls through
     case 'Withdraw':
       if (option)
         return (
@@ -209,6 +212,7 @@ const TransactionAmount = (props) => {
           {amount} {token}
         </GoyemonText>
       );
+    // falls through
     case 'Swap':
       return (
         <SwapValueContainer>
@@ -227,16 +231,20 @@ const TransactionAmount = (props) => {
           </SwapValueTextContainer>
         </SwapValueContainer>
       );
+    // falls through
     case 'Self':
       return (
         <GoyemonText fontSize={16}>
           {amount} {token}
         </GoyemonText>
       );
+    // falls through
     case 'Failed':
       return <GoyemonText fontSize={16}></GoyemonText>;
+    // falls through
     default:
       return null;
+    // falls through
   }
 };
 
