@@ -5,7 +5,7 @@ import GlobalConfig from '../config.json';
 import LogUtilities from '../utilities/LogUtilities';
 
 const TxStates = {
-  STATE_ERROR: -1,
+  STATE_GETH_ERROR: -1,
   STATE_NEW: 0,
   STATE_PENDING: 1,
   STATE_INCLUDED: 2,
@@ -2237,7 +2237,7 @@ class TxStorage {
       this.failed_nonces[nonce] = true;
 
       let newtx = tx.deepClone();
-      newtx.setState(TxStates.STATE_ERROR);
+      newtx.setState(TxStates.STATE_GETH_ERROR);
 
       await this.txes.replaceTx(
         tx,
