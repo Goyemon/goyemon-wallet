@@ -9,6 +9,7 @@ const mockReturnValues = {
   }),
   stringOne: JSON.stringify('testing string')
 };
+
 function mockMultiGetTestData() {
   return [
     ['key1', JSON.stringify({ valor: 1 })],
@@ -27,7 +28,7 @@ jest.mock('@react-native-community/async-storage', () => ({
       resolve('null');
     });
   }),
-  getItem: jest.fn((key) => {
+  getItem: jest.fn(() => {
     return new Promise((resolve) => {
       resolve('null');
     });
