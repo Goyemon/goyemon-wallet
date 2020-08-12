@@ -606,10 +606,10 @@ class TransactionUtilities {
     }
   }
 
-  getOption = (data: any, service: any, method: any) => {
+  getOption = (data: any, service: any, method: any):string | Object => {
     // LogUtilities.toDebugScreen('getOption data is', data)
     if (service === 'Uniswap' || method === I18n.t('history-swap'))
-      return data.length < 1 ? false : this.getSwapOption(data);
+      return data.length < 1 ? '' : this.getSwapOption(data);
     else if (service === 'PoolTogether' && method === 'Withdraw') {
       return this.getPTOption(data);
     } else return '';
@@ -789,6 +789,7 @@ class TransactionUtilities {
         1000000000000000000,
       hash = tx.getHash(),
       data = this.computeTxData(tx, checksumAddr);
+      LogUtilities.toDebugScreen("data is here", data);
     if (data) {
       const from = data[0].direction ? this.getFromAddr(data, tx) : '',
         to = data[0].direction ? this.getToAddr(data, tx) : '';

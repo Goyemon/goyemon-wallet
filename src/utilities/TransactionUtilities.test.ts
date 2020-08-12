@@ -1,22 +1,5 @@
 import TransactionUtilities from './TransactionUtilities';
-import * as ReactNative from 'react-native';
-// const mockReturnValues = {
-//   arrayOne: JSON.stringify(['red', 'blue']),
-//   objectOne: JSON.stringify({
-//     isATest: true,
-//     hasNestedData: {
-//       ohYeah: "it's true"
-//     }
-//   }),
-//   stringOne: JSON.stringify('testing string')
-// };
-
-// function mockMultiGetTestData() {
-//   return [
-//     ['key1', JSON.stringify({ valor: 1 })],
-//     ['key2', JSON.stringify({ valor: 2 })]
-//   ];
-// }
+import { tx, data } from '../../jest/sample/data'
 
 jest.mock('@react-native-community/async-storage', () => ({
   setItem: jest.fn(() => {
@@ -68,6 +51,39 @@ jest.mock('react-native', () => {
   }
 });
 
-test('function checks whether arg is number', () => {
-  expect(TransactionUtilities.isNumber(1)).toBe(true);
-});
+describe('utilities test', (): void => {
+  test('isNumber function test', (): void => {
+    expect(TransactionUtilities.isNumber(1)).toBe(true);
+    expect(TransactionUtilities.isNumber("p")).toBe(false);
+  });
+
+  test('getToken function test', (): void => {
+    expect(TransactionUtilities.getToken(data.normalOutgoing)).toBe("ETH");
+    expect(TransactionUtilities.getToken(data.normalIncoming)).toBe("ETH");
+    expect(TransactionUtilities.getToken(data.normalSelf)).toBe("ETH");
+    expect(TransactionUtilities.getToken(data.daiOutgoing)).toBe("DAI");
+    expect(TransactionUtilities.getToken(data.cdaiOutgoing)).toBe("cDAI");
+    expect(TransactionUtilities.getToken(data.compoundWithdraw)).toBe("DAI");
+    expect(TransactionUtilities.getToken(data.compoundDeposit)).toBe("DAI");
+  })
+
+  test('getMethodName function test', (): void => {
+    expect(TransactionUtilities.getMethodName(data.normalOutgoing)).toBe("Outgoing");
+    expect(TransactionUtilities.getMethodName(data.normalIncoming)).toBe("Incoming");
+    expect(TransactionUtilities.getMethodName(data.normalSelf)).toBe("Self");
+    expect(TransactionUtilities.getMethodName(data.daiOutgoing)).toBe("Outgoing");
+    expect(TransactionUtilities.getMethodName(data.cdaiOutgoing)).toBe("Outgoing");
+    expect(TransactionUtilities.getMethodName(data.compoundWithdraw)).toBe("Withdraw");
+    expect(TransactionUtilities.getMethodName(data.compoundDeposit)).toBe("Deposit");
+    expect(TransactionUtilities.getMethodName(data.uniswap)).toBe("Swap");
+  })
+
+  test('getOption function test', (): void => {
+    const noneOption = TransactionUtilities.getOption(data.normalOutgoing, "", "Outgoing")
+    const swapOption = TransactionUtilities.getOption(data.uniswap, "Uniswap", "Swap")
+    if (typeof noneOption == 'string') expect(noneOption).toBe("");
+    else throw 'noneOption type is not correct'
+    if (typeof swapOption == 'object') expect(JSON.stringify(swapOption)).toBe(JSON.stringify(TransactionUtilities.getSwapOption(data.uniswap)))
+    else throw 'swapOption type is not correct'
+  })
+})
