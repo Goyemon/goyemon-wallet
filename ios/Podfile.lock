@@ -102,8 +102,8 @@ PODS:
   - GoogleUtilities/UserDefaults (6.6.0):
     - GoogleUtilities/Logger
   - lottie-ios (3.1.8)
-  - lottie-react-native (3.4.0):
-    - lottie-ios (~> 3.1.3)
+  - lottie-react-native (3.5.0):
+    - lottie-ios (~> 3.1.8)
     - React
   - nanopb (1.30905.0):
     - nanopb/decode (= 1.30905.0)
@@ -397,6 +397,7 @@ DEPENDENCIES:
   - FBReactNativeSpec (from `../node_modules/react-native/Libraries/FBReactNativeSpec`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - lottie-ios (from `../node_modules/lottie-ios`)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
   - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
@@ -460,7 +461,6 @@ SPEC REPOS:
     - GoogleDataTransport
     - GoogleDataTransportCCTSupport
     - GoogleUtilities
-    - lottie-ios
     - nanopb
     - PromisesObjC
     - Protobuf
@@ -476,6 +476,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  lottie-ios:
+    :path: "../node_modules/lottie-ios"
   lottie-react-native:
     :path: "../node_modules/lottie-react-native"
   Permission-Camera:
@@ -582,7 +584,7 @@ SPEC CHECKSUMS:
   GoogleDataTransportCCTSupport: 489c1265d2c85b68187a83a911913d190012158d
   GoogleUtilities: 39530bc0ad980530298e9c4af8549e991fd033b1
   lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
-  lottie-react-native: a664f59f1f298c2696dd0ae07b15cbdfc433cb02
+  lottie-react-native: 1fb4ce21d6ad37dab8343eaff8719df76035bd93
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
   Permission-Camera: 53d46bd722aea28d796e20f05fb3cbe6cde6ccb6
   PromisesObjC: b48e0338dbbac2207e611750777895f7a5811b75
@@ -629,4 +631,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 4e3e9ec1a2d1818152ffc5bc2c20824938d36e62
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.9.3

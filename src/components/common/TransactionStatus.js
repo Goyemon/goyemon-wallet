@@ -23,7 +23,7 @@ const TransactionStatus = (props) => (
           text = I18n.t('history-success');
           break;
 
-        case TxStorage.TxStates.STATE_ERROR:
+        case TxStorage.TxStates.STATE_GETH_ERROR:
           return (
             <FailedStatusText>{I18n.t('history-failed')}</FailedStatusText>
           );

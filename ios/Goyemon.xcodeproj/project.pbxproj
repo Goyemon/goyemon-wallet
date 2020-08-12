@@ -14,6 +14,8 @@
 		3305BCA322B2696B0010C8BD /* Arimo-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3305BC7422B2696B0010C8BD /* Arimo-Regular.ttf */; };
 		3305BCA422B2696B0010C8BD /* Arimo-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3305BCA222B2696B0010C8BD /* Arimo-Bold.ttf */; };
 		33112DFD22C0EF3B004CD15B /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33892D6F22BB2CC200D9F8F4 /* JavaScriptCore.framework */; };
+		331DE5B624DD065C00357A33 /* liblottie-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 331DE5B524DD065C00357A33 /* liblottie-ios.a */; };
+		331DE5B824DD065C00357A33 /* liblottie-react-native.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 331DE5B724DD065C00357A33 /* liblottie-react-native.a */; };
 		33489E8022BB25110011677D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 33489E7F22BB25110011677D /* Default-568h@2x.png */; };
 		335A08222348B419003DC8EC /* RCTBridgeModule.h in Sources */ = {isa = PBXBuildFile; fileRef = 33ABA60023486E6300B36305 /* RCTBridgeModule.h */; };
 		335DD944234A127C0005C300 /* libswiftObjectiveC.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 335DD93B234A127C0005C300 /* libswiftObjectiveC.tbd */; };
@@ -63,6 +65,8 @@
 		1878C5A942254020A5A4C251 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		3305BC7422B2696B0010C8BD /* Arimo-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Arimo-Regular.ttf"; path = "Fonts/Arimo-Regular.ttf"; sourceTree = "<group>"; };
 		3305BCA222B2696B0010C8BD /* Arimo-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Arimo-Bold.ttf"; path = "Fonts/Arimo-Bold.ttf"; sourceTree = "<group>"; };
+		331DE5B524DD065C00357A33 /* liblottie-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "liblottie-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		331DE5B724DD065C00357A33 /* liblottie-react-native.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "liblottie-react-native.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		33489E7F22BB25110011677D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		3354232523247A2F009356D6 /* FirebaseCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FirebaseCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		335DD93B234A127C0005C300 /* libswiftObjectiveC.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libswiftObjectiveC.tbd; path = usr/lib/swift/libswiftObjectiveC.tbd; sourceTree = SDKROOT; };
@@ -126,6 +130,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				331DE5B624DD065C00357A33 /* liblottie-ios.a in Frameworks */,
+				331DE5B824DD065C00357A33 /* liblottie-react-native.a in Frameworks */,
 				33832B97249B312400A1061B /* libFirebaseCoreDiagnostics.a in Frameworks */,
 				335DD944234A127C0005C300 /* libswiftObjectiveC.tbd in Frameworks */,
 				33ABA5EB2348632200B36305 /* libreact-native-randombytes.a in Frameworks */,
@@ -198,6 +204,8 @@
 		33892D6E22BB2CBA00D9F8F4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				331DE5B524DD065C00357A33 /* liblottie-ios.a */,
+				331DE5B724DD065C00357A33 /* liblottie-react-native.a */,
 				33832B96249B312400A1061B /* libFirebaseCoreDiagnostics.a */,
 				3367CB1A249B2A5700B4C0E7 /* libFirebaseCoreDiagnostics.a */,
 				33C2AF3A23600EB400325664 /* libReact-Core.a */,
