@@ -1,21 +1,22 @@
 import TransactionUtilities from './TransactionUtilities';
-const mockReturnValues = {
-  arrayOne: JSON.stringify(['red', 'blue']),
-  objectOne: JSON.stringify({
-    isATest: true,
-    hasNestedData: {
-      ohYeah: "it's true"
-    }
-  }),
-  stringOne: JSON.stringify('testing string')
-};
+import * as ReactNative from "react-native";
+// const mockReturnValues = {
+//   arrayOne: JSON.stringify(['red', 'blue']),
+//   objectOne: JSON.stringify({
+//     isATest: true,
+//     hasNestedData: {
+//       ohYeah: "it's true"
+//     }
+//   }),
+//   stringOne: JSON.stringify('testing string')
+// };
 
-function mockMultiGetTestData() {
-  return [
-    ['key1', JSON.stringify({ valor: 1 })],
-    ['key2', JSON.stringify({ valor: 2 })]
-  ];
-}
+// function mockMultiGetTestData() {
+//   return [
+//     ['key1', JSON.stringify({ valor: 1 })],
+//     ['key2', JSON.stringify({ valor: 2 })]
+//   ];
+// }
 
 jest.mock('@react-native-community/async-storage', () => ({
   setItem: jest.fn(() => {
@@ -56,6 +57,16 @@ jest.mock('@react-native-community/async-storage', () => ({
 jest.mock('react-native-keychain', () => ({
     getGenericPassword: jest.fn(password => console.log(password))
 }));
+
+jest.mock('react-native', () => {
+  return Object.setPrototypeOf({
+    NativeModules: {
+      RNRandomBytes: {
+        seed: 'seed'
+      }
+    }
+  })
+})
 
 test('function checks whether arg is number', () => {
   expect(TransactionUtilities.isNumber(1)).toBe(true);

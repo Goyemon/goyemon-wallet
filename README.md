@@ -81,7 +81,7 @@ I am using:
 $ python --version
 Python 3.7.0
 $ node --version
-v11.6.0
+v12.0.0
 $ npm --version
 6.14.0
 $ ruby --version
