@@ -1,5 +1,5 @@
 import TransactionUtilities from './TransactionUtilities';
-import * as ReactNative from "react-native";
+import * as ReactNative from 'react-native';
 // const mockReturnValues = {
 //   arrayOne: JSON.stringify(['red', 'blue']),
 //   objectOne: JSON.stringify({
@@ -55,18 +55,18 @@ jest.mock('@react-native-community/async-storage', () => ({
 }));
 
 jest.mock('react-native-keychain', () => ({
-    getGenericPassword: jest.fn(password => console.log(password))
+  getGenericPassword: jest.fn((password) => console.log(password))
 }));
 
 jest.mock('react-native', () => {
-  return Object.setPrototypeOf({
+  return {
     NativeModules: {
       RNRandomBytes: {
         seed: 'seed'
       }
     }
-  })
-})
+  }
+});
 
 test('function checks whether arg is number', () => {
   expect(TransactionUtilities.isNumber(1)).toBe(true);

@@ -5,13 +5,13 @@ const bip39 = require('react-native-bip39');
 import * as Keychain from 'react-native-keychain';
 import EtherUtilities from './EtherUtilities.js';
 
-const KEY_WALLET_MNEMONIC :string = 'KEY_WALLET_MNEMONIC';
-const KEY_WALLET_PRIVATE_KEY :string = 'KEY_WALLET_PRIVATEKEY';
+const KEY_WALLET_MNEMONIC: string = 'KEY_WALLET_MNEMONIC';
+const KEY_WALLET_PRIVATE_KEY: string = 'KEY_WALLET_PRIVATEKEY';
 
 class WalletUtilities {
-  private root :any;
-  private wallet :any;
-  private mnemonic :any;
+  private root: any;
+  private wallet: any;
+  private mnemonic: any;
 
   public constructor() {
     this.init = this.init.bind(this);
@@ -32,7 +32,7 @@ class WalletUtilities {
   //   return this.mnemonic;
   // }
 
-  public async generateWallet(mnemonic :any) {
+  public async generateWallet(mnemonic: any) {
     let seedhex = bip39.mnemonicToSeedHex(mnemonic);
     let seed = Buffer.from(seedhex, 'hex');
     this.root = hdkey.fromMasterSeed(seed);
@@ -68,7 +68,7 @@ class WalletUtilities {
     }
   }
 
-  private async setPrivateKey(privateKey :any) {
+  private async setPrivateKey(privateKey: any) {
     const result = await this.retrievePrivateKey();
     if (!result) {
       const result = await Keychain.setGenericPassword(
@@ -94,7 +94,7 @@ class WalletUtilities {
     while (true) {
       const words = mnemonic.split(' ');
       const uniqueWords = words.filter(
-        (word :any, index :any) => words.indexOf(word) == index
+        (word: any, index: any) => words.indexOf(word) == index
       );
       if (words.length == uniqueWords.length) {
         break;
@@ -106,13 +106,13 @@ class WalletUtilities {
     return mnemonic;
   }
 
-  private validateMnemonic(mnemonic :any) {
+  private validateMnemonic(mnemonic: any) {
     if (!bip39.validateMnemonic(mnemonic)) {
       return false;
     }
     const words = mnemonic.split(' ');
     const uniqueWords = words.filter(
-      (word :any, index :any) => words.indexOf(word) == index
+      (word: any, index: any) => words.indexOf(word) == index
     );
     return words.length === uniqueWords.length;
   }
@@ -130,7 +130,7 @@ class WalletUtilities {
     }
   }
 
-  private async setMnemonic(mnemonic :any) {
+  private async setMnemonic(mnemonic: any) {
     const result = await Keychain.setGenericPassword(
       'MNEMONIC',
       mnemonic,

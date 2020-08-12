@@ -20,9 +20,9 @@ import WalletUtilities from './WalletUtilities';
 const GlobalConfig = require('../config.json');
 
 interface balanceObject {
-  DAI: number
-  cDAI: number
-  plDAI: number
+  DAI: number;
+  cDAI: number;
+  plDAI: number;
 }
 
 class TransactionUtilities {
@@ -41,14 +41,14 @@ class TransactionUtilities {
     return parsedDAIValue;
   }
 
-  parseHexCDAIValue(value :any) {
+  parseHexCDAIValue(value: any) {
     const parsedCDAIValue = new RoundDownBigNumberPlacesFour(value, 16)
       .div(new RoundDownBigNumberPlacesFour(10).pow(8))
       .toString();
     return parsedCDAIValue;
   }
 
-  parseTransactionTime(timestamp :any) {
+  parseTransactionTime(timestamp: any) {
     const seconds = Math.floor((Date.now() - timestamp * 1000) / 1000);
     const months = [
       'January',
@@ -91,7 +91,7 @@ class TransactionUtilities {
   }
 
   // retrieve the number of decimals
-  decimalPlaces(number :any) {
+  decimalPlaces(number: any) {
     const match = ('' + number).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
     if (!match) {
       return 0;
@@ -102,7 +102,7 @@ class TransactionUtilities {
     );
   }
 
-  returnTransactionSpeed(chosenSpeed :any) {
+  returnTransactionSpeed(chosenSpeed: any) {
     const stateTree = store.getState();
     const gasPrice = stateTree.ReducerGasPrice.gasPrice;
     if (chosenSpeed === 0) {
@@ -113,11 +113,11 @@ class TransactionUtilities {
       return parseInt(String(gasPrice[2]!.value));
     } else {
       LogUtilities.logInfo('invalid transaction speed');
-      throw 'invalid transaction speed'
+      throw 'invalid transaction speed';
     }
   }
 
-  hasSufficientWEIForNetworkFee(gasPriceWei :any, gasLimit :any) {
+  hasSufficientWEIForNetworkFee(gasPriceWei: any, gasLimit: any) {
     const stateTree = store.getState();
     const balance = stateTree.ReducerBalance.balance;
     const WEIBalance = new RoundDownBigNumberPlacesEighteen(balance.wei);
@@ -133,7 +133,7 @@ class TransactionUtilities {
     return false;
   }
 
-  hasSufficientWeiForAmount(WEIAmount :any, gasLimit :any) {
+  hasSufficientWeiForAmount(WEIAmount: any, gasLimit: any) {
     LogUtilities.logInfo('hasSufficientWeiForAmount -> ', WEIAmount, gasLimit);
 
     if (this.isNumber(WEIAmount)) {
@@ -159,7 +159,7 @@ class TransactionUtilities {
     }
   }
 
-  hasSufficientDAIForAmount(DAIAmount :any) {
+  hasSufficientDAIForAmount(DAIAmount: any) {
     if (this.isNumber(DAIAmount) && this.isLessThan18Digits(DAIAmount)) {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
@@ -182,16 +182,19 @@ class TransactionUtilities {
     }
   }
 
-  hasSufficientTokenForAmount = (amount :any, token :"DAI" | "cDAI" | "plDAI") => {
+  hasSufficientTokenForAmount = (
+    amount: any,
+    token: 'DAI' | 'cDAI' | 'plDAI'
+  ) => {
     if (this.isNumber(amount)) {
       const stateTree = store.getState();
       const balanceState = stateTree.ReducerBalance.balance;
-      const balanceObject :balanceObject = {
+      const balanceObject: balanceObject = {
         DAI: balanceState.dai,
         cDAI: balanceState.cDai,
         plDAI: balanceState.pooltogetherDai.committed
       };
-      const key: (keyof balanceObject) = token
+      const key: keyof balanceObject = token;
       const tokenBalance = new RoundDownBigNumberPlacesEighteen(
         balanceObject[key]
       );
@@ -210,7 +213,7 @@ class TransactionUtilities {
     return false;
   };
 
-  hasSufficientDAIForPoolTogetherDepositAmount(DAIAmount :any) {
+  hasSufficientDAIForPoolTogetherDepositAmount(DAIAmount: any) {
     if (this.isInteger(DAIAmount) && this.isLessThan18Digits(DAIAmount)) {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
@@ -233,7 +236,7 @@ class TransactionUtilities {
     }
   }
 
-  validateDAICompoundWithdrawAmount(DAIWithdrawAmount :any) {
+  validateDAICompoundWithdrawAmount(DAIWithdrawAmount: any) {
     if (
       this.isNumber(DAIWithdrawAmount) &&
       this.isLessThan18Digits(DAIWithdrawAmount)
@@ -262,7 +265,7 @@ class TransactionUtilities {
     }
   }
 
-  validateDAIPoolTogetherWithdrawAmount(DAIWithdrawAmount :any) {
+  validateDAIPoolTogetherWithdrawAmount(DAIWithdrawAmount: any) {
     if (
       this.isInteger(DAIWithdrawAmount) &&
       this.isLessThan18Digits(DAIWithdrawAmount)
@@ -294,7 +297,9 @@ class TransactionUtilities {
     }
   }
 
-  async constructSignedOutgoingTransactionObject(outgoingTransactionObject :any) {
+  async constructSignedOutgoingTransactionObject(
+    outgoingTransactionObject: any
+  ) {
     outgoingTransactionObject = new ethTx(
       outgoingTransactionObject.toTransactionDict()
     );
@@ -306,13 +311,13 @@ class TransactionUtilities {
     return signedTransaction;
   }
 
-  async sendOutgoingTransactionToServer(outgoingTransactionObject :any) {
+  async sendOutgoingTransactionToServer(outgoingTransactionObject: any) {
     // should be renamed cause it also does .saveTx()
     await this.sendTransactionToServer(outgoingTransactionObject);
     await TxStorage.storage.saveTx(outgoingTransactionObject);
   }
 
-  async sendTransactionToServer(txObject :any) {
+  async sendTransactionToServer(txObject: any) {
     // should be renamed cause it also does .saveTx()
     const messageId = uuidv4();
     const serverAddress = GlobalConfig.FCM_server_address;
@@ -342,7 +347,7 @@ class TransactionUtilities {
       });
   }
 
-  getMaxNetworkFeeInETH(gasPriceWei :any, gasLimit :any) {
+  getMaxNetworkFeeInETH(gasPriceWei: any, gasLimit: any) {
     const maxNetworkFeeInWei = Web3.utils
       .toBN(gasPriceWei)
       .mul(Web3.utils.toBN(gasLimit));
@@ -352,16 +357,18 @@ class TransactionUtilities {
     return maxNetworkFeeInEther;
   }
 
-  getMaxNetworkFeeInUSD(gasPriceWei :any, gasLimit :any) {
-    let maxNetworkFeeInUSD :number | undefined | string = PriceUtilities.convertETHToUSD(
+  getMaxNetworkFeeInUSD(gasPriceWei: any, gasLimit: any) {
+    let maxNetworkFeeInUSD:
+      | number
+      | undefined
+      | string = PriceUtilities.convertETHToUSD(
       this.getMaxNetworkFeeInETH(gasPriceWei, gasLimit)
     );
-    if (maxNetworkFeeInUSD)
-      maxNetworkFeeInUSD = maxNetworkFeeInUSD.toFixed(3);
+    if (maxNetworkFeeInUSD) maxNetworkFeeInUSD = maxNetworkFeeInUSD.toFixed(3);
     return maxNetworkFeeInUSD;
   }
 
-  getApproveEncodedABI(addressSpender :any) {
+  getApproveEncodedABI(addressSpender: any) {
     const amount = `0x${'ff'.repeat(256 / 8)}`; // TODO: this needs to be a const somewhere, likely uint256max_hex.
 
     const approveEncodedABI = ABIEncoder.encodeApprove(
@@ -373,7 +380,7 @@ class TransactionUtilities {
     return approveEncodedABI;
   }
 
-  async constructApproveTransactionObject(spender :any, gasChosen :any) {
+  async constructApproveTransactionObject(spender: any, gasChosen: any) {
     const approveEncodedABI = this.getApproveEncodedABI(spender);
     const approveTransactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.DAITokenContract)
@@ -389,19 +396,29 @@ class TransactionUtilities {
     return approveTransactionObject;
   }
 
-  ETHToHexWEI(etherValue :any) {
-    const weiValue :any = Web3.utils.toWei(etherValue);
+  ETHToHexWEI(etherValue: any) {
+    const weiValue: any = Web3.utils.toWei(etherValue);
     return new RoundDownBigNumberPlacesEighteen(weiValue).toString(16);
   }
 
-  constructETHTransfer = async (toAddr :any, amount :any, gasChosen :any, gasLimit :any) =>
+  constructETHTransfer = async (
+    toAddr: any,
+    amount: any,
+    gasChosen: any,
+    gasLimit: any
+  ) =>
     (await TxStorage.storage.newTx())
       .setTo(toAddr)
       .setValue(new RoundDownBigNumberPlacesEighteen(amount).toString(16))
       .setGasPrice(this.returnTransactionSpeed(gasChosen).toString(16))
       .setGas(gasLimit.toString(16));
 
-  constructDAITransfer = async (toAddr :any, amount :any, gasChosen :any, gasLimit :any) => {
+  constructDAITransfer = async (
+    toAddr: any,
+    amount: any,
+    gasChosen: any,
+    gasLimit: any
+  ) => {
     const DAIAmount = amount.split('.').join('');
     const decimalPlaces = this.decimalPlaces(amount);
     const decimals = 18 - decimalPlaces;
@@ -426,7 +443,12 @@ class TransactionUtilities {
       ]);
   };
 
-  constructCDAITransfer = async (toAddr :any, amount :any, gasChosen :any, gasLimit :any) => {
+  constructCDAITransfer = async (
+    toAddr: any,
+    amount: any,
+    gasChosen: any,
+    gasLimit: any
+  ) => {
     const CDAIAmount = amount.split('.').join('');
     const decimalPlaces = this.decimalPlaces(amount);
     const decimals = 8 - decimalPlaces;
@@ -451,7 +473,12 @@ class TransactionUtilities {
       ]);
   };
 
-  constructPLDAITransfer = async (toAddr :any, amount :any, gasChosen :any, gasLimit :any) => {
+  constructPLDAITransfer = async (
+    toAddr: any,
+    amount: any,
+    gasChosen: any,
+    gasLimit: any
+  ) => {
     const PLDAIAmount = amount.split('.').join('');
     const decimalPlaces = this.decimalPlaces(amount);
     const decimals = 18 - decimalPlaces;
@@ -476,10 +503,10 @@ class TransactionUtilities {
       ]);
   };
 
-  prefixUpperCase = (txType :any) =>
+  prefixUpperCase = (txType: any) =>
     txType.charAt(0).toUpperCase() + txType.slice(1);
 
-  computeTxData = (tx :any, checksumAddr :any) => {
+  computeTxData = (tx: any, checksumAddr: any) => {
     // LogUtilities.toDebugScreen('computeTxData -> ', tx);
     if (!tx) return null;
     const walletAddressWithout0x = EtherUtilities.getAddressWithout0x(
@@ -557,10 +584,10 @@ class TransactionUtilities {
     return ret;
   };
 
-  setIconStyle = (type :any, direction :any) =>
+  setIconStyle = (type: any, direction: any) =>
     StyleUtilities.inOrOutIcon(type, direction);
 
-  getIcon(txData :any, service :any) {
+  getIcon(txData: any, service: any) {
     switch (service) {
       case 'PoolTogether':
         if (txData.length === 3)
@@ -579,7 +606,7 @@ class TransactionUtilities {
     }
   }
 
-  getOption = (data :any, service :any, method :any) => {
+  getOption = (data: any, service: any, method: any) => {
     // LogUtilities.toDebugScreen('getOption data is', data)
     if (service === 'Uniswap' || method === I18n.t('history-swap'))
       return data.length < 1 ? false : this.getSwapOption(data);
@@ -588,12 +615,12 @@ class TransactionUtilities {
     } else return '';
   };
 
-  getSwapOption = (data :any) => ({
+  getSwapOption = (data: any) => ({
     eth: data[0].eth_sold,
     dai: data[0].tokens_bought
   });
 
-  getPTOption = (data :any) => {
+  getPTOption = (data: any) => {
     const open = this.poolTogetherAmount(data, 'open deposit withdraw');
     const committed = this.poolTogetherAmount(
       data,
@@ -612,13 +639,13 @@ class TransactionUtilities {
     };
   };
 
-  poolTogetherAmount(txData :any, type :any) {
+  poolTogetherAmount(txData: any, type: any) {
     for (const element of txData)
       if (element.type === type) return element.amount;
     return '0.00';
   }
 
-  getToken = (data :any) => {
+  getToken = (data: any) => {
     // LogUtilities.toDebugScreen('getToken data is', data)
     switch (true) {
       case data[0].token === 'cdai' && data[0].type === 'withdraw':
@@ -636,7 +663,7 @@ class TransactionUtilities {
     }
   };
 
-  getMethodName = (tx :any) => {
+  getMethodName = (tx: any) => {
     // LogUtilities.toDebugScreen('getMethodName -> ', tx);
     switch (tx[0].type) {
       case 'contract_creation':
@@ -677,14 +704,14 @@ class TransactionUtilities {
     }
   };
 
-  getFromAddr = (data :any, tx :any) =>
+  getFromAddr = (data: any, tx: any) =>
     data.length === 1 &&
     data[0].direction == 'incoming' &&
     data[0].type == 'transfer'
       ? tx.getFrom()
       : '';
 
-  getToAddr = (data :any, tx :any) => {
+  getToAddr = (data: any, tx: any) => {
     // LogUtilities.toDebugScreen('getToAddr -> ', data, tx);
     if (
       data.length === 1 &&
@@ -707,24 +734,27 @@ class TransactionUtilities {
     } else return '';
   };
 
-  txCommonObject = (tx :any, checksumAddr :any) => {
+  txCommonObject = (tx: any, checksumAddr: any) => {
     const timestamp = this.parseTransactionTime(tx.getTimestamp()),
       status = tx.getState(),
-      data = this.computeTxData(tx, checksumAddr)
+      data = this.computeTxData(tx, checksumAddr);
     if (data) {
-    const service =
-        data[0].type === 'transfer' ? '' : tx.getApplication(tx.getTo()),
-      method = this.getMethodName(data),
-      amount =
-        tx.tokenData.cdai &&
-        data[0].type === 'transfer' &&
-        data[0].direction !== 'self'
-          ? this.parseHexCDAIValue(tx.tokenData.cdai[0].amount)
-          : data[0].amount,
-      token = this.getToken(data),
-      inOrOut = StyleUtilities.minusOrPlusIcon(data[0].type, data[0].direction),
-      icon = this.getIcon(data, service),
-      option = this.getOption(data, service, method);
+      const service =
+          data[0].type === 'transfer' ? '' : tx.getApplication(tx.getTo()),
+        method = this.getMethodName(data),
+        amount =
+          tx.tokenData.cdai &&
+          data[0].type === 'transfer' &&
+          data[0].direction !== 'self'
+            ? this.parseHexCDAIValue(tx.tokenData.cdai[0].amount)
+            : data[0].amount,
+        token = this.getToken(data),
+        inOrOut = StyleUtilities.minusOrPlusIcon(
+          data[0].type,
+          data[0].direction
+        ),
+        icon = this.getIcon(data, service),
+        option = this.getOption(data, service, method);
 
       return {
         timestamp,
@@ -738,11 +768,11 @@ class TransactionUtilities {
         option
       };
     } else {
-      throw 'data is not defined'
+      throw 'data is not defined';
     }
   };
 
-  txDetailObject = (tx :any, checksumAddr :any) => {
+  txDetailObject = (tx: any, checksumAddr: any) => {
     const {
       timestamp,
       status,
@@ -758,7 +788,7 @@ class TransactionUtilities {
         (parseInt(tx.getGasPrice(), 16) * parseInt(tx.gas, 16)) /
         1000000000000000000,
       hash = tx.getHash(),
-      data = this.computeTxData(tx, checksumAddr)
+      data = this.computeTxData(tx, checksumAddr);
     if (data) {
       const from = data[0].direction ? this.getFromAddr(data, tx) : '',
         to = data[0].direction ? this.getToAddr(data, tx) : '';
@@ -779,15 +809,15 @@ class TransactionUtilities {
         option
       };
     } else {
-      throw 'data is not defined'
+      throw 'data is not defined';
     }
   };
 
-  isNumber = (value :any) => /^[0-9]\d*(\.\d+)?$/.test(value);
+  isNumber = (value: any) => /^[0-9]\d*(\.\d+)?$/.test(value);
 
-  isInteger = (number :any) => /^[1-9]\d*$/.test(number);
+  isInteger = (number: any) => /^[1-9]\d*$/.test(number);
 
-  isLessThan18Digits = (amount :any) =>
+  isLessThan18Digits = (amount: any) =>
     String(amount).slice(0, 2) === '0.'
       ? amount.length < 21
       : amount.length < 19;
