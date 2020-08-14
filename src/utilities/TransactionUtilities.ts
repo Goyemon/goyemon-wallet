@@ -606,7 +606,7 @@ class TransactionUtilities {
     }
   }
 
-  getOption = (data: any, service: any, method: any):string | Object => {
+  getOption = (data: any, service: any, method: any): string | Object => {
     // LogUtilities.toDebugScreen('getOption data is', data)
     if (service === 'Uniswap' || method === I18n.t('history-swap'))
       return data.length < 1 ? '' : this.getSwapOption(data);
@@ -789,7 +789,7 @@ class TransactionUtilities {
         1000000000000000000,
       hash = tx.getHash(),
       data = this.computeTxData(tx, checksumAddr);
-      LogUtilities.toDebugScreen("data is here", data);
+    LogUtilities.toDebugScreen('data is here', data);
     if (data) {
       const from = data[0].direction ? this.getFromAddr(data, tx) : '',
         to = data[0].direction ? this.getToAddr(data, tx) : '';
