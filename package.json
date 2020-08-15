@@ -1,6 +1,5 @@
 {
   "name": "Goyemon",
-  "version": "0.0.1",
   "private": true,
   "scripts": {
     "postinstall": "rn-nodeify --install stream,crypto,http,https,url,os,process,buffer,events,assert,vm --hack",
