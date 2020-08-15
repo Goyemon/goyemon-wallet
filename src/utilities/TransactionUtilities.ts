@@ -1,12 +1,12 @@
 'use strict';
-import ethTx from 'ethereumjs-tx';
+const ethTx = require('ethereumjs-tx');
 import firebase from '@react-native-firebase/app';
 import '@react-native-firebase/messaging';
-import uuidv4 from 'uuid/v4';
+const uuidv4 = require('uuid/v4');
 import Web3 from 'web3';
 import { store } from '../store/store.js';
 import I18n from '../i18n/I18n';
-import TxStorage from '../lib/tx.js';
+const TxStorage = require('../lib/tx.js');
 import ABIEncoder from './AbiUtilities';
 import {
   RoundDownBigNumberPlacesFour,
@@ -16,33 +16,39 @@ import EtherUtilities from './EtherUtilities';
 import LogUtilities from './LogUtilities';
 import PriceUtilities from './PriceUtilities';
 import StyleUtilities from './StyleUtilities';
-import WalletUtilities from './WalletUtilities.ts';
-import GlobalConfig from '../config.json';
+import WalletUtilities from './WalletUtilities';
+const GlobalConfig = require('../config.json');
+
+interface balanceObject {
+  DAI: number;
+  cDAI: number;
+  plDAI: number;
+}
 
 class TransactionUtilities {
-  parseETHValue(value) {
-    if (value == null) return null;
+  parseETHValue(value: string) {
+    if (value == null) throw 'eth value is invalid';
 
     const bigNumberValue = Web3.utils.toBN(value); //.toString();
     const parsedEtherValue = Web3.utils.fromWei(bigNumberValue).toString();
     return parsedEtherValue;
   }
 
-  parseHexDAIValue(value) {
-    const parsedDAIValue = RoundDownBigNumberPlacesFour(value, 16)
+  parseHexDAIValue(value: any) {
+    const parsedDAIValue = new RoundDownBigNumberPlacesFour(value, 16)
       .div(new RoundDownBigNumberPlacesFour(10).pow(18))
       .toFixed(2);
     return parsedDAIValue;
   }
 
-  parseHexCDAIValue(value) {
-    const parsedCDAIValue = RoundDownBigNumberPlacesFour(value, 16)
+  parseHexCDAIValue(value: any) {
+    const parsedCDAIValue = new RoundDownBigNumberPlacesFour(value, 16)
       .div(new RoundDownBigNumberPlacesFour(10).pow(8))
       .toString();
     return parsedCDAIValue;
   }
 
-  parseTransactionTime(timestamp) {
+  parseTransactionTime(timestamp: any) {
     const seconds = Math.floor((Date.now() - timestamp * 1000) / 1000);
     const months = [
       'January',
@@ -85,7 +91,7 @@ class TransactionUtilities {
   }
 
   // retrieve the number of decimals
-  decimalPlaces(number) {
+  decimalPlaces(number: any) {
     const match = ('' + number).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
     if (!match) {
       return 0;
@@ -96,21 +102,22 @@ class TransactionUtilities {
     );
   }
 
-  returnTransactionSpeed(chosenSpeed) {
+  returnTransactionSpeed(chosenSpeed: any) {
     const stateTree = store.getState();
     const gasPrice = stateTree.ReducerGasPrice.gasPrice;
     if (chosenSpeed === 0) {
-      return parseInt(gasPrice[0].value);
+      return parseInt(String(gasPrice[0]!.value));
     } else if (chosenSpeed === 1) {
-      return parseInt(gasPrice[1].value);
+      return parseInt(String(gasPrice[1]!.value));
     } else if (chosenSpeed === 2) {
-      return parseInt(gasPrice[2].value);
+      return parseInt(String(gasPrice[2]!.value));
     } else {
       LogUtilities.logInfo('invalid transaction speed');
+      throw 'invalid transaction speed';
     }
   }
 
-  hasSufficientWEIForNetworkFee(gasPriceWei, gasLimit) {
+  hasSufficientWEIForNetworkFee(gasPriceWei: any, gasLimit: any) {
     const stateTree = store.getState();
     const balance = stateTree.ReducerBalance.balance;
     const WEIBalance = new RoundDownBigNumberPlacesEighteen(balance.wei);
@@ -126,7 +133,7 @@ class TransactionUtilities {
     return false;
   }
 
-  hasSufficientWeiForAmount(WEIAmount, gasLimit) {
+  hasSufficientWeiForAmount(WEIAmount: any, gasLimit: any) {
     LogUtilities.logInfo('hasSufficientWeiForAmount -> ', WEIAmount, gasLimit);
 
     if (this.isNumber(WEIAmount)) {
@@ -152,7 +159,7 @@ class TransactionUtilities {
     }
   }
 
-  hasSufficientDAIForAmount(DAIAmount) {
+  hasSufficientDAIForAmount(DAIAmount: any) {
     if (this.isNumber(DAIAmount) && this.isLessThan18Digits(DAIAmount)) {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
@@ -175,17 +182,21 @@ class TransactionUtilities {
     }
   }
 
-  hasSufficientTokenForAmount = (amount, token) => {
+  hasSufficientTokenForAmount = (
+    amount: any,
+    token: 'DAI' | 'cDAI' | 'plDAI'
+  ) => {
     if (this.isNumber(amount)) {
       const stateTree = store.getState();
       const balanceState = stateTree.ReducerBalance.balance;
-      const balanceObject = {
+      const balanceObject: balanceObject = {
         DAI: balanceState.dai,
         cDAI: balanceState.cDai,
         plDAI: balanceState.pooltogetherDai.committed
       };
+      const key: keyof balanceObject = token;
       const tokenBalance = new RoundDownBigNumberPlacesEighteen(
-        balanceObject[token]
+        balanceObject[key]
       );
       const tokenAmount = new RoundDownBigNumberPlacesEighteen(10)
         .pow(token === 'cDAI' ? 8 : 18)
@@ -202,7 +213,7 @@ class TransactionUtilities {
     return false;
   };
 
-  hasSufficientDAIForPoolTogetherDepositAmount(DAIAmount) {
+  hasSufficientDAIForPoolTogetherDepositAmount(DAIAmount: any) {
     if (this.isInteger(DAIAmount) && this.isLessThan18Digits(DAIAmount)) {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
@@ -225,7 +236,7 @@ class TransactionUtilities {
     }
   }
 
-  validateDAICompoundWithdrawAmount(DAIWithdrawAmount) {
+  validateDAICompoundWithdrawAmount(DAIWithdrawAmount: any) {
     if (
       this.isNumber(DAIWithdrawAmount) &&
       this.isLessThan18Digits(DAIWithdrawAmount)
@@ -254,14 +265,14 @@ class TransactionUtilities {
     }
   }
 
-  validateDAIPoolTogetherWithdrawAmount(DAIWithdrawAmount) {
+  validateDAIPoolTogetherWithdrawAmount(DAIWithdrawAmount: any) {
     if (
       this.isInteger(DAIWithdrawAmount) &&
       this.isLessThan18Digits(DAIWithdrawAmount)
     ) {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
-      const pooltogetherDAIBalance = RoundDownBigNumberPlacesFour(
+      const pooltogetherDAIBalance = new RoundDownBigNumberPlacesFour(
         balance.pooltogetherDai.open
       )
         .plus(balance.pooltogetherDai.committed)
@@ -286,25 +297,27 @@ class TransactionUtilities {
     }
   }
 
-  async constructSignedOutgoingTransactionObject(outgoingTransactionObject) {
+  async constructSignedOutgoingTransactionObject(
+    outgoingTransactionObject: any
+  ) {
     outgoingTransactionObject = new ethTx(
       outgoingTransactionObject.toTransactionDict()
     );
-    let privateKey = await WalletUtilities.retrievePrivateKey();
-    privateKey = Buffer.from(privateKey, 'hex');
-    outgoingTransactionObject.sign(privateKey);
+    const privateKey = await WalletUtilities.retrievePrivateKey();
+    const privateKeyData = Buffer.from(privateKey, 'hex');
+    outgoingTransactionObject.sign(privateKeyData);
     let signedTransaction = outgoingTransactionObject.serialize();
     signedTransaction = `0x${signedTransaction.toString('hex')}`;
     return signedTransaction;
   }
 
-  async sendOutgoingTransactionToServer(outgoingTransactionObject) {
+  async sendOutgoingTransactionToServer(outgoingTransactionObject: any) {
     // should be renamed cause it also does .saveTx()
     await this.sendTransactionToServer(outgoingTransactionObject);
     await TxStorage.storage.saveTx(outgoingTransactionObject);
   }
 
-  async sendTransactionToServer(txObject) {
+  async sendTransactionToServer(txObject: any) {
     // should be renamed cause it also does .saveTx()
     const messageId = uuidv4();
     const serverAddress = GlobalConfig.FCM_server_address;
@@ -334,7 +347,7 @@ class TransactionUtilities {
       });
   }
 
-  getMaxNetworkFeeInETH(gasPriceWei, gasLimit) {
+  getMaxNetworkFeeInETH(gasPriceWei: any, gasLimit: any) {
     const maxNetworkFeeInWei = Web3.utils
       .toBN(gasPriceWei)
       .mul(Web3.utils.toBN(gasLimit));
@@ -344,15 +357,18 @@ class TransactionUtilities {
     return maxNetworkFeeInEther;
   }
 
-  getMaxNetworkFeeInUSD(gasPriceWei, gasLimit) {
-    let maxNetworkFeeInUSD = PriceUtilities.convertETHToUSD(
+  getMaxNetworkFeeInUSD(gasPriceWei: any, gasLimit: any) {
+    let maxNetworkFeeInUSD:
+      | number
+      | undefined
+      | string = PriceUtilities.convertETHToUSD(
       this.getMaxNetworkFeeInETH(gasPriceWei, gasLimit)
     );
-    maxNetworkFeeInUSD = maxNetworkFeeInUSD.toFixed(3);
+    if (maxNetworkFeeInUSD) maxNetworkFeeInUSD = maxNetworkFeeInUSD.toFixed(3);
     return maxNetworkFeeInUSD;
   }
 
-  getApproveEncodedABI(addressSpender) {
+  getApproveEncodedABI(addressSpender: any) {
     const amount = `0x${'ff'.repeat(256 / 8)}`; // TODO: this needs to be a const somewhere, likely uint256max_hex.
 
     const approveEncodedABI = ABIEncoder.encodeApprove(
@@ -364,7 +380,7 @@ class TransactionUtilities {
     return approveEncodedABI;
   }
 
-  async constructApproveTransactionObject(spender, gasChosen) {
+  async constructApproveTransactionObject(spender: any, gasChosen: any) {
     const approveEncodedABI = this.getApproveEncodedABI(spender);
     const approveTransactionObject = (await TxStorage.storage.newTx())
       .setTo(GlobalConfig.DAITokenContract)
@@ -380,19 +396,29 @@ class TransactionUtilities {
     return approveTransactionObject;
   }
 
-  ETHToHexWEI(etherValue) {
-    const weiValue = Web3.utils.toWei(etherValue);
+  ETHToHexWEI(etherValue: any) {
+    const weiValue: any = Web3.utils.toWei(etherValue);
     return new RoundDownBigNumberPlacesEighteen(weiValue).toString(16);
   }
 
-  constructETHTransfer = async (toAddr, amount, gasChosen, gasLimit) =>
+  constructETHTransfer = async (
+    toAddr: any,
+    amount: any,
+    gasChosen: any,
+    gasLimit: any
+  ) =>
     (await TxStorage.storage.newTx())
       .setTo(toAddr)
       .setValue(new RoundDownBigNumberPlacesEighteen(amount).toString(16))
       .setGasPrice(this.returnTransactionSpeed(gasChosen).toString(16))
       .setGas(gasLimit.toString(16));
 
-  constructDAITransfer = async (toAddr, amount, gasChosen, gasLimit) => {
+  constructDAITransfer = async (
+    toAddr: any,
+    amount: any,
+    gasChosen: any,
+    gasLimit: any
+  ) => {
     const DAIAmount = amount.split('.').join('');
     const decimalPlaces = this.decimalPlaces(amount);
     const decimals = 18 - decimalPlaces;
@@ -417,7 +443,12 @@ class TransactionUtilities {
       ]);
   };
 
-  constructCDAITransfer = async (toAddr, amount, gasChosen, gasLimit) => {
+  constructCDAITransfer = async (
+    toAddr: any,
+    amount: any,
+    gasChosen: any,
+    gasLimit: any
+  ) => {
     const CDAIAmount = amount.split('.').join('');
     const decimalPlaces = this.decimalPlaces(amount);
     const decimals = 8 - decimalPlaces;
@@ -442,7 +473,12 @@ class TransactionUtilities {
       ]);
   };
 
-  constructPLDAITransfer = async (toAddr, amount, gasChosen, gasLimit) => {
+  constructPLDAITransfer = async (
+    toAddr: any,
+    amount: any,
+    gasChosen: any,
+    gasLimit: any
+  ) => {
     const PLDAIAmount = amount.split('.').join('');
     const decimalPlaces = this.decimalPlaces(amount);
     const decimals = 18 - decimalPlaces;
@@ -467,22 +503,23 @@ class TransactionUtilities {
       ]);
   };
 
-  prefixUpperCase = (txType) =>
+  prefixUpperCase = (txType: any) =>
     txType.charAt(0).toUpperCase() + txType.slice(1);
 
-  computeTxData = (tx, checksumAddr) => {
+  computeTxData = (tx: any, checksumAddr: any) => {
     // LogUtilities.toDebugScreen('computeTxData -> ', tx);
     if (!tx) return null;
     const walletAddressWithout0x = EtherUtilities.getAddressWithout0x(
       checksumAddr
     );
-    const ret = [];
+    const ret: any[] = [];
 
     Object.entries(tx.getAllTokenOperations()).forEach(([toptok, toktops]) => {
-      toktops.forEach((x) => {
-        // LogUtilities.toDebugScreen('toktops for each', x);
-        ret.push(EtherUtilities.topType(x, toptok, walletAddressWithout0x));
-      });
+      if (toktops instanceof Array)
+        toktops.forEach((x) => {
+          // LogUtilities.toDebugScreen('toktops for each', x);
+          ret.push(EtherUtilities.topType(x, toptok, walletAddressWithout0x));
+        });
     });
 
     if (tx.getValue() !== '00' && ret.length === 0) {
@@ -547,10 +584,10 @@ class TransactionUtilities {
     return ret;
   };
 
-  setIconStyle = (type, direction) =>
+  setIconStyle = (type: any, direction: any) =>
     StyleUtilities.inOrOutIcon(type, direction);
 
-  getIcon(txData, service) {
+  getIcon(txData: any, service: any) {
     switch (service) {
       case 'PoolTogether':
         if (txData.length === 3)
@@ -569,21 +606,21 @@ class TransactionUtilities {
     }
   }
 
-  getOption = (data, service, method) => {
+  getOption = (data: any, service: any, method: any): string | Object => {
     // LogUtilities.toDebugScreen('getOption data is', data)
     if (service === 'Uniswap' || method === I18n.t('history-swap'))
-      return data.length < 1 ? false : this.getSwapOption(data);
+      return data.length < 1 ? '' : this.getSwapOption(data);
     else if (service === 'PoolTogether' && method === 'Withdraw') {
       return this.getPTOption(data);
     } else return '';
   };
 
-  getSwapOption = (data) => ({
+  getSwapOption = (data: any) => ({
     eth: data[0].eth_sold,
     dai: data[0].tokens_bought
   });
 
-  getPTOption = (data) => {
+  getPTOption = (data: any) => {
     const open = this.poolTogetherAmount(data, 'open deposit withdraw');
     const committed = this.poolTogetherAmount(
       data,
@@ -602,13 +639,13 @@ class TransactionUtilities {
     };
   };
 
-  poolTogetherAmount(txData, type) {
+  poolTogetherAmount(txData: any, type: any) {
     for (const element of txData)
       if (element.type === type) return element.amount;
     return '0.00';
   }
 
-  getToken = (data) => {
+  getToken = (data: any) => {
     // LogUtilities.toDebugScreen('getToken data is', data)
     switch (true) {
       case data[0].token === 'cdai' && data[0].type === 'withdraw':
@@ -626,7 +663,7 @@ class TransactionUtilities {
     }
   };
 
-  getMethodName = (tx) => {
+  getMethodName = (tx: any) => {
     // LogUtilities.toDebugScreen('getMethodName -> ', tx);
     switch (tx[0].type) {
       case 'contract_creation':
@@ -667,14 +704,14 @@ class TransactionUtilities {
     }
   };
 
-  getFromAddr = (data, tx) =>
+  getFromAddr = (data: any, tx: any) =>
     data.length === 1 &&
     data[0].direction == 'incoming' &&
     data[0].type == 'transfer'
       ? tx.getFrom()
       : '';
 
-  getToAddr = (data, tx) => {
+  getToAddr = (data: any, tx: any) => {
     // LogUtilities.toDebugScreen('getToAddr -> ', data, tx);
     if (
       data.length === 1 &&
@@ -697,37 +734,45 @@ class TransactionUtilities {
     } else return '';
   };
 
-  txCommonObject = (tx, checksumAddr) => {
+  txCommonObject = (tx: any, checksumAddr: any) => {
     const timestamp = this.parseTransactionTime(tx.getTimestamp()),
       status = tx.getState(),
-      data = this.computeTxData(tx, checksumAddr),
-      service =
-        data[0].type === 'transfer' ? '' : tx.getApplication(tx.getTo()),
-      method = this.getMethodName(data),
-      amount =
-        tx.tokenData.cdai &&
-        data[0].type === 'transfer' &&
-        data[0].direction !== 'self'
-          ? this.parseHexCDAIValue(tx.tokenData.cdai[0].amount)
-          : data[0].amount,
-      token = this.getToken(data),
-      inOrOut = StyleUtilities.minusOrPlusIcon(data[0].type, data[0].direction),
-      icon = this.getIcon(data, service),
-      option = this.getOption(data, service, method);
-    return {
-      timestamp,
-      status,
-      service,
-      method,
-      amount,
-      token,
-      icon,
-      inOrOut,
-      option
-    };
+      data = this.computeTxData(tx, checksumAddr);
+    if (data) {
+      const service =
+          data[0].type === 'transfer' ? '' : tx.getApplication(tx.getTo()),
+        method = this.getMethodName(data),
+        amount =
+          tx.tokenData.cdai &&
+          data[0].type === 'transfer' &&
+          data[0].direction !== 'self'
+            ? this.parseHexCDAIValue(tx.tokenData.cdai[0].amount)
+            : data[0].amount,
+        token = this.getToken(data),
+        inOrOut = StyleUtilities.minusOrPlusIcon(
+          data[0].type,
+          data[0].direction
+        ),
+        icon = this.getIcon(data, service),
+        option = this.getOption(data, service, method);
+
+      return {
+        timestamp,
+        status,
+        service,
+        method,
+        amount,
+        token,
+        icon,
+        inOrOut,
+        option
+      };
+    } else {
+      throw 'data is not defined';
+    }
   };
 
-  txDetailObject = (tx, checksumAddr) => {
+  txDetailObject = (tx: any, checksumAddr: any) => {
     const {
       timestamp,
       status,
@@ -743,32 +788,37 @@ class TransactionUtilities {
         (parseInt(tx.getGasPrice(), 16) * parseInt(tx.gas, 16)) /
         1000000000000000000,
       hash = tx.getHash(),
-      data = this.computeTxData(tx, checksumAddr),
-      from = data[0].direction ? this.getFromAddr(data, tx) : '',
-      to = data[0].direction ? this.getToAddr(data, tx) : '';
+      data = this.computeTxData(tx, checksumAddr);
+    LogUtilities.toDebugScreen('data is here', data);
+    if (data) {
+      const from = data[0].direction ? this.getFromAddr(data, tx) : '',
+        to = data[0].direction ? this.getToAddr(data, tx) : '';
 
-    return {
-      timestamp,
-      status,
-      service,
-      method,
-      amount,
-      token,
-      networkFee,
-      hash,
-      from,
-      to,
-      inOrOut,
-      icon,
-      option
-    };
+      return {
+        timestamp,
+        status,
+        service,
+        method,
+        amount,
+        token,
+        networkFee,
+        hash,
+        from,
+        to,
+        inOrOut,
+        icon,
+        option
+      };
+    } else {
+      throw 'data is not defined';
+    }
   };
 
-  isNumber = (value) => /^[0-9]\d*(\.\d+)?$/.test(value);
+  isNumber = (value: any) => /^[0-9]\d*(\.\d+)?$/.test(value);
 
-  isInteger = (number) => /^[1-9]\d*$/.test(number);
+  isInteger = (number: any) => /^[1-9]\d*$/.test(number);
 
-  isLessThan18Digits = (amount) =>
+  isLessThan18Digits = (amount: any) =>
     String(amount).slice(0, 2) === '0.'
       ? amount.length < 21
       : amount.length < 19;

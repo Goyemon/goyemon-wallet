@@ -1,17 +1,17 @@
 {
   "name": "Goyemon",
-  "version": "0.0.1",
   "private": true,
   "scripts": {
     "postinstall": "rn-nodeify --install stream,crypto,http,https,url,os,process,buffer,events,assert,vm --hack",
     "jetifier": "jetifier -r",
-    "test": "jeQAZ!@#st",
+    "test": "NODE_ENV=test jest",
     "ios": "react-native run-ios",
     "android": "react-native run-android",
     "start": "react-native start",
     "npmreinstall": "rm -rf node_modules/ package-lock.json && npm install",
     "prettier": "prettier --write src",
-    "lint": "eslint --fix src/**/*.js"
+    "lint": "eslint --fix src/**/*.js",
+    "tsc": "tsc"
   },
   "dependencies": {
     "@react-native-community/netinfo": "^5.3.3",
@@ -42,6 +42,7 @@
     "react-native-bip39": "^2.3.0",
     "react-native-bitcoinjs-lib": "^2.3.9",
     "react-native-camera": "^3.8.0",
+    "react-native-crypto": "^2.1.0",
     "react-native-gesture-handler": "^1.4.1",
     "react-native-keychain": "^3.1.1",
     "react-native-localize": "^1.3.4",
@@ -67,7 +68,6 @@
     "redux": "^4.0.1",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
-    "rn-nodeify": "^10.0.1",
     "stream-browserify": "^2.0.1",
     "styled-components": "^4.2.0",
     "url": "^0.10.3",
@@ -76,6 +76,12 @@
     "web3": "1.2.8"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-react": "^7.10.4",
+    "@types/jest": "^26.0.9",
+    "@types/react": "^16.9.46",
+    "@types/react-native": "^0.63.7",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^24.9.0",
     "eslint": "^7.6.0",
@@ -87,7 +93,10 @@
     "lint-staged": "^10.2.11",
     "metro-react-native-babel-preset": "^0.56.0",
     "prettier": "^2.0.5",
-    "react-test-renderer": "16.9.0"
+    "react-test-renderer": "16.9.0",
+    "rn-nodeify": "^10.0.1",
+    "ts-jest": "^26.1.4",
+    "typescript": "2.4.0"
   },
   "husky": {
     "hooks": {
@@ -114,7 +123,8 @@
     ]
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "setupFiles": "./jest.setup.js"
   },
   "react-native": {
     "_stream_transform": "readable-stream/transform",
@@ -141,5 +151,14 @@
     "http": "@tradle/react-native-http",
     "https": "https-browserify",
     "os": "react-native-os"
-  }
+  },
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-react"
+  ],
+  "plugins": [
+    [
+      "@babel/plugin-proposal-class-properties"
+    ]
+  ]
 }
