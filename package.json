@@ -69,7 +69,6 @@
     "redux": "^4.0.1",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
-    "rn-nodeify": "^10.0.1",
     "stream-browserify": "^2.0.1",
     "styled-components": "^4.2.0",
     "url": "^0.10.3",
@@ -96,6 +95,7 @@
     "metro-react-native-babel-preset": "^0.56.0",
     "prettier": "^2.0.5",
     "react-test-renderer": "16.9.0",
+    "rn-nodeify": "^10.0.1",
     "ts-jest": "^26.1.4",
     "typescript": "2.4.0"
   },
