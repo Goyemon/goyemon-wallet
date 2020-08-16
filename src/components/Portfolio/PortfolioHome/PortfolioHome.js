@@ -11,7 +11,8 @@ import {
   NewHeaderThree,
   HeaderFour,
   GoyemonText,
-  ReceiveIcon
+  ReceiveIcon,
+  BuyIcon
 } from '../../../components/common';
 import ApplicationBoxes from './ApplicationBoxes';
 import Copy from '../../Copy';
@@ -129,7 +130,7 @@ class PortfolioHome extends Component {
           height="240px"
           justifyContent="center"
           marginTop="24px"
-          textAlign="left"
+          textAlign="center"
           width="90%"
         >
           <HeaderFour marginTop="0">
@@ -147,6 +148,14 @@ class PortfolioHome extends Component {
               <GoyemonText fontSize={14}>Receive</GoyemonText>
             </ReceiveIconContainer>
             <Copy text={checksumAddress} animation={true} icon={true} />
+            <BuyIconContainer>
+              <BuyIcon
+                onPress={() => {
+                  navigation.navigate('MoonPayWebView');
+                }}
+              />
+              <GoyemonText fontSize={14}>Buy</GoyemonText>
+            </BuyIconContainer>
           </IconContainer>
         </UntouchableCardContainer>
         <NewHeaderThree
@@ -172,14 +181,22 @@ const UsdBalance = styled.Text`
 const IconContainer = styled.View`
   align-items: center;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-around;
+  width: 60%;
 `;
 
 const ReceiveIconContainer = styled.View`
   align-items: center;
   flex-direction: column;
   margin-top: 16;
-  margin-right: 16;
+  width: 33.3%;
+`;
+
+const BuyIconContainer = styled.View`
+  align-items: center;
+  flex-direction: column;
+  margin-top: 16;
+  width: 33.3%;
 `;
 
 const mapStateToProps = (state) => ({
