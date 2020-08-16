@@ -8,7 +8,7 @@ const ToggleCurrencySymbol = (props) => {
   if (props.currency === 'ETH') {
     return (
       <CurrencySymbol>
-        <GoyemonText fontSize={14}>ETH</GoyemonText>
+        <GoyemonText fontSize={16}>ETH</GoyemonText>
         <Icon name="swap-horizontal" size={16} color="#5f5f5f" />
         <CurrencySymbolTextChosen>USD</CurrencySymbolTextChosen>
       </CurrencySymbol>
@@ -18,7 +18,7 @@ const ToggleCurrencySymbol = (props) => {
       <CurrencySymbol>
         <CurrencySymbolTextChosen>ETH</CurrencySymbolTextChosen>
         <Icon name="swap-horizontal" size={16} color="#5f5f5f" />
-        <GoyemonText fontSize={14}>USD</GoyemonText>
+        <GoyemonText fontSize={16}>USD</GoyemonText>
       </CurrencySymbol>
     );
   }
@@ -30,6 +30,7 @@ const CurrencySymbol = styled.Text`
 `;
 
 const CurrencySymbolTextChosen = styled.Text`
+  font-family: 'HKGrotesk-Regular';
   color: #1ba548;
 `;
 

@@ -315,7 +315,7 @@ const ButtonWrapper = styled.View`
 `;
 
 const WithDrawAmountHeaderContainer = styled.View`
-  align-items: center;
+  justify-content: space-between;
   flex-direction: row;
   margin: 0 auto;
   margin-top: 16px;

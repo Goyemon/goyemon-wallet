@@ -296,7 +296,7 @@ const CurrencySymbolText = styled.Text`
 `;
 
 const DepositAmountHeaderContainer = styled.View`
-  align-items: center;
+  justify-content: space-between;
   flex-direction: row;
   margin: 0 auto;
   margin-top: 16px;

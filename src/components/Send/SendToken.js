@@ -320,7 +320,7 @@ class SendToken extends Component {
 }
 
 const FormHeaderContainer = styled.View`
-  align-items: center;
+  justify-content: space-between;
   flex-direction: row;
   margin: 0 auto;
   margin-top: 16px;

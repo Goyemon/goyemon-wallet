@@ -57,6 +57,8 @@ class __MaxNetworkFeeSelectionContainer extends Component {
 
   render() {
     const { gasPrice, gasChosen, gasLimit } = this.props;
+    const { currency } = this.state;
+
     return (
       <View>
         {this.renderSlippageContainer()}
@@ -66,15 +68,17 @@ class __MaxNetworkFeeSelectionContainer extends Component {
           </FormHeader>
           <TouchableOpacity
             onPress={() => {
-              // TODO: needs to be switch(), likely.
-              if (this.state.currency === 'ETH') {
-                this.setState({ currency: 'USD' });
-              } else if (this.state.currency === 'USD') {
-                this.setState({ currency: 'ETH' });
+              switch (currency) {
+                case 'ETH':
+                  this.setState({ currency: 'USD' });
+                  break;
+                case 'USD':
+                  this.setState({ currency: 'ETH' });
+                  break;
               }
             }}
           >
-            <ToggleCurrencySymbol currency={this.state.currency} />
+            <ToggleCurrencySymbol currency={currency} />
           </TouchableOpacity>
         </NetworkFeeHeaderContainer>
         <Container
@@ -161,7 +165,7 @@ class AdvancedContainer extends Component {
 }
 
 const NetworkFeeHeaderContainer = styled.View`
-  align-items: flex-start;
+  justify-content: space-between;
   flex-direction: row;
   margin: 0 auto;
   margin-top: 24px;

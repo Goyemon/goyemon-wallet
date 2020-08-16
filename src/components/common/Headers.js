@@ -117,7 +117,7 @@ const FormHeader = (props) => (
 
 const FormHeaderContainer = styled.View`
   flex-direction: row;
-  width: 80%;
+  width: 75%;
 `;
 
 const FormHeaderText = styled.Text`
