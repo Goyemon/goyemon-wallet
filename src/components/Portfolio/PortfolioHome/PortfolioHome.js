@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { withNavigation } from 'react-navigation';
 import styled from 'styled-components';
 import Web3 from 'web3';
 import {
@@ -189,4 +188,4 @@ const mapStateToProps = (state) => ({
   price: state.ReducerPrice.price
 });
 
-export default withNavigation(connect(mapStateToProps)(PortfolioHome));
+export default connect(mapStateToProps)(PortfolioHome);

@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { withNavigation } from 'react-navigation';
 import { Container, HeaderFive, GoyemonText, Button } from '../../common';
 import I18n from '../../../i18n/I18n';
 import { RoundDownBigNumberPlacesFour } from '../../../utilities/BigNumberUtilities';
@@ -91,6 +90,4 @@ const mapStateToProps = (state) => ({
   balance: state.ReducerBalance.balance
 });
 
-export default withNavigation(
-  connect(mapStateToProps)(PortfolioPoolTogetherOpen)
-);
+export default connect(mapStateToProps)(PortfolioPoolTogetherOpen);

@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { withNavigation } from 'react-navigation';
 import Web3 from 'web3';
 import {
   RootContainer,
@@ -123,4 +122,4 @@ const mapStateToProps = (state) => ({
   price: state.ReducerPrice.price
 });
 
-export default withNavigation(connect(mapStateToProps)(PortfolioWallet));
+export default connect(mapStateToProps)(PortfolioWallet);

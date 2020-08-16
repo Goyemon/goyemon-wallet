@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
-import { withNavigation } from 'react-navigation';
 import {
   RootContainer,
   UntouchableCardContainer,
@@ -201,4 +200,4 @@ const mapStateToProps = (state) => ({
   price: state.ReducerPrice.price
 });
 
-export default withNavigation(connect(mapStateToProps)(PortfolioCompound));
+export default connect(mapStateToProps)(PortfolioCompound);

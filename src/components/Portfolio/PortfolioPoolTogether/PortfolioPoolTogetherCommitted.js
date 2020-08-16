@@ -4,7 +4,6 @@ import { View } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
-import { withNavigation } from 'react-navigation';
 import { Container, HeaderFive, GoyemonText } from '../../common';
 import { RoundDownBigNumberPlacesFour } from '../../../utilities/BigNumberUtilities';
 
@@ -150,6 +149,4 @@ const mapStateToProps = (state) => ({
   poolTogether: state.ReducerPoolTogether.poolTogether
 });
 
-export default withNavigation(
-  connect(mapStateToProps)(PortfolioPoolTogetherCommitted)
-);
+export default connect(mapStateToProps)(PortfolioPoolTogetherCommitted);

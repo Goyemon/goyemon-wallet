@@ -3,7 +3,6 @@ import Animation from 'lottie-react-native';
 import React, { Component } from 'react';
 import * as Animatable from 'react-native-animatable';
 import { connect } from 'react-redux';
-import { withNavigation } from 'react-navigation';
 import styled from 'styled-components/native';
 import Web3 from 'web3';
 import { savePopUpModalVisibility } from '../../../actions/ActionModal';
@@ -299,6 +298,7 @@ const mapDispatchToProps = {
   togglePoolTogetherWinnerRevealed
 };
 
-export default withNavigation(
-  connect(mapStateToProps, mapDispatchToProps)(PortfolioPoolTogether)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PortfolioPoolTogether);

@@ -1,7 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
 import {
@@ -206,6 +205,4 @@ const mapDispatchToProps = {
   saveDaiPoolTogetherApproval
 };
 
-export default withNavigation(
-  connect(mapStateToProps, mapDispatchToProps)(EarnHome)
-);
+export default connect(mapStateToProps, mapDispatchToProps)(EarnHome);
