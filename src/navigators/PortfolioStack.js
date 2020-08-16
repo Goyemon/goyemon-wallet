@@ -11,6 +11,7 @@ import ShowMnemonic from '../components/Portfolio/ShowMnemonic/ShowMnemonic';
 import VerifyMnemonic from '../components/Portfolio/VerifyMnemonic/VerifyMnemonic';
 import PortfolioHome from '../components/Portfolio/PortfolioHome/PortfolioHome';
 import Receive from '../components/Portfolio/Receive/Receive';
+import MoonPayWebView from '../components/Portfolio/BuyCrypto/MoonPayWebView';
 import PortfolioWallet from '../components/Portfolio/PortfolioWallet/PortfolioWallet';
 import PortfolioCompound from '../components/Portfolio/PortfolioCompound/PortfolioCompound';
 import PortfolioPoolTogether from '../components/Portfolio/PortfolioPoolTogether/PortfolioPoolTogether';
@@ -90,6 +91,16 @@ const PortfolioStack = createStackNavigator(
     },
     Receive: {
       screen: Receive,
+      navigationOptions: () => ({
+        headerTransparent: true,
+        headerStyle: {
+          marginTop: 16,
+          marginRight: 16
+        }
+      })
+    },
+    MoonPayWebView: {
+      screen: MoonPayWebView,
       navigationOptions: () => ({
         headerTransparent: true,
         headerStyle: {
