@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
 import Web3 from 'web3';
+import { saveBuyCryptoModalVisibility } from '../../../actions/ActionModal';
 import {
   RootContainer,
   UntouchableCardContainer,
@@ -14,6 +15,7 @@ import {
   ReceiveIcon,
   BuyIcon
 } from '../../../components/common';
+import BuyCryptoModal from '../../../components/BuyCryptoModal';
 import ApplicationBoxes from './ApplicationBoxes';
 import Copy from '../../Copy';
 import FcmPermissions from '../../../firebase/FcmPermissions.js';
@@ -123,6 +125,7 @@ class PortfolioHome extends Component {
     return (
       <RootContainer>
         <HeaderOne marginTop="64">{I18n.t('portfolio')}</HeaderOne>
+        <BuyCryptoModal />
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8"
@@ -151,7 +154,7 @@ class PortfolioHome extends Component {
             <BuyIconContainer>
               <BuyIcon
                 onPress={() => {
-                  navigation.navigate('MoonPayWebView');
+                  this.props.saveBuyCryptoModalVisibility(true);
                 }}
               />
               <GoyemonText fontSize={14}>Buy</GoyemonText>
@@ -205,4 +208,8 @@ const mapStateToProps = (state) => ({
   price: state.ReducerPrice.price
 });
 
-export default connect(mapStateToProps)(PortfolioHome);
+const mapDispatchToProps = {
+  saveBuyCryptoModalVisibility
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PortfolioHome);
