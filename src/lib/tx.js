@@ -1624,7 +1624,7 @@ class Tx {
       }
     }
 
-    if (data.length > 9) this.data = data[9];
+    if (data.length > 10) this.data = data[10];
 
     return this.setFrom(data[0])
       .setTo(data[1])
