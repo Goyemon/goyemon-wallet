@@ -1518,7 +1518,7 @@ const TxTokenOpNameToClass = {
 
 class Tx {
   constructor(state) {
-    this.from_addr = this.to_addr = this.value = this.gas = this.gasPrice = this.timestamp = this.nonce = this.hash = null;
+    this.from_addr = this.to_addr = this.value = this.gas = this.gasPrice = this.timestamp = this.nonce = this.hash = this.isSuccess = null;
     this.state = state !== undefined ? state : null;
     this.tokenData = {};
     this.data = {}; // for additional items, such as transaction input field
@@ -1567,6 +1567,11 @@ class Tx {
 
   setState(state) {
     this.state = state;
+    return this;
+  }
+
+  setIsSuccess(isSuccess) {
+    this.isSuccess = isSuccess;
     return this;
   }
 
@@ -1724,6 +1729,16 @@ class Tx {
 
   getGasLimit() {
     return this.gas;
+  }
+
+  getIsSuccess() {
+    return this.isSuccess;
+  }
+
+  getTxResult() {
+    if (this.state == -1) return false;
+    if (this.state >= 2) return this.isSuccess;
+    else this.state;
   }
 
   toTransactionDict() {
