@@ -14,11 +14,7 @@ class BuyCryptoModal extends Component {
         animationIn="slideInUp"
         animationOut="slideOutDown"
         isVisible={this.props.modal.buyCryptoModalVisibility}
-        swipeDirection="down"
         onBackdropPress={() => {
-          this.props.saveBuyCryptoModalVisibility(false);
-        }}
-        onSwipeComplete={() => {
           this.props.saveBuyCryptoModalVisibility(false);
         }}
         style={{
