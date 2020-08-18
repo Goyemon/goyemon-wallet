@@ -1742,10 +1742,10 @@ class Tx {
   }
 
   getTxStatus() {
-    if (this.state == -1) return TxStatus.STATUS_ERROR;
+    if (this.state === -1) return TxStatus.STATUS_ERROR;
     else if (this.state >= 2) {
-      return this.getIsContractExecutionSuccess() == null ||
-        this.getIsContractExecutionSuccess() == true
+      return this.getIsContractExecutionSuccess() === null ||
+        this.getIsContractExecutionSuccess() === true
         ? TxStatus.STATUS_SUCCESS
         : TxStatus.STATUS_ERROR;
     } else return TxStatus.STATUS_PENDING;

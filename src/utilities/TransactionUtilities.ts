@@ -515,13 +515,17 @@ class TransactionUtilities {
     const ret: any[] = [];
 
     if (JSON.stringify(tx.tokenData) !== JSON.stringify({})) {
-      Object.entries(tx.getAllTokenOperations()).forEach(([toptok, toktops]) => {
-        if (toktops instanceof Array)
-          toktops.forEach((x) => {
-            // LogUtilities.toDebugScreen('toktops for each', x);
-            ret.push(EtherUtilities.topType(x, toptok, walletAddressWithout0x));
-          });
-      });
+      Object.entries(tx.getAllTokenOperations()).forEach(
+        ([toptok, toktops]) => {
+          if (toktops instanceof Array)
+            toktops.forEach((x) => {
+              // LogUtilities.toDebugScreen('toktops for each', x);
+              ret.push(
+                EtherUtilities.topType(x, toptok, walletAddressWithout0x)
+              );
+            });
+        }
+      );
 
       if (tx.getValue() !== '00' && ret.length === 0) {
         const direction =
@@ -537,9 +541,9 @@ class TransactionUtilities {
           ret.push({
             type: 'transfer',
             direction: direction,
-            amount: parseFloat(this.parseETHValue(`0x${tx.getValue()}`)).toFixed(
-              4
-            ),
+            amount: parseFloat(
+              this.parseETHValue(`0x${tx.getValue()}`)
+            ).toFixed(4),
             token: 'eth'
           });
       }
