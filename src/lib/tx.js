@@ -12,6 +12,12 @@ const TxStates = {
   STATE_CONFIRMED: 3
 };
 
+const TxStatus = {
+  STATUS_ERROR: -1,
+  STATUS_PENDING: 0,
+  STATUS_SUCCESS: 1
+};
+
 const TxTokenOpTypeToName = {
   // names inside txhistory object
   transfer: 'tr',
@@ -1518,7 +1524,7 @@ const TxTokenOpNameToClass = {
 
 class Tx {
   constructor(state) {
-    this.from_addr = this.to_addr = this.value = this.gas = this.gasPrice = this.timestamp = this.nonce = this.hash = this.isSuccess = null;
+    this.from_addr = this.to_addr = this.value = this.gas = this.gasPrice = this.timestamp = this.nonce = this.hash = this.isContractExecutionSuccess = null;
     this.state = state !== undefined ? state : null;
     this.tokenData = {};
     this.data = {}; // for additional items, such as transaction input field
@@ -1570,8 +1576,8 @@ class Tx {
     return this;
   }
 
-  setIsSuccess(isSuccess) {
-    this.isSuccess = isSuccess;
+  setIsContractExecutionSuccess(isContractExecutionSuccess) {
+    this.isContractExecutionSuccess = isContractExecutionSuccess;
     return this;
   }
 
@@ -1731,14 +1737,18 @@ class Tx {
     return this.gas;
   }
 
-  getIsSuccess() {
-    return this.isSuccess;
+  getIsContractExecutionSuccess() {
+    return this.isContractExecutionSuccess;
   }
 
-  getTxResult() {
-    if (this.state == -1) return false;
-    if (this.state >= 2) return this.isSuccess;
-    else this.state;
+  getTxStatus() {
+    if (this.state == -1) return TxStatus.STATUS_ERROR;
+    else if (this.state >= 2) {
+      return this.getIsContractExecutionSuccess() == null ||
+        this.getIsContractExecutionSuccess() == true
+        ? TxStatus.STATUS_SUCCESS
+        : TxStatus.STATUS_ERROR;
+    } else return TxStatus.STATUS_PENDING;
   }
 
   toTransactionDict() {
@@ -2540,6 +2550,7 @@ module.exports = {
   Tx: Tx,
   // TxStorage: TxStorage, // nope, one instance to rule them all, let's not allow people to instantiate this.
   TxStates: TxStates,
+  TxStatus: TxStatus,
   TxTokenOpTypeToName: TxTokenOpTypeToName,
   TxTokenOpNameToClass: TxTokenOpNameToClass,
 

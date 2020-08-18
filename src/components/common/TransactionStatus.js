@@ -10,20 +10,15 @@ const TransactionStatus = (props) => (
     {(() => {
       let text;
       switch (props.txState) {
-        case TxStorage.TxStates.STATE_NEW:
-        case TxStorage.TxStates.STATE_PENDING:
+        case TxStorage.TxStatus.STATUS_SUCCESS:
+          text = I18n.t('history-success');
+          break;
+
+        case TxStorage.TxStatus.STATUS_PENDING:
           text = I18n.t('history-pending') + '...';
           break;
 
-        case TxStorage.TxStates.STATE_INCLUDED:
-          text = I18n.t('history-success');
-          break;
-
-        case TxStorage.TxStates.STATE_CONFIRMED:
-          text = I18n.t('history-success');
-          break;
-
-        case TxStorage.TxStates.STATE_GETH_ERROR:
+        case TxStorage.TxStatus.STATUS_ERROR:
           return (
             <FailedStatusText>{I18n.t('history-failed')}</FailedStatusText>
           );

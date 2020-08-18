@@ -514,64 +514,79 @@ class TransactionUtilities {
     );
     const ret: any[] = [];
 
-    Object.entries(tx.getAllTokenOperations()).forEach(([toptok, toktops]) => {
-      if (toktops instanceof Array)
-        toktops.forEach((x) => {
-          // LogUtilities.toDebugScreen('toktops for each', x);
-          ret.push(EtherUtilities.topType(x, toptok, walletAddressWithout0x));
-        });
-    });
+    if (JSON.stringify(tx.tokenData) !== JSON.stringify({})) {
+      Object.entries(tx.getAllTokenOperations()).forEach(([toptok, toktops]) => {
+        if (toktops instanceof Array)
+          toktops.forEach((x) => {
+            // LogUtilities.toDebugScreen('toktops for each', x);
+            ret.push(EtherUtilities.topType(x, toptok, walletAddressWithout0x));
+          });
+      });
 
-    if (tx.getValue() !== '00' && ret.length === 0) {
-      const direction =
-        tx.getFrom() === tx.getTo()
-          ? 'self'
-          : tx.getFrom() === `0x${walletAddressWithout0x}`
-          ? 'outgoing'
-          : tx.getTo() === `0x${walletAddressWithout0x}`
-          ? 'incoming'
-          : undefined;
+      if (tx.getValue() !== '00' && ret.length === 0) {
+        const direction =
+          tx.getFrom() === tx.getTo()
+            ? 'self'
+            : tx.getFrom() === `0x${walletAddressWithout0x}`
+            ? 'outgoing'
+            : tx.getTo() === `0x${walletAddressWithout0x}`
+            ? 'incoming'
+            : undefined;
 
-      if (direction)
+        if (direction)
+          ret.push({
+            type: 'transfer',
+            direction: direction,
+            amount: parseFloat(this.parseETHValue(`0x${tx.getValue()}`)).toFixed(
+              4
+            ),
+            token: 'eth'
+          });
+      }
+
+      if (tx.getTo() !== '0x' && !!tx.getTo()) {
+        if (
+          tx.getTo().toLowerCase() ===
+            GlobalConfig.DAIPoolTogetherContractV2.toLowerCase() &&
+          ret.length === 0
+        )
+          ret.push({
+            type: 'outgoing',
+            token: 'dai',
+            direction: 'outgoing',
+            amount: '0.00'
+          });
+        else if (
+          tx.getTo().toLowerCase() ===
+            GlobalConfig.DAIPoolTogetherTokenContractV2.toLowerCase() &&
+          ret.length === 0
+        )
+          ret.push({
+            type: 'outgoing',
+            token: 'pldai',
+            direction: 'outgoing',
+            amount: '0.00'
+          });
+      } else
         ret.push({
-          type: 'transfer',
-          direction: direction,
-          amount: parseFloat(this.parseETHValue(`0x${tx.getValue()}`)).toFixed(
-            4
-          ),
+          type: 'contract_creation',
+          direction: 'creation',
           token: 'eth'
         });
-    }
-
-    if (tx.getTo() !== '0x' && !!tx.getTo()) {
-      if (
-        tx.getTo().toLowerCase() ===
-          GlobalConfig.DAIPoolTogetherContractV2.toLowerCase() &&
-        ret.length === 0
-      )
-        ret.push({
-          type: 'outgoing',
-          token: 'dai',
-          direction: 'outgoing',
-          amount: '0.00'
-        });
-      else if (
-        tx.getTo().toLowerCase() ===
-          GlobalConfig.DAIPoolTogetherTokenContractV2.toLowerCase() &&
-        ret.length === 0
-      )
-        ret.push({
-          type: 'outgoing',
-          token: 'pldai',
-          direction: 'outgoing',
-          amount: '0.00'
-        });
-    } else
+    } else if (tx.getTxStatus() < 0) {
       ret.push({
-        type: 'contract_creation',
-        direction: 'creation',
+        type: 'failure',
+        direction: 'outgoing',
         token: 'eth'
       });
+    } else {
+      ret.push({
+        type: 'contract_interaction',
+        direction: 'outgoing',
+        token: 'eth',
+        amount: '0.00'
+      });
+    }
 
     if (ret.length === 0)
       ret.push({
@@ -736,7 +751,7 @@ class TransactionUtilities {
 
   txCommonObject = (tx: any, checksumAddr: any) => {
     const timestamp = this.parseTransactionTime(tx.getTimestamp()),
-      status = tx.getState(),
+      status = tx.getTxStatus(),
       data = this.computeTxData(tx, checksumAddr);
     if (data) {
       const service =
