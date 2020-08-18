@@ -4,13 +4,13 @@
   "scripts": {
     "postinstall": "rn-nodeify --install stream,crypto,http,https,url,os,process,buffer,events,assert,vm --hack",
     "jetifier": "jetifier -r",
-    "test": "NODE_ENV=test jest",
+    "npmreinstall": "rm -rf node_modules/ package-lock.json && npm install",
     "ios": "react-native run-ios",
     "android": "react-native run-android",
     "start": "react-native start",
-    "npmreinstall": "rm -rf node_modules/ package-lock.json && npm install",
     "prettier": "prettier --write src",
     "lint": "eslint --fix src/**/*.js",
+    "test": "NODE_ENV=test jest",
     "tsc": "tsc"
   },
   "dependencies": {
