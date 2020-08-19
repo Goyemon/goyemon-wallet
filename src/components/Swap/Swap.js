@@ -97,7 +97,7 @@ class Swap extends Component {
 
   getDeadline() {
     const timestamp = Math.floor(Date.now() / 1000);
-    const deadline = timestamp + 60 * 60;
+    const deadline = timestamp + 60 * 60 * 6;
     return deadline;
   }
 
