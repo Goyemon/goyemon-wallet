@@ -14,6 +14,7 @@ import I18n from '../../i18n/I18n';
 import SendStack from '../../navigators/SendStack';
 import LogUtilities from '../../utilities/LogUtilities.js';
 import StyleUtilities from '../../utilities/StyleUtilities.js';
+import EtherUtilities from '../../utilities/EtherUtilities';
 
 class ToAddressForm extends Component {
   constructor(props) {
@@ -33,11 +34,23 @@ class ToAddressForm extends Component {
   }
 
   validateToAddress(toAddress) {
-    if (Web3.utils.isAddress(toAddress)) {
+    toAddress = EtherUtilities.getAddressWithout0x(toAddress);
+    const checksumAddress = EtherUtilities.getAddressWithout0x(
+      this.props.checksumAddress
+    );
+    if (
+      Web3.utils.isAddress(toAddress) &&
+      checksumAddress != toAddress &&
+      toAddress != '0000000000000000000000000000000000000000'
+    ) {
       LogUtilities.logInfo('address validated!');
       this.props.updateToAddressValidation(true);
       return true;
-    } else if (!Web3.utils.isAddress(toAddress)) {
+    } else if (
+      !Web3.utils.isAddress(toAddress) ||
+      checksumAddress === toAddress ||
+      toAddress === '0000000000000000000000000000000000000000'
+    ) {
       LogUtilities.logInfo('invalid address');
       this.props.updateToAddressValidation(false);
       return false;
@@ -148,6 +161,7 @@ const QRCodeContainer = styled.TouchableOpacity``;
 
 function mapStateToProps(state) {
   return {
+    checksumAddress: state.ReducerChecksumAddress.checksumAddress,
     outgoingTransactionData:
       state.ReducerOutgoingTransactionData.outgoingTransactionData,
     qrCodeData: state.ReducerQRCodeData.qrCodeData,
