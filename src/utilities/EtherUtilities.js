@@ -7,17 +7,17 @@ class EtherUtilities {
     return Buffer.from(array).toString('hex');
   }
 
-  static getAddressWithout0x(checksumAddress) {
+  static getAddressWithout0x(address) {
     const addressWithout0x =
-      checksumAddress.substr(0, 2) == '0x' && checksumAddress.length > 2
-        ? checksumAddress.substr(2)
-        : checksumAddress.length < 2
+      address.substr(0, 2) == '0x' && address.length > 2
+        ? address.substr(2)
+        : address.length < 2
         ? '0000000000000000000000000000000000000000'
-        : checksumAddress;
+        : address;
     return addressWithout0x.toLowerCase();
   }
 
-  static getCompErrorCode(code) {
+  static getCompoundErrorCode(code) {
     switch (true) {
       case 30 <= code && 38 >= code:
         return 'mint';
@@ -95,7 +95,7 @@ class EtherUtilities {
     ) {
       return {
         type: 'failure',
-        failop: this.getCompErrorCode(parseInt(top.info, 16)),
+        failop: this.getCompoundErrorCode(parseInt(top.info, 16)),
         token: toptok
       };
     }
