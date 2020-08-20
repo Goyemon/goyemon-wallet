@@ -97,17 +97,15 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
       return !this.state.tx ? (
         <GoyemonText fontSize={12}>nothink!</GoyemonText>
       ) : (
-        <>
-          <Container
-            alignItems="flex-start"
-            flexDirection="column"
-            justifyContent="flex-start"
-            marginTop={0}
-            width="100%"
-          >
-            <TransactionDetailContainer data={this.state.data} />
-          </Container>
-        </>
+        <Container
+          alignItems="flex-start"
+          flexDirection="column"
+          justifyContent="flex-start"
+          marginTop={0}
+          width="100%"
+        >
+          <TransactionDetailContainer data={this.state.data} />
+        </Container>
       );
     }
   }
@@ -234,7 +232,7 @@ const TransactionDetailModal = connect(
         newGasPrice: null,
         txResent: false,
         loading: false,
-        modalHeigh: '60%',
+        modalHeight: '50%',
         WEIAmountValidation: undefined
       };
       this.uniqcounter = 0;
@@ -255,7 +253,7 @@ const TransactionDetailModal = connect(
         this.updateTxListState();
       })();
       if (window.height < 896) {
-        this.setState({ modalHeigh: '80%' });
+        this.setState({ modalHeight: '80%' });
       }
     }
 
@@ -341,7 +339,7 @@ const TransactionDetailModal = connect(
               alignItems: 'flex-end'
             }}
           >
-            <ModalContainer style={{ height: this.state.modalHeigh }}>
+            <ModalContainer style={{ height: this.state.modalHeight }}>
               <ModalHandlerContainer>
                 <ModalHandler />
               </ModalHandlerContainer>
