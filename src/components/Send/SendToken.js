@@ -293,7 +293,7 @@ class SendToken extends Component {
           </SendTextInputContainer>
         </Form>
         <AmountValidateMessage
-          amountValidation={amountValidation}
+          // amountValidation={amountValidation}
           isEth={isEth}
         />
         <AdvancedContainer gasLimit={gasLimit} />
