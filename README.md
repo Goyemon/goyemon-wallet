@@ -90,7 +90,7 @@ $ pod --version
 ```
 
 macOS Catalina 10.15.5
-Xcode 11.3.1
+Xcode 11.6
 
 ## License
 
