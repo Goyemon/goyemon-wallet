@@ -42,7 +42,8 @@ export default class TransactionDetailContainer extends Component {
           status={status}
           method={method}
         />
-        {service === 'PoolTogether' && method === 'Withdraw' ? (
+        {name === '' ? null : service === 'PoolTogether' &&
+          method === 'Withdraw' ? (
           <PTWithdrawBox
             name={name}
             size={size}

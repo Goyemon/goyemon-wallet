@@ -12,6 +12,7 @@ import {
 import TxStorage from '../../lib/tx.js';
 import EtherUtilities from '../../utilities/EtherUtilities';
 import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
+import LogUtilities from '../../utilities/LogUtilities';
 
 class Transaction extends Component {
   constructor(props) {
@@ -29,6 +30,13 @@ class Transaction extends Component {
         this.props.transaction.filter || 'all'
       )
       .then((x) => {
+        if (!x) {
+          LogUtilities.toDebugScreen('This is tx has problem', x);
+          LogUtilities.toDebugScreen(
+            'This is tx has problem',
+            this.props.transaction.index
+          );
+        }
         this.setState({ children: this.computeChildren(x) });
       });
   }
@@ -110,13 +118,14 @@ class Transaction extends Component {
           />
 
           <ValueContainer>
-            {inOrOut.name !== '' && method !== 'Swap' && (
-              <Icon
-                name={inOrOut.name}
-                size={inOrOut.size}
-                color={inOrOut.color}
-              />
-            )}
+            {(inOrOut.name !== '' || inOrOut.color !== '') &&
+              method !== 'Swap' && (
+                <Icon
+                  name={inOrOut.name}
+                  size={inOrOut.size}
+                  color={inOrOut.color}
+                />
+              )}
             <TransactionAmount
               amount={amount}
               token={token}
