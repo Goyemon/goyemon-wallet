@@ -1,5 +1,5 @@
 'use strict';
-import Animation from 'lottie-react-native';
+import LottieView from 'lottie-react-native';
 import React, { Component } from 'react';
 import * as Animatable from 'react-native-animatable';
 import { connect } from 'react-redux';
@@ -7,7 +7,6 @@ import styled from 'styled-components/native';
 import Web3 from 'web3';
 import { savePopUpModalVisibility } from '../../../actions/ActionModal';
 import { togglePoolTogetherWinnerRevealed } from '../../../actions/ActionPoolTogether';
-import Congrats from '../../../../assets/congrats_animation.json';
 import {
   RootContainer,
   Button,
@@ -93,18 +92,15 @@ class PortfolioPoolTogether extends Component {
               <HeaderFour marginTop={8}>
                 you won {winningAmount} DAI!
               </HeaderFour>
-              <Animation
-                ref={(animation) => {
-                  this.animation = animation;
-                }}
+              <LottieView
+                autoPlay
+                loop
+                source={require('../../../../assets/congrats_animation.json')}
                 style={{
                   width: 120,
                   height: 120,
                   marginBottom: 12
                 }}
-                autoPlay
-                loop={true}
-                source={Congrats}
               />
             </AnimationContainer>
             <AnimationContainer animation="fadeIn" delay={2500}>
