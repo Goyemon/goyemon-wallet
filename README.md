@@ -3,7 +3,7 @@
 
 ## How to Build and Run the Application
 
-You'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer.
+You'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)), [XCode](https://developer.apple.com/xcode/) and [CocoaPods](https://cocoapods.org/) installed on your computer.
 
 From your command line:
 
