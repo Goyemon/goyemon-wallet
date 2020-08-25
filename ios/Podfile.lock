@@ -277,15 +277,15 @@ PODS:
     - React-cxxreact (= 0.62.0)
     - React-jsi (= 0.62.0)
   - React-jsinspector (0.62.0)
-  - react-native-camera (3.30.0):
+  - react-native-camera (3.37.0):
     - React
-    - react-native-camera/RCT (= 3.30.0)
-    - react-native-camera/RN (= 3.30.0)
-  - react-native-camera/RCT (3.30.0):
+    - react-native-camera/RCT (= 3.37.0)
+    - react-native-camera/RN (= 3.37.0)
+  - react-native-camera/RCT (3.37.0):
     - React
-  - react-native-camera/RN (3.30.0):
+  - react-native-camera/RN (3.37.0):
     - React
-  - react-native-netinfo (5.9.3):
+  - react-native-netinfo (5.9.6):
     - React
   - react-native-randombytes (3.5.3):
     - React
@@ -352,42 +352,42 @@ PODS:
     - React-cxxreact (= 0.62.0)
     - React-jsi (= 0.62.0)
     - ReactCommon/callinvoker (= 0.62.0)
-  - RNCAsyncStorage (1.11.0):
+  - RNCAsyncStorage (1.12.0):
     - React
-  - RNFBAnalytics (7.1.4):
+  - RNFBAnalytics (7.4.2):
     - Firebase/Analytics (~> 6.25.0)
     - React
     - RNFBApp
   - RNFBApp (7.2.1):
     - Firebase/CoreOnly (~> 6.25.0)
     - React
-  - RNFBCrashlytics (7.1.5):
+  - RNFBCrashlytics (7.1.7):
     - Crashlytics (~> 3.14.0)
     - Fabric (~> 1.10.2)
     - React
     - RNFBApp
-  - RNFBMessaging (7.1.6):
+  - RNFBMessaging (7.7.2):
     - Firebase/Analytics (~> 6.25.0)
     - Firebase/Messaging (~> 6.25.0)
     - React
     - RNFBApp
-  - RNGestureHandler (1.6.1):
+  - RNGestureHandler (1.7.0):
     - React
   - RNKeychain (3.1.3):
     - React
-  - RNLocalize (1.4.0):
+  - RNLocalize (1.4.1):
     - React
   - RNOS (1.2.6):
     - React
   - RNPermissions (2.1.5):
     - React
-  - RNReanimated (1.9.0):
+  - RNReanimated (1.13.0):
     - React
   - RNScreens (1.0.0-alpha.23):
     - React
   - RNSVG (9.13.6):
     - React
-  - RNVectorIcons (6.6.0):
+  - RNVectorIcons (6.5.0):
     - React
   - Yoga (1.14.0)
 
@@ -598,8 +598,8 @@ SPEC CHECKSUMS:
   React-jsi: bc8166d6833cdcb0848c80710b26ce63fad2c099
   React-jsiexecutor: 8bf0b2707f05865113415088c398a7f98c0cf546
   React-jsinspector: 8e5913c4c6c54f0d3f9c9fc630c465a89cded65d
-  react-native-camera: f57b28a587a81c50085b77f3fdc71818089ab45d
-  react-native-netinfo: 19706b27df3a2b435171b3f1fad6085d6ac74324
+  react-native-camera: 1f19162f082db0b7c73280699b70319bf1e2e16d
+  react-native-netinfo: d2c312fa4b151214e1d5c8456ddb5f28ff24a576
   react-native-randombytes: 991545e6eaaf700b4ee384c291ef3d572e0b2ca8
   react-native-slider: e36b7de75b35323ee802dae723be8ebbab4c4a3d
   react-native-webview: 711cef318a554093b09a5b871894011435d87a8d
@@ -613,20 +613,20 @@ SPEC CHECKSUMS:
   React-RCTText: 91a0d0ae5434aa28fe0c89c03eb9d660ff53bd9b
   React-RCTVibration: 0630aeb11e22f87c180ca9c0c3a0a0aba780cc62
   ReactCommon: d22162ab8f1358c53dfcd0f9c4d82d38facdbc48
-  RNCAsyncStorage: db711e29e5e0500d9bd21aa0c2e397efa45302b1
-  RNFBAnalytics: d986cc14df3bf2942bd8f917578e5f2dc185a7dd
+  RNCAsyncStorage: 3eea36d9460c5159b592f9ecbe5a77f8aca98006
+  RNFBAnalytics: 3743bba9c103a1153e776f82618277f488bcd7f7
   RNFBApp: def13f6392e7c9839c938879f065ec0088c4496a
-  RNFBCrashlytics: ce4deb00692924b6c796e438a3c573baf07ed5c8
-  RNFBMessaging: 933b5ffa7612c54843f946c266043220e966f06c
-  RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
+  RNFBCrashlytics: a4aceced113c1d81c6aed885774b7e648fa2f25b
+  RNFBMessaging: b7322fc712e3574ae9cfb8781e5c79288d3839a1
+  RNGestureHandler: b6b359bb800ae399a9c8b27032bdbf7c18f08a08
   RNKeychain: c658833a9cb2cbcba6423bdd6e16cce59e27da0e
-  RNLocalize: fc27ee5878ce5a3af73873fb2d8e866e0d1e6d84
+  RNLocalize: c388679af021ddd6069c215f7fdd2acf4e77ede5
   RNOS: 6f2f9a70895bbbfbdad7196abd952e7b01d45027
   RNPermissions: 1888705aebcc81714efa5dbff94351e4388ae012
-  RNReanimated: b5ccb50650ba06f6e749c7c329a1bc3ae0c88b43
+  RNReanimated: 89f5e0a04d1dd52fbf27e7e7030d8f80a646a3fc
   RNScreens: f28b48b8345f2f5f39ed6195518291515032a788
   RNSVG: 8ba35cbeb385a52fd960fd28db9d7d18b4c2974f
-  RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
+  RNVectorIcons: f6cf608dee5b2cb5726ff3b629a5258586d5677b
   Yoga: 9db9ff2025ad21d1ac0a8b3c85d5ac4e7c29d525
 
 PODFILE CHECKSUM: 4e3e9ec1a2d1818152ffc5bc2c20824938d36e62
