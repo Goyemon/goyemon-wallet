@@ -29,7 +29,7 @@ import LogUtilities from '../../utilities/LogUtilities.js';
 import StyleUtilities from '../../utilities/StyleUtilities.js';
 import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
 import ABIEncoder from '../../utilities/AbiUtilities';
-import TxStorage from '../../lib/tx.js';
+import TxStorage from '../../lib/tx';
 import GlobalConfig from '../../config.json';
 
 class WithdrawDaiFromCompound extends Component {

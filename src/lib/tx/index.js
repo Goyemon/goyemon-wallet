@@ -1,8 +1,8 @@
 'use strict';
 import crypto from 'crypto';
 import AsyncStorage from '@react-native-community/async-storage';
-import GlobalConfig from '../config.json';
-import LogUtilities from '../utilities/LogUtilities';
+import GlobalConfig from '../../config.json';
+import LogUtilities from '../../utilities/LogUtilities';
 
 const TxStates = {
   STATE_GETH_ERROR: -1,

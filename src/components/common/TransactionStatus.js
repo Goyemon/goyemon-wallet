@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components/native';
 import { GoyemonText } from './';
 import I18n from '../../i18n/I18n';
-import TxStorage from '../../lib/tx.js';
+import TxStorage from '../../lib/tx';
 
 const TransactionStatus = (props) => (
   <TransactionStatusContainer width={props.width} txState={props.txState}>

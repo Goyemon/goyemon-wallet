@@ -29,7 +29,7 @@ import {
 import OfflineNotice from '../../components/OfflineNotice';
 import TransactionList from './TransactionList';
 import I18n from '../../i18n/I18n';
-import TxStorage from '../../lib/tx.js';
+import TxStorage from '../../lib/tx';
 import LogUtilities from '../../utilities/LogUtilities';
 import TransactionUtilities from '../../utilities/TransactionUtilities';
 

@@ -17,7 +17,7 @@ import {
   GoyemonText
 } from '../common';
 import I18n from '../../i18n/I18n';
-import TxStorage from '../../lib/tx.js';
+import TxStorage from '../../lib/tx';
 import LogUtilities from '../../utilities/LogUtilities';
 
 class EarnHome extends Component {

@@ -9,7 +9,7 @@ import {
   TouchableCardContainer,
   TransactionStatus
 } from '../common';
-import TxStorage from '../../lib/tx.js';
+import TxStorage from '../../lib/tx';
 import EtherUtilities from '../../utilities/EtherUtilities';
 import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
 import LogUtilities from '../../utilities/LogUtilities';

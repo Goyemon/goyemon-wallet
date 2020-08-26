@@ -3,7 +3,7 @@ import firebase from '@react-native-firebase/app';
 import '@react-native-firebase/messaging';
 import LogUtilities from '../utilities/LogUtilities.js';
 import zlib from 'react-zlib-js';
-import TxStorage from '../lib/tx.js';
+import TxStorage from '../lib/tx';
 
 import GlobalConfig from '../config.json';
 

@@ -19,7 +19,7 @@ import { FCMMsgs } from '../lib/fcm.js';
 import LogUtilities from '../utilities/LogUtilities.js';
 import { store } from '../store/store';
 
-import TxStorage from '../lib/tx.js';
+import TxStorage from '../lib/tx';
 
 let storeReady = false;
 let storeReadyPromise;
