@@ -12,7 +12,7 @@ import {
   HeaderFour,
   GoyemonText,
   ReceiveIcon
-} from '../../../components/common';
+} from '../../common';
 import ApplicationBoxes from './ApplicationBoxes';
 import Copy from '../../Copy';
 import FcmPermissions from '../../../firebase/FcmPermissions.js';
