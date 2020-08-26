@@ -387,7 +387,7 @@ class TransactionUtilities {
       .setGasPrice(this.returnTransactionSpeed(gasChosen).toString(16))
       .setGas(GlobalConfig.ERC20ApproveGasLimit.toString(16))
       .tempSetData(approveEncodedABI)
-      .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.approval, [
+      .addTokenOperation('dai', TxTokenOpTypeToName.approval, [
         (spender.startsWith('0x') ? spender.substr(2) : spender).toLowerCase(),
         TxStorage.storage.getOwnAddress(),
         'ff'.repeat(256 / 8)
@@ -436,7 +436,7 @@ class TransactionUtilities {
       .setGasPrice(this.returnTransactionSpeed(gasChosen).toString(16))
       .setGas(gasLimit.toString(16))
       .tempSetData(transferEncodedABI)
-      .addTokenOperation('dai', TxStorage.TxTokenOpTypeToName.transfer, [
+      .addTokenOperation('dai', TxTokenOpTypeToName.transfer, [
         TxStorage.storage.getOwnAddress(),
         toAddr,
         DAIAmountWithDecimals
@@ -466,7 +466,7 @@ class TransactionUtilities {
       .setGasPrice(this.returnTransactionSpeed(gasChosen).toString(16))
       .setGas(gasLimit.toString(16))
       .tempSetData(transferEncodedABI)
-      .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.transfer, [
+      .addTokenOperation('cdai', TxTokenOpTypeToName.transfer, [
         TxStorage.storage.getOwnAddress(),
         toAddr,
         CDAIAmountWithDecimals
@@ -496,7 +496,7 @@ class TransactionUtilities {
       .setGasPrice(this.returnTransactionSpeed(gasChosen).toString(16))
       .setGas(gasLimit.toString(16))
       .tempSetData(transferEncodedABI)
-      .addTokenOperation('pldai', TxStorage.TxTokenOpTypeToName.transfer, [
+      .addTokenOperation('pldai', TxTokenOpTypeToName.transfer, [
         TxStorage.storage.getOwnAddress(),
         toAddr,
         PLDAIAmountWithDecimals

@@ -31,7 +31,7 @@ import LogUtilities from '../../utilities/LogUtilities.js';
 import StyleUtilities from '../../utilities/StyleUtilities.js';
 import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
 import ABIEncoder from '../../utilities/AbiUtilities';
-import TxStorage from '../../lib/tx';
+import TxStorage, { TxTokenOpTypeToName } from '../../lib/tx';
 import GlobalConfig from '../../config.json';
 
 class DepositDaiToPoolTogether extends Component {
@@ -102,11 +102,10 @@ class DepositDaiToPoolTogether extends Component {
       )
       .setGas(GlobalConfig.PoolTogetherDepositPoolGasLimit.toString(16))
       .tempSetData(depositPoolEncodedABI)
-      .addTokenOperation(
-        'pooltogether',
-        TxStorage.TxTokenOpTypeToName.PTdeposited,
-        [TxStorage.storage.getOwnAddress(), daiAmountWithDecimals]
-      );
+      .addTokenOperation('pooltogether', TxTokenOpTypeToName.PTdeposited, [
+        TxStorage.storage.getOwnAddress(),
+        daiAmountWithDecimals
+      ]);
 
     return transactionObject;
   }

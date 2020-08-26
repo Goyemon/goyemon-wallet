@@ -31,7 +31,7 @@ import LogUtilities from '../../utilities/LogUtilities.js';
 import StyleUtilities from '../../utilities/StyleUtilities.js';
 import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
 import ABIEncoder from '../../utilities/AbiUtilities';
-import TxStorage from '../../lib/tx';
+import TxStorage, { TxTokenOpTypeToName } from '../../lib/tx';
 import GlobalConfig from '../../config.json';
 
 class DepositFirstDaiToCompound extends Component {
@@ -99,7 +99,7 @@ class DepositFirstDaiToCompound extends Component {
       )
       .setGas(GlobalConfig.cTokenMintGasLimit.toString(16))
       .tempSetData(mintEncodedABI)
-      .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.mint, [
+      .addTokenOperation('cdai', TxTokenOpTypeToName.mint, [
         TxStorage.storage.getOwnAddress(),
         daiAmountWithDecimals,
         0

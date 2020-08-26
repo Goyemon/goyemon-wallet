@@ -3,7 +3,7 @@ import { Linking, View } from 'react-native';
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { HeaderFive } from '../common';
-import TxStorage from '../../lib/tx';
+import { TxStates } from '../../lib/tx';
 import LogUtilities from '../../utilities/LogUtilities';
 import GlobalConfig from '../../config.json';
 
@@ -26,13 +26,13 @@ const TransactionDetailFooter = (props) => (
         <TxDetailValue>{props.to.substring(0, 24) + '...'}</TxDetailValue>
       </>
     ) : null}
-    {props.status > TxStorage.TxStates.STATE_PENDING ? (
+    {props.status > TxStates.STATE_PENDING ? (
       <HeaderFive fontSize={20}>Network Fee Paid</HeaderFive>
     ) : (
       <HeaderFive fontSize={20}>Max Network Fee</HeaderFive>
     )}
     <TxDetailValue>{props.networkFee} ETH</TxDetailValue>
-    {props.status >= TxStorage.TxStates.STATE_PENDING && (
+    {props.status >= TxStates.STATE_PENDING && (
       <View>
         <HeaderFive fontSize={20}>Hash</HeaderFive>
         <TxDetailValue

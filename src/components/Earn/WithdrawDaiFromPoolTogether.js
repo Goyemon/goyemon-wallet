@@ -30,7 +30,7 @@ import LogUtilities from '../../utilities/LogUtilities.js';
 import StyleUtilities from '../../utilities/StyleUtilities.js';
 import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
 import ABIEncoder from '../../utilities/AbiUtilities';
-import TxStorage from '../../lib/tx';
+import TxStorage, { TxTokenOpTypeToName } from '../../lib/tx';
 import GlobalConfig from '../../config.json';
 
 class WithdrawDaiFromPoolTogether extends Component {
@@ -111,11 +111,10 @@ class WithdrawDaiFromPoolTogether extends Component {
       )
       .setGas(GlobalConfig.PoolTogetherWithdrawGasLimit.toString(16))
       .tempSetData(withdrawEncodedABI)
-      .addTokenOperation(
-        'pooltogether',
-        TxStorage.TxTokenOpTypeToName.PTwithdrawn,
-        [TxStorage.storage.getOwnAddress(), DAIWithdrawAmountWithDecimals]
-      );
+      .addTokenOperation('pooltogether', TxTokenOpTypeToName.PTwithdrawn, [
+        TxStorage.storage.getOwnAddress(),
+        DAIWithdrawAmountWithDecimals
+      ]);
 
     return transactionObject;
   }

@@ -2,7 +2,7 @@ import GlobalConfig from '../../config.json';
 import TxStorage from './TxStorage';
 export default TxStorage;
 
-const TxStates = {
+export const TxStates = {
   STATE_GETH_ERROR: -1,
   STATE_NEW: 0,
   STATE_PENDING: 1,
@@ -10,7 +10,7 @@ const TxStates = {
   STATE_CONFIRMED: 3
 };
 
-const TxTokenOpTypeToName = {
+export const TxTokenOpTypeToName = {
   // names inside txhistory object
   transfer: 'tr',
   approval: 'appr',
@@ -389,7 +389,7 @@ function createTxOpClass(fieldlist) {
 */
 
 // ========== actual transaction data storage class ==========
-const TxTokenOpNameToClass = {
+export const TxTokenOpNameToClass = {
   // name -> tokenop storage class
   [TxTokenOpTypeToName.transfer]: TxTokenTransferOp,
   [TxTokenOpTypeToName.approval]: TxTokenApproveOp,
@@ -409,7 +409,7 @@ const TxTokenOpNameToClass = {
   [TxTokenOpTypeToName.PTrewarded]: TxTokenPTrewardedOp
 };
 
-class Tx {
+export class Tx {
   constructor(state) {
     this.from_addr = this.to_addr = this.value = this.gas = this.gasPrice = this.timestamp = this.nonce = this.hash = null;
     this.state = state !== undefined ? state : null;
@@ -690,12 +690,6 @@ class Tx {
 // }
 
 module.exports = {
-  Tx: Tx,
-  // TxStorage: TxStorage, // nope, one instance to rule them all, let's not allow people to instantiate this.
-  TxStates: TxStates,
-  TxTokenOpTypeToName: TxTokenOpTypeToName,
-  TxTokenOpNameToClass: TxTokenOpNameToClass,
-
   TxException: TxException,
   NoSuchTxException: NoSuchTxException,
   DuplicateNonceTxException: DuplicateNonceTxException,

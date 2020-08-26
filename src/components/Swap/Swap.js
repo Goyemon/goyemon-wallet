@@ -31,7 +31,7 @@ import { RoundDownBigNumberPlacesEighteen } from '../../utilities/BigNumberUtili
 import LogUtilities from '../../utilities/LogUtilities.js';
 import StyleUtilities from '../../utilities/StyleUtilities.js';
 import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
-import TxStorage from '../../lib/tx';
+import TxStorage, { TxTokenOpTypeToName } from '../../lib/tx';
 import GlobalConfig from '../../config.json';
 
 class Swap extends Component {
@@ -140,18 +140,14 @@ class Swap extends Component {
       )
       .setGas(GlobalConfig.UniswapV2SwapExactETHForTokensGasLimit.toString(16))
       .tempSetData(swapExactETHForTokensEncodedABI)
-      .addTokenOperation(
-        'uniswap2ethdai',
-        TxStorage.TxTokenOpTypeToName.U2swap,
-        [
-          GlobalConfig.RouterUniswapV2,
-          '0',
-          hexWEI,
-          minTokensWithDecimals,
-          '0',
-          this.props.checksumAddress
-        ]
-      );
+      .addTokenOperation('uniswap2ethdai', TxTokenOpTypeToName.U2swap, [
+        GlobalConfig.RouterUniswapV2,
+        '0',
+        hexWEI,
+        minTokensWithDecimals,
+        '0',
+        this.props.checksumAddress
+      ]);
     return transactionObject;
   }
 
