@@ -35,16 +35,6 @@ $ npm run start
 
 ```
 
-We also added a method in the npm module. In `react-native-firebase/dist/modules/messaging/index.js`, add the method below the constructor:
-```js
-  stupid_shit_initialized() {
-    if (Platform.OS === 'ios') {
-      getNativeModule(this).jsInitialised();
-    }
-  }
-```
-_we could remove this method when we migrate to the new version of firebase._
-
 Contact somebody in our team if the build fails.
 
 ## Networks
