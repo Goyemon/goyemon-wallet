@@ -1,6 +1,9 @@
 'use strict';
 import TransactionUtilities from './TransactionUtilities';
-import { TxTokenOpNameToClass, TxTokenOpTypeToName } from '../lib/tx';
+import {
+  TxTokenOpNameToClass,
+  TxTokenOpTypeToName
+} from '../lib/tx/TokenOpType';
 
 class EtherUtilities {
   static hexArrayToString(array) {

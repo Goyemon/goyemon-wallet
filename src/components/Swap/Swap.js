@@ -31,7 +31,8 @@ import { RoundDownBigNumberPlacesEighteen } from '../../utilities/BigNumberUtili
 import LogUtilities from '../../utilities/LogUtilities.js';
 import StyleUtilities from '../../utilities/StyleUtilities.js';
 import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
-import { storage, TxTokenOpTypeToName } from '../../lib/tx';
+import { storage } from '../../lib/tx';
+import { TxTokenOpTypeToName } from '../../lib/tx/TokenOpType';
 import GlobalConfig from '../../config.json';
 
 class Swap extends Component {
