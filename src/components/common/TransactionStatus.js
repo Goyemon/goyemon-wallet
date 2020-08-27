@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components/native';
 import { GoyemonText } from './';
 import I18n from '../../i18n/I18n';
-import { TxStates } from '../../lib/tx/TxStates';
+import TxStates from '../../lib/tx/TxStates';
 
 const TransactionStatus = (props) => (
   <TransactionStatusContainer width={props.width} txState={props.txState}>

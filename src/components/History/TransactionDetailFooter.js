@@ -3,7 +3,7 @@ import { Linking, View } from 'react-native';
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { HeaderFive } from '../common';
-import { TxStates } from '../../lib/tx';
+import TxStates from '../../lib/tx';
 import LogUtilities from '../../utilities/LogUtilities';
 import GlobalConfig from '../../config.json';
 

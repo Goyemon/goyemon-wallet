@@ -1,18 +1,7 @@
 import { TxTokenOpNameToClass } from './TokenOpType';
 import GlobalConfig from '../../config.json';
+import { hexToBuf, dropHexPrefix } from './common';
 
-function hexToBuf(hex) {
-  return typeof hex === 'string'
-    ? Buffer.from(hex.startsWith('0x') ? hex.substr(2) : hex, 'hex')
-    : null;
-}
-function dropHexPrefix(hex) {
-  return typeof hex === 'string'
-    ? hex.startsWith('0x')
-      ? hex.substr(2)
-      : hex
-    : hex;
-}
 export default class Tx {
   constructor(state) {
     this.from_addr = this.to_addr = this.value = this.gas = this.gasPrice = this.timestamp = this.nonce = this.hash = null;

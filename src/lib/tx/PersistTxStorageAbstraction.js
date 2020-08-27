@@ -1,10 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import LogUtilities from '../../utilities/LogUtilities';
 import Tx from './Tx';
-
-const storage_bucket_size = Math.floor(4096 / (64 + 1));
-const txNoncePrefix = 'nonce_';
-const txFailPrefix = 'fail_';
+import { txNoncePrefix, txFailPrefix, storage_bucket_size } from './common';
 
 export default class PersistTxStorageAbstraction {
   constructor(prefix = '') {
@@ -223,89 +220,6 @@ export default class PersistTxStorageAbstraction {
     return await this.getTxByHash(bucket[bucket.length - 1]);
   }
 
-  // async getHashesAt(idarray, index='all') {
-  // 	const ret = [];
-  //
-  // 	let last_bucket = null;
-  // 	let last_bucket_num = null;
-  //
-  // 	for (let i = 0; i < idarray.length; ++i) {
-  // 		const num = idarray[i];
-  // 		const bucket_num = Math.floor(num / storage_bucket_size);
-  // 		const bucket_pos = num % storage_bucket_size;
-  //
-  // 		if (bucket_num === last_bucket_num)
-  // 			ret.push(last_bucket[bucket_pos]);
-  // 		else {
-  // 			last_bucket = await this.__getKey(`${this.prefix}i${index}${bucket_num}`, this.__decodeBucket);
-  // 			last_bucket_num = bucket_num;
-  // 			ret.push(last_bucket[bucket_pos]);
-  // 		}
-  // 	}
-  //
-  // 	return ret;
-  // }
-
-  /*
-      async getHashRanges(index='all', start, end) {
-          const high_bucket = Math.floor(end / storage_bucket_size);
-          const high_bucket_off = end % storage_bucket_size;
-          const low_bucket = Math.floor(start / storage_bucket_size);
-          const low_bucket_off = start % storage_bucket_size;
-  
-          const bucketnames = [];
-          for (let i = low_bucket; i <= high_bucket; ++i)
-              bucketnames.push(`${this.prefix}i${index}${i}`);
-  
-          await this.__lock(index);
-  
-          const bucketdata = await AsyncStorage.multiGet(bucketnames); // looks like the results returned are in the same order we're requesting them https://github.com/react-native-community/async-storage/blob/master/lib/AsyncStorage.js#L266
-          LogUtilities.toDebugScreen(`getHashRanges(): bucketnames.length = ${bucketnames.length}, bucketdata.length == ${bucketdata.length}`);
-  
-          const ret = [];
-          for (let i = 0; i < bucketnames.length; ++i) {
-              let add_items;
-              const bd = this.__decodeBucket(bucketdata[i][1]);
-  
-              //LogUtilities.toDebugScreen(`getHashRanges(): bucketdata[${i}] = ${bd}`);
-  
-              if (i == 0) {
-                  if (i == bucketnames.length - 1)
-                      add_items = bd.slice(low_bucket_off, high_bucket_off);
-                  else
-                      add_items = bd.slice(low_bucket_off);
-              }
-              else if (i == bucketnames.length - 1) {
-                  add_items = bd.slice(0, high_bucket_off);
-              }
-              else
-                  add_items = bd;
-  
-              ret.splice(ret.length, 0, ...add_items);
-          }
-  
-          // LogUtilities.toDebugScreen(`getHashRanges(): ret == ${ret}}`);
-  
-          const txdata = await AsyncStorage.multiGet(ret.map(x => `${this.prefix}_${x}`));
-  
-          LogUtilities.toDebugScreen(`getHashRanges(): txdata.length == ${txdata.length}, ret.length == ${ret.length}`);
-          for (let i = 0; i < ret.length; ++i) {
-              try {
-                  const tx = JSON.parse(txdata[i][1]);
-                  ret[i] = [ret[i], tx[7]];
-              }
-              catch (e) {
-                  LogUtilities.toDebugScreen(`getHashRanges(): txdata[${i}] == `, txdata[i]);
-                  ret[i] = [ret[i], null]; // or should we let it blow up? hmm
-              }
-          }
-  
-          await this.__unlock(index);
-  
-          return ret;
-      }
-      */
-
   async getHashes(index = 'all', offset = 0) {
     // currently also precaches top 128 txes.
     // TODO: this perhaps could use cache.
@@ -375,51 +289,6 @@ export default class PersistTxStorageAbstraction {
 
     return ret;
   }
-
-  /*
-      async getHashes(index='all', offset=0) {
-          // TODO: rename this to get checksums or something, and hash things inside here from first bucket (or from offset if specified!),
-          // returning only the checksums at given checkpoints. sigh. otherwise we're keeping too much data in memory.
-  
-          const bucket_count = Math.floor((this.counts[index] - 1) / storage_bucket_size);
-          const low_bucket = Math.floor(offset / storage_bucket_size);
-          const low_bucket_off = offset % storage_bucket_size;
-  
-          const bucketnames = [];
-          for (let i = low_bucket; i <= bucket_count; ++i)
-              bucketnames.push(`${this.prefix}i${index}${i}`);
-  
-          const hashes_in_order = [];
-  
-          const buckets = {};
-          (await AsyncStorage.multiGet(bucketnames)).forEach(([k, v]) => buckets[k] = v);
-          bucketnames.forEach((n, idx) => {
-              const itms = (idx == 0 ? this.__decodeBucket(buckets[n]).slice(low_bucket_off) : this.__decodeBucket(buckets[n]));
-              // hashes_in_order.splice(hashes_in_order.length, 0, ...itms);
-  
-              itms.forEach(x => hashes_in_order.push([x, null]));
-  
-          });
-  
-          const txstates = {};
-  
-          (await AsyncStorage.multiGet(hashes_in_order.map(x => `${this.prefix}_${x[0]}`))).forEach(([k, v]) => {
-              try {
-                  txstates[k] = JSON.parse(v)[7];
-              }
-              catch (e) {
-                  LogUtilities.toDebugScreen(`getHashes(): ${k} returned ${v}`);
-              }
-          });
-  
-          hashes_in_order.forEach(x => {
-              const prefixkey = `${this.prefix}_${x[0]}`;
-              x[1] = txstates[prefixkey];
-          });
-  
-          return hashes_in_order;
-      }
-      */
 
   async updateTxDataIfExists(hash, tx) {
     // TODO: does not re-check indices, so be careful if anything can change there.

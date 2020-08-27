@@ -6,18 +6,16 @@ import PersistTxStorageAbstraction from './PersistTxStorageAbstraction';
 import AsyncLocks from './AsyncLocks';
 import Tx from './Tx';
 import { TxTokenOpTypeToName } from './TokenOpType';
-import { TxStates } from './TxStates';
+import TxStates from './TxStates';
 import { NoSuchTxException } from './TxException';
-function hexToBuf(hex) {
-  return typeof hex === 'string'
-    ? Buffer.from(hex.startsWith('0x') ? hex.substr(2) : hex, 'hex')
-    : null;
-}
-const maxNonceKey = '_tx[maxnonce]';
-const txNoncePrefix = 'nonce_';
-const txFailPrefix = 'fail_';
-const txStatePrefix = 'state_';
-const lastCheckpointKey = '_txsync[checkpoint]';
+import { hexToBuf } from './common';
+import {
+  maxNonceKey,
+  txNoncePrefix,
+  txFailPrefix,
+  txStatePrefix,
+  lastCheckpointKey
+} from './common';
 
 export default class TxStorage {
   constructor(ourAddress) {
@@ -70,15 +68,6 @@ export default class TxStorage {
     else this.our_address = null;
 
     this.on_update = [];
-
-    // AsyncStorage.getAllKeys().then(x => {
-    // 	LogUtilities.toDebugScreen(`AStor keys: ${x}`);
-    // });
-
-    // this has sensitive data, so let's not:
-    // AsyncStorage.getItem('persist:root').then(x => {
-    //  	LogUtilities.toDebugScreen(`persist:root: ${x}`);
-    // });
 
     this.locks = new AsyncLocks();
 
