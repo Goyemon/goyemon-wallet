@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import LogUtilities from '../../utilities/LogUtilities';
-import { Tx } from './index';
+import Tx from './Tx';
 
 const storage_bucket_size = Math.floor(4096 / (64 + 1));
 const txNoncePrefix = 'nonce_';

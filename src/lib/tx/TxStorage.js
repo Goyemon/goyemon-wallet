@@ -4,7 +4,10 @@ import GlobalConfig from '../../config.json';
 import LogUtilities from '../../utilities/LogUtilities';
 import PersistTxStorageAbstraction from './PersistTxStorageAbstraction';
 import AsyncLocks from './AsyncLocks';
-import { TxStates, Tx, TxTokenOpTypeToName, NoSuchTxException } from './index';
+import Tx from './Tx';
+import { TxTokenOpTypeToName } from './TokenOpType';
+import { TxStates } from './TxStates';
+import { NoSuchTxException } from './TxException';
 function hexToBuf(hex) {
   return typeof hex === 'string'
     ? Buffer.from(hex.startsWith('0x') ? hex.substr(2) : hex, 'hex')

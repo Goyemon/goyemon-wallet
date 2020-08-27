@@ -1,4 +1,4 @@
-import { TxTokenOpNameToClass } from './index';
+import { TxTokenOpNameToClass } from './TokenOpType';
 import GlobalConfig from '../../config.json';
 
 function hexToBuf(hex) {
