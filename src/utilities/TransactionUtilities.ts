@@ -6,7 +6,8 @@ const uuidv4 = require('uuid/v4');
 import Web3 from 'web3';
 import { store } from '../store/store.js';
 import I18n from '../i18n/I18n';
-const TxStorage = require('../lib/tx');
+import { storage } from '../lib/tx';
+import { TxTokenOpTypeToName } from '../lib/tx/TokenOpType'
 import ABIEncoder from './AbiUtilities';
 import {
   RoundDownBigNumberPlacesFour,
