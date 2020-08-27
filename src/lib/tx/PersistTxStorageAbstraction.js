@@ -21,25 +21,6 @@ export default class PersistTxStorageAbstraction {
     this.prefix = prefix; // `${this.prefix}${key}`
 
     this.debug = true;
-
-    /*
-          this._tempwritetimer = null;
-          AsyncStorage.getItem(`${this.prefix}_temp`).then(x => {
-              this.storage = {};
-  
-              if (x != null) {
-                  Object.entries(JSON.parse(x)).forEach(([hash, data]) => {
-                      const tx = new Tx(data[7]).setHash(hash).fromDataArray(data, false);
-                      this.storage[hash] = tx;
-                      if (onTxLoadCallback)
-                          onTxLoadCallback(tx);
-                  });
-              }
-  
-              if (onTxLoadCallback)
-                  onTxLoadCallback();
-          });
-          */
   }
 
   __init_lock() {
