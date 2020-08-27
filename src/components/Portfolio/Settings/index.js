@@ -18,7 +18,7 @@ import {
 } from '../../common';
 import PopUpModal from '../../PopUpModal';
 import I18n from '../../../i18n/I18n';
-import TxStorage from '../../../lib/tx';
+import storage from '../../../lib/tx';
 import PortfolioStack from '../../../navigators/PortfolioStack';
 import { persistor, store } from '../../../store/store.js';
 import LogUtilities from '../../../utilities/LogUtilities.js';
@@ -143,7 +143,7 @@ class Settings extends Component {
               onPress={async () => {
                 await WalletUtilities.resetKeychainData();
                 await persistor.purge();
-                await TxStorage.storage.clear();
+                await storage.clear();
                 this.props.clearState();
                 // reset notification settings using https://github.com/zo0r/react-native-push-notification
                 this.props.savePopUpModalVisibility(false);

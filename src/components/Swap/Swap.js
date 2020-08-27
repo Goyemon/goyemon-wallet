@@ -31,7 +31,7 @@ import { RoundDownBigNumberPlacesEighteen } from '../../utilities/BigNumberUtili
 import LogUtilities from '../../utilities/LogUtilities.js';
 import StyleUtilities from '../../utilities/StyleUtilities.js';
 import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
-import TxStorage, { TxTokenOpTypeToName } from '../../lib/tx';
+import { storage, TxTokenOpTypeToName } from '../../lib/tx';
 import GlobalConfig from '../../config.json';
 
 class Swap extends Component {
@@ -130,7 +130,7 @@ class Swap extends Component {
       .times(new RoundDownBigNumberPlacesEighteen(10).pow(18))
       .toString(16);
 
-    const transactionObject = (await TxStorage.storage.newTx())
+    const transactionObject = (await storage.newTx())
       .setTo(GlobalConfig.RouterUniswapV2)
       .setValue(hexWEI)
       .setGasPrice(

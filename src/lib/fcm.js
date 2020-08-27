@@ -3,7 +3,7 @@ import firebase from '@react-native-firebase/app';
 import '@react-native-firebase/messaging';
 import LogUtilities from '../utilities/LogUtilities.js';
 import zlib from 'react-zlib-js';
-import TxStorage from '../lib/tx';
+import storage from '../lib/tx';
 
 import GlobalConfig from '../config.json';
 
@@ -208,7 +208,7 @@ class FCMMsgs {
       sums: checksums.join(','),
       items: count.toString(),
       offset: offset.toString(),
-      v: TxStorage.storage.temporary_since_you_wont_add_build_number_i_will.toString()
+      v: storage.temporary_since_you_wont_add_build_number_i_will.toString()
     });
   }
 

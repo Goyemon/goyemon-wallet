@@ -18,7 +18,6 @@ import GlobalConfig from '../../../config.json';
 import I18n from '../../../i18n/I18n';
 import { FCMMsgs } from '../../../lib/fcm.js';
 import LogUtilities from '../../../utilities/LogUtilities.js';
-// import TxStorage from '../../../lib/tx';
 
 class Advanced extends Component {
   constructor(props) {
@@ -168,7 +167,7 @@ class Advanced extends Component {
           {/* <TouchableWithoutFeedback
             onPress={async () => {
               setTimeout(() => {
-                TxStorage.storage.debugDumpAllTxes();
+                storage.debugDumpAllTxes();
               }, 5000);
             }}
           >

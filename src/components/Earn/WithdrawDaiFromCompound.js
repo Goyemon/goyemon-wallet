@@ -29,7 +29,7 @@ import LogUtilities from '../../utilities/LogUtilities.js';
 import StyleUtilities from '../../utilities/StyleUtilities.js';
 import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
 import ABIEncoder from '../../utilities/AbiUtilities';
-import TxStorage, { TxTokenOpTypeToName } from '../../lib/tx';
+import { storage, TxTokenOpTypeToName } from '../../lib/tx';
 import GlobalConfig from '../../config.json';
 
 class WithdrawDaiFromCompound extends Component {
@@ -95,7 +95,7 @@ class WithdrawDaiFromCompound extends Component {
       .times(new RoundDownBigNumberPlacesEighteen(10).pow(18))
       .toString(16);
 
-    const transactionObject = (await TxStorage.storage.newTx())
+    const transactionObject = (await storage.newTx())
       .setTo(GlobalConfig.cDAIcontract)
       .setGasPrice(
         TransactionUtilities.returnTransactionSpeed(
@@ -105,7 +105,7 @@ class WithdrawDaiFromCompound extends Component {
       .setGas(GlobalConfig.cTokenRedeemUnderlyingGasLimit.toString(16))
       .tempSetData(redeemUnderlyingEncodedABI)
       .addTokenOperation('cdai', TxTokenOpTypeToName.redeem, [
-        TxStorage.storage.getOwnAddress(),
+        storage.getOwnAddress(),
         DAIWithdrawAmountWithDecimals,
         0
       ]);

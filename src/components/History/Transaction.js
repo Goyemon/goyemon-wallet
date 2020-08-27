@@ -9,7 +9,7 @@ import {
   TouchableCardContainer,
   TransactionStatus
 } from '../common';
-import TxStorage from '../../lib/tx';
+import { storage } from '../../lib/tx';
 import EtherUtilities from '../../utilities/EtherUtilities';
 import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
 import LogUtilities from '../../utilities/LogUtilities';
@@ -24,7 +24,7 @@ class Transaction extends Component {
   }
 
   componentDidMount() {
-    TxStorage.storage
+    storage
       .getTx(
         this.props.transaction.index,
         this.props.transaction.filter || 'all'
@@ -43,7 +43,7 @@ class Transaction extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.updateCounter !== prevProps.updateCounter)
-      TxStorage.storage
+      storage
         .getTx(
           this.props.transaction.index,
           this.props.transaction.filter || 'all'

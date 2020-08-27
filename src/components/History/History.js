@@ -29,7 +29,7 @@ import {
 import OfflineNotice from '../../components/OfflineNotice';
 import TransactionList from './TransactionList';
 import I18n from '../../i18n/I18n';
-import TxStorage from '../../lib/tx';
+import { storage } from '../../lib/tx';
 import LogUtilities from '../../utilities/LogUtilities';
 import TransactionUtilities from '../../utilities/TransactionUtilities';
 
@@ -75,8 +75,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
 
     async componentDidUpdate(prevProps) {
       if (this.props.updateCounter !== prevProps.updateCounter) {
-        TxStorage.storage
-          .getTx(this.props.index, this.props.filter)
+        Storage.getTx(this.props.index, this.props.filter)
           .then(async (x) => {
             await this.setState({
               data: TransactionUtilities.txDetailObject(
@@ -246,9 +245,7 @@ const TransactionDetailModal = connect(
     handleViewRef = (ref) => (this.view = ref);
 
     componentDidMount() {
-      this.unsub = TxStorage.storage.subscribe(
-        this.updateTxListState.bind(this)
-      );
+      this.unsub = storage.subscribe(this.updateTxListState.bind(this));
       (async () => {
         this.updateTxListState();
       })();
@@ -294,7 +291,7 @@ const TransactionDetailModal = connect(
       const newTx = this.state.txToUpdate.deepClone();
       newTx.setGasPrice(this.state.newGasPrice.toString(16));
 
-      if (await TxStorage.storage.updateTx(newTx)) {
+      if (await storage.updateTx(newTx)) {
         await TransactionUtilities.sendTransactionToServer(newTx);
 
         this.setState({ txResent: true });

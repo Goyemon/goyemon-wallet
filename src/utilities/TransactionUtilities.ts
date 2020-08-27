@@ -314,7 +314,7 @@ class TransactionUtilities {
   async sendOutgoingTransactionToServer(outgoingTransactionObject: any) {
     // should be renamed cause it also does .saveTx()
     await this.sendTransactionToServer(outgoingTransactionObject);
-    await TxStorage.storage.saveTx(outgoingTransactionObject);
+    await storage.saveTx(outgoingTransactionObject);
   }
 
   async sendTransactionToServer(txObject: any) {
@@ -382,14 +382,14 @@ class TransactionUtilities {
 
   async constructApproveTransactionObject(spender: any, gasChosen: any) {
     const approveEncodedABI = this.getApproveEncodedABI(spender);
-    const approveTransactionObject = (await TxStorage.storage.newTx())
+    const approveTransactionObject = (await storage.newTx())
       .setTo(GlobalConfig.DAITokenContract)
       .setGasPrice(this.returnTransactionSpeed(gasChosen).toString(16))
       .setGas(GlobalConfig.ERC20ApproveGasLimit.toString(16))
       .tempSetData(approveEncodedABI)
       .addTokenOperation('dai', TxTokenOpTypeToName.approval, [
         (spender.startsWith('0x') ? spender.substr(2) : spender).toLowerCase(),
-        TxStorage.storage.getOwnAddress(),
+        storage.getOwnAddress(),
         'ff'.repeat(256 / 8)
       ]);
 
@@ -407,7 +407,7 @@ class TransactionUtilities {
     gasChosen: any,
     gasLimit: any
   ) =>
-    (await TxStorage.storage.newTx())
+    (await storage.newTx())
       .setTo(toAddr)
       .setValue(new RoundDownBigNumberPlacesEighteen(amount).toString(16))
       .setGasPrice(this.returnTransactionSpeed(gasChosen).toString(16))
@@ -431,13 +431,13 @@ class TransactionUtilities {
       .times(new RoundDownBigNumberPlacesEighteen(10).pow(18))
       .toString(16);
 
-    return (await TxStorage.storage.newTx())
+    return (await storage.newTx())
       .setTo(GlobalConfig.DAITokenContract)
       .setGasPrice(this.returnTransactionSpeed(gasChosen).toString(16))
       .setGas(gasLimit.toString(16))
       .tempSetData(transferEncodedABI)
       .addTokenOperation('dai', TxTokenOpTypeToName.transfer, [
-        TxStorage.storage.getOwnAddress(),
+        storage.getOwnAddress(),
         toAddr,
         DAIAmountWithDecimals
       ]);
@@ -461,13 +461,13 @@ class TransactionUtilities {
       .times(new RoundDownBigNumberPlacesEighteen(10).pow(8))
       .toString(16);
 
-    return (await TxStorage.storage.newTx())
+    return (await storage.newTx())
       .setTo(GlobalConfig.cDAIcontract)
       .setGasPrice(this.returnTransactionSpeed(gasChosen).toString(16))
       .setGas(gasLimit.toString(16))
       .tempSetData(transferEncodedABI)
       .addTokenOperation('cdai', TxTokenOpTypeToName.transfer, [
-        TxStorage.storage.getOwnAddress(),
+        storage.getOwnAddress(),
         toAddr,
         CDAIAmountWithDecimals
       ]);
@@ -491,13 +491,13 @@ class TransactionUtilities {
       .times(new RoundDownBigNumberPlacesEighteen(10).pow(18))
       .toString(16);
 
-    return (await TxStorage.storage.newTx())
+    return (await storage.newTx())
       .setTo(GlobalConfig.DAIPoolTogetherTokenContractV2)
       .setGasPrice(this.returnTransactionSpeed(gasChosen).toString(16))
       .setGas(gasLimit.toString(16))
       .tempSetData(transferEncodedABI)
       .addTokenOperation('pldai', TxTokenOpTypeToName.transfer, [
-        TxStorage.storage.getOwnAddress(),
+        storage.getOwnAddress(),
         toAddr,
         PLDAIAmountWithDecimals
       ]);

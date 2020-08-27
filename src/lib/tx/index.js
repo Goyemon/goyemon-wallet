@@ -1,7 +1,7 @@
 import GlobalConfig from '../../config.json';
 import TxStorage from './TxStorage';
 
-const TxStates = {
+export const TxStates = {
   STATE_GETH_ERROR: -1,
   STATE_NEW: 0,
   STATE_PENDING: 1,
@@ -9,7 +9,7 @@ const TxStates = {
   STATE_CONFIRMED: 3
 };
 
-const TxTokenOpTypeToName = {
+export const TxTokenOpTypeToName = {
   // names inside txhistory object
   transfer: 'tr',
   approval: 'appr',
@@ -62,17 +62,17 @@ function hexToBuf(hex) {
 */
 
 // ========== exceptions ==========
-class TxException extends Error {
+export class TxException extends Error {
   constructor(msg) {
     super(msg);
     this.name = this.constructor.name;
   }
 }
 
-class NoSuchTxException extends TxException {}
+export class NoSuchTxException extends TxException {}
 // class InvalidStateTxException extends TxException {}
-class DuplicateNonceTxException extends TxException {}
-class DuplicateHashTxException extends TxException {}
+export class DuplicateNonceTxException extends TxException {}
+export class DuplicateHashTxException extends TxException {}
 
 // ========== token operations ==========
 // TODO: replace these with a factory
@@ -388,7 +388,7 @@ function createTxOpClass(fieldlist) {
 */
 
 // ========== actual transaction data storage class ==========
-const TxTokenOpNameToClass = {
+export const TxTokenOpNameToClass = {
   // name -> tokenop storage class
   [TxTokenOpTypeToName.transfer]: TxTokenTransferOp,
   [TxTokenOpTypeToName.approval]: TxTokenApproveOp,
@@ -408,7 +408,7 @@ const TxTokenOpNameToClass = {
   [TxTokenOpTypeToName.PTrewarded]: TxTokenPTrewardedOp
 };
 
-class Tx {
+export class Tx {
   constructor(state) {
     this.from_addr = this.to_addr = this.value = this.gas = this.gasPrice = this.timestamp = this.nonce = this.hash = null;
     this.state = state !== undefined ? state : null;
@@ -687,17 +687,4 @@ class Tx {
 
 //   return x;
 // }
-
-module.exports = {
-  Tx: Tx,
-  TxStates: TxStates,
-  TxTokenOpNameToClass: TxTokenOpNameToClass,
-  TxTokenOpTypeToName: TxTokenOpTypeToName,
-  TxException: TxException,
-  NoSuchTxException: NoSuchTxException,
-  DuplicateNonceTxException: DuplicateNonceTxException,
-  DuplicateHashTxException: DuplicateHashTxException,
-  //InvalidStateTxException: InvalidStateTxException,
-
-  storage: new TxStorage()
-};
+export const storage = new TxStorage();
