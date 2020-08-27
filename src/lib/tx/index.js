@@ -676,15 +676,4 @@ export class Tx {
   }
 }
 
-// function arraySortUnique(x, sortfunc) {
-//   // modifies input array
-//   x.sort(sortfunc);
-
-//   for (let lastElement, i = x.length - 1; i >= 0; i--) {
-//     if (x[i] === lastElement) x.splice(i, 1);
-//     else lastElement = x[i];
-//   }
-
-//   return x;
-// }
 export const storage = new TxStorage();
