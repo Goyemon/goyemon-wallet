@@ -674,7 +674,7 @@
 				"OTHER_LDFLAGS[arch=*]" = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.swarm.goyemon;
 				PRODUCT_NAME = Goyemon;
-				PROVISIONING_PROFILE = "57197bd0-d3ed-4e46-b790-ad4d7b84b1e4";
+				PROVISIONING_PROFILE = "27f9006f-07fe-4a6f-ae2d-324dd47b3332";
 				PROVISIONING_PROFILE_SPECIFIER = "com.swarm.goyemon AppStore";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -730,7 +730,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = Swarm.GoyemonUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "57197bd0-d3ed-4e46-b790-ad4d7b84b1e4";
+				PROVISIONING_PROFILE = "27f9006f-07fe-4a6f-ae2d-324dd47b3332";
 				PROVISIONING_PROFILE_SPECIFIER = "com.swarm.goyemon AppStore";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.0;
