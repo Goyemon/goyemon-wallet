@@ -7,7 +7,7 @@ import Web3 from 'web3';
 import { store } from '../store/store.js';
 import I18n from '../i18n/I18n';
 import { storage } from '../lib/tx';
-import { TxTokenOpTypeToName } from '../lib/tx/TokenOpType'
+import { TxTokenOpTypeToName } from '../lib/tx/TokenOpType';
 import ABIEncoder from './AbiUtilities';
 import {
   RoundDownBigNumberPlacesFour,

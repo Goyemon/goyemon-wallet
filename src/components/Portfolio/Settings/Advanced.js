@@ -154,7 +154,12 @@ class Advanced extends Component {
           {/* {this.renderPostLog()} */}
           <Copy
             text={
-              'fcm token: ' + debugInfo.fcmToken + ' logs: ' + otherDebugInfo
+              'address: ' +
+              this.props.checksumAddress +
+              ' fcm token: ' +
+              debugInfo.fcmToken +
+              ' logs: ' +
+              otherDebugInfo
             }
             icon={false}
           />
