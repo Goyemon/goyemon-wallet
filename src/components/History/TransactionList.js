@@ -5,7 +5,7 @@ import styled from 'styled-components/native';
 import Transaction from './Transaction';
 import I18n from '../../i18n/I18n';
 import LogUtilities from '../../utilities/LogUtilities';
-import TxStorage from '../../lib/tx.js';
+import { storage } from '../../lib/tx';
 
 class TransactionList extends Component {
   constructor(props) {
@@ -23,7 +23,7 @@ class TransactionList extends Component {
 
   componentDidMount() {
     // this.__mounted = true;
-    this.unsub = TxStorage.storage.subscribe(this.updateTxListState.bind(this));
+    this.unsub = storage.subscribe(this.updateTxListState.bind(this));
     (async () => {
       this.updateTxListState();
     })();
@@ -58,7 +58,7 @@ class TransactionList extends Component {
   }
 
   getItemCount() {
-    const ret = TxStorage.storage.getTxCount(
+    const ret = storage.getTxCount(
       this.props.tokenFilter.toLowerCase() || 'all'
     );
     if (ret != this.__tempcachecount) {

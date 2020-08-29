@@ -18,8 +18,7 @@ import { saveTransactionsLoaded } from '../actions/ActionTransactionsLoaded';
 import { FCMMsgs } from '../lib/fcm.js';
 import LogUtilities from '../utilities/LogUtilities.js';
 import { store } from '../store/store';
-
-import TxStorage from '../lib/tx.js';
+import { storage } from '../lib/tx';
 
 let storeReady = false;
 let storeReadyPromise;
@@ -42,22 +41,22 @@ async function downstreamMessageHandler(type, data) {
 
   switch (type) {
     case 'txhistory':
-      // TxStorage.storage.setOwnAddress(checksumAddress);
-      await TxStorage.storage.clear(true);
-      await TxStorage.storage.parseTxHistory(data);
+      // storage.setOwnAddress(checksumAddress);
+      await storage.clear(true);
+      await storage.parseTxHistory(data);
       store.dispatch(saveTransactionsLoaded(true));
       break;
 
     case 'txstate':
       await Promise.all(
         Object.entries(data).map(([hash, data]) =>
-          TxStorage.storage.processTxState(hash, data)
+          storage.processTxState(hash, data)
         )
       );
       break;
 
     case 'txsync':
-      await TxStorage.storage.processTxSync(data);
+      await storage.processTxSync(data);
       break;
 
     case 'balance':
@@ -104,7 +103,7 @@ async function downstreamMessageHandler(type, data) {
         `downstreamMessageHandler(): received transactionError for nonce:${data.nonce}:`,
         data
       );
-      TxStorage.storage.markNotIncludedTxAsErrorByNonce(parseInt(data.nonce));
+      storage.markNotIncludedTxAsErrorByNonce(parseInt(data.nonce));
 
       break;
 

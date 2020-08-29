@@ -30,7 +30,8 @@ import LogUtilities from '../../utilities/LogUtilities.js';
 import StyleUtilities from '../../utilities/StyleUtilities.js';
 import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
 import ABIEncoder from '../../utilities/AbiUtilities';
-import TxStorage from '../../lib/tx.js';
+import { storage } from '../../lib/tx';
+import { TxTokenOpTypeToName } from '../../lib/tx/TokenOpType';
 import GlobalConfig from '../../config.json';
 
 class WithdrawDaiFromPoolTogether extends Component {
@@ -102,7 +103,7 @@ class WithdrawDaiFromPoolTogether extends Component {
       .times(new RoundDownBigNumberPlacesEighteen(10).pow(18))
       .toString(16);
 
-    const transactionObject = (await TxStorage.storage.newTx())
+    const transactionObject = (await storage.newTx())
       .setTo(GlobalConfig.DAIPoolTogetherContractV2)
       .setGasPrice(
         TransactionUtilities.returnTransactionSpeed(
@@ -111,11 +112,10 @@ class WithdrawDaiFromPoolTogether extends Component {
       )
       .setGas(GlobalConfig.PoolTogetherWithdrawGasLimit.toString(16))
       .tempSetData(withdrawEncodedABI)
-      .addTokenOperation(
-        'pooltogether',
-        TxStorage.TxTokenOpTypeToName.PTwithdrawn,
-        [TxStorage.storage.getOwnAddress(), DAIWithdrawAmountWithDecimals]
-      );
+      .addTokenOperation('pooltogether', TxTokenOpTypeToName.PTwithdrawn, [
+        storage.getOwnAddress(),
+        DAIWithdrawAmountWithDecimals
+      ]);
 
     return transactionObject;
   }

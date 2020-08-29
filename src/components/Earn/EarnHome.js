@@ -17,22 +17,22 @@ import {
   GoyemonText
 } from '../common';
 import I18n from '../../i18n/I18n';
-import TxStorage from '../../lib/tx.js';
+import { storage } from '../../lib/tx';
 import LogUtilities from '../../utilities/LogUtilities';
 
 class EarnHome extends Component {
   componentDidMount() {
     LogUtilities.toDebugScreen('EarnHome componentDidMount() called');
     const txChangeCallback = (() => {
-      TxStorage.storage.isDAIApprovedForCDAI().then((x) => {
+      storage.isDAIApprovedForCDAI().then((x) => {
         this.props.saveDaiCompoundApproval(x);
       });
-      TxStorage.storage.isDAIApprovedForPT().then((x) => {
+      storage.isDAIApprovedForPT().then((x) => {
         this.props.saveDaiPoolTogetherApproval(x);
       });
     }).bind(this);
 
-    this.unsub = TxStorage.storage.subscribe(txChangeCallback);
+    this.unsub = storage.subscribe(txChangeCallback);
     txChangeCallback();
   }
 

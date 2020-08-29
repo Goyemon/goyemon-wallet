@@ -12,7 +12,7 @@ import { name as appName } from './app.json';
 import FcmListener from './src/firebase/FcmListener';
 import FCM from './src/lib/fcm';
 import { store } from './src/store/store';
-import TxStorage from './src/lib/tx';
+import { storage } from './src/lib/tx';
 import LogUtilities from './src/utilities/LogUtilities';
 
 // Register background fcm handler
@@ -29,17 +29,17 @@ messaging().setBackgroundMessageHandler(async (downstreamMessage) => {
 AppRegistry.registerComponent(appName, () => App);
 
 async function FCMcheckForUpdates() {
-  const data = await TxStorage.storage.getVerificationData();
+  const data = await storage.getVerificationData();
   // LogUtilities.toDebugScreen('verification data:', JSON.stringify(data));
   FCM.FCMMsgs.checkForUpdates(
-    TxStorage.storage.getOwnAddress(),
+    storage.getOwnAddress(),
     data.hashes,
     data.count,
     data.offset
   );
 }
 
-TxStorage.storage.isStorageReady().then(() => {
+storage.isStorageReady().then(() => {
   LogUtilities.toDebugScreen('TxStorage ready.');
 });
 
@@ -50,8 +50,8 @@ FcmListener.setStoreReadyPromise(
       LogUtilities.toDebugScreen('Redux-persist ready.');
       store.dispatch(rehydrationComplete(true));
 
-      TxStorage.storage.isStorageReady().then(() => {
-        TxStorage.storage.setOwnAddress(
+      storage.isStorageReady().then(() => {
+        storage.setOwnAddress(
           store.getState().ReducerChecksumAddress.checksumAddress
         );
         resolve();

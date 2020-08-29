@@ -31,7 +31,8 @@ import LogUtilities from '../../utilities/LogUtilities.js';
 import StyleUtilities from '../../utilities/StyleUtilities.js';
 import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
 import ABIEncoder from '../../utilities/AbiUtilities';
-import TxStorage from '../../lib/tx.js';
+import { storage } from '../../lib/tx';
+import { TxTokenOpTypeToName } from '../../lib/tx/TokenOpType';
 import GlobalConfig from '../../config.json';
 
 class DepositFirstDaiToCompound extends Component {
@@ -90,7 +91,7 @@ class DepositFirstDaiToCompound extends Component {
       .times(new RoundDownBigNumberPlacesEighteen(10).pow(18))
       .toString(16);
 
-    const transactionObject = (await TxStorage.storage.newTx())
+    const transactionObject = (await storage.newTx())
       .setTo(GlobalConfig.cDAIcontract)
       .setGasPrice(
         TransactionUtilities.returnTransactionSpeed(
@@ -99,8 +100,8 @@ class DepositFirstDaiToCompound extends Component {
       )
       .setGas(GlobalConfig.cTokenMintGasLimit.toString(16))
       .tempSetData(mintEncodedABI)
-      .addTokenOperation('cdai', TxStorage.TxTokenOpTypeToName.mint, [
-        TxStorage.storage.getOwnAddress(),
+      .addTokenOperation('cdai', TxTokenOpTypeToName.mint, [
+        storage.getOwnAddress(),
         daiAmountWithDecimals,
         0
       ]);

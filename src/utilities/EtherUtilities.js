@@ -1,6 +1,9 @@
 'use strict';
 import TransactionUtilities from './TransactionUtilities';
-import TxStorage from '../lib/tx';
+import {
+  TxTokenOpNameToClass,
+  TxTokenOpTypeToName
+} from '../lib/tx/TokenOpType';
 
 class EtherUtilities {
   static hexArrayToString(array) {
@@ -33,10 +36,8 @@ class EtherUtilities {
   static topType(top, toptok, our_address_without_0x) {
     // LogUtilities.toDebugScreen('computeTxData -> ', typeof top);
     if (
-      top instanceof
-        TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.eth2tok] ||
-      top instanceof
-        TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.U2swap]
+      top instanceof TxTokenOpNameToClass[TxTokenOpTypeToName.eth2tok] ||
+      top instanceof TxTokenOpNameToClass[TxTokenOpTypeToName.U2swap]
     )
       return {
         type: 'swap',
@@ -50,18 +51,11 @@ class EtherUtilities {
       };
 
     if (
+      top instanceof TxTokenOpNameToClass[TxTokenOpTypeToName.PTdeposited] ||
       top instanceof
-        TxStorage.TxTokenOpNameToClass[
-          TxStorage.TxTokenOpTypeToName.PTdeposited
-        ] ||
+        TxTokenOpNameToClass[TxTokenOpTypeToName.PTdepositedAndCommitted] ||
       top instanceof
-        TxStorage.TxTokenOpNameToClass[
-          TxStorage.TxTokenOpTypeToName.PTdepositedAndCommitted
-        ] ||
-      top instanceof
-        TxStorage.TxTokenOpNameToClass[
-          TxStorage.TxTokenOpTypeToName.PTsponsorshipDeposited
-        ]
+        TxTokenOpNameToClass[TxTokenOpTypeToName.PTsponsorshipDeposited]
     )
       return {
         type: 'deposit',
@@ -71,10 +65,7 @@ class EtherUtilities {
         token: 'DAI'
       };
 
-    if (
-      top instanceof
-      TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.transfer]
-    )
+    if (top instanceof TxTokenOpNameToClass[TxTokenOpTypeToName.transfer])
       return {
         type: 'transfer',
         amount: TransactionUtilities.parseHexDAIValue(`0x${top.amount}`),
@@ -89,10 +80,7 @@ class EtherUtilities {
         token: toptok
       };
 
-    if (
-      top instanceof
-      TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.failure]
-    ) {
+    if (top instanceof TxTokenOpNameToClass[TxTokenOpTypeToName.failure]) {
       return {
         type: 'failure',
         failop: this.getCompoundErrorCode(parseInt(top.info, 16)),
@@ -100,19 +88,13 @@ class EtherUtilities {
       };
     }
 
-    if (
-      top instanceof
-      TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.approval]
-    )
+    if (top instanceof TxTokenOpNameToClass[TxTokenOpTypeToName.approval])
       return {
         type: 'approval',
         token: toptok
       };
 
-    if (
-      top instanceof
-      TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.mint]
-    )
+    if (top instanceof TxTokenOpNameToClass[TxTokenOpTypeToName.mint])
       return {
         type: 'deposit',
         amount: TransactionUtilities.parseHexDAIValue(
@@ -121,10 +103,7 @@ class EtherUtilities {
         token: toptok
       };
 
-    if (
-      top instanceof
-      TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.redeem]
-    )
+    if (top instanceof TxTokenOpNameToClass[TxTokenOpTypeToName.redeem])
       return {
         type: 'withdraw',
         amount: TransactionUtilities.parseHexDAIValue(
@@ -133,20 +112,14 @@ class EtherUtilities {
         token: toptok
       };
 
-    if (
-      top instanceof
-      TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.PTrewarded]
-    )
+    if (top instanceof TxTokenOpNameToClass[TxTokenOpTypeToName.PTrewarded])
       return {
         type: 'rewarded',
         amount: TransactionUtilities.parseHexDAIValue(`0x${top.winnings}`),
         token: toptok
       };
 
-    if (
-      top instanceof
-      TxStorage.TxTokenOpNameToClass[TxStorage.TxTokenOpTypeToName.PTwithdrawn]
-    )
+    if (top instanceof TxTokenOpNameToClass[TxTokenOpTypeToName.PTwithdrawn])
       return {
         type: 'withdraw',
         token: toptok,
@@ -155,9 +128,7 @@ class EtherUtilities {
 
     if (
       top instanceof
-      TxStorage.TxTokenOpNameToClass[
-        TxStorage.TxTokenOpTypeToName.PTopenDepositWithdrawn
-      ]
+      TxTokenOpNameToClass[TxTokenOpTypeToName.PTopenDepositWithdrawn]
     )
       return {
         type: 'open deposit withdraw',
@@ -167,9 +138,7 @@ class EtherUtilities {
 
     if (
       top instanceof
-      TxStorage.TxTokenOpNameToClass[
-        TxStorage.TxTokenOpTypeToName.PTsponsorshipAndFeesWithdrawn
-      ]
+      TxTokenOpNameToClass[TxTokenOpTypeToName.PTsponsorshipAndFeesWithdrawn]
     )
       return {
         type: 'sponsorship withdraw',
@@ -179,9 +148,7 @@ class EtherUtilities {
 
     if (
       top instanceof
-      TxStorage.TxTokenOpNameToClass[
-        TxStorage.TxTokenOpTypeToName.PTcommittedDepositWithdrawn
-      ]
+      TxTokenOpNameToClass[TxTokenOpTypeToName.PTcommittedDepositWithdrawn]
     )
       return {
         type: 'committed deposit withdraw',

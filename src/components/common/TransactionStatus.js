@@ -3,27 +3,27 @@ import React from 'react';
 import styled from 'styled-components/native';
 import { GoyemonText } from './';
 import I18n from '../../i18n/I18n';
-import TxStorage from '../../lib/tx.js';
+import TxStates from '../../lib/tx/TxStates';
 
 const TransactionStatus = (props) => (
   <TransactionStatusContainer width={props.width} txState={props.txState}>
     {(() => {
       let text;
       switch (props.txState) {
-        case TxStorage.TxStates.STATE_NEW:
-        case TxStorage.TxStates.STATE_PENDING:
+        case TxStates.STATE_NEW:
+        case TxStates.STATE_PENDING:
           text = I18n.t('history-pending') + '...';
           break;
 
-        case TxStorage.TxStates.STATE_INCLUDED:
+        case TxStates.STATE_INCLUDED:
           text = I18n.t('history-success');
           break;
 
-        case TxStorage.TxStates.STATE_CONFIRMED:
+        case TxStates.STATE_CONFIRMED:
           text = I18n.t('history-success');
           break;
 
-        case TxStorage.TxStates.STATE_GETH_ERROR:
+        case TxStates.STATE_GETH_ERROR:
           return (
             <FailedStatusText>{I18n.t('history-failed')}</FailedStatusText>
           );

@@ -31,7 +31,8 @@ import LogUtilities from '../../utilities/LogUtilities.js';
 import StyleUtilities from '../../utilities/StyleUtilities.js';
 import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
 import ABIEncoder from '../../utilities/AbiUtilities';
-import TxStorage from '../../lib/tx.js';
+import { storage } from '../../lib/tx';
+import { TxTokenOpTypeToName } from '../../lib/tx/TokenOpType';
 import GlobalConfig from '../../config.json';
 
 class DepositFirstDaiToPoolTogether extends Component {
@@ -95,7 +96,7 @@ class DepositFirstDaiToPoolTogether extends Component {
       .times(new RoundDownBigNumberPlacesEighteen(10).pow(18))
       .toString(16);
 
-    const transactionObject = (await TxStorage.storage.newTx())
+    const transactionObject = (await storage.newTx())
       .setTo(GlobalConfig.DAIPoolTogetherContractV2)
       .setGasPrice(
         TransactionUtilities.returnTransactionSpeed(
@@ -104,11 +105,10 @@ class DepositFirstDaiToPoolTogether extends Component {
       )
       .setGas(GlobalConfig.PoolTogetherDepositPoolGasLimit.toString(16))
       .tempSetData(depositPoolEncodedABI)
-      .addTokenOperation(
-        'pooltogether',
-        TxStorage.TxTokenOpTypeToName.PTdeposited,
-        [TxStorage.storage.getOwnAddress(), DAIAmountWithDecimals]
-      );
+      .addTokenOperation('pooltogether', TxTokenOpTypeToName.PTdeposited, [
+        storage.getOwnAddress(),
+        DAIAmountWithDecimals
+      ]);
 
     return transactionObject.setNonce(transactionObject.getNonce() + 1);
   }

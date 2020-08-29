@@ -18,7 +18,7 @@ import {
 import { Container } from '../../common';
 import I18n from '../../../i18n/I18n';
 import { FCMMsgs } from '../../../lib/fcm.js';
-import TxStorage from '../../../lib/tx';
+import { storage } from '../../../lib/tx';
 import PortfolioStack from '../../../navigators/PortfolioStack';
 import WalletUtilities from '../../../utilities/WalletUtilities.ts';
 
@@ -108,7 +108,7 @@ class WalletCreation extends Component {
       await WalletUtilities.createPrivateKey()
     );
     await this.props.createChecksumAddress();
-    TxStorage.storage.setOwnAddress(this.props.checksumAddress);
+    storage.setOwnAddress(this.props.checksumAddress);
     FCMMsgs.registerEthereumAddress(this.props.checksumAddress);
   }
 

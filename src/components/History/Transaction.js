@@ -9,9 +9,10 @@ import {
   TouchableCardContainer,
   TransactionStatus
 } from '../common';
-import TxStorage from '../../lib/tx.js';
+import { storage } from '../../lib/tx';
 import EtherUtilities from '../../utilities/EtherUtilities';
 import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
+import LogUtilities from '../../utilities/LogUtilities';
 
 class Transaction extends Component {
   constructor(props) {
@@ -23,19 +24,26 @@ class Transaction extends Component {
   }
 
   componentDidMount() {
-    TxStorage.storage
+    storage
       .getTx(
         this.props.transaction.index,
         this.props.transaction.filter || 'all'
       )
       .then((x) => {
+        if (!x) {
+          LogUtilities.toDebugScreen('This is tx has problem', x);
+          LogUtilities.toDebugScreen(
+            'This is tx has problem',
+            this.props.transaction.index
+          );
+        }
         this.setState({ children: this.computeChildren(x) });
       });
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.updateCounter !== prevProps.updateCounter)
-      TxStorage.storage
+      storage
         .getTx(
           this.props.transaction.index,
           this.props.transaction.filter || 'all'
@@ -110,13 +118,14 @@ class Transaction extends Component {
           />
 
           <ValueContainer>
-            {inOrOut.name !== '' && method !== 'Swap' && (
-              <Icon
-                name={inOrOut.name}
-                size={inOrOut.size}
-                color={inOrOut.color}
-              />
-            )}
+            {(inOrOut.name !== '' || inOrOut.color !== '') &&
+              method !== 'Swap' && (
+                <Icon
+                  name={inOrOut.name}
+                  size={inOrOut.size}
+                  color={inOrOut.color}
+                />
+              )}
             <TransactionAmount
               amount={amount}
               token={token}
