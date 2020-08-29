@@ -3,7 +3,8 @@ import {
   SAVE_TX_DETAIL_MODAL_VISIBILITY,
   SAVE_TX_CONFIRMATION_MODAL_VISIBILITY,
   UPDATE_TX_CONFIRMATION_MODAL_VISIBLE_TYPE,
-  SAVE_POP_UP_MODAL_VISIBILITY
+  SAVE_POP_UP_MODAL_VISIBILITY,
+  BUY_CRYPTO_MODAL_VISIBILITY
 } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
@@ -11,7 +12,8 @@ const INITIAL_STATE = {
     txDetailModalVisibility: false,
     txConfirmationModalVisibility: false,
     txConfirmationModalType: null,
-    popUpModalVisibility: false
+    popUpModalVisibility: false,
+    buyCryptoModalVisibility: false
   }
 };
 
@@ -43,6 +45,13 @@ const modal = (state = INITIAL_STATE, action) => {
         modal: {
           ...state.modal,
           popUpModalVisibility: action.payload
+        }
+      };
+    case BUY_CRYPTO_MODAL_VISIBILITY:
+      return {
+        modal: {
+          ...state.modal,
+          buyCryptoModalVisibility: action.payload
         }
       };
     default:

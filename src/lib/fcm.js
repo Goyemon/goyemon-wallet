@@ -7,13 +7,6 @@ import TxStorage from '../lib/tx.js';
 
 import GlobalConfig from '../config.json';
 
-// function obj_property_default(obj, prop, def) {
-//   if (obj.hasOwnProperty(prop)) return obj[prop];
-//   obj[prop] = def;
-
-//   return def;
-// }
-
 const msgtype_compressed = {
   txhistory: true,
   txstate: true,
@@ -121,7 +114,11 @@ class FCMMsgs {
       .messaging()
       .sendMessage(upstreamMessage)
       .then((response) => {
-        console.log('Successfully sent message:', response);
+        console.log('Successfully sent message:', {
+          type: upstreamMessage.data.type,
+          upstreamMessage: upstreamMessage,
+          response: response
+        });
       })
       .catch((error) => {
         console.log('Error sending message:', error);
@@ -221,7 +218,6 @@ const handler = (x, frombg) => instance.__fcm_msg(x, frombg);
 function registerHandler() {
   LogUtilities.toDebugScreen('FCM registerHandler called');
   firebase.messaging().onMessage(handler);
-  // firebase.messaging().stupid_shit_initialized();
 }
 
 module.exports = {

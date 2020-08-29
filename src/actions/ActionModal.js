@@ -3,7 +3,8 @@ import {
   SAVE_TX_DETAIL_MODAL_VISIBILITY,
   SAVE_TX_CONFIRMATION_MODAL_VISIBILITY,
   UPDATE_TX_CONFIRMATION_MODAL_VISIBLE_TYPE,
-  SAVE_POP_UP_MODAL_VISIBILITY
+  SAVE_POP_UP_MODAL_VISIBILITY,
+  BUY_CRYPTO_MODAL_VISIBILITY
 } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
@@ -64,5 +65,20 @@ export function savePopUpModalVisibility(visibility) {
 
 const savePopUpModalVisibilitySuccess = (visibility) => ({
   type: SAVE_POP_UP_MODAL_VISIBILITY,
+  payload: visibility
+});
+
+export function saveBuyCryptoModalVisibility(visibility) {
+  return async function (dispatch) {
+    try {
+      dispatch(saveBuyCryptoModalVisibilitySuccess(visibility));
+    } catch (err) {
+      LogUtilities.logError(err);
+    }
+  };
+}
+
+const saveBuyCryptoModalVisibilitySuccess = (visibility) => ({
+  type: BUY_CRYPTO_MODAL_VISIBILITY,
   payload: visibility
 });

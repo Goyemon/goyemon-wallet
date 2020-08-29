@@ -1,6 +1,6 @@
 'use strict';
 import BigNumber from 'bignumber.js';
-import Animation from 'lottie-react-native';
+import LottieView from 'lottie-react-native';
 import React, { Component } from 'react';
 import * as Animatable from 'react-native-animatable';
 import { StackActions, NavigationActions } from 'react-navigation';
@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { getGasPrice } from '../actions/ActionGasPrice';
 import { getETHPrice, getDAIPrice, getCDAIPrice } from '../actions/ActionPrice';
-import Loader from '../../assets/loader_animation.json';
 import { Container } from './common';
 import FcmPermissions from '../firebase/FcmPermissions.js';
 import { FCMMsgs } from '../lib/fcm.js';
@@ -193,17 +192,14 @@ class Initial extends Component {
       >
         <LoaderContainer animation="fadeIn" delay={1000}>
           <Logo>Goyemon</Logo>
-          <Animation
-            ref={(animation) => {
-              this.animation = animation;
-            }}
+          <LottieView
+            autoPlay
+            loop
+            source={require('../../assets/loader_animation.json')}
             style={{
               width: 120,
               height: 120
             }}
-            autoPlay
-            loop={true}
-            source={Loader}
           />
         </LoaderContainer>
       </Container>

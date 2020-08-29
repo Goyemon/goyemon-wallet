@@ -1,4 +1,4 @@
-// Ropsten testnet
+// Ropsten
 {
   "FCM_server_address": "687286274439@gcm.googleapis.com",
   "network_name": "ropsten",
@@ -45,3 +45,5 @@
 //   "PoolTogetherDepositPoolGasLimit": 743061,
 //   "PoolTogetherWithdrawGasLimit": 955509
 // }
+
+// MoonPay API tokens are in the source of the WebView in the MoonPayWebView component.

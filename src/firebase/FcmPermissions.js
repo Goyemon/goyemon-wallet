@@ -1,22 +1,21 @@
 'use strict';
-import firebase from '@react-native-firebase/app';
-import '@react-native-firebase/messaging';
+import messaging from '@react-native-firebase/messaging';
 import { saveNotificationPermission } from '../actions/ActionPermissions';
 import { store } from '../store/store';
 import LogUtilities from '../utilities/LogUtilities.js';
 
 class FcmPermissions {
   async checkFcmPermissions() {
-    const enabled = await firebase.messaging().hasPermission();
-    if (enabled) {
+    const authorizationStatus = await messaging().hasPermission();
+    if (authorizationStatus === messaging.AuthorizationStatus.AUTHORIZED) {
       LogUtilities.logInfo('user has permissions');
       store.dispatch(saveNotificationPermission(true));
     } else {
       LogUtilities.logInfo('user does not have permission');
       try {
-        await firebase.messaging().requestPermission();
-        const enabled = await firebase.messaging().hasPermission();
-        if (enabled) {
+        await messaging().requestPermission();
+        const authorizationStatus = await messaging().hasPermission();
+        if (authorizationStatus === messaging.AuthorizationStatus.AUTHORIZED) {
           store.dispatch(saveNotificationPermission(true));
           LogUtilities.logInfo('User has authorised');
         } else {
