@@ -84,7 +84,7 @@ macOS Catalina 10.15.5
 Xcode 11.3.1
 
 ## Caveats
-Keep the react-native-webview package in the 7.4.2. When I updated to the 7.6.0, the wallet stopped registering for the fcm. 
+Keep the react-native-webview package in the 7.4.2. When I updated to the 7.6.0, the wallet stopped registering for the fcm in a simulator. 
 
 
 ## License
