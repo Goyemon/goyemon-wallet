@@ -149,19 +149,15 @@ class Advanced extends Component {
             marginLeft="0"
             marginTop="24"
           >
-            Copy your device info
-          </HeaderThree>
-          <Copy text={debugInfo.fcmToken} icon={false} />
-          <HeaderThree
-            color="#000"
-            marginBottom="0"
-            marginLeft="0"
-            marginTop="24"
-          >
             Copy Logs
           </HeaderThree>
           {/* {this.renderPostLog()} */}
-          <Copy text={otherDebugInfo} icon={false} />
+          <Copy
+            text={
+              'fcm token: ' + debugInfo.fcmToken + ' logs: ' + otherDebugInfo
+            }
+            icon={false}
+          />
           {/* <TouchableWithoutFeedback
             onPress={async () => {
               setTimeout(() => {
