@@ -291,7 +291,7 @@ PODS:
     - React
   - react-native-slider (2.0.7):
     - React
-  - react-native-webview (7.6.0):
+  - react-native-webview (7.4.2):
     - React
   - React-RCTActionSheet (0.62.0):
     - React-Core/RCTActionSheetHeaders (= 0.62.0)
@@ -365,7 +365,7 @@ PODS:
     - Firebase/Crashlytics (~> 6.30.0)
     - React
     - RNFBApp
-  - RNFBMessaging (7.8.3):
+  - RNFBMessaging (7.8.1):
     - Firebase/Messaging (~> 6.30.0)
     - React
     - RNFBApp
@@ -592,7 +592,7 @@ SPEC CHECKSUMS:
   react-native-netinfo: d2c312fa4b151214e1d5c8456ddb5f28ff24a576
   react-native-randombytes: 991545e6eaaf700b4ee384c291ef3d572e0b2ca8
   react-native-slider: e36b7de75b35323ee802dae723be8ebbab4c4a3d
-  react-native-webview: 711cef318a554093b09a5b871894011435d87a8d
+  react-native-webview: 5e82a4853e16e02bb6cb184ae4892df71c200571
   React-RCTActionSheet: 674afbc8b9c76e0a83520e0a51da29a70802c03f
   React-RCTAnimation: f5f24330d09ee677fb49e0782f8321868f4df431
   React-RCTBlob: b773ce6138ab0d172ebd8a455fd4efd200a92549
@@ -607,7 +607,7 @@ SPEC CHECKSUMS:
   RNFBAnalytics: ffd9149d1fe0ecee0f2571b234d53c25349b9899
   RNFBApp: e4321cad5dd23b43b3b4f0ca060300b9f85cb7a4
   RNFBCrashlytics: accacec7be2426085b715b93cdb7b0a1308eb8eb
-  RNFBMessaging: ca2afaa9449dde72fded30f93b9a4fd296d4dd60
+  RNFBMessaging: 4afdcd2fe27714ef3f7539a61b1700e3fa0ccfca
   RNGestureHandler: b6b359bb800ae399a9c8b27032bdbf7c18f08a08
   RNKeychain: c658833a9cb2cbcba6423bdd6e16cce59e27da0e
   RNLocalize: c388679af021ddd6069c215f7fdd2acf4e77ede5
@@ -619,6 +619,6 @@ SPEC CHECKSUMS:
   RNVectorIcons: f6cf608dee5b2cb5726ff3b629a5258586d5677b
   Yoga: 9db9ff2025ad21d1ac0a8b3c85d5ac4e7c29d525
 
-PODFILE CHECKSUM: 4e3e9ec1a2d1818152ffc5bc2c20824938d36e62
+PODFILE CHECKSUM: f9eeedc1fbdb478817731af697e033f92afaa123
 
 COCOAPODS: 1.9.3
