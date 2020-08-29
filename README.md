@@ -3,7 +3,7 @@
 
 ## How to Build and Run the Application
 
-You'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer.
+You'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)), [XCode](https://developer.apple.com/xcode/) and [CocoaPods](https://cocoapods.org/) installed on your computer.
 
 From your command line:
 
@@ -34,16 +34,6 @@ $ npm run android
 $ npm run start
 
 ```
-
-We also added a method in the npm module. In `react-native-firebase/dist/modules/messaging/index.js`, add the method below the constructor:
-```js
-  stupid_shit_initialized() {
-    if (Platform.OS === 'ios') {
-      getNativeModule(this).jsInitialised();
-    }
-  }
-```
-_we could remove this method when we migrate to the new version of firebase._
 
 Contact somebody in our team if the build fails.
 
@@ -91,6 +81,10 @@ $ pod --version
 
 macOS Catalina 10.15.5
 Xcode 11.6
+
+## Caveats
+Keep the react-native-webview package in the 7.4.2. When I updated to the 7.6.0, the wallet stopped registering for the fcm in a simulator. 
+
 
 ## License
 

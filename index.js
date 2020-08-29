@@ -26,8 +26,6 @@ messaging().setBackgroundMessageHandler(async (downstreamMessage) => {
   return Promise.resolve();
 });
 
-YellowBox.ignoreWarnings(['Remote debugger', 'Require cycle']);
-
 AppRegistry.registerComponent(appName, () => App);
 
 async function FCMcheckForUpdates() {
@@ -63,3 +61,9 @@ FcmListener.setStoreReadyPromise(
   })
 );
 FCM.registerHandler(); // Then we call FCM.registerHandler() to actually initialize FCM.
+
+// Ignore log notification by message:
+YellowBox.ignoreWarnings(['Remote debugger', 'Require cycle']);
+
+// Ignore all log notifications:
+// console.disableYellowBox = true;

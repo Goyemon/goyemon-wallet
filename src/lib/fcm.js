@@ -113,7 +113,11 @@ class FCMMsgs {
       .messaging()
       .sendMessage(upstreamMessage)
       .then((response) => {
-        console.log('Successfully sent message:', response);
+        console.log('Successfully sent message:', {
+          type: upstreamMessage.data.type,
+          upstreamMessage: upstreamMessage,
+          response: response
+        });
       })
       .catch((error) => {
         console.log('Error sending message:', error);
@@ -213,7 +217,6 @@ const handler = (x, frombg) => instance.__fcm_msg(x, frombg);
 function registerHandler() {
   LogUtilities.toDebugScreen('FCM registerHandler called');
   firebase.messaging().onMessage(handler);
-  // firebase.messaging().stupid_shit_initialized();
 }
 
 module.exports = {

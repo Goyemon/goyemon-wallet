@@ -341,7 +341,11 @@ class TransactionUtilities {
       .messaging()
       .sendMessage(upstreamMessage)
       .then((response) => {
-        console.log('Successfully sent message:', response);
+        console.log('Successfully sent message:', {
+          type: upstreamMessage.data.type,
+          upstreamMessage: upstreamMessage,
+          response: response
+        });
       })
       .catch((error) => {
         console.log('Error sending message:', error);

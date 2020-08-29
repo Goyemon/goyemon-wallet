@@ -149,9 +149,8 @@ class Advanced extends Component {
             marginLeft="0"
             marginTop="24"
           >
-            {I18n.t('settings-advanced-device-info')}
+            Copy your device info
           </HeaderThree>
-          <GoyemonText fontSize="14">{debugInfo.fcmToken}</GoyemonText>
           <Copy text={debugInfo.fcmToken} icon={false} />
           <HeaderThree
             color="#000"
@@ -159,10 +158,9 @@ class Advanced extends Component {
             marginLeft="0"
             marginTop="24"
           >
-            {I18n.t('settings-advanced-other-device-info')}
+            Copy Logs
           </HeaderThree>
           {/* {this.renderPostLog()} */}
-          <GoyemonText fontSize="14">{otherDebugInfo}</GoyemonText>
           <Copy text={otherDebugInfo} icon={false} />
           {/* <TouchableWithoutFeedback
             onPress={async () => {

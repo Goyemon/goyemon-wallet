@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components';
 import Web3 from 'web3';
+import { saveBuyCryptoModalVisibility } from '../../../actions/ActionModal';
 import {
   RootContainer,
   UntouchableCardContainer,
@@ -11,8 +12,10 @@ import {
   NewHeaderThree,
   HeaderFour,
   GoyemonText,
-  ReceiveIcon
-} from '../../common';
+  ReceiveIcon,
+  BuyIcon
+} from '../../../components/common';
+import BuyCryptoModal from '../../../components/BuyCryptoModal';
 import ApplicationBoxes from './ApplicationBoxes';
 import Copy from '../../Copy';
 import FcmPermissions from '../../../firebase/FcmPermissions.js';
@@ -122,6 +125,7 @@ class PortfolioHome extends Component {
     return (
       <RootContainer>
         <HeaderOne marginTop="64">{I18n.t('portfolio')}</HeaderOne>
+        <BuyCryptoModal />
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8"
@@ -129,7 +133,7 @@ class PortfolioHome extends Component {
           height="240px"
           justifyContent="center"
           marginTop="24px"
-          textAlign="left"
+          textAlign="center"
           width="90%"
         >
           <HeaderFour marginTop="0">
@@ -147,6 +151,14 @@ class PortfolioHome extends Component {
               <GoyemonText fontSize={14}>Receive</GoyemonText>
             </ReceiveIconContainer>
             <Copy text={checksumAddress} animation={true} icon={true} />
+            <BuyIconContainer>
+              <BuyIcon
+                onPress={() => {
+                  this.props.saveBuyCryptoModalVisibility(true);
+                }}
+              />
+              <GoyemonText fontSize={14}>Buy</GoyemonText>
+            </BuyIconContainer>
           </IconContainer>
         </UntouchableCardContainer>
         <NewHeaderThree
@@ -172,14 +184,22 @@ const UsdBalance = styled.Text`
 const IconContainer = styled.View`
   align-items: center;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-around;
+  width: 60%;
 `;
 
 const ReceiveIconContainer = styled.View`
   align-items: center;
   flex-direction: column;
   margin-top: 16;
-  margin-right: 16;
+  width: 33.3%;
+`;
+
+const BuyIconContainer = styled.View`
+  align-items: center;
+  flex-direction: column;
+  margin-top: 16;
+  width: 33.3%;
 `;
 
 const mapStateToProps = (state) => ({
@@ -188,4 +208,8 @@ const mapStateToProps = (state) => ({
   price: state.ReducerPrice.price
 });
 
-export default connect(mapStateToProps)(PortfolioHome);
+const mapDispatchToProps = {
+  saveBuyCryptoModalVisibility
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PortfolioHome);

@@ -22,7 +22,6 @@ const ReceiveIcon = (props) => (
 
 const ReceiveIconContainer = styled.TouchableOpacity`
   align-items: center;
-  flex-direction: column;
   justify-content: center;
   background-color: #323944;
   border-radius: 40px;
@@ -45,4 +44,19 @@ const CopyIconContainer = styled.View`
   width: 40px;
 `;
 
-export { QRCodeIcon, ReceiveIcon, CopyIcon };
+const BuyIcon = (props) => (
+  <BuyIconContainer onPress={props.onPress}>
+    <Icon name="swap-vertical" color="#fff" size={24} />
+  </BuyIconContainer>
+);
+
+const BuyIconContainer = styled.TouchableOpacity`
+  align-items: center;
+  justify-content: center;
+  background-color: #a9c973;
+  border-radius: 40px;
+  height: 40px;
+  width: 40px;
+`;
+
+export { QRCodeIcon, ReceiveIcon, CopyIcon, BuyIcon };
