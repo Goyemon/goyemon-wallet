@@ -191,7 +191,7 @@ class Initial extends Component {
         width="90%"
       >
         <LoaderContainer animation="fadeIn" delay={1000}>
-          <Logo>Goyemon</Logo>
+          <Logo>goyemon</Logo>
           <LottieView
             autoPlay
             loop

@@ -68,7 +68,7 @@ export default class Welcome extends Component {
       <RootContainer>
         {this.hollaFadeInOut()}
         <WelcomeFirstContainer animation="fadeIn" delay={4000}>
-          <Logo>Goyemon</Logo>
+          <Logo>goyemon</Logo>
           <OneLinerContainer>
             <OneLiner>
               earn passive income with capital-safe crypto investing
