@@ -28,6 +28,7 @@ import ToAddressForm from './ToAddressForm';
 import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
 import GlobalConfig from '../../config.json';
 import LogUtilities from '../../utilities/LogUtilities.js';
+import PriceUtilities from '../../utilities/PriceUtilities.js';
 import StyleUtilities from '../../utilities/StyleUtilities.js';
 import I18n from '../../i18n/I18n';
 import Web3 from 'web3';
@@ -206,6 +207,52 @@ class SendToken extends Component {
     }
   };
 
+  renderUSDValue(token) {
+    switch (token) {
+      case 'ETH':
+        return (
+          <CurrencySymbolText>
+            {PriceUtilities.convertETHToUSD(this.state.displayAmount).toFixed(
+              2
+            )}{' '}
+            USD
+          </CurrencySymbolText>
+        );
+      case 'DAI':
+        return (
+          <CurrencySymbolText>
+            {PriceUtilities.convertDAIToUSD(this.state.displayAmount).toFixed(
+              2
+            )}{' '}
+            USD
+          </CurrencySymbolText>
+        );
+
+      case 'cDAI':
+        return (
+          <CurrencySymbolText>
+            {PriceUtilities.convertCDAIToUSD(this.state.displayAmount).toFixed(
+              2
+            )}{' '}
+            USD
+          </CurrencySymbolText>
+        );
+
+      case 'plDAI':
+        return (
+          <CurrencySymbolText>
+            {PriceUtilities.convertDAIToUSD(this.state.displayAmount).toFixed(
+              2
+            )}{' '}
+            USD
+          </CurrencySymbolText>
+        );
+
+      default:
+        break;
+    }
+  }
+
   render() {
     const {
       amountValidation,
@@ -292,6 +339,7 @@ class SendToken extends Component {
             <CurrencySymbolText>{token}</CurrencySymbolText>
           </SendTextInputContainer>
         </Form>
+        <USDValueContainer>{this.renderUSDValue(token)}</USDValueContainer>
         <AmountValidateMessage
           // amountValidation={amountValidation}
           isEth={isEth}
@@ -344,6 +392,13 @@ const SendTextInput = styled.TextInput`
 
 const CurrencySymbolText = styled.Text`
   font-family: 'HKGrotesk-Regular';
+`;
+
+const USDValueContainer = styled.View`
+  align-items: center;
+  flex-direction: row;
+  justify-content: flex-end;
+  width: 89%;
 `;
 
 const ButtonWrapper = styled.View`
