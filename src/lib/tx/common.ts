@@ -1,9 +1,9 @@
-export const hexToBuf = (hex) =>
+export const hexToBuf = (hex: string) =>
   typeof hex === 'string'
     ? Buffer.from(hex.startsWith('0x') ? hex.substr(2) : hex, 'hex')
     : null;
 
-export const dropHexPrefix = (hex) =>
+export const dropHexPrefix = (hex: string) =>
   typeof hex === 'string' ? (hex.startsWith('0x') ? hex.substr(2) : hex) : hex;
 
 export const maxNonceKey = '_tx[maxnonce]';
