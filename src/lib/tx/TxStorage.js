@@ -202,8 +202,6 @@ export default class TxStorage {
           ) ||
           tx.hasTokenOperation('pooltogether', TxTokenOpTypeToName.PTrewarded)))
     );
-
-    // return false;
   }
 
   txfilter_ourDAIForCDAIApprovals(tx) {

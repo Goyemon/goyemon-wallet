@@ -18,6 +18,7 @@ import LogUtilities from './LogUtilities';
 import PriceUtilities from './PriceUtilities';
 import StyleUtilities from './StyleUtilities';
 import WalletUtilities from './WalletUtilities';
+import { getApplication } from '../lib/tx/common'
 const GlobalConfig = require('../config.json');
 
 interface balanceObject {
@@ -745,7 +746,7 @@ class TransactionUtilities {
       data = this.computeTxData(tx, checksumAddr);
     if (data) {
       const service =
-          data[0].type === 'transfer' ? '' : tx.getApplication(tx.getTo()),
+          data[0].type === 'transfer' ? '' : getApplication(tx.getTo()),
         method = this.getMethodName(data),
         amount =
           tx.tokenData.cdai &&
