@@ -1,5 +1,5 @@
 export default class AsyncLocks {
-  locks: any
+  locks: any;
 
   constructor() {
     this.locks = {};

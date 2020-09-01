@@ -18,7 +18,7 @@ import LogUtilities from './LogUtilities';
 import PriceUtilities from './PriceUtilities';
 import StyleUtilities from './StyleUtilities';
 import WalletUtilities from './WalletUtilities';
-import { getApplication } from '../lib/tx/common'
+import { getApplication } from '../lib/tx/common';
 const GlobalConfig = require('../config.json');
 
 interface balanceObject {

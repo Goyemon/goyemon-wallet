@@ -1,4 +1,4 @@
-import Tx from './Tx'
+import Tx from './Tx';
 const GlobalConfig = require('../../config.json');
 
 export const hexToBuf = (hex: string): Buffer | null =>
@@ -32,19 +32,19 @@ export const getApplication = (to: string | null): string => {
       default:
         return '';
     }
-  else
-    return '';
-}
+  else return '';
+};
 
-export const __decodeBucket = (b: string | null): string[] => b ? b.split(',') : []
+export const __decodeBucket = (b: string | null): string[] =>
+  b ? b.split(',') : [];
 
-export const __encodeBucket = (ba: []) => ba.join(',');
+export const __encodeBucket = (ba: any[]) => ba.join(',');
 
 export const __decodeTx = (hash: string, data: any) => {
   if (!data) return null;
   data = JSON.parse(data);
   return new Tx(data[7]).setHash(hash).fromDataArray(data, false);
-}
+};
 
 export const bstats = (buck: any): string => {
   if (typeof buck !== 'string') return JSON.stringify(buck);
