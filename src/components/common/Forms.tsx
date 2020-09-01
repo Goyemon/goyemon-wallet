@@ -2,7 +2,14 @@
 import React from 'react';
 import styled from 'styled-components/native';
 
-const Form = (props) => (
+interface FormProps {
+  borderColor: string;
+  borderWidth: number;
+  height: number;
+  children: any
+}
+
+export const Form = (props: FormProps) => (
   <FormCardContainer
     borderColor={props.borderColor}
     borderWidth={props.borderWidth}
@@ -26,7 +33,14 @@ const FormCardContainer = styled.View`
   width: 90%;
 `;
 
-const SwapForm = (props) => (
+interface SwapFormProps {
+  borderBottomColor: string;
+  borderBottomWidth: string | number;
+  height: string | number;
+  children: any;
+}
+
+export const SwapForm = (props: SwapFormProps) => (
   <SwapFormCardContainer
     borderBottomColor={props.borderBottomColor}
     borderBottomWidth={props.borderBottomWidth}
@@ -43,5 +57,3 @@ const SwapFormCardContainer = styled.View`
   border-bottom-width: ${(props) => props.borderBottomWidth};
   width: 80%;
 `;
-
-export { Form, SwapForm };

@@ -3,9 +3,14 @@ import React from 'react';
 import { TouchableHighlight } from 'react-native';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-// import I18n from '../../i18n/I18n';
 
-const SettingsListCard = (props) => (
+interface SettingsListCardProps {
+  onPress: () => void;
+  iconName: string;
+  children: any;
+}
+
+export const SettingsListCard = (props: SettingsListCardProps) => (
   <TouchableHighlight onPress={props.onPress} underlayColor="#FFF">
     <SettingsList>
       <Icon name={props.iconName} color="#5F5F5F" size={28} />
@@ -29,17 +34,8 @@ const SettingsList = styled.View`
   width: 100%;
 `;
 
-let SettingsListText;
-// if (I18n.locale === 'ja-US') {
-//   SettingsListText = styled.Text`
-//     padding: 10px 12px 2px 12px;
-//     color: #5f5f5f;
-//     font-family: 'HKGrotesk-Regular';
-//     font-size: 20;
-//     margin-left: 16;
-//     width: 80%;
-//   `;
-// } else {
+let SettingsListText: any;
+
 SettingsListText = styled.Text`
   padding: 8px 12px;
   color: #5f5f5f;
@@ -48,6 +44,3 @@ SettingsListText = styled.Text`
   margin-left: 16;
   width: 80%;
 `;
-// }
-
-export { SettingsListCard };

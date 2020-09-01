@@ -2,7 +2,12 @@
 import React from 'react';
 import { ActivityIndicator } from 'react-native';
 
-const Loader = (props) => {
+interface LoaderProps {
+  animating: any;
+  size: any;
+}
+
+export const Loader = (props: LoaderProps) => {
   return (
     <ActivityIndicator
       animating={props.animating}
@@ -11,5 +16,3 @@ const Loader = (props) => {
     />
   );
 };
-
-export { Loader };

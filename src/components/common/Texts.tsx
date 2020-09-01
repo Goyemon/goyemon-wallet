@@ -2,7 +2,13 @@
 import React from 'react';
 import styled from 'styled-components/native';
 
-const GoyemonText = (props) => (
+interface GoyemonTextProps {
+  fontSize: string | number;
+  onPress?: () => void;
+  children: any;
+}
+
+export const GoyemonText = (props: GoyemonTextProps) => (
   <HKGroteskText fontSize={props.fontSize} onPress={props.onPress}>
     {props.children}
   </HKGroteskText>
@@ -14,7 +20,11 @@ const HKGroteskText = styled.Text`
   font-size: ${(props) => props.fontSize};
 `;
 
-const ConfirmationText = (props) => <Text>{props.children}</Text>;
+interface ConfirmationTextProps {
+  children: any;
+}
+
+export const ConfirmationText = (props: ConfirmationTextProps) => <Text>{props.children}</Text>;
 
 const Text = styled.Text`
   color: #000;
@@ -23,5 +33,3 @@ const Text = styled.Text`
   margin-top: 4;
   margin-bottom: 24;
 `;
-
-export { GoyemonText, ConfirmationText };

@@ -2,11 +2,21 @@
 import React from 'react';
 import styled from 'styled-components/native';
 
-const HeaderOne = (props) => (
+interface HeaderOneProps {
+  marginTop: number;
+  children: any;
+}
+
+export const HeaderOne = (props: HeaderOneProps) => (
   <HeaderOneText marginTop={props.marginTop}>{props.children}</HeaderOneText>
 );
 
-const NewHeaderOne = (props) => (
+interface NewHeaderOneProps {
+  marginTop: string | number;
+  text: string;
+}
+
+export const NewHeaderOne = (props: NewHeaderOneProps) => (
   <HeaderOneText marginTop={props.marginTop}>{props.text}</HeaderOneText>
 );
 
@@ -17,7 +27,14 @@ const HeaderOneText = styled.Text`
   margin-top: ${(props) => `${props.marginTop}`};
 `;
 
-const HeaderTwo = (props) => (
+interface HeaderTwoProps {
+  marginBottom: string | number;
+  marginLeft: string | number;
+  marginTop: string | number;
+  children: any
+}
+
+export const HeaderTwo = (props: HeaderTwoProps) => (
   <HeaderTwoText
     marginBottom={props.marginBottom}
     marginLeft={props.marginLeft}
@@ -38,7 +55,15 @@ const HeaderTwoText = styled.Text`
   width: 95%;
 `;
 
-const NewHeaderThree = (props) => (
+interface NewHeaderThreeProps {
+  color: string;
+  marginBottom: string | number;
+  marginLeft: string | number;
+  marginTop: string | number;
+  text: string;
+}
+
+export const NewHeaderThree = (props: NewHeaderThreeProps) => (
   <HeaderThreeText
     color={props.color}
     marginBottom={props.marginBottom}
@@ -49,7 +74,15 @@ const NewHeaderThree = (props) => (
   </HeaderThreeText>
 );
 
-const HeaderThree = (props) => (
+interface HeaderThreeProps {
+  color: string;
+  marginBottom: string | number;
+  marginLeft: string | number;
+  marginTop: string | number;
+  children: any;
+}
+
+export const HeaderThree = (props: HeaderThreeProps) => (
   <HeaderThreeText
     color={props.color}
     marginBottom={props.marginBottom}
@@ -70,11 +103,21 @@ const HeaderThreeText = styled.Text`
   text-transform: uppercase;
 `;
 
-const NewHeaderFour = (props) => (
+interface NewHeaderFourProps {
+  marginTop: string | number;
+  text: string;
+}
+
+export const NewHeaderFour = (props: NewHeaderFourProps) => (
   <HeaderFourText marginTop={props.marginTop}>{props.text}</HeaderFourText>
 );
 
-const HeaderFour = (props) => (
+interface HeaderFourProps {
+  marginTop: string;
+  children: any;
+}
+
+export const HeaderFour = (props: HeaderFourProps) => (
   <HeaderFourText marginTop={props.marginTop}>{props.children}</HeaderFourText>
 );
 
@@ -87,7 +130,12 @@ const HeaderFourText = styled.Text`
   text-transform: uppercase;
 `;
 
-const HeaderFive = (props) => (
+interface HeaderFiveProps {
+  width: string;
+  children: any;
+}
+
+export const HeaderFive = (props: HeaderFiveProps) => (
   <Header width={props.width}>
     <HeaderText>{props.children}</HeaderText>
   </Header>
@@ -104,7 +152,13 @@ const HeaderText = styled.Text`
   text-transform: uppercase;
 `;
 
-const FormHeader = (props) => (
+interface FormHeaderProps {
+  marginBottom: string | number;
+  marginTop: string | number;
+  children: any;
+}
+
+export const FormHeader = (props: FormHeaderProps) => (
   <FormHeaderContainer>
     <FormHeaderText
       marginBottom={props.marginBottom}
@@ -127,15 +181,3 @@ const FormHeaderText = styled.Text`
   margin-bottom: ${(props) => `${props.marginBottom}`};
   margin-top: ${(props) => `${props.marginTop}`};
 `;
-
-export {
-  HeaderOne,
-  NewHeaderOne,
-  HeaderTwo,
-  NewHeaderThree,
-  HeaderThree,
-  NewHeaderFour,
-  HeaderFour,
-  HeaderFive,
-  FormHeader
-};

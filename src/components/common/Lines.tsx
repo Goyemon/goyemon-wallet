@@ -2,7 +2,11 @@
 import React from 'react';
 import styled from 'styled-components/native';
 
-const ModalHandler = () => (
+interface HorizontalLineProps {
+  borderColor: string;
+}
+
+export const ModalHandler = () => (
   <LineContainer>
     <ModalHandlerLine />
   </LineContainer>
@@ -21,7 +25,7 @@ const ModalHandlerLine = styled.View`
   width: 10%;
 `;
 
-const HorizontalLine = (props) => (
+export const HorizontalLine = (props: HorizontalLineProps) => (
   <HorizontalLineContainer>
     <Line borderColor={props.borderColor} />
   </HorizontalLineContainer>
@@ -38,5 +42,3 @@ const Line = styled.View`
   border-width: 1.6;
   border-style: solid;
 `;
-
-export { ModalHandler, HorizontalLine };

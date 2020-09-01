@@ -1,13 +1,15 @@
 'use strict';
 import React from 'react';
 import { View } from 'react-native';
-import { ErrorMessage } from '../common';
+import { ErrorMessage } from '.';
 
-const IsOnlineMessage = (props) => {
+interface AppProps {
+  isOnline: boolean;
+}
+
+export const IsOnlineMessage = (props: AppProps) => {
   if (props.isOnline) {
     return <View />;
   }
   return <ErrorMessage textAlign="center">you are offline 😟</ErrorMessage>;
 };
-
-export { IsOnlineMessage };

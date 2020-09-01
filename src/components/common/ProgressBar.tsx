@@ -1,9 +1,17 @@
 'use strict';
 import React from 'react';
-import { Container } from '../common';
-import styled from 'styled-components';
+import { Container } from '.';
+import styled from 'styled-components/native';
 
-const ProgressBar = (props) => (
+interface ProgressBarProps {
+  marginRight: number | string;
+  width: number| string;
+  oneColor: string;
+  twoColor: string;
+  threeColor: string;
+}
+
+export const ProgressBar = (props: ProgressBarProps) => (
   <Container
     alignItems="center"
     flexDirection="column"
@@ -19,7 +27,7 @@ const ProgressBar = (props) => (
       <OneContainer oneColor={props.oneColor}>
         <One>1</One>
       </OneContainer>
-      <TwoContainer twoColor={props.twoColor} r>
+      <TwoContainer twoColor={props.twoColor}>
         <Two>2</Two>
       </TwoContainer>
       <ThreeContainer threeColor={props.threeColor}>
@@ -99,5 +107,3 @@ const Three = styled.Text`
   color: #fff;
   font-family: 'HKGrotesk-Bold';
 `;
-
-export { ProgressBar };

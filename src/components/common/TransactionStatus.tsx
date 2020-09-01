@@ -5,12 +5,12 @@ import I18n from '../../i18n/I18n';
 import TxStates from '../../lib/tx/TxStates';
 import styled from 'styled-components/native';
 
-interface AppProps {
+interface TransactionStatusProps {
   width: number;
   txState: number;
 }
 
-const TransactionStatus = (props: AppProps) => (
+const TransactionStatus = (props: TransactionStatusProps) => (
   <TransactionStatusContainer width={props.width} txState={props.txState}>
     {(() => {
       let text;
@@ -43,7 +43,7 @@ const TransactionStatus = (props: AppProps) => (
 );
 
 const TransactionStatusContainer = styled.View`
-  width: ${(props: AppProps) => props.width};
+  width: ${(props) => props.width};
 `;
 
 const FailedStatusText = styled.Text`

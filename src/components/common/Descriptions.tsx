@@ -1,9 +1,16 @@
 'use strict';
 import React from 'react';
 import styled from 'styled-components/native';
-import { GoyemonText } from '../common';
+import { GoyemonText } from '.';
 
-const Description = (props) => (
+interface DescriptionProps {
+  marginBottom: number;
+  marginLeft: number;
+  marginTop: number;
+  children: any;
+}
+
+export const Description = (props: DescriptionProps) => (
   <DescriptionText
     marginBottom={props.marginBottom}
     marginLeft={props.marginLeft}
@@ -23,7 +30,11 @@ const DescriptionText = styled.Text`
   text-align: center;
 `;
 
-const ApplicationDescription = (props) => (
+interface ApplicationDescriptionProps {
+  children: any
+}
+
+export const ApplicationDescription = (props: ApplicationDescriptionProps) => (
   <ApplicationDescriptionContainer>
     <GoyemonText fontSize={16}>{props.children}</GoyemonText>
   </ApplicationDescriptionContainer>
@@ -34,5 +45,3 @@ const ApplicationDescriptionContainer = styled.View`
   margin: 16px auto;
   width: 90%;
 `;
-
-export { Description, ApplicationDescription };

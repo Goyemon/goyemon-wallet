@@ -3,7 +3,16 @@ import React from 'react';
 import styled from 'styled-components/native';
 import OfflineNotice from '../OfflineNotice';
 
-const Container = (props) => (
+interface ContainerProps {
+  alignItems: string;
+  flexDirection: string;
+  justifyContent: string;
+  marginTop: number | string;
+  width: number | string;
+  children: any;
+}
+
+export const Container = (props: ContainerProps) => (
   <ContainerInner
     alignItems={props.alignItems}
     flexDirection={props.flexDirection}
@@ -25,7 +34,12 @@ const ContainerInner = styled.View`
   width: ${(props) => props.width};
 `;
 
-const MenuContainer = (props) => (
+interface MenuContainerProps {
+  onPress: () => void;
+  children: any;
+}
+
+export const MenuContainer = (props: MenuContainerProps) => (
   <MenuContainerInner onPress={props.onPress}>
     {props.children}
   </MenuContainerInner>
@@ -40,7 +54,11 @@ const MenuContainerInner = styled.TouchableOpacity`
   padding: 4px;
 `;
 
-const RootContainer = (props) => (
+interface RootContainerProps {
+  children: any;
+}
+
+export const RootContainer = (props: RootContainerProps) => (
   <RootContainerStyle>
     <OfflineNotice />
     {props.children}
@@ -51,7 +69,18 @@ const RootContainerStyle = styled.ScrollView`
   background: #f8f8f8;
 `;
 
-const TouchableCardContainer = (props) => (
+interface TouchableCardContainerProps {
+  onPress: () => void;
+  alignItems: number | string;
+  flexDirection: string;
+  height: number | string;
+  justifyContent: string;
+  textAlign: number | string;
+  width: number | string;
+  children: any;
+}
+
+export const TouchableCardContainer = (props: TouchableCardContainerProps) => (
   <TouchableCardContainerInner
     onPress={props.onPress}
     alignItems={props.alignItems}
@@ -79,7 +108,19 @@ const TouchableCardContainerInner = styled.TouchableOpacity`
   width: ${(props) => props.width};
 `;
 
-const UntouchableCardContainer = (props) => (
+interface UntouchableCardContainerProps {
+  alignItems: string;
+  borderRadius: string;
+  flexDirection: string;
+  height: number | string;
+  justifyContent: number | string;
+  marginTop: number | string;
+  textAlign: string;
+  width: number | string;
+  children: any
+}
+
+export const UntouchableCardContainer = (props: UntouchableCardContainerProps) => (
   <UntouchableCardContainerInner
     alignItems={props.alignItems}
     borderRadius={props.borderRadius}
@@ -107,11 +148,3 @@ const UntouchableCardContainerInner = styled.View`
   text-align: ${(props) => props.textAlign};
   width: ${(props) => props.width};
 `;
-
-export {
-  Container,
-  MenuContainer,
-  RootContainer,
-  TouchableCardContainer,
-  UntouchableCardContainer
-};

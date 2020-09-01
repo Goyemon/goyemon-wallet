@@ -3,7 +3,11 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
 
-const QRCodeIcon = (props) => (
+interface IconProps {
+  onPress: () => void;
+}
+
+export const QRCodeIcon = (props: IconProps) => (
   <QRCodeIconContainer>
     <Icon name="qrcode" color="#000" onPress={props.onPress} size={32} />
   </QRCodeIconContainer>
@@ -14,7 +18,7 @@ const QRCodeIconContainer = styled.View`
   margin-right: 16;
 `;
 
-const ReceiveIcon = (props) => (
+export const ReceiveIcon = (props: IconProps) => (
   <ReceiveIconContainer onPress={props.onPress}>
     <Icon name="qrcode" color="#fff" size={20} />
   </ReceiveIconContainer>
@@ -29,7 +33,7 @@ const ReceiveIconContainer = styled.TouchableOpacity`
   width: 40px;
 `;
 
-const CopyIcon = () => (
+export const CopyIcon = () => (
   <CopyIconContainer>
     <Icon name="content-copy" size={18} color="#fff" />
   </CopyIconContainer>
@@ -44,7 +48,7 @@ const CopyIconContainer = styled.View`
   width: 40px;
 `;
 
-const BuyIcon = (props) => (
+export const BuyIcon = (props: IconProps) => (
   <BuyIconContainer onPress={props.onPress}>
     <Icon name="swap-vertical" color="#fff" size={24} />
   </BuyIconContainer>
@@ -58,5 +62,3 @@ const BuyIconContainer = styled.TouchableOpacity`
   height: 40px;
   width: 40px;
 `;
-
-export { QRCodeIcon, ReceiveIcon, CopyIcon, BuyIcon };
