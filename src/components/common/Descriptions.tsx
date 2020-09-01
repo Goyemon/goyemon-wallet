@@ -31,7 +31,7 @@ const DescriptionText = styled.Text`
 `;
 
 interface ApplicationDescriptionProps {
-  children: any
+  children: any;
 }
 
 export const ApplicationDescription = (props: ApplicationDescriptionProps) => (

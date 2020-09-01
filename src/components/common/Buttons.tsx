@@ -53,7 +53,7 @@ interface MnemonicWordButtonProps {
   disabled: boolean;
   opacity: number | string;
   onPress: () => void;
-  children: any
+  children: any;
 }
 
 export const MnemonicWordButton = (props: MnemonicWordButtonProps) => (

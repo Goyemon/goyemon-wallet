@@ -56,12 +56,15 @@ const saveDaiBalanceSuccess = (daiBalance: any) => ({
   payload: daiBalance
 });
 
-export function saveCompoundDaiBalance(cDaiBalance: any, currentExchangeRate: any) {
+export function saveCompoundDaiBalance(
+  cDaiBalance: any,
+  currentExchangeRate: any
+) {
   return async function (dispatch: any) {
     try {
-      let compoundDaiBalance: BigNumber | string = new BigNumber(cDaiBalance).times(
-        currentExchangeRate
-      );
+      let compoundDaiBalance: BigNumber | string = new BigNumber(
+        cDaiBalance
+      ).times(currentExchangeRate);
       compoundDaiBalance = compoundDaiBalance.toString();
       dispatch(saveCompoundDaiBalanceSuccess(compoundDaiBalance));
     } catch (err) {

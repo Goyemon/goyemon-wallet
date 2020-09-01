@@ -6,7 +6,7 @@ interface FormProps {
   borderColor: string;
   borderWidth: number;
   height: number;
-  children: any
+  children: any;
 }
 
 export const Form = (props: FormProps) => (

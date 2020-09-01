@@ -31,7 +31,7 @@ interface HeaderTwoProps {
   marginBottom: string | number;
   marginLeft: string | number;
   marginTop: string | number;
-  children: any
+  children: any;
 }
 
 export const HeaderTwo = (props: HeaderTwoProps) => (

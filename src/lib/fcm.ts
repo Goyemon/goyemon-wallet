@@ -59,14 +59,14 @@ class Msg {
 }
 
 class FCMMsgs {
-  msgs: any
-  tos: any
-  msgtype_waits: any
-  on_msg_callback: any
-  on_msg_timeout: any
-  timeout: any
-  __msgid_time: any
-  __msgid_n: any
+  msgs: any;
+  tos: any;
+  msgtype_waits: any;
+  on_msg_callback: any;
+  on_msg_timeout: any;
+  timeout: any;
+  __msgid_time: any;
+  __msgid_n: any;
   constructor(on_msg_callback: any, on_msg_timeout: any, timeoutsecs = 30) {
     this.msgs = {};
     this.tos = {};
@@ -211,7 +211,12 @@ class FCMMsgs {
     this.__sendMessage('uniswapV2_WETHxDAI_reserve');
   }
 
-  checkForUpdates(checksumAddress: any, checksums: any, count: any, offset = 0) {
+  checkForUpdates(
+    checksumAddress: any,
+    checksums: any,
+    count: any,
+    offset = 0
+  ) {
     this.__sendMessage('request_updates', {
       address: checksumAddress,
       sums: checksums.join(','),
@@ -229,6 +234,6 @@ export const handler = (x: any, frombg: any) => instance.__fcm_msg(x, frombg);
 export const registerHandler = () => {
   LogUtilities.toDebugScreen('FCM registerHandler called');
   firebase.messaging().onMessage();
-}
+};
 
-export const FcmMsgs = new FCMMsgs('', '')
+export const FcmMsgs = new FCMMsgs('', '');

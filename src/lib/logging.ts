@@ -7,6 +7,10 @@ const log_ms_retention = 86400 * 3 * 1000;
 const run_cleanup_delay = 30000;
 
 class PersistentLogging {
+  lastkey: any
+  lastkeyno: any
+  dumptimer: any
+  dumptimerarray: any
   constructor() {
     this.lastkey = null;
     this.lastkeyno = 0;
@@ -27,9 +31,9 @@ class PersistentLogging {
       }, dump_timer_interval);
   }
 
-  timed_dump(logArray) {
+  timed_dump(logArray: any) {
     this.__check_timer();
-    logArray.forEach((x) => {
+    logArray.forEach((x: any) => {
       // this.dumptimerarray.splice(-1, 0, ...logArray) is risky if logArray is long
       this.dumptimerarray.push(x);
     });
@@ -37,14 +41,14 @@ class PersistentLogging {
     return this;
   }
 
-  timed_dump_str(log) {
+  timed_dump_str(log: any) {
     this.__check_timer();
     this.dumptimerarray.push(log);
 
     return this;
   }
 
-  dumplog(logArray) {
+  dumplog(logArray: any) {
     const now = Date.now();
     let storage_key;
 
@@ -65,7 +69,7 @@ class PersistentLogging {
   cleanup_expensive(retention_time = log_ms_retention) {
     // run with 0 to remove all i guess
     AsyncStorage.getAllKeys().then((x) => {
-      const remove_keys = [];
+      const remove_keys: any[] = [];
       const cutoff = Date.now() - retention_time;
       x.forEach((x) => {
         if (x.startsWith(log_prefix)) {
@@ -88,8 +92,8 @@ class PersistentLogging {
   }
 
   async get_all_logs() {
-    const ret = {};
-    const keys = [];
+    const ret: any = {};
+    const keys: any[] = [];
 
     (await AsyncStorage.getAllKeys()).forEach((x) => {
       if (x.startsWith(log_prefix)) keys.push(x);

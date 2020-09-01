@@ -8,6 +8,8 @@ interface AppProps {
 }
 
 export const IsOnlineMessage = (props: AppProps) =>
-  props.isOnline
-  ? <View />
-  : <ErrorMessage textAlign="center">you are offline 😟</ErrorMessage>
+  props.isOnline ? (
+    <View />
+  ) : (
+    <ErrorMessage textAlign="center">you are offline 😟</ErrorMessage>
+  );

@@ -24,7 +24,9 @@ interface ConfirmationTextProps {
   children: any;
 }
 
-export const ConfirmationText = (props: ConfirmationTextProps) => <Text>{props.children}</Text>;
+export const ConfirmationText = (props: ConfirmationTextProps) => (
+  <Text>{props.children}</Text>
+);
 
 const Text = styled.Text`
   color: #000;

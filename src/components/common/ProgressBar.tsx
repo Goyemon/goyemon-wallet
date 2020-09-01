@@ -5,7 +5,7 @@ import styled from 'styled-components/native';
 
 interface ProgressBarProps {
   marginRight: number | string;
-  width: number| string;
+  width: number | string;
   oneColor: string;
   twoColor: string;
   threeColor: string;

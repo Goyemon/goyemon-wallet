@@ -117,10 +117,12 @@ interface UntouchableCardContainerProps {
   marginTop: number | string;
   textAlign: string;
   width: number | string;
-  children: any
+  children: any;
 }
 
-export const UntouchableCardContainer = (props: UntouchableCardContainerProps) => (
+export const UntouchableCardContainer = (
+  props: UntouchableCardContainerProps
+) => (
   <UntouchableCardContainerInner
     alignItems={props.alignItems}
     borderRadius={props.borderRadius}

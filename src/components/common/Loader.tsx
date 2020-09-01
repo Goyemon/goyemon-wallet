@@ -7,9 +7,10 @@ interface LoaderProps {
   size: any;
 }
 
-export const Loader = (props: LoaderProps) =>
-    <ActivityIndicator
-      animating={props.animating}
-      size={props.size}
-      color="#FDC800"
-    />
+export const Loader = (props: LoaderProps) => (
+  <ActivityIndicator
+    animating={props.animating}
+    size={props.size}
+    color="#FDC800"
+  />
+);

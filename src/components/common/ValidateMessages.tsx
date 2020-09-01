@@ -9,30 +9,34 @@ interface AmountValidateMessage {
 }
 
 export const AmountValidateMessage = (props: AmountValidateMessage) =>
-  props.amountValidation || props.amountValidation === undefined
-  ? <View />
-  : <ErrorMessage textAlign="center">
+  props.amountValidation || props.amountValidation === undefined ? (
+    <View />
+  ) : (
+    <ErrorMessage textAlign="center">
       invalid {props.isEth ? 'eth' : 'token'} amount!
-    </ErrorMessage>;
+    </ErrorMessage>
+  );
 
 interface NetworkFeeValidateMessage {
   networkFeeValidation: boolean | undefined;
 }
 
 export const NetworkFeeValidateMessage = (props: NetworkFeeValidateMessage) =>
-  props.networkFeeValidation || props.networkFeeValidation === undefined
-  ? <View />
-  : <ErrorMessage textAlign="center">
+  props.networkFeeValidation || props.networkFeeValidation === undefined ? (
+    <View />
+  ) : (
+    <ErrorMessage textAlign="center">
       not enough eth for a network fee!
     </ErrorMessage>
+  );
 
 interface WeiBalanceValidateMessage {
-  weiAmountValidation: boolean | undefined
+  weiAmountValidation: boolean | undefined;
 }
 
 export const WeiBalanceValidateMessage = (props: WeiBalanceValidateMessage) =>
-  props.weiAmountValidation || props.weiAmountValidation === undefined
-  ? <View />
-  : <ErrorMessage textAlign="center">
-      not enough ether!
-    </ErrorMessage>
+  props.weiAmountValidation || props.weiAmountValidation === undefined ? (
+    <View />
+  ) : (
+    <ErrorMessage textAlign="center">not enough ether!</ErrorMessage>
+  );

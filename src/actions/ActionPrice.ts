@@ -6,7 +6,6 @@ import {
 } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
-
 export function getDAIPrice() {
   return async function (dispatch: any) {
     try {
@@ -52,7 +51,9 @@ export function getCDAIPrice() {
     try {
       let res: any = await fetch('https://api.compound.finance/api/v2/ctoken');
       res = await res.json();
-      const cDAIRes = res.cToken.filter((cToken: any) => cToken.symbol === 'cDAI');
+      const cDAIRes = res.cToken.filter(
+        (cToken: any) => cToken.symbol === 'cDAI'
+      );
       const CDAIPrice = parseFloat(cDAIRes[0].exchange_rate.value).toFixed(8);
       dispatch(getCDAIPriceSuccess(CDAIPrice));
     } catch (err) {
