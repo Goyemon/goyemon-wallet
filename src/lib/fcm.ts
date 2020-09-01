@@ -50,7 +50,7 @@ class Msg {
 
     if (!this.compressed) call(this.data.join(''));
     else
-      zlib.inflateRaw(Buffer.from(this.data.join(''), 'base64'), (err, ret) => {
+      zlib.inflateRaw(Buffer.from(this.data.join(''), 'base64'), (err: any, ret: any) => {
         if (err) throw new Error(err);
 
         call(ret);
@@ -229,11 +229,11 @@ class FCMMsgs {
   sendTx() {}
 }
 
-export const handler = (x: any, frombg: any) => instance.__fcm_msg(x, frombg);
+export const FcmMsgs = new FCMMsgs('', '');
+
+export const handler: any = (x: any, frombg: any) => FcmMsgs.__fcm_msg(x, frombg);
 
 export const registerHandler = () => {
   LogUtilities.toDebugScreen('FCM registerHandler called');
-  firebase.messaging().onMessage();
+  firebase.messaging().onMessage(handler);
 };
-
-export const FcmMsgs = new FCMMsgs('', '');
