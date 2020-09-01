@@ -2,8 +2,8 @@
 import { SAVE_NOTIFICATION_PERMISSION } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
-export function saveNotificationPermission(notificationPermission) {
-  return async function (dispatch) {
+export function saveNotificationPermission(notificationPermission: any) {
+  return async function (dispatch: any) {
     try {
       dispatch(saveNotificationPermissionSuccess(notificationPermission));
     } catch (err) {
@@ -12,7 +12,7 @@ export function saveNotificationPermission(notificationPermission) {
   };
 }
 
-const saveNotificationPermissionSuccess = (notificationPermission) => ({
+const saveNotificationPermissionSuccess = (notificationPermission: any) => ({
   type: SAVE_NOTIFICATION_PERMISSION,
   payload: notificationPermission
 });

@@ -2,8 +2,8 @@
 import { SAVE_COMPOUND_DAI_INFO } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
-export function saveCompoundDaiInfo(compoundDaiInfo) {
-  return async function (dispatch) {
+export function saveCompoundDaiInfo(compoundDaiInfo: any) {
+  return async function (dispatch: any) {
     try {
       dispatch(saveCompoundDaiInfoSuccess(compoundDaiInfo));
     } catch (err) {
@@ -12,7 +12,7 @@ export function saveCompoundDaiInfo(compoundDaiInfo) {
   };
 }
 
-const saveCompoundDaiInfoSuccess = (compoundDaiInfo) => ({
+const saveCompoundDaiInfoSuccess = (compoundDaiInfo: any) => ({
   type: SAVE_COMPOUND_DAI_INFO,
   payload: compoundDaiInfo
 });

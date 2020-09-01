@@ -8,8 +8,8 @@ import {
 } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
-export function saveTxDetailModalVisibility(visibility) {
-  return async function (dispatch) {
+export function saveTxDetailModalVisibility(visibility: any) {
+  return async function (dispatch: any) {
     try {
       dispatch(saveTxDetailModalVisibilitySuccess(visibility));
     } catch (err) {
@@ -18,13 +18,13 @@ export function saveTxDetailModalVisibility(visibility) {
   };
 }
 
-const saveTxDetailModalVisibilitySuccess = (visibility) => ({
+const saveTxDetailModalVisibilitySuccess = (visibility: any) => ({
   type: SAVE_TX_DETAIL_MODAL_VISIBILITY,
   payload: visibility
 });
 
-export function saveTxConfirmationModalVisibility(visibility) {
-  return async function (dispatch) {
+export function saveTxConfirmationModalVisibility(visibility: any) {
+  return async function (dispatch: any) {
     try {
       dispatch(saveTxConfirmationModalVisibilitySuccess(visibility));
     } catch (err) {
@@ -33,13 +33,13 @@ export function saveTxConfirmationModalVisibility(visibility) {
   };
 }
 
-const saveTxConfirmationModalVisibilitySuccess = (visibility) => ({
+const saveTxConfirmationModalVisibilitySuccess = (visibility: any) => ({
   type: SAVE_TX_CONFIRMATION_MODAL_VISIBILITY,
   payload: visibility
 });
 
-export function updateTxConfirmationModalVisibleType(type) {
-  return async function (dispatch) {
+export function updateTxConfirmationModalVisibleType(type: any) {
+  return async function (dispatch: any) {
     try {
       dispatch(updateTxConfirmationModalVisibleTypeSuccess(type));
     } catch (err) {
@@ -48,13 +48,13 @@ export function updateTxConfirmationModalVisibleType(type) {
   };
 }
 
-const updateTxConfirmationModalVisibleTypeSuccess = (type) => ({
+const updateTxConfirmationModalVisibleTypeSuccess = (type: any) => ({
   type: UPDATE_TX_CONFIRMATION_MODAL_VISIBLE_TYPE,
   payload: type
 });
 
-export function savePopUpModalVisibility(visibility) {
-  return async function (dispatch) {
+export function savePopUpModalVisibility(visibility: any) {
+  return async function (dispatch: any) {
     try {
       dispatch(savePopUpModalVisibilitySuccess(visibility));
     } catch (err) {
@@ -63,13 +63,13 @@ export function savePopUpModalVisibility(visibility) {
   };
 }
 
-const savePopUpModalVisibilitySuccess = (visibility) => ({
+const savePopUpModalVisibilitySuccess = (visibility: any) => ({
   type: SAVE_POP_UP_MODAL_VISIBILITY,
   payload: visibility
 });
 
-export function saveBuyCryptoModalVisibility(visibility) {
-  return async function (dispatch) {
+export function saveBuyCryptoModalVisibility(visibility: any) {
+  return async function (dispatch: any) {
     try {
       dispatch(saveBuyCryptoModalVisibilitySuccess(visibility));
     } catch (err) {
@@ -78,7 +78,7 @@ export function saveBuyCryptoModalVisibility(visibility) {
   };
 }
 
-const saveBuyCryptoModalVisibilitySuccess = (visibility) => ({
+const saveBuyCryptoModalVisibilitySuccess = (visibility: any) => ({
   type: BUY_CRYPTO_MODAL_VISIBILITY,
   payload: visibility
 });

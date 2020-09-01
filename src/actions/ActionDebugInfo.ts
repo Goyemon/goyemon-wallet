@@ -5,8 +5,8 @@ import {
 } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
-export function saveFcmToken(fcmToken) {
-  return async function (dispatch) {
+export function saveFcmToken(fcmToken: any) {
+  return async function (dispatch: any) {
     try {
       dispatch(saveFcmTokenSuccess(fcmToken));
     } catch (err) {
@@ -15,13 +15,13 @@ export function saveFcmToken(fcmToken) {
   };
 }
 
-const saveFcmTokenSuccess = (fcmToken) => ({
+const saveFcmTokenSuccess = (fcmToken: any) => ({
   type: SAVE_FCM_TOKEN,
   payload: fcmToken
 });
 
-export function saveOtherDebugInfo(otherDebugInfo) {
-  return async function (dispatch) {
+export function saveOtherDebugInfo(otherDebugInfo: any) {
+  return async function (dispatch: any) {
     try {
       dispatch(saveOtherDebugInfoSuccess(otherDebugInfo));
     } catch (err) {
@@ -30,7 +30,7 @@ export function saveOtherDebugInfo(otherDebugInfo) {
   };
 }
 
-const saveOtherDebugInfoSuccess = (otherDebugInfo) => ({
+const saveOtherDebugInfoSuccess = (otherDebugInfo: any) => ({
   type: SAVE_OTHER_DEBUG_INFO,
   payload: otherDebugInfo
 });

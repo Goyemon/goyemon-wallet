@@ -7,8 +7,8 @@ import {
 } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
-export function saveOutgoingTransactionDataSend(sendData) {
-  return async function (dispatch) {
+export function saveOutgoingTransactionDataSend(sendData: any) {
+  return async function (dispatch: any) {
     try {
       dispatch(saveOutgoingTransactionDataSendSuccess(sendData));
     } catch (err) {
@@ -17,13 +17,13 @@ export function saveOutgoingTransactionDataSend(sendData) {
   };
 }
 
-const saveOutgoingTransactionDataSendSuccess = (sendData) => ({
+const saveOutgoingTransactionDataSendSuccess = (sendData: any) => ({
   type: SAVE_OUTGOING_TRANSACTION_DATA_SEND,
   payload: sendData
 });
 
-export function saveOutgoingTransactionDataCompound(compoundData) {
-  return async function (dispatch) {
+export function saveOutgoingTransactionDataCompound(compoundData: any) {
+  return async function (dispatch: any) {
     try {
       dispatch(saveOutgoingTransactionDataCompoundSuccess(compoundData));
     } catch (err) {
@@ -32,13 +32,13 @@ export function saveOutgoingTransactionDataCompound(compoundData) {
   };
 }
 
-const saveOutgoingTransactionDataCompoundSuccess = (compoundData) => ({
+const saveOutgoingTransactionDataCompoundSuccess = (compoundData: any) => ({
   type: SAVE_OUTGOING_TRANSACTION_DATA_COMPOUND,
   payload: compoundData
 });
 
-export function saveOutgoingTransactionDataPoolTogether(poolTogether) {
-  return async function (dispatch) {
+export function saveOutgoingTransactionDataPoolTogether(poolTogether: any) {
+  return async function (dispatch: any) {
     try {
       dispatch(saveOutgoingTransactionDataPoolTogetherSuccess(poolTogether));
     } catch (err) {
@@ -47,13 +47,13 @@ export function saveOutgoingTransactionDataPoolTogether(poolTogether) {
   };
 }
 
-const saveOutgoingTransactionDataPoolTogetherSuccess = (poolTogether) => ({
+const saveOutgoingTransactionDataPoolTogetherSuccess = (poolTogether: any) => ({
   type: SAVE_OUTGOING_TRANSACTION_DATA_POOLTOGETHER,
   payload: poolTogether
 });
 
-export function saveOutgoingTransactionDataSwap(swapData) {
-  return async function (dispatch) {
+export function saveOutgoingTransactionDataSwap(swapData: any) {
+  return async function (dispatch: any) {
     try {
       dispatch(saveOutgoingTransactionDataSwapSuccess(swapData));
     } catch (err) {
@@ -62,7 +62,7 @@ export function saveOutgoingTransactionDataSwap(swapData) {
   };
 }
 
-const saveOutgoingTransactionDataSwapSuccess = (swapData) => ({
+const saveOutgoingTransactionDataSwapSuccess = (swapData: any) => ({
   type: SAVE_OUTGOING_TRANSACTION_DATA_SWAP,
   payload: swapData
 });

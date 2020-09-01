@@ -1,10 +1,10 @@
 'use strict';
 import { CREATE_CHECKSUM_ADDRESS } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
-import WalletUtilities from '../utilities/WalletUtilities.ts';
+import WalletUtilities from '../utilities/WalletUtilities';
 
 export function createChecksumAddress() {
-  return async function (dispatch) {
+  return async function (dispatch: any) {
     try {
       const checksumAddress = await WalletUtilities.createChecksumAddress();
       dispatch(createChecksumAddressSuccess(checksumAddress));
@@ -14,7 +14,7 @@ export function createChecksumAddress() {
   };
 }
 
-const createChecksumAddressSuccess = (checksumAddress) => ({
+const createChecksumAddressSuccess = (checksumAddress: any) => ({
   type: CREATE_CHECKSUM_ADDRESS,
   payload: checksumAddress
 });

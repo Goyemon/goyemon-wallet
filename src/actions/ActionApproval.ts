@@ -5,8 +5,8 @@ import {
 } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
-export function saveDaiCompoundApproval(daiCompoundApproval) {
-  return async function (dispatch) {
+export function saveDaiCompoundApproval(daiCompoundApproval: any) {
+  return async function (dispatch: any) {
     try {
       dispatch(saveDaiCompoundApprovalSuccess(daiCompoundApproval));
     } catch (err) {
@@ -15,13 +15,13 @@ export function saveDaiCompoundApproval(daiCompoundApproval) {
   };
 }
 
-const saveDaiCompoundApprovalSuccess = (daiCompoundApproval) => ({
+const saveDaiCompoundApprovalSuccess = (daiCompoundApproval: any) => ({
   type: SAVE_DAI_COMPOUND_APPROVAL,
   payload: daiCompoundApproval
 });
 
-export function saveDaiPoolTogetherApproval(daiPoolTogetherApproval) {
-  return async function (dispatch) {
+export function saveDaiPoolTogetherApproval(daiPoolTogetherApproval: any) {
+  return async function (dispatch: any) {
     try {
       dispatch(saveDaiPoolTogetherApprovalSuccess(daiPoolTogetherApproval));
     } catch (err) {
@@ -30,7 +30,7 @@ export function saveDaiPoolTogetherApproval(daiPoolTogetherApproval) {
   };
 }
 
-const saveDaiPoolTogetherApprovalSuccess = (daiPoolTogetherApproval) => ({
+const saveDaiPoolTogetherApprovalSuccess = (daiPoolTogetherApproval: any) => ({
   type: SAVE_DAI_POOLTOGETHER_APPROVAL,
   payload: daiPoolTogetherApproval
 });

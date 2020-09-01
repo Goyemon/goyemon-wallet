@@ -10,8 +10,8 @@ import {
 } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
-export function saveWeiBalance(weiBalance) {
-  return async function (dispatch) {
+export function saveWeiBalance(weiBalance: any) {
+  return async function (dispatch: any) {
     try {
       LogUtilities.logInfo('weiBalance ==>', weiBalance);
       dispatch(saveWeiBalanceSuccess(weiBalance));
@@ -21,13 +21,13 @@ export function saveWeiBalance(weiBalance) {
   };
 }
 
-const saveWeiBalanceSuccess = (weiBalance) => ({
+const saveWeiBalanceSuccess = (weiBalance: any) => ({
   type: SAVE_WEI_BALANCE,
   payload: weiBalance
 });
 
-export function saveCDaiBalance(cDaiBalance) {
-  return async function (dispatch) {
+export function saveCDaiBalance(cDaiBalance: any) {
+  return async function (dispatch: any) {
     try {
       dispatch(saveCDaiBalanceSuccess(cDaiBalance));
     } catch (err) {
@@ -36,13 +36,13 @@ export function saveCDaiBalance(cDaiBalance) {
   };
 }
 
-const saveCDaiBalanceSuccess = (cDaiBalance) => ({
+const saveCDaiBalanceSuccess = (cDaiBalance: any) => ({
   type: SAVE_C_DAI_BALANCE,
   payload: cDaiBalance
 });
 
-export function saveDaiBalance(daiBalance) {
-  return async function (dispatch) {
+export function saveDaiBalance(daiBalance: any) {
+  return async function (dispatch: any) {
     try {
       dispatch(saveDaiBalanceSuccess(daiBalance));
     } catch (err) {
@@ -51,15 +51,15 @@ export function saveDaiBalance(daiBalance) {
   };
 }
 
-const saveDaiBalanceSuccess = (daiBalance) => ({
+const saveDaiBalanceSuccess = (daiBalance: any) => ({
   type: SAVE_DAI_BALANCE,
   payload: daiBalance
 });
 
-export function saveCompoundDaiBalance(cDaiBalance, currentExchangeRate) {
-  return async function (dispatch) {
+export function saveCompoundDaiBalance(cDaiBalance: any, currentExchangeRate: any) {
+  return async function (dispatch: any) {
     try {
-      let compoundDaiBalance = new BigNumber(cDaiBalance).times(
+      let compoundDaiBalance: BigNumber | string = new BigNumber(cDaiBalance).times(
         currentExchangeRate
       );
       compoundDaiBalance = compoundDaiBalance.toString();
@@ -70,13 +70,13 @@ export function saveCompoundDaiBalance(cDaiBalance, currentExchangeRate) {
   };
 }
 
-const saveCompoundDaiBalanceSuccess = (compoundDaiBalance) => ({
+const saveCompoundDaiBalanceSuccess = (compoundDaiBalance: any) => ({
   type: SAVE_COMPOUND_DAI_BALANCE,
   payload: compoundDaiBalance
 });
 
-export function savePoolTogetherDaiBalance(daiBalance) {
-  return async function (dispatch) {
+export function savePoolTogetherDaiBalance(daiBalance: any) {
+  return async function (dispatch: any) {
     try {
       dispatch(savePoolTogetherDaiBalanceSuccess(daiBalance));
     } catch (err) {
@@ -85,13 +85,13 @@ export function savePoolTogetherDaiBalance(daiBalance) {
   };
 }
 
-const savePoolTogetherDaiBalanceSuccess = (daiBalance) => ({
+const savePoolTogetherDaiBalanceSuccess = (daiBalance: any) => ({
   type: SAVE_POOL_TOGETHER_DAI_BALANCE,
   payload: daiBalance
 });
 
 export function movePoolTogetherDaiBalance() {
-  return async function (dispatch) {
+  return async function (dispatch: any) {
     try {
       dispatch(movePoolTogetherDaiBalanceSuccess());
     } catch (err) {

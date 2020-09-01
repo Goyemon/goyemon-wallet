@@ -2,8 +2,8 @@
 import { UPDATE_MNEMONIC_WORDS_VALIDATION } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
-export function updateMnemonicWordsValidation(validation) {
-  return async function (dispatch) {
+export function updateMnemonicWordsValidation(validation: any) {
+  return async function (dispatch: any) {
     try {
       dispatch(updateMnemonicWordsValidationSuccess(validation));
     } catch (err) {
@@ -12,7 +12,7 @@ export function updateMnemonicWordsValidation(validation) {
   };
 }
 
-const updateMnemonicWordsValidationSuccess = (validation) => ({
+const updateMnemonicWordsValidationSuccess = (validation: any) => ({
   type: UPDATE_MNEMONIC_WORDS_VALIDATION,
   payload: validation
 });

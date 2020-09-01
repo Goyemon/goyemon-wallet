@@ -5,8 +5,8 @@ import {
 } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
-export function saveUniswapV2WETHxDAIReserve(reserves) {
-  return async function (dispatch) {
+export function saveUniswapV2WETHxDAIReserve(reserves: any) {
+  return async function (dispatch: any) {
     try {
       dispatch(saveUniswapV2WETHxDAIReserveSuccess(reserves));
     } catch (err) {
@@ -15,13 +15,13 @@ export function saveUniswapV2WETHxDAIReserve(reserves) {
   };
 }
 
-const saveUniswapV2WETHxDAIReserveSuccess = (reserves) => ({
+const saveUniswapV2WETHxDAIReserveSuccess = (reserves: any) => ({
   type: SAVE_UNISWAPV2_WETH_DAI_RESERVE,
   payload: reserves
 });
 
-export function updateSlippageChosen(key) {
-  return async function (dispatch) {
+export function updateSlippageChosen(key: any) {
+  return async function (dispatch: any) {
     try {
       dispatch(updateSlippageChosenSuccess(key));
     } catch (err) {
@@ -30,7 +30,7 @@ export function updateSlippageChosen(key) {
   };
 }
 
-const updateSlippageChosenSuccess = (key) => ({
+const updateSlippageChosenSuccess = (key: any) => ({
   type: UPDATE_SLIPPAGE_CHOSEN,
   payload: key
 });

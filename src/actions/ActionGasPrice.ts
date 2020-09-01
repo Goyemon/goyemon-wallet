@@ -6,7 +6,7 @@ import {
 import LogUtilities from '../utilities/LogUtilities.js';
 
 export function getGasPrice() {
-  return async function (dispatch) {
+  return async function (dispatch: any) {
     try {
       let gasPrice = await fetch(
         'https://ethgasstation.info/json/ethgasAPI.json'
@@ -23,13 +23,13 @@ export function getGasPrice() {
   };
 }
 
-const getGasPriceSuccess = (gasPrice) => ({
+const getGasPriceSuccess = (gasPrice: any) => ({
   type: GET_GAS_PRICE,
   payload: gasPrice
 });
 
-export function updateGasPriceChosen(key) {
-  return async function (dispatch) {
+export function updateGasPriceChosen(key: any) {
+  return async function (dispatch: any) {
     try {
       dispatch(updateGasPriceChosenSuccess(key));
     } catch (err) {
@@ -38,7 +38,7 @@ export function updateGasPriceChosen(key) {
   };
 }
 
-const updateGasPriceChosenSuccess = (key) => ({
+const updateGasPriceChosenSuccess = (key: any) => ({
   type: UPDATE_GAS_PRICE_CHOSEN,
   payload: key
 });

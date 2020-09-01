@@ -2,8 +2,8 @@
 import { UPDATE_TOADDRESS_VALIDATION } from '../constants/ActionTypes';
 import LogUtilities from '../utilities/LogUtilities.js';
 
-export function updateToAddressValidation(validation) {
-  return async function (dispatch) {
+export function updateToAddressValidation(validation: any) {
+  return async function (dispatch: any) {
     try {
       dispatch(updateToAddressValidationSuccess(validation));
     } catch (err) {
@@ -12,7 +12,7 @@ export function updateToAddressValidation(validation) {
   };
 }
 
-const updateToAddressValidationSuccess = (validation) => ({
+const updateToAddressValidationSuccess = (validation: any) => ({
   type: UPDATE_TOADDRESS_VALIDATION,
   payload: validation
 });
