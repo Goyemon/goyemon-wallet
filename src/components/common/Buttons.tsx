@@ -1,6 +1,6 @@
 'use strict';
 import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 import I18n from '../../i18n/I18n';
 
 interface ButtonProps {
@@ -30,7 +30,7 @@ export const Button = (props: ButtonProps) => (
   </ButtonContainer>
 );
 
-const ButtonContainer = styled("TouchableOpacity")`
+const ButtonContainer = styled.TouchableOpacity`
   background-color: ${(props) => props.backgroundColor};
   border-color: ${(props) => props.borderColor};
   border-radius: 16px;
@@ -41,9 +41,7 @@ const ButtonContainer = styled("TouchableOpacity")`
   opacity: ${(props) => props.opacity};
 `;
 
-let ButtonText: any;
-
-ButtonText = styled("Text")`
+const ButtonText: any = styled.Text`
   color: ${(props) => props.textColor};
   font-family: 'HKGrotesk-Bold';
   font-size: 20;
@@ -68,7 +66,7 @@ export const MnemonicWordButton = (props: MnemonicWordButtonProps) => (
   </MnemonicWordButtonContainer>
 );
 
-const MnemonicWordButtonContainer = styled("TouchableOpacity")`
+const MnemonicWordButtonContainer = styled.TouchableOpacity`
   background-color: #fff;
   border-color: #fff;
   border-radius: 16px;
@@ -78,7 +76,7 @@ const MnemonicWordButtonContainer = styled("TouchableOpacity")`
   opacity: ${(props) => props.opacity};
 `;
 
-const MnemonicWordButtonText = styled("Text")`
+const MnemonicWordButtonText = styled.Text`
   color: #5f5f5f;
   font-family: 'HKGrotesk-Bold';
   font-size: 16;
@@ -101,7 +99,7 @@ export const TxConfirmationButton = (props: TxConfirmationButton) => (
   </TxConfirmationButtonContainer>
 );
 
-const TxConfirmationButtonContainer = styled("TouchableOpacity")`
+const TxConfirmationButtonContainer = styled.TouchableOpacity`
   background-color: #00a3e2;
   border-color: #00a3e2;
   border-radius: 16px;
@@ -110,7 +108,7 @@ const TxConfirmationButtonContainer = styled("TouchableOpacity")`
   min-width: 120px;
 `;
 
-const TxConfirmationButtonText = styled("Text")`
+const TxConfirmationButtonText = styled.Text`
   color: #fff;
   font-family: 'HKGrotesk-Bold';
   font-size: ${I18n.locale == 'ja-US' ? 18 : 20};
@@ -134,7 +132,7 @@ export const TxNextButton = (props: TxNextButtonProps) => (
   </TxNextButtonContainer>
 );
 
-const TxNextButtonContainer = styled("TouchableOpacity")`
+const TxNextButtonContainer = styled.TouchableOpacity`
   background-color: #fff;
   border-color: #00a3e2;
   border-radius: 16px;
@@ -145,9 +143,7 @@ const TxNextButtonContainer = styled("TouchableOpacity")`
   opacity: ${(props) => props.opacity};
 `;
 
-let TxNextButtonText: any;
-
-TxNextButtonText = styled("Text")`
+const TxNextButtonText: any = styled.Text`
   color: #00a3e2;
   font-family: 'HKGrotesk-Bold';
   font-size: 20;
@@ -169,11 +165,11 @@ export const UseMaxButton = (props: UseMaxButtonProps) => (
   </UseMaxButtonContainer>
 );
 
-const UseMaxButtonContainer = styled("TouchableOpacity")`
+const UseMaxButtonContainer = styled.TouchableOpacity`
   align-items: flex-end;
 `;
 
-const UseMaxButtonText = styled("Text")`
+const UseMaxButtonText = styled.Text`
   color: ${(props) => props.textColor};
   font-family: 'HKGrotesk-Regular';
   font-size: 14;

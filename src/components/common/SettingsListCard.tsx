@@ -34,9 +34,7 @@ const SettingsList = styled.View`
   width: 100%;
 `;
 
-let SettingsListText: any;
-
-SettingsListText = styled.Text`
+let SettingsListText: any = styled.Text`
   padding: 8px 12px;
   color: #5f5f5f;
   font-family: 'HKGrotesk-Regular';

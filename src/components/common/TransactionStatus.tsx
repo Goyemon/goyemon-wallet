@@ -10,7 +10,7 @@ interface TransactionStatusProps {
   txState: number;
 }
 
-const TransactionStatus = (props: TransactionStatusProps) => (
+export const TransactionStatus = (props: TransactionStatusProps) => (
   <TransactionStatusContainer width={props.width} txState={props.txState}>
     {(() => {
       let text;
@@ -51,5 +51,3 @@ const FailedStatusText = styled.Text`
   font-family: 'HKGrotesk-Regular';
   font-size: 18;
 `;
-
-export { TransactionStatus };
