@@ -354,7 +354,7 @@ PODS:
     - ReactCommon/callinvoker (= 0.62.0)
   - RNCAsyncStorage (1.12.0):
     - React
-  - RNFBAnalytics (7.6.1):
+  - RNFBAnalytics (7.5.1):
     - Firebase/Analytics (~> 6.30.0)
     - React
     - RNFBApp
@@ -604,7 +604,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: 0630aeb11e22f87c180ca9c0c3a0a0aba780cc62
   ReactCommon: d22162ab8f1358c53dfcd0f9c4d82d38facdbc48
   RNCAsyncStorage: 3eea36d9460c5159b592f9ecbe5a77f8aca98006
-  RNFBAnalytics: ffd9149d1fe0ecee0f2571b234d53c25349b9899
+  RNFBAnalytics: 68324faecd126b94df3984efa64cfebeccb98a0b
   RNFBApp: e4321cad5dd23b43b3b4f0ca060300b9f85cb7a4
   RNFBCrashlytics: accacec7be2426085b715b93cdb7b0a1308eb8eb
   RNFBMessaging: ca2afaa9449dde72fded30f93b9a4fd296d4dd60
