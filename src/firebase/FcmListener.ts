@@ -15,19 +15,19 @@ import {
 } from '../actions/ActionPoolTogether';
 import { saveUniswapV2WETHxDAIReserve } from '../actions/ActionUniswap';
 import { saveTransactionsLoaded } from '../actions/ActionTransactionsLoaded';
-import { FCMMsgs } from '../lib/fcm.js';
+import { FcmMsgs } from '../lib/fcm.js';
 import LogUtilities from '../utilities/LogUtilities.js';
 import { store } from '../store/store';
 import { storage } from '../lib/tx';
 
 let storeReady = false;
-let storeReadyPromise;
+let storeReadyPromise: any;
 
-function setStoreReadyPromise(p) {
+function setStoreReadyPromise(p: any) {
   storeReadyPromise = p;
 }
 
-async function downstreamMessageHandler(type, data) {
+async function downstreamMessageHandler(type: any, data: any) {
   LogUtilities.logInfo(`received message ${type} => `, data);
 
   if (!storeReady) {

@@ -10,7 +10,7 @@ import { getGasPrice } from '../actions/ActionGasPrice';
 import { getETHPrice, getDAIPrice, getCDAIPrice } from '../actions/ActionPrice';
 import { Container } from './common';
 import FcmPermissions from '../firebase/FcmPermissions.js';
-import { FCMMsgs } from '../lib/fcm.js';
+import { FcmMsgs } from '../lib/fcm.js';
 import PortfolioStack from '../navigators/PortfolioStack';
 import LogUtilities from '../utilities/LogUtilities.js';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
@@ -27,9 +27,9 @@ class Initial extends Component {
     await this.props.getDAIPrice();
     await this.props.getCDAIPrice();
     this.props.getGasPrice();
-    FCMMsgs.requestCompoundDaiInfo(this.props.checksumAddress);
-    FCMMsgs.requestPoolTogetherDaiInfo(this.props.checksumAddress);
-    FCMMsgs.requestUniswapV2WETHxDAIReserves(this.props.checksumAddress);
+    FcmMsgs.requestCompoundDaiInfo(this.props.checksumAddress);
+    FcmMsgs.requestPoolTogetherDaiInfo(this.props.checksumAddress);
+    FcmMsgs.requestUniswapV2WETHxDAIReserves(this.props.checksumAddress);
 
     if (this.props.permissions.notification === false) {
       await FcmPermissions.checkFcmPermissions();

@@ -17,7 +17,7 @@ import {
 } from '../../../actions/ActionPrice';
 import { Container } from '../../common';
 import I18n from '../../../i18n/I18n';
-import { FCMMsgs } from '../../../lib/fcm.js';
+import { FcmMsgs } from '../../../lib/fcm.js';
 import { storage } from '../../../lib/tx';
 import PortfolioStack from '../../../navigators/PortfolioStack';
 import WalletUtilities from '../../../utilities/WalletUtilities.ts';
@@ -97,9 +97,9 @@ class WalletCreation extends Component {
     await this.props.getDAIPrice();
     await this.props.getCDAIPrice();
     this.props.getGasPrice();
-    FCMMsgs.requestCompoundDaiInfo(this.props.checksumAddress);
-    FCMMsgs.requestPoolTogetherDaiInfo(this.props.checksumAddress);
-    FCMMsgs.requestUniswapV2WETHxDAIReserves(this.props.checksumAddress);
+    FcmMsgs.requestCompoundDaiInfo(this.props.checksumAddress);
+    FcmMsgs.requestPoolTogetherDaiInfo(this.props.checksumAddress);
+    FcmMsgs.requestUniswapV2WETHxDAIReserves(this.props.checksumAddress);
   }
 
   async createWallet() {
@@ -109,7 +109,7 @@ class WalletCreation extends Component {
     );
     await this.props.createChecksumAddress();
     storage.setOwnAddress(this.props.checksumAddress);
-    FCMMsgs.registerEthereumAddress(this.props.checksumAddress);
+    FcmMsgs.registerEthereumAddress(this.props.checksumAddress);
   }
 
   async isWalletReady() {

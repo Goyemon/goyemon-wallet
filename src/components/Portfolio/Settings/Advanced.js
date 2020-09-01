@@ -16,7 +16,7 @@ import {
 import Copy from '../../Copy';
 import GlobalConfig from '../../../config.json';
 import I18n from '../../../i18n/I18n';
-import { FCMMsgs } from '../../../lib/fcm.js';
+import { FcmMsgs } from '../../../lib/fcm.js';
 import LogUtilities from '../../../utilities/LogUtilities.js';
 
 class Advanced extends Component {
@@ -33,7 +33,7 @@ class Advanced extends Component {
   }
 
   getFcmToken() {
-    FCMMsgs.getFcmToken().then((fcmToken) => {
+    FcmMsgs.getFcmToken().then((fcmToken) => {
       if (fcmToken) {
         LogUtilities.logInfo('the current fcmToken ===>', fcmToken);
         this.props.saveFcmToken(fcmToken);
@@ -136,7 +136,7 @@ class Advanced extends Component {
             <Icon
               onPress={async () => {
                 this.AnimationRef.rotate();
-                FCMMsgs.resyncWallet(this.props.checksumAddress);
+                FcmMsgs.resyncWallet(this.props.checksumAddress);
               }}
               name="sync"
               color="#5f5f5f"

@@ -2,18 +2,23 @@
 import firebase from '@react-native-firebase/app';
 import '@react-native-firebase/messaging';
 import LogUtilities from '../utilities/LogUtilities.js';
-import zlib from 'react-zlib-js';
-import { storage } from '../lib/tx';
-import GlobalConfig from '../config.json';
+const zlib = require('react-zlib-js');
+import { storage } from './tx';
+const GlobalConfig = require('../config.json');
 
-const msgtype_compressed = {
+const msgtype_compressed: any = {
   txhistory: true,
   txstate: true,
   txsync: true
 };
 
 class Msg {
-  constructor(id, count, type) {
+  data: any;
+  count: any;
+  have: any;
+  id: any;
+  compressed: any;
+  constructor(id: any, count: any, type: any) {
     LogUtilities.toDebugScreen(`MSG constructor, id:${id}, count:${count}`);
     this.data = [];
     this.count = count;
@@ -22,7 +27,7 @@ class Msg {
     this.compressed = msgtype_compressed[type];
   }
 
-  addPart(num, data) {
+  addPart(num: any, data: any) {
     LogUtilities.toDebugScreen(
       `MSG addPart, id:${this.id}, num:${num}, have:${this.have}+1/${this.count}`
     );
@@ -39,7 +44,7 @@ class Msg {
     return this.have == this.count;
   }
 
-  getMessage(call) {
+  getMessage(call: any) {
     if (!this.isComplete())
       throw new Error('.getMessage() for an incomplete message');
 
@@ -54,7 +59,15 @@ class Msg {
 }
 
 class FCMMsgs {
-  constructor(on_msg_callback, on_msg_timeout, timeoutsecs = 30) {
+  msgs: any
+  tos: any
+  msgtype_waits: any
+  on_msg_callback: any
+  on_msg_timeout: any
+  timeout: any
+  __msgid_time: any
+  __msgid_n: any
+  constructor(on_msg_callback: any, on_msg_timeout: any, timeoutsecs = 30) {
     this.msgs = {};
     this.tos = {};
     this.msgtype_waits = {};
@@ -66,19 +79,19 @@ class FCMMsgs {
     this.__msgid_n = 0;
   }
 
-  setTimeout(timeoutsecs) {
+  setTimeout(timeoutsecs: any) {
     this.timeout = timeoutsecs * 1000;
 
     return this;
   }
 
-  setMsgCallback(on_msg_callback) {
+  setMsgCallback(on_msg_callback: any) {
     this.on_msg_callback = on_msg_callback;
 
     return this;
   }
 
-  setTimeoutCallback(on_msg_timeout) {
+  setTimeoutCallback(on_msg_timeout: any) {
     this.on_msg_timeout = on_msg_timeout;
 
     return this;
@@ -99,7 +112,7 @@ class FCMMsgs {
     return `m${this.__msgid_time}`;
   }
 
-  __sendMessage(type, otherData = {}) {
+  __sendMessage(type: any, otherData = {}) {
     const upstreamMessage = {
       messageId: this.__gen_msg_id(),
       to: GlobalConfig.FCM_server_address,
@@ -124,8 +137,8 @@ class FCMMsgs {
       });
   }
 
-  __on_msg(id, type, num, count, data) {
-    let msg;
+  __on_msg(id: any, type: any, num: any, count: any, data: any) {
+    let msg: any;
 
     if (!this.msgs[id]) {
       msg = new Msg(id, count, type);
@@ -148,17 +161,17 @@ class FCMMsgs {
       }
       delete this.msgs[id];
 
-      msg.getMessage((msg) => {
+      msg.getMessage((msg: any) => {
         const result = JSON.parse(msg);
         if (this.msgtype_waits.hasOwnProperty(type)) {
-          this.msgtype_waits[type].forEach((x) => x.resolve(result));
+          this.msgtype_waits[type].forEach((x: any) => x.resolve(result));
           delete this.msgtype_waits[type];
         } else this.on_msg_callback(type, result);
       });
     }
   }
 
-  __fcm_msg(msg, frombg) {
+  __fcm_msg(msg: any, frombg: any) {
     const d = msg._data ? msg._data : msg.data;
 
     if (frombg && d && d.type && d.count && d.no && d.uid && d.data)
@@ -178,19 +191,19 @@ class FCMMsgs {
       );
   }
 
-  registerEthereumAddress(checksumAddress) {
+  registerEthereumAddress(checksumAddress: any) {
     this.__sendMessage('address_register', { address: checksumAddress });
   }
 
-  resyncWallet(checksumAddress) {
+  resyncWallet(checksumAddress: any) {
     this.__sendMessage('resync_wallet', { address: checksumAddress });
   }
 
-  requestCompoundDaiInfo(checksumAddress) {
+  requestCompoundDaiInfo(checksumAddress: any) {
     this.__sendMessage('cDai_lending_info', { address: checksumAddress });
   }
 
-  requestPoolTogetherDaiInfo(checksumAddress) {
+  requestPoolTogetherDaiInfo(checksumAddress: any) {
     this.__sendMessage('pool_together_DAI_info', { address: checksumAddress });
   }
 
@@ -198,7 +211,7 @@ class FCMMsgs {
     this.__sendMessage('uniswapV2_WETHxDAI_reserve');
   }
 
-  checkForUpdates(checksumAddress, checksums, count, offset = 0) {
+  checkForUpdates(checksumAddress: any, checksums: any, count: any, offset = 0) {
     this.__sendMessage('request_updates', {
       address: checksumAddress,
       sums: checksums.join(','),
@@ -211,16 +224,11 @@ class FCMMsgs {
   sendTx() {}
 }
 
-const instance = new FCMMsgs();
-const handler = (x, frombg) => instance.__fcm_msg(x, frombg);
+export const handler = (x: any, frombg: any) => instance.__fcm_msg(x, frombg);
 
-function registerHandler() {
+export const registerHandler = () => {
   LogUtilities.toDebugScreen('FCM registerHandler called');
-  firebase.messaging().onMessage(handler);
+  firebase.messaging().onMessage();
 }
 
-module.exports = {
-  registerHandler: registerHandler,
-  downstreamMessageHandler: handler,
-  FCMMsgs: instance
-};
+export const FcmMsgs = new FCMMsgs('', '')
