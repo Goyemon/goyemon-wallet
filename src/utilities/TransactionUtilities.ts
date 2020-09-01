@@ -1,7 +1,6 @@
 'use strict';
 const ethTx = require('ethereumjs-tx');
-import firebase from '@react-native-firebase/app';
-import '@react-native-firebase/messaging';
+import messaging from '@react-native-firebase/messaging';
 const uuidv4 = require('uuid/v4');
 import Web3 from 'web3';
 import { store } from '../store/store.js';
@@ -337,8 +336,7 @@ class TransactionUtilities {
       }
     };
 
-    firebase
-      .messaging()
+      messaging()
       .sendMessage(upstreamMessage)
       .then((response) => {
         console.log('Successfully sent message:', {
