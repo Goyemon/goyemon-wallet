@@ -336,7 +336,7 @@ class TransactionUtilities {
       }
     };
 
-      messaging()
+    messaging()
       .sendMessage(upstreamMessage)
       .then((response) => {
         console.log('Successfully sent message:', {
