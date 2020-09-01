@@ -23,11 +23,11 @@ import { storage } from '../lib/tx';
 let storeReady = false;
 let storeReadyPromise: any;
 
-function setStoreReadyPromise(p: any) {
+export const setStoreReadyPromise = (p: any) => {
   storeReadyPromise = p;
 }
 
-async function downstreamMessageHandler(type: any, data: any) {
+export const downstreamMessageHandler = async(type: any, data: any) => {
   LogUtilities.logInfo(`received message ${type} => `, data);
 
   if (!storeReady) {
@@ -71,7 +71,7 @@ async function downstreamMessageHandler(type: any, data: any) {
         );
 
       if (data.hasOwnProperty('cdai')) {
-        FCMMsgs.requestCompoundDaiInfo(
+        FcmMsgs.requestCompoundDaiInfo(
           stateTree.ReducerChecksumAddress.checksumAddress
         );
         store.dispatch(
@@ -147,8 +147,3 @@ async function downstreamMessageHandler(type: any, data: any) {
       LogUtilities.logError(`unknown message type: ${type}`);
   }
 }
-
-module.exports = {
-  setStoreReadyPromise: setStoreReadyPromise,
-  downstreamMessageHandler: downstreamMessageHandler
-};
