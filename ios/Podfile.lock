@@ -365,7 +365,7 @@ PODS:
     - Firebase/Crashlytics (~> 6.30.0)
     - React
     - RNFBApp
-  - RNFBMessaging (7.8.1):
+  - RNFBMessaging (7.8.3):
     - Firebase/Messaging (~> 6.30.0)
     - React
     - RNFBApp
@@ -607,7 +607,7 @@ SPEC CHECKSUMS:
   RNFBAnalytics: ffd9149d1fe0ecee0f2571b234d53c25349b9899
   RNFBApp: e4321cad5dd23b43b3b4f0ca060300b9f85cb7a4
   RNFBCrashlytics: accacec7be2426085b715b93cdb7b0a1308eb8eb
-  RNFBMessaging: 4afdcd2fe27714ef3f7539a61b1700e3fa0ccfca
+  RNFBMessaging: ca2afaa9449dde72fded30f93b9a4fd296d4dd60
   RNGestureHandler: b6b359bb800ae399a9c8b27032bdbf7c18f08a08
   RNKeychain: c658833a9cb2cbcba6423bdd6e16cce59e27da0e
   RNLocalize: c388679af021ddd6069c215f7fdd2acf4e77ede5
