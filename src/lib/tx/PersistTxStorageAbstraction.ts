@@ -12,6 +12,13 @@ import {
 } from './common';
 
 export default class PersistTxStorageAbstraction {
+  cache: any
+  counts: any
+  filters: any
+  toplocked_per_filter: any
+  locks: any
+  prefix: any
+  debug: any
   constructor(prefix = '') {
     LogUtilities.toDebugScreen(
       'PersistTxStorageAbstraction constructor called'
@@ -41,9 +48,9 @@ export default class PersistTxStorageAbstraction {
     return;
   }
 
-  init_storage(name_to_filter_map, init_finish_callback) {
+  init_storage(name_to_filter_map: any, init_finish_callback: any) {
     let load_count = 0;
-    const failed_nonces = {};
+    const failed_nonces: any = {};
 
     const checkFinish = () => {
       load_count--;
@@ -56,7 +63,7 @@ export default class PersistTxStorageAbstraction {
         );
 
         if (this.debug) {
-          let temp_debug_bucket_names = [];
+          let temp_debug_bucket_names: any = [];
           Object.keys(this.counts).forEach((x) => {
             for (
               let i = 0;
@@ -78,7 +85,7 @@ export default class PersistTxStorageAbstraction {
       }
     };
 
-    const countToplocked = (name, bucketnum) => {
+    const countToplocked = (name: any, bucketnum: any) => {
       // also gets failed nonces until first included
       this.__getKey(`${this.prefix}i${name}${bucketnum}`, __decodeBucket).then(
         (x) => {
@@ -105,7 +112,7 @@ export default class PersistTxStorageAbstraction {
       );
     };
 
-    const load_index_data = function (name) {
+    const load_index_data = function (name: any) {
       load_count++;
 
       this.__init_lock(name);
@@ -131,7 +138,7 @@ export default class PersistTxStorageAbstraction {
     });
   }
 
-  async __getKey(key, processfunc) {
+  async __getKey(key: any, processfunc: any) {
     // TODO: needs cache cleaning
     if (!this.cache[key]) {
       const val = await AsyncStorage.getItem(key);
@@ -146,20 +153,20 @@ export default class PersistTxStorageAbstraction {
     return this.cache[key];
   }
 
-  async __setKey(key, v, processfunc) {
+  async __setKey(key: any, v: any, processfunc: any) {
     this.cache[key] = v;
 
     await AsyncStorage.setItem(key, processfunc ? processfunc(v) : v);
   }
 
-  async __removeKey(key) {
+  async __removeKey(key: any) {
     // there's a bit of a race condition. if we removeKey and at the same time getKey, remove will clear it from cache, but not from storage yet. getKey will potentially fetch it from storage then, before removeKey removes it from there.
     delete this.cache[key];
 
     await AsyncStorage.removeItem(key);
   }
 
-  async getTxByNum(num, index = 'all') {
+  async getTxByNum(num: any, index = 'all') {
     const bucket_num = Math.floor(num / storage_bucket_size);
     const bucket_pos = num % storage_bucket_size;
 
@@ -181,8 +188,8 @@ export default class PersistTxStorageAbstraction {
     return await this.getTxByHash(bucket[bucket_pos]);
   }
 
-  async getTxByHash(hash) {
-    return await this.__getKey(`${this.prefix}_${hash}`, (data) =>
+  async getTxByHash(hash: any) {
+    return await this.__getKey(`${this.prefix}_${hash}`, (data: any) =>
       __decodeTx(hash, data)
     );
   }
@@ -226,7 +233,7 @@ export default class PersistTxStorageAbstraction {
       `getHashes(): bucketnames.length = ${bucketnames.length}, bucketdata.length == ${bucketdata.length}`
     );
 
-    const ret = [];
+    const ret: any = [];
     for (let i = 0; i < bucketnames.length; ++i) {
       let add_items;
       const bd = __decodeBucket(bucketdata[i][1]);
@@ -242,8 +249,8 @@ export default class PersistTxStorageAbstraction {
 
     // LogUtilities.toDebugScreen(`getHashes(): ret == ${ret}}`);
 
-    const txdata = await AsyncStorage.multiGet(
-      ret.map((x) => `${this.prefix}_${x}`)
+    const txdata: any = await AsyncStorage.multiGet(
+      ret.map((x: any) => `${this.prefix}_${x}`)
     );
 
     LogUtilities.toDebugScreen(
@@ -271,11 +278,11 @@ export default class PersistTxStorageAbstraction {
     return ret;
   }
 
-  async updateTxDataIfExists(hash, tx) {
+  async updateTxDataIfExists(hash: any, tx: any) {
     // TODO: does not re-check indices, so be careful if anything can change there.
 
     const key = `${this.prefix}_${hash}`;
-    const oldTx = await this.__getKey(key, (data) => __decodeTx(hash, data));
+    const oldTx = await this.__getKey(key, (data: any) => __decodeTx(hash, data));
     if (oldTx) {
       await this.__setKey(key, tx, JSON.stringify);
       return oldTx;
@@ -284,10 +291,10 @@ export default class PersistTxStorageAbstraction {
     return null;
   }
 
-  async appendTx(hash, tx, toplock = false) {
+  async appendTx(hash: any, tx: any, toplock = false) {
     // run filters to see which indices this goes in. for each index, append to the last bucket (make sure we create a new one if it spills)
     let append_indices = ['all'];
-    Object.entries(this.filters).forEach(([index, filterfunc]) => {
+    Object.entries(this.filters).forEach(([index, filterfunc]: any) => {
       if (filterfunc(tx)) append_indices.push(index);
     });
 
@@ -427,18 +434,18 @@ export default class PersistTxStorageAbstraction {
     await Promise.all(tasks);
   }
 
-  async bulkLoad(txarray) {
+  async bulkLoad(txarray: any) {
     // TODO: add locking
-    var index_counts = {
+    var index_counts: any = {
       all: 0
     };
-    var index_buckets = {
+    var index_buckets: any = {
       all: []
     };
 
     const startTime = Date.now();
 
-    function add_to_index(index, hash) {
+    function add_to_index(index: any, hash: any) {
       const buck = index_buckets[index];
       if (index_counts[index] % storage_bucket_size == 0) buck.push([hash]);
       else buck[buck.length - 1].push(hash);
@@ -451,24 +458,24 @@ export default class PersistTxStorageAbstraction {
       index_buckets[index] = [];
     });
 
-    let tasks = [];
-    txarray.forEach((tx) => {
+    let tasks: any[] = [];
+    txarray.forEach((tx: any) => {
       const hash = tx.getHash();
       add_to_index('all', hash);
 
-      Object.entries(this.filters).forEach(([index, filterfunc]) => {
+      Object.entries(this.filters).forEach(([index, filterfunc]: any) => {
         if (filterfunc(tx)) add_to_index(index, hash);
       });
 
       tasks.push([`${this.prefix}_${hash}`, JSON.stringify(tx)]);
     });
 
-    Object.entries(index_counts).forEach(([index, count]) => {
+    Object.entries(index_counts).forEach(([index, count]: any) => {
       tasks.push([`${this.prefix}i${index}c`, count.toString()]);
     });
 
-    Object.entries(index_buckets).forEach(([index, buckets]) => {
-      buckets.forEach((bucket, idx) => {
+    Object.entries(index_buckets).forEach(([index, buckets]: any) => {
+      buckets.forEach((bucket: any, idx: any) => {
         tasks.push([`${this.prefix}i${index}${idx}`, __encodeBucket(bucket)]);
       });
     });
@@ -545,8 +552,8 @@ export default class PersistTxStorageAbstraction {
   }
 
   async __replaceKeyInIndex(
-    oldkey,
-    newkey,
+    oldkey: any,
+    newkey: any,
     index = 'all',
     toplockremove = false
   ) {
@@ -701,7 +708,7 @@ export default class PersistTxStorageAbstraction {
     // throw new Error(`key "${oldkey}" not found in the index "${index}"`);
   }
 
-  async removeKey(oldkey, index = 'all') {
+  async removeKey(oldkey: any, index = 'all') {
     // not used yet; will be used when indexDiff is tested and we actually have to remove stuff from some indices.
     await this.__lock(index);
 
@@ -711,7 +718,7 @@ export default class PersistTxStorageAbstraction {
     const bgtasks = [];
 
     let current_bucket = last_bucket_index;
-    const buckets = {}; // since those arent huge, let's just precache them
+    const buckets: any = {}; // since those arent huge, let's just precache them
     while (current_bucket >= 0) {
       let bucket = await this.__getKey(
         `${this.prefix}i${index}${current_bucket}`
@@ -765,19 +772,19 @@ export default class PersistTxStorageAbstraction {
     throw new Error(`key "${oldkey}" not found in the index "${index}"`);
   }
 
-  __indexDiff(oldtx, newtx) {
+  __indexDiff(oldtx: any, newtx: any) {
     const ret = {
       common: [],
       add: [],
       remove: []
     };
 
-    const oldidx = {};
-    Object.entries(this.filters).forEach(([index, filterfunc]) => {
+    const oldidx: any = {};
+    Object.entries(this.filters).forEach(([index, filterfunc]: any) => {
       if (filterfunc(oldtx)) oldidx[index] = 1;
     });
 
-    Object.entries(this.filters).forEach(([index, filterfunc]) => {
+    Object.entries(this.filters).forEach(([index, filterfunc]: any) => {
       if (filterfunc(newtx)) {
         if (oldidx[index]) {
           oldidx[index] = 0;
@@ -793,7 +800,7 @@ export default class PersistTxStorageAbstraction {
     return ret;
   }
 
-  async replaceTx(oldtx, newtx, oldhash, newhash, toplockremove = false) {
+  async replaceTx(oldtx: any, newtx: any, oldhash: any, newhash: any, toplockremove = false) {
     // for now this can only be called when changing nonce_xxx to proper txhash, so when 'sent' state goes into included. soon added: nonce_xxx to fail_xxx when a tx errors out (and we dont want to keep the nonce_xxx key as it'll get overwritten)
 
     const indexDiff = this.__indexDiff(oldtx, newtx);
@@ -827,7 +834,6 @@ export default class PersistTxStorageAbstraction {
     await Promise.all(
       [this.__replaceKeyInIndex(oldhash, newhash, 'all', toplockremove)].concat(
         Object.entries(this.filters).map(([index, filterfunc]) => {
-          if (filterfunc(newtx))
             return this.__replaceKeyInIndex(
               oldhash,
               newhash,
@@ -841,7 +847,7 @@ export default class PersistTxStorageAbstraction {
     // throw new Error("not implemented yet");
   }
 
-  async updateTx(oldtx, newtx, hash) {
+  async updateTx(oldtx: any, newtx: any, hash: any) {
     // no hash change, therefore sent stays sent (nonce_xxx) or included stays included (txhash)
 
     const indexDiff = this.__indexDiff(oldtx, newtx);
@@ -873,9 +879,9 @@ export default class PersistTxStorageAbstraction {
     for (let i = 0; i <= bucket_count; ++i)
       bucketnames.push(`${this.prefix}i${index}${i}`);
 
-    const hashes_in_order = [];
+    const hashes_in_order: any = [];
 
-    const buckets = {};
+    const buckets: any = {};
     (await AsyncStorage.multiGet(bucketnames)).forEach(
       ([k, v]) => (buckets[k] = v)
     );
@@ -886,12 +892,12 @@ export default class PersistTxStorageAbstraction {
     });
     // delete(buckets);
 
-    const txes = [];
+    const txes: any = [];
     (await AsyncStorage.multiGet(hashes_in_order)).forEach(
       ([k, v]) => (txes[k] = v)
     );
 
-    hashes_in_order.forEach((n) => {
+    hashes_in_order.forEach((n: any) => {
       LogUtilities.toDebugScreen(n, txes[n]);
     });
   }

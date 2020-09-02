@@ -3,60 +3,71 @@ import GlobalConfig from '../../config.json';
 import { hexToBuf, dropHexPrefix } from './common';
 
 export default class Tx {
-  constructor(state) {
+  from_addr: any
+  to_addr: any
+  value: any
+  gas: any
+  gasPrice: any
+  timestamp: any
+  nonce: any
+  hash: any
+  state: any
+  tokenData: any
+  data: any
+  constructor(state: any) {
     this.from_addr = this.to_addr = this.value = this.gas = this.gasPrice = this.timestamp = this.nonce = this.hash = null;
     this.state = state !== undefined ? state : null;
     this.tokenData = {};
     this.data = {}; // for additional items, such as transaction input field
   }
 
-  setFrom(addr) {
+  setFrom(addr: any) {
     this.from_addr = hexToBuf(addr);
     return this;
   }
 
-  setTo(addr) {
+  setTo(addr: any) {
     this.to_addr = hexToBuf(addr);
     return this;
   }
 
-  setHash(hash) {
+  setHash(hash: any) {
     //this.hash = hexToBuf(hash);
     this.hash = hash;
     return this;
   }
 
-  setNonce(nonce) {
+  setNonce(nonce: any) {
     this.nonce = nonce;
     return this;
   }
 
-  setValue(value) {
+  setValue(value: any) {
     this.value = value;
     return this;
   }
 
-  setGas(value) {
+  setGas(value: any) {
     this.gas = value;
     return this;
   }
 
-  setGasPrice(value) {
+  setGasPrice(value: any) {
     this.gasPrice = value;
     return this;
   }
 
-  setTimestamp(tstamp) {
+  setTimestamp(tstamp: any) {
     this.timestamp = tstamp;
     return this;
   }
 
-  setState(state) {
+  setState(state: any) {
     this.state = state;
     return this;
   }
 
-  tempSetData(data) {
+  tempSetData(data: any) {
     // misleading now; means transaction input field
     this.data.data = data;
     return this;
@@ -67,7 +78,7 @@ export default class Tx {
     return this;
   }
 
-  upgradeState(new_state, new_timestamp) {
+  upgradeState(new_state: any, new_timestamp: any) {
     // updates state and timestamp ONLY if the new state is a later state (so, we cant go back from confirmed to included, for example)
     if (new_state >= this.state) {
       this.state = new_state;
@@ -78,31 +89,31 @@ export default class Tx {
     return this;
   }
 
-  fromDataArray(data, fromFCM = true) {
+  fromDataArray(data: any, fromFCM = true) {
     this.tokenData = {};
 
     if (data.length > 8) {
       // we have token data.
       if (fromFCM)
-        Object.entries(data[8]).forEach(([token, ops]) =>
-          Object.entries(ops).forEach(([op, opdata]) =>
-            opdata.forEach((opdata) =>
+        Object.entries(data[8]).forEach(([token, ops]: any) =>
+          Object.entries(ops).forEach(([op, opdata]: any) =>
+            opdata.forEach((opdata: any) =>
               this.addTokenOperation(
                 token,
                 op,
-                opdata.map((x) => dropHexPrefix(x))
+                opdata.map((x: any) => dropHexPrefix(x))
               )
             )
           )
         );
       else {
-        Object.entries(data[8]).forEach(([token, ops]) =>
-          ops.forEach((opdescr) =>
-            Object.entries(opdescr).forEach(([op, opdata]) =>
+        Object.entries(data[8]).forEach(([token, ops]: any) =>
+          ops.forEach((opdescr: any) =>
+            Object.entries(opdescr).forEach(([op, opdata]: any) =>
               this.addTokenOperation(
                 token,
                 op,
-                opdata.map((x) => dropHexPrefix(x))
+                opdata.map((x: any) => dropHexPrefix(x))
               )
             )
           )
@@ -121,7 +132,7 @@ export default class Tx {
       .upgradeState(data[7], data[6]);
   }
 
-  addTokenOperation(token, operation, data) {
+  addTokenOperation(token: any, operation: any, data: any) {
     if (this.tokenData.hasOwnProperty(token))
       this.tokenData[token].push(new TxTokenOpNameToClass[operation](data));
     else this.tokenData[token] = [new TxTokenOpNameToClass[operation](data)];
@@ -129,24 +140,24 @@ export default class Tx {
     return this;
   }
 
-  hasTokenOperations(token) {
+  hasTokenOperations(token: any) {
     return this.tokenData.hasOwnProperty(token);
   }
 
-  hasTokenOperation(token, operation) {
+  hasTokenOperation(token: any, operation: any) {
     // TODO: retink. we shouldnt iterate, even though those aren't huge arrays.
     if (!this.tokenData.hasOwnProperty(token)) return false;
 
     const cls = TxTokenOpNameToClass[operation];
-    return this.tokenData[token].some((x) => x instanceof cls);
+    return this.tokenData[token].some((x: any) => x instanceof cls);
   }
 
-  getTokenOperations(token, operation) {
+  getTokenOperations(token: any, operation: any) {
     // TODO: retink. we shouldnt iterate, even though those aren't huge arrays.
     if (!this.tokenData.hasOwnProperty(token)) return [];
     const cls = operation ? TxTokenOpNameToClass[operation] : null;
     return this.tokenData[token].filter(
-      (x) => operation == null || x instanceof cls
+      (x: any) => operation == null || x instanceof cls
     );
   }
 
@@ -238,7 +249,7 @@ export default class Tx {
 
   freeze() {
     for (let n of Object.getOwnPropertyNames(this.tokenData)) {
-      this.tokenData[n].forEach((x) => x.freeze());
+      this.tokenData[n].forEach((x: any) => x.freeze());
       Object.freeze(this.tokenData[n]);
     }
     Object.freeze(this.data);

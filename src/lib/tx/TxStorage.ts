@@ -1,6 +1,5 @@
 import crypto from 'crypto';
 import AsyncStorage from '@react-native-community/async-storage';
-import GlobalConfig from '../../config.json';
 import LogUtilities from '../../utilities/LogUtilities';
 import PersistTxStorageAbstraction from './PersistTxStorageAbstraction';
 import AsyncLocks from './AsyncLocks';
@@ -16,11 +15,23 @@ import {
   txStatePrefix,
   lastCheckpointKey
 } from './common';
+const GlobalConfig = require('../../config.json');
 
 export default class TxStorage {
-  constructor(ourAddress) {
-    let load_promises = [];
-    let promise_resolves = [];
+  onload_promise: any
+  our_max_nonce: any
+  failed_nonces: any
+  last_checkpoint_offset: any
+  txes: any
+  our_address: any
+  on_update: any
+  locks: any
+  temporary_since_you_wont_add_build_number_i_will: any
+  _isDAIApprovedForCDAI_cached: any
+  _isDAIApprovedForPT_cached: any
+  constructor(ourAddress: any) {
+    let load_promises: any = [];
+    let promise_resolves: any = [];
     let promise_rejects = []; // if i ever implement this
 
     [0, 1].forEach(() => {
@@ -58,7 +69,7 @@ export default class TxStorage {
         odcda: this.txfilter_ourDAIForCDAIApprovals.bind(this),
         odpta: this.txfilter_ourDAIForPTApprovals.bind(this)
       },
-      (x) => {
+      (x: any) => {
         this.failed_nonces = x;
         promise_resolves[0]();
       }
@@ -74,7 +85,7 @@ export default class TxStorage {
     this.temporary_since_you_wont_add_build_number_i_will = 1;
   }
 
-  async __lock(name) {
+  async __lock(name: any) {
     LogUtilities.toDebugScreen(`TxStorage attempt __lock(${name})`);
     const t = Date.now();
     await this.locks.lock(name);
@@ -83,7 +94,7 @@ export default class TxStorage {
     );
   }
 
-  __unlock(name) {
+  __unlock(name: any) {
     this.locks.unlock(name);
     LogUtilities.toDebugScreen(`TxStorage __unlock(${name})`);
   }
@@ -92,18 +103,18 @@ export default class TxStorage {
     return this.onload_promise;
   }
 
-  subscribe(func) {
+  subscribe(func: any) {
     this.on_update.push(func);
     return () => {
       this.unsubscribe(func);
     };
   }
-  unsubscribe(func) {
-    this.on_update = this.on_update.filter((x) => x !== func);
+  unsubscribe(func: any) {
+    this.on_update = this.on_update.filter((x: any) => x !== func);
     return this;
   }
 
-  setOwnAddress(ourAddress) {
+  setOwnAddress(ourAddress: any) {
     LogUtilities.toDebugScreen(`TxStorage setOwnAddress(${ourAddress}) called`);
     this.our_address = hexToBuf(ourAddress);
   }
@@ -114,7 +125,7 @@ export default class TxStorage {
     return null;
   }
 
-  async newTx(state = TxStates.STATE_NEW, nonce) {
+  async newTx(state = TxStates.STATE_NEW, nonce: any) {
     const now = Math.trunc(Date.now() / 1000);
     let tx = new Tx(state)
       .setTimestamp(now)
@@ -125,10 +136,10 @@ export default class TxStorage {
     return tx;
   }
 
-  __onUpdate(oldTx, newTx) {
+  __onUpdate(oldTx: any, newTx: any) {
     LogUtilities.toDebugScreen('TxStorage __onUpdate() called');
     try {
-      this.on_update.forEach((x) => x(oldTx, newTx));
+      this.on_update.forEach((x: any) => x(oldTx, newTx));
     } catch (e) {
       LogUtilities.toDebugScreen(
         `__executeUpdateCallbacks exception: ${e.message} @ ${e.stack}`
@@ -137,7 +148,7 @@ export default class TxStorage {
     return this;
   }
 
-  async getTx(id, index = 'all') {
+  async getTx(id: any, index = 'all') {
     return await this.txes.getTxByNum(id, index);
   }
 
@@ -145,7 +156,7 @@ export default class TxStorage {
     return this.txes.getItemCount(index);
   }
 
-  txfilter_checkMaxNonce(tx) {
+  txfilter_checkMaxNonce(tx: any) {
     // not a real filter, but updates our max nonce.
     if (
       tx.from_addr &&
@@ -159,7 +170,7 @@ export default class TxStorage {
     return false;
   }
 
-  txfilter_isRelevantToDai(tx) {
+  txfilter_isRelevantToDai(tx: any) {
     return (
       tx.hasTokenOperations('dai') ||
       (tx.hasTokenOperations('cdai') &&
@@ -204,17 +215,17 @@ export default class TxStorage {
     );
   }
 
-  txfilter_ourDAIForCDAIApprovals(tx) {
+  txfilter_ourDAIForCDAIApprovals(tx: any) {
     const our_hex_address = this.our_address.toString('hex');
     const cdai_address = GlobalConfig.cDAIcontract.startsWith('0x')
       ? GlobalConfig.cDAIcontract.substr(2).toLowerCase()
       : GlobalConfig.cDAIcontract.toLowerCase();
     return tx
       .getTokenOperations('dai', TxTokenOpTypeToName.approval)
-      .some((x) => x.spender == cdai_address && x.approver == our_hex_address);
+      .some((x: any) => x.spender == cdai_address && x.approver == our_hex_address);
   }
 
-  txfilter_ourDAIForPTApprovals(tx) {
+  txfilter_ourDAIForPTApprovals(tx: any) {
     const our_hex_address = this.our_address.toString('hex');
     const pooltogether_address = GlobalConfig.DAIPoolTogetherContractV2.startsWith(
       '0x'
@@ -224,12 +235,12 @@ export default class TxStorage {
     return tx
       .getTokenOperations('dai', TxTokenOpTypeToName.approval)
       .some(
-        (x) =>
+        (x: any) =>
           x.spender == pooltogether_address && x.approver == our_hex_address
       );
   }
 
-  async saveTx(tx) {
+  async saveTx(tx: any) {
     // used now only to save our own sent txes, therefore those wont have anything but the nonce.
     await this.__lock('txes');
     const nonceKey = `${txNoncePrefix}${tx.getNonce()}`;
@@ -249,7 +260,7 @@ export default class TxStorage {
     this.__onUpdate(null, tx);
   }
 
-  async updateTx(tx) {
+  async updateTx(tx: any) {
     // done when resending
     await this.__lock('txes');
     const nonceKey = `${txNoncePrefix}${tx.getNonce()}`;
@@ -263,16 +274,16 @@ export default class TxStorage {
     return oldTx;
   }
 
-  async parseTxHistory(histObj) {
+  async parseTxHistory(histObj: any) {
     LogUtilities.toDebugScreen('TxStorage parseTxHistory() called');
     if (histObj['_contracts']) delete histObj['_contracts'];
 
-    histObj = Object.entries(histObj).map(([hash, data]) =>
+    histObj = Object.entries(histObj).map(([hash, data]: any) =>
       new Tx(data[7]).setHash(hash).fromDataArray(data)
     );
     await this.__lock('txes');
-    histObj.forEach((tx) => this.txfilter_checkMaxNonce(tx));
-    histObj.sort((a, b) => {
+    histObj.forEach((tx: any) => this.txfilter_checkMaxNonce(tx));
+    histObj.sort((a: any, b: any) => {
       const diff = a.getTimestamp() - b.getTimestamp();
       return diff != 0 ? diff : a.getHash().localeCompare(b.getHash());
     });
@@ -288,7 +299,7 @@ export default class TxStorage {
     this.__onUpdate();
   }
 
-  async processTxState(hash, data) {
+  async processTxState(hash: any, data: any) {
     LogUtilities.toDebugScreen(`processTxState(hash:${hash}) + `, data);
 
     await this.__lock('txes');
@@ -426,7 +437,7 @@ export default class TxStorage {
     // no onupdate here as we did not save that Tx, umm, in the pool... yet.
   }
 
-  async markNotIncludedTxAsErrorByNonce(nonce) {
+  async markNotIncludedTxAsErrorByNonce(nonce: any) {
     LogUtilities.toDebugScreen(
       `markNotIncludedTxAsErrorByNonce(nonce:${nonce})`
     );
@@ -510,7 +521,7 @@ export default class TxStorage {
         last_odcda_tx
           .getTokenOperations('dai', TxTokenOpTypeToName.approval)
           .some(
-            (x) =>
+            (x: any) =>
               x.amount ===
               'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
           );
@@ -528,7 +539,7 @@ export default class TxStorage {
         last_odpta_tx
           .getTokenOperations('dai', TxTokenOpTypeToName.approval)
           .some(
-            (x) =>
+            (x: any) =>
               x.amount ==
               'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
           );
@@ -541,7 +552,7 @@ export default class TxStorage {
     return await this.getVerificationDataXOR();
   }
 
-  getCheckpoints(count, offset) {
+  getCheckpoints(count: any, offset: any) {
     const hashes = Math.floor(4000 / 33);
     const computed_count = count - offset;
     const buckets = [];
@@ -581,14 +592,14 @@ export default class TxStorage {
 
     //const hashes = await this.txes.getHashes('all', offset);
     const hashes = (await this.txes.getHashes('all', offset)).filter(
-      ([x]) => !x.startsWith(txNoncePrefix) && !x.startsWith(txFailPrefix)
+      ([x]: any) => !x.startsWith(txNoncePrefix) && !x.startsWith(txFailPrefix)
     );
     const checkpoints = this.getCheckpoints(hashes.length, offset);
-    const ret = [];
+    const ret: any = [];
 
-    let lasthash = null;
+    let lasthash: any = null;
     let checkpoint = 0;
-    hashes.forEach(([h, d], idx) => {
+    hashes.forEach(([h, d]: any, idx: any) => {
       const cb = crypto.createHash('md5').update(`${h}|${d}`).digest(); // we md5-hash those hashes so that: a) they're shorter, b) we can add more data to checksums easily, without making the xored values longer
       // const cb = Buffer.from(h, 'hex');
       if (lasthash) {
@@ -614,16 +625,16 @@ export default class TxStorage {
     };
   }
 
-  async processTxSync(data) {
+  async processTxSync(data: any) {
     // LogUtilities.toDebugScreen('processTxSync(): received txsync data:', data);
     if ('_contracts' in data)
       // TODO: we really should use it at one point
       delete data['_contracts'];
 
-    data = Object.entries(data).map(([hash, txdata]) =>
+    data = Object.entries(data).map(([hash, txdata]: any) =>
       new Tx(txdata[7]).setHash(hash).fromDataArray(txdata)
     );
-    data.sort((a, b) => {
+    data.sort((a: any, b: any) => {
       const diff = a.getTimestamp() - b.getTimestamp();
       return diff != 0 ? diff : a.getHash().localeCompare(b.getHash());
     });
