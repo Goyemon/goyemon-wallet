@@ -432,7 +432,7 @@ const ButtonContainer = styled.View`
   justify-content: center;
 `;
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any) {
   return {
     isOnline: state.ReducerNetInfo.isOnline,
     outgoingTransactionData:
