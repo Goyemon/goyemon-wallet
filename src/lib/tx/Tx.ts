@@ -1,6 +1,6 @@
 import { TxTokenOpNameToClass } from './TokenOpType';
-import GlobalConfig from '../../config.json';
 import { hexToBuf, dropHexPrefix } from './common';
+const GlobalConfig = require('../../config.json');
 
 export default class Tx {
   from_addr: any
@@ -242,7 +242,7 @@ export default class Tx {
     ntx.data = Object.assign({}, ntx.data); // expected to be a simple key => value map, so a shallow clone of this should be sufficient for now.
 
     for (let n of Object.getOwnPropertyNames(ntx.tokenData))
-      ntx.tokenData[n] = ntx.tokenData[n].map((x) => x.deepClone());
+      ntx.tokenData[n] = ntx.tokenData[n].map((x: any) => x.deepClone());
 
     return ntx;
   }
