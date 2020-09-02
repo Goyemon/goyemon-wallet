@@ -3,7 +3,6 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createAppContainer } from 'react-navigation';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { PersistGate } from 'redux-persist/integration/react';
 import '../firebase/FcmTokenMonitor';
 import I18n from '../i18n/I18n';
@@ -15,6 +14,7 @@ import SendStack from './SendStack';
 import SwapStack from './SwapStack';
 import { Loader } from '../components/common';
 import { store, persistor } from '../store/store.js';
+const { createBottomTabNavigator } = require('react-navigation-tabs');
 
 const AppTab = createBottomTabNavigator(
   {
@@ -22,7 +22,7 @@ const AppTab = createBottomTabNavigator(
       screen: PortfolioStack,
       navigationOptions: {
         tabBarLabel: I18n.t('portfolio'),
-        tabBarIcon: ({ tintColor }) => (
+        tabBarIcon: ({ tintColor }: any) => (
           <Icon name="chart-pie" size={30} color={tintColor} />
         )
       }
@@ -31,7 +31,7 @@ const AppTab = createBottomTabNavigator(
       screen: SendStack,
       navigationOptions: {
         tabBarLabel: I18n.t('send'),
-        tabBarIcon: ({ tintColor }) => (
+        tabBarIcon: ({ tintColor }: any) => (
           <Icon name="send" size={30} color={tintColor} />
         )
       }
@@ -40,7 +40,7 @@ const AppTab = createBottomTabNavigator(
       screen: EarnStack,
       navigationOptions: {
         tabBarLabel: I18n.t('earn'),
-        tabBarIcon: ({ tintColor }) => (
+        tabBarIcon: ({ tintColor }: any) => (
           <Icon name="signal-cellular-3" size={30} color={tintColor} />
         )
       }
@@ -49,7 +49,7 @@ const AppTab = createBottomTabNavigator(
       screen: SwapStack,
       navigationOptions: {
         tabBarLabel: I18n.t('swap'),
-        tabBarIcon: ({ tintColor }) => (
+        tabBarIcon: ({ tintColor }: any) => (
           <Icon name="swap-horizontal" size={30} color={tintColor} />
         )
       }
@@ -58,7 +58,7 @@ const AppTab = createBottomTabNavigator(
       screen: HistoryStack,
       navigationOptions: {
         tabBarLabel: I18n.t('history'),
-        tabBarIcon: ({ tintColor }) => (
+        tabBarIcon: ({ tintColor }: any) => (
           <Icon name="script-text-outline" size={30} color={tintColor} />
         )
       }
