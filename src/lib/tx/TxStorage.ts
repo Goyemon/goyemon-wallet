@@ -296,7 +296,6 @@ export default class TxStorage {
     this.failed_nonces = {};
 
     this.__unlock('txes');
-    this.__onUpdate();
   }
 
   async processTxState(hash: any, data: any) {
@@ -463,7 +462,6 @@ export default class TxStorage {
       LogUtilities.toDebugScreen(
         `markNotIncludedTxAsErrorByNonce(nonce:${nonce}) state updated`
       );
-      this.__onUpdate();
     } else {
       this.__unlock('txes');
       LogUtilities.toDebugScreen(
@@ -478,7 +476,7 @@ export default class TxStorage {
   async getNextNonce() {
     const failed_nonce = Object.keys(this.failed_nonces)
       .map((x) => parseInt(x))
-      .reduce((a, b) => (a !== null ? (a > b ? b : a) : b), null);
+      .reduce((a, b) => (a !== null ? (a > b ? b : a) : b), 0);
     LogUtilities.toDebugScreen(
       `getNextNonce(): next nonce:${
         failed_nonce !== null ? failed_nonce : this.our_max_nonce + 1
@@ -492,7 +490,7 @@ export default class TxStorage {
     return failed_nonce !== null ? failed_nonce : this.our_max_nonce + 1;
   }
 
-  async clear(batch = false) {
+  async clear() {
     await this.__lock('txes');
     let tasks = [AsyncStorage.setItem(maxNonceKey, '-1'), this.txes.wipe()];
     await Promise.all(tasks);
@@ -503,8 +501,6 @@ export default class TxStorage {
     this.failed_nonces = {};
 
     this.__unlock('txes');
-
-    if (!batch) this.__onUpdate();
 
     this._isDAIApprovedForCDAI_cached = undefined;
     this._isDAIApprovedForPT_cached = undefined;
@@ -724,8 +720,6 @@ export default class TxStorage {
     }
 
     this.__unlock('txes');
-
-    if (changed > 0) this.__onUpdate();
   }
 
   async debugDumpAllTxes(index = 'all') {

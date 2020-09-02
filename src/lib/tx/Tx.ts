@@ -14,7 +14,7 @@ export default class Tx {
   state: any
   tokenData: any
   data: any
-  constructor(state: any) {
+  constructor(state?: any) {
     this.from_addr = this.to_addr = this.value = this.gas = this.gasPrice = this.timestamp = this.nonce = this.hash = null;
     this.state = state !== undefined ? state : null;
     this.tokenData = {};
@@ -157,7 +157,7 @@ export default class Tx {
     if (!this.tokenData.hasOwnProperty(token)) return [];
     const cls = operation ? TxTokenOpNameToClass[operation] : null;
     return this.tokenData[token].filter(
-      (x: any) => operation == null || x instanceof cls
+      (x: any) => operation == null || x instanceof TxTokenOpNameToClass[operation]
     );
   }
 
@@ -230,9 +230,6 @@ export default class Tx {
   }
 
   shallowClone() {
-    /*let newtx = new Tx(this.state);
-          Object.entries(this).forEach(([k, v]) => if (typeof v !== 'function') newtx[k] = v; );
-          return newtx;*/
     return Object.assign(new Tx(), this);
   }
 
