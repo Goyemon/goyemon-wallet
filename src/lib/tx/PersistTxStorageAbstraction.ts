@@ -112,10 +112,10 @@ export default class PersistTxStorageAbstraction {
       );
     };
 
-    const load_index_data = function (name: any) {
+    const load_index_data = (name: any) => {
       load_count++;
 
-      this.__init_lock(name);
+      this.__init_lock();
       this.toplocked_per_filter[name] = 0;
 
       AsyncStorage.getItem(`${this.prefix}i${name}c`).then((x) => {
@@ -127,7 +127,8 @@ export default class PersistTxStorageAbstraction {
           countToplocked(name, lastBucketNum);
         } else checkFinish();
       });
-    }.bind(this);
+    }
+    load_index_data.bind(this);
 
     load_index_data('all');
 
@@ -418,7 +419,7 @@ export default class PersistTxStorageAbstraction {
 
           const new_count = this.counts[index] + 1;
           localtasks.push(
-            this.__setKey(`${this.prefix}i${index}c`, new_count.toString())
+            this.__setKey(`${this.prefix}i${index}c`, [hash], new_count.toString())
           );
 
           await Promise.all(localtasks);
@@ -721,7 +722,8 @@ export default class PersistTxStorageAbstraction {
     const buckets: any = {}; // since those arent huge, let's just precache them
     while (current_bucket >= 0) {
       let bucket = await this.__getKey(
-        `${this.prefix}i${index}${current_bucket}`
+        `${this.prefix}i${index}${current_bucket}`,
+        __decodeBucket
       );
       let pos = bucket.indexOf(oldkey);
 
