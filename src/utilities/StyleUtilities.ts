@@ -1,7 +1,7 @@
 'use strict';
 
-class StyleUtilities {
-  static getBorderColor(validation) {
+export default class StyleUtilities {
+  static getBorderColor(validation: any) {
     if (validation === undefined) {
       return '#FFF';
     } else if (validation) {
@@ -11,7 +11,7 @@ class StyleUtilities {
     }
   }
 
-  static inOrOutIcon(type, direction) {
+  static inOrOutIcon(type: any, direction: any) {
     switch (type) {
       case 'swap':
         return { name: 'swap-horizontal', size: 20, color: '#5F5F5F' };
@@ -72,7 +72,7 @@ class StyleUtilities {
     }
   }
 
-  static minusOrPlusIcon(type, direction) {
+  static minusOrPlusIcon(type: any, direction: any) {
     switch (type) {
       case 'deposit':
         return { name: 'minus', size: 16, color: '#F1860E' };
@@ -99,5 +99,3 @@ class StyleUtilities {
     }
   }
 }
-
-export default StyleUtilities;

@@ -11,7 +11,7 @@ export const RoundDownBigNumberPlacesEighteen = BigNumber.clone({
   ROUNDING_MODE: BigNumber.ROUND_DOWN
 });
 
-export const roundDownFour = (value) =>
-  RoundDownBigNumberPlacesFour(value).div(
+export const roundDownFour = (value: any) =>
+  new RoundDownBigNumberPlacesFour(value).div(
     new RoundDownBigNumberPlacesFour(10).pow(18)
   );

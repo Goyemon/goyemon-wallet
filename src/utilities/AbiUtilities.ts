@@ -1,9 +1,13 @@
 'use strict';
-import web3 from 'web3';
+const web3 = require('web3');
 // https://github.com/indutny/bn.js/blob/master/lib/bn.js
 
 class RuDataBuilder {
-  constructor(method, fields, decimalat = -1) {
+  decimal_places: number;
+  multiplier: any;
+  current_offset: number;
+  buf: Buffer;
+  constructor(method: any, fields: any, decimalat = -1) {
     this.decimal_places = decimalat >= 0 ? decimalat : 18;
     this.multiplier = new web3.utils.BN(10).pow(
       new web3.utils.BN(this.decimal_places)
@@ -13,14 +17,14 @@ class RuDataBuilder {
     Buffer.from(method).copy(this.buf);
   }
 
-  putAddress(addr) {
+  putAddress(addr: string) {
     this.__addrToBuf(addr).copy(this.buf, this.current_offset);
     this.current_offset += 32;
 
     return this;
   }
 
-  putAddressArray(addrs) {
+  putAddressArray(addrs: string) {
     this.__numToUint256(addrs.length, false).copy(
       this.buf,
       this.current_offset
@@ -34,21 +38,21 @@ class RuDataBuilder {
     return this;
   }
 
-  putUint256Scaled(val) {
+  putUint256Scaled(val: any) {
     this.__numToUint256(val, true).copy(this.buf, this.current_offset);
     this.current_offset += 32;
 
     return this;
   }
 
-  putUint256Unscaled(val) {
+  putUint256Unscaled(val: any) {
     this.__numToUint256(val, false).copy(this.buf, this.current_offset);
     this.current_offset += 32;
 
     return this;
   }
 
-  putPrefix(val) {
+  putPrefix(val: any) {
     this.__numToUint256(val, false).copy(this.buf, this.current_offset);
     this.current_offset += 32;
 
@@ -59,7 +63,7 @@ class RuDataBuilder {
     return `0x${this.buf.toString('hex')}`;
   }
 
-  __numToUint256(value, scaled = false) {
+  __numToUint256(value: any, scaled = false) {
     let ret = Buffer.alloc(32);
     let val;
     if (scaled)
@@ -70,7 +74,7 @@ class RuDataBuilder {
     return ret;
   }
 
-  __addrToBuf(h) {
+  __addrToBuf(h: string) {
     let ret = Buffer.alloc(32);
     Buffer.from(h.substr(0, 2) == '0x' ? h.substr(2) : h, 'hex').copy(ret, 12);
 
@@ -78,15 +82,15 @@ class RuDataBuilder {
   }
 }
 
-class ABIEncoder {
-  static encodeTransfer(toAddr, value, decimals = 18) {
+export default class ABIEncoder {
+  static encodeTransfer(toAddr: any, value: any, decimals = 18) {
     return new RuDataBuilder([0xa9, 0x05, 0x9c, 0xbb], 2, decimals)
       .putAddress(toAddr)
       .putUint256Scaled(value)
       .get();
   }
 
-  static encodeTransferFrom(fromaddr, toaddr, value, decimals = 18) {
+  static encodeTransferFrom(fromaddr: any, toaddr: any, value: any, decimals = 18) {
     return new RuDataBuilder([0x23, 0xb8, 0x72, 0xdd], 3, decimals)
       .putAddress(fromaddr)
       .putAddress(toaddr)
@@ -94,30 +98,30 @@ class ABIEncoder {
       .get();
   }
 
-  static encodeApprove(spenderAddr, value, decimals = 18) {
+  static encodeApprove(spenderAddr: any, value: any, decimals = 18) {
     return new RuDataBuilder([0x09, 0x5e, 0xa7, 0xb3], 2, decimals)
       .putAddress(spenderAddr)
       .putUint256Scaled(value)
       .get();
   }
 
-  static encodeCDAIMint(amount, decimals = 18) {
+  static encodeCDAIMint(amount: any, decimals = 18) {
     return new RuDataBuilder([0xa0, 0x71, 0x2d, 0x68], 1, decimals)
       .putUint256Scaled(amount)
       .get();
   }
 
-  static encodeCDAIRedeemUnderlying(amount, decimals = 18) {
+  static encodeCDAIRedeemUnderlying(amount: any, decimals = 18) {
     return new RuDataBuilder([0x85, 0x2a, 0x12, 0xe3], 1, decimals)
       .putUint256Scaled(amount)
       .get();
   }
 
   static encodeSwapExactETHForTokens(
-    minTokens,
-    path,
-    recipient,
-    deadline,
+    minTokens: any,
+    path: any,
+    recipient: any,
+    deadline: any,
     decimals = 18
   ) {
     let fields = 5 + path.length;
@@ -130,28 +134,15 @@ class ABIEncoder {
       .get();
   }
 
-  static encodeDepositPool(amount, decimals = 18) {
+  static encodeDepositPool(amount: any, decimals = 18) {
     return new RuDataBuilder([0x23, 0x44, 0x09, 0x44], 1, decimals)
       .putUint256Scaled(amount)
       .get();
   }
 
-  static encodeWithdraw(amount, decimals = 18) {
+  static encodeWithdraw(amount: any, decimals = 18) {
     return new RuDataBuilder([0x2e, 0x1a, 0x7d, 0x4d], 1, decimals)
       .putUint256Scaled(amount)
       .get();
   }
 }
-
-export default ABIEncoder;
-/*
-const max = `0x${'ff'.repeat(256/8)}`;
-
-console.log(ABIEncoder.encodeApprove('0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', max).toString('hex'));
-
-console.log(ABIEncoder.encodeTransfer('0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', 1024).toString('hex'));
-console.log(ABIEncoder.encodeApprove('0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', 1024).toString('hex'));
-console.log(ABIEncoder.encodeTransferFrom('0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', '0x3f55a0fad848176a4f32618dcfd033ac0a13ce80', 1024).toString('hex'));
-console.log(ABIEncoder.encodeCDAIMint(1024).toString('hex'));
-console.log(ABIEncoder.encodeCDAIRedeemUnderlying(1024).toString('hex'));
-*/

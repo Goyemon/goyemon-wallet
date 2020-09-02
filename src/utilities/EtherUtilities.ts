@@ -5,12 +5,26 @@ import {
   TxTokenOpTypeToName
 } from '../lib/tx/TokenOpType';
 
-class EtherUtilities {
-  static hexArrayToString(array) {
+interface TopField {
+  eth_sold?: any;
+  tok_bought?: any;
+  depositPoolAmount?: any;
+  amount?: any;
+  from_addr?: any;
+  to_addr?: any;
+  info?: any;
+  mintUnderlying?: any;
+  redeemUnderlying?: any;
+  winnings?: any;
+  withdrawAmount?: any;
+}
+
+export default class EtherUtilities {
+  static hexArrayToString(array: any) {
     return Buffer.from(array).toString('hex');
   }
 
-  static getAddressWithout0x(address) {
+  static getAddressWithout0x(address: any) {
     const addressWithout0x =
       address.substr(0, 2) == '0x' && address.length > 2
         ? address.substr(2)
@@ -20,7 +34,7 @@ class EtherUtilities {
     return addressWithout0x.toLowerCase();
   }
 
-  static getCompoundErrorCode(code) {
+  static getCompoundErrorCode(code: any) {
     switch (true) {
       case 30 <= code && 38 >= code:
         return 'mint';
@@ -33,7 +47,7 @@ class EtherUtilities {
     }
   }
 
-  static topType(top, toptok, our_address_without_0x) {
+  static topType(top: TopField, toptok: any, our_address_without_0x: any) {
     // LogUtilities.toDebugScreen('computeTxData -> ', typeof top);
     if (
       top instanceof TxTokenOpNameToClass[TxTokenOpTypeToName.eth2tok] ||
@@ -161,5 +175,3 @@ class EtherUtilities {
     };
   }
 }
-
-export default EtherUtilities;

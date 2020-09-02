@@ -15,23 +15,23 @@ class LogUtilities {
     }${d.getMinutes()}${d.getSeconds() < 10 ? 0 : ''}${d.getSeconds()}`;
   }
 
-  static logInfo() {
-    console.log(LogUtilities.__getFormattedDate(), ' ', ...arguments);
+  static logInfo(...args: any[]) {
+    console.log(LogUtilities.__getFormattedDate(), ' ', ...args);
   }
 
-  static logError() {
-    console.error(LogUtilities.__getFormattedDate(), ' ', ...arguments);
+  static logError(...args: any[]) {
+    console.error(LogUtilities.__getFormattedDate(), ' ', ...args);
   }
 
-  static toDebugScreen() {
-    if (arguments.length < 1) return;
+  static toDebugScreen(...args: any[]) {
+    if (args.length < 1) return;
 
     let out = `[${log_line_number++}] ${LogUtilities.__getFormattedDate()}`;
-    for (let i = 0; i < arguments.length; ++i)
+    for (let i = 0; i < args.length; ++i)
       out += ` ${
-        arguments[i] instanceof Object && typeof arguments[i] != 'string'
-          ? LogUtilities.__dumpObjectRecursively(arguments[i])
-          : arguments[i]
+        args[i] instanceof Object && typeof args[i] != 'string'
+          ? LogUtilities.__dumpObjectRecursively(args[i])
+          : args[i]
       }`;
 
     PersistentLogging.timed_dump_str(out);
@@ -52,10 +52,10 @@ class LogUtilities {
   }
 
   static __dumpObjectRecursively(
-    x,
+    x: any,
     level = 0,
     maxlevel = DUMPOBJECT_DEFAULT_DEPTH
-  ) {
+  ):any {
     if (typeof x === 'string') return `"${x}"`;
     else if (typeof x === 'number') return `${x}`;
     else if (x instanceof Buffer) return `(Buffer)[${x.toString('hex')}]`;
