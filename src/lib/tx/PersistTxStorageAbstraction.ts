@@ -211,10 +211,10 @@ export default class PersistTxStorageAbstraction {
   async getHashes(index = 'all', offset = 0) {
     // currently also precaches top 128 txes.
     // TODO: this perhaps could use cache.
-    await this.__lock(index);
+    await this.__lock();
 
     if (this.counts[index] == 0) {
-      this.__unlock(index);
+      this.__unlock();
       return [];
     }
 
@@ -273,7 +273,7 @@ export default class PersistTxStorageAbstraction {
       }
     }
 
-    this.__unlock(index);
+    this.__unlock();
 
     return ret;
   }
@@ -312,7 +312,7 @@ export default class PersistTxStorageAbstraction {
         (async (index) => {
           let localtasks = [];
 
-          await this.__lock(index);
+          await this.__lock();
           const last_bucket_num = Math.floor(
             Math.max(0, this.counts[index] - 1) / storage_bucket_size
           );
@@ -426,7 +426,7 @@ export default class PersistTxStorageAbstraction {
 
           if (toplock) this.toplocked_per_filter[index]++;
 
-          this.__unlock(index);
+          this.__unlock();
         })(x)
       );
     });
@@ -526,7 +526,7 @@ export default class PersistTxStorageAbstraction {
         this.__getKey(`${this.prefix}iall${i}`, __decodeBucket).then(
           (bucket) => {
             bucket.forEach(
-              (x) => removekeys.push(`${this.prefix}_${x}`) // tasks.push(AsyncStorage.removeItem(`${this.prefix}_${x}`))
+              (x: any) => removekeys.push(`${this.prefix}_${x}`) // tasks.push(AsyncStorage.removeItem(`${this.prefix}_${x}`))
             );
           }
         )
@@ -557,7 +557,7 @@ export default class PersistTxStorageAbstraction {
     index = 'all',
     toplockremove = false
   ) {
-    await this.__lock(index);
+    await this.__lock();
 
     // the way to proceed with toplockremove == true
     // we need to find the item first, the way we do it now is fine.
@@ -600,7 +600,7 @@ export default class PersistTxStorageAbstraction {
             __encodeBucket
           );
 
-          this.__unlock(index);
+          this.__unlock();
           return;
         }
 
@@ -645,7 +645,7 @@ export default class PersistTxStorageAbstraction {
           (item_bucket_num == destination_bucket &&
             item_bucket_pos < destination_bucket_pos)
         ) {
-          this.__unlock(index);
+          this.__unlock();
           LogUtilities.toDebugScreen(
             `PersistTxStorageAbstraction __replaceKeyInIndex(${oldkey}, ${newkey}, ${index}, ${toplockremove}): item was already not in toplocks`
           );
@@ -696,12 +696,12 @@ export default class PersistTxStorageAbstraction {
 
         this.toplocked_per_filter[index]--;
 
-        this.__unlock(index);
+        this.__unlock();
         return;
       }
     }
 
-    // this.__unlock(index);
+    // this.__unlock();
     // LogUtilities.toDebugScreen(
     //   `PersistTxStorageAbstraction __replaceKeyInIndex(${oldkey}, ${newkey}, ${index}, ${toplockremove}): item not found...`
     // );
@@ -710,7 +710,7 @@ export default class PersistTxStorageAbstraction {
 
   async removeKey(oldkey: any, index = 'all') {
     // not used yet; will be used when indexDiff is tested and we actually have to remove stuff from some indices.
-    await this.__lock(index);
+    await this.__lock();
 
     const last_bucket_index = Math.floor(
       (this.counts[index] - 1) / storage_bucket_size
@@ -760,7 +760,7 @@ export default class PersistTxStorageAbstraction {
 
         await Promise.all(bgtasks); // now write it all.
 
-        this.__unlock(index);
+        this.__unlock();
         return;
       }
 
@@ -768,12 +768,12 @@ export default class PersistTxStorageAbstraction {
       current_bucket--;
     }
 
-    this.__unlock(index);
+    this.__unlock();
     throw new Error(`key "${oldkey}" not found in the index "${index}"`);
   }
 
   __indexDiff(oldtx: any, newtx: any) {
-    const ret = {
+    const ret: any = {
       common: [],
       add: [],
       remove: []
