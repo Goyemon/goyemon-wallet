@@ -5,7 +5,12 @@ import { connect } from 'react-redux';
 import Modal from 'react-native-modal';
 import styled from 'styled-components/native';
 
-class PopUpModal extends Component {
+interface AppProps {
+  modal: any;
+  onPress: () => void;
+}
+
+class PopUpModal extends Component<AppProps> {
   render() {
     return (
       <Modal
@@ -36,7 +41,7 @@ const CloseButton = styled.TouchableOpacity`
   margin-top: 16;
 `;
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any) {
   return {
     modal: state.ReducerModal.modal
   };

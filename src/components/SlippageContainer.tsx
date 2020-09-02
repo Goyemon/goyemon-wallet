@@ -2,14 +2,18 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 import { updateSlippageChosen } from '../actions/ActionUniswap';
 import { Container, FormHeader } from './common';
 import I18n from '../i18n/I18n';
 
-class SlippageContainer extends Component {
+interface AppProps {
+  updateSlippageChosen: (arg: any) => void;
+}
+
+class SlippageContainer extends Component<AppProps> {
   render() {
-    const { uniswap } = this.props;
+    const { uniswap }: any = this.props;
 
     return (
       <View>
@@ -25,7 +29,7 @@ class SlippageContainer extends Component {
           marginTop={24}
           width="90%"
         >
-          {uniswap.slippage.map((slippage, key) => (
+          {uniswap.slippage.map((slippage: any, key: any) => (
             <Slippage key={key}>
               {uniswap.slippageChosen === key ? (
                 <SelectedSlippageTextContainer>
@@ -98,7 +102,7 @@ const UnselectedButton = styled.Text`
   font-size: 16;
 `;
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any) {
   return {
     uniswap: state.ReducerUniswap.uniswap
   };

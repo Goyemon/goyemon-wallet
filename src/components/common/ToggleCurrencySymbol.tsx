@@ -25,7 +25,8 @@ export const ToggleCurrencySymbol = (props: ToggleCurrencySymbolProps) => {
         <GoyemonText fontSize={16}>USD</GoyemonText>
       </CurrencySymbol>
     );
-  }
+  } else
+    return null
 };
 
 const CurrencySymbol = styled.Text`

@@ -2,21 +2,30 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 import { HeaderFive, ConfirmationText, ToggleCurrencySymbol } from './common';
 import I18n from '../i18n/I18n';
 import LogUtilities from '../utilities/LogUtilities.js';
-import TransactionUtilities from '../utilities/TransactionUtilities.ts';
+import TransactionUtilities from '../utilities/TransactionUtilities';
 
-class NetworkFeeContainerConfirmation extends Component {
-  constructor(props) {
+interface AppProps {
+  gasChosen: any
+  gasLimit: any
+}
+
+interface AppState {
+  currency: string;
+}
+
+class NetworkFeeContainerConfirmation extends Component<AppProps, AppState> {
+  constructor(props: AppProps) {
     super(props);
     this.state = {
       currency: 'USD'
     };
   }
 
-  toggleCurrency(gasPriceWEI, gasLimit) {
+  toggleCurrency(gasPriceWEI: any, gasLimit: any) {
     if (this.state.currency === 'ETH') {
       const USDValue = TransactionUtilities.getMaxNetworkFeeInUSD(
         gasPriceWEI,
@@ -67,7 +76,7 @@ const NetworkFeeHeaderContainer = styled.View`
   flex-direction: row;
 `;
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any) {
   return {
     gasPrice: state.ReducerGasPrice.gasPrice,
     gasChosen: state.ReducerGasPrice.gasChosen

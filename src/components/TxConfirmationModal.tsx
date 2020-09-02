@@ -8,7 +8,7 @@ import {
 } from 'react-navigation';
 import { View } from 'react-native';
 import Modal from 'react-native-modal';
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 import {
   saveTxConfirmationModalVisibility,
   updateTxConfirmationModalVisibleType
@@ -28,10 +28,24 @@ import {
 import NetworkFeeContainerConfirmation from './NetworkFeeContainerConfirmation';
 import I18n from '../i18n/I18n';
 import LogUtilities from '../utilities/LogUtilities.js';
-import TransactionUtilities from '../utilities/TransactionUtilities.ts';
+import TransactionUtilities from '../utilities/TransactionUtilities';
 
-class TxConfirmationModal extends Component {
-  constructor(props) {
+interface AppProps {
+  modal: any;
+  navigation: any;
+  saveTxConfirmationModalVisibility: (arg :any) => void;
+  updateTxConfirmationModalVisibleType: (arg :any) => void;
+  saveOutgoingTransactionDataSend: (arg :any) => void;
+  updateToAddressValidation: (arg :any) => void;
+}
+
+interface AppState {
+  buttonDisabled: boolean;
+  loading: boolean;
+}
+
+class TxConfirmationModal extends Component<AppProps, AppState> {
+  constructor(props: AppProps) {
     super(props);
     this.state = {
       loading: false,
@@ -39,7 +53,7 @@ class TxConfirmationModal extends Component {
     };
   }
 
-  resetNavigation = (routeName) => {
+  resetNavigation = (routeName: any) => {
     const resetAction = StackActions.reset({
       index: 0,
       actions: [NavigationActions.navigate({ routeName })],
@@ -49,7 +63,7 @@ class TxConfirmationModal extends Component {
   };
 
   returnHeaderType() {
-    const { modal } = this.props;
+    const { modal }: any = this.props;
     if (
       modal.txConfirmationModalType === 'compound-deposit' ||
       modal.txConfirmationModalType === 'pool-together-deposit' ||
@@ -66,7 +80,7 @@ class TxConfirmationModal extends Component {
   }
 
   returnCurrency() {
-    const { modal } = this.props;
+    const { modal }: any = this.props;
 
     if (modal.txConfirmationModalType === 'send-eth') {
       return 'ETH';
@@ -80,7 +94,7 @@ class TxConfirmationModal extends Component {
   }
 
   returnButtonType() {
-    const { modal } = this.props;
+    const { modal }: any = this.props;
 
     if (
       modal.txConfirmationModalType === 'compound-deposit' ||
@@ -98,7 +112,7 @@ class TxConfirmationModal extends Component {
   }
 
   renderModalContent() {
-    const { modal, outgoingTransactionData, isOnline, navigation } = this.props;
+    const { modal, outgoingTransactionData, isOnline, navigation }: any = this.props;
 
     if (
       modal.txConfirmationModalType === 'send-eth' ||
