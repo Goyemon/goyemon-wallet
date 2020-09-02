@@ -5,7 +5,7 @@ const INITIAL_STATE = {
   toAddressValidation: undefined
 };
 
-const toAddressValidation = (state = INITIAL_STATE, action) => {
+const toAddressValidation = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
     case UPDATE_TOADDRESS_VALIDATION:
       return { ...state, toAddressValidation: action.payload };

@@ -5,7 +5,7 @@ const INITIAL_STATE = {
   transactionsLoaded: null
 };
 
-const transactionsLoaded = (state = INITIAL_STATE, action) => {
+const transactionsLoaded = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
     case SAVE_TRANSACTIONS_LOADED:
       return { ...state, transactionsLoaded: action.payload };

@@ -25,7 +25,7 @@ const INITIAL_STATE = {
   }
 };
 
-const uniswap = (state = INITIAL_STATE, action) => {
+const uniswap = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
     case SAVE_UNISWAPV2_WETH_DAI_RESERVE:
       return {

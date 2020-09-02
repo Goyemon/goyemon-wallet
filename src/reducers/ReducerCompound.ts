@@ -11,7 +11,7 @@ const INITIAL_STATE = {
   }
 };
 
-const compound = (state = INITIAL_STATE, action) => {
+const compound = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
     case SAVE_COMPOUND_DAI_INFO:
       return {

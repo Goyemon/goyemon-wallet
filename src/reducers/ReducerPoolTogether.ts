@@ -19,7 +19,7 @@ const INITIAL_STATE = {
   }
 };
 
-const poolTogether = (state = INITIAL_STATE, action) => {
+const poolTogether = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
     case SAVE_POOLTOGETHER_DAI_INFO:
       return {

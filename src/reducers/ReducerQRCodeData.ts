@@ -5,7 +5,7 @@ const INITIAL_STATE = {
   qrCodeData: null
 };
 
-const qrCodeData = (state = INITIAL_STATE, action) => {
+const qrCodeData = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
     case CLEAR_QRCODE_DATA:
       return { qrCodeData: null };

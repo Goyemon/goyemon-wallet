@@ -23,7 +23,7 @@ const INITIAL_STATE = {
   }
 };
 
-const balance = (state = INITIAL_STATE, action) => {
+const balance = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
     case SAVE_WEI_BALANCE:
       return { balance: { ...state.balance, wei: action.payload } };

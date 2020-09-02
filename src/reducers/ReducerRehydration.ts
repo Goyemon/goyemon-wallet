@@ -5,7 +5,7 @@ const INITIAL_STATE = {
   rehydration: false
 };
 
-const rehydration = (state = INITIAL_STATE, action) => {
+const rehydration = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
     case REHYDRATION_COMPLETE:
       return { ...state, rehydration: action.payload };

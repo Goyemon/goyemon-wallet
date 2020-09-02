@@ -37,7 +37,7 @@ const INITIAL_STATE = {
   }
 };
 
-const outgoingTransactionData = (state = INITIAL_STATE, action) => {
+const outgoingTransactionData = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
     case SAVE_OUTGOING_TRANSACTION_DATA_SEND:
       return {

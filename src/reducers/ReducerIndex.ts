@@ -44,7 +44,7 @@ const appReducers = combineReducers({
   ReducerUniswap
 });
 
-const rootReducers = (state, action) => {
+const rootReducers = (state: any, action: any) => {
   if (action.type === CLEAR_STATE) {
     state = undefined;
   }

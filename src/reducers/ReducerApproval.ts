@@ -13,7 +13,7 @@ const INITIAL_STATE = {
   }
 };
 
-const approval = (state = INITIAL_STATE, action) => {
+const approval = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
     case SAVE_DAI_COMPOUND_APPROVAL:
       return {

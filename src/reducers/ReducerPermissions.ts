@@ -7,7 +7,7 @@ const INITIAL_STATE = {
   }
 };
 
-const permissions = (state = INITIAL_STATE, action) => {
+const permissions = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
     case SAVE_NOTIFICATION_PERMISSION:
       return {

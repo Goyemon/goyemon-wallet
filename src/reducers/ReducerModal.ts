@@ -17,7 +17,7 @@ const INITIAL_STATE = {
   }
 };
 
-const modal = (state = INITIAL_STATE, action) => {
+const modal = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
     case SAVE_TX_DETAIL_MODAL_VISIBILITY:
       return {

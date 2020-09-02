@@ -11,7 +11,7 @@ const INITIAL_STATE = {
   }
 };
 
-const debugInfo = (state = INITIAL_STATE, action) => {
+const debugInfo = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
     case SAVE_FCM_TOKEN:
       return { debugInfo: { ...state.debugInfo, fcmToken: action.payload } };

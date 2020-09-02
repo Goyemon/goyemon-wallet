@@ -13,7 +13,7 @@ const INITIAL_STATE = {
   }
 };
 
-const price = (state = INITIAL_STATE, action) => {
+const price = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
     case GET_DAI_PRICE:
       return { price: { ...state.price, dai: action.payload } };

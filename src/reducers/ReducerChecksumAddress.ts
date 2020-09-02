@@ -5,7 +5,7 @@ const INITIAL_STATE = {
   checksumAddress: null
 };
 
-const checksumAddress = (state = INITIAL_STATE, action) => {
+const checksumAddress = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
     case CREATE_CHECKSUM_ADDRESS:
       return { ...state, checksumAddress: action.payload };

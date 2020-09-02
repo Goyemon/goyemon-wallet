@@ -5,7 +5,7 @@ const INITIAL_STATE = {
   mnemonicWords: null
 };
 
-const mnemonicWords = (state = INITIAL_STATE, action) => {
+const mnemonicWords = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
     case SAVE_MNEMONIC:
       return { ...state, mnemonicWords: action.payload };

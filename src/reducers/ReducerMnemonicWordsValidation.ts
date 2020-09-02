@@ -5,7 +5,7 @@ const INITIAL_STATE = {
   mnemonicWordsValidation: false
 };
 
-const mnemonicWordsValidation = (state = INITIAL_STATE, action) => {
+const mnemonicWordsValidation = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
     case UPDATE_MNEMONIC_WORDS_VALIDATION:
       return { ...state, mnemonicWordsValidation: action.payload };
