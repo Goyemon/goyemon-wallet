@@ -3,17 +3,17 @@ import { hexToBuf, dropHexPrefix } from './common';
 const GlobalConfig = require('../../config.json');
 
 export default class Tx {
-  from_addr: any
-  to_addr: any
-  value: any
-  gas: any
-  gasPrice: any
-  timestamp: any
-  nonce: any
-  hash: any
-  state: any
-  tokenData: any
-  data: any
+  from_addr: any;
+  to_addr: any;
+  value: any;
+  gas: any;
+  gasPrice: any;
+  timestamp: any;
+  nonce: any;
+  hash: any;
+  state: any;
+  tokenData: any;
+  data: any;
   constructor(state?: any) {
     this.from_addr = this.to_addr = this.value = this.gas = this.gasPrice = this.timestamp = this.nonce = this.hash = null;
     this.state = state !== undefined ? state : null;
@@ -157,7 +157,8 @@ export default class Tx {
     if (!this.tokenData.hasOwnProperty(token)) return [];
     const cls = operation ? TxTokenOpNameToClass[operation] : null;
     return this.tokenData[token].filter(
-      (x: any) => operation == null || x instanceof TxTokenOpNameToClass[operation]
+      (x: any) =>
+        operation == null || x instanceof TxTokenOpNameToClass[operation]
     );
   }
 

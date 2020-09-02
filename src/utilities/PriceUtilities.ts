@@ -17,7 +17,7 @@ class PriceUtilities {
       }
     } catch (error) {
       LogUtilities.logError(error);
-      return 0
+      return 0;
     }
   }
 
@@ -35,7 +35,7 @@ class PriceUtilities {
       }
     } catch (error) {
       LogUtilities.logError(error);
-      return 0
+      return 0;
     }
   }
 
@@ -53,15 +53,22 @@ class PriceUtilities {
       }
     } catch (error) {
       LogUtilities.logError(error);
-      return 0
+      return 0;
     }
   }
 
-  getTotalWalletBalance(ETHBalance: any, DAIBalance: any, CDAIBalance: any, PLDAIBalance: any) {
-    return (parseFloat(this.convertETHToUSD(ETHBalance).toString()) +
-            parseFloat(this.convertDAIToUSD(DAIBalance).toString()) +
-            parseFloat(this.convertCDAIToUSD(CDAIBalance).toString()) +
-            parseFloat(this.convertDAIToUSD(PLDAIBalance).toString())).toFixed(2)
+  getTotalWalletBalance(
+    ETHBalance: any,
+    DAIBalance: any,
+    CDAIBalance: any,
+    PLDAIBalance: any
+  ) {
+    return (
+      parseFloat(this.convertETHToUSD(ETHBalance).toString()) +
+      parseFloat(this.convertDAIToUSD(DAIBalance).toString()) +
+      parseFloat(this.convertCDAIToUSD(CDAIBalance).toString()) +
+      parseFloat(this.convertDAIToUSD(PLDAIBalance).toString())
+    ).toFixed(2);
   }
 }
 

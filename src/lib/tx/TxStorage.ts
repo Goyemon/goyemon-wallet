@@ -18,17 +18,17 @@ import {
 const GlobalConfig = require('../../config.json');
 
 export default class TxStorage {
-  onload_promise: any
-  our_max_nonce: any
-  failed_nonces: any
-  last_checkpoint_offset: any
-  txes: any
-  our_address: any
-  on_update: any
-  locks: any
-  temporary_since_you_wont_add_build_number_i_will: any
-  _isDAIApprovedForCDAI_cached: any
-  _isDAIApprovedForPT_cached: any
+  onload_promise: any;
+  our_max_nonce: any;
+  failed_nonces: any;
+  last_checkpoint_offset: any;
+  txes: any;
+  our_address: any;
+  on_update: any;
+  locks: any;
+  temporary_since_you_wont_add_build_number_i_will: any;
+  _isDAIApprovedForCDAI_cached: any;
+  _isDAIApprovedForPT_cached: any;
   constructor(ourAddress: any) {
     let load_promises: any = [];
     let promise_resolves: any = [];
@@ -222,7 +222,9 @@ export default class TxStorage {
       : GlobalConfig.cDAIcontract.toLowerCase();
     return tx
       .getTokenOperations('dai', TxTokenOpTypeToName.approval)
-      .some((x: any) => x.spender == cdai_address && x.approver == our_hex_address);
+      .some(
+        (x: any) => x.spender == cdai_address && x.approver == our_hex_address
+      );
   }
 
   txfilter_ourDAIForPTApprovals(tx: any) {

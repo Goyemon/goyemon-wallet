@@ -55,7 +55,7 @@ class LogUtilities {
     x: any,
     level = 0,
     maxlevel = DUMPOBJECT_DEFAULT_DEPTH
-  ):any {
+  ): any {
     if (typeof x === 'string') return `"${x}"`;
     else if (typeof x === 'number') return `${x}`;
     else if (x instanceof Buffer) return `(Buffer)[${x.toString('hex')}]`;

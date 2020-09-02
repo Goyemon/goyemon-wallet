@@ -7,10 +7,10 @@ const log_ms_retention = 86400 * 3 * 1000;
 const run_cleanup_delay = 30000;
 
 class PersistentLogging {
-  lastkey: any
-  lastkeyno: any
-  dumptimer: any
-  dumptimerarray: any
+  lastkey: any;
+  lastkeyno: any;
+  dumptimer: any;
+  dumptimerarray: any;
   constructor() {
     this.lastkey = null;
     this.lastkeyno = 0;

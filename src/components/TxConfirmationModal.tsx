@@ -33,10 +33,10 @@ import TransactionUtilities from '../utilities/TransactionUtilities';
 interface AppProps {
   modal: any;
   navigation: any;
-  saveTxConfirmationModalVisibility: (arg :any) => void;
-  updateTxConfirmationModalVisibleType: (arg :any) => void;
-  saveOutgoingTransactionDataSend: (arg :any) => void;
-  updateToAddressValidation: (arg :any) => void;
+  saveTxConfirmationModalVisibility: (arg: any) => void;
+  updateTxConfirmationModalVisibleType: (arg: any) => void;
+  saveOutgoingTransactionDataSend: (arg: any) => void;
+  updateToAddressValidation: (arg: any) => void;
 }
 
 interface AppState {
@@ -112,7 +112,12 @@ class TxConfirmationModal extends Component<AppProps, AppState> {
   }
 
   renderModalContent() {
-    const { modal, outgoingTransactionData, isOnline, navigation }: any = this.props;
+    const {
+      modal,
+      outgoingTransactionData,
+      isOnline,
+      navigation
+    }: any = this.props;
 
     if (
       modal.txConfirmationModalType === 'send-eth' ||

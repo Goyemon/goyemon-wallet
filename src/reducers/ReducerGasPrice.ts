@@ -28,19 +28,21 @@ const gasPrice = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
     case GET_GAS_PRICE: {
       const gasPriceSuperFastGwei = (action.payload.fast / 10).toString();
-      const gasPriceSuperFastWei = /^[0-9]\d*(\.\d+)?$/.test(gasPriceSuperFastGwei)
-      ? Web3.utils.toWei(gasPriceSuperFastGwei, 'Gwei')
-      : ''
+      const gasPriceSuperFastWei = /^[0-9]\d*(\.\d+)?$/.test(
+        gasPriceSuperFastGwei
+      )
+        ? Web3.utils.toWei(gasPriceSuperFastGwei, 'Gwei')
+        : '';
 
       const gasPriceFastGwei = (action.payload.average / 10).toString();
       const gasPriceFastWei = /^[0-9]\d*(\.\d+)?$/.test(gasPriceFastGwei)
-      ? Web3.utils.toWei(gasPriceFastGwei, 'Gwei')
-      : ''
+        ? Web3.utils.toWei(gasPriceFastGwei, 'Gwei')
+        : '';
 
       const gasPriceNormalGwei = (action.payload.safeLow / 10).toString();
       const gasPriceNormalWei = /^[0-9]\d*(\.\d+)?$/.test(gasPriceNormalGwei)
-      ? Web3.utils.toWei(gasPriceNormalGwei, 'Gwei')
-      : ''
+        ? Web3.utils.toWei(gasPriceNormalGwei, 'Gwei')
+        : '';
 
       return {
         gasPrice: state.gasPrice.map((gasPrice) => {

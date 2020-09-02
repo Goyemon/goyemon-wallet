@@ -90,7 +90,12 @@ export default class ABIEncoder {
       .get();
   }
 
-  static encodeTransferFrom(fromaddr: any, toaddr: any, value: any, decimals = 18) {
+  static encodeTransferFrom(
+    fromaddr: any,
+    toaddr: any,
+    value: any,
+    decimals = 18
+  ) {
     return new RuDataBuilder([0x23, 0xb8, 0x72, 0xdd], 3, decimals)
       .putAddress(fromaddr)
       .putAddress(toaddr)

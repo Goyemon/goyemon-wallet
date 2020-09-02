@@ -25,9 +25,9 @@ let storeReadyPromise: any;
 
 export const setStoreReadyPromise = (p: any) => {
   storeReadyPromise = p;
-}
+};
 
-export const downstreamMessageHandler = async(type: any, data: any) => {
+export const downstreamMessageHandler = async (type: any, data: any) => {
   LogUtilities.logInfo(`received message ${type} => `, data);
 
   if (!storeReady) {
@@ -146,4 +146,4 @@ export const downstreamMessageHandler = async(type: any, data: any) => {
     default:
       LogUtilities.logError(`unknown message type: ${type}`);
   }
-}
+};

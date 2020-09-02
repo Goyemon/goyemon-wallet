@@ -12,13 +12,13 @@ import {
 } from './common';
 
 export default class PersistTxStorageAbstraction {
-  cache: any
-  counts: any
-  filters: any
-  toplocked_per_filter: any
-  locks: any
-  prefix: any
-  debug: any
+  cache: any;
+  counts: any;
+  filters: any;
+  toplocked_per_filter: any;
+  locks: any;
+  prefix: any;
+  debug: any;
   constructor(prefix = '') {
     LogUtilities.toDebugScreen(
       'PersistTxStorageAbstraction constructor called'
@@ -127,7 +127,7 @@ export default class PersistTxStorageAbstraction {
           countToplocked(name, lastBucketNum);
         } else checkFinish();
       });
-    }
+    };
     load_index_data.bind(this);
 
     load_index_data('all');
@@ -283,7 +283,9 @@ export default class PersistTxStorageAbstraction {
     // TODO: does not re-check indices, so be careful if anything can change there.
 
     const key = `${this.prefix}_${hash}`;
-    const oldTx = await this.__getKey(key, (data: any) => __decodeTx(hash, data));
+    const oldTx = await this.__getKey(key, (data: any) =>
+      __decodeTx(hash, data)
+    );
     if (oldTx) {
       await this.__setKey(key, tx, JSON.stringify);
       return oldTx;
@@ -419,7 +421,11 @@ export default class PersistTxStorageAbstraction {
 
           const new_count = this.counts[index] + 1;
           localtasks.push(
-            this.__setKey(`${this.prefix}i${index}c`, [hash], new_count.toString())
+            this.__setKey(
+              `${this.prefix}i${index}c`,
+              [hash],
+              new_count.toString()
+            )
           );
 
           await Promise.all(localtasks);
@@ -802,7 +808,13 @@ export default class PersistTxStorageAbstraction {
     return ret;
   }
 
-  async replaceTx(oldtx: any, newtx: any, oldhash: any, newhash: any, toplockremove = false) {
+  async replaceTx(
+    oldtx: any,
+    newtx: any,
+    oldhash: any,
+    newhash: any,
+    toplockremove = false
+  ) {
     // for now this can only be called when changing nonce_xxx to proper txhash, so when 'sent' state goes into included. soon added: nonce_xxx to fail_xxx when a tx errors out (and we dont want to keep the nonce_xxx key as it'll get overwritten)
 
     const indexDiff = this.__indexDiff(oldtx, newtx);
@@ -836,12 +848,12 @@ export default class PersistTxStorageAbstraction {
     await Promise.all(
       [this.__replaceKeyInIndex(oldhash, newhash, 'all', toplockremove)].concat(
         Object.entries(this.filters).map(([index, filterfunc]) => {
-            return this.__replaceKeyInIndex(
-              oldhash,
-              newhash,
-              index,
-              toplockremove
-            );
+          return this.__replaceKeyInIndex(
+            oldhash,
+            newhash,
+            index,
+            toplockremove
+          );
         })
       )
     );

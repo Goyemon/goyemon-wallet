@@ -9,8 +9,8 @@ import LogUtilities from '../utilities/LogUtilities';
 import TransactionUtilities from '../utilities/TransactionUtilities';
 
 interface AppProps {
-  gasChosen: any
-  gasLimit: any
+  gasChosen: any;
+  gasLimit: any;
 }
 
 interface AppState {

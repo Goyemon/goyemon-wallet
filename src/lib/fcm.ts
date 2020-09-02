@@ -50,11 +50,14 @@ class Msg {
 
     if (!this.compressed) call(this.data.join(''));
     else
-      zlib.inflateRaw(Buffer.from(this.data.join(''), 'base64'), (err: any, ret: any) => {
-        if (err) throw new Error(err);
+      zlib.inflateRaw(
+        Buffer.from(this.data.join(''), 'base64'),
+        (err: any, ret: any) => {
+          if (err) throw new Error(err);
 
-        call(ret);
-      });
+          call(ret);
+        }
+      );
   }
 }
 
@@ -231,7 +234,8 @@ class FCMMsgs {
 
 export const FcmMsgs = new FCMMsgs('', '');
 
-export const handler: any = (x: any, frombg: any) => FcmMsgs.__fcm_msg(x, frombg);
+export const handler: any = (x: any, frombg: any) =>
+  FcmMsgs.__fcm_msg(x, frombg);
 
 export const registerHandler = () => {
   LogUtilities.toDebugScreen('FCM registerHandler called');
