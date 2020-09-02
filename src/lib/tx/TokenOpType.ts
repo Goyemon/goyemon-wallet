@@ -19,9 +19,7 @@ export const TxTokenOpTypeToName = {
 };
 
 class TxTokenOp {
-  /*toJSON() {
-          return this.constructor.name;
-      }*/
+  constructor() {}
 
   freeze() {
     Object.freeze(this);
@@ -29,12 +27,15 @@ class TxTokenOp {
   }
 
   deepClone() {
-    return Object.assign(new this.constructor([]), this);
+    return Object.assign(new TxTokenOp(), this);
   }
 }
 
 class TxTokenMintOp extends TxTokenOp {
-  constructor(arr) {
+  minter: string | null;
+  mintUnderlying: string | null;
+  mintAmount: string | number | null;
+  constructor(arr: any) {
     super();
     [this.minter, this.mintUnderlying, this.mintAmount] = arr;
     // this.minter = arr[0]; this.mintAmount = arr[1]; this.mintUnderlying = arr[2];
@@ -52,7 +53,10 @@ class TxTokenMintOp extends TxTokenOp {
 }
 
 class TxTokenRedeemOp extends TxTokenOp {
-  constructor(arr) {
+  redeemer: string | null;
+  redeemUnderlying: string | null;
+  redeemAmount: string | number | null;
+  constructor(arr: any) {
     super();
     [this.redeemer, this.redeemUnderlying, this.redeemAmount] = arr;
     // this.redeemer = arr[0]; this.redeemAmount = arr[1]; this.redeemUnderlying = arr[2];
@@ -70,7 +74,10 @@ class TxTokenRedeemOp extends TxTokenOp {
 }
 
 class TxTokenTransferOp extends TxTokenOp {
-  constructor(arr) {
+  from_addr: string | null;
+  to_addr: string | null;
+  amount: string | number | null;
+  constructor(arr: any) {
     super();
     [this.from_addr, this.to_addr, this.amount] = arr;
     // this.from_addr = arr[0]; this.to_addr = arr[1]; this.amount = arr[2];
@@ -88,7 +95,10 @@ class TxTokenTransferOp extends TxTokenOp {
 }
 
 class TxTokenApproveOp extends TxTokenOp {
-  constructor(arr) {
+  spender: string | null;
+  approver: string | null;
+  amount: string | number | null;
+  constructor(arr: any) {
     super();
     [this.spender, this.approver, this.amount] = arr;
     // this.approver = arr[0]; this.spender = arr[1]; this.amount = arr[2];
@@ -102,7 +112,10 @@ class TxTokenApproveOp extends TxTokenOp {
 }
 
 class TxTokenFailureOp extends TxTokenOp {
-  constructor(arr) {
+  error: string | null;
+  info: string | null;
+  detail: string | null;
+  constructor(arr: any) {
     super();
     [this.error, this.info, this.detail] = arr;
     // this.error = arr[0]; this.info = arr[1]; this.detail = arr[2];
@@ -116,7 +129,10 @@ class TxTokenFailureOp extends TxTokenOp {
 }
 
 class TxTokenEth2TokOp extends TxTokenOp {
-  constructor(arr) {
+  from_addr: string | null;
+  eth_sold: string | number | null;
+  tok_bought: string | number | null;
+  constructor(arr: any) {
     super();
     [this.from_addr, this.eth_sold, this.tok_bought] = arr;
     // this.from_addr = arr[0]; this.eth_sold = arr[1]; this.tok_bought = arr[2];
@@ -134,7 +150,10 @@ class TxTokenEth2TokOp extends TxTokenOp {
 }
 
 class TxTokenTok2EthOp extends TxTokenOp {
-  constructor(arr) {
+  from_addr: string | number | null;
+  tok_sold: string | number | null;
+  eth_bought: string | number | null;
+  constructor(arr: any) {
     super();
     [this.from_addr, this.tok_sold, this.eth_bought] = arr;
     // this.from_addr = arr[0]; this.tok_sold = arr[1]; this.eth_bought = arr[2];
@@ -152,7 +171,13 @@ class TxTokenTok2EthOp extends TxTokenOp {
 }
 
 class TxTokenU2swapOp extends TxTokenOp {
-  constructor(arr) {
+  sender: string | number | null;
+  amount0In: string | number | null;
+  eth_sold: string | number | null;
+  tok_bought: string | number | null;
+  amount1Out: string | number | null;
+  from_addr: string | number | null;
+  constructor(arr: any) {
     super();
     [
       this.sender,
@@ -179,7 +204,9 @@ class TxTokenU2swapOp extends TxTokenOp {
 }
 
 class TxTokenPTdepositedOp extends TxTokenOp {
-  constructor(arr) {
+  depositor: string | null;
+  depositPoolAmount: string | number | null;
+  constructor(arr: any) {
     super();
     [this.depositor, this.depositPoolAmount] = arr;
     // this.depositor = arr[0]; this.depositPoolAmount = arr[1];
@@ -196,7 +223,9 @@ class TxTokenPTdepositedOp extends TxTokenOp {
 }
 
 class TxTokenPTdepositedAndCommittedOp extends TxTokenOp {
-  constructor(arr) {
+  depositor: string | null;
+  depositPoolAmount: string | number | null;
+  constructor(arr: any) {
     super();
     [this.depositor, this.depositPoolAmount] = arr;
     // this.depositor = arr[0]; this.depositPoolAmount = arr[1];
@@ -213,7 +242,9 @@ class TxTokenPTdepositedAndCommittedOp extends TxTokenOp {
 }
 
 class TxTokenPTsponsorshipDepositedOp extends TxTokenOp {
-  constructor(arr) {
+  depositor: string | null;
+  depositPoolAmount: string | number | null;
+  constructor(arr: any) {
     super();
     [this.depositor, this.depositPoolAmount] = arr;
     // this.depositor = arr[0]; this.depositPoolAmount = arr[1];
@@ -230,7 +261,9 @@ class TxTokenPTsponsorshipDepositedOp extends TxTokenOp {
 }
 
 class TxTokenPTwithdrawnOp extends TxTokenOp {
-  constructor(arr) {
+  withdrawer: string | null;
+  withdrawAmount: string | number | null;
+  constructor(arr: any) {
     super();
     [this.withdrawer, this.withdrawAmount] = arr;
     // this.withdrawer = arr[0]; this.withdrawAmount = arr[1];
@@ -244,7 +277,9 @@ class TxTokenPTwithdrawnOp extends TxTokenOp {
 }
 
 class TxTokenPTopenDepositWithdrawnOp extends TxTokenOp {
-  constructor(arr) {
+  withdrawer: string | null;
+  withdrawAmount: string | number | null;
+  constructor(arr: any) {
     super();
     [this.withdrawer, this.withdrawAmount] = arr;
     // this.withdrawer = arr[0]; this.withdrawAmount = arr[1];
@@ -261,7 +296,9 @@ class TxTokenPTopenDepositWithdrawnOp extends TxTokenOp {
 }
 
 class TxTokenPTsponsorshipAndFeesWithdrawnOp extends TxTokenOp {
-  constructor(arr) {
+  withdrawer: string | null;
+  withdrawAmount: string | number | null;
+  constructor(arr: any) {
     super();
     [this.withdrawer, this.withdrawAmount] = arr;
     // this.withdrawer = arr[0]; this.withdrawAmount = arr[1];
@@ -278,7 +315,9 @@ class TxTokenPTsponsorshipAndFeesWithdrawnOp extends TxTokenOp {
 }
 
 class TxTokenPTcommittedDepositWithdrawnOp extends TxTokenOp {
-  constructor(arr) {
+  withdrawer: string | null;
+  withdrawAmount: string | number | null;
+  constructor(arr: any) {
     super();
     [this.withdrawer, this.withdrawAmount] = arr;
     // this.withdrawer = arr[0]; this.withdrawAmount = arr[1];
@@ -295,7 +334,9 @@ class TxTokenPTcommittedDepositWithdrawnOp extends TxTokenOp {
 }
 
 class TxTokenPTrewardedOp extends TxTokenOp {
-  constructor(arr) {
+  winner: string | null;
+  winnings: string | number | null;
+  constructor(arr: any) {
     super();
     [this.winner, this.winnings] = arr;
     // this.winner = arr[0]; this.winnings = arr[1];

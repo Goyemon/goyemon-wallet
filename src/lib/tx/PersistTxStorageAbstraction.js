@@ -1,7 +1,15 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import LogUtilities from '../../utilities/LogUtilities';
 import Tx from './Tx';
-import { txNoncePrefix, txFailPrefix, storage_bucket_size } from './common';
+import {
+  txNoncePrefix,
+  txFailPrefix,
+  storage_bucket_size,
+  __decodeBucket,
+  __encodeBucket,
+  __decodeTx,
+  bstats
+} from './common';
 
 export default class PersistTxStorageAbstraction {
   constructor(prefix = '') {
@@ -70,44 +78,31 @@ export default class PersistTxStorageAbstraction {
       }
     };
 
-    const bstats = (buck) => {
-      if (typeof buck !== 'string') return JSON.stringify(buck);
-
-      let itemlens = {};
-      let cnt = 0;
-      buck.split(',').forEach((x) => {
-        itemlens[x.length] = itemlens[x.length] ? itemlens[x.length] + 1 : 1;
-        ++cnt;
-      });
-
-      return `cnt:${cnt} lengths:${JSON.stringify(itemlens)}`;
-    };
-
     const countToplocked = (name, bucketnum) => {
       // also gets failed nonces until first included
-      this.__getKey(
-        `${this.prefix}i${name}${bucketnum}`,
-        this.__decodeBucket
-      ).then((x) => {
-        for (let i = x.length - 1; i >= 0; --i) {
-          if (x[i].startsWith(txNoncePrefix)) this.toplocked_per_filter[name]++;
-          else if (x[i].startsWith(txFailPrefix))
-            // ${txFailPrefix}${nonce}_${blah}
-            failed_nonces[
-              parseInt(x[i].slice(txFailPrefix.length, x[i].indexOf('_') - 1))
-            ] = true;
-          else {
+      this.__getKey(`${this.prefix}i${name}${bucketnum}`, __decodeBucket).then(
+        (x) => {
+          for (let i = x.length - 1; i >= 0; --i) {
+            if (x[i].startsWith(txNoncePrefix))
+              this.toplocked_per_filter[name]++;
+            else if (x[i].startsWith(txFailPrefix))
+              // ${txFailPrefix}${nonce}_${blah}
+              failed_nonces[
+                parseInt(x[i].slice(txFailPrefix.length, x[i].indexOf('_') - 1))
+              ] = true;
+            else {
+              checkFinish();
+              return;
+            }
+          }
+          if (bucketnum == 0) {
             checkFinish();
             return;
           }
-        }
-        if (bucketnum == 0) {
-          checkFinish();
-          return;
-        }
 
-        countToplocked(name, bucketnum - 1);
-      });
+          countToplocked(name, bucketnum - 1);
+        }
+      );
     };
 
     const load_index_data = function (name) {
@@ -164,20 +159,6 @@ export default class PersistTxStorageAbstraction {
     await AsyncStorage.removeItem(key);
   }
 
-  __decodeBucket(b) {
-    return b.split(',');
-  }
-  __encodeBucket(ba) {
-    return ba.join(',');
-  }
-  __decodeTx(hash, data) {
-    if (!data) return null;
-
-    data = JSON.parse(data);
-
-    return new Tx(data[7]).setHash(hash).fromDataArray(data, false);
-  }
-
   async getTxByNum(num, index = 'all') {
     const bucket_num = Math.floor(num / storage_bucket_size);
     const bucket_pos = num % storage_bucket_size;
@@ -195,14 +176,14 @@ export default class PersistTxStorageAbstraction {
 
     const bucket = await this.__getKey(
       `${this.prefix}i${index}${bucket_num}`,
-      this.__decodeBucket
+      __decodeBucket
     );
     return await this.getTxByHash(bucket[bucket_pos]);
   }
 
   async getTxByHash(hash) {
     return await this.__getKey(`${this.prefix}_${hash}`, (data) =>
-      this.__decodeTx(hash, data)
+      __decodeTx(hash, data)
     );
   }
 
@@ -214,7 +195,7 @@ export default class PersistTxStorageAbstraction {
     );
     const bucket = await this.__getKey(
       `${this.prefix}i${index}${bucket_num}`,
-      this.__decodeBucket
+      __decodeBucket
     );
 
     return await this.getTxByHash(bucket[bucket.length - 1]);
@@ -248,7 +229,7 @@ export default class PersistTxStorageAbstraction {
     const ret = [];
     for (let i = 0; i < bucketnames.length; ++i) {
       let add_items;
-      const bd = this.__decodeBucket(bucketdata[i][1]);
+      const bd = __decodeBucket(bucketdata[i][1]);
       this.cache[bucketdata[i][0]] = bd; // precache all the buckets
 
       //LogUtilities.toDebugScreen(`getHashRanges(): bucketdata[${i}] = ${bd}`);
@@ -294,9 +275,7 @@ export default class PersistTxStorageAbstraction {
     // TODO: does not re-check indices, so be careful if anything can change there.
 
     const key = `${this.prefix}_${hash}`;
-    const oldTx = await this.__getKey(key, (data) =>
-      this.__decodeTx(hash, data)
-    );
+    const oldTx = await this.__getKey(key, (data) => __decodeTx(hash, data));
     if (oldTx) {
       await this.__setKey(key, tx, JSON.stringify);
       return oldTx;
@@ -342,7 +321,7 @@ export default class PersistTxStorageAbstraction {
                 );
 
               localtasks.push(
-                this.__setKey(bucket_key, [hash], this.__encodeBucket)
+                this.__setKey(bucket_key, [hash], __encodeBucket)
               );
             } else {
               // add to bucket
@@ -352,12 +331,10 @@ export default class PersistTxStorageAbstraction {
                 );
 
               localtasks.push(
-                this.__getKey(bucket_key, this.__decodeBucket).then(
-                  async (x) => {
-                    x.push(hash);
-                    await this.__setKey(bucket_key, x, this.__encodeBucket);
-                  }
-                )
+                this.__getKey(bucket_key, __decodeBucket).then(async (x) => {
+                  x.push(hash);
+                  await this.__setKey(bucket_key, x, __encodeBucket);
+                })
               );
             }
           } else {
@@ -383,7 +360,7 @@ export default class PersistTxStorageAbstraction {
                   const bucket_key = `${this.prefix}i${index}${i}`;
                   const x =
                     this.counts[index] > 0
-                      ? await this.__getKey(bucket_key, this.__decodeBucket)
+                      ? await this.__getKey(bucket_key, __decodeBucket)
                       : [];
 
                   if (this.debug)
@@ -411,7 +388,7 @@ export default class PersistTxStorageAbstraction {
                     carry = x.pop();
                   }
 
-                  await this.__setKey(bucket_key, x, this.__encodeBucket);
+                  await this.__setKey(bucket_key, x, __encodeBucket);
                 }
 
                 if (carry !== null) {
@@ -426,7 +403,7 @@ export default class PersistTxStorageAbstraction {
                   const bucket_key = `${this.prefix}i${index}${
                     last_bucket_num + 1
                   }`;
-                  await this.__setKey(bucket_key, [hash], this.__encodeBucket);
+                  await this.__setKey(bucket_key, [hash], __encodeBucket);
                 }
               })()
             );
@@ -492,10 +469,7 @@ export default class PersistTxStorageAbstraction {
 
     Object.entries(index_buckets).forEach(([index, buckets]) => {
       buckets.forEach((bucket, idx) => {
-        tasks.push([
-          `${this.prefix}i${index}${idx}`,
-          this.__encodeBucket(bucket)
-        ]);
+        tasks.push([`${this.prefix}i${index}${idx}`, __encodeBucket(bucket)]);
       });
     });
 
@@ -542,7 +516,7 @@ export default class PersistTxStorageAbstraction {
     ) {
       removekeys.push(`${this.prefix}iall${i}`); // tasks.push(AsyncStorage.removeItem(`${this.prefix}iall${i}`));
       readtasks.push(
-        this.__getKey(`${this.prefix}iall${i}`, this.__decodeBucket).then(
+        this.__getKey(`${this.prefix}iall${i}`, __decodeBucket).then(
           (bucket) => {
             bucket.forEach(
               (x) => removekeys.push(`${this.prefix}_${x}`) // tasks.push(AsyncStorage.removeItem(`${this.prefix}_${x}`))
@@ -603,7 +577,7 @@ export default class PersistTxStorageAbstraction {
       while (bucket_count >= 0) {
         let bucket = await this.__getKey(
           `${this.prefix}i${index}${bucket_count}`,
-          this.__decodeBucket
+          __decodeBucket
         );
         let pos = bucket.indexOf(oldkey);
         if (pos >= 0) {
@@ -616,7 +590,7 @@ export default class PersistTxStorageAbstraction {
           await this.__setKey(
             `${this.prefix}i${index}${bucket_count}`,
             bucket,
-            this.__encodeBucket
+            __encodeBucket
           );
 
           this.__unlock(index);
@@ -646,7 +620,7 @@ export default class PersistTxStorageAbstraction {
       ) {
         bucket = await this.__getKey(
           `${this.prefix}i${index}${item_bucket_num}`,
-          this.__decodeBucket
+          __decodeBucket
         );
         item_bucket_pos = bucket.indexOf(oldkey);
         if (item_bucket_pos >= 0) break;
@@ -686,16 +660,12 @@ export default class PersistTxStorageAbstraction {
 
           const prev_bucket = await this.__getKey(
             `${this.prefix}i${index}${i - 1}`,
-            this.__decodeBucket
+            __decodeBucket
           );
 
           bucket.unshift(prev_bucket.pop()); // move last item of prev bucket as first of current
           bgtasks.push(
-            this.__setKey(
-              `${this.prefix}i${index}${i}`,
-              bucket,
-              this.__encodeBucket
-            )
+            this.__setKey(`${this.prefix}i${index}${i}`, bucket, __encodeBucket)
           ); // save current bucket, no need to touch previous yet
 
           bucket = prev_bucket;
@@ -711,7 +681,7 @@ export default class PersistTxStorageAbstraction {
           this.__setKey(
             `${this.prefix}i${index}${destination_bucket}`,
             bucket,
-            this.__encodeBucket
+            __encodeBucket
           )
         );
 
@@ -760,7 +730,7 @@ export default class PersistTxStorageAbstraction {
             this.__setKey(
               `${this.prefix}i${index}${current_bucket}`,
               bucket,
-              this.__encodeBucket
+              __encodeBucket
             )
           );
           bucket = buckets[current_bucket + 1];
@@ -769,7 +739,7 @@ export default class PersistTxStorageAbstraction {
           this.__setKey(
             `${this.prefix}i${index}${current_bucket}`,
             bucket,
-            this.__encodeBucket
+            __encodeBucket
           )
         );
 
@@ -910,7 +880,7 @@ export default class PersistTxStorageAbstraction {
       ([k, v]) => (buckets[k] = v)
     );
     bucketnames.forEach((n) => {
-      this.__decodeBucket(buckets[n]).forEach((hash) =>
+      __decodeBucket(buckets[n]).forEach((hash) =>
         hashes_in_order.push(`${this.prefix}_${hash}`)
       );
     });

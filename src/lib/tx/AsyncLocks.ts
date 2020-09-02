@@ -1,9 +1,11 @@
 export default class AsyncLocks {
+  locks: any;
+
   constructor() {
     this.locks = {};
   }
 
-  async lock(name) {
+  async lock(name: any) {
     let l = this.locks[name];
     while (
       l &&
@@ -20,7 +22,7 @@ export default class AsyncLocks {
     });
   }
 
-  unlock(name) {
+  unlock(name: any) {
     let l = this.locks[name];
     if (!l || !l.promise)
       throw new Error(`unlock() called on a non-locked lock ${name}`);
