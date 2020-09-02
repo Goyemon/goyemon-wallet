@@ -17,7 +17,7 @@ import {
 } from '../../common';
 import I18n from '../../../i18n/I18n';
 import { RoundDownBigNumberPlacesFour } from '../../../utilities/BigNumberUtilities';
-import PriceUtilities from '../../../utilities/PriceUtilities.js';
+import PriceUtilities from '../../../utilities/PriceUtilities';
 
 class PortfolioCompound extends Component {
   render() {

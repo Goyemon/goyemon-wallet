@@ -8,7 +8,7 @@ import {
   SAVE_POOL_TOGETHER_DAI_BALANCE,
   MOVE_POOL_TOGETHER_DAI_BALANCE
 } from '../constants/ActionTypes';
-import LogUtilities from '../utilities/LogUtilities.js';
+import LogUtilities from '../utilities/LogUtilities';
 
 export function saveWeiBalance(weiBalance: any) {
   return async function (dispatch: any) {

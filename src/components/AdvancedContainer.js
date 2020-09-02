@@ -14,7 +14,7 @@ import {
 } from './common';
 import SlippageContainer from './SlippageContainer';
 import I18n from '../i18n/I18n';
-import LogUtilities from '../utilities/LogUtilities.js';
+import LogUtilities from '../utilities/LogUtilities';
 import TransactionUtilities from '../utilities/TransactionUtilities.ts';
 
 class __MaxNetworkFeeSelectionContainer extends Component {

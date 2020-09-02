@@ -4,7 +4,7 @@ import {
   GET_ETH_PRICE,
   GET_CDAI_PRICE
 } from '../constants/ActionTypes';
-import LogUtilities from '../utilities/LogUtilities.js';
+import LogUtilities from '../utilities/LogUtilities';
 
 export function getDAIPrice() {
   return async function (dispatch: any) {

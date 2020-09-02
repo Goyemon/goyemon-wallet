@@ -18,11 +18,11 @@ import {
 import BuyCryptoModal from '../../../components/BuyCryptoModal';
 import ApplicationBoxes from './ApplicationBoxes';
 import Copy from '../../Copy';
-import FcmPermissions from '../../../firebase/FcmPermissions.js';
+import FcmPermissions from '../../../firebase/FcmPermissions';
 import I18n from '../../../i18n/I18n';
 import PortfolioStack from '../../../navigators/PortfolioStack';
 import { RoundDownBigNumberPlacesFour } from '../../../utilities/BigNumberUtilities';
-import PriceUtilities from '../../../utilities/PriceUtilities.js';
+import PriceUtilities from '../../../utilities/PriceUtilities';
 
 class PortfolioHome extends Component {
   static navigationOptions = ({ navigation }) => {

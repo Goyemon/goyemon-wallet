@@ -13,7 +13,7 @@ import HistoryStack from './HistoryStack';
 import SendStack from './SendStack';
 import SwapStack from './SwapStack';
 import { Loader } from '../components/common';
-import { store, persistor } from '../store/store.js';
+import { store, persistor } from '../store/store';
 const { createBottomTabNavigator } = require('react-navigation-tabs');
 
 const AppTab = createBottomTabNavigator(

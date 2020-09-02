@@ -1,6 +1,6 @@
 'use strict';
 import { SAVE_COMPOUND_DAI_INFO } from '../constants/ActionTypes';
-import LogUtilities from '../utilities/LogUtilities.js';
+import LogUtilities from '../utilities/LogUtilities';
 
 export function saveCompoundDaiInfo(compoundDaiInfo: any) {
   return async function (dispatch: any) {

@@ -1,6 +1,6 @@
 'use strict';
 import { SAVE_NET_INFO } from '../constants/ActionTypes';
-import LogUtilities from '../utilities/LogUtilities.js';
+import LogUtilities from '../utilities/LogUtilities';
 
 export function saveNetInfo(isOnline: boolean) {
   return async function (dispatch: any) {

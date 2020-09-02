@@ -3,7 +3,7 @@ import {
   SAVE_FCM_TOKEN,
   SAVE_OTHER_DEBUG_INFO
 } from '../constants/ActionTypes';
-import LogUtilities from '../utilities/LogUtilities.js';
+import LogUtilities from '../utilities/LogUtilities';
 
 export function saveFcmToken(fcmToken: any) {
   return async function (dispatch: any) {

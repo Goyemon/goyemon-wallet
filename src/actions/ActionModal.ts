@@ -6,7 +6,7 @@ import {
   SAVE_POP_UP_MODAL_VISIBILITY,
   BUY_CRYPTO_MODAL_VISIBILITY
 } from '../constants/ActionTypes';
-import LogUtilities from '../utilities/LogUtilities.js';
+import LogUtilities from '../utilities/LogUtilities';
 
 export function saveTxDetailModalVisibility(visibility: any) {
   return async function (dispatch: any) {

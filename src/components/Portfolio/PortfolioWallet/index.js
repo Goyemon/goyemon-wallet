@@ -13,7 +13,7 @@ import {
 import I18n from '../../../i18n/I18n';
 import { RoundDownBigNumberPlacesFour } from '../../../utilities/BigNumberUtilities';
 import TokenBalanceCards from './TokenBalanceCards';
-import PriceUtilities from '../../../utilities/PriceUtilities.js';
+import PriceUtilities from '../../../utilities/PriceUtilities';
 
 class PortfolioWallet extends Component {
   returnBalance = (amount, round, pow, fix) =>

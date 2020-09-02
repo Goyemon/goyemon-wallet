@@ -15,8 +15,8 @@ import {
 } from '../actions/ActionPoolTogether';
 import { saveUniswapV2WETHxDAIReserve } from '../actions/ActionUniswap';
 import { saveTransactionsLoaded } from '../actions/ActionTransactionsLoaded';
-import { FcmMsgs } from '../lib/fcm.js';
-import LogUtilities from '../utilities/LogUtilities.js';
+import { FcmMsgs } from '../lib/fcm';
+import LogUtilities from '../utilities/LogUtilities';
 import { store } from '../store/store';
 import { storage } from '../lib/tx';
 

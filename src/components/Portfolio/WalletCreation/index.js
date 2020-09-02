@@ -17,7 +17,7 @@ import {
 } from '../../../actions/ActionPrice';
 import { Container } from '../../common';
 import I18n from '../../../i18n/I18n';
-import { FcmMsgs } from '../../../lib/fcm.js';
+import { FcmMsgs } from '../../../lib/fcm';
 import { storage } from '../../../lib/tx';
 import PortfolioStack from '../../../navigators/PortfolioStack';
 import WalletUtilities from '../../../utilities/WalletUtilities.ts';

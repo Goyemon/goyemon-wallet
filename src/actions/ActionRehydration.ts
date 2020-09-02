@@ -1,6 +1,6 @@
 'use strict';
 import { REHYDRATION_COMPLETE } from '../constants/ActionTypes';
-import LogUtilities from '../utilities/LogUtilities.js';
+import LogUtilities from '../utilities/LogUtilities';
 
 export function rehydrationComplete(completed: any) {
   return async function (dispatch: any) {

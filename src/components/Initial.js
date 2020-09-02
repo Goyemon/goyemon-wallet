@@ -9,10 +9,10 @@ import styled from 'styled-components/native';
 import { getGasPrice } from '../actions/ActionGasPrice';
 import { getETHPrice, getDAIPrice, getCDAIPrice } from '../actions/ActionPrice';
 import { Container } from './common';
-import FcmPermissions from '../firebase/FcmPermissions.js';
-import { FcmMsgs } from '../lib/fcm.js';
+import FcmPermissions from '../firebase/FcmPermissions';
+import { FcmMsgs } from '../lib/fcm';
 import PortfolioStack from '../navigators/PortfolioStack';
-import LogUtilities from '../utilities/LogUtilities.js';
+import LogUtilities from '../utilities/LogUtilities';
 import WalletUtilities from '../utilities/WalletUtilities.ts';
 
 class Initial extends Component {

@@ -1,6 +1,6 @@
 'use strict';
 import { CLEAR_QRCODE_DATA, SAVE_QRCODE_DATA } from '../constants/ActionTypes';
-import LogUtilities from '../utilities/LogUtilities.js';
+import LogUtilities from '../utilities/LogUtilities';
 
 export function clearQRCodeData() {
   return async function (dispatch: any) {

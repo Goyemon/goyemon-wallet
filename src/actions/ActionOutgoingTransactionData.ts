@@ -5,7 +5,7 @@ import {
   SAVE_OUTGOING_TRANSACTION_DATA_POOLTOGETHER,
   SAVE_OUTGOING_TRANSACTION_DATA_SWAP
 } from '../constants/ActionTypes';
-import LogUtilities from '../utilities/LogUtilities.js';
+import LogUtilities from '../utilities/LogUtilities';
 
 export function saveOutgoingTransactionDataSend(sendData: any) {
   return async function (dispatch: any) {

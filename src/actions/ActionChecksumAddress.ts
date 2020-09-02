@@ -1,6 +1,6 @@
 'use strict';
 import { CREATE_CHECKSUM_ADDRESS } from '../constants/ActionTypes';
-import LogUtilities from '../utilities/LogUtilities.js';
+import LogUtilities from '../utilities/LogUtilities';
 import WalletUtilities from '../utilities/WalletUtilities';
 
 export function createChecksumAddress() {

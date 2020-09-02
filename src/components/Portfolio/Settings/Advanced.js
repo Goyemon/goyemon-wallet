@@ -16,8 +16,8 @@ import {
 import Copy from '../../Copy';
 import GlobalConfig from '../../../config.json';
 import I18n from '../../../i18n/I18n';
-import { FcmMsgs } from '../../../lib/fcm.js';
-import LogUtilities from '../../../utilities/LogUtilities.js';
+import { FcmMsgs } from '../../../lib/fcm';
+import LogUtilities from '../../../utilities/LogUtilities';
 
 class Advanced extends Component {
   constructor(props) {

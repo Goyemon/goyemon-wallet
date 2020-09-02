@@ -17,7 +17,7 @@ import {
   GoyemonText
 } from '../../common';
 import I18n from '../../../i18n/I18n';
-import LogUtilities from '../../../utilities/LogUtilities.js';
+import LogUtilities from '../../../utilities/LogUtilities';
 import WalletUtilities from '../../../utilities/WalletUtilities.ts';
 
 class ImportMnemonicWords extends Component {

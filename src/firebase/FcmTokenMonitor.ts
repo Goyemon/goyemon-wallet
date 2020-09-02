@@ -3,8 +3,8 @@ import firebase from '@react-native-firebase/app';
 import '@react-native-firebase/messaging';
 import { saveFcmToken } from '../actions/ActionDebugInfo';
 import { store } from '../store/store';
-import { FcmMsgs } from '../lib/fcm.js';
-import LogUtilities from '../utilities/LogUtilities.js';
+import { FcmMsgs } from '../lib/fcm';
+import LogUtilities from '../utilities/LogUtilities';
 
 firebase.messaging().onTokenRefresh((fcmToken) => {
   const stateTree = store.getState();

@@ -1,7 +1,7 @@
 'use strict';
 import { saveOtherDebugInfo } from '../actions/ActionDebugInfo';
 import { store } from '../store/store';
-import PersistentLogging from '../lib/logging.js';
+import PersistentLogging from '../lib/logging';
 
 const DUMPOBJECT_DEFAULT_DEPTH = 4;
 

@@ -1,7 +1,7 @@
 'use strict';
 import firebase from '@react-native-firebase/app';
 import '@react-native-firebase/messaging';
-import LogUtilities from '../utilities/LogUtilities.js';
+import LogUtilities from '../utilities/LogUtilities';
 const zlib = require('react-zlib-js');
 import { storage } from './tx';
 const GlobalConfig = require('../config.json');

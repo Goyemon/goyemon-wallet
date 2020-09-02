@@ -3,7 +3,7 @@ import {
   SAVE_UNISWAPV2_WETH_DAI_RESERVE,
   UPDATE_SLIPPAGE_CHOSEN
 } from '../constants/ActionTypes';
-import LogUtilities from '../utilities/LogUtilities.js';
+import LogUtilities from '../utilities/LogUtilities';
 
 export function saveUniswapV2WETHxDAIReserve(reserves: any) {
   return async function (dispatch: any) {

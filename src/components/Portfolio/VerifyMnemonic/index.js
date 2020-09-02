@@ -21,7 +21,7 @@ import {
   MnemonicWordButton,
   UntouchableCardContainer
 } from '../../common';
-import LogUtilities from '../../../utilities/LogUtilities.js';
+import LogUtilities from '../../../utilities/LogUtilities';
 import WalletUtilities from '../../../utilities/WalletUtilities.ts';
 
 class VerifyMnemonic extends Component {

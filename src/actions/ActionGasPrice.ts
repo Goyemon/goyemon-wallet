@@ -3,7 +3,7 @@ import {
   GET_GAS_PRICE,
   UPDATE_GAS_PRICE_CHOSEN
 } from '../constants/ActionTypes';
-import LogUtilities from '../utilities/LogUtilities.js';
+import LogUtilities from '../utilities/LogUtilities';
 
 export function getGasPrice() {
   return async function (dispatch: any) {

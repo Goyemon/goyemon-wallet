@@ -4,7 +4,7 @@ import firebase from '@react-native-firebase/app';
 import '@react-native-firebase/messaging';
 const uuidv4 = require('uuid/v4');
 import Web3 from 'web3';
-import { store } from '../store/store.js';
+import { store } from '../store/store';
 import I18n from '../i18n/I18n';
 import { storage } from '../lib/tx';
 import { TxTokenOpTypeToName } from '../lib/tx/TokenOpType';

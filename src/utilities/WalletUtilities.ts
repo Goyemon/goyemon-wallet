@@ -3,7 +3,7 @@ const Buffer = require('buffer').Buffer;
 const hdkey = require('ethereumjs-wallet/hdkey');
 const bip39 = require('react-native-bip39');
 import * as Keychain from 'react-native-keychain';
-import EtherUtilities from './EtherUtilities.js';
+import EtherUtilities from './EtherUtilities';
 
 const KEY_WALLET_MNEMONIC: string = 'KEY_WALLET_MNEMONIC';
 const KEY_WALLET_PRIVATE_KEY: string = 'KEY_WALLET_PRIVATEKEY';

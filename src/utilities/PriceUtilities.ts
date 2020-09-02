@@ -1,5 +1,5 @@
 'use strict';
-import { store } from '../store/store.js';
+import { store } from '../store/store';
 import LogUtilities from './LogUtilities';
 
 class PriceUtilities {

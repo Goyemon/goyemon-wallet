@@ -2,7 +2,7 @@
 import messaging from '@react-native-firebase/messaging';
 import { saveNotificationPermission } from '../actions/ActionPermissions';
 import { store } from '../store/store';
-import LogUtilities from '../utilities/LogUtilities.js';
+import LogUtilities from '../utilities/LogUtilities';
 
 class FcmPermissions {
   async checkFcmPermissions() {
