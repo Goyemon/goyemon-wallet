@@ -14,8 +14,8 @@ import {
   txStatePrefix,
   lastCheckpointKey
 } from './common';
+import AsyncStorage from '@react-native-community/async-storage';
 const GlobalConfig = require('../../config.json');
-const AsyncStorage = require('@react-native-community/async-storage');
 
 export default class TxStorage {
   onload_promise: any;

@@ -1,4 +1,4 @@
-const AsyncStorage = require('@react-native-community/async-storage');
+import AsyncStorage from '@react-native-community/async-storage';
 
 const log_prefix = 'l_';
 const dump_timer_interval = 5000;
