@@ -1,7 +1,7 @@
 #!/bin/sh
 
-# echo "Install Dependencies"
-# npm i
+echo "Install Dependencies"
+npm i
 
 echo "Copy Json Config File"
 cp jest/config/config.json.test src/config.json
