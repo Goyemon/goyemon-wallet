@@ -2,7 +2,7 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styled from 'styled-components/native';
-import { GoyemonText } from '.';
+import { GoyemonText } from './Texts';
 
 interface ToggleCurrencySymbolProps {
   currency: string;

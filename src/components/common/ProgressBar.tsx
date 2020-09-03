@@ -1,6 +1,6 @@
 'use strict';
 import React from 'react';
-import { Container } from '.';
+import { Container } from './Containers';
 import styled from 'styled-components/native';
 
 interface ProgressBarProps {

@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react';
 import { View } from 'react-native';
-import { ErrorMessage } from '.';
+import { ErrorMessage } from './ErrorMessage';
 
 interface AppProps {
   isOnline: boolean;

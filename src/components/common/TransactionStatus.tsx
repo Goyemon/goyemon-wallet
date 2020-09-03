@@ -1,6 +1,6 @@
 'use strict';
 import React from 'react';
-import { GoyemonText } from '.';
+import { GoyemonText } from './Texts';
 import I18n from '../../i18n/I18n';
 import TxStates from '../../lib/tx/TxStates';
 import styled from 'styled-components/native';

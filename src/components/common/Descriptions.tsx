@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react';
 import styled from 'styled-components/native';
-import { GoyemonText } from '.';
+import { GoyemonText } from './Texts';
 
 interface DescriptionProps {
   marginBottom: number;
