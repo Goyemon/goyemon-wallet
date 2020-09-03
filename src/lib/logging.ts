@@ -1,5 +1,4 @@
-// import LogUtilities from '../utilities/LogUtilities';
-import AsyncStorage from '@react-native-community/async-storage';
+const AsyncStorage = require('@react-native-community/async-storage');
 
 const log_prefix = 'l_';
 const dump_timer_interval = 5000;
@@ -68,10 +67,10 @@ class PersistentLogging {
 
   cleanup_expensive(retention_time = log_ms_retention) {
     // run with 0 to remove all i guess
-    AsyncStorage.getAllKeys().then((x) => {
+    AsyncStorage.getAllKeys().then((x: any) => {
       const remove_keys: any[] = [];
       const cutoff = Date.now() - retention_time;
-      x.forEach((x) => {
+      x.forEach((x: any) => {
         if (x.startsWith(log_prefix)) {
           const dashpos = x.indexOf('_', log_prefix.length);
           if (
@@ -95,7 +94,7 @@ class PersistentLogging {
     const ret: any = {};
     const keys: any[] = [];
 
-    (await AsyncStorage.getAllKeys()).forEach((x) => {
+    (await AsyncStorage.getAllKeys()).forEach((x: any) => {
       if (x.startsWith(log_prefix)) keys.push(x);
     });
     /*
@@ -115,7 +114,7 @@ class PersistentLogging {
 			return -1;
 		});
 		*/
-    (await AsyncStorage.multiGet(keys)).forEach(([k, v]) => {
+    (await AsyncStorage.multiGet(keys)).forEach(([k, v]: any) => {
       ret[k.slice(log_prefix.length)] = v;
     });
 

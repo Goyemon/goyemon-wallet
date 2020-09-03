@@ -1,5 +1,4 @@
 import crypto from 'crypto';
-import AsyncStorage from '@react-native-community/async-storage';
 import LogUtilities from '../../utilities/LogUtilities';
 import PersistTxStorageAbstraction from './PersistTxStorageAbstraction';
 import AsyncLocks from './AsyncLocks';
@@ -16,6 +15,7 @@ import {
   lastCheckpointKey
 } from './common';
 const GlobalConfig = require('../../config.json');
+const AsyncStorage = require('@react-native-community/async-storage');
 
 export default class TxStorage {
   onload_promise: any;
@@ -32,7 +32,7 @@ export default class TxStorage {
   constructor(ourAddress: any = '') {
     let load_promises: any = [];
     let promise_resolves: any = [];
-    let promise_rejects = []; // if i ever implement this
+    let promise_rejects: any[] = []; // if i ever implement this
 
     [0, 1].forEach(() => {
       load_promises.push(
@@ -50,10 +50,10 @@ export default class TxStorage {
     this.failed_nonces = null;
     this.last_checkpoint_offset = 0; // TODO: not yet used
 
-    AsyncStorage.multiGet([maxNonceKey, lastCheckpointKey]).then((x) => {
-      if (x[0] && x[0][1] !== null) this.our_max_nonce = parseInt(x[0][1]);
+    AsyncStorage.multiGet([maxNonceKey, lastCheckpointKey]).then((x: any) => {
+      if (x[0] && x[0][1] !== null) this.our_max_nonce = parseInt(x[0][1] || '');
       if (x[1] && x[1][1] !== null)
-        this.last_checkpoint_offset = parseInt(x[1][1]);
+        this.last_checkpoint_offset = parseInt(x[1][1] || '');
 
       promise_resolves[1]();
       LogUtilities.toDebugScreen(

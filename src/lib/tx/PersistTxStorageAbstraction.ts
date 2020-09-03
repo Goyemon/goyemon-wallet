@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage';
+const AsyncStorage = require('@react-native-community/async-storage');
 import LogUtilities from '../../utilities/LogUtilities';
 import Tx from './Tx';
 import {
@@ -73,9 +73,9 @@ export default class PersistTxStorageAbstraction {
               temp_debug_bucket_names.push(`${this.prefix}i${x}${i}`);
           });
 
-          AsyncStorage.multiGet(temp_debug_bucket_names).then((x) => {
-            x.sort((a, b) => a[0].localeCompare(b[0]));
-            x.forEach(([n, v]) =>
+          AsyncStorage.multiGet(temp_debug_bucket_names).then((x: any) => {
+            x.sort((a: any, b: any) => a[0].localeCompare(b[0]));
+            x.forEach(([n, v]: any) =>
               LogUtilities.toDebugScreen(`${n} --> ${bstats(v)}`)
             );
           });
@@ -118,7 +118,7 @@ export default class PersistTxStorageAbstraction {
       this.__init_lock();
       this.toplocked_per_filter[name] = 0;
 
-      AsyncStorage.getItem(`${this.prefix}i${name}c`).then((x) => {
+      AsyncStorage.getItem(`${this.prefix}i${name}c`).then((x: any) => {
         this.counts[name] = x ? parseInt(x) : 0;
         if (this.counts[name] > 0) {
           const lastBucketNum = Math.floor(
@@ -507,7 +507,7 @@ export default class PersistTxStorageAbstraction {
   async wipe() {
     // TODO: add locking
     let indices = Object.keys(this.filters);
-    let removekeys = [];
+    let removekeys: any[] = [];
 
     indices.forEach((x) => {
       for (
@@ -897,7 +897,7 @@ export default class PersistTxStorageAbstraction {
 
     const buckets: any = {};
     (await AsyncStorage.multiGet(bucketnames)).forEach(
-      ([k, v]) => (buckets[k] = v)
+      ([k, v]: any) => (buckets[k] = v)
     );
     bucketnames.forEach((n) => {
       __decodeBucket(buckets[n]).forEach((hash) =>
@@ -908,7 +908,7 @@ export default class PersistTxStorageAbstraction {
 
     const txes: any = [];
     (await AsyncStorage.multiGet(hashes_in_order)).forEach(
-      ([k, v]) => (txes[k] = v)
+      ([k, v]: any) => (txes[k] = v)
     );
 
     hashes_in_order.forEach((n: any) => {
