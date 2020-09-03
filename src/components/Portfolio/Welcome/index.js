@@ -181,7 +181,6 @@ const Logo = Animatable.createAnimatableComponent(styled.Text`
   margin-top: 48;
   margin-bottom: 48;
   text-align: center;
-  text-transform: uppercase;
 `);
 
 const OneLinerContainer = styled.View`
