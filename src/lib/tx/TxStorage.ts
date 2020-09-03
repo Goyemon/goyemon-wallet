@@ -125,7 +125,7 @@ export default class TxStorage {
     return null;
   }
 
-  async newTx(state = TxStates.STATE_NEW, nonce: any) {
+  async newTx(state = TxStates.STATE_NEW, nonce: any = '') {
     const now = Math.trunc(Date.now() / 1000);
     let tx = new Tx(state)
       .setTimestamp(now)
