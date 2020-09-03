@@ -29,7 +29,7 @@ export default class TxStorage {
   temporary_since_you_wont_add_build_number_i_will: any;
   _isDAIApprovedForCDAI_cached: any;
   _isDAIApprovedForPT_cached: any;
-  constructor(ourAddress: any) {
+  constructor(ourAddress: any = '') {
     let load_promises: any = [];
     let promise_resolves: any = [];
     let promise_rejects = []; // if i ever implement this
