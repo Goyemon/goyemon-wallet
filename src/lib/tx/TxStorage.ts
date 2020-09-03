@@ -478,7 +478,7 @@ export default class TxStorage {
   async getNextNonce() {
     const failed_nonce = Object.keys(this.failed_nonces)
       .map((x) => parseInt(x))
-      .reduce((a, b) => (a !== null ? (a > b ? b : a) : b), 0);
+      .reduce((a: any, b: any) => (a !== null ? (a > b ? b : a) : b), null);
     LogUtilities.toDebugScreen(
       `getNextNonce(): next nonce:${
         failed_nonce !== null ? failed_nonce : this.our_max_nonce + 1

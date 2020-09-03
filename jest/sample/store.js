@@ -1,0 +1,49 @@
+'use strict';
+import { applyMiddleware, createStore } from 'redux';
+import { createMigrate, persistReducer, persistStore } from 'redux-persist';
+import thunk from 'redux-thunk';
+import rootReducers from '../reducers/ReducerIndex';
+const AsyncStorage = require('@react-native-community/async-storage');
+
+const migrations = {
+  0: (state) => {
+    return {
+      ...state,
+      ReducerPrice: {
+        price: {
+          ...state.price,
+          cdai: ''
+        }
+      }
+    };
+  }
+};
+
+const persistConfig = {
+  key: 'root',
+  storage: AsyncStorage,
+  whitelist: [
+    'ReducerApproval',
+    'ReducerBalance',
+    'ReducerCompound',
+    'ReducerChecksumAddress',
+    'ReducerGasPrice',
+    'ReducerMnemonic',
+    'ReducerMnemonicWordsValidation',
+    'ReducerPermissions',
+    'ReducerPoolTogether',
+    'ReducerPrice',
+    'ReducerTransactionsLoaded',
+    'ReducerUniswap'
+  ],
+  version: 0, // default version is -1
+  migrate: createMigrate(migrations, { debug: true })
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducers);
+
+const store = createStore(persistedReducer, applyMiddleware(thunk));
+
+const persistor = persistStore(store);
+
+export { store, persistor };
