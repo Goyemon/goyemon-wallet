@@ -6,7 +6,7 @@ import rootReducers from '../reducers/ReducerIndex';
 const AsyncStorage = require('@react-native-community/async-storage');
 
 const migrations = {
-  0: (state) => {
+  0: (state: any) => {
     return {
       ...state,
       ReducerPrice: {
@@ -42,8 +42,6 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, rootReducers);
 
-const store = createStore(persistedReducer, applyMiddleware(thunk));
+export const store = createStore(persistedReducer, applyMiddleware(thunk));
 
-const persistor = persistStore(store);
-
-export { store, persistor };
+export const persistor = persistStore(store);

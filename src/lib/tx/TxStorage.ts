@@ -51,7 +51,8 @@ export default class TxStorage {
     this.last_checkpoint_offset = 0; // TODO: not yet used
 
     AsyncStorage.multiGet([maxNonceKey, lastCheckpointKey]).then((x: any) => {
-      if (x[0] && x[0][1] !== null) this.our_max_nonce = parseInt(x[0][1] || '');
+      if (x[0] && x[0][1] !== null)
+        this.our_max_nonce = parseInt(x[0][1] || '');
       if (x[1] && x[1][1] !== null)
         this.last_checkpoint_offset = parseInt(x[1][1] || '');
 
