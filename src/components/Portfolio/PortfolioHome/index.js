@@ -30,7 +30,7 @@ class PortfolioHome extends Component {
       headerRight: (
         <Icon
           color="#5f5f5f"
-          name="settings-outline"
+          name="cog-outline"
           size={28}
           onPress={() => {
             PortfolioStack.navigationOptions = () => {

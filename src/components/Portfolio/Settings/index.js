@@ -175,7 +175,7 @@ class Settings extends Component {
                   LogUtilities.logError('An error occurred', err)
                 );
               }}
-              name="github-circle"
+              name="github"
               color="#333"
               size={40}
             />

@@ -291,7 +291,7 @@ PODS:
     - React
   - react-native-slider (2.0.7):
     - React
-  - react-native-webview (7.4.2):
+  - react-native-webview (7.6.0):
     - React
   - React-RCTActionSheet (0.62.0):
     - React-Core/RCTActionSheetHeaders (= 0.62.0)
@@ -354,7 +354,7 @@ PODS:
     - ReactCommon/callinvoker (= 0.62.0)
   - RNCAsyncStorage (1.12.0):
     - React
-  - RNFBAnalytics (7.6.1):
+  - RNFBAnalytics (7.5.1):
     - Firebase/Analytics (~> 6.30.0)
     - React
     - RNFBApp
@@ -365,7 +365,7 @@ PODS:
     - Firebase/Crashlytics (~> 6.30.0)
     - React
     - RNFBApp
-  - RNFBMessaging (7.8.1):
+  - RNFBMessaging (7.8.3):
     - Firebase/Messaging (~> 6.30.0)
     - React
     - RNFBApp
@@ -385,7 +385,7 @@ PODS:
     - React
   - RNSVG (9.13.6):
     - React
-  - RNVectorIcons (6.5.0):
+  - RNVectorIcons (7.0.0):
     - React
   - Yoga (1.14.0)
 
@@ -592,7 +592,7 @@ SPEC CHECKSUMS:
   react-native-netinfo: d2c312fa4b151214e1d5c8456ddb5f28ff24a576
   react-native-randombytes: 991545e6eaaf700b4ee384c291ef3d572e0b2ca8
   react-native-slider: e36b7de75b35323ee802dae723be8ebbab4c4a3d
-  react-native-webview: 5e82a4853e16e02bb6cb184ae4892df71c200571
+  react-native-webview: 711cef318a554093b09a5b871894011435d87a8d
   React-RCTActionSheet: 674afbc8b9c76e0a83520e0a51da29a70802c03f
   React-RCTAnimation: f5f24330d09ee677fb49e0782f8321868f4df431
   React-RCTBlob: b773ce6138ab0d172ebd8a455fd4efd200a92549
@@ -604,10 +604,10 @@ SPEC CHECKSUMS:
   React-RCTVibration: 0630aeb11e22f87c180ca9c0c3a0a0aba780cc62
   ReactCommon: d22162ab8f1358c53dfcd0f9c4d82d38facdbc48
   RNCAsyncStorage: 3eea36d9460c5159b592f9ecbe5a77f8aca98006
-  RNFBAnalytics: ffd9149d1fe0ecee0f2571b234d53c25349b9899
+  RNFBAnalytics: 68324faecd126b94df3984efa64cfebeccb98a0b
   RNFBApp: e4321cad5dd23b43b3b4f0ca060300b9f85cb7a4
   RNFBCrashlytics: accacec7be2426085b715b93cdb7b0a1308eb8eb
-  RNFBMessaging: 4afdcd2fe27714ef3f7539a61b1700e3fa0ccfca
+  RNFBMessaging: ca2afaa9449dde72fded30f93b9a4fd296d4dd60
   RNGestureHandler: b6b359bb800ae399a9c8b27032bdbf7c18f08a08
   RNKeychain: c658833a9cb2cbcba6423bdd6e16cce59e27da0e
   RNLocalize: c388679af021ddd6069c215f7fdd2acf4e77ede5
@@ -616,9 +616,9 @@ SPEC CHECKSUMS:
   RNReanimated: 89f5e0a04d1dd52fbf27e7e7030d8f80a646a3fc
   RNScreens: f28b48b8345f2f5f39ed6195518291515032a788
   RNSVG: 8ba35cbeb385a52fd960fd28db9d7d18b4c2974f
-  RNVectorIcons: f6cf608dee5b2cb5726ff3b629a5258586d5677b
+  RNVectorIcons: da6fe858f5a65d7bbc3379540a889b0b12aa5976
   Yoga: 9db9ff2025ad21d1ac0a8b3c85d5ac4e7c29d525
 
-PODFILE CHECKSUM: f9eeedc1fbdb478817731af697e033f92afaa123
+PODFILE CHECKSUM: 313b8d33eb375bdf40c2eae1e0f51485dd19dac3
 
 COCOAPODS: 1.9.3
