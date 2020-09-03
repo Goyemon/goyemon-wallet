@@ -2,10 +2,12 @@ import Tx from './Tx';
 const GlobalConfig = require('../../config.json');
 
 export const hexToBuf = (hex: string | null): Buffer =>
-  hex ? Buffer.from(hex.startsWith('0x') ? hex.substr(2) : hex, 'hex') : Buffer.from('');
+  hex
+    ? Buffer.from(hex.startsWith('0x') ? hex.substr(2) : hex, 'hex')
+    : Buffer.from('');
 
 export const dropHexPrefix = (hex: string | null): string =>
-  hex ? hex.startsWith('0x') ? hex.substr(2) : hex : '';
+  hex ? (hex.startsWith('0x') ? hex.substr(2) : hex) : '';
 
 export const maxNonceKey: string = '_tx[maxnonce]';
 export const txNoncePrefix: string = 'nonce_';

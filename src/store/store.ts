@@ -1,9 +1,9 @@
 'use strict';
-import AsyncStorage from '@react-native-community/async-storage';
 import { applyMiddleware, createStore } from 'redux';
 import { createMigrate, persistReducer, persistStore } from 'redux-persist';
 import thunk from 'redux-thunk';
 import rootReducers from '../reducers/ReducerIndex';
+const AsyncStorage = require('@react-native-community/async-storage');
 
 const migrations = {
   0: (state: any) => {

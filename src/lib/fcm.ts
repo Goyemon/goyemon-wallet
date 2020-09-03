@@ -238,4 +238,4 @@ export const handler: any = (x: any, frombg: any) =>
 export const registerHandler = () => {
   LogUtilities.toDebugScreen('FCM registerHandler called');
   messaging().onMessage(handler);
-}
+};
