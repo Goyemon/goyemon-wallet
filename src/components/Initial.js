@@ -216,7 +216,6 @@ const Logo = Animatable.createAnimatableComponent(styled.Text`
   font-family: 'HKGrotesk-Bold';
   font-size: 40;
   text-align: center;
-  text-transform: uppercase;
 `);
 
 function mapStateToProps(state) {
