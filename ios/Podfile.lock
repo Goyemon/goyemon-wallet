@@ -110,7 +110,7 @@ PODS:
     - nanopb/encode (= 1.30905.0)
   - nanopb/decode (1.30905.0)
   - nanopb/encode (1.30905.0)
-  - Permission-Camera (2.1.5):
+  - Permission-Camera (2.2.0):
     - RNPermissions
   - PromisesObjC (1.2.10)
   - Protobuf (3.13.0)
@@ -354,7 +354,7 @@ PODS:
     - ReactCommon/callinvoker (= 0.62.0)
   - RNCAsyncStorage (1.12.0):
     - React
-  - RNFBAnalytics (7.5.1):
+  - RNFBAnalytics (7.6.1):
     - Firebase/Analytics (~> 6.30.0)
     - React
     - RNFBApp
@@ -365,7 +365,7 @@ PODS:
     - Firebase/Crashlytics (~> 6.30.0)
     - React
     - RNFBApp
-  - RNFBMessaging (7.8.3):
+  - RNFBMessaging (7.8.4):
     - Firebase/Messaging (~> 6.30.0)
     - React
     - RNFBApp
@@ -377,7 +377,7 @@ PODS:
     - React
   - RNOS (1.2.6):
     - React
-  - RNPermissions (2.1.5):
+  - RNPermissions (2.2.0):
     - React
   - RNReanimated (1.13.0):
     - React
@@ -576,7 +576,7 @@ SPEC CHECKSUMS:
   lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
   lottie-react-native: 1fb4ce21d6ad37dab8343eaff8719df76035bd93
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
-  Permission-Camera: 53d46bd722aea28d796e20f05fb3cbe6cde6ccb6
+  Permission-Camera: cc98f099e74178912b7c6b3795c3b59c246f0d7c
   PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
   Protobuf: 3dac39b34a08151c6d949560efe3f86134a3f748
   RCTRequired: 0873f5bdb1762d2b9b1ae16a01c4f91d6ee3b6dd
@@ -604,15 +604,15 @@ SPEC CHECKSUMS:
   React-RCTVibration: 0630aeb11e22f87c180ca9c0c3a0a0aba780cc62
   ReactCommon: d22162ab8f1358c53dfcd0f9c4d82d38facdbc48
   RNCAsyncStorage: 3eea36d9460c5159b592f9ecbe5a77f8aca98006
-  RNFBAnalytics: 68324faecd126b94df3984efa64cfebeccb98a0b
+  RNFBAnalytics: ffd9149d1fe0ecee0f2571b234d53c25349b9899
   RNFBApp: e4321cad5dd23b43b3b4f0ca060300b9f85cb7a4
   RNFBCrashlytics: accacec7be2426085b715b93cdb7b0a1308eb8eb
-  RNFBMessaging: ca2afaa9449dde72fded30f93b9a4fd296d4dd60
+  RNFBMessaging: f28096dc79edf6b0a094e95c265c7224122d051d
   RNGestureHandler: b6b359bb800ae399a9c8b27032bdbf7c18f08a08
   RNKeychain: c658833a9cb2cbcba6423bdd6e16cce59e27da0e
   RNLocalize: c388679af021ddd6069c215f7fdd2acf4e77ede5
   RNOS: 6f2f9a70895bbbfbdad7196abd952e7b01d45027
-  RNPermissions: 1888705aebcc81714efa5dbff94351e4388ae012
+  RNPermissions: e29e449d948ba1c04f3bb3bede5c662667543c49
   RNReanimated: 89f5e0a04d1dd52fbf27e7e7030d8f80a646a3fc
   RNScreens: f28b48b8345f2f5f39ed6195518291515032a788
   RNSVG: 8ba35cbeb385a52fd960fd28db9d7d18b4c2974f
