@@ -33,8 +33,8 @@ class WalletUtilities {
   // }
 
   public async generateWallet(mnemonic: any) {
-    let seedhex = bip39.mnemonicToSeedHex(mnemonic);
-    let seed = Buffer.from(seedhex, 'hex');
+    const seedhex = bip39.mnemonicToSeedHex(mnemonic);
+    const seed = Buffer.from(seedhex, 'hex');
     this.root = hdkey.fromMasterSeed(seed);
     this.wallet = this.root.derivePath("m/44'/60'/0'/0/0").getWallet();
 
@@ -60,9 +60,9 @@ class WalletUtilities {
       const result = await Keychain.getGenericPassword(KEY_WALLET_PRIVATE_KEY);
       if (typeof result === 'boolean') {
         return '';
-      } else {
-        return result.password;
       }
+      return result.password;
+
     } catch (err) {
       return '';
     }
@@ -74,7 +74,7 @@ class WalletUtilities {
       const result = await Keychain.setGenericPassword(
         'PRIVATEKEY',
         privateKey,
-        KEY_WALLET_PRIVATE_KEY
+        KEY_WALLET_PRIVATE_KEY,
       );
     }
     return result;
@@ -84,9 +84,9 @@ class WalletUtilities {
     const privateKey = await this.retrievePrivateKey();
     if (privateKey === '') {
       return false;
-    } else {
-      return true;
     }
+    return true;
+
   }
 
   private async generateMnemonic() {
@@ -94,9 +94,9 @@ class WalletUtilities {
     while (true) {
       const words = mnemonic.split(' ');
       const uniqueWords = words.filter(
-        (word: any, index: any) => words.indexOf(word) == index
+        (word: any, index: any) => words.indexOf(word) === index,
       );
-      if (words.length == uniqueWords.length) {
+      if (words.length === uniqueWords.length) {
         break;
       } else {
         mnemonic = await bip39.generateMnemonic(256);
@@ -112,7 +112,7 @@ class WalletUtilities {
     }
     const words = mnemonic.split(' ');
     const uniqueWords = words.filter(
-      (word: any, index: any) => words.indexOf(word) == index
+      (word: any, index: any) => words.indexOf(word) === index,
     );
     return words.length === uniqueWords.length;
   }
@@ -122,9 +122,9 @@ class WalletUtilities {
       const result = await Keychain.getGenericPassword(KEY_WALLET_MNEMONIC);
       if (typeof result === 'boolean') {
         return '';
-      } else {
-        return result.password;
       }
+      return result.password;
+
     } catch (error) {
       return '';
     }
@@ -134,7 +134,7 @@ class WalletUtilities {
     const result = await Keychain.setGenericPassword(
       'MNEMONIC',
       mnemonic,
-      KEY_WALLET_MNEMONIC
+      KEY_WALLET_MNEMONIC,
     );
     return result;
   }

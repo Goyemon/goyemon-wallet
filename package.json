@@ -10,6 +10,7 @@
     "start": "react-native start",
     "prettier": "prettier --write src",
     "lint": "eslint --fix src/**/*.js",
+    "tslint": "tslint --fix 'src/**/*.ts{,x}'",
     "test": "NODE_ENV=test jest",
     "tsc": "tsc"
   },
@@ -96,6 +97,8 @@
     "react-test-renderer": "16.9.0",
     "rn-nodeify": "^10.0.1",
     "ts-jest": "^26.1.4",
+    "tslint": "^6.1.3",
+    "tslint-config-airbnb": "^5.11.2",
     "typescript": "2.4.0"
   },
   "husky": {
@@ -119,6 +122,10 @@
     ],
     "*.js": [
       "eslint --fix src/**/*.js",
+      "git add"
+    ],
+    "*.ts{,x}": [
+      "tslint --fix src/**/*.ts{,x}",
       "git add"
     ]
   },

@@ -33,21 +33,21 @@ jest.mock('@react-native-community/async-storage', () => ({
     });
   }),
   multiRemove: jest.fn(() => ({
-    then: jest.fn()
-  }))
+    then: jest.fn(),
+  })),
 }));
 
 jest.mock('react-native-keychain', () => ({
-  getGenericPassword: jest.fn((password) => console.log(password))
+  getGenericPassword: jest.fn((password) => console.log(password)),
 }));
 
 jest.mock('react-native', () => {
   return {
     NativeModules: {
       RNRandomBytes: {
-        seed: 'seed'
-      }
-    }
+        seed: 'seed',
+      },
+    },
   };
 });
 
@@ -69,23 +69,23 @@ describe('utilities test', (): void => {
 
   test('getMethodName function test', (): void => {
     expect(TransactionUtilities.getMethodName(data.normalOutgoing)).toBe(
-      'Outgoing'
+      'Outgoing',
     );
     expect(TransactionUtilities.getMethodName(data.normalIncoming)).toBe(
-      'Incoming'
+      'Incoming',
     );
     expect(TransactionUtilities.getMethodName(data.normalSelf)).toBe('Self');
     expect(TransactionUtilities.getMethodName(data.daiOutgoing)).toBe(
-      'Outgoing'
+      'Outgoing',
     );
     expect(TransactionUtilities.getMethodName(data.cdaiOutgoing)).toBe(
-      'Outgoing'
+      'Outgoing',
     );
     expect(TransactionUtilities.getMethodName(data.compoundWithdraw)).toBe(
-      'Withdraw'
+      'Withdraw',
     );
     expect(TransactionUtilities.getMethodName(data.compoundDeposit)).toBe(
-      'Deposit'
+      'Deposit',
     );
     expect(TransactionUtilities.getMethodName(data.uniswap)).toBe('Swap');
   });
@@ -94,19 +94,20 @@ describe('utilities test', (): void => {
     const noneOption = TransactionUtilities.getOption(
       data.normalOutgoing,
       '',
-      'Outgoing'
+      'Outgoing',
     );
     const swapOption = TransactionUtilities.getOption(
       data.uniswap,
       'Uniswap',
-      'Swap'
+      'Swap',
     );
-    if (typeof noneOption == 'string') expect(noneOption).toBe('');
+    if (typeof noneOption === 'string') expect(noneOption).toBe('');
     else throw 'noneOption type is not correct';
-    if (typeof swapOption == 'object')
+    if (typeof swapOption === 'object') {
       expect(JSON.stringify(swapOption)).toBe(
-        JSON.stringify(TransactionUtilities.getSwapOption(data.uniswap))
+        JSON.stringify(TransactionUtilities.getSwapOption(data.uniswap)),
       );
+    }
     else throw 'swapOption type is not correct';
   });
 });
