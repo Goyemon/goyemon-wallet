@@ -10,7 +10,7 @@ import { TxTokenOpTypeToName } from '../lib/tx/TokenOpType';
 import ABIEncoder from './AbiUtilities';
 import {
   RoundDownBigNumberPlacesFour,
-  RoundDownBigNumberPlacesEighteen,
+  RoundDownBigNumberPlacesEighteen
 } from './BigNumberUtilities';
 import EtherUtilities from './EtherUtilities';
 import LogUtilities from './LogUtilities';
@@ -62,22 +62,22 @@ class TransactionUtilities {
       'September',
       'October',
       'November',
-      'December',
+      'December'
     ];
     switch (true) {
-      case(seconds < 5):
+      case seconds < 5:
         return 'just now';
-      case(seconds < 60):
+      case seconds < 60:
         return `${seconds} seconds ago`;
-      case(seconds < 3600): {
+      case seconds < 3600: {
         const minutes = Math.floor(seconds / 60);
         return minutes > 1 ? `${minutes} minutes ago` : '1 minute ago';
       }
-      case(seconds < 86400): {
+      case seconds < 86400: {
         const hours = Math.floor(seconds / 3600);
         return hours > 1 ? `${hours} hours ago` : '1 hour ago';
       }
-      case(seconds < 172800): {
+      case seconds < 172800: {
         const days = Math.floor(seconds / 86400);
         return days > 1 ? `${days} days ago` : '1 day ago';
       }
@@ -99,7 +99,7 @@ class TransactionUtilities {
     }
     return Math.max(
       0,
-      (match[1] ? match[1].length : 0) - (match[2] ? +match[2] : 0),
+      (match[1] ? match[1].length : 0) - (match[2] ? +match[2] : 0)
     );
   }
 
@@ -108,14 +108,15 @@ class TransactionUtilities {
     const gasPrice = stateTree.ReducerGasPrice.gasPrice;
     if (chosenSpeed === 0) {
       return parseInt(String(gasPrice[0]!.value));
-    }  if (chosenSpeed === 1) {
+    }
+    if (chosenSpeed === 1) {
       return parseInt(String(gasPrice[1]!.value));
-    }  if (chosenSpeed === 2) {
+    }
+    if (chosenSpeed === 2) {
       return parseInt(String(gasPrice[2]!.value));
     }
     LogUtilities.logInfo('invalid transaction speed');
     throw 'invalid transaction speed';
-
   }
 
   hasSufficientWEIForNetworkFee(gasPriceWei: any, gasLimit: any) {
@@ -123,7 +124,7 @@ class TransactionUtilities {
     const balance = stateTree.ReducerBalance.balance;
     const WEIBalance = new RoundDownBigNumberPlacesEighteen(balance.wei);
     const maxNetworkFeeInWEI = new RoundDownBigNumberPlacesEighteen(
-      gasPriceWei,
+      gasPriceWei
     ).times(gasLimit);
 
     if (WEIBalance.isGreaterThan(maxNetworkFeeInWEI)) {
@@ -144,7 +145,7 @@ class TransactionUtilities {
       const WEIBalance = new RoundDownBigNumberPlacesEighteen(balance.wei);
       WEIAmount = new RoundDownBigNumberPlacesEighteen(WEIAmount);
       const maxNetworkFeeInWEI = new RoundDownBigNumberPlacesEighteen(
-        this.returnTransactionSpeed(gasChosen),
+        this.returnTransactionSpeed(gasChosen)
       ).times(gasLimit);
 
       if (
@@ -157,7 +158,6 @@ class TransactionUtilities {
       return false;
     }
     return false;
-
   }
 
   hasSufficientDAIForAmount(DAIAmount: any) {
@@ -180,12 +180,11 @@ class TransactionUtilities {
       return false;
     }
     return false;
-
   }
 
   hasSufficientTokenForAmount = (
     amount: any,
-    token: 'DAI' | 'cDAI' | 'plDAI',
+    token: 'DAI' | 'cDAI' | 'plDAI'
   ) => {
     if (this.isNumber(amount)) {
       const stateTree = store.getState();
@@ -193,11 +192,11 @@ class TransactionUtilities {
       const balanceObject: balanceObject = {
         DAI: balanceState.dai,
         cDAI: balanceState.cDai,
-        plDAI: balanceState.pooltogetherDai.committed,
+        plDAI: balanceState.pooltogetherDai.committed
       };
       const key: keyof balanceObject = token;
       const tokenBalance = new RoundDownBigNumberPlacesEighteen(
-        balanceObject[key],
+        balanceObject[key]
       );
       const tokenAmount = new RoundDownBigNumberPlacesEighteen(10)
         .pow(token === 'cDAI' ? 8 : 18)
@@ -234,7 +233,6 @@ class TransactionUtilities {
       return false;
     }
     return false;
-
   }
 
   validateDAICompoundWithdrawAmount(DAIWithdrawAmount: any) {
@@ -245,7 +243,7 @@ class TransactionUtilities {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
       const compoundDAIBalance = new RoundDownBigNumberPlacesEighteen(
-        balance.compoundDai,
+        balance.compoundDai
       );
 
       DAIWithdrawAmount = new RoundDownBigNumberPlacesEighteen(10)
@@ -263,7 +261,6 @@ class TransactionUtilities {
       return false;
     }
     return false;
-
   }
 
   validateDAIPoolTogetherWithdrawAmount(DAIWithdrawAmount: any) {
@@ -274,7 +271,7 @@ class TransactionUtilities {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
       const pooltogetherDAIBalance = new RoundDownBigNumberPlacesFour(
-        balance.pooltogetherDai.open,
+        balance.pooltogetherDai.open
       )
         .plus(balance.pooltogetherDai.committed)
         .plus(balance.pooltogetherDai.sponsored);
@@ -295,14 +292,13 @@ class TransactionUtilities {
       return false;
     }
     return false;
-
   }
 
   async constructSignedOutgoingTransactionObject(
-    outgoingTransactionObject: any,
+    outgoingTransactionObject: any
   ) {
     outgoingTransactionObject = new ethTx(
-      outgoingTransactionObject.toTransactionDict(),
+      outgoingTransactionObject.toTransactionDict()
     );
     const privateKey = await WalletUtilities.retrievePrivateKey();
     const privateKeyData = Buffer.from(privateKey, 'hex');
@@ -323,7 +319,7 @@ class TransactionUtilities {
     const messageId = uuidv4();
     const serverAddress = GlobalConfig.FCM_server_address;
     const signedTransaction = await this.constructSignedOutgoingTransactionObject(
-      txObject,
+      txObject
     );
     const nonce = txObject.getNonce();
 
@@ -333,8 +329,8 @@ class TransactionUtilities {
       data: {
         type: 'outgoing_tx',
         nonce: nonce.toString(),
-        data: signedTransaction,
-      },
+        data: signedTransaction
+      }
     };
 
     messaging()
@@ -343,7 +339,7 @@ class TransactionUtilities {
         console.log('Successfully sent message:', {
           type: upstreamMessage.data.type,
           upstreamMessage,
-          response,
+          response
         });
       })
       .catch((error) => {
@@ -366,7 +362,7 @@ class TransactionUtilities {
       | number
       | undefined
       | string = PriceUtilities.convertETHToUSD(
-      this.getMaxNetworkFeeInETH(gasPriceWei, gasLimit),
+      this.getMaxNetworkFeeInETH(gasPriceWei, gasLimit)
     );
     if (maxNetworkFeeInUSD) maxNetworkFeeInUSD = maxNetworkFeeInUSD.toFixed(3);
     return maxNetworkFeeInUSD;
@@ -378,7 +374,7 @@ class TransactionUtilities {
     const approveEncodedABI = ABIEncoder.encodeApprove(
       addressSpender,
       amount,
-      0,
+      0
     );
 
     return approveEncodedABI;
@@ -394,7 +390,7 @@ class TransactionUtilities {
       .addTokenOperation('dai', TxTokenOpTypeToName.approval, [
         (spender.startsWith('0x') ? spender.substr(2) : spender).toLowerCase(),
         storage.getOwnAddress(),
-        'ff'.repeat(256 / 8),
+        'ff'.repeat(256 / 8)
       ]);
 
     return approveTransactionObject;
@@ -409,7 +405,7 @@ class TransactionUtilities {
     toAddr: any,
     amount: any,
     gasChosen: any,
-    gasLimit: any,
+    gasLimit: any
   ) =>
     (await storage.newTx())
       .setTo(toAddr)
@@ -421,7 +417,7 @@ class TransactionUtilities {
     toAddr: any,
     amount: any,
     gasChosen: any,
-    gasLimit: any,
+    gasLimit: any
   ) => {
     const DAIAmount = amount.split('.').join('');
     const decimalPlaces = this.decimalPlaces(amount);
@@ -429,7 +425,7 @@ class TransactionUtilities {
     const transferEncodedABI = ABIEncoder.encodeTransfer(
       toAddr,
       DAIAmount,
-      decimals,
+      decimals
     );
     const DAIAmountWithDecimals = new RoundDownBigNumberPlacesEighteen(amount)
       .times(new RoundDownBigNumberPlacesEighteen(10).pow(18))
@@ -443,7 +439,7 @@ class TransactionUtilities {
       .addTokenOperation('dai', TxTokenOpTypeToName.transfer, [
         storage.getOwnAddress(),
         toAddr,
-        DAIAmountWithDecimals,
+        DAIAmountWithDecimals
       ]);
   }
 
@@ -451,7 +447,7 @@ class TransactionUtilities {
     toAddr: any,
     amount: any,
     gasChosen: any,
-    gasLimit: any,
+    gasLimit: any
   ) => {
     const CDAIAmount = amount.split('.').join('');
     const decimalPlaces = this.decimalPlaces(amount);
@@ -459,7 +455,7 @@ class TransactionUtilities {
     const transferEncodedABI = ABIEncoder.encodeTransfer(
       toAddr,
       CDAIAmount,
-      decimals,
+      decimals
     );
     const CDAIAmountWithDecimals = new RoundDownBigNumberPlacesEighteen(amount)
       .times(new RoundDownBigNumberPlacesEighteen(10).pow(8))
@@ -473,7 +469,7 @@ class TransactionUtilities {
       .addTokenOperation('cdai', TxTokenOpTypeToName.transfer, [
         storage.getOwnAddress(),
         toAddr,
-        CDAIAmountWithDecimals,
+        CDAIAmountWithDecimals
       ]);
   }
 
@@ -481,7 +477,7 @@ class TransactionUtilities {
     toAddr: any,
     amount: any,
     gasChosen: any,
-    gasLimit: any,
+    gasLimit: any
   ) => {
     const PLDAIAmount = amount.split('.').join('');
     const decimalPlaces = this.decimalPlaces(amount);
@@ -489,7 +485,7 @@ class TransactionUtilities {
     const transferEncodedABI = ABIEncoder.encodeTransfer(
       toAddr,
       PLDAIAmount,
-      decimals,
+      decimals
     );
     const PLDAIAmountWithDecimals = new RoundDownBigNumberPlacesEighteen(amount)
       .times(new RoundDownBigNumberPlacesEighteen(10).pow(18))
@@ -503,7 +499,7 @@ class TransactionUtilities {
       .addTokenOperation('pldai', TxTokenOpTypeToName.transfer, [
         storage.getOwnAddress(),
         toAddr,
-        PLDAIAmountWithDecimals,
+        PLDAIAmountWithDecimals
       ]);
   }
 
@@ -514,7 +510,7 @@ class TransactionUtilities {
     // LogUtilities.toDebugScreen('computeTxData -> ', tx);
     if (!tx) return null;
     const walletAddressWithout0x = EtherUtilities.getAddressWithout0x(
-      checksumAddr,
+      checksumAddr
     );
     const ret: any[] = [];
 
@@ -542,9 +538,9 @@ class TransactionUtilities {
           type: 'transfer',
           direction,
           amount: parseFloat(this.parseETHValue(`0x${tx.getValue()}`)).toFixed(
-            4,
+            4
           ),
-          token: 'eth',
+          token: 'eth'
         });
       }
     }
@@ -559,7 +555,7 @@ class TransactionUtilities {
           type: 'outgoing',
           token: 'dai',
           direction: 'outgoing',
-          amount: '0.00',
+          amount: '0.00'
         });
       } else if (
         tx.getTo().toLowerCase() ===
@@ -570,14 +566,14 @@ class TransactionUtilities {
           type: 'outgoing',
           token: 'pldai',
           direction: 'outgoing',
-          amount: '0.00',
+          amount: '0.00'
         });
       }
     } else {
       ret.push({
         type: 'contract_creation',
         direction: 'creation',
-        token: 'eth',
+        token: 'eth'
       });
     }
 
@@ -586,7 +582,7 @@ class TransactionUtilities {
         type: 'contract_interaction',
         direction: 'outgoing',
         token: 'eth',
-        amount: '0.00',
+        amount: '0.00'
       });
     }
 
@@ -626,19 +622,20 @@ class TransactionUtilities {
     }
     if (service === 'PoolTogether' && method === 'Withdraw') {
       return this.getPTOption(data);
-    }  return '';
+    }
+    return '';
   }
 
   getSwapOption = (data: any) => ({
     eth: data[0].eth_sold,
-    dai: data[0].tokens_bought,
+    dai: data[0].tokens_bought
   })
 
   getPTOption = (data: any) => {
     const open = this.poolTogetherAmount(data, 'open deposit withdraw');
     const committed = this.poolTogetherAmount(
       data,
-      'committed deposit withdraw',
+      'committed deposit withdraw'
     );
     const sponsor = this.poolTogetherAmount(data, 'sponsorship withdraw');
     return {
@@ -649,7 +646,7 @@ class TransactionUtilities {
         parseFloat(open) +
         parseFloat(committed) +
         parseFloat(sponsor)
-      ).toFixed(2),
+      ).toFixed(2)
     };
   }
 
@@ -701,10 +698,10 @@ class TransactionUtilities {
         }
 
         return tx[0].direction === 'self'
-            ? 'Self'
-            : tx[0].direction === 'outgoing'
-            ? I18n.t('history-outgoing')
-            : I18n.t('history-incoming');
+          ? 'Self'
+          : tx[0].direction === 'outgoing'
+          ? I18n.t('history-outgoing')
+          : I18n.t('history-incoming');
 
       case 'outgoing':
         return I18n.t('history-outgoing');
@@ -771,7 +768,7 @@ class TransactionUtilities {
         token = this.getToken(data),
         inOrOut = StyleUtilities.minusOrPlusIcon(
           data[0].type,
-          data[0].direction,
+          data[0].direction
         ),
         icon = this.getIcon(data, service),
         option = this.getOption(data, service, method);
@@ -785,11 +782,10 @@ class TransactionUtilities {
         token,
         icon,
         inOrOut,
-        option,
+        option
       };
     }
     throw 'data is not defined';
-
   }
 
   txDetailObject = (tx: any, checksumAddr: any) => {
@@ -802,7 +798,7 @@ class TransactionUtilities {
       token,
       icon,
       inOrOut,
-      option,
+      option
     } = this.txCommonObject(tx, checksumAddr);
     const networkFee =
         (parseInt(tx.getGasPrice(), 16) * parseInt(tx.gas, 16)) /
@@ -827,11 +823,10 @@ class TransactionUtilities {
         to,
         inOrOut,
         icon,
-        option,
+        option
       };
     }
     throw 'data is not defined';
-
   }
 
   isNumber = (value: any) => /^[0-9]\d*(\.\d+)?$/.test(value);
