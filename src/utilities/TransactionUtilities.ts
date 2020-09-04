@@ -71,18 +71,15 @@ class TransactionUtilities {
         return `${seconds} seconds ago`;
       case(seconds < 3600): {
         const minutes = Math.floor(seconds / 60);
-        if (minutes > 1) return `${minutes} minutes ago`;
-        return '1 minute ago';
+        return minutes > 1 ? `${minutes} minutes ago` : '1 minute ago';
       }
       case(seconds < 86400): {
         const hours = Math.floor(seconds / 3600);
-        if (hours > 1) return `${hours} hours ago`;
-        return '1 hour ago';
+        return hours > 1 ? `${hours} hours ago` : '1 hour ago';
       }
       case(seconds < 172800): {
         const days = Math.floor(seconds / 86400);
-        if (days > 1) return `${days} days ago`;
-        return '1 day ago';
+        return days > 1 ? `${days} days ago` : '1 day ago';
       }
       default: {
         const time = new Date(timestamp * 1000);
