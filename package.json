@@ -9,7 +9,7 @@
     "android": "react-native run-android",
     "start": "react-native start",
     "prettier": "prettier --write src",
-    "lint": "eslint --fix src/**/*.js",
+    "lint": "yarn eslint src --ext .js,.jsx,.ts,.tsx",
     "test": "NODE_ENV=test jest",
     "tsc": "tsc"
   },
@@ -82,9 +82,11 @@
     "@types/jest": "^26.0.9",
     "@types/react": "^16.9.46",
     "@types/react-native": "^0.63.7",
+    "@typescript-eslint/eslint-plugin": "^4.0.1",
+    "@typescript-eslint/parser": "^4.0.1",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^24.9.0",
-    "eslint": "^7.6.0",
+    "eslint": "^7.8.1",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.5",
@@ -96,7 +98,7 @@
     "react-test-renderer": "16.9.0",
     "rn-nodeify": "^10.0.1",
     "ts-jest": "^26.1.4",
-    "typescript": "2.4.0"
+    "typescript": "^2.4.0"
   },
   "husky": {
     "hooks": {
