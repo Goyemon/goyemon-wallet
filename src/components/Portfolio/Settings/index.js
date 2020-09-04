@@ -1,13 +1,13 @@
-'use strict';
-import React, { Component } from 'react';
-import { BackHandler } from 'react-native';
-import { connect } from 'react-redux';
-import { Linking, TouchableHighlight } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import styled from 'styled-components/native';
-import { clearState } from '../../../actions/ActionClearState';
-import { savePopUpModalVisibility } from '../../../actions/ActionModal';
-import { rehydrationComplete } from '../../../actions/ActionRehydration';
+"use strict";
+import React, { Component } from "react";
+import { BackHandler } from "react-native";
+import { connect } from "react-redux";
+import { Linking, TouchableHighlight } from "react-native";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import styled from "styled-components/native";
+import { clearState } from "../../../actions/ActionClearState";
+import { savePopUpModalVisibility } from "../../../actions/ActionModal";
+import { rehydrationComplete } from "../../../actions/ActionRehydration";
 import {
   RootContainer,
   HeaderOne,
@@ -15,14 +15,14 @@ import {
   Button,
   Description,
   SettingsListCard
-} from '../../common';
-import PopUpModal from '../../PopUpModal';
-import I18n from '../../../i18n/I18n';
-import storage from '../../../lib/tx';
-import PortfolioStack from '../../../navigators/PortfolioStack';
-import { persistor, store } from '../../../store/store.js';
-import LogUtilities from '../../../utilities/LogUtilities.js';
-import WalletUtilities from '../../../utilities/WalletUtilities.ts';
+} from "../../common";
+import PopUpModal from "../../PopUpModal";
+import I18n from "../../../i18n/I18n";
+import storage from "../../../lib/tx";
+import PortfolioStack from "../../../navigators/PortfolioStack";
+import { persistor, store } from "../../../store/store.js";
+import LogUtilities from "../../../utilities/LogUtilities.js";
+import WalletUtilities from "../../../utilities/WalletUtilities.ts";
 
 class Settings extends Component {
   constructor(props) {
@@ -36,7 +36,7 @@ class Settings extends Component {
     headerLeft: (
       <BackButtonContainer
         onPress={() => {
-          navigation.navigate('PortfolioHome');
+          navigation.navigate("PortfolioHome");
           PortfolioStack.navigationOptions = () => {
             const tabBarVisible = true;
             return {
@@ -51,11 +51,11 @@ class Settings extends Component {
   });
 
   componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
   }
 
   componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
   }
 
   handleBackButton() {
@@ -68,14 +68,14 @@ class Settings extends Component {
   }
 
   validateDeleteText(deleteText) {
-    if (deleteText === 'delete') {
-      LogUtilities.logInfo('the delete text validated!');
+    if (deleteText === "delete") {
+      LogUtilities.logInfo("the delete text validated!");
       this.setState({
         deleteTextValidation: true
       });
       return true;
     }
-    LogUtilities.logInfo('wrong delete text!');
+    LogUtilities.logInfo("wrong delete text!");
     this.setState({
       deleteTextValidation: false
     });
@@ -86,7 +86,7 @@ class Settings extends Component {
     const { navigation } = this.props;
     return (
       <RootContainer>
-        <HeaderOne marginTop="112">{I18n.t('settings-header')}</HeaderOne>
+        <HeaderOne marginTop="112">{I18n.t("settings-header")}</HeaderOne>
         <PopUpModal
           onPress={() => {
             this.props.savePopUpModalVisibility(false);
@@ -97,15 +97,15 @@ class Settings extends Component {
         >
           <ModalTextContainer>
             <ResetWalletHeader>
-              {I18n.t('settings-reset-title')}
+              {I18n.t("settings-reset-title")}
             </ResetWalletHeader>
             <Description marginBottom="0" marginLeft="0" marginTop="8">
-              {I18n.t('settings-reset-warning')}
+              {I18n.t("settings-reset-warning")}
             </Description>
           </ModalTextContainer>
           <DeleteTextInputContainer>
             <Description marginBottom="8" marginLeft="0" marginTop="16">
-              {I18n.t('settings-reset-instruction')}
+              {I18n.t("settings-reset-instruction")}
             </Description>
             <DeleteTextInput
               autoCapitalize="none"
@@ -117,7 +117,7 @@ class Settings extends Component {
           </DeleteTextInputContainer>
           <ButtonContainer>
             <Button
-              text={I18n.t('button-cancel')}
+              text={I18n.t("button-cancel")}
               textColor="#5F5F5F"
               backgroundColor="#EEEEEE"
               borderColor="#EEEEEE"
@@ -132,7 +132,7 @@ class Settings extends Component {
               }}
             />
             <Button
-              text={I18n.t('button-confirm')}
+              text={I18n.t("button-confirm")}
               textColor="#FFF"
               backgroundColor="#E41B13"
               borderColor="#E41B13"
@@ -147,7 +147,7 @@ class Settings extends Component {
                 this.props.clearState();
                 // reset notification settings using https://github.com/zo0r/react-native-push-notification
                 this.props.savePopUpModalVisibility(false);
-                navigation.navigate('Initial');
+                navigation.navigate("Initial");
                 store.dispatch(rehydrationComplete(true));
               }}
             />
@@ -158,9 +158,9 @@ class Settings extends Component {
             <Icon
               onPress={() => {
                 Linking.openURL(
-                  'https://twitter.com/GoyemonOfficial'
+                  "https://twitter.com/GoyemonOfficial"
                 ).catch((err) =>
-                  LogUtilities.logError('An error occurred', err)
+                  LogUtilities.logError("An error occurred", err)
                 );
               }}
               name="twitter"
@@ -171,8 +171,8 @@ class Settings extends Component {
           <CommunityIcon>
             <Icon
               onPress={() => {
-                Linking.openURL('https://github.com/Goyemon').catch((err) =>
-                  LogUtilities.logError('An error occurred', err)
+                Linking.openURL("https://github.com/Goyemon").catch((err) =>
+                  LogUtilities.logError("An error occurred", err)
                 );
               }}
               name="github"
@@ -183,8 +183,8 @@ class Settings extends Component {
           <CommunityIcon>
             <Icon
               onPress={() => {
-                Linking.openURL('https://discord.gg/MXGfnJG').catch((err) =>
-                  LogUtilities.logError('An error occurred', err)
+                Linking.openURL("https://discord.gg/MXGfnJG").catch((err) =>
+                  LogUtilities.logError("An error occurred", err)
                 );
               }}
               name="discord"
@@ -194,20 +194,20 @@ class Settings extends Component {
           </CommunityIcon>
         </CommunityIconContainer>
         <Description marginBottom="40" marginLeft="8" marginTop="16">
-          {I18n.t('settings-community')}
+          {I18n.t("settings-community")}
         </Description>
         <SettingsListContainer>
           <SettingsListCard
             iconName="key-outline"
-            onPress={() => navigation.navigate('BackupWords')}
+            onPress={() => navigation.navigate("BackupWords")}
           >
-            {I18n.t('settings-backup-words')}
+            {I18n.t("settings-backup-words")}
           </SettingsListCard>
           <SettingsListCard
             iconName="discord"
             onPress={() => {
-              Linking.openURL('https://discord.gg/MXGfnJG').catch((err) =>
-                LogUtilities.logError('An error occurred', err)
+              Linking.openURL("https://discord.gg/MXGfnJG").catch((err) =>
+                LogUtilities.logError("An error occurred", err)
               );
             }}
           >
@@ -215,9 +215,9 @@ class Settings extends Component {
           </SettingsListCard>
           <SettingsListCard
             iconName="wrench-outline"
-            onPress={() => navigation.navigate('Advanced')}
+            onPress={() => navigation.navigate("Advanced")}
           >
-            {I18n.t('advanced')}
+            {I18n.t("advanced")}
           </SettingsListCard>
         </SettingsListContainer>
         <UntouchableCardContainer
@@ -236,7 +236,7 @@ class Settings extends Component {
               this.props.savePopUpModalVisibility(true);
             }}
           >
-            <ResetWalletText>{I18n.t('settings-reset-wallet')}</ResetWalletText>
+            <ResetWalletText>{I18n.t("settings-reset-wallet")}</ResetWalletText>
           </TouchableHighlight>
         </UntouchableCardContainer>
         <BottomText>
@@ -282,14 +282,14 @@ const SettingsListContainer = styled.View`
 
 const ResetWalletHeader = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Bold';
+  font-family: "HKGrotesk-Bold";
   font-size: 24;
   text-align: center;
 `;
 
 const ResetWalletText = styled.Text`
   color: #e41b13;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 24;
 `;
 
@@ -327,13 +327,13 @@ const BottomText = styled.View`
 
 const VersionText = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   margin-bottom: 40;
 `;
 
 const LoveText = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   margin-bottom: 48;
 `;
 

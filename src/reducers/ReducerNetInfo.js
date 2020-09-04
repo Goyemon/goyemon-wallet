@@ -1,5 +1,5 @@
-'use strict';
-import { SAVE_NET_INFO } from '../constants/ActionTypes';
+"use strict";
+import { SAVE_NET_INFO } from "../constants/ActionTypes";
 
 const INITIAL_STATE = {
   isOnline: true

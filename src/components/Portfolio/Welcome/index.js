@@ -1,20 +1,20 @@
-'use strict';
-import React, { Component } from 'react';
-import { View } from 'react-native';
-import * as Animatable from 'react-native-animatable';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import styled from 'styled-components/native';
-import CompoundIcon from '../../../../assets/CompoundIcon.js';
-import PoolTogetherIcon from '../../../../assets/PoolTogetherIcon.js';
-import UniswapIcon from '../../../../assets/UniswapIcon.js';
+"use strict";
+import React, { Component } from "react";
+import { View } from "react-native";
+import * as Animatable from "react-native-animatable";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import styled from "styled-components/native";
+import CompoundIcon from "../../../../assets/CompoundIcon.js";
+import PoolTogetherIcon from "../../../../assets/PoolTogetherIcon.js";
+import UniswapIcon from "../../../../assets/UniswapIcon.js";
 import {
   RootContainer,
   HeaderThree,
   TouchableCardContainer
-} from '../../common';
-import I18n from '../../../i18n/I18n';
-import WalletUtilities from '../../../utilities/WalletUtilities';
+} from "../../common";
+import I18n from "../../../i18n/I18n";
+import WalletUtilities from "../../../utilities/WalletUtilities";
 
 export default class Welcome extends Component {
   constructor(props) {
@@ -77,11 +77,11 @@ export default class Welcome extends Component {
           <IconContainer>
             <IconImage>
               <CoinImage
-                source={require('../../../../assets/ether_icon.png')}
+                source={require("../../../../assets/ether_icon.png")}
               />
             </IconImage>
             <IconImage>
-              <CoinImage source={require('../../../../assets/dai_icon.png')} />
+              <CoinImage source={require("../../../../assets/dai_icon.png")} />
             </IconImage>
             <IconImage>
               <CompoundIcon />
@@ -103,7 +103,7 @@ export default class Welcome extends Component {
             textAlign="left"
             width="80%"
             onPress={() => {
-              navigation.navigate('CreateWalletTutorial');
+              navigation.navigate("CreateWalletTutorial");
             }}
           >
             <View>
@@ -113,9 +113,9 @@ export default class Welcome extends Component {
                 marginLeft="8"
                 marginTop="0"
               >
-                {I18n.t('welcome-create')}
+                {I18n.t("welcome-create")}
               </HeaderThree>
-              <CardText>{I18n.t('welcome-new-wallet')}</CardText>
+              <CardText>{I18n.t("welcome-new-wallet")}</CardText>
             </View>
             <CardImage>
               <Icon name="account-plus-outline" size={48} color="#5f5f5f" />
@@ -128,7 +128,7 @@ export default class Welcome extends Component {
             justifyContent="space-between"
             textAlign="left"
             width="80%"
-            onPress={() => navigation.navigate('ImportMnemonicWords')}
+            onPress={() => navigation.navigate("ImportMnemonicWords")}
           >
             <View>
               <HeaderThree
@@ -137,9 +137,9 @@ export default class Welcome extends Component {
                 marginLeft="8"
                 marginTop="0"
               >
-                {I18n.t('welcome-import')}
+                {I18n.t("welcome-import")}
               </HeaderThree>
-              <CardText>{I18n.t('welcome-existing-wallet')}</CardText>
+              <CardText>{I18n.t("welcome-existing-wallet")}</CardText>
             </View>
             <CardImage>
               <Icon name="account-search-outline" size={48} color="#5f5f5f" />
@@ -152,23 +152,23 @@ export default class Welcome extends Component {
 }
 
 const HollaContainer = Animatable.createAnimatableComponent(styled.View`
-  margin-top: ${hp('40%')};
+  margin-top: ${hp("40%")};
 `);
 
 const WelcomeFirstContainer = Animatable.createAnimatableComponent(styled.View`
   align-items: center;
   flex: 1;
-  margin-top: ${hp('-40%')};
+  margin-top: ${hp("-40%")};
 `);
 
 const WelcomeSecondContainer = Animatable.createAnimatableComponent(styled.View`
   align-items: center;
   flex: 1;
-  margin-top: ${hp('0%')};
+  margin-top: ${hp("0%")};
 `);
 
 const Title = Animatable.createAnimatableComponent(styled.Text`
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 64;
   margin-bottom: 16;
   text-align: center;
@@ -176,7 +176,7 @@ const Title = Animatable.createAnimatableComponent(styled.Text`
 
 const Logo = Animatable.createAnimatableComponent(styled.Text`
   color: #e41b13;
-  font-family: 'HKGrotesk-Bold';
+  font-family: "HKGrotesk-Bold";
   font-size: 40;
   margin-top: 48;
   margin-bottom: 48;
@@ -191,7 +191,7 @@ const OneLinerContainer = styled.View`
 const OneLiner = styled.Text`
   color: #5f5f5f;
   font-size: 32;
-  font-family: 'HKGrotesk-Bold';
+  font-family: "HKGrotesk-Bold";
   margin-bottom: 8;
   text-align: center;
 `;
@@ -214,21 +214,21 @@ const CoinImage = styled.Image`
 
 const TitleRedText = styled.Text`
   color: #e41b13;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
 `;
 
 const TitleGreenText = styled.Text`
   color: #1ba548;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
 `;
 
 const TitleOrangeText = styled.Text`
   color: #fdc800;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
 `;
 
 const CardText = styled.Text`
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 16;
   margin-left: 8;
   padding-top: 8px;

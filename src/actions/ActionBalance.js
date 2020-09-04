@@ -1,5 +1,5 @@
-'use strict';
-import BigNumber from 'bignumber.js';
+"use strict";
+import BigNumber from "bignumber.js";
 import {
   SAVE_WEI_BALANCE,
   SAVE_DAI_BALANCE,
@@ -7,13 +7,13 @@ import {
   SAVE_COMPOUND_DAI_BALANCE,
   SAVE_POOL_TOGETHER_DAI_BALANCE,
   MOVE_POOL_TOGETHER_DAI_BALANCE
-} from '../constants/ActionTypes';
-import LogUtilities from '../utilities/LogUtilities.js';
+} from "../constants/ActionTypes";
+import LogUtilities from "../utilities/LogUtilities.js";
 
 export function saveWeiBalance(weiBalance) {
   return async function (dispatch) {
     try {
-      LogUtilities.logInfo('weiBalance ==>', weiBalance);
+      LogUtilities.logInfo("weiBalance ==>", weiBalance);
       dispatch(saveWeiBalanceSuccess(weiBalance));
     } catch (err) {
       LogUtilities.logError(err);

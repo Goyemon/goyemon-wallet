@@ -1,6 +1,6 @@
-'use strict';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+"use strict";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import {
   RootContainer,
   Container,
@@ -9,10 +9,10 @@ import {
   HeaderTwo,
   Description,
   Loader
-} from '../../common';
-import FcmPermissions from '../../../firebase/FcmPermissions.js';
-import I18n from '../../../i18n/I18n';
-import LogUtilities from '../../../utilities/LogUtilities.js';
+} from "../../common";
+import FcmPermissions from "../../../firebase/FcmPermissions.js";
+import I18n from "../../../i18n/I18n";
+import LogUtilities from "../../../utilities/LogUtilities.js";
 
 class NotificationPermissionTutorial extends Component {
   constructor() {
@@ -26,11 +26,11 @@ class NotificationPermissionTutorial extends Component {
   notificationPermissionNavigation() {
     const { permissions, navigation } = this.props;
     if (permissions.notification === null) {
-      LogUtilities.logInfo('notification permission is not set');
+      LogUtilities.logInfo("notification permission is not set");
     } else if (permissions.notification === true) {
-      navigation.navigate('WalletCreation');
+      navigation.navigate("WalletCreation");
     } else if (permissions.notification === false) {
-      navigation.navigate('NotificationPermissionNotGranted');
+      navigation.navigate("NotificationPermissionNotGranted");
     }
   }
 
@@ -55,10 +55,10 @@ class NotificationPermissionTutorial extends Component {
             Almost Done!
           </HeaderTwo>
           <Description marginBottom="8" marginLeft="0" marginTop="16">
-            {I18n.t('notification-tutorial-description')}
+            {I18n.t("notification-tutorial-description")}
           </Description>
           <Button
-            text={I18n.t('button-enable')}
+            text={I18n.t("button-enable")}
             textColor="#00A3E2"
             backgroundColor="#FFF"
             borderColor="#00A3E2"

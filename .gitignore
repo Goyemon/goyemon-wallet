@@ -54,6 +54,7 @@ node_modules
 *.log
 .nvm
 /bots/node_modules/
+yarn.lock
 
 # OS X
 .DS_Store

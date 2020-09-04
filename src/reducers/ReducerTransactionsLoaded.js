@@ -1,5 +1,5 @@
-'use strict';
-import { SAVE_TRANSACTIONS_LOADED } from '../constants/ActionTypes';
+"use strict";
+import { SAVE_TRANSACTIONS_LOADED } from "../constants/ActionTypes";
 
 const INITIAL_STATE = {
   transactionsLoaded: null

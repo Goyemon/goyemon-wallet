@@ -1,16 +1,16 @@
-'use strict';
-import React, { Component } from 'react';
-import { HorizontalLine } from '../common';
-import LogUtilities from '../../utilities/LogUtilities';
-import SwapBox from './SwapBox';
-import TransactionDetailHeader from './TransactionDetailHeader';
-import PTWithdrawBox from './PTWithdrawBox';
-import NormalBox from './NormalBox';
-import TransactionDetailFooter from './TransactionDetailFooter';
+"use strict";
+import React, { Component } from "react";
+import { HorizontalLine } from "../common";
+import LogUtilities from "../../utilities/LogUtilities";
+import SwapBox from "./SwapBox";
+import TransactionDetailHeader from "./TransactionDetailHeader";
+import PTWithdrawBox from "./PTWithdrawBox";
+import NormalBox from "./NormalBox";
+import TransactionDetailFooter from "./TransactionDetailFooter";
 
 export default class TransactionDetailContainer extends Component {
   componentDidMount() {
-    LogUtilities.toDebugScreen('TDC componentDidMount', this.props.data);
+    LogUtilities.toDebugScreen("TDC componentDidMount", this.props.data);
   }
 
   render() {
@@ -29,9 +29,9 @@ export default class TransactionDetailContainer extends Component {
     } = this.props.data;
     let { method } = this.props.data;
     const { name, size, color } = this.props.data.inOrOut;
-    if (service === 'PoolTogether' || service === 'Uniswap') {
-      if (!option && method === 'Withdraw') method = 'Outgoing';
-      if (!option && method === 'Swap') method = 'Outgoing';
+    if (service === "PoolTogether" || service === "Uniswap") {
+      if (!option && method === "Withdraw") method = "Outgoing";
+      if (!option && method === "Swap") method = "Outgoing";
     }
 
     return (
@@ -42,8 +42,8 @@ export default class TransactionDetailContainer extends Component {
           status={status}
           method={method}
         />
-        {name === '' ? null : service === 'PoolTogether' &&
-          method === 'Withdraw' ? (
+        {name === "" ? null : service === "PoolTogether" &&
+          method === "Withdraw" ? (
           <PTWithdrawBox
             name={name}
             size={size}
@@ -51,7 +51,7 @@ export default class TransactionDetailContainer extends Component {
             option={option}
             token={token}
           />
-        ) : method === 'Swap' ? (
+        ) : method === "Swap" ? (
           <SwapBox option={option} />
         ) : (
           <NormalBox

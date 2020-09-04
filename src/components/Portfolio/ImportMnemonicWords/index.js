@@ -1,10 +1,10 @@
-'use strict';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { KeyboardAvoidingView, Platform, View, Clipboard } from 'react-native';
-import styled from 'styled-components/native';
-import { saveMnemonicWords } from '../../../actions/ActionMnemonic';
-import { updateMnemonicWordsValidation } from '../../../actions/ActionMnemonicWordsValidation';
+"use strict";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { KeyboardAvoidingView, Platform, View, Clipboard } from "react-native";
+import styled from "styled-components/native";
+import { saveMnemonicWords } from "../../../actions/ActionMnemonic";
+import { updateMnemonicWordsValidation } from "../../../actions/ActionMnemonicWordsValidation";
 import {
   RootContainer,
   Container,
@@ -15,19 +15,19 @@ import {
   ErrorMessage,
   Loader,
   GoyemonText
-} from '../../common';
-import I18n from '../../../i18n/I18n';
-import LogUtilities from '../../../utilities/LogUtilities.js';
-import WalletUtilities from '../../../utilities/WalletUtilities.ts';
+} from "../../common";
+import I18n from "../../../i18n/I18n";
+import LogUtilities from "../../../utilities/LogUtilities.js";
+import WalletUtilities from "../../../utilities/WalletUtilities.ts";
 
 class ImportMnemonicWords extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mnemonicWords: '',
+      mnemonicWords: "",
       mnemonicWordsValidation: true,
       loading: false,
-      copiedText: ''
+      copiedText: ""
     };
   }
 
@@ -38,14 +38,14 @@ class ImportMnemonicWords extends Component {
       this.props.updateMnemonicWordsValidation(true);
       await WalletUtilities.setMnemonic(this.state.mnemonicWords);
       await this.props.saveMnemonicWords();
-      if (Platform.OS === 'ios') {
-        this.props.navigation.navigate('NotificationPermissionTutorial');
-      } else if (Platform.OS === 'android') {
-        this.props.navigation.navigate('WalletCreation');
+      if (Platform.OS === "ios") {
+        this.props.navigation.navigate("NotificationPermissionTutorial");
+      } else if (Platform.OS === "android") {
+        this.props.navigation.navigate("WalletCreation");
       }
     } else {
       this.setState({ mnemonicWordsValidation: false });
-      LogUtilities.logInfo('form validation failed!');
+      LogUtilities.logInfo("form validation failed!");
     }
   }
 
@@ -67,7 +67,7 @@ class ImportMnemonicWords extends Component {
     return (
       <KeyboardAvoidingView
         style={styles.avoidKeyboard}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
         enabled
       >
         <RootContainer>
@@ -86,10 +86,10 @@ class ImportMnemonicWords extends Component {
             width="95%"
           >
             <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
-              {I18n.t('import-title')}
+              {I18n.t("import-title")}
             </HeaderTwo>
             <Description marginBottom="8" marginLeft="8" marginTop="16">
-              {I18n.t('import-description')}
+              {I18n.t("import-description")}
             </Description>
             <MnemonicWordsContainer>
               <MnemonicWordsInput
@@ -111,7 +111,7 @@ class ImportMnemonicWords extends Component {
               *typically 12 or 24 words seperated by single spaces
             </GoyemonText>
             <Button
-              text={I18n.t('button-next')}
+              text={I18n.t("button-next")}
               textColor="#00A3E2"
               backgroundColor="#FFF"
               borderColor="#00A3E2"
@@ -135,8 +135,8 @@ class ImportMnemonicWords extends Component {
 const styles = {
   avoidKeyboard: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center'
+    flexDirection: "column",
+    justifyContent: "center"
   }
 };
 
@@ -151,7 +151,7 @@ const MnemonicWordsContainer = styled.View`
 `;
 
 const MnemonicWordsInput = styled.TextInput`
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 20;
   height: 180px;
 `;
@@ -162,7 +162,7 @@ const PasteContainer = styled.TouchableOpacity`
 
 const PasteText = styled.Text`
   color: #00a3e2;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 16;
 `;
 

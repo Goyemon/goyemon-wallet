@@ -1,21 +1,21 @@
-'use strict';
-import TransactionUtilities from './TransactionUtilities';
+"use strict";
+import TransactionUtilities from "./TransactionUtilities";
 import {
   TxTokenOpNameToClass,
   TxTokenOpTypeToName
-} from '../lib/tx/TokenOpType';
+} from "../lib/tx/TokenOpType";
 
 class EtherUtilities {
   static hexArrayToString(array) {
-    return Buffer.from(array).toString('hex');
+    return Buffer.from(array).toString("hex");
   }
 
   static getAddressWithout0x(address) {
     const addressWithout0x =
-      address.substr(0, 2) == '0x' && address.length > 2
+      address.substr(0, 2) == "0x" && address.length > 2
         ? address.substr(2)
         : address.length < 2
-        ? '0000000000000000000000000000000000000000'
+        ? "0000000000000000000000000000000000000000"
         : address;
     return addressWithout0x.toLowerCase();
   }
@@ -23,13 +23,13 @@ class EtherUtilities {
   static getCompoundErrorCode(code) {
     switch (true) {
       case 30 <= code && 38 >= code:
-        return 'mint';
+        return "mint";
       case 39 <= code && 47 >= code:
-        return 'redeem';
+        return "redeem";
       case 74 <= code:
-        return 'transfer';
+        return "transfer";
       default:
-        return 'unknown';
+        return "unknown";
     }
   }
 
@@ -40,7 +40,7 @@ class EtherUtilities {
       top instanceof TxTokenOpNameToClass[TxTokenOpTypeToName.U2swap]
     )
       return {
-        type: 'swap',
+        type: "swap",
         eth_sold: parseFloat(
           TransactionUtilities.parseETHValue(`0x${top.eth_sold}`)
         ).toFixed(4),
@@ -58,31 +58,31 @@ class EtherUtilities {
         TxTokenOpNameToClass[TxTokenOpTypeToName.PTsponsorshipDeposited]
     )
       return {
-        type: 'deposit',
+        type: "deposit",
         amount: TransactionUtilities.parseHexDAIValue(
           `0x${top.depositPoolAmount}`
         ),
-        token: 'DAI'
+        token: "DAI"
       };
 
     if (top instanceof TxTokenOpNameToClass[TxTokenOpTypeToName.transfer])
       return {
-        type: 'transfer',
+        type: "transfer",
         amount: TransactionUtilities.parseHexDAIValue(`0x${top.amount}`),
         direction:
           top.from_addr === our_address_without_0x
             ? top.to_addr.toLowerCase() === our_address_without_0x.toLowerCase()
-              ? 'self'
-              : 'outgoing'
+              ? "self"
+              : "outgoing"
             : top.to_addr === our_address_without_0x
-            ? 'incoming'
-            : 'unknown',
+            ? "incoming"
+            : "unknown",
         token: toptok
       };
 
     if (top instanceof TxTokenOpNameToClass[TxTokenOpTypeToName.failure]) {
       return {
-        type: 'failure',
+        type: "failure",
         failop: this.getCompoundErrorCode(parseInt(top.info, 16)),
         token: toptok
       };
@@ -90,13 +90,13 @@ class EtherUtilities {
 
     if (top instanceof TxTokenOpNameToClass[TxTokenOpTypeToName.approval])
       return {
-        type: 'approval',
+        type: "approval",
         token: toptok
       };
 
     if (top instanceof TxTokenOpNameToClass[TxTokenOpTypeToName.mint])
       return {
-        type: 'deposit',
+        type: "deposit",
         amount: TransactionUtilities.parseHexDAIValue(
           `0x${top.mintUnderlying}`
         ),
@@ -105,7 +105,7 @@ class EtherUtilities {
 
     if (top instanceof TxTokenOpNameToClass[TxTokenOpTypeToName.redeem])
       return {
-        type: 'withdraw',
+        type: "withdraw",
         amount: TransactionUtilities.parseHexDAIValue(
           `0x${top.redeemUnderlying}`
         ),
@@ -114,14 +114,14 @@ class EtherUtilities {
 
     if (top instanceof TxTokenOpNameToClass[TxTokenOpTypeToName.PTrewarded])
       return {
-        type: 'rewarded',
+        type: "rewarded",
         amount: TransactionUtilities.parseHexDAIValue(`0x${top.winnings}`),
         token: toptok
       };
 
     if (top instanceof TxTokenOpNameToClass[TxTokenOpTypeToName.PTwithdrawn])
       return {
-        type: 'withdraw',
+        type: "withdraw",
         token: toptok,
         amount: TransactionUtilities.parseHexDAIValue(`0x${top.withdrawAmount}`)
       };
@@ -131,7 +131,7 @@ class EtherUtilities {
       TxTokenOpNameToClass[TxTokenOpTypeToName.PTopenDepositWithdrawn]
     )
       return {
-        type: 'open deposit withdraw',
+        type: "open deposit withdraw",
         token: toptok,
         amount: TransactionUtilities.parseHexDAIValue(`0x${top.withdrawAmount}`)
       };
@@ -141,7 +141,7 @@ class EtherUtilities {
       TxTokenOpNameToClass[TxTokenOpTypeToName.PTsponsorshipAndFeesWithdrawn]
     )
       return {
-        type: 'sponsorship withdraw',
+        type: "sponsorship withdraw",
         token: toptok,
         amount: TransactionUtilities.parseHexDAIValue(`0x${top.withdrawAmount}`)
       };
@@ -151,13 +151,13 @@ class EtherUtilities {
       TxTokenOpNameToClass[TxTokenOpTypeToName.PTcommittedDepositWithdrawn]
     )
       return {
-        type: 'committed deposit withdraw',
+        type: "committed deposit withdraw",
         token: toptok,
         amount: TransactionUtilities.parseHexDAIValue(`0x${top.withdrawAmount}`)
       };
 
     return {
-      type: 'oops'
+      type: "oops"
     };
   }
 }

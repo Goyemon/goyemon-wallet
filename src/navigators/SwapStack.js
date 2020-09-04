@@ -1,6 +1,6 @@
-'use strict';
-import { createStackNavigator } from 'react-navigation-stack';
-import Swap from '../components/Swap/Swap';
+"use strict";
+import { createStackNavigator } from "react-navigation-stack";
+import Swap from "../components/Swap/Swap";
 
 const SwapStack = createStackNavigator(
   {
@@ -8,12 +8,12 @@ const SwapStack = createStackNavigator(
       screen: Swap,
       navigationOptions: () => ({
         headerTransparent: true,
-        headerBackTitle: 'Swap'
+        headerBackTitle: "Swap"
       })
     }
   },
   {
-    initialRouteName: 'Swap'
+    initialRouteName: "Swap"
   }
 );
 

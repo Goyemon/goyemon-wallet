@@ -1,6 +1,6 @@
-'use strict';
-import React from 'react';
-import { ActivityIndicator } from 'react-native';
+"use strict";
+import React from "react";
+import { ActivityIndicator } from "react-native";
 
 const Loader = (props) => {
   return (

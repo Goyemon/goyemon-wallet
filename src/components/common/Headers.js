@@ -1,6 +1,6 @@
-'use strict';
-import React from 'react';
-import styled from 'styled-components/native';
+"use strict";
+import React from "react";
+import styled from "styled-components/native";
 
 const HeaderOne = (props) => (
   <HeaderOneText marginTop={props.marginTop}>{props.children}</HeaderOneText>
@@ -12,7 +12,7 @@ const NewHeaderOne = (props) => (
 
 const HeaderOneText = styled.Text`
   font-size: 32;
-  font-family: 'HKGrotesk-Bold';
+  font-family: "HKGrotesk-Bold";
   margin-left: 16;
   margin-top: ${(props) => `${props.marginTop}`};
 `;
@@ -29,7 +29,7 @@ const HeaderTwo = (props) => (
 
 const HeaderTwoText = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Bold';
+  font-family: "HKGrotesk-Bold";
   font-size: 24;
   margin-bottom: ${(props) => `${props.marginBottom}`};
   margin-left: ${(props) => `${props.marginLeft}`};
@@ -62,7 +62,7 @@ const HeaderThree = (props) => (
 
 const HeaderThreeText = styled.Text`
   color: ${(props) => props.color};
-  font-family: 'HKGrotesk-Bold';
+  font-family: "HKGrotesk-Bold";
   font-size: 16;
   margin-bottom: ${(props) => `${props.marginBottom}`};
   margin-left: ${(props) => `${props.marginLeft}`};
@@ -80,7 +80,7 @@ const HeaderFour = (props) => (
 
 const HeaderFourText = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 20;
   margin-bottom: 16;
   margin-top: ${(props) => `${props.marginTop}`};
@@ -100,7 +100,7 @@ const Header = styled.View`
 
 const HeaderText = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   text-transform: uppercase;
 `;
 
@@ -122,7 +122,7 @@ const FormHeaderContainer = styled.View`
 
 const FormHeaderText = styled.Text`
   color: #000;
-  font-family: 'HKGrotesk-Bold';
+  font-family: "HKGrotesk-Bold";
   font-size: 20;
   margin-bottom: ${(props) => `${props.marginBottom}`};
   margin-top: ${(props) => `${props.marginTop}`};

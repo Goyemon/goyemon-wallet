@@ -29,14 +29,14 @@
     "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
-      "quotes": [2, "single"],
       "no-unused-vars": ["error", { "vars": "local" }],
       "no-undef": "error",
       "react/prop-types": 0,
       "no-prototype-builtins": 0,
       "react/display-name": 0,
       "react/no-string-refs": 0,
-      "@typescript-eslint/explicit-module-boundary-types": "off"
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "@typescript-eslint/no-var-requires": 0
   },
   "overrides": [
     {

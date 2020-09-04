@@ -1,11 +1,11 @@
-'use strict';
-import React, { Component } from 'react';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { connect } from 'react-redux';
-import Modal from 'react-native-modal';
-import styled from 'styled-components/native';
-import { saveBuyCryptoModalVisibility } from '../actions/ActionModal';
-import MoonPayWebView from './Portfolio/BuyCrypto/MoonPayWebView';
+"use strict";
+import React, { Component } from "react";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { connect } from "react-redux";
+import Modal from "react-native-modal";
+import styled from "styled-components/native";
+import { saveBuyCryptoModalVisibility } from "../actions/ActionModal";
+import MoonPayWebView from "./Portfolio/BuyCrypto/MoonPayWebView";
 
 class BuyCryptoModal extends Component {
   render() {
@@ -21,8 +21,8 @@ class BuyCryptoModal extends Component {
           marginLeft: 4,
           marginRight: 4,
           marginBottom: 0,
-          flexDirection: 'row',
-          alignItems: 'flex-end'
+          flexDirection: "row",
+          alignItems: "flex-end"
         }}
       >
         <ModalContainer>

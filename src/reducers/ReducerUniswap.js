@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 import {
   UPDATE_SLIPPAGE_CHOSEN,
   SAVE_UNISWAPV2_WETH_DAI_RESERVE
-} from '../constants/ActionTypes';
+} from "../constants/ActionTypes";
 
 const INITIAL_STATE = {
   uniswap: {
@@ -19,8 +19,8 @@ const INITIAL_STATE = {
     ],
     slippageChosen: 1,
     daiExchange: {
-      weiReserve: '',
-      daiReserve: ''
+      weiReserve: "",
+      daiReserve: ""
     }
   }
 };

@@ -1,6 +1,6 @@
-'use strict';
-import React, { Component } from 'react';
-import styled from 'styled-components';
+"use strict";
+import React, { Component } from "react";
+import styled from "styled-components";
 
 class Countdown extends Component {
   constructor() {
@@ -99,13 +99,13 @@ class Countdown extends Component {
         <CountdownInner>
           <CountdownText> {`${remainingDays}`}</CountdownText>
           <CountdownText>{`${
-            (remainingHours < 10 ? '0' : '') + remainingHours
+            (remainingHours < 10 ? "0" : "") + remainingHours
           }`}</CountdownText>
           <CountdownText>{`${
-            (remainingMins < 10 ? '0' : '') + remainingMins
+            (remainingMins < 10 ? "0" : "") + remainingMins
           }`}</CountdownText>
           <CountdownText>{`${
-            (remainingSecs < 10 ? '0' : '') + remainingSecs
+            (remainingSecs < 10 ? "0" : "") + remainingSecs
           }`}</CountdownText>
         </CountdownInner>
         <CountdownInner>
@@ -131,14 +131,14 @@ const CountdownInner = styled.View`
 `;
 const CountdownText = styled.Text`
   color: #000;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 24;
   margin: 2px 12px;
 `;
 
 const CountdownDateText = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 16;
   margin: 0 8px;
 `;

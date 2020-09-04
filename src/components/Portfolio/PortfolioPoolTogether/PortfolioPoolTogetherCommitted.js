@@ -1,11 +1,11 @@
-'use strict';
-import React, { Component } from 'react';
-import { View } from 'react-native';
-import { connect } from 'react-redux';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import styled from 'styled-components';
-import { Container, HeaderFive, GoyemonText } from '../../common';
-import { RoundDownBigNumberPlacesFour } from '../../../utilities/BigNumberUtilities';
+"use strict";
+import React, { Component } from "react";
+import { View } from "react-native";
+import { connect } from "react-redux";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import styled from "styled-components";
+import { Container, HeaderFive, GoyemonText } from "../../common";
+import { RoundDownBigNumberPlacesFour } from "../../../utilities/BigNumberUtilities";
 
 class PortfolioPoolTogetherCommitted extends Component {
   renderChanceOfWinning() {
@@ -93,7 +93,7 @@ class PortfolioPoolTogetherCommitted extends Component {
             <RoundInfo>
               <IconContainer>
                 <CoinImage
-                  source={require('../../../../assets/dai_icon.png')}
+                  source={require("../../../../assets/dai_icon.png")}
                 />
               </IconContainer>
               <View>

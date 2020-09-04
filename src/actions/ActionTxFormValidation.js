@@ -1,6 +1,6 @@
-'use strict';
-import { UPDATE_TOADDRESS_VALIDATION } from '../constants/ActionTypes';
-import LogUtilities from '../utilities/LogUtilities.js';
+"use strict";
+import { UPDATE_TOADDRESS_VALIDATION } from "../constants/ActionTypes";
+import LogUtilities from "../utilities/LogUtilities.js";
 
 export function updateToAddressValidation(validation) {
   return async function (dispatch) {

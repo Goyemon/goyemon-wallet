@@ -9,7 +9,7 @@
     "android": "react-native run-android",
     "start": "react-native start",
     "prettier": "prettier --write src",
-    "lint": "yarn eslint src --ext .js,.jsx,.ts,.tsx",
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
     "test": "NODE_ENV=test jest",
     "tsc": "tsc"
   },
@@ -110,17 +110,14 @@
     "printWidth": 80,
     "tabWidth": 2,
     "semi": true,
-    "singleQuote": true,
     "trailingComma": "none",
-    "useTabs": false
+    "useTabs": false,
+    "endOfLine": "auto"
   },
   "lint-staged": {
-    "*.{js,jsx}": [
+    "*.{js,jsx,ts,tsx}": [
       "prettier --write src",
-      "git add"
-    ],
-    "*.js": [
-      "eslint --fix src/**/*.js",
+      "eslint src --ext .js,.jsx,.ts,.tsx",
       "git add"
     ]
   },

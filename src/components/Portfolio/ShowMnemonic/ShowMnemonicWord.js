@@ -1,7 +1,7 @@
-'use strict';
-import React, { Component } from 'react';
-import { Text } from 'react-native';
-import styled from 'styled-components/native';
+"use strict";
+import React, { Component } from "react";
+import { Text } from "react-native";
+import styled from "styled-components/native";
 
 export default class ShowMnemonicWord extends Component {
   render() {
@@ -16,14 +16,14 @@ export default class ShowMnemonicWord extends Component {
 
 const styles = {
   cell: {
-    flexBasis: '25%',
+    flexBasis: "25%",
     flex: 1
   },
   text: {
-    fontFamily: 'HKGrotesk-Regular',
+    fontFamily: "HKGrotesk-Regular",
     fontSize: 16,
     padding: 4,
-    textAlign: 'center'
+    textAlign: "center"
   }
 };
 

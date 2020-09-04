@@ -1,5 +1,5 @@
-'use strict';
-import BigNumber from 'bignumber.js';
+"use strict";
+import BigNumber from "bignumber.js";
 
 export const RoundDownBigNumberPlacesFour = BigNumber.clone({
   DECIMAL_PLACES: 4,

@@ -1,21 +1,21 @@
-'use strict';
+"use strict";
 import {
   GET_GAS_PRICE,
   UPDATE_GAS_PRICE_CHOSEN
-} from '../constants/ActionTypes';
-import LogUtilities from '../utilities/LogUtilities.js';
+} from "../constants/ActionTypes";
+import LogUtilities from "../utilities/LogUtilities.js";
 
 export function getGasPrice() {
   return async function (dispatch) {
     try {
       let gasPrice = await fetch(
-        'https://ethgasstation.info/json/ethgasAPI.json'
+        "https://ethgasstation.info/json/ethgasAPI.json"
       );
       if (gasPrice.status === 200) {
         gasPrice = await gasPrice.json();
         dispatch(getGasPriceSuccess(gasPrice));
       } else {
-        LogUtilities.logInfo('http error');
+        LogUtilities.logInfo("http error");
       }
     } catch (err) {
       LogUtilities.logError(err);

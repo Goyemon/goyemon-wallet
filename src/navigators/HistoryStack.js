@@ -1,6 +1,6 @@
-'use strict';
-import { createStackNavigator } from 'react-navigation-stack';
-import History from '../components/History/History';
+"use strict";
+import { createStackNavigator } from "react-navigation-stack";
+import History from "../components/History/History";
 
 const HistoryStack = createStackNavigator(
   {
@@ -8,12 +8,12 @@ const HistoryStack = createStackNavigator(
       screen: History,
       navigationOptions: () => ({
         headerTransparent: true,
-        headerBackTitle: 'History'
+        headerBackTitle: "History"
       })
     }
   },
   {
-    initialRouteName: 'History'
+    initialRouteName: "History"
   }
 );
 

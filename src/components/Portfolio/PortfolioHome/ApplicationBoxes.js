@@ -1,10 +1,10 @@
-'use strict';
-import React from 'react';
-import { TouchableCardContainer, GoyemonText } from '../../common';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import CompoundIcon from '../../../../assets/CompoundIcon.js';
-import PoolTogetherIcon from '../../../../assets/PoolTogetherIcon.js';
-import styled from 'styled-components';
+"use strict";
+import React from "react";
+import { TouchableCardContainer, GoyemonText } from "../../common";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import CompoundIcon from "../../../../assets/CompoundIcon.js";
+import PoolTogetherIcon from "../../../../assets/PoolTogetherIcon.js";
+import styled from "styled-components";
 
 const ApplicationBoxes = (props) => (
   <>
@@ -32,18 +32,18 @@ const ApplicationBox = (props) => (
     <IconImageContainer>
       {(() => {
         switch (props.name) {
-          case 'Wallet':
+          case "Wallet":
             return <Icon name="wallet-outline" size={40} color="#5f5f5f" />;
-          case 'Compound':
+          case "Compound":
             return <CompoundIcon />;
-          case 'PoolTogether':
+          case "PoolTogether":
             return <PoolTogetherIcon />;
         }
       })()}
     </IconImageContainer>
     <NameContainer>
       <NameText>{props.name}</NameText>
-      {props.name === 'Wallet' && (
+      {props.name === "Wallet" && (
         <GoyemonText fontSize={12}>ETH and ERC20</GoyemonText>
       )}
     </NameContainer>
@@ -65,7 +65,7 @@ const NameContainer = styled.View`
 
 const NameText = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 20;
 `;
 
@@ -75,7 +75,7 @@ const BalanceContainer = styled.View`
 
 const ApplicationBalanceText = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 20;
 `;
 

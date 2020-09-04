@@ -1,7 +1,7 @@
-'use strict';
-import React from 'react';
-import { View } from 'react-native';
-import { ErrorMessage } from './ErrorMessage';
+"use strict";
+import React from "react";
+import { View } from "react-native";
+import { ErrorMessage } from "./ErrorMessage";
 
 const AmountValidateMessage = (props) => {
   if (props.amountValidation || props.amountValidation === undefined)
@@ -9,7 +9,7 @@ const AmountValidateMessage = (props) => {
   else
     return (
       <ErrorMessage textAlign="center">
-        invalid {props.isEth ? 'eth' : 'token'} amount!
+        invalid {props.isEth ? "eth" : "token"} amount!
       </ErrorMessage>
     );
 };
