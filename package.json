@@ -98,7 +98,7 @@
     "react-test-renderer": "16.9.0",
     "rn-nodeify": "^10.0.1",
     "ts-jest": "^26.1.4",
-    "typescript": "^2.4.0"
+    "typescript": "^3.3.1"
   },
   "husky": {
     "hooks": {

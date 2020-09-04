@@ -611,7 +611,7 @@ class TransactionUtilities {
     }
   }
 
-  getOption = (data: any, service: any, method: any): string | Object => {
+  getOption = (data: any, service: any, method: any): string | any => {
     // LogUtilities.toDebugScreen('getOption data is', data)
     if (service === "Uniswap" || method === I18n.t("history-swap"))
       return data.length < 1 ? "" : this.getSwapOption(data);

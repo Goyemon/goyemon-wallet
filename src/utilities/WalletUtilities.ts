@@ -89,20 +89,18 @@ class WalletUtilities {
   }
 
   private async generateMnemonic() {
-    let mnemonic = await bip39.generateMnemonic(256);
-    while (true) {
+    let finish;
+    while (finish) {
+      const mnemonic = await bip39.generateMnemonic(256);
       const words = mnemonic.split(" ");
       const uniqueWords = words.filter(
         (word: any, index: any) => words.indexOf(word) == index
       );
-      if (words.length == uniqueWords.length) {
-        break;
-      } else {
-        mnemonic = await bip39.generateMnemonic(256);
-        break;
+      finish = words.length === uniqueWords.length;
+      if (finish) {
+        return mnemonic;
       }
     }
-    return mnemonic;
   }
 
   private validateMnemonic(mnemonic: any) {
