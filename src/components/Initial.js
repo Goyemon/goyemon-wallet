@@ -1,19 +1,19 @@
-'use strict';
-import BigNumber from 'bignumber.js';
-import LottieView from 'lottie-react-native';
-import React, { Component } from 'react';
-import * as Animatable from 'react-native-animatable';
-import { StackActions, NavigationActions } from 'react-navigation';
-import { connect } from 'react-redux';
-import styled from 'styled-components/native';
-import { getGasPrice } from '../actions/ActionGasPrice';
-import { getETHPrice, getDAIPrice, getCDAIPrice } from '../actions/ActionPrice';
-import { Container } from './common';
-import FcmPermissions from '../firebase/FcmPermissions';
-import { FcmMsgs } from '../lib/fcm';
-import PortfolioStack from '../navigators/PortfolioStack';
-import LogUtilities from '../utilities/LogUtilities';
-import WalletUtilities from '../utilities/WalletUtilities.ts';
+"use strict";
+import BigNumber from "bignumber.js";
+import LottieView from "lottie-react-native";
+import React, { Component } from "react";
+import * as Animatable from "react-native-animatable";
+import { StackActions, NavigationActions } from "react-navigation";
+import { connect } from "react-redux";
+import styled from "styled-components/native";
+import { getGasPrice } from "../actions/ActionGasPrice";
+import { getETHPrice, getDAIPrice, getCDAIPrice } from "../actions/ActionPrice";
+import { Container } from "./common";
+import FcmPermissions from "../firebase/FcmPermissions";
+import { FcmMsgs } from "../lib/fcm";
+import PortfolioStack from "../navigators/PortfolioStack";
+import LogUtilities from "../utilities/LogUtilities";
+import WalletUtilities from "../utilities/WalletUtilities.ts";
 
 class Initial extends Component {
   async componentDidUpdate(prevProps) {
@@ -57,7 +57,7 @@ class Initial extends Component {
 
       const hasPrivateKeyInKeychain = await WalletUtilities.privateKeySaved();
 
-      let mainPage = 'Welcome';
+      let mainPage = "Welcome";
 
       if (
         !mnemonicWordsStatePersisted ||
@@ -65,20 +65,20 @@ class Initial extends Component {
           permissions.notification === null &&
           hasPrivateKeyInKeychain)
       ) {
-        mainPage = 'Welcome';
+        mainPage = "Welcome";
       } else if (
         mnemonicWordsStatePersisted &&
         !mnemonicWordsValidation &&
         !hasPersistedState &&
         !hasPrivateKeyInKeychain
       ) {
-        mainPage = 'ShowMnemonic';
+        mainPage = "ShowMnemonic";
       } else if (
         mnemonicWordsStatePersisted &&
         !permissions.notification &&
         hasPrivateKeyInKeychain
       ) {
-        mainPage = 'NotificationPermissionNotGranted';
+        mainPage = "NotificationPermissionNotGranted";
       } else if (
         (mnemonicWordsStatePersisted &&
           mnemonicWordsValidation &&
@@ -90,25 +90,25 @@ class Initial extends Component {
           !hasPersistedState &&
           hasPrivateKeyInKeychain)
       ) {
-        mainPage = 'WalletCreation';
+        mainPage = "WalletCreation";
       } else if (
         mnemonicWordsStatePersisted &&
         permissions.notification &&
         hasPersistedState &&
         hasPrivateKeyInKeychain
       ) {
-        mainPage = 'PortfolioHome';
+        mainPage = "PortfolioHome";
       }
 
       PortfolioStack.navigationOptions = ({ navigation }) => {
         let tabBarVisible;
-        if (navigation.state.index >= 0 && mainPage === 'PortfolioHome') {
+        if (navigation.state.index >= 0 && mainPage === "PortfolioHome") {
           tabBarVisible = true;
         } else if (
-          (navigation.state.index >= 0 && mainPage === 'Welcome') ||
+          (navigation.state.index >= 0 && mainPage === "Welcome") ||
           (navigation.state.index >= 0 &&
-            mainPage === 'NotificationPermissionNotGranted') ||
-          (navigation.state.index >= 0 && mainPage === 'WalletCreation')
+            mainPage === "NotificationPermissionNotGranted") ||
+          (navigation.state.index >= 0 && mainPage === "WalletCreation")
         ) {
           tabBarVisible = false;
         }
@@ -119,31 +119,31 @@ class Initial extends Component {
       };
 
       if (
-        mainPage === 'Welcome' ||
-        mainPage === 'NotificationPermissionNotGranted' ||
-        mainPage === 'WalletCreation' ||
-        mainPage === 'PortfolioHome'
+        mainPage === "Welcome" ||
+        mainPage === "NotificationPermissionNotGranted" ||
+        mainPage === "WalletCreation" ||
+        mainPage === "PortfolioHome"
       ) {
         const resetAction = StackActions.reset({
           index: 0,
           actions: [NavigationActions.navigate({ routeName: mainPage })]
         });
         this.props.navigation.dispatch(resetAction);
-      } else if (mainPage === 'ShowMnemonic') {
+      } else if (mainPage === "ShowMnemonic") {
         const resetAction = StackActions.reset({
           index: 2,
           actions: [
-            NavigationActions.navigate({ routeName: 'Welcome' }),
-            NavigationActions.navigate({ routeName: 'CreateWalletTutorial' }),
-            NavigationActions.navigate({ routeName: 'ShowMnemonic' })
+            NavigationActions.navigate({ routeName: "Welcome" }),
+            NavigationActions.navigate({ routeName: "CreateWalletTutorial" }),
+            NavigationActions.navigate({ routeName: "ShowMnemonic" })
           ]
         });
         this.props.navigation.dispatch(resetAction);
       } else {
-        console.log('no matches');
+        console.log("no matches");
       }
     } else if (!rehydration) {
-      LogUtilities.logInfo('rehydration is not done yet');
+      LogUtilities.logInfo("rehydration is not done yet");
     }
   }
 
@@ -195,7 +195,7 @@ class Initial extends Component {
           <LottieView
             autoPlay
             loop
-            source={require('../../assets/loader_animation.json')}
+            source={require("../../assets/loader_animation.json")}
             style={{
               width: 120,
               height: 120
@@ -213,7 +213,7 @@ const LoaderContainer = Animatable.createAnimatableComponent(styled.View`
 
 const Logo = Animatable.createAnimatableComponent(styled.Text`
   color: #e41b13;
-  font-family: 'HKGrotesk-Bold';
+  font-family: "HKGrotesk-Bold";
   font-size: 40;
   text-align: center;
 `);

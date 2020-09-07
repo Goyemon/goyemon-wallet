@@ -1,7 +1,7 @@
-'use strict';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { saveMnemonicWords } from '../../../actions/ActionMnemonic';
+"use strict";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { saveMnemonicWords } from "../../../actions/ActionMnemonic";
 import {
   RootContainer,
   Container,
@@ -9,8 +9,8 @@ import {
   HeaderTwo,
   Description,
   Loader
-} from '../../common';
-import WalletUtilities from '../../../utilities/WalletUtilities.ts';
+} from "../../common";
+import WalletUtilities from "../../../utilities/WalletUtilities.ts";
 
 class CreateWalletTutorial extends Component {
   constructor() {
@@ -27,7 +27,7 @@ class CreateWalletTutorial extends Component {
       this.props.mnemonicWords != prevProps.mnemonicWords
     ) {
       this.setState({ loading: false, buttonDisabled: false });
-      this.props.navigation.navigate('ShowMnemonic');
+      this.props.navigation.navigate("ShowMnemonic");
     }
   }
 

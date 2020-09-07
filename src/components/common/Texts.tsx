@@ -1,6 +1,6 @@
-'use strict';
-import React from 'react';
-import styled from 'styled-components/native';
+"use strict";
+import React from "react";
+import styled from "styled-components/native";
 
 interface GoyemonTextProps {
   fontSize: string | number;
@@ -16,7 +16,7 @@ export const GoyemonText = (props: GoyemonTextProps) => (
 
 const HKGroteskText = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: ${(props) => props.fontSize};
 `;
 
@@ -30,7 +30,7 @@ export const ConfirmationText = (props: ConfirmationTextProps) => (
 
 const Text = styled.Text`
   color: #000;
-  font-family: 'HKGrotesk-Bold';
+  font-family: "HKGrotesk-Bold";
   font-size: 20;
   margin-top: 4;
   margin-bottom: 24;

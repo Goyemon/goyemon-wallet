@@ -1,12 +1,12 @@
-'use strict';
-import { SAVE_COMPOUND_DAI_INFO } from '../constants/ActionTypes';
+"use strict";
+import { SAVE_COMPOUND_DAI_INFO } from "../constants/ActionTypes";
 
 const INITIAL_STATE = {
   compound: {
     dai: {
-      currentExchangeRate: '',
-      currentInterestRate: '',
-      lifetimeEarned: ''
+      currentExchangeRate: "",
+      currentInterestRate: "",
+      lifetimeEarned: ""
     }
   }
 };

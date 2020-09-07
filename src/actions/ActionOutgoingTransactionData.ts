@@ -1,11 +1,11 @@
-'use strict';
+"use strict";
 import {
   SAVE_OUTGOING_TRANSACTION_DATA_SEND,
   SAVE_OUTGOING_TRANSACTION_DATA_COMPOUND,
   SAVE_OUTGOING_TRANSACTION_DATA_POOLTOGETHER,
   SAVE_OUTGOING_TRANSACTION_DATA_SWAP
-} from '../constants/ActionTypes';
-import LogUtilities from '../utilities/LogUtilities';
+} from "../constants/ActionTypes";
+import LogUtilities from "../utilities/LogUtilities";
 
 export function saveOutgoingTransactionDataSend(sendData: any) {
   return async function (dispatch: any) {

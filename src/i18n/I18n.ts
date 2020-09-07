@@ -1,7 +1,7 @@
-const I18n = require('i18n-js');
-import * as RNLocalize from 'react-native-localize';
+const I18n = require("i18n-js");
+import * as RNLocalize from "react-native-localize";
 
-const en = require('./en.json');
+const en = require("./en.json");
 // import ja from './ja.json';
 
 const locales = RNLocalize.getLocales();

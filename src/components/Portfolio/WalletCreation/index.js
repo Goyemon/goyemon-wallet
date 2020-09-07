@@ -1,26 +1,26 @@
-'use strict';
-import BigNumber from 'bignumber.js';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { ScrollView, RefreshControl } from 'react-native';
-import Modal from 'react-native-modal';
-import * as Animatable from 'react-native-animatable';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { StackActions, NavigationActions } from 'react-navigation';
-import styled from 'styled-components/native';
-import { createChecksumAddress } from '../../../actions/ActionChecksumAddress';
-import { getGasPrice } from '../../../actions/ActionGasPrice';
+"use strict";
+import BigNumber from "bignumber.js";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { ScrollView, RefreshControl } from "react-native";
+import Modal from "react-native-modal";
+import * as Animatable from "react-native-animatable";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import { StackActions, NavigationActions } from "react-navigation";
+import styled from "styled-components/native";
+import { createChecksumAddress } from "../../../actions/ActionChecksumAddress";
+import { getGasPrice } from "../../../actions/ActionGasPrice";
 import {
   getETHPrice,
   getDAIPrice,
   getCDAIPrice
-} from '../../../actions/ActionPrice';
-import { Container } from '../../common';
-import I18n from '../../../i18n/I18n';
-import { FcmMsgs } from '../../../lib/fcm';
-import { storage } from '../../../lib/tx';
-import PortfolioStack from '../../../navigators/PortfolioStack';
-import WalletUtilities from '../../../utilities/WalletUtilities.ts';
+} from "../../../actions/ActionPrice";
+import { Container } from "../../common";
+import I18n from "../../../i18n/I18n";
+import { FcmMsgs } from "../../../lib/fcm";
+import { storage } from "../../../lib/tx";
+import PortfolioStack from "../../../navigators/PortfolioStack";
+import WalletUtilities from "../../../utilities/WalletUtilities.ts";
 
 class WalletCreation extends Component {
   constructor(props) {
@@ -37,27 +37,27 @@ class WalletCreation extends Component {
       <FadeInMessageContainer>
         <FadeInMessageOne animation="fadeInDown" delay={2500}>
           <FadeInMessageOneText>
-            {I18n.t('wallet-creation-key')}...
+            {I18n.t("wallet-creation-key")}...
           </FadeInMessageOneText>
         </FadeInMessageOne>
         <FadeInMessageTwo animation="fadeInDown" delay={4000}>
           <FadeInMessageTwoText>
-            {I18n.t('wallet-creation-address')}...
+            {I18n.t("wallet-creation-address")}...
           </FadeInMessageTwoText>
         </FadeInMessageTwo>
         <FadeInMessageThree animation="fadeInDown" delay={5500}>
           <FadeInMessageThreeText>
-            {I18n.t('wallet-creation-blockchain-data')}...
+            {I18n.t("wallet-creation-blockchain-data")}...
           </FadeInMessageThreeText>
         </FadeInMessageThree>
         <FadeInMessageFour animation="fadeInDown" delay={7000}>
           <FadeInMessageFourText>
-            {I18n.t('wallet-creation-price-data')}...
+            {I18n.t("wallet-creation-price-data")}...
           </FadeInMessageFourText>
         </FadeInMessageFour>
         <FadeInMessageFive animation="fadeInDown" delay={9500}>
           <FadeInMessageFiveText>
-            {I18n.t('wallet-creation-caution')}...
+            {I18n.t("wallet-creation-caution")}...
           </FadeInMessageFiveText>
         </FadeInMessageFive>
       </FadeInMessageContainer>
@@ -160,7 +160,7 @@ class WalletCreation extends Component {
     };
     const resetAction = StackActions.reset({
       index: 0,
-      actions: [NavigationActions.navigate({ routeName: 'PortfolioHome' })]
+      actions: [NavigationActions.navigate({ routeName: "PortfolioHome" })]
     });
     this.props.navigation.dispatch(resetAction);
   }
@@ -211,66 +211,66 @@ class WalletCreation extends Component {
 }
 
 const FadeInMessageContainer = styled.View`
-  min-height: ${hp('50%')};
+  min-height: ${hp("50%")};
 `;
 
 const FadeInMessageOne = Animatable.createAnimatableComponent(styled.View`
-  top: ${hp('12%')};
+  top: ${hp("12%")};
 `);
 
 const FadeInMessageOneText = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 24;
 `;
 
 const FadeInMessageTwo = Animatable.createAnimatableComponent(styled.View`
-  top: ${hp('13%')};
+  top: ${hp("13%")};
 `);
 
 const FadeInMessageTwoText = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 24;
 `;
 
 const FadeInMessageThree = Animatable.createAnimatableComponent(styled.View`
-  top: ${hp('14%')};
+  top: ${hp("14%")};
 `);
 
 const FadeInMessageThreeText = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 24;
 `;
 
 const FadeInMessageFour = Animatable.createAnimatableComponent(styled.View`
-  top: ${hp('15%')};
+  top: ${hp("15%")};
 `);
 
 const FadeInMessageFourText = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 24;
 `;
 
 const FadeInMessageFive = Animatable.createAnimatableComponent(styled.View`
-  top: ${hp('16%')};
+  top: ${hp("16%")};
 `);
 
 const FadeInMessageFiveText = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 24;
 `;
 
 const FadeInMessageSix = Animatable.createAnimatableComponent(styled.View`
-  top: ${hp('6%')};
+  top: ${hp("6%")};
 `);
 
 const FadeInMessageSixText = styled.Text`
   color: #000;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 24;
 `;
 
@@ -283,7 +283,7 @@ const ModalInner = styled.View`
 
 const ModalText = styled.Text`
   color: #fff;
-  font-family: 'HKGrotesk-Bold';
+  font-family: "HKGrotesk-Bold";
   font-size: 24;
   text-align: center;
 `;

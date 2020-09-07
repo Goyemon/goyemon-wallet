@@ -1,5 +1,5 @@
-'use strict';
-import { UPDATE_MNEMONIC_WORDS_VALIDATION } from '../constants/ActionTypes';
+"use strict";
+import { UPDATE_MNEMONIC_WORDS_VALIDATION } from "../constants/ActionTypes";
 
 const INITIAL_STATE = {
   mnemonicWordsValidation: false

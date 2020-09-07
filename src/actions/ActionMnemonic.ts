@@ -1,7 +1,7 @@
-'use strict';
-import { SAVE_MNEMONIC } from '../constants/ActionTypes';
-import LogUtilities from '../utilities/LogUtilities';
-import WalletUtilities from '../utilities/WalletUtilities';
+"use strict";
+import { SAVE_MNEMONIC } from "../constants/ActionTypes";
+import LogUtilities from "../utilities/LogUtilities";
+import WalletUtilities from "../utilities/WalletUtilities";
 
 export function saveMnemonicWords() {
   return async function (dispatch: any) {

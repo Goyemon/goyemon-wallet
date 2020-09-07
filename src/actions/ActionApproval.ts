@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 import {
   SAVE_DAI_COMPOUND_APPROVAL,
   SAVE_DAI_POOLTOGETHER_APPROVAL
-} from '../constants/ActionTypes';
-import LogUtilities from '../utilities/LogUtilities';
+} from "../constants/ActionTypes";
+import LogUtilities from "../utilities/LogUtilities";
 
 export function saveDaiCompoundApproval(daiCompoundApproval: any) {
   return async function (dispatch: any) {

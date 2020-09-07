@@ -1,5 +1,5 @@
-'use strict';
-import { SAVE_MNEMONIC } from '../constants/ActionTypes';
+"use strict";
+import { SAVE_MNEMONIC } from "../constants/ActionTypes";
 
 const INITIAL_STATE = {
   mnemonicWords: null

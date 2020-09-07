@@ -1,13 +1,13 @@
-'use strict';
-import BigNumber from 'bignumber.js';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import styled from 'styled-components/native';
-import { saveOutgoingTransactionDataCompound } from '../../actions/ActionOutgoingTransactionData';
+"use strict";
+import BigNumber from "bignumber.js";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import styled from "styled-components/native";
+import { saveOutgoingTransactionDataCompound } from "../../actions/ActionOutgoingTransactionData";
 import {
   saveTxConfirmationModalVisibility,
   updateTxConfirmationModalVisibleType
-} from '../../actions/ActionModal';
+} from "../../actions/ActionModal";
 import {
   RootContainer,
   UseMaxButton,
@@ -19,21 +19,21 @@ import {
   IsOnlineMessage,
   WeiBalanceValidateMessage,
   TxNextButton
-} from '../common';
-import { AdvancedContainer } from '../AdvancedContainer';
-import TxConfirmationModal from '../TxConfirmationModal';
-import I18n from '../../i18n/I18n';
+} from "../common";
+import { AdvancedContainer } from "../AdvancedContainer";
+import TxConfirmationModal from "../TxConfirmationModal";
+import I18n from "../../i18n/I18n";
 import {
   RoundDownBigNumberPlacesFour,
   RoundDownBigNumberPlacesEighteen
-} from '../../utilities/BigNumberUtilities';
-import LogUtilities from '../../utilities/LogUtilities';
-import StyleUtilities from '../../utilities/StyleUtilities';
-import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
-import ABIEncoder from '../../utilities/AbiUtilities';
-import { storage } from '../../lib/tx';
-import { TxTokenOpTypeToName } from '../../lib/tx/TokenOpType';
-import GlobalConfig from '../../config.json';
+} from "../../utilities/BigNumberUtilities";
+import LogUtilities from "../../utilities/LogUtilities";
+import StyleUtilities from "../../utilities/StyleUtilities";
+import TransactionUtilities from "../../utilities/TransactionUtilities.ts";
+import ABIEncoder from "../../utilities/AbiUtilities";
+import { storage } from "../../lib/tx";
+import { TxTokenOpTypeToName } from "../../lib/tx/TokenOpType";
+import GlobalConfig from "../../config.json";
 
 class DepositDaiToCompound extends Component {
   constructor(props) {
@@ -42,7 +42,7 @@ class DepositDaiToCompound extends Component {
       DAIBalance: RoundDownBigNumberPlacesFour(props.balance.dai)
         .div(new RoundDownBigNumberPlacesFour(10).pow(18))
         .toFixed(2),
-      daiAmount: '',
+      daiAmount: "",
       DAIAmountValidation: undefined,
       WEIAmountValidation: undefined,
       loading: false
@@ -77,7 +77,7 @@ class DepositDaiToCompound extends Component {
   }
 
   async constructTransactionObject() {
-    const daiAmount = this.state.daiAmount.split('.').join('');
+    const daiAmount = this.state.daiAmount.split(".").join("");
     const decimalPlaces = TransactionUtilities.decimalPlaces(
       this.state.daiAmount
     );
@@ -100,7 +100,7 @@ class DepositDaiToCompound extends Component {
       )
       .setGas(GlobalConfig.cTokenMintGasLimit.toString(16))
       .tempSetData(mintEncodedABI)
-      .addTokenOperation('cdai', TxTokenOpTypeToName.mint, [
+      .addTokenOperation("cdai", TxTokenOpTypeToName.mint, [
         storage.getOwnAddress(),
         daiAmountWithDecimals,
         0
@@ -145,7 +145,7 @@ class DepositDaiToCompound extends Component {
 
     if (DAIAmountValidation && WEIAmountValidation && isOnline) {
       this.setState({ loading: true });
-      LogUtilities.logInfo('validation successful');
+      LogUtilities.logInfo("validation successful");
       const transactionObject = await this.constructTransactionObject();
       this.props.saveOutgoingTransactionDataCompound({
         amount: daiAmount,
@@ -153,9 +153,9 @@ class DepositDaiToCompound extends Component {
         transactionObject: transactionObject
       });
       this.props.saveTxConfirmationModalVisibility(true);
-      this.props.updateTxConfirmationModalVisibleType('compound-deposit');
+      this.props.updateTxConfirmationModalVisibleType("compound-deposit");
     } else {
-      LogUtilities.logInfo('form validation failed!');
+      LogUtilities.logInfo("form validation failed!");
     }
   };
 
@@ -180,7 +180,7 @@ class DepositDaiToCompound extends Component {
     return (
       <RootContainer>
         <TxConfirmationModal />
-        <HeaderOne marginTop="96">{I18n.t('deposit')}</HeaderOne>
+        <HeaderOne marginTop="96">{I18n.t("deposit")}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8px"
@@ -191,18 +191,18 @@ class DepositDaiToCompound extends Component {
           textAlign="center"
           width="90%"
         >
-          <CoinImage source={require('../../../assets/dai_icon.png')} />
-          <Title>{I18n.t('dai-wallet-balance')}</Title>
+          <CoinImage source={require("../../../assets/dai_icon.png")} />
+          <Title>{I18n.t("dai-wallet-balance")}</Title>
           <Value>{this.state.DAIBalance} DAI</Value>
           <Title>interest rate</Title>
           <Value>{currentInterestRate} %</Value>
         </UntouchableCardContainer>
         <DepositAmountHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
-            {I18n.t('deposit-amount')}
+            {I18n.t("deposit-amount")}
           </FormHeader>
           <UseMaxButton
-            text={I18n.t('use-max')}
+            text={I18n.t("use-max")}
             textColor="#00A3E2"
             onPress={() => {
               this.setState({ daiAmount: daiFullBalance });
@@ -281,19 +281,19 @@ const CoinImage = styled.Image`
 
 const Title = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 16;
   margin-top: 16;
   text-transform: uppercase;
 `;
 
 const Value = styled.Text`
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 16;
 `;
 
 const CurrencySymbolText = styled.Text`
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
 `;
 
 const DepositAmountHeaderContainer = styled.View`

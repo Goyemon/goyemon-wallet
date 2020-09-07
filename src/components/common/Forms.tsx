@@ -1,6 +1,6 @@
-'use strict';
-import React from 'react';
-import styled from 'styled-components/native';
+"use strict";
+import React from "react";
+import styled from "styled-components/native";
 
 interface FormProps {
   borderColor: string;

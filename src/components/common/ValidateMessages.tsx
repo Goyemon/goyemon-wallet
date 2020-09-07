@@ -1,27 +1,29 @@
-'use strict';
-import React from 'react';
-import { View } from 'react-native';
-import { ErrorMessage } from './ErrorMessage';
+"use strict";
+import React from "react";
+import { View } from "react-native";
+import { ErrorMessage } from "./ErrorMessage";
 
-interface AmountValidateMessage {
+interface AmountValidateMessageProps {
   amountValidation: boolean | undefined;
   isEth: boolean;
 }
 
-export const AmountValidateMessage = (props: AmountValidateMessage) =>
+export const AmountValidateMessage = (props: AmountValidateMessageProps) =>
   props.amountValidation || props.amountValidation === undefined ? (
-    <View />
+    <ErrorMessage textAlign="center">&nbsp;&nbsp;</ErrorMessage>
   ) : (
     <ErrorMessage textAlign="center">
-      invalid {props.isEth ? 'eth' : 'token'} amount!
+      invalid {props.isEth ? "eth" : "token"} amount!
     </ErrorMessage>
   );
 
-interface NetworkFeeValidateMessage {
+interface NetworkFeeValidateMessageProps {
   networkFeeValidation: boolean | undefined;
 }
 
-export const NetworkFeeValidateMessage = (props: NetworkFeeValidateMessage) =>
+export const NetworkFeeValidateMessage = (
+  props: NetworkFeeValidateMessageProps
+) =>
   props.networkFeeValidation || props.networkFeeValidation === undefined ? (
     <View />
   ) : (
@@ -30,11 +32,13 @@ export const NetworkFeeValidateMessage = (props: NetworkFeeValidateMessage) =>
     </ErrorMessage>
   );
 
-interface WeiBalanceValidateMessage {
+interface WeiBalanceValidateMessageProps {
   weiAmountValidation: boolean | undefined;
 }
 
-export const WeiBalanceValidateMessage = (props: WeiBalanceValidateMessage) =>
+export const WeiBalanceValidateMessage = (
+  props: WeiBalanceValidateMessageProps
+) =>
   props.weiAmountValidation || props.weiAmountValidation === undefined ? (
     <View />
   ) : (

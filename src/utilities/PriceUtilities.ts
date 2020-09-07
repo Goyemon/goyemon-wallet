@@ -1,6 +1,6 @@
-'use strict';
-import { store } from '../store/store';
-import LogUtilities from './LogUtilities';
+"use strict";
+import { store } from "../store/store";
+import LogUtilities from "./LogUtilities";
 
 class PriceUtilities {
   convertETHToUSD(eth: any): number {

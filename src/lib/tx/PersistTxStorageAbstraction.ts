@@ -1,6 +1,6 @@
-import AsyncStorage from '@react-native-community/async-storage';
-import LogUtilities from '../../utilities/LogUtilities';
-import Tx from './Tx';
+import AsyncStorage from "@react-native-community/async-storage";
+import LogUtilities from "../../utilities/LogUtilities";
+import Tx from "./Tx";
 import {
   txNoncePrefix,
   txFailPrefix,
@@ -9,7 +9,7 @@ import {
   __encodeBucket,
   __decodeTx,
   bstats
-} from './common';
+} from "./common";
 
 export default class PersistTxStorageAbstraction {
   cache: any;
@@ -19,9 +19,9 @@ export default class PersistTxStorageAbstraction {
   locks: any;
   prefix: any;
   debug: any;
-  constructor(prefix = '') {
+  constructor(prefix = "") {
     LogUtilities.toDebugScreen(
-      'PersistTxStorageAbstraction constructor called'
+      "PersistTxStorageAbstraction constructor called"
     );
 
     this.cache = {};
@@ -63,7 +63,7 @@ export default class PersistTxStorageAbstraction {
         );
 
         if (this.debug) {
-          let temp_debug_bucket_names: any = [];
+          const temp_debug_bucket_names: any = [];
           Object.keys(this.counts).forEach((x) => {
             for (
               let i = 0;
@@ -95,7 +95,7 @@ export default class PersistTxStorageAbstraction {
             else if (x[i].startsWith(txFailPrefix))
               // ${txFailPrefix}${nonce}_${blah}
               failed_nonces[
-                parseInt(x[i].slice(txFailPrefix.length, x[i].indexOf('_') - 1))
+                parseInt(x[i].slice(txFailPrefix.length, x[i].indexOf("_") - 1))
               ] = true;
             else {
               checkFinish();
@@ -130,7 +130,7 @@ export default class PersistTxStorageAbstraction {
     };
     load_index_data.bind(this);
 
-    load_index_data('all');
+    load_index_data("all");
 
     Object.entries(name_to_filter_map).forEach(([name, filter]) => {
       this.filters[name] = filter;
@@ -149,7 +149,7 @@ export default class PersistTxStorageAbstraction {
         );
 
       this.cache[key] =
-        typeof processfunc === 'function' ? processfunc(val) : val;
+        typeof processfunc === "function" ? processfunc(val) : val;
     }
 
     return this.cache[key];
@@ -160,7 +160,7 @@ export default class PersistTxStorageAbstraction {
 
     await AsyncStorage.setItem(
       key,
-      (typeof processfunc === 'function' ? processfunc(v) : v).toString()
+      (typeof processfunc === "function" ? processfunc(v) : v).toString()
     );
   }
 
@@ -171,7 +171,7 @@ export default class PersistTxStorageAbstraction {
     await AsyncStorage.removeItem(key);
   }
 
-  async getTxByNum(num: any, index = 'all') {
+  async getTxByNum(num: any, index = "all") {
     const bucket_num = Math.floor(num / storage_bucket_size);
     const bucket_pos = num % storage_bucket_size;
 
@@ -199,7 +199,7 @@ export default class PersistTxStorageAbstraction {
     );
   }
 
-  async getLastTx(index = 'all') {
+  async getLastTx(index = "all") {
     if (this.counts[index] == 0) return null;
 
     const bucket_num = Math.floor(
@@ -213,7 +213,7 @@ export default class PersistTxStorageAbstraction {
     return await this.getTxByHash(bucket[bucket.length - 1]);
   }
 
-  async getHashes(index = 'all', offset = 0) {
+  async getHashes(index = "all", offset = 0) {
     // currently also precaches top 128 txes.
     // TODO: this perhaps could use cache.
     await this.__lock();
@@ -300,7 +300,7 @@ export default class PersistTxStorageAbstraction {
 
   async appendTx(hash: any, tx: any, toplock = false) {
     // run filters to see which indices this goes in. for each index, append to the last bucket (make sure we create a new one if it spills)
-    let append_indices = ['all'];
+    const append_indices = ["all"];
     Object.entries(this.filters).forEach(([index, filterfunc]: any) => {
       if (filterfunc(tx)) append_indices.push(index);
     });
@@ -312,14 +312,14 @@ export default class PersistTxStorageAbstraction {
           .join()}; tx:${JSON.stringify(tx)})`
       );
 
-    let tasks = [
+    const tasks = [
       this.__setKey(`${this.prefix}_${hash}`.toString(), tx, JSON.stringify)
     ];
 
     append_indices.forEach((x) => {
       tasks.push(
         (async (index) => {
-          let localtasks = [];
+          const localtasks = [];
 
           await this.__lock();
           const last_bucket_num = Math.floor(
@@ -384,7 +384,7 @@ export default class PersistTxStorageAbstraction {
                       `PersistTxStorageAbstraction appendTx(): index:${index} bucket:${i} len:${
                         x.length
                       } carry:${carry !== null}${
-                        i == bucket_num ? ` splice_position:${bucket_pos}` : ''
+                        i == bucket_num ? ` splice_position:${bucket_pos}` : ""
                       }`
                     );
 
@@ -453,10 +453,10 @@ export default class PersistTxStorageAbstraction {
 
   async bulkLoad(txarray: any) {
     // TODO: add locking
-    var index_counts: any = {
+    const index_counts: any = {
       all: 0
     };
-    var index_buckets: any = {
+    const index_buckets: any = {
       all: []
     };
 
@@ -475,10 +475,10 @@ export default class PersistTxStorageAbstraction {
       index_buckets[index] = [];
     });
 
-    let tasks: any[] = [];
+    const tasks: any[] = [];
     txarray.forEach((tx: any) => {
       const hash = tx.getHash();
-      add_to_index('all', hash);
+      add_to_index("all", hash);
 
       Object.entries(this.filters).forEach(([index, filterfunc]: any) => {
         if (filterfunc(tx)) add_to_index(index, hash);
@@ -516,8 +516,8 @@ export default class PersistTxStorageAbstraction {
 
   async wipe() {
     // TODO: add locking
-    let indices = Object.keys(this.filters);
-    let removekeys: any[] = [];
+    const indices = Object.keys(this.filters);
+    const removekeys: any[] = [];
 
     indices.forEach((x) => {
       for (
@@ -531,7 +531,7 @@ export default class PersistTxStorageAbstraction {
     });
 
     // now we only have index `all' to go through, but we actually need to read it and remove all hashes
-    let readtasks = [];
+    const readtasks = [];
     removekeys.push(`${this.prefix}iallc`); // tasks.push(AsyncStorage.removeItem(`${this.prefix}iallc`));
     for (
       let i = 0;
@@ -564,14 +564,14 @@ export default class PersistTxStorageAbstraction {
     this.cache = {};
   }
 
-  getItemCount(index = 'all') {
+  getItemCount(index = "all") {
     return this.counts[index];
   }
 
   async __replaceKeyInIndex(
     oldkey: any,
     newkey: any,
-    index = 'all',
+    index = "all",
     toplockremove = false
   ) {
     await this.__lock();
@@ -599,11 +599,11 @@ export default class PersistTxStorageAbstraction {
         );
 
       while (bucket_count >= 0) {
-        let bucket = await this.__getKey(
+        const bucket = await this.__getKey(
           `${this.prefix}i${index}${bucket_count}`,
           __decodeBucket
         );
-        let pos = bucket.indexOf(oldkey);
+        const pos = bucket.indexOf(oldkey);
         if (pos >= 0) {
           if (this.debug)
             LogUtilities.toDebugScreen(
@@ -669,7 +669,7 @@ export default class PersistTxStorageAbstraction {
           throw new Error(`key "${oldkey}" not found in the index "${index}"`);
         }
 
-        let bgtasks = [];
+        const bgtasks = [];
 
         bucket.splice(item_bucket_pos, 1); // remove from current bucket. if it was a full bucket, it's now lacking one item
 
@@ -729,7 +729,7 @@ export default class PersistTxStorageAbstraction {
     // throw new Error(`key "${oldkey}" not found in the index "${index}"`);
   }
 
-  async removeKey(oldkey: any, index = 'all') {
+  async removeKey(oldkey: any, index = "all") {
     // not used yet; will be used when indexDiff is tested and we actually have to remove stuff from some indices.
     await this.__lock();
 
@@ -744,7 +744,7 @@ export default class PersistTxStorageAbstraction {
       let bucket = await this.__getKey(
         `${this.prefix}i${index}${current_bucket}`
       );
-      let pos = bucket.indexOf(oldkey);
+      const pos = bucket.indexOf(oldkey);
 
       if (pos >= 0) {
         // item found
@@ -863,8 +863,8 @@ export default class PersistTxStorageAbstraction {
     await this.__removeKey(`${this.prefix}_${oldhash}`);
 
     await Promise.all(
-      [this.__replaceKeyInIndex(oldhash, newhash, 'all', toplockremove)].concat(
-        Object.entries(this.filters).map(([index, filterfunc]) => {
+      [this.__replaceKeyInIndex(oldhash, newhash, "all", toplockremove)].concat(
+        Object.entries(this.filters).map(([index]) => {
           return this.__replaceKeyInIndex(
             oldhash,
             newhash,
@@ -906,7 +906,7 @@ export default class PersistTxStorageAbstraction {
     //throw new Error("not implemented yet");
   }
 
-  async debugDumpAllTxes(index = 'all') {
+  async debugDumpAllTxes(index = "all") {
     const bucket_count = Math.floor(
       (this.counts[index] - 1) / storage_bucket_size
     );

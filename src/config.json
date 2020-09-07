@@ -2,6 +2,7 @@
   "FCM_server_address": "687286274439@gcm.googleapis.com",
   "network_name": "ropsten",
   "network_id": 3,
+  "moonpay_ropsten": "'<head><meta charset=\"UTF-8\" /><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" /><meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\" /><title>MoonPay Widget</title><style type=\"text/css\">html{margin:0;height:100%;overflow:hidden}iframe{position:absolute;left:0;right:0;bottom:0;top:0;border:0}</style></head><body> <iframe allow=\"accelerometer; autoplay; camera; gyroscope; payment\" frameborder=\"0\" height=\"100%\" src=\"https://buy-staging.moonpay.io?apiKey=pk_test_5rrKC6JCcKWROpZmcPtuoYaFoUnw2fLs&colorCode=%2300A3E2\" width=\"100%\" ><p>Your browser does not support iframes.</p> </iframe></body>'",
   "EtherscanLink": "https://ropsten.etherscan.io/tx/",
   "cDAIcontract": "0x2b536482a01e620ee111747f8334b395a42a555e",
   "DAITokenContract": "0xb5e5d0f8c0cba267cd3d7035d6adc8eba7df7cdd",
@@ -20,3 +21,30 @@
   "PoolTogetherDepositPoolGasLimit": 743061,
   "PoolTogetherWithdrawGasLimit": 955509
 }
+
+// Mainnet
+// {
+//   "FCM_server_address": "1050179785740@gcm.googleapis.com",
+//   "network_name": "mainnet",
+//   "network_id": 1,
+// "moonpay_mainnet": "'<head><meta charset=\"UTF-8\" /><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" /><meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\" /><title>MoonPay Widget</title><style type=\"text/css\">html{margin:0;height:100%;overflow:hidden}iframe{position:absolute;left:0;right:0;bottom:0;top:0;border:0}</style></head><body> <iframe allow=\"accelerometer; autoplay; camera; gyroscope; payment\" frameborder=\"0\" height=\"100%\" src=\"https://buy-staging.moonpay.io?apiKey=pk_live_bNXRinyfRMkV4D6e5skRaSh7GvMgEc&colorCode=%2300A3E2\" width=\"100%\" ><p>Your browser does not support iframes.</p> </iframe></body>'",
+//   "EtherscanLink": "https://etherscan.io/tx/",
+//   "cDAIcontract": "0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643",
+//   "DAITokenContract": "0x6b175474e89094c44da98b954eedeac495271d0f",
+//   "WETHTokenContract": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+//   "RouterUniswapV2": "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
+//   "DAIPoolTogetherContractV2": "0x29fe7D60DdF151E5b52e5FAB4f1325da6b2bD958",
+//   "DAIPoolTogetherTokenContractV2": "0x49d716DFe60b37379010A75329ae09428f17118d",
+//   "ETHTxGasLimit": 21000,
+//   "DAITransferGasLimit": 67009,
+//   "cDAITransferGasLimit": 489836,
+//   "plDAITransferGasLimit": 440886,
+//   "ERC20ApproveGasLimit": 52560,
+//   "cTokenMintGasLimit": 404679,
+//   "cTokenRedeemUnderlyingGasLimit": 727455,
+//   "UniswapV2SwapExactETHForTokensGasLimit": 688658,
+//   "PoolTogetherDepositPoolGasLimit": 743061,
+//   "PoolTogetherWithdrawGasLimit": 955509
+// }
+
+// MoonPay API tokens are in the source of the WebView in the MoonPayWebView component.

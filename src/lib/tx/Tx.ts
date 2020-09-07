@@ -1,6 +1,6 @@
-import { TxTokenOpNameToClass } from './TokenOpType';
-import { hexToBuf, dropHexPrefix } from './common';
-const GlobalConfig = require('../../config.json');
+import { TxTokenOpNameToClass } from "./TokenOpType";
+import { hexToBuf, dropHexPrefix } from "./common";
+const GlobalConfig = require("../../config.json");
 
 export default class Tx {
   from_addr: any;
@@ -128,7 +128,7 @@ export default class Tx {
       .setGas(dropHexPrefix(data[2]))
       .setGasPrice(dropHexPrefix(data[3]))
       .setValue(dropHexPrefix(data[4]))
-      .setNonce(typeof data[5] === 'string' ? parseInt(data[5]) : data[5])
+      .setNonce(typeof data[5] === "string" ? parseInt(data[5]) : data[5])
       .upgradeState(data[7], data[6]);
   }
 
@@ -155,7 +155,6 @@ export default class Tx {
   getTokenOperations(token: any, operation: any) {
     // TODO: retink. we shouldnt iterate, even though those aren't huge arrays.
     if (!this.tokenData.hasOwnProperty(token)) return [];
-    const cls = operation ? TxTokenOpNameToClass[operation] : null;
     return this.tokenData[token].filter(
       (x: any) =>
         operation == null || x instanceof TxTokenOpNameToClass[operation]
@@ -167,11 +166,11 @@ export default class Tx {
   }
 
   getFrom() {
-    return this.from_addr ? `0x${this.from_addr.toString('hex')}` : null;
+    return this.from_addr ? `0x${this.from_addr.toString("hex")}` : null;
   }
 
   getTo() {
-    return this.to_addr ? `0x${this.to_addr.toString('hex')}` : null;
+    return this.to_addr ? `0x${this.to_addr.toString("hex")}` : null;
   }
 
   getHash() {
@@ -235,18 +234,18 @@ export default class Tx {
   }
 
   deepClone() {
-    let ntx = Object.assign(new Tx(), this);
+    const ntx = Object.assign(new Tx(), this);
     ntx.tokenData = Object.assign({}, ntx.tokenData);
     ntx.data = Object.assign({}, ntx.data); // expected to be a simple key => value map, so a shallow clone of this should be sufficient for now.
 
-    for (let n of Object.getOwnPropertyNames(ntx.tokenData))
+    for (const n of Object.getOwnPropertyNames(ntx.tokenData))
       ntx.tokenData[n] = ntx.tokenData[n].map((x: any) => x.deepClone());
 
     return ntx;
   }
 
   freeze() {
-    for (let n of Object.getOwnPropertyNames(this.tokenData)) {
+    for (const n of Object.getOwnPropertyNames(this.tokenData)) {
       this.tokenData[n].forEach((x: any) => x.freeze());
       Object.freeze(this.tokenData[n]);
     }

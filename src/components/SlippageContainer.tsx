@@ -1,11 +1,11 @@
-'use strict';
-import React, { Component } from 'react';
-import { View } from 'react-native';
-import { connect } from 'react-redux';
-import styled from 'styled-components/native';
-import { updateSlippageChosen } from '../actions/ActionUniswap';
-import { Container, FormHeader } from './common';
-import I18n from '../i18n/I18n';
+"use strict";
+import React, { Component } from "react";
+import { View } from "react-native";
+import { connect } from "react-redux";
+import styled from "styled-components/native";
+import { updateSlippageChosen } from "../actions/ActionUniswap";
+import { Container, FormHeader } from "./common";
+import I18n from "../i18n/I18n";
 
 interface AppProps {
   updateSlippageChosen: (arg: any) => void;
@@ -19,7 +19,7 @@ class SlippageContainer extends Component<AppProps> {
       <View>
         <SlippageHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
-            {I18n.t('swap-slippage')}
+            {I18n.t("swap-slippage")}
           </FormHeader>
         </SlippageHeaderContainer>
         <Container
@@ -92,13 +92,13 @@ const UnselectedSlippageTextContainer = styled.TouchableOpacity`
 
 const SelectedButton = styled.Text`
   color: #1ba548;
-  font-family: 'HKGrotesk-Bold';
+  font-family: "HKGrotesk-Bold";
   font-size: 16;
 `;
 
 const UnselectedButton = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 16;
 `;
 

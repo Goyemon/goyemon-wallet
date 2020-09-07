@@ -1,11 +1,11 @@
-'use strict';
-import React, { Component } from 'react';
-import { VirtualizedList } from 'react-native';
-import styled from 'styled-components/native';
-import Transaction from './Transaction';
-import I18n from '../../i18n/I18n';
-import LogUtilities from '../../utilities/LogUtilities';
-import { storage } from '../../lib/tx';
+"use strict";
+import React, { Component } from "react";
+import { VirtualizedList } from "react-native";
+import styled from "styled-components/native";
+import Transaction from "./Transaction";
+import I18n from "../../i18n/I18n";
+import LogUtilities from "../../utilities/LogUtilities";
+import { storage } from "../../lib/tx";
 
 class TransactionList extends Component {
   constructor(props) {
@@ -18,7 +18,7 @@ class TransactionList extends Component {
     this.uniqcounter = 0;
     // this.refreshIndices = {};
 
-    this.__tempcachecount = 'derp';
+    this.__tempcachecount = "derp";
   }
 
   componentDidMount() {
@@ -34,7 +34,7 @@ class TransactionList extends Component {
   }
 
   updateTxListState() {
-    LogUtilities.toDebugScreen('TransactionList updateTxListState() called');
+    LogUtilities.toDebugScreen("TransactionList updateTxListState() called");
     // this.refreshIndices = {0: true,1: true,2: true,3: true,4: true,5: true,6:true,7:true,8:true,9:true};
 
     this.setState({
@@ -52,14 +52,14 @@ class TransactionList extends Component {
 
     return {
       index: this.getItemCount() - index - 1, // basically reverse-sort. we want the LATEST index on top, not the earliest.
-      filter: this.props.tokenFilter.toLowerCase() || 'all'
+      filter: this.props.tokenFilter.toLowerCase() || "all"
       // ...refreshData
     };
   }
 
   getItemCount() {
     const ret = storage.getTxCount(
-      this.props.tokenFilter.toLowerCase() || 'all'
+      this.props.tokenFilter.toLowerCase() || "all"
     );
     if (ret != this.__tempcachecount) {
       // prevent flood
@@ -69,17 +69,17 @@ class TransactionList extends Component {
   }
 
   renderTransactions() {
-    LogUtilities.toDebugScreen('TransactionList renderTransactions() called');
+    LogUtilities.toDebugScreen("TransactionList renderTransactions() called");
     if (this.state.transactionsLoaded) {
       if (this.getItemCount() == 0)
         return (
           <EmptyTransactionContainer>
             <EmptyTransactionEmoji>(°△°) b</EmptyTransactionEmoji>
             <EmptyTransactionText>
-              {I18n.t('history-empty-tx-msg1')}
+              {I18n.t("history-empty-tx-msg1")}
             </EmptyTransactionText>
             <EmptyTransactionText>
-              {I18n.t('history-empty-tx-msg2')}
+              {I18n.t("history-empty-tx-msg2")}
             </EmptyTransactionText>
           </EmptyTransactionContainer>
         );
@@ -88,7 +88,7 @@ class TransactionList extends Component {
         <VirtualizedList
           initialNumToRender={32}
           maxToRenderPerBatch={32}
-          data={'yes'}
+          data={"yes"}
           getItem={this.getItem.bind(this)}
           getItemCount={this.getItemCount.bind(this)}
           renderItem={({ item }) => (
@@ -134,14 +134,14 @@ const EmptyTransactionContainer = styled.View`
 
 const EmptyTransactionEmoji = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 40;
   margin-bottom: 24;
 `;
 
 const EmptyTransactionText = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 16;
 `;
 

@@ -1,12 +1,12 @@
-'use strict';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import styled from 'styled-components/native';
-import { saveOutgoingTransactionDataCompound } from '../../actions/ActionOutgoingTransactionData';
+"use strict";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import styled from "styled-components/native";
+import { saveOutgoingTransactionDataCompound } from "../../actions/ActionOutgoingTransactionData";
 import {
   saveTxConfirmationModalVisibility,
   updateTxConfirmationModalVisibleType
-} from '../../actions/ActionModal';
+} from "../../actions/ActionModal";
 import {
   RootContainer,
   UntouchableCardContainer,
@@ -17,21 +17,21 @@ import {
   IsOnlineMessage,
   WeiBalanceValidateMessage,
   TxNextButton
-} from '../common';
-import { AdvancedContainer } from '../AdvancedContainer';
-import TxConfirmationModal from '../TxConfirmationModal';
-import I18n from '../../i18n/I18n';
+} from "../common";
+import { AdvancedContainer } from "../AdvancedContainer";
+import TxConfirmationModal from "../TxConfirmationModal";
+import I18n from "../../i18n/I18n";
 import {
   RoundDownBigNumberPlacesFour,
   RoundDownBigNumberPlacesEighteen
-} from '../../utilities/BigNumberUtilities';
-import LogUtilities from '../../utilities/LogUtilities';
-import StyleUtilities from '../../utilities/StyleUtilities';
-import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
-import ABIEncoder from '../../utilities/AbiUtilities';
-import { storage } from '../../lib/tx';
-import { TxTokenOpTypeToName } from '../../lib/tx/TokenOpType';
-import GlobalConfig from '../../config.json';
+} from "../../utilities/BigNumberUtilities";
+import LogUtilities from "../../utilities/LogUtilities";
+import StyleUtilities from "../../utilities/StyleUtilities";
+import TransactionUtilities from "../../utilities/TransactionUtilities.ts";
+import ABIEncoder from "../../utilities/AbiUtilities";
+import { storage } from "../../lib/tx";
+import { TxTokenOpTypeToName } from "../../lib/tx/TokenOpType";
+import GlobalConfig from "../../config.json";
 
 class WithdrawDaiFromCompound extends Component {
   constructor(props) {
@@ -42,7 +42,7 @@ class WithdrawDaiFromCompound extends Component {
       )
         .div(new RoundDownBigNumberPlacesFour(10).pow(36))
         .toFixed(2),
-      DAIWithdrawAmount: '',
+      DAIWithdrawAmount: "",
       DAISavingsAmountValidation: undefined,
       WEIAmountValidation: undefined,
       loading: false
@@ -79,7 +79,7 @@ class WithdrawDaiFromCompound extends Component {
   }
 
   async constructTransactionObject() {
-    const DAIWithdrawAmount = this.state.DAIWithdrawAmount.split('.').join('');
+    const DAIWithdrawAmount = this.state.DAIWithdrawAmount.split(".").join("");
     const decimalPlaces = TransactionUtilities.decimalPlaces(
       this.state.DAIWithdrawAmount
     );
@@ -105,7 +105,7 @@ class WithdrawDaiFromCompound extends Component {
       )
       .setGas(GlobalConfig.cTokenRedeemUnderlyingGasLimit.toString(16))
       .tempSetData(redeemUnderlyingEncodedABI)
-      .addTokenOperation('cdai', TxTokenOpTypeToName.redeem, [
+      .addTokenOperation("cdai", TxTokenOpTypeToName.redeem, [
         storage.getOwnAddress(),
         DAIWithdrawAmountWithDecimals,
         0
@@ -150,7 +150,7 @@ class WithdrawDaiFromCompound extends Component {
 
     if (DAISavingsAmountValidation && WEIAmountValidation && isOnline) {
       this.setState({ loading: true });
-      LogUtilities.logInfo('validation successful');
+      LogUtilities.logInfo("validation successful");
       const transactionObject = await this.constructTransactionObject();
       this.props.saveOutgoingTransactionDataCompound({
         amount: DAIWithdrawAmount,
@@ -158,9 +158,9 @@ class WithdrawDaiFromCompound extends Component {
         transactionObject: transactionObject
       });
       this.props.saveTxConfirmationModalVisibility(true);
-      this.props.updateTxConfirmationModalVisibleType('compound-withdraw');
+      this.props.updateTxConfirmationModalVisibleType("compound-withdraw");
     } else {
-      LogUtilities.logInfo('form validation failed!');
+      LogUtilities.logInfo("form validation failed!");
     }
   };
 
@@ -175,7 +175,7 @@ class WithdrawDaiFromCompound extends Component {
     return (
       <RootContainer>
         <TxConfirmationModal />
-        <HeaderOne marginTop="96">{I18n.t('withdraw')}</HeaderOne>
+        <HeaderOne marginTop="96">{I18n.t("withdraw")}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8px"
@@ -186,13 +186,13 @@ class WithdrawDaiFromCompound extends Component {
           textAlign="center"
           width="90%"
         >
-          <CoinImage source={require('../../../assets/dai_icon.png')} />
+          <CoinImage source={require("../../../assets/dai_icon.png")} />
           <Title>dai savings</Title>
           <Value>{this.state.compoundDAIBalance} DAI</Value>
         </UntouchableCardContainer>
         <WithDrawAmountHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
-            {I18n.t('withdraw-amount')}
+            {I18n.t("withdraw-amount")}
           </FormHeader>
         </WithDrawAmountHeaderContainer>
         <Form
@@ -274,19 +274,19 @@ const CoinImage = styled.Image`
 
 const Title = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 16;
   margin-top: 16;
   text-transform: uppercase;
 `;
 
 const Value = styled.Text`
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 16;
 `;
 
 const CurrencySymbolText = styled.Text`
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
 `;
 
 const ButtonWrapper = styled.View`

@@ -1,16 +1,16 @@
-'use strict';
+"use strict";
 import {
   GET_DAI_PRICE,
   GET_ETH_PRICE,
   GET_CDAI_PRICE
-} from '../constants/ActionTypes';
-import LogUtilities from '../utilities/LogUtilities';
+} from "../constants/ActionTypes";
+import LogUtilities from "../utilities/LogUtilities";
 
 export function getDAIPrice() {
   return async function (dispatch: any) {
     try {
       let res: any = await fetch(
-        'https://min-api.cryptocompare.com/data/price?fsym=DAI&tsyms=USD'
+        "https://min-api.cryptocompare.com/data/price?fsym=DAI&tsyms=USD"
       );
       res = await res.json();
       const DAIPrice = parseFloat(res.USD).toFixed(2);
@@ -30,7 +30,7 @@ export function getETHPrice() {
   return async function (dispatch: any) {
     try {
       let res: any = await fetch(
-        'https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD'
+        "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD"
       );
       res = await res.json();
       const ETHPrice = parseFloat(res.USD).toFixed(2);
@@ -49,10 +49,10 @@ const getETHPriceSuccess = (ETHPrice: any) => ({
 export function getCDAIPrice() {
   return async function (dispatch: any) {
     try {
-      let res: any = await fetch('https://api.compound.finance/api/v2/ctoken');
+      let res: any = await fetch("https://api.compound.finance/api/v2/ctoken");
       res = await res.json();
       const cDAIRes = res.cToken.filter(
-        (cToken: any) => cToken.symbol === 'cDAI'
+        (cToken: any) => cToken.symbol === "cDAI"
       );
       const CDAIPrice = parseFloat(cDAIRes[0].exchange_rate.value).toFixed(8);
       dispatch(getCDAIPriceSuccess(CDAIPrice));

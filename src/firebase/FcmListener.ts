@@ -1,5 +1,5 @@
-'use strict';
-import BigNumber from 'bignumber.js';
+"use strict";
+import BigNumber from "bignumber.js";
 import {
   saveCDaiBalance,
   saveDaiBalance,
@@ -7,18 +7,18 @@ import {
   savePoolTogetherDaiBalance,
   saveWeiBalance,
   movePoolTogetherDaiBalance
-} from '../actions/ActionBalance';
-import { saveCompoundDaiInfo } from '../actions/ActionCompound';
+} from "../actions/ActionBalance";
+import { saveCompoundDaiInfo } from "../actions/ActionCompound";
 import {
   savePoolTogetherDaiInfo,
   togglePoolTogetherWinnerRevealed
-} from '../actions/ActionPoolTogether';
-import { saveUniswapV2WETHxDAIReserve } from '../actions/ActionUniswap';
-import { saveTransactionsLoaded } from '../actions/ActionTransactionsLoaded';
-import { FcmMsgs } from '../lib/fcm';
-import LogUtilities from '../utilities/LogUtilities';
-import { store } from '../store/store';
-import { storage } from '../lib/tx';
+} from "../actions/ActionPoolTogether";
+import { saveUniswapV2WETHxDAIReserve } from "../actions/ActionUniswap";
+import { saveTransactionsLoaded } from "../actions/ActionTransactionsLoaded";
+import { FcmMsgs } from "../lib/fcm";
+import LogUtilities from "../utilities/LogUtilities";
+import { store } from "../store/store";
+import { storage } from "../lib/tx";
 
 let storeReady = false;
 let storeReadyPromise: any;
@@ -40,14 +40,14 @@ export const downstreamMessageHandler = async (type: any, data: any) => {
   if (!stateTree.ReducerChecksumAddress.checksumAddress) return;
 
   switch (type) {
-    case 'txhistory':
+    case "txhistory":
       // storage.setOwnAddress(checksumAddress);
-      await storage.clear(true);
+      await storage.clear();
       await storage.parseTxHistory(data);
       store.dispatch(saveTransactionsLoaded(true));
       break;
 
-    case 'txstate':
+    case "txstate":
       await Promise.all(
         Object.entries(data).map(([hash, data]) =>
           storage.processTxState(hash, data)
@@ -55,22 +55,22 @@ export const downstreamMessageHandler = async (type: any, data: any) => {
       );
       break;
 
-    case 'txsync':
+    case "txsync":
       await storage.processTxSync(data);
       break;
 
-    case 'balance':
-      if (data.hasOwnProperty('eth'))
+    case "balance":
+      if (data.hasOwnProperty("eth"))
         store.dispatch(
           saveWeiBalance(new BigNumber(`0x${data.eth}`).toString(10))
         );
 
-      if (data.hasOwnProperty('dai'))
+      if (data.hasOwnProperty("dai"))
         store.dispatch(
           saveDaiBalance(new BigNumber(`0x${data.dai}`).toString(10))
         );
 
-      if (data.hasOwnProperty('cdai')) {
+      if (data.hasOwnProperty("cdai")) {
         FcmMsgs.requestCompoundDaiInfo(
           stateTree.ReducerChecksumAddress.checksumAddress
         );
@@ -79,15 +79,15 @@ export const downstreamMessageHandler = async (type: any, data: any) => {
         );
       }
 
-      if (data.hasOwnProperty('pooltogether')) {
+      if (data.hasOwnProperty("pooltogether")) {
         const pooltogetherDaiBalance = data.pooltogether;
-        const pooltogetherDaiBalanceArray = pooltogetherDaiBalance.split('|');
+        const pooltogetherDaiBalanceArray = pooltogetherDaiBalance.split("|");
         store.dispatch(savePoolTogetherDaiBalance(pooltogetherDaiBalanceArray));
       }
 
       break;
 
-    case 'cDai_lending_info':
+    case "cDai_lending_info":
       // const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
       store.dispatch(saveCompoundDaiInfo(data));
       store.dispatch(
@@ -98,7 +98,7 @@ export const downstreamMessageHandler = async (type: any, data: any) => {
       );
       break;
 
-    case 'transactionError':
+    case "transactionError":
       LogUtilities.toDebugScreen(
         `downstreamMessageHandler(): received transactionError for nonce:${data.nonce}:`,
         data
@@ -107,7 +107,7 @@ export const downstreamMessageHandler = async (type: any, data: any) => {
 
       break;
 
-    case 'pool_together_DAI_info': {
+    case "pool_together_DAI_info": {
       const pooltogetherDaiInfo = {
         ...data,
         pooltogether_accounted_balance: new BigNumber(
@@ -129,7 +129,7 @@ export const downstreamMessageHandler = async (type: any, data: any) => {
       store.dispatch(savePoolTogetherDaiInfo(pooltogetherDaiInfo));
       if (
         stateTree.ReducerPoolTogether.poolTogether.dai.currentCommittedDrawId !=
-          '' &&
+          "" &&
         stateTree.ReducerPoolTogether.poolTogether.dai.currentCommittedDrawId !=
           data.pooltogether_committed_drawid
       ) {
@@ -139,7 +139,7 @@ export const downstreamMessageHandler = async (type: any, data: any) => {
       break;
     }
 
-    case 'uniswapV2_WETHxDAI_reserve':
+    case "uniswapV2_WETHxDAI_reserve":
       store.dispatch(saveUniswapV2WETHxDAIReserve(data));
       break;
 

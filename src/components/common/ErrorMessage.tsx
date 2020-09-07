@@ -1,6 +1,6 @@
-'use strict';
-import React from 'react';
-import styled from 'styled-components/native';
+"use strict";
+import React from "react";
+import styled from "styled-components/native";
 
 interface AppProps {
   textAlign: string;
@@ -15,7 +15,7 @@ export const ErrorMessage = (props: AppProps) => (
 
 const ErrorMessageText = styled.Text`
   color: #e41b13;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   text-align: ${(props: AppProps) => props.textAlign};
   width: 100%;
 `;

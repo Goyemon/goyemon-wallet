@@ -1,7 +1,7 @@
-import React from 'react';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import styled from 'styled-components';
-import { HeaderFive, GoyemonText } from '../common';
+import React from "react";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import styled from "styled-components";
+import { HeaderFive, GoyemonText } from "../common";
 
 const SwapBox = (props) => (
   <SubtotalSwapBox>

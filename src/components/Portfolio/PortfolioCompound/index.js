@@ -1,10 +1,10 @@
-'use strict';
-import BigNumber from 'bignumber.js';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { View } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import styled from 'styled-components';
+"use strict";
+import BigNumber from "bignumber.js";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { View } from "react-native";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import styled from "styled-components";
 import {
   RootContainer,
   UntouchableCardContainer,
@@ -14,10 +14,10 @@ import {
   HeaderFive,
   GoyemonText,
   ApplicationDescription
-} from '../../common';
-import I18n from '../../../i18n/I18n';
-import { RoundDownBigNumberPlacesFour } from '../../../utilities/BigNumberUtilities';
-import PriceUtilities from '../../../utilities/PriceUtilities';
+} from "../../common";
+import I18n from "../../../i18n/I18n";
+import { RoundDownBigNumberPlacesFour } from "../../../utilities/BigNumberUtilities";
+import PriceUtilities from "../../../utilities/PriceUtilities";
 
 class PortfolioCompound extends Component {
   render() {
@@ -59,7 +59,7 @@ class PortfolioCompound extends Component {
           width="90%"
         >
           <HeaderFour marginTop="8">
-            {I18n.t('portfolio-compound-totalsavings')}
+            {I18n.t("portfolio-compound-totalsavings")}
           </HeaderFour>
           <BalanceText>
             $
@@ -83,7 +83,7 @@ class PortfolioCompound extends Component {
           marginLeft="24"
           marginTop="0"
         >
-          {I18n.t('portfolio-compound-coins')}
+          {I18n.t("portfolio-compound-coins")}
         </HeaderThree>
         <UntouchableCardContainer
           alignItems="center"
@@ -99,12 +99,12 @@ class PortfolioCompound extends Component {
             <ValueContainerInner>
               <IconContainer>
                 <CoinImage
-                  source={require('../../../../assets/dai_icon.png')}
+                  source={require("../../../../assets/dai_icon.png")}
                 />
               </IconContainer>
               <View>
                 <HeaderFive>
-                  {I18n.t('portfolio-compound-dai-savings')}
+                  {I18n.t("portfolio-compound-dai-savings")}
                 </HeaderFive>
                 <ValueText>{compoundDAIBalance} DAI</ValueText>
               </View>
@@ -115,7 +115,7 @@ class PortfolioCompound extends Component {
               </IconContainer>
               <View>
                 <HeaderFive>
-                  {I18n.t('portfolio-compound-yearly-rate')}
+                  {I18n.t("portfolio-compound-yearly-rate")}
                 </HeaderFive>
                 <ValueText>{currentInterestRate}%</ValueText>
               </View>
@@ -126,7 +126,7 @@ class PortfolioCompound extends Component {
               </IconContainer>
               <View>
                 <HeaderFive>
-                  {I18n.t('portfolio-compound-interest-earned')}
+                  {I18n.t("portfolio-compound-interest-earned")}
                 </HeaderFive>
                 <DAIInterestEarnedText>
                   {lifetimeEarnedInDAI} DAI
@@ -142,18 +142,18 @@ class PortfolioCompound extends Component {
 
 const BalanceText = styled.Text`
   color: #000;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 32;
 `;
 
 const InterestEarnedTextContainer = styled.Text`
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   margin-top: 16;
 `;
 
 const InterestEarnedText = styled.Text`
   color: #1ba548;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 18;
   font-weight: bold;
 `;
@@ -180,14 +180,14 @@ const ValueContainerInner = styled.View`
 
 const ValueText = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 18;
   margin-bottom: 8;
 `;
 
 const DAIInterestEarnedText = styled.Text`
   color: #1ba548;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 20;
   font-weight: bold;
   margin-bottom: 4;

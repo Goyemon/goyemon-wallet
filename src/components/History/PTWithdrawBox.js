@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { GoyemonText } from '../common';
+import React from "react";
+import styled from "styled-components";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { GoyemonText } from "../common";
 
 const PTWithdrawBox = (props) => (
   <SubtotalWithdrawBox>

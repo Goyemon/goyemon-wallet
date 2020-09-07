@@ -1,15 +1,15 @@
-'use strict';
-import React, { Component } from 'react';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { connect } from 'react-redux';
-import { View } from 'react-native';
-import styled from 'styled-components/native';
-import Web3 from 'web3';
-import { saveOutgoingTransactionDataSwap } from '../../actions/ActionOutgoingTransactionData';
+"use strict";
+import React, { Component } from "react";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { connect } from "react-redux";
+import { View } from "react-native";
+import styled from "styled-components/native";
+import Web3 from "web3";
+import { saveOutgoingTransactionDataSwap } from "../../actions/ActionOutgoingTransactionData";
 import {
   saveTxConfirmationModalVisibility,
   updateTxConfirmationModalVisibleType
-} from '../../actions/ActionModal';
+} from "../../actions/ActionModal";
 import {
   RootContainer,
   Container,
@@ -22,25 +22,25 @@ import {
   ErrorMessage,
   TxNextButton,
   UseMaxButton
-} from '../common';
-import { AdvancedContainer } from '../AdvancedContainer';
-import TxConfirmationModal from '../TxConfirmationModal';
-import I18n from '../../i18n/I18n';
-import ABIEncoder from '../../utilities/AbiUtilities';
-import { RoundDownBigNumberPlacesEighteen } from '../../utilities/BigNumberUtilities';
-import LogUtilities from '../../utilities/LogUtilities';
-import StyleUtilities from '../../utilities/StyleUtilities';
-import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
-import { storage } from '../../lib/tx';
-import { TxTokenOpTypeToName } from '../../lib/tx/TokenOpType';
-import GlobalConfig from '../../config.json';
+} from "../common";
+import { AdvancedContainer } from "../AdvancedContainer";
+import TxConfirmationModal from "../TxConfirmationModal";
+import I18n from "../../i18n/I18n";
+import ABIEncoder from "../../utilities/AbiUtilities";
+import { RoundDownBigNumberPlacesEighteen } from "../../utilities/BigNumberUtilities";
+import LogUtilities from "../../utilities/LogUtilities";
+import StyleUtilities from "../../utilities/StyleUtilities";
+import TransactionUtilities from "../../utilities/TransactionUtilities.ts";
+import { storage } from "../../lib/tx";
+import { TxTokenOpTypeToName } from "../../lib/tx/TokenOpType";
+import GlobalConfig from "../../config.json";
 
 class Swap extends Component {
   constructor(props) {
     super(props);
     this.state = {
       ETHBalance: Web3.utils.fromWei(props.balance.wei),
-      ETHSold: '',
+      ETHSold: "",
       tokenBought: new RoundDownBigNumberPlacesEighteen(0),
       ETHSoldValidation: undefined,
       loading: false
@@ -79,7 +79,7 @@ class Swap extends Component {
       ).div(new RoundDownBigNumberPlacesEighteen(10).pow(18));
       this.setState({ tokenBought });
     } else {
-      LogUtilities.logInfo('ETHSold is not a number');
+      LogUtilities.logInfo("ETHSold is not a number");
     }
   }
 
@@ -106,8 +106,8 @@ class Swap extends Component {
     const hexWEI = TransactionUtilities.ETHToHexWEI(this.state.ETHSold);
     const minTokens = this.getMinTokens(this.state.tokenBought)
       .toString(10)
-      .split('.')
-      .join('');
+      .split(".")
+      .join("");
     const path = [
       GlobalConfig.WETHTokenContract,
       GlobalConfig.DAITokenContract
@@ -141,12 +141,12 @@ class Swap extends Component {
       )
       .setGas(GlobalConfig.UniswapV2SwapExactETHForTokensGasLimit.toString(16))
       .tempSetData(swapExactETHForTokensEncodedABI)
-      .addTokenOperation('uniswap2ethdai', TxTokenOpTypeToName.U2swap, [
+      .addTokenOperation("uniswap2ethdai", TxTokenOpTypeToName.U2swap, [
         GlobalConfig.RouterUniswapV2,
-        '0',
+        "0",
         hexWEI,
         minTokensWithDecimals,
-        '0',
+        "0",
         this.props.checksumAddress
       ]);
     return transactionObject;
@@ -158,7 +158,7 @@ class Swap extends Component {
 
     if (ETHSoldValidation && isOnline) {
       this.setState({ loading: true });
-      LogUtilities.logInfo('validation successful');
+      LogUtilities.logInfo("validation successful");
       const transactionObject = await this.constructTransactionObject();
       this.props.saveOutgoingTransactionDataSwap({
         sold: this.state.ETHSold,
@@ -170,9 +170,9 @@ class Swap extends Component {
         transactionObject: transactionObject
       });
       this.props.saveTxConfirmationModalVisibility(true);
-      this.props.updateTxConfirmationModalVisibleType('swap');
+      this.props.updateTxConfirmationModalVisibleType("swap");
     } else {
-      LogUtilities.logInfo('form validation failed!');
+      LogUtilities.logInfo("form validation failed!");
     }
   };
 
@@ -196,10 +196,10 @@ class Swap extends Component {
       WEISold.isGreaterThanOrEqualTo(0) &&
       tokenReserve.isGreaterThanOrEqualTo(this.state.tokenBought)
     ) {
-      LogUtilities.logInfo('the ETHSold validated!');
+      LogUtilities.logInfo("the ETHSold validated!");
       return true;
     }
-    LogUtilities.logInfo('wrong balance!');
+    LogUtilities.logInfo("wrong balance!");
     return false;
   }
 
@@ -217,7 +217,7 @@ class Swap extends Component {
   }
 
   renderTokenBoughtText() {
-    if (this.state.tokenBought.toFixed() === '0') {
+    if (this.state.tokenBought.toFixed() === "0") {
       return <MinTokenBoughtGrayText>0</MinTokenBoughtGrayText>;
     } else {
       return (
@@ -258,7 +258,7 @@ class Swap extends Component {
     ).times(GlobalConfig.UniswapV2SwapExactETHForTokensGasLimit);
 
     if (WEIBalance.isLessThanOrEqualTo(maxNetworkFee)) {
-      WEIMaxAmount = '0';
+      WEIMaxAmount = "0";
     } else if (WEIBalance.isGreaterThan(maxNetworkFee)) {
       WEIMaxAmount = WEIBalance.minus(maxNetworkFee).toString();
     }
@@ -266,7 +266,7 @@ class Swap extends Component {
     return (
       <RootContainer>
         <TxConfirmationModal />
-        <HeaderOne marginTop="64">{I18n.t('swap')}</HeaderOne>
+        <HeaderOne marginTop="64">{I18n.t("swap")}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8px"
@@ -284,7 +284,7 @@ class Swap extends Component {
             marginTop={0}
             width="50%"
           >
-            <Title>{I18n.t('swap-sell-title')}</Title>
+            <Title>{I18n.t("swap-sell-title")}</Title>
             <SwapForm
               borderBottomColor={StyleUtilities.getBorderColor(
                 this.state.ETHSoldValidation
@@ -313,7 +313,7 @@ class Swap extends Component {
             </SwapForm>
             <View>{this.renderInsufficientBalanceMessage()}</View>
             <UseMaxButton
-              text={I18n.t('use-max')}
+              text={I18n.t("use-max")}
               textColor="#00A3E2"
               onPress={() => {
                 this.setState({
@@ -337,11 +337,11 @@ class Swap extends Component {
             width="50%"
           >
             <CurrencyContainer>
-              <CoinImage source={require('../../../assets/ether_icon.png')} />
+              <CoinImage source={require("../../../assets/ether_icon.png")} />
               <CurrencySymbolText>ETH</CurrencySymbolText>
             </CurrencyContainer>
             <BalanceText>
-              {I18n.t('balance')}: {ETHBalance}
+              {I18n.t("balance")}: {ETHBalance}
             </BalanceText>
           </Container>
         </UntouchableCardContainer>
@@ -371,7 +371,7 @@ class Swap extends Component {
             marginTop={0}
             width="50%"
           >
-            <Title>{I18n.t('swap-buy-title')}</Title>
+            <Title>{I18n.t("swap-buy-title")}</Title>
             {this.renderTokenBoughtText()}
           </Container>
           <Container
@@ -381,7 +381,7 @@ class Swap extends Component {
             marginTop={0}
             width="50%"
           >
-            <CoinImage source={require('../../../assets/dai_icon.png')} />
+            <CoinImage source={require("../../../assets/dai_icon.png")} />
             <CurrencySymbolText>DAI</CurrencySymbolText>
           </Container>
         </UntouchableCardContainer>
@@ -431,7 +431,7 @@ const CoinImage = styled.Image`
 
 const CurrencySymbolText = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 28;
 `;
 
@@ -441,7 +441,7 @@ const CurrencyContainer = styled.View`
 
 const Title = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 16;
   margin-bottom: 8;
   text-transform: uppercase;
@@ -449,7 +449,7 @@ const Title = styled.Text`
 
 const BalanceText = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 16;
   margin-top: 8;
 `;

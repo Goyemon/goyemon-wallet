@@ -1,28 +1,28 @@
-'use strict';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import styled from 'styled-components';
+"use strict";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import styled from "styled-components";
 import {
   saveDaiCompoundApproval,
   saveDaiPoolTogetherApproval
-} from '../../actions/ActionApproval';
-import CompoundIcon from '../../../assets/CompoundIcon.js';
-import PoolTogetherIcon from '../../../assets/PoolTogetherIcon.js';
+} from "../../actions/ActionApproval";
+import CompoundIcon from "../../../assets/CompoundIcon.js";
+import PoolTogetherIcon from "../../../assets/PoolTogetherIcon.js";
 import {
   RootContainer,
   Container,
   TouchableCardContainer,
   HeaderOne,
   GoyemonText
-} from '../common';
-import I18n from '../../i18n/I18n';
-import { storage } from '../../lib/tx';
-import LogUtilities from '../../utilities/LogUtilities';
+} from "../common";
+import I18n from "../../i18n/I18n";
+import { storage } from "../../lib/tx";
+import LogUtilities from "../../utilities/LogUtilities";
 
 class EarnHome extends Component {
   componentDidMount() {
-    LogUtilities.toDebugScreen('EarnHome componentDidMount() called');
+    LogUtilities.toDebugScreen("EarnHome componentDidMount() called");
     const txChangeCallback = (() => {
       storage.isDAIApprovedForCDAI().then((x) => {
         this.props.saveDaiCompoundApproval(x);
@@ -37,7 +37,7 @@ class EarnHome extends Component {
   }
 
   componentWillUnmount() {
-    LogUtilities.toDebugScreen('EarnHome componentWillUnmount() called');
+    LogUtilities.toDebugScreen("EarnHome componentWillUnmount() called");
     this.unsub();
   }
 
@@ -46,7 +46,7 @@ class EarnHome extends Component {
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="64">{I18n.t('earn')}</HeaderOne>
+        <HeaderOne marginTop="64">{I18n.t("earn")}</HeaderOne>
         <Container
           alignItems="flex-start"
           flexDirection="column"
@@ -63,20 +63,20 @@ class EarnHome extends Component {
             width="90%"
             onPress={() => {
               if (approval.dai.compound) {
-                navigation.navigate('DepositDaiToCompound');
+                navigation.navigate("DepositDaiToCompound");
               } else if (!approval.dai.compound) {
-                navigation.navigate('DepositFirstDaiToCompound');
+                navigation.navigate("DepositFirstDaiToCompound");
               } else {
-                LogUtilities.logInfo('invalid approval value');
+                LogUtilities.logInfo("invalid approval value");
               }
             }}
           >
             <GoyemonText fontSize={24}>
-              {I18n.t('earn-home-compound-deposit')}
+              {I18n.t("earn-home-compound-deposit")}
             </GoyemonText>
             <IconImageContainer>
               <IconImage>
-                <CardImage source={require('../../../assets/dai_icon.png')} />
+                <CardImage source={require("../../../assets/dai_icon.png")} />
               </IconImage>
               <IconImage>
                 <Icon name="arrow-right-bold" size={28} color="#5F5F5F" />
@@ -94,15 +94,15 @@ class EarnHome extends Component {
             textAlign="left"
             width="90%"
             onPress={() => {
-              navigation.navigate('WithdrawDaiFromCompound');
+              navigation.navigate("WithdrawDaiFromCompound");
             }}
           >
             <GoyemonText fontSize={24}>
-              {I18n.t('earn-home-compound-withdraw')}
+              {I18n.t("earn-home-compound-withdraw")}
             </GoyemonText>
             <IconImageContainer>
               <IconImage>
-                <CardImage source={require('../../../assets/dai_icon.png')} />
+                <CardImage source={require("../../../assets/dai_icon.png")} />
               </IconImage>
               <IconImage>
                 <Icon name="arrow-left-bold" size={28} color="#5F5F5F" />
@@ -121,20 +121,20 @@ class EarnHome extends Component {
             width="90%"
             onPress={() => {
               if (approval.dai.pooltogether) {
-                navigation.navigate('DepositDaiToPoolTogether');
+                navigation.navigate("DepositDaiToPoolTogether");
               } else if (!approval.dai.pooltogether) {
-                navigation.navigate('DepositFirstDaiToPoolTogether');
+                navigation.navigate("DepositFirstDaiToPoolTogether");
               } else {
-                LogUtilities.logInfo('invalid approval value');
+                LogUtilities.logInfo("invalid approval value");
               }
             }}
           >
             <GoyemonText fontSize={24}>
-              {I18n.t('earn-home-pooltogether-deposit')}
+              {I18n.t("earn-home-pooltogether-deposit")}
             </GoyemonText>
             <IconImageContainer>
               <IconImage>
-                <CardImage source={require('../../../assets/dai_icon.png')} />
+                <CardImage source={require("../../../assets/dai_icon.png")} />
               </IconImage>
               <IconImage>
                 <Icon name="arrow-right-bold" size={28} color="#5F5F5F" />
@@ -152,15 +152,15 @@ class EarnHome extends Component {
             textAlign="left"
             width="90%"
             onPress={() => {
-              navigation.navigate('WithdrawDaiFromPoolTogether');
+              navigation.navigate("WithdrawDaiFromPoolTogether");
             }}
           >
             <GoyemonText fontSize={24}>
-              {I18n.t('earn-home-pooltogether-withdraw')}
+              {I18n.t("earn-home-pooltogether-withdraw")}
             </GoyemonText>
             <IconImageContainer>
               <IconImage>
-                <CardImage source={require('../../../assets/dai_icon.png')} />
+                <CardImage source={require("../../../assets/dai_icon.png")} />
               </IconImage>
               <IconImage>
                 <Icon name="arrow-left-bold" size={28} color="#5F5F5F" />

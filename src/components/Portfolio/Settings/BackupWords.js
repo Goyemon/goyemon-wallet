@@ -1,18 +1,18 @@
-'use strict';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import styled from 'styled-components/native';
-import { RootContainer, Container, HeaderOne, Description } from '../../common';
-import I18n from '../../../i18n/I18n';
+"use strict";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import styled from "styled-components/native";
+import { RootContainer, Container, HeaderOne, Description } from "../../common";
+import I18n from "../../../i18n/I18n";
 
 class BackupWords extends Component {
   render() {
-    const mnemonicWords = this.props.mnemonicWords.split(' ');
+    const mnemonicWords = this.props.mnemonicWords.split(" ");
 
     return (
       <RootContainer>
         <HeaderOne marginTop="96">
-          {I18n.t('settings-backup-words-header')}
+          {I18n.t("settings-backup-words-header")}
         </HeaderOne>
         <Container
           alignItems="center"
@@ -22,7 +22,7 @@ class BackupWords extends Component {
           width="90%"
         >
           <Description marginBottom="16" marginLeft="8" marginTop="16">
-            {I18n.t('settings-backup-words-description')}
+            {I18n.t("settings-backup-words-description")}
           </Description>
           <MnemonicWordsContainer style={styles.table}>
             {mnemonicWords.map((mnemonicWord, id) => (
@@ -39,11 +39,11 @@ class BackupWords extends Component {
 
 const styles = {
   table: {
-    flexWrap: 'wrap',
-    flexDirection: 'row'
+    flexWrap: "wrap",
+    flexDirection: "row"
   },
   cell: {
-    flexBasis: '25%',
+    flexBasis: "25%",
     flex: 1
   }
 };
@@ -64,7 +64,7 @@ const MnemonicWordsWrapper = styled.View`
 `;
 
 const MnemonicWordsText = styled.Text`
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 16;
   padding: 4px;
   text-align: center;

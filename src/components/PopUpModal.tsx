@@ -1,9 +1,9 @@
-'use strict';
-import React, { Component } from 'react';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { connect } from 'react-redux';
-import Modal from 'react-native-modal';
-import styled from 'styled-components/native';
+"use strict";
+import React, { Component } from "react";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { connect } from "react-redux";
+import Modal from "react-native-modal";
+import styled from "styled-components/native";
 
 interface AppProps {
   modal: any;
@@ -17,7 +17,7 @@ class PopUpModal extends Component<AppProps> {
         animationIn="fadeIn"
         animationOut="fadeOut"
         isVisible={this.props.modal.popUpModalVisibility}
-        style={{ flexDirection: 'row', alignItems: 'center' }}
+        style={{ flexDirection: "row", alignItems: "center" }}
       >
         <ModalContainer>
           <CloseButton onPress={this.props.onPress}>

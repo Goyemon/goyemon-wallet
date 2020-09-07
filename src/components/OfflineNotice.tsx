@@ -1,9 +1,9 @@
-'use strict';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { View } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import styled from 'styled-components/native';
+"use strict";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { View } from "react-native";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import styled from "styled-components/native";
 
 interface AppProps {
   isOnline: boolean;
@@ -60,7 +60,7 @@ const OfflineContainer = styled.View`
 
 const OfflineText = styled.Text`
   color: #fff;
-  font-family: 'HKGrotesk-Bold';
+  font-family: "HKGrotesk-Bold";
 `;
 
 function mapStateToProps(state: any) {

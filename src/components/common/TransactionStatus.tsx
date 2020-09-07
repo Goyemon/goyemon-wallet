@@ -1,9 +1,9 @@
-'use strict';
-import React from 'react';
-import { GoyemonText } from './Texts';
-import I18n from '../../i18n/I18n';
-import TxStates from '../../lib/tx/TxStates';
-import styled from 'styled-components/native';
+"use strict";
+import React from "react";
+import { GoyemonText } from "./Texts";
+import I18n from "../../i18n/I18n";
+import TxStates from "../../lib/tx/TxStates";
+import styled from "styled-components/native";
 
 interface TransactionStatusProps {
   width: number;
@@ -17,20 +17,20 @@ export const TransactionStatus = (props: TransactionStatusProps) => (
       switch (props.txState) {
         case TxStates.STATE_NEW:
         case TxStates.STATE_PENDING:
-          text = I18n.t('history-pending') + '...';
+          text = I18n.t("history-pending") + "...";
           break;
 
         case TxStates.STATE_INCLUDED:
-          text = I18n.t('history-success');
+          text = I18n.t("history-success");
           break;
 
         case TxStates.STATE_CONFIRMED:
-          text = I18n.t('history-success');
+          text = I18n.t("history-success");
           break;
 
         case TxStates.STATE_GETH_ERROR:
           return (
-            <FailedStatusText>{I18n.t('history-failed')}</FailedStatusText>
+            <FailedStatusText>{I18n.t("history-failed")}</FailedStatusText>
           );
 
         default:
@@ -48,6 +48,6 @@ const TransactionStatusContainer = styled.View`
 
 const FailedStatusText = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 18;
 `;

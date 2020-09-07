@@ -1,5 +1,5 @@
-'use strict';
-const web3 = require('web3');
+"use strict";
+const web3 = require("web3");
 // https://github.com/indutny/bn.js/blob/master/lib/bn.js
 
 class RuDataBuilder {
@@ -60,23 +60,23 @@ class RuDataBuilder {
   }
 
   get() {
-    return `0x${this.buf.toString('hex')}`;
+    return `0x${this.buf.toString("hex")}`;
   }
 
   __numToUint256(value: any, scaled = false) {
-    let ret = Buffer.alloc(32);
+    const ret = Buffer.alloc(32);
     let val;
     if (scaled)
-      val = web3.utils.toBN(value).mul(this.multiplier).toBuffer('be', 0);
-    else val = web3.utils.toBN(value).toBuffer('be', 0);
+      val = web3.utils.toBN(value).mul(this.multiplier).toBuffer("be", 0);
+    else val = web3.utils.toBN(value).toBuffer("be", 0);
     val.copy(ret, 32 - val.byteLength);
 
     return ret;
   }
 
   __addrToBuf(h: string) {
-    let ret = Buffer.alloc(32);
-    Buffer.from(h.substr(0, 2) == '0x' ? h.substr(2) : h, 'hex').copy(ret, 12);
+    const ret = Buffer.alloc(32);
+    Buffer.from(h.substr(0, 2) == "0x" ? h.substr(2) : h, "hex").copy(ret, 12);
 
     return ret;
   }
@@ -129,7 +129,7 @@ export default class ABIEncoder {
     deadline: any,
     decimals = 18
   ) {
-    let fields = 5 + path.length;
+    const fields = 5 + path.length;
     return new RuDataBuilder([0x7f, 0xf3, 0x6a, 0xb5], fields, decimals)
       .putUint256Scaled(minTokens)
       .putPrefix(128)

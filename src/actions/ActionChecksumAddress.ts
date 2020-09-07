@@ -1,7 +1,7 @@
-'use strict';
-import { CREATE_CHECKSUM_ADDRESS } from '../constants/ActionTypes';
-import LogUtilities from '../utilities/LogUtilities';
-import WalletUtilities from '../utilities/WalletUtilities';
+"use strict";
+import { CREATE_CHECKSUM_ADDRESS } from "../constants/ActionTypes";
+import LogUtilities from "../utilities/LogUtilities";
+import WalletUtilities from "../utilities/WalletUtilities";
 
 export function createChecksumAddress() {
   return async function (dispatch: any) {

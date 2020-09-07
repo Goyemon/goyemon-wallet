@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 import {
   SAVE_TX_DETAIL_MODAL_VISIBILITY,
   SAVE_TX_CONFIRMATION_MODAL_VISIBILITY,
   UPDATE_TX_CONFIRMATION_MODAL_VISIBLE_TYPE,
   SAVE_POP_UP_MODAL_VISIBILITY,
   BUY_CRYPTO_MODAL_VISIBILITY
-} from '../constants/ActionTypes';
-import LogUtilities from '../utilities/LogUtilities';
+} from "../constants/ActionTypes";
+import LogUtilities from "../utilities/LogUtilities";
 
 export function saveTxDetailModalVisibility(visibility: any) {
   return async function (dispatch: any) {

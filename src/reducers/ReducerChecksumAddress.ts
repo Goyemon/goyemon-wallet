@@ -1,5 +1,5 @@
-'use strict';
-import { CREATE_CHECKSUM_ADDRESS } from '../constants/ActionTypes';
+"use strict";
+import { CREATE_CHECKSUM_ADDRESS } from "../constants/ActionTypes";
 
 const INITIAL_STATE = {
   checksumAddress: null

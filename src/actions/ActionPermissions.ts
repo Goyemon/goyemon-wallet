@@ -1,6 +1,6 @@
-'use strict';
-import { SAVE_NOTIFICATION_PERMISSION } from '../constants/ActionTypes';
-import LogUtilities from '../utilities/LogUtilities';
+"use strict";
+import { SAVE_NOTIFICATION_PERMISSION } from "../constants/ActionTypes";
+import LogUtilities from "../utilities/LogUtilities";
 
 export function saveNotificationPermission(notificationPermission: any) {
   return async function (dispatch: any) {

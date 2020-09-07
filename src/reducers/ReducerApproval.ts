@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 import {
   SAVE_DAI_COMPOUND_APPROVAL,
   SAVE_DAI_POOLTOGETHER_APPROVAL
-} from '../constants/ActionTypes';
+} from "../constants/ActionTypes";
 
 const INITIAL_STATE = {
   approval: {

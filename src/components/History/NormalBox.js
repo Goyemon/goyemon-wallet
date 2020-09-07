@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { GoyemonText } from '../common';
+import React from "react";
+import styled from "styled-components";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { GoyemonText } from "../common";
 
 const NormalBox = (props) => (
   <>
@@ -18,7 +18,7 @@ const NormalBox = (props) => (
 );
 
 const SubtotalBox = styled.View`
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   flex-direction: row;
   margin-left: 4%;
   margin-top: 32;

@@ -1,6 +1,6 @@
-'use strict';
-import { CLEAR_STATE } from '../constants/ActionTypes';
-import LogUtilities from '../utilities/LogUtilities';
+"use strict";
+import { CLEAR_STATE } from "../constants/ActionTypes";
+import LogUtilities from "../utilities/LogUtilities";
 
 export function clearState() {
   return async function (dispatch: any) {

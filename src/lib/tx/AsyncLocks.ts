@@ -23,7 +23,7 @@ export default class AsyncLocks {
   }
 
   unlock(name: any) {
-    let l = this.locks[name];
+    const l = this.locks[name];
     if (!l || !l.promise)
       throw new Error(`unlock() called on a non-locked lock ${name}`);
 

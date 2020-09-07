@@ -1,20 +1,20 @@
-'use strict';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+"use strict";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import {
   NavigationActions,
   StackActions,
   withNavigation
-} from 'react-navigation';
-import { View } from 'react-native';
-import Modal from 'react-native-modal';
-import styled from 'styled-components/native';
+} from "react-navigation";
+import { View } from "react-native";
+import Modal from "react-native-modal";
+import styled from "styled-components/native";
 import {
   saveTxConfirmationModalVisibility,
   updateTxConfirmationModalVisibleType
-} from '../actions/ActionModal';
-import { saveOutgoingTransactionDataSend } from '../actions/ActionOutgoingTransactionData';
-import { updateToAddressValidation } from '../actions/ActionTxFormValidation';
+} from "../actions/ActionModal";
+import { saveOutgoingTransactionDataSend } from "../actions/ActionOutgoingTransactionData";
+import { updateToAddressValidation } from "../actions/ActionTxFormValidation";
 import {
   HeaderFive,
   ConfirmationText,
@@ -24,11 +24,11 @@ import {
   TxConfirmationButton,
   ModalHandler,
   HorizontalLine
-} from './common';
-import NetworkFeeContainerConfirmation from './NetworkFeeContainerConfirmation';
-import I18n from '../i18n/I18n';
-import LogUtilities from '../utilities/LogUtilities';
-import TransactionUtilities from '../utilities/TransactionUtilities';
+} from "./common";
+import NetworkFeeContainerConfirmation from "./NetworkFeeContainerConfirmation";
+import I18n from "../i18n/I18n";
+import LogUtilities from "../utilities/LogUtilities";
+import TransactionUtilities from "../utilities/TransactionUtilities";
 
 interface AppProps {
   modal: any;
@@ -65,31 +65,31 @@ class TxConfirmationModal extends Component<AppProps, AppState> {
   returnHeaderType() {
     const { modal }: any = this.props;
     if (
-      modal.txConfirmationModalType === 'compound-deposit' ||
-      modal.txConfirmationModalType === 'pool-together-deposit' ||
-      modal.txConfirmationModalType === 'compound-approve' ||
-      modal.txConfirmationModalType === 'pool-together-approve'
+      modal.txConfirmationModalType === "compound-deposit" ||
+      modal.txConfirmationModalType === "pool-together-deposit" ||
+      modal.txConfirmationModalType === "compound-approve" ||
+      modal.txConfirmationModalType === "pool-together-approve"
     ) {
-      return <HeaderFive width="80%">{I18n.t('deposit-amount')}</HeaderFive>;
+      return <HeaderFive width="80%">{I18n.t("deposit-amount")}</HeaderFive>;
     } else if (
-      modal.txConfirmationModalType === 'compound-withdraw' ||
-      modal.txConfirmationModalType === 'pool-together-withdraw'
+      modal.txConfirmationModalType === "compound-withdraw" ||
+      modal.txConfirmationModalType === "pool-together-withdraw"
     ) {
-      return <HeaderFive width="80%">{I18n.t('withdraw-amount')}</HeaderFive>;
+      return <HeaderFive width="80%">{I18n.t("withdraw-amount")}</HeaderFive>;
     }
   }
 
   returnCurrency() {
     const { modal }: any = this.props;
 
-    if (modal.txConfirmationModalType === 'send-eth') {
-      return 'ETH';
-    } else if (modal.txConfirmationModalType === 'send-dai') {
-      return 'DAI';
-    } else if (modal.txConfirmationModalType === 'send-cdai') {
-      return 'cDAI';
-    } else if (modal.txConfirmationModalType === 'send-pldai') {
-      return 'plDAI';
+    if (modal.txConfirmationModalType === "send-eth") {
+      return "ETH";
+    } else if (modal.txConfirmationModalType === "send-dai") {
+      return "DAI";
+    } else if (modal.txConfirmationModalType === "send-cdai") {
+      return "cDAI";
+    } else if (modal.txConfirmationModalType === "send-pldai") {
+      return "plDAI";
     }
   }
 
@@ -97,17 +97,17 @@ class TxConfirmationModal extends Component<AppProps, AppState> {
     const { modal }: any = this.props;
 
     if (
-      modal.txConfirmationModalType === 'compound-deposit' ||
-      modal.txConfirmationModalType === 'pool-together-deposit' ||
-      modal.txConfirmationModalType === 'compound-approve' ||
-      modal.txConfirmationModalType === 'pool-together-approve'
+      modal.txConfirmationModalType === "compound-deposit" ||
+      modal.txConfirmationModalType === "pool-together-deposit" ||
+      modal.txConfirmationModalType === "compound-approve" ||
+      modal.txConfirmationModalType === "pool-together-approve"
     ) {
-      return I18n.t('deposit');
+      return I18n.t("deposit");
     } else if (
-      modal.txConfirmationModalType === 'compound-withdraw' ||
-      modal.txConfirmationModalType === 'pool-together-withdraw'
+      modal.txConfirmationModalType === "compound-withdraw" ||
+      modal.txConfirmationModalType === "pool-together-withdraw"
     ) {
-      return I18n.t('withdraw');
+      return I18n.t("withdraw");
     }
   }
 
@@ -120,19 +120,19 @@ class TxConfirmationModal extends Component<AppProps, AppState> {
     }: any = this.props;
 
     if (
-      modal.txConfirmationModalType === 'send-eth' ||
-      modal.txConfirmationModalType === 'send-dai' ||
-      modal.txConfirmationModalType === 'send-cdai' ||
-      modal.txConfirmationModalType === 'send-pldai'
+      modal.txConfirmationModalType === "send-eth" ||
+      modal.txConfirmationModalType === "send-dai" ||
+      modal.txConfirmationModalType === "send-cdai" ||
+      modal.txConfirmationModalType === "send-pldai"
     ) {
       return (
         <View>
           <ConfirmationContainer>
-            <HeaderFive width="80%">{I18n.t('to')}</HeaderFive>
+            <HeaderFive width="80%">{I18n.t("to")}</HeaderFive>
             <ConfirmationText>
               {outgoingTransactionData.send.toaddress}
             </ConfirmationText>
-            <HeaderFive width="80%">{I18n.t('amount')}</HeaderFive>
+            <HeaderFive width="80%">{I18n.t("amount")}</HeaderFive>
             <ConfirmationText>
               {outgoingTransactionData.send.amount} {this.returnCurrency()}
             </ConfirmationText>
@@ -142,7 +142,7 @@ class TxConfirmationModal extends Component<AppProps, AppState> {
           </ConfirmationContainer>
           <ButtonContainer>
             <TxConfirmationButton
-              text={I18n.t('button-send')}
+              text={I18n.t("button-send")}
               disabled={this.state.buttonDisabled}
               onPress={async () => {
                 if (isOnline) {
@@ -150,12 +150,12 @@ class TxConfirmationModal extends Component<AppProps, AppState> {
                   await TransactionUtilities.sendOutgoingTransactionToServer(
                     outgoingTransactionData.send.transactionObject
                   );
-                  this.resetNavigation('Send');
-                  navigation.navigate('History');
+                  this.resetNavigation("Send");
+                  navigation.navigate("History");
                   this.setState({ loading: false, buttonDisabled: false });
                   this.props.saveTxConfirmationModalVisibility(false);
                   this.props.updateTxConfirmationModalVisibleType(null);
-                  this.props.saveOutgoingTransactionDataSend('');
+                  this.props.saveOutgoingTransactionDataSend("");
                   this.props.updateToAddressValidation(undefined);
                 }
               }}
@@ -165,7 +165,7 @@ class TxConfirmationModal extends Component<AppProps, AppState> {
           <IsOnlineMessage isOnline={isOnline} />
         </View>
       );
-    } else if (modal.txConfirmationModalType === 'compound-approve') {
+    } else if (modal.txConfirmationModalType === "compound-approve") {
       return (
         <View>
           <ConfirmationContainer>
@@ -190,8 +190,8 @@ class TxConfirmationModal extends Component<AppProps, AppState> {
                   await TransactionUtilities.sendOutgoingTransactionToServer(
                     outgoingTransactionData.compound.transactionObject
                   );
-                  this.resetNavigation('EarnHome');
-                  navigation.navigate('History');
+                  this.resetNavigation("EarnHome");
+                  navigation.navigate("History");
                   this.setState({ loading: false, buttonDisabled: false });
                   this.props.saveTxConfirmationModalVisibility(false);
                   this.props.updateTxConfirmationModalVisibleType(null);
@@ -204,8 +204,8 @@ class TxConfirmationModal extends Component<AppProps, AppState> {
         </View>
       );
     } else if (
-      modal.txConfirmationModalType === 'compound-deposit' ||
-      modal.txConfirmationModalType === 'compound-withdraw'
+      modal.txConfirmationModalType === "compound-deposit" ||
+      modal.txConfirmationModalType === "compound-withdraw"
     ) {
       return (
         <View>
@@ -228,8 +228,8 @@ class TxConfirmationModal extends Component<AppProps, AppState> {
                   await TransactionUtilities.sendOutgoingTransactionToServer(
                     outgoingTransactionData.compound.transactionObject
                   );
-                  this.resetNavigation('EarnHome');
-                  navigation.navigate('History');
+                  this.resetNavigation("EarnHome");
+                  navigation.navigate("History");
                   this.setState({ loading: false, buttonDisabled: false });
                   this.props.saveTxConfirmationModalVisibility(false);
                   this.props.updateTxConfirmationModalVisibleType(null);
@@ -241,7 +241,7 @@ class TxConfirmationModal extends Component<AppProps, AppState> {
           <IsOnlineMessage isOnline={isOnline} />
         </View>
       );
-    } else if (modal.txConfirmationModalType === 'pool-together-approve') {
+    } else if (modal.txConfirmationModalType === "pool-together-approve") {
       return (
         <View>
           <ConfirmationContainer>
@@ -267,8 +267,8 @@ class TxConfirmationModal extends Component<AppProps, AppState> {
                   await TransactionUtilities.sendOutgoingTransactionToServer(
                     outgoingTransactionData.poolTogether.transactionObject
                   );
-                  this.resetNavigation('EarnHome');
-                  navigation.navigate('History');
+                  this.resetNavigation("EarnHome");
+                  navigation.navigate("History");
                   this.setState({ loading: false, buttonDisabled: false });
                   this.props.saveTxConfirmationModalVisibility(false);
                   this.props.updateTxConfirmationModalVisibleType(null);
@@ -281,8 +281,8 @@ class TxConfirmationModal extends Component<AppProps, AppState> {
         </View>
       );
     } else if (
-      modal.txConfirmationModalType === 'pool-together-deposit' ||
-      modal.txConfirmationModalType === 'pool-together-withdraw'
+      modal.txConfirmationModalType === "pool-together-deposit" ||
+      modal.txConfirmationModalType === "pool-together-withdraw"
     ) {
       return (
         <View>
@@ -305,8 +305,8 @@ class TxConfirmationModal extends Component<AppProps, AppState> {
                   await TransactionUtilities.sendOutgoingTransactionToServer(
                     outgoingTransactionData.poolTogether.transactionObject
                   );
-                  this.resetNavigation('EarnHome');
-                  navigation.navigate('History');
+                  this.resetNavigation("EarnHome");
+                  navigation.navigate("History");
                   this.setState({ loading: false, buttonDisabled: false });
                   this.props.saveTxConfirmationModalVisibility(false);
                   this.props.updateTxConfirmationModalVisibleType(null);
@@ -318,7 +318,7 @@ class TxConfirmationModal extends Component<AppProps, AppState> {
           <IsOnlineMessage isOnline={isOnline} />
         </View>
       );
-    } else if (modal.txConfirmationModalType === 'swap') {
+    } else if (modal.txConfirmationModalType === "swap") {
       return (
         <View>
           <ConfirmationContainer>
@@ -330,7 +330,7 @@ class TxConfirmationModal extends Component<AppProps, AppState> {
             <ConfirmationText>
               {outgoingTransactionData.swap.minBought.toFixed(4)} DAI
               <SlippageText>
-                {' '}
+                {" "}
                 *slippage {outgoingTransactionData.swap.slippage} %
               </SlippageText>
             </ConfirmationText>
@@ -340,7 +340,7 @@ class TxConfirmationModal extends Component<AppProps, AppState> {
           </ConfirmationContainer>
           <ButtonContainer>
             <TxConfirmationButton
-              text={I18n.t('button-swap')}
+              text={I18n.t("button-swap")}
               disabled={this.state.buttonDisabled}
               onPress={async () => {
                 if (isOnline) {
@@ -348,8 +348,8 @@ class TxConfirmationModal extends Component<AppProps, AppState> {
                   await TransactionUtilities.sendOutgoingTransactionToServer(
                     outgoingTransactionData.swap.transactionObject
                   );
-                  this.resetNavigation('Swap');
-                  navigation.navigate('History');
+                  this.resetNavigation("Swap");
+                  navigation.navigate("History");
                   this.setState({ loading: false, buttonDisabled: false });
                   this.props.saveTxConfirmationModalVisibility(false);
                   this.props.updateTxConfirmationModalVisibleType(null);
@@ -362,7 +362,7 @@ class TxConfirmationModal extends Component<AppProps, AppState> {
         </View>
       );
     } else {
-      LogUtilities.logInfo('no type matches ');
+      LogUtilities.logInfo("no type matches ");
     }
   }
 
@@ -385,8 +385,8 @@ class TxConfirmationModal extends Component<AppProps, AppState> {
           marginLeft: 4,
           marginRight: 4,
           marginBottom: 0,
-          flexDirection: 'row',
-          alignItems: 'flex-end'
+          flexDirection: "row",
+          alignItems: "flex-end"
         }}
       >
         <ModalContainer>
@@ -427,7 +427,7 @@ const ModalInner = styled.View`
 
 const SlippageText = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 16;
 `;
 

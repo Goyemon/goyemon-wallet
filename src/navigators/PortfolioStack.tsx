@@ -1,24 +1,24 @@
-'use strict';
-import { createStackNavigator } from 'react-navigation-stack';
-import Initial from '../components/Initial';
-import Welcome from '../components/Portfolio/Welcome';
-import NotificationPermissionTutorial from '../components/Portfolio/NotificationPermission/NotificationPermissionTutorial';
-import NotificationPermissionNotGranted from '../components/Portfolio/NotificationPermission/NotificationPermissionNotGranted';
-import WalletCreation from '../components/Portfolio/WalletCreation';
-import ImportMnemonicWords from '../components/Portfolio/ImportMnemonicWords';
-import CreateWalletTutorial from '../components/Portfolio/CreateWalletTutorial';
-import ShowMnemonic from '../components/Portfolio/ShowMnemonic';
-import VerifyMnemonic from '../components/Portfolio/VerifyMnemonic';
-import PortfolioHome from '../components/Portfolio/PortfolioHome';
-import Receive from '../components/Portfolio/Receive';
-import PortfolioWallet from '../components/Portfolio/PortfolioWallet';
-import PortfolioCompound from '../components/Portfolio/PortfolioCompound';
-import PortfolioPoolTogether from '../components/Portfolio/PortfolioPoolTogether';
-import PortfolioPoolTogetherOpen from '../components/Portfolio/PortfolioPoolTogether/PortfolioPoolTogetherOpen';
-import PortfolioPoolTogetherCommitted from '../components/Portfolio/PortfolioPoolTogether/PortfolioPoolTogetherCommitted';
-import Settings from '../components/Portfolio/Settings';
-import BackupWords from '../components/Portfolio/Settings/BackupWords';
-import Advanced from '../components/Portfolio/Settings/Advanced';
+"use strict";
+import { createStackNavigator } from "react-navigation-stack";
+import Initial from "../components/Initial";
+import Welcome from "../components/Portfolio/Welcome";
+import NotificationPermissionTutorial from "../components/Portfolio/NotificationPermission/NotificationPermissionTutorial";
+import NotificationPermissionNotGranted from "../components/Portfolio/NotificationPermission/NotificationPermissionNotGranted";
+import WalletCreation from "../components/Portfolio/WalletCreation";
+import ImportMnemonicWords from "../components/Portfolio/ImportMnemonicWords";
+import CreateWalletTutorial from "../components/Portfolio/CreateWalletTutorial";
+import ShowMnemonic from "../components/Portfolio/ShowMnemonic";
+import VerifyMnemonic from "../components/Portfolio/VerifyMnemonic";
+import PortfolioHome from "../components/Portfolio/PortfolioHome";
+import Receive from "../components/Portfolio/Receive";
+import PortfolioWallet from "../components/Portfolio/PortfolioWallet";
+import PortfolioCompound from "../components/Portfolio/PortfolioCompound";
+import PortfolioPoolTogether from "../components/Portfolio/PortfolioPoolTogether";
+import PortfolioPoolTogetherOpen from "../components/Portfolio/PortfolioPoolTogether/PortfolioPoolTogetherOpen";
+import PortfolioPoolTogetherCommitted from "../components/Portfolio/PortfolioPoolTogether/PortfolioPoolTogetherCommitted";
+import Settings from "../components/Portfolio/Settings";
+import BackupWords from "../components/Portfolio/Settings/BackupWords";
+import Advanced from "../components/Portfolio/Settings/Advanced";
 
 const PortfolioStack = createStackNavigator(
   {
@@ -62,7 +62,7 @@ const PortfolioStack = createStackNavigator(
       navigationOptions: () => ({
         tabBarVisible: false,
         headerTransparent: true,
-        headerBackTitle: 'Import'
+        headerBackTitle: "Import"
       })
     },
     CreateWalletTutorial: {
@@ -91,7 +91,7 @@ const PortfolioStack = createStackNavigator(
       navigationOptions: () => ({
         tabBarVisible: false,
         headerTransparent: true,
-        headerBackTitle: 'Portfolio',
+        headerBackTitle: "Portfolio",
         headerStyle: {
           marginTop: 16,
           marginRight: 16
@@ -192,7 +192,7 @@ const PortfolioStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: 'Initial'
+    initialRouteName: "Initial"
   }
 );
 

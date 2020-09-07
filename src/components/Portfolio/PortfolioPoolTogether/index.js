@@ -1,12 +1,12 @@
-'use strict';
-import LottieView from 'lottie-react-native';
-import React, { Component } from 'react';
-import * as Animatable from 'react-native-animatable';
-import { connect } from 'react-redux';
-import styled from 'styled-components/native';
-import Web3 from 'web3';
-import { savePopUpModalVisibility } from '../../../actions/ActionModal';
-import { togglePoolTogetherWinnerRevealed } from '../../../actions/ActionPoolTogether';
+"use strict";
+import LottieView from "lottie-react-native";
+import React, { Component } from "react";
+import * as Animatable from "react-native-animatable";
+import { connect } from "react-redux";
+import styled from "styled-components/native";
+import Web3 from "web3";
+import { savePopUpModalVisibility } from "../../../actions/ActionModal";
+import { togglePoolTogetherWinnerRevealed } from "../../../actions/ActionPoolTogether";
 import {
   RootContainer,
   Button,
@@ -16,20 +16,20 @@ import {
   HeaderFive,
   GoyemonText,
   ApplicationDescription
-} from '../../common';
-import Countdown from '../../Countdown';
-import PopUpModal from '../../PopUpModal';
-import I18n from '../../../i18n/I18n';
-import PortfolioPoolTogetherOpen from './PortfolioPoolTogetherOpen';
-import PortfolioPoolTogetherCommitted from './PortfolioPoolTogetherCommitted';
-import LogUtilities from '../../../utilities/LogUtilities';
-import { RoundDownBigNumberPlacesFour } from '../../../utilities/BigNumberUtilities';
+} from "../../common";
+import Countdown from "../../Countdown";
+import PopUpModal from "../../PopUpModal";
+import I18n from "../../../i18n/I18n";
+import PortfolioPoolTogetherOpen from "./PortfolioPoolTogetherOpen";
+import PortfolioPoolTogetherCommitted from "./PortfolioPoolTogetherCommitted";
+import LogUtilities from "../../../utilities/LogUtilities";
+import { RoundDownBigNumberPlacesFour } from "../../../utilities/BigNumberUtilities";
 
 class PortfolioPoolTogether extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      draw: 'open'
+      draw: "open"
     };
   }
 
@@ -40,30 +40,30 @@ class PortfolioPoolTogether extends Component {
   }
 
   renderDraw() {
-    if (this.state.draw === 'open') {
+    if (this.state.draw === "open") {
       return <PortfolioPoolTogetherOpen />;
-    } else if (this.state.draw === 'committed') {
+    } else if (this.state.draw === "committed") {
       return <PortfolioPoolTogetherCommitted />;
     } else {
-      LogUtilities.logInfo('no draw matches');
+      LogUtilities.logInfo("no draw matches");
     }
   }
 
   renderCountdownHeader() {
-    if (this.state.draw === 'open') {
+    if (this.state.draw === "open") {
       return (
         <CountdownContainer>
           <HeaderFive width="100%">until the open round ends</HeaderFive>
         </CountdownContainer>
       );
-    } else if (this.state.draw === 'committed') {
+    } else if (this.state.draw === "committed") {
       return (
         <CountdownContainer>
           <HeaderFive width="100%">until the next prize</HeaderFive>
         </CountdownContainer>
       );
     } else {
-      LogUtilities.logInfo('no draw matches');
+      LogUtilities.logInfo("no draw matches");
     }
   }
 
@@ -75,7 +75,7 @@ class PortfolioPoolTogether extends Component {
       .div(new RoundDownBigNumberPlacesFour(10).pow(18))
       .toFixed(2);
 
-    if (this.props.poolTogether.dai.lastWinner != '') {
+    if (this.props.poolTogether.dai.lastWinner != "") {
       if (
         Web3.utils.toChecksumAddress(
           `0x${this.props.poolTogether.dai.lastWinner}`
@@ -95,7 +95,7 @@ class PortfolioPoolTogether extends Component {
               <LottieView
                 autoPlay
                 loop
-                source={require('../../../../assets/congrats_animation.json')}
+                source={require("../../../../assets/congrats_animation.json")}
                 style={{
                   width: 120,
                   height: 120,
@@ -112,7 +112,7 @@ class PortfolioPoolTogether extends Component {
               </GoyemonText>
               <ButtonContainer>
                 <Button
-                  text={I18n.t('withdraw')}
+                  text={I18n.t("withdraw")}
                   textColor="#00A3E2"
                   backgroundColor="#FFF"
                   borderColor="#00A3E2"
@@ -123,7 +123,7 @@ class PortfolioPoolTogether extends Component {
                     this.props.savePopUpModalVisibility(false);
                     this.props.togglePoolTogetherWinnerRevealed(true);
                     this.props.navigation.navigate(
-                      'WithdrawDaiFromPoolTogether'
+                      "WithdrawDaiFromPoolTogether"
                     );
                   }}
                 />
@@ -154,41 +154,41 @@ class PortfolioPoolTogether extends Component {
         );
       }
     } else {
-      LogUtilities.logInfo('the winning address is not saved');
+      LogUtilities.logInfo("the winning address is not saved");
     }
   }
 
   toggleFilterChoiceText() {
-    if (this.state.draw === 'open') {
+    if (this.state.draw === "open") {
       return (
         <FilterChoiceContainer>
-          <FilterChoiceSelected onPress={() => this.setState({ draw: 'open' })}>
+          <FilterChoiceSelected onPress={() => this.setState({ draw: "open" })}>
             <FilterChoiceTextSelected>open</FilterChoiceTextSelected>
           </FilterChoiceSelected>
           <FilterChoiceUnselected
-            onPress={() => this.setState({ draw: 'committed' })}
+            onPress={() => this.setState({ draw: "committed" })}
           >
             <FilterChoiceTextUnselected>committed</FilterChoiceTextUnselected>
           </FilterChoiceUnselected>
         </FilterChoiceContainer>
       );
-    } else if (this.state.draw === 'committed') {
+    } else if (this.state.draw === "committed") {
       return (
         <FilterChoiceContainer>
           <FilterChoiceUnselected
-            onPress={() => this.setState({ draw: 'open' })}
+            onPress={() => this.setState({ draw: "open" })}
           >
             <FilterChoiceTextUnselected>open</FilterChoiceTextUnselected>
           </FilterChoiceUnselected>
           <FilterChoiceSelected
-            onPress={() => this.setState({ draw: 'committed' })}
+            onPress={() => this.setState({ draw: "committed" })}
           >
             <FilterChoiceTextSelected>committed</FilterChoiceTextSelected>
           </FilterChoiceSelected>
         </FilterChoiceContainer>
       );
     } else {
-      LogUtilities.logInfo('no matches');
+      LogUtilities.logInfo("no matches");
     }
   }
 

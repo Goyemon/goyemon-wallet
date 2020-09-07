@@ -1,10 +1,10 @@
-'use strict';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import styled from 'styled-components';
-import Web3 from 'web3';
-import { saveBuyCryptoModalVisibility } from '../../../actions/ActionModal';
+"use strict";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import styled from "styled-components";
+import Web3 from "web3";
+import { saveBuyCryptoModalVisibility } from "../../../actions/ActionModal";
 import {
   RootContainer,
   UntouchableCardContainer,
@@ -14,15 +14,15 @@ import {
   GoyemonText,
   ReceiveIcon,
   BuyIcon
-} from '../../../components/common';
-import BuyCryptoModal from '../../../components/BuyCryptoModal';
-import ApplicationBoxes from './ApplicationBoxes';
-import Copy from '../../Copy';
-import FcmPermissions from '../../../firebase/FcmPermissions';
-import I18n from '../../../i18n/I18n';
-import PortfolioStack from '../../../navigators/PortfolioStack';
-import { RoundDownBigNumberPlacesFour } from '../../../utilities/BigNumberUtilities';
-import PriceUtilities from '../../../utilities/PriceUtilities';
+} from "../../../components/common";
+import BuyCryptoModal from "../../../components/BuyCryptoModal";
+import ApplicationBoxes from "./ApplicationBoxes";
+import Copy from "../../Copy";
+import FcmPermissions from "../../../firebase/FcmPermissions";
+import I18n from "../../../i18n/I18n";
+import PortfolioStack from "../../../navigators/PortfolioStack";
+import { RoundDownBigNumberPlacesFour } from "../../../utilities/BigNumberUtilities";
+import PriceUtilities from "../../../utilities/PriceUtilities";
 
 class PortfolioHome extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -39,7 +39,7 @@ class PortfolioHome extends Component {
                 tabBarVisible
               };
             };
-            navigation.navigate('Settings');
+            navigation.navigate("Settings");
           }}
         />
       )
@@ -101,30 +101,30 @@ class PortfolioHome extends Component {
           CDAIBalance,
           PLDAIBalance
         ),
-        name: I18n.t('portfolio-home-wallet'),
-        event: () => navigation.navigate('PortfolioWallet')
+        name: I18n.t("portfolio-home-wallet"),
+        event: () => navigation.navigate("PortfolioWallet")
       },
       {
         balance: PriceUtilities.convertCDAIToUSD(CDAIBalance).toFixed(2),
-        name: 'Compound',
-        event: () => navigation.navigate('PortfolioCompound')
+        name: "Compound",
+        event: () => navigation.navigate("PortfolioCompound")
       },
       {
         balance: PriceUtilities.convertDAIToUSD(poolTogetherDAIBalance).toFixed(
           2
         ),
-        name: 'PoolTogether',
-        event: () => navigation.navigate('PortfolioPoolTogether')
+        name: "PoolTogether",
+        event: () => navigation.navigate("PortfolioPoolTogether")
       }
     ];
 
     let truncatedAdderss;
     if (checksumAddress)
-      truncatedAdderss = checksumAddress.substring(0, 24) + '...';
+      truncatedAdderss = checksumAddress.substring(0, 24) + "...";
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="64">{I18n.t('portfolio')}</HeaderOne>
+        <HeaderOne marginTop="64">{I18n.t("portfolio")}</HeaderOne>
         <BuyCryptoModal />
         <UntouchableCardContainer
           alignItems="center"
@@ -137,7 +137,7 @@ class PortfolioHome extends Component {
           width="90%"
         >
           <HeaderFour marginTop="0">
-            {I18n.t('portfolio-home-totalbalance')}
+            {I18n.t("portfolio-home-totalbalance")}
           </HeaderFour>
           <UsdBalance>${totalBalance.toFixed(2)}</UsdBalance>
           <GoyemonText fontSize={16}>{truncatedAdderss}</GoyemonText>
@@ -145,7 +145,7 @@ class PortfolioHome extends Component {
             <ReceiveIconContainer>
               <ReceiveIcon
                 onPress={() => {
-                  navigation.navigate('Receive');
+                  navigation.navigate("Receive");
                 }}
               />
               <GoyemonText fontSize={14}>Receive</GoyemonText>
@@ -166,7 +166,7 @@ class PortfolioHome extends Component {
           marginBottom="0"
           marginLeft="24"
           marginTop="0"
-          text={I18n.t('portfolio-home-applications')}
+          text={I18n.t("portfolio-home-applications")}
         />
         <ApplicationBoxes boxes={applicationBoxes} />
       </RootContainer>
@@ -176,7 +176,7 @@ class PortfolioHome extends Component {
 
 const UsdBalance = styled.Text`
   color: #000;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 32;
   margin-bottom: 12px;
 `;

@@ -1,19 +1,19 @@
-'use strict';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import styled from 'styled-components';
-import Web3 from 'web3';
+"use strict";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import styled from "styled-components";
+import Web3 from "web3";
 import {
   RootContainer,
   UntouchableCardContainer,
   NewHeaderOne,
   NewHeaderThree,
   NewHeaderFour
-} from '../../common';
-import I18n from '../../../i18n/I18n';
-import { RoundDownBigNumberPlacesFour } from '../../../utilities/BigNumberUtilities';
-import TokenBalanceCards from './TokenBalanceCards';
-import PriceUtilities from '../../../utilities/PriceUtilities';
+} from "../../common";
+import I18n from "../../../i18n/I18n";
+import { RoundDownBigNumberPlacesFour } from "../../../utilities/BigNumberUtilities";
+import TokenBalanceCards from "./TokenBalanceCards";
+import PriceUtilities from "../../../utilities/PriceUtilities";
 
 class PortfolioWallet extends Component {
   returnBalance = (amount, round, pow, fix) =>
@@ -41,29 +41,29 @@ class PortfolioWallet extends Component {
         price: price.eth,
         balance: ETHBalance,
         usd: PriceUtilities.convertETHToUSD(ETHBalance).toFixed(2),
-        icon: require('../../../../assets/ether_icon.png'),
-        token: 'ETH'
+        icon: require("../../../../assets/ether_icon.png"),
+        token: "ETH"
       },
       {
         price: price.dai,
         balance: DAIBalance,
         usd: PriceUtilities.convertDAIToUSD(DAIBalance).toFixed(2),
-        icon: require('../../../../assets/dai_icon.png'),
-        token: 'DAI'
+        icon: require("../../../../assets/dai_icon.png"),
+        token: "DAI"
       },
       {
         price: parseFloat(price.cdai).toFixed(2),
         balance: CDAIBalance,
         usd: PriceUtilities.convertCDAIToUSD(CDAIBalance).toFixed(2),
-        icon: require('../../../../assets/cdai_icon.png'),
-        token: 'cDAI'
+        icon: require("../../../../assets/cdai_icon.png"),
+        token: "cDAI"
       },
       {
         price: price.dai,
         balance: PLDAIBalance,
         usd: PriceUtilities.convertDAIToUSD(PLDAIBalance).toFixed(2),
-        icon: require('../../../../assets/pldai_icon.png'),
-        token: 'plDAI'
+        icon: require("../../../../assets/pldai_icon.png"),
+        token: "plDAI"
       }
     ];
 
@@ -71,7 +71,7 @@ class PortfolioWallet extends Component {
       <RootContainer>
         <NewHeaderOne
           marginTop="112"
-          text={I18n.t('portfolio-wallet-header')}
+          text={I18n.t("portfolio-wallet-header")}
         />
         <UntouchableCardContainer
           alignItems="center"
@@ -85,7 +85,7 @@ class PortfolioWallet extends Component {
         >
           <NewHeaderFour
             marginTop="0"
-            text={I18n.t('portfolio-wallet-totalbalance')}
+            text={I18n.t("portfolio-wallet-totalbalance")}
           />
           <UsdBalance>
             $
@@ -102,7 +102,7 @@ class PortfolioWallet extends Component {
           marginBottom="0"
           marginLeft="24"
           marginTop="0"
-          text={I18n.t('portfolio-wallet-coins')}
+          text={I18n.t("portfolio-wallet-coins")}
         />
         <TokenBalanceCards cards={tokenBalanceCards} />
       </RootContainer>
@@ -112,7 +112,7 @@ class PortfolioWallet extends Component {
 
 const UsdBalance = styled.Text`
   color: #000;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 32;
 `;
 
