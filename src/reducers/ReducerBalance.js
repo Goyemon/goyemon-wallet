@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 import {
   SAVE_WEI_BALANCE,
   SAVE_DAI_BALANCE,
@@ -6,19 +6,19 @@ import {
   SAVE_COMPOUND_DAI_BALANCE,
   SAVE_POOL_TOGETHER_DAI_BALANCE,
   MOVE_POOL_TOGETHER_DAI_BALANCE
-} from '../constants/ActionTypes';
-import { RoundDownBigNumberPlacesEighteen } from '../utilities/BigNumberUtilities';
+} from "../constants/ActionTypes";
+import { RoundDownBigNumberPlacesEighteen } from "../utilities/BigNumberUtilities";
 
 const INITIAL_STATE = {
   balance: {
-    wei: '',
-    dai: '',
-    cDai: '',
-    compoundDai: '',
+    wei: "",
+    dai: "",
+    cDai: "",
+    compoundDai: "",
     pooltogetherDai: {
-      open: '',
-      committed: '',
-      sponsored: ''
+      open: "",
+      committed: "",
+      sponsored: ""
     }
   }
 };
@@ -52,7 +52,7 @@ const balance = (state = INITIAL_STATE, action) => {
           ...state.balance,
           pooltogetherDai: {
             ...state.balance.pooltogetherDai,
-            open: '0',
+            open: "0",
             committed: new RoundDownBigNumberPlacesEighteen(
               state.balance.pooltogetherDai.open
             )

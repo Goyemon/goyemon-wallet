@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 import {
   SAVE_UNISWAPV2_WETH_DAI_RESERVE,
   UPDATE_SLIPPAGE_CHOSEN
-} from '../constants/ActionTypes';
-import LogUtilities from '../utilities/LogUtilities.js';
+} from "../constants/ActionTypes";
+import LogUtilities from "../utilities/LogUtilities.js";
 
 export function saveUniswapV2WETHxDAIReserve(reserves) {
   return async function (dispatch) {

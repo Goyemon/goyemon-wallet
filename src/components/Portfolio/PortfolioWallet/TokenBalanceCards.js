@@ -1,7 +1,7 @@
-'use strict';
-import React from 'react';
-import styled from 'styled-components';
-import { UntouchableCardContainer, GoyemonText } from '../../common';
+"use strict";
+import React from "react";
+import styled from "styled-components";
+import { UntouchableCardContainer, GoyemonText } from "../../common";
 
 const TokenBalanceCards = (props) => (
   <>
@@ -61,7 +61,7 @@ const CoinImage = styled.Image`
 
 const CoinText = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 16;
   margin-top: 4;
   margin-bottom: 4;
@@ -74,7 +74,7 @@ const PriceContainer = styled.View`
 
 const PriceText = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 16;
   margin-top: 4;
   margin-bottom: 4;
@@ -86,14 +86,14 @@ const BalanceContainer = styled.View`
 
 const UsdBalanceText = styled.Text`
   color: #000;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 22;
   margin-bottom: 4;
 `;
 
 const BalanceText = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 20;
 `;
 

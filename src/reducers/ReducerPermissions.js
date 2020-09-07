@@ -1,5 +1,5 @@
-'use strict';
-import { SAVE_NOTIFICATION_PERMISSION } from '../constants/ActionTypes';
+"use strict";
+import { SAVE_NOTIFICATION_PERMISSION } from "../constants/ActionTypes";
 
 const INITIAL_STATE = {
   permissions: {

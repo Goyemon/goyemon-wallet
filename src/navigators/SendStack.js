@@ -1,7 +1,7 @@
-'use strict';
-import { createStackNavigator } from 'react-navigation-stack';
-import Send from '../components//Send/Send';
-import QRCodeScan from '../components/Send/QRCodeScan';
+"use strict";
+import { createStackNavigator } from "react-navigation-stack";
+import Send from "../components//Send/Send";
+import QRCodeScan from "../components/Send/QRCodeScan";
 
 const SendStack = createStackNavigator(
   {
@@ -9,7 +9,7 @@ const SendStack = createStackNavigator(
       screen: Send,
       navigationOptions: () => ({
         headerTransparent: true,
-        headerBackTitle: 'Send'
+        headerBackTitle: "Send"
       })
     },
     QRCodeScan: {
@@ -21,7 +21,7 @@ const SendStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: 'Send'
+    initialRouteName: "Send"
   }
 );
 

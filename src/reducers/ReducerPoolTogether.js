@@ -1,19 +1,19 @@
-'use strict';
+"use strict";
 import {
   SAVE_POOLTOGETHER_DAI_INFO,
   TOGGLE_POOLTOGETHER_WINNER_REVEALED
-} from '../constants/ActionTypes';
+} from "../constants/ActionTypes";
 
 const INITIAL_STATE = {
   poolTogether: {
     dai: {
-      totalBalance: '',
-      openSupply: '',
-      committedSupply: '',
-      estimatedInterestRate: '',
-      currentCommittedDrawId: '',
-      lastWinner: '',
-      winningAmount: ''
+      totalBalance: "",
+      openSupply: "",
+      committedSupply: "",
+      estimatedInterestRate: "",
+      currentCommittedDrawId: "",
+      lastWinner: "",
+      winningAmount: ""
     },
     winnerRevealed: true
   }

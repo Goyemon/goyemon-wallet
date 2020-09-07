@@ -1,5 +1,5 @@
-'use strict';
-import React, { Component } from 'react';
+"use strict";
+import React, { Component } from "react";
 import {
   RootContainer,
   Container,
@@ -7,15 +7,15 @@ import {
   Button,
   HeaderTwo,
   Description
-} from '../../common';
-import ShowMnemonicWords from './ShowMnemonicWords';
+} from "../../common";
+import ShowMnemonicWords from "./ShowMnemonicWords";
 
 class ShowMnemonic extends Component {
   constructor() {
     super();
     this.state = {
-      twoColor: '#eeeeee',
-      progressBarWidth: '0%'
+      twoColor: "#eeeeee",
+      progressBarWidth: "0%"
     };
   }
 
@@ -51,7 +51,7 @@ class ShowMnemonic extends Component {
             margin="24px auto"
             marginBottom="8px"
             opacity="1"
-            onPress={() => this.props.navigation.navigate('VerifyMnemonic')}
+            onPress={() => this.props.navigation.navigate("VerifyMnemonic")}
           />
         </Container>
       </RootContainer>

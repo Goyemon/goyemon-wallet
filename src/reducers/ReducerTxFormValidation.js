@@ -1,5 +1,5 @@
-'use strict';
-import { UPDATE_TOADDRESS_VALIDATION } from '../constants/ActionTypes';
+"use strict";
+import { UPDATE_TOADDRESS_VALIDATION } from "../constants/ActionTypes";
 
 const INITIAL_STATE = {
   toAddressValidation: undefined

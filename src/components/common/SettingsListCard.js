@@ -1,8 +1,8 @@
-'use strict';
-import React from 'react';
-import { TouchableHighlight } from 'react-native';
-import styled from 'styled-components/native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+"use strict";
+import React from "react";
+import { TouchableHighlight } from "react-native";
+import styled from "styled-components/native";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 // import I18n from '../../i18n/I18n';
 
 const SettingsListCard = (props) => (
@@ -43,7 +43,7 @@ let SettingsListText;
 SettingsListText = styled.Text`
   padding: 8px 12px;
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 20;
   margin-left: 16;
   width: 80%;

@@ -1,7 +1,7 @@
-'use strict';
-import React from 'react';
-import { Container } from '../common';
-import styled from 'styled-components';
+"use strict";
+import React from "react";
+import { Container } from "../common";
+import styled from "styled-components";
 
 const ProgressBar = (props) => (
   <Container
@@ -69,7 +69,7 @@ const OneContainer = styled.View`
 
 const One = styled.Text`
   color: #fff;
-  font-family: 'HKGrotesk-Bold';
+  font-family: "HKGrotesk-Bold";
 `;
 
 const TwoContainer = styled.View`
@@ -83,7 +83,7 @@ const TwoContainer = styled.View`
 
 const Two = styled.Text`
   color: #fff;
-  font-family: 'HKGrotesk-Bold';
+  font-family: "HKGrotesk-Bold";
 `;
 
 const ThreeContainer = styled.View`
@@ -97,7 +97,7 @@ const ThreeContainer = styled.View`
 
 const Three = styled.Text`
   color: #fff;
-  font-family: 'HKGrotesk-Bold';
+  font-family: "HKGrotesk-Bold";
 `;
 
 export { ProgressBar };

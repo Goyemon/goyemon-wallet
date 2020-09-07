@@ -1,21 +1,21 @@
-import crypto from 'crypto';
-import AsyncStorage from '@react-native-community/async-storage';
-import GlobalConfig from '../../config.json';
-import LogUtilities from '../../utilities/LogUtilities';
-import PersistTxStorageAbstraction from './PersistTxStorageAbstraction';
-import AsyncLocks from './AsyncLocks';
-import Tx from './Tx';
-import { TxTokenOpTypeToName } from './TokenOpType';
-import TxStates from './TxStates';
-import { NoSuchTxException } from './TxException';
-import { hexToBuf } from './common';
+import crypto from "crypto";
+import AsyncStorage from "@react-native-community/async-storage";
+import GlobalConfig from "../../config.json";
+import LogUtilities from "../../utilities/LogUtilities";
+import PersistTxStorageAbstraction from "./PersistTxStorageAbstraction";
+import AsyncLocks from "./AsyncLocks";
+import Tx from "./Tx";
+import { TxTokenOpTypeToName } from "./TokenOpType";
+import TxStates from "./TxStates";
+import { NoSuchTxException } from "./TxException";
+import { hexToBuf } from "./common";
 import {
   maxNonceKey,
   txNoncePrefix,
   txFailPrefix,
   txStatePrefix,
   lastCheckpointKey
-} from './common';
+} from "./common";
 
 export default class TxStorage {
   constructor(ourAddress) {
@@ -34,7 +34,7 @@ export default class TxStorage {
 
     this.onload_promise = Promise.all(load_promises);
 
-    LogUtilities.toDebugScreen('TxStorage constructor called');
+    LogUtilities.toDebugScreen("TxStorage constructor called");
     this.our_max_nonce = -1; // for our txes
     this.failed_nonces = null;
     this.last_checkpoint_offset = 0; // TODO: not yet used
@@ -50,7 +50,7 @@ export default class TxStorage {
       );
     });
 
-    this.txes = new PersistTxStorageAbstraction('tx_');
+    this.txes = new PersistTxStorageAbstraction("tx_");
 
     this.txes.init_storage(
       {
@@ -109,7 +109,7 @@ export default class TxStorage {
   }
 
   getOwnAddress() {
-    if (this.our_address) return this.our_address.toString('hex');
+    if (this.our_address) return this.our_address.toString("hex");
 
     return null;
   }
@@ -126,7 +126,7 @@ export default class TxStorage {
   }
 
   __onUpdate(oldTx, newTx) {
-    LogUtilities.toDebugScreen('TxStorage __onUpdate() called');
+    LogUtilities.toDebugScreen("TxStorage __onUpdate() called");
     try {
       this.on_update.forEach((x) => x(oldTx, newTx));
     } catch (e) {
@@ -137,11 +137,11 @@ export default class TxStorage {
     return this;
   }
 
-  async getTx(id, index = 'all') {
+  async getTx(id, index = "all") {
     return await this.txes.getTxByNum(id, index);
   }
 
-  getTxCount(index = 'all') {
+  getTxCount(index = "all") {
     return this.txes.getItemCount(index);
   }
 
@@ -161,70 +161,70 @@ export default class TxStorage {
 
   txfilter_isRelevantToDai(tx) {
     return (
-      tx.hasTokenOperations('dai') ||
-      (tx.hasTokenOperations('cdai') &&
-        (tx.hasTokenOperation('cdai', TxTokenOpTypeToName.mint) ||
-          tx.hasTokenOperation('cdai', TxTokenOpTypeToName.redeem) ||
-          tx.hasTokenOperation('cdai', TxTokenOpTypeToName.failure))) ||
-      (tx.hasTokenOperations('uniswap') &&
-        tx.hasTokenOperation('uniswap', TxTokenOpTypeToName.eth2tok)) ||
-      tx.hasTokenOperation('uniswap', TxTokenOpTypeToName.tok2eth) ||
-      (tx.hasTokenOperations('uniswap2ethdai') &&
-        tx.hasTokenOperation('uniswap2ethdai', TxTokenOpTypeToName.U2swap)) ||
-      (tx.hasTokenOperations('pooltogether') &&
+      tx.hasTokenOperations("dai") ||
+      (tx.hasTokenOperations("cdai") &&
+        (tx.hasTokenOperation("cdai", TxTokenOpTypeToName.mint) ||
+          tx.hasTokenOperation("cdai", TxTokenOpTypeToName.redeem) ||
+          tx.hasTokenOperation("cdai", TxTokenOpTypeToName.failure))) ||
+      (tx.hasTokenOperations("uniswap") &&
+        tx.hasTokenOperation("uniswap", TxTokenOpTypeToName.eth2tok)) ||
+      tx.hasTokenOperation("uniswap", TxTokenOpTypeToName.tok2eth) ||
+      (tx.hasTokenOperations("uniswap2ethdai") &&
+        tx.hasTokenOperation("uniswap2ethdai", TxTokenOpTypeToName.U2swap)) ||
+      (tx.hasTokenOperations("pooltogether") &&
         (tx.hasTokenOperation(
-          'pooltogether',
+          "pooltogether",
           TxTokenOpTypeToName.PTdeposited
         ) ||
           tx.hasTokenOperation(
-            'pooltogether',
+            "pooltogether",
             TxTokenOpTypeToName.PTdepositedAndCommitted
           ) ||
           tx.hasTokenOperation(
-            'pooltogether',
+            "pooltogether",
             TxTokenOpTypeToName.PTsponsorshipDeposited
           ) ||
           tx.hasTokenOperation(
-            'pooltogether',
+            "pooltogether",
             TxTokenOpTypeToName.PTwithdrawn
           ) ||
           tx.hasTokenOperation(
-            'pooltogether',
+            "pooltogether",
             TxTokenOpTypeToName.PTopenDepositWithdrawn
           ) ||
           tx.hasTokenOperation(
-            'pooltogether',
+            "pooltogether",
             TxTokenOpTypeToName.PTsponsorshipAndFeesWithdrawn
           ) ||
           tx.hasTokenOperation(
-            'pooltogether',
+            "pooltogether",
             TxTokenOpTypeToName.PTcommittedDepositWithdrawn
           ) ||
-          tx.hasTokenOperation('pooltogether', TxTokenOpTypeToName.PTrewarded)))
+          tx.hasTokenOperation("pooltogether", TxTokenOpTypeToName.PTrewarded)))
     );
 
     // return false;
   }
 
   txfilter_ourDAIForCDAIApprovals(tx) {
-    const our_hex_address = this.our_address.toString('hex');
-    const cdai_address = GlobalConfig.cDAIcontract.startsWith('0x')
+    const our_hex_address = this.our_address.toString("hex");
+    const cdai_address = GlobalConfig.cDAIcontract.startsWith("0x")
       ? GlobalConfig.cDAIcontract.substr(2).toLowerCase()
       : GlobalConfig.cDAIcontract.toLowerCase();
     return tx
-      .getTokenOperations('dai', TxTokenOpTypeToName.approval)
+      .getTokenOperations("dai", TxTokenOpTypeToName.approval)
       .some((x) => x.spender == cdai_address && x.approver == our_hex_address);
   }
 
   txfilter_ourDAIForPTApprovals(tx) {
-    const our_hex_address = this.our_address.toString('hex');
+    const our_hex_address = this.our_address.toString("hex");
     const pooltogether_address = GlobalConfig.DAIPoolTogetherContractV2.startsWith(
-      '0x'
+      "0x"
     )
       ? GlobalConfig.DAIPoolTogetherContractV2.substr(2).toLowerCase()
       : GlobalConfig.DAIPoolTogetherContractV2.toLowerCase();
     return tx
-      .getTokenOperations('dai', TxTokenOpTypeToName.approval)
+      .getTokenOperations("dai", TxTokenOpTypeToName.approval)
       .some(
         (x) =>
           x.spender == pooltogether_address && x.approver == our_hex_address
@@ -233,7 +233,7 @@ export default class TxStorage {
 
   async saveTx(tx) {
     // used now only to save our own sent txes, therefore those wont have anything but the nonce.
-    await this.__lock('txes');
+    await this.__lock("txes");
     const nonceKey = `${txNoncePrefix}${tx.getNonce()}`;
     await this.txes.appendTx(nonceKey, tx, true);
     LogUtilities.toDebugScreen(`saveTx(): tx saved (key:${nonceKey}): `, tx);
@@ -247,32 +247,32 @@ export default class TxStorage {
     if (this.failed_nonces.hasOwnProperty(tx.getNonce()))
       delete this.failed_nonces[tx.getNonce()];
 
-    this.__unlock('txes');
+    this.__unlock("txes");
     this.__onUpdate(null, tx);
   }
 
   async updateTx(tx) {
     // done when resending
-    await this.__lock('txes');
+    await this.__lock("txes");
     const nonceKey = `${txNoncePrefix}${tx.getNonce()}`;
     const oldTx = await this.txes.updateTxDataIfExists(nonceKey, tx);
     LogUtilities.toDebugScreen(
-      `updateTx(): tx ${oldTx ? 'updated' : 'NOT updated'} (key:${nonceKey}): `,
+      `updateTx(): tx ${oldTx ? "updated" : "NOT updated"} (key:${nonceKey}): `,
       tx
     );
-    this.__unlock('txes');
+    this.__unlock("txes");
     if (oldTx) this.__onUpdate(oldTx, tx); // TODO: should we actually call that? we're replacing a tx manually, we kinda know it was changed. well if the outside code is smart enough to know that and wont just trigger stuff "because something changed", then ok.
     return oldTx;
   }
 
   async parseTxHistory(histObj) {
-    LogUtilities.toDebugScreen('TxStorage parseTxHistory() called');
-    if (histObj['_contracts']) delete histObj['_contracts'];
+    LogUtilities.toDebugScreen("TxStorage parseTxHistory() called");
+    if (histObj["_contracts"]) delete histObj["_contracts"];
 
     histObj = Object.entries(histObj).map(([hash, data]) =>
       new Tx(data[7]).setHash(hash).fromDataArray(data)
     );
-    await this.__lock('txes');
+    await this.__lock("txes");
     histObj.forEach((tx) => this.txfilter_checkMaxNonce(tx));
     histObj.sort((a, b) => {
       const diff = a.getTimestamp() - b.getTimestamp();
@@ -286,14 +286,14 @@ export default class TxStorage {
     );
     this.failed_nonces = {};
 
-    this.__unlock('txes');
+    this.__unlock("txes");
     this.__onUpdate();
   }
 
   async processTxState(hash, data) {
     LogUtilities.toDebugScreen(`processTxState(hash:${hash}) + `, data);
 
-    await this.__lock('txes');
+    await this.__lock("txes");
 
     let tx = await this.txes.getTxByHash(hash);
     if (tx) {
@@ -318,7 +318,7 @@ export default class TxStorage {
 
       await this.txes.updateTx(tx, newtx, hash);
 
-      this.__unlock('txes');
+      this.__unlock("txes");
       this._isDAIApprovedForCDAI_cached = undefined;
       this._isDAIApprovedForPT_cached = undefined;
       this.__onUpdate(tx, newtx);
@@ -329,7 +329,7 @@ export default class TxStorage {
 
     if (data[0] !== null) {
       // we have the data, nice
-      const ourTx = this.our_address.equals(Buffer.from(data[0], 'hex'));
+      const ourTx = this.our_address.equals(Buffer.from(data[0], "hex"));
       let savedState = await AsyncStorage.getItem(`tx_${txStatePrefix}${hash}`);
       if (savedState) {
         await AsyncStorage.removeItem(`tx_${txStatePrefix}${hash}`);
@@ -342,7 +342,7 @@ export default class TxStorage {
 
       if (ourTx) {
         // our tx so find by nonce
-        const nonce = typeof data[5] === 'string' ? parseInt(data[5]) : data[5];
+        const nonce = typeof data[5] === "string" ? parseInt(data[5]) : data[5];
         const nonceKey = `${txNoncePrefix}${nonce}`;
 
         if (nonce > this.our_max_nonce) {
@@ -382,7 +382,7 @@ export default class TxStorage {
             newtx
           );
 
-          this.__unlock('txes');
+          this.__unlock("txes");
           this._isDAIApprovedForCDAI_cached = undefined;
           this._isDAIApprovedForPT_cached = undefined;
           this.__onUpdate(tx, newtx);
@@ -398,14 +398,14 @@ export default class TxStorage {
 
       LogUtilities.toDebugScreen(
         `processTxState(hash:${hash}) not known ${
-          ourTx ? 'OUR ' : ''
+          ourTx ? "OUR " : ""
         }tx, saving: `,
         tx
       );
 
       await this.txes.appendTx(hash, tx, false);
 
-      this.__unlock('txes');
+      this.__unlock("txes");
       this._isDAIApprovedForCDAI_cached = undefined;
       this._isDAIApprovedForPT_cached = undefined;
       this.__onUpdate(null, tx);
@@ -424,7 +424,7 @@ export default class TxStorage {
       `processTxState(hash: ${hash}) not known tx WITH NO DATA (OOPS...), state saved: `,
       tx
     );
-    this.__unlock('txes');
+    this.__unlock("txes");
     // no onupdate here as we did not save that Tx, umm, in the pool... yet.
   }
 
@@ -432,7 +432,7 @@ export default class TxStorage {
     LogUtilities.toDebugScreen(
       `markNotIncludedTxAsErrorByNonce(nonce:${nonce})`
     );
-    await this.__lock('txes');
+    await this.__lock("txes");
     const nonceKey = `${txNoncePrefix}${nonce}`;
 
     let tx = await this.txes.getTxByHash(nonceKey);
@@ -446,17 +446,17 @@ export default class TxStorage {
         tx,
         newtx,
         nonceKey,
-        `${txFailPrefix}${nonce}_${this.txes.getItemCount('all')}`,
+        `${txFailPrefix}${nonce}_${this.txes.getItemCount("all")}`,
         true
       );
 
-      this.__unlock('txes');
+      this.__unlock("txes");
       LogUtilities.toDebugScreen(
         `markNotIncludedTxAsErrorByNonce(nonce:${nonce}) state updated`
       );
       this.__onUpdate();
     } else {
-      this.__unlock('txes');
+      this.__unlock("txes");
       LogUtilities.toDebugScreen(
         `markNotIncludedTxAsErrorByNonce(nonce:${nonce}) key not found!`
       );
@@ -484,8 +484,8 @@ export default class TxStorage {
   }
 
   async clear(batch = false) {
-    await this.__lock('txes');
-    let tasks = [AsyncStorage.setItem(maxNonceKey, '-1'), this.txes.wipe()];
+    await this.__lock("txes");
+    let tasks = [AsyncStorage.setItem(maxNonceKey, "-1"), this.txes.wipe()];
     await Promise.all(tasks);
 
     // after this.txes.wipe() ends, we may wanna iterate all the keys and remove rogue tx_state_...
@@ -493,7 +493,7 @@ export default class TxStorage {
     this.our_max_nonce = -1;
     this.failed_nonces = {};
 
-    this.__unlock('txes');
+    this.__unlock("txes");
 
     if (!batch) this.__onUpdate();
 
@@ -506,15 +506,15 @@ export default class TxStorage {
   async isDAIApprovedForCDAI() {
     // TODO: i dont think this should be here, really. this is not a storage function...
     if (!this._isDAIApprovedForCDAI_cached) {
-      const last_odcda_tx = await this.txes.getLastTx('odcda');
+      const last_odcda_tx = await this.txes.getLastTx("odcda");
       this._isDAIApprovedForCDAI_cached =
         !!last_odcda_tx &&
         last_odcda_tx
-          .getTokenOperations('dai', TxTokenOpTypeToName.approval)
+          .getTokenOperations("dai", TxTokenOpTypeToName.approval)
           .some(
             (x) =>
               x.amount ===
-              'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+              "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
           );
     }
 
@@ -524,15 +524,15 @@ export default class TxStorage {
   async isDAIApprovedForPT() {
     // TODO: this function should not be here
     if (!this._isDAIApprovedForPT_cached) {
-      const last_odpta_tx = await this.txes.getLastTx('odpta');
+      const last_odpta_tx = await this.txes.getLastTx("odpta");
       this._isDAIApprovedForPT_cached =
         !!last_odpta_tx &&
         last_odpta_tx
-          .getTokenOperations('dai', TxTokenOpTypeToName.approval)
+          .getTokenOperations("dai", TxTokenOpTypeToName.approval)
           .some(
             (x) =>
               x.amount ==
-              'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+              "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
           );
     }
 
@@ -578,11 +578,11 @@ export default class TxStorage {
     // TODO: this also counts sent txes and failures. we probably should ignore those. we may need to store the count of failures for the `all' index. we should already have the count of sent (toplocks)
     // TODO: we need to store [last_number_checked(offset), last_hash], so when we get hashes from given offset, we just xor them against last_hash and continue normally.
 
-    await this.__lock('txes');
+    await this.__lock("txes");
     const offset = 0;
 
     //const hashes = await this.txes.getHashes('all', offset);
-    const hashes = (await this.txes.getHashes('all', offset)).filter(
+    const hashes = (await this.txes.getHashes("all", offset)).filter(
       ([x]) => !x.startsWith(txNoncePrefix) && !x.startsWith(txFailPrefix)
     );
     const checkpoints = this.getCheckpoints(hashes.length, offset);
@@ -591,7 +591,7 @@ export default class TxStorage {
     let lasthash = null;
     let checkpoint = 0;
     hashes.forEach(([h, d], idx) => {
-      const cb = crypto.createHash('md5').update(`${h}|${d}`).digest(); // we md5-hash those hashes so that: a) they're shorter, b) we can add more data to checksums easily, without making the xored values longer
+      const cb = crypto.createHash("md5").update(`${h}|${d}`).digest(); // we md5-hash those hashes so that: a) they're shorter, b) we can add more data to checksums easily, without making the xored values longer
       // const cb = Buffer.from(h, 'hex');
       if (lasthash) {
         for (let i = lasthash.length - 1; i >= 0; --i)
@@ -601,12 +601,12 @@ export default class TxStorage {
       // LogUtilities.toDebugScreen(`XOR ${idx+1}: [${h}]  ${lasthash.toString('hex')}`);
 
       if (checkpoints[checkpoint] === idx + 1) {
-        ret.push(lasthash.toString('hex'));
+        ret.push(lasthash.toString("hex"));
         ++checkpoint;
       }
     });
 
-    await this.__unlock('txes');
+    await this.__unlock("txes");
 
     return {
       hashes: ret,
@@ -618,9 +618,9 @@ export default class TxStorage {
 
   async processTxSync(data) {
     // LogUtilities.toDebugScreen('processTxSync(): received txsync data:', data);
-    if ('_contracts' in data)
+    if ("_contracts" in data)
       // TODO: we really should use it at one point
-      delete data['_contracts'];
+      delete data["_contracts"];
 
     data = Object.entries(data).map(([hash, txdata]) =>
       new Tx(txdata[7]).setHash(hash).fromDataArray(txdata)
@@ -632,7 +632,7 @@ export default class TxStorage {
 
     // LogUtilities.toDebugScreen('processTxSync(): txsync data:', data);
 
-    await this.__lock('txes');
+    await this.__lock("txes");
 
     const removeKeys = [];
 
@@ -653,11 +653,11 @@ export default class TxStorage {
         if (oldTx) {
           // replacetx
           LogUtilities.toDebugScreen(
-            'processTxSync(): found OUR tx by nonce: ',
+            "processTxSync(): found OUR tx by nonce: ",
             oldTx
           );
           LogUtilities.toDebugScreen(
-            'processTxSync(): to be replaced with: ',
+            "processTxSync(): to be replaced with: ",
             tx
           );
           await this.txes.replaceTx(oldTx, tx, nonceKey, tx.getHash(), true); // since we're replacing with server data, there is no 'input' field already, no need to drop anything.
@@ -672,12 +672,12 @@ export default class TxStorage {
       if (oldTx) {
         // updateTx, perhaps after comparing if changed
         LogUtilities.toDebugScreen(
-          'processTxSync(): found tx by hash: ',
+          "processTxSync(): found tx by hash: ",
           oldTx
         );
         if (oldTx.getState() !== tx.getState()) {
           LogUtilities.toDebugScreen(
-            'processTxSync(): to be replaced with: ',
+            "processTxSync(): to be replaced with: ",
             tx
           );
           await this.txes.updateTx(oldTx, tx, tx.getHash());
@@ -685,7 +685,7 @@ export default class TxStorage {
           changed++;
         } else
           LogUtilities.toDebugScreen(
-            'processTxSync(): replacement has same state, skipping: ',
+            "processTxSync(): replacement has same state, skipping: ",
             tx
           );
 
@@ -693,7 +693,7 @@ export default class TxStorage {
       }
 
       LogUtilities.toDebugScreen(
-        'processTxSync(): inserting new, unknown tx: ',
+        "processTxSync(): inserting new, unknown tx: ",
         tx
       );
 
@@ -714,12 +714,12 @@ export default class TxStorage {
       );
     }
 
-    this.__unlock('txes');
+    this.__unlock("txes");
 
     if (changed > 0) this.__onUpdate();
   }
 
-  async debugDumpAllTxes(index = 'all') {
+  async debugDumpAllTxes(index = "all") {
     return await this.txes.debugDumpAllTxes(index);
   }
 }

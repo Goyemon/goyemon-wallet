@@ -1,7 +1,7 @@
-'use strict';
-import React from 'react';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import styled from 'styled-components/native';
+"use strict";
+import React from "react";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import styled from "styled-components/native";
 
 const QRCodeIcon = (props) => (
   <QRCodeIconContainer>

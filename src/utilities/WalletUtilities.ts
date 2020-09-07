@@ -1,12 +1,12 @@
-'use strict';
-const Buffer = require('buffer').Buffer;
-const hdkey = require('ethereumjs-wallet/hdkey');
-const bip39 = require('react-native-bip39');
-import * as Keychain from 'react-native-keychain';
-import EtherUtilities from './EtherUtilities.js';
+"use strict";
+const Buffer = require("buffer").Buffer;
+const hdkey = require("ethereumjs-wallet/hdkey");
+const bip39 = require("react-native-bip39");
+import * as Keychain from "react-native-keychain";
+import EtherUtilities from "./EtherUtilities.js";
 
-const KEY_WALLET_MNEMONIC: string = 'KEY_WALLET_MNEMONIC';
-const KEY_WALLET_PRIVATE_KEY: string = 'KEY_WALLET_PRIVATEKEY';
+const KEY_WALLET_MNEMONIC = "KEY_WALLET_MNEMONIC";
+const KEY_WALLET_PRIVATE_KEY = "KEY_WALLET_PRIVATEKEY";
 
 class WalletUtilities {
   private root: any;
@@ -33,10 +33,10 @@ class WalletUtilities {
   // }
 
   public async generateWallet(mnemonic: any) {
-    let seedhex = bip39.mnemonicToSeedHex(mnemonic);
-    let seed = Buffer.from(seedhex, 'hex');
+    const seedhex = bip39.mnemonicToSeedHex(mnemonic);
+    const seed = Buffer.from(seedhex, "hex");
     this.root = hdkey.fromMasterSeed(seed);
-    this.wallet = this.root.derivePath("m/44'/60'/0'/0/0").getWallet();
+    this.wallet = this.root.derivePath(`"m/44'/60'/0'/0/0"`).getWallet();
 
     return true;
   }
@@ -58,31 +58,30 @@ class WalletUtilities {
   public async retrievePrivateKey() {
     try {
       const result = await Keychain.getGenericPassword(KEY_WALLET_PRIVATE_KEY);
-      if (typeof result === 'boolean') {
-        return '';
+      if (typeof result === "boolean") {
+        return "";
       } else {
         return result.password;
       }
     } catch (err) {
-      return '';
+      return "";
     }
   }
 
   private async setPrivateKey(privateKey: any) {
-    const result = await this.retrievePrivateKey();
-    if (!result) {
-      const result = await Keychain.setGenericPassword(
-        'PRIVATEKEY',
-        privateKey,
-        KEY_WALLET_PRIVATE_KEY
-      );
-    }
-    return result;
+    const res = await this.retrievePrivateKey();
+    return res
+      ? res
+      : await Keychain.setGenericPassword(
+          "PRIVATEKEY",
+          privateKey,
+          KEY_WALLET_PRIVATE_KEY
+        );
   }
 
   async privateKeySaved() {
     const privateKey = await this.retrievePrivateKey();
-    if (privateKey === '') {
+    if (privateKey === "") {
       return false;
     } else {
       return true;
@@ -90,27 +89,25 @@ class WalletUtilities {
   }
 
   private async generateMnemonic() {
-    let mnemonic = await bip39.generateMnemonic(256);
-    while (true) {
-      const words = mnemonic.split(' ');
+    let finish;
+    while (finish) {
+      const mnemonic = await bip39.generateMnemonic(256);
+      const words = mnemonic.split(" ");
       const uniqueWords = words.filter(
         (word: any, index: any) => words.indexOf(word) == index
       );
-      if (words.length == uniqueWords.length) {
-        break;
-      } else {
-        mnemonic = await bip39.generateMnemonic(256);
-        break;
+      finish = words.length === uniqueWords.length;
+      if (finish) {
+        return mnemonic;
       }
     }
-    return mnemonic;
   }
 
   private validateMnemonic(mnemonic: any) {
     if (!bip39.validateMnemonic(mnemonic)) {
       return false;
     }
-    const words = mnemonic.split(' ');
+    const words = mnemonic.split(" ");
     const uniqueWords = words.filter(
       (word: any, index: any) => words.indexOf(word) == index
     );
@@ -120,19 +117,19 @@ class WalletUtilities {
   public async getMnemonic() {
     try {
       const result = await Keychain.getGenericPassword(KEY_WALLET_MNEMONIC);
-      if (typeof result === 'boolean') {
-        return '';
+      if (typeof result === "boolean") {
+        return "";
       } else {
         return result.password;
       }
     } catch (error) {
-      return '';
+      return "";
     }
   }
 
   private async setMnemonic(mnemonic: any) {
     const result = await Keychain.setGenericPassword(
-      'MNEMONIC',
+      "MNEMONIC",
       mnemonic,
       KEY_WALLET_MNEMONIC
     );

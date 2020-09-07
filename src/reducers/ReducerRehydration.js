@@ -1,5 +1,5 @@
-'use strict';
-import { REHYDRATION_COMPLETE } from '../constants/ActionTypes';
+"use strict";
+import { REHYDRATION_COMPLETE } from "../constants/ActionTypes";
 
 const INITIAL_STATE = {
   rehydration: false

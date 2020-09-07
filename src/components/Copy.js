@@ -1,10 +1,10 @@
-'use strict';
-import React, { Component } from 'react';
-import * as Animatable from 'react-native-animatable';
-import { connect } from 'react-redux';
-import { Clipboard } from 'react-native';
-import styled from 'styled-components/native';
-import { CopyIcon } from './common';
+"use strict";
+import React, { Component } from "react";
+import * as Animatable from "react-native-animatable";
+import { connect } from "react-redux";
+import { Clipboard } from "react-native";
+import styled from "styled-components/native";
+import { CopyIcon } from "./common";
 
 class Copy extends Component {
   constructor() {
@@ -19,7 +19,7 @@ class Copy extends Component {
       .fadeOutUp(800)
       .then((endState) =>
         console.log(
-          endState.finished ? 'fadeOutUp finished' : 'fadeOutUp cancelled'
+          endState.finished ? "fadeOutUp finished" : "fadeOutUp cancelled"
         )
       );
 
@@ -47,8 +47,8 @@ class Copy extends Component {
           {this.props.icon ? <CopyIcon /> : null}
           <CopyAddressText>
             {this.state.clipboardContent === this.props.text
-              ? 'Copied'
-              : 'Copy'}
+              ? "Copied"
+              : "Copy"}
           </CopyAddressText>
         </CopyAddress>
       </CopyAddressContainer>
@@ -71,7 +71,7 @@ const CopyAddress = styled.TouchableOpacity`
 
 const CopyAddressText = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 14;
 `;
 

@@ -1,15 +1,15 @@
-'use strict';
+"use strict";
 import {
   GET_DAI_PRICE,
   GET_ETH_PRICE,
   GET_CDAI_PRICE
-} from '../constants/ActionTypes';
+} from "../constants/ActionTypes";
 
 const INITIAL_STATE = {
   price: {
-    dai: '',
-    eth: '',
-    cdai: ''
+    dai: "",
+    eth: "",
+    cdai: ""
   }
 };
 

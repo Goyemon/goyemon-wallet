@@ -1,7 +1,7 @@
-'use strict';
-import { saveOtherDebugInfo } from '../actions/ActionDebugInfo';
-import { store } from '../store/store';
-import PersistentLogging from '../lib/logging.js';
+"use strict";
+import { saveOtherDebugInfo } from "../actions/ActionDebugInfo";
+import { store } from "../store/store";
+import PersistentLogging from "../lib/logging.js";
 
 const DUMPOBJECT_DEFAULT_DEPTH = 4;
 
@@ -10,17 +10,17 @@ let log_line_number = 0;
 class LogUtilities {
   static __getFormattedDate() {
     let d = new Date();
-    return `${d.getHours() < 10 ? 0 : ''}${d.getHours()}${
-      d.getMinutes() < 10 ? 0 : ''
-    }${d.getMinutes()}${d.getSeconds() < 10 ? 0 : ''}${d.getSeconds()}`;
+    return `${d.getHours() < 10 ? 0 : ""}${d.getHours()}${
+      d.getMinutes() < 10 ? 0 : ""
+    }${d.getMinutes()}${d.getSeconds() < 10 ? 0 : ""}${d.getSeconds()}`;
   }
 
   static logInfo() {
-    console.log(LogUtilities.__getFormattedDate(), ' ', ...arguments);
+    console.log(LogUtilities.__getFormattedDate(), " ", ...arguments);
   }
 
   static logError() {
-    console.error(LogUtilities.__getFormattedDate(), ' ', ...arguments);
+    console.error(LogUtilities.__getFormattedDate(), " ", ...arguments);
   }
 
   static toDebugScreen() {
@@ -29,7 +29,7 @@ class LogUtilities {
     let out = `[${log_line_number++}] ${LogUtilities.__getFormattedDate()}`;
     for (let i = 0; i < arguments.length; ++i)
       out += ` ${
-        arguments[i] instanceof Object && typeof arguments[i] != 'string'
+        arguments[i] instanceof Object && typeof arguments[i] != "string"
           ? LogUtilities.__dumpObjectRecursively(arguments[i])
           : arguments[i]
       }`;
@@ -44,7 +44,7 @@ class LogUtilities {
     if (arguments.length < 2) return;
     let out = `${arguments[0]} --> `;
     for (let i = 1; i < arguments.length; ++i)
-      out += `${i > 1 ? ' ' : ''}${LogUtilities.__dumpObjectRecursively(
+      out += `${i > 1 ? " " : ""}${LogUtilities.__dumpObjectRecursively(
         arguments[i]
       )}`;
 
@@ -56,9 +56,9 @@ class LogUtilities {
     level = 0,
     maxlevel = DUMPOBJECT_DEFAULT_DEPTH
   ) {
-    if (typeof x === 'string') return `"${x}"`;
-    else if (typeof x === 'number') return `${x}`;
-    else if (x instanceof Buffer) return `(Buffer)[${x.toString('hex')}]`;
+    if (typeof x === "string") return `"${x}"`;
+    else if (typeof x === "number") return `${x}`;
+    else if (x instanceof Buffer) return `(Buffer)[${x.toString("hex")}]`;
 
     if (level <= maxlevel) {
       if (x instanceof Array)
@@ -67,7 +67,7 @@ class LogUtilities {
             (x) =>
               `${LogUtilities.__dumpObjectRecursively(x, level + 1, maxlevel)}`
           )
-          .join(', ')}]`;
+          .join(", ")}]`;
       else if (x instanceof Object)
         return `{ ${Object.keys(x).map(
           (xk) =>

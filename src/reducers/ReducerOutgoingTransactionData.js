@@ -1,37 +1,37 @@
-'use strict';
+"use strict";
 import {
   SAVE_OUTGOING_TRANSACTION_DATA_SEND,
   SAVE_OUTGOING_TRANSACTION_DATA_COMPOUND,
   SAVE_OUTGOING_TRANSACTION_DATA_POOLTOGETHER,
   SAVE_OUTGOING_TRANSACTION_DATA_SWAP
-} from '../constants/ActionTypes';
+} from "../constants/ActionTypes";
 
 const INITIAL_STATE = {
   outgoingTransactionData: {
     send: {
-      toaddress: '',
-      amount: '',
-      gasLimit: '',
+      toaddress: "",
+      amount: "",
+      gasLimit: "",
       transactionObject: {}
     },
     compound: {
-      amount: '',
-      gasLimit: '',
+      amount: "",
+      gasLimit: "",
       approveTransactionObject: {},
       transactionObject: {}
     },
     poolTogether: {
-      amount: '',
-      gasLimit: '',
+      amount: "",
+      gasLimit: "",
       approveTransactionObject: {},
       transactionObject: {}
     },
     swap: {
-      sold: '',
-      bought: '',
-      minBought: '',
-      slippage: '',
-      gasLimit: '',
+      sold: "",
+      bought: "",
+      minBought: "",
+      slippage: "",
+      gasLimit: "",
       transactionObject: {}
     }
   }

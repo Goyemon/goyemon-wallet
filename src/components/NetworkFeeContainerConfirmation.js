@@ -1,34 +1,34 @@
-'use strict';
-import React, { Component } from 'react';
-import { View, TouchableOpacity } from 'react-native';
-import { connect } from 'react-redux';
-import styled from 'styled-components';
-import { HeaderFive, ConfirmationText, ToggleCurrencySymbol } from './common';
-import I18n from '../i18n/I18n';
-import LogUtilities from '../utilities/LogUtilities.js';
-import TransactionUtilities from '../utilities/TransactionUtilities.ts';
+"use strict";
+import React, { Component } from "react";
+import { View, TouchableOpacity } from "react-native";
+import { connect } from "react-redux";
+import styled from "styled-components";
+import { HeaderFive, ConfirmationText, ToggleCurrencySymbol } from "./common";
+import I18n from "../i18n/I18n";
+import LogUtilities from "../utilities/LogUtilities.js";
+import TransactionUtilities from "../utilities/TransactionUtilities.ts";
 
 class NetworkFeeContainerConfirmation extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currency: 'USD'
+      currency: "USD"
     };
   }
 
   toggleCurrency(gasPriceWEI, gasLimit) {
-    if (this.state.currency === 'ETH') {
+    if (this.state.currency === "ETH") {
       const USDValue = TransactionUtilities.getMaxNetworkFeeInUSD(
         gasPriceWEI,
         gasLimit
       );
       return <ConfirmationText>${USDValue}</ConfirmationText>;
-    } else if (this.state.currency === 'USD') {
+    } else if (this.state.currency === "USD") {
       let ETHValue = TransactionUtilities.getMaxNetworkFeeInETH(
         gasPriceWEI,
         gasLimit
       );
-      LogUtilities.logInfo('ETHValue ==>', ETHValue);
+      LogUtilities.logInfo("ETHValue ==>", ETHValue);
       ETHValue = parseFloat(ETHValue).toFixed(5);
       return <ConfirmationText>{ETHValue}ETH</ConfirmationText>;
     }
@@ -38,13 +38,13 @@ class NetworkFeeContainerConfirmation extends Component {
     return (
       <View>
         <NetworkFeeHeaderContainer>
-          <HeaderFive width="80%">{I18n.t('max-network-fee')}</HeaderFive>
+          <HeaderFive width="80%">{I18n.t("max-network-fee")}</HeaderFive>
           <TouchableOpacity
             onPress={() => {
-              if (this.state.currency === 'ETH') {
-                this.setState({ currency: 'USD' });
-              } else if (this.state.currency === 'USD') {
-                this.setState({ currency: 'ETH' });
+              if (this.state.currency === "ETH") {
+                this.setState({ currency: "USD" });
+              } else if (this.state.currency === "USD") {
+                this.setState({ currency: "ETH" });
               }
             }}
           >

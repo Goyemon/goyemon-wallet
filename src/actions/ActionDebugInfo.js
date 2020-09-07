@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 import {
   SAVE_FCM_TOKEN,
   SAVE_OTHER_DEBUG_INFO
-} from '../constants/ActionTypes';
-import LogUtilities from '../utilities/LogUtilities.js';
+} from "../constants/ActionTypes";
+import LogUtilities from "../utilities/LogUtilities.js";
 
 export function saveFcmToken(fcmToken) {
   return async function (dispatch) {

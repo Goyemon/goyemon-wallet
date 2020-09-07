@@ -1,15 +1,15 @@
-'use strict';
-import React, { Component } from 'react';
-import { TouchableOpacity, ScrollView, View, Dimensions } from 'react-native';
-import * as Animatable from 'react-native-animatable';
-import Slider from '@react-native-community/slider';
-import Modal from 'react-native-modal';
-import { connect } from 'react-redux';
-import styled from 'styled-components';
-import Web3 from 'web3';
-import EtherUtilities from '../../utilities/EtherUtilities';
-import TransactionDetailContainer from './TransactionDetailContainer';
-import { saveTxDetailModalVisibility } from '../../actions/ActionModal';
+"use strict";
+import React, { Component } from "react";
+import { TouchableOpacity, ScrollView, View, Dimensions } from "react-native";
+import * as Animatable from "react-native-animatable";
+import Slider from "@react-native-community/slider";
+import Modal from "react-native-modal";
+import { connect } from "react-redux";
+import styled from "styled-components";
+import Web3 from "web3";
+import EtherUtilities from "../../utilities/EtherUtilities";
+import TransactionDetailContainer from "./TransactionDetailContainer";
+import { saveTxDetailModalVisibility } from "../../actions/ActionModal";
 import {
   Container,
   HeaderOne,
@@ -21,19 +21,19 @@ import {
   ModalHandler,
   HorizontalLine,
   Loader
-} from '../common';
+} from "../common";
 
 // TODO: git rm those two:
 //import Transactions from '../containers/Transactions';
 //import TransactionsDai from '../containers/TransactionsDai';
-import OfflineNotice from '../../components/OfflineNotice';
-import TransactionList from './TransactionList';
-import I18n from '../../i18n/I18n';
-import { storage } from '../../lib/tx';
-import LogUtilities from '../../utilities/LogUtilities';
-import TransactionUtilities from '../../utilities/TransactionUtilities';
+import OfflineNotice from "../../components/OfflineNotice";
+import TransactionList from "./TransactionList";
+import I18n from "../../i18n/I18n";
+import { storage } from "../../lib/tx";
+import LogUtilities from "../../utilities/LogUtilities";
+import TransactionUtilities from "../../utilities/TransactionUtilities";
 
-const window = Dimensions.get('window');
+const window = Dimensions.get("window");
 
 const mapChecksumAddressStateToProps = (state) => ({
   checksumAddress: state.ReducerChecksumAddress.checksumAddress
@@ -67,10 +67,10 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
 
     componentDidMount() {
       LogUtilities.toDebugScreen(
-        'TransactionDetail Tx',
+        "TransactionDetail Tx",
         this.state.tx.tokenData
       );
-      LogUtilities.toDebugScreen('TransactionDetail Tx', this.state.txData);
+      LogUtilities.toDebugScreen("TransactionDetail Tx", this.state.txData);
     }
 
     async componentDidUpdate(prevProps) {
@@ -86,7 +86,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
             });
           })
           .catch((e) =>
-            LogUtilities.toDebugScreen('TransactionDetail Tx Error With', e)
+            LogUtilities.toDebugScreen("TransactionDetail Tx Error With", e)
           );
       }
       await this.props.updateTx(this.state.tx);
@@ -116,13 +116,13 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
       super(props);
       this.state = {
         WEIAmountValidation: undefined,
-        maxPrice: ''
+        maxPrice: ""
       };
       this.state = this.getPriceState(
         Math.ceil(this.props.currentGasPrice * 1.2)
       );
       props.gasPrice.forEach((x) => {
-        if (x.speed == 'super fast')
+        if (x.speed == "super fast")
           this.setState({ maxPrice: Math.ceil(x.value * 1.2) });
       });
     }
@@ -190,9 +190,9 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
             onSlidingComplete={this.props.onSettle}
             minimumTrackTintColor="#00A3E2"
             style={{
-              width: '90%',
-              marginLeft: 'auto',
-              marginRight: 'auto',
+              width: "90%",
+              marginLeft: "auto",
+              marginRight: "auto",
               marginTop: 32,
               marginBottom: 16
             }}
@@ -231,7 +231,7 @@ const TransactionDetailModal = connect(
         newGasPrice: null,
         txResent: false,
         loading: false,
-        modalHeight: '50%',
+        modalHeight: "50%",
         WEIAmountValidation: undefined
       };
       this.uniqcounter = 0;
@@ -250,13 +250,13 @@ const TransactionDetailModal = connect(
         this.updateTxListState();
       })();
       if (window.height < 896) {
-        this.setState({ modalHeight: '80%' });
+        this.setState({ modalHeight: "80%" });
       }
     }
 
     updateTxListState() {
       LogUtilities.toDebugScreen(
-        'TransactionDetailModal updateTxListState() called'
+        "TransactionDetailModal updateTxListState() called"
       );
       // this.refreshIndices = {0: true,1: true,2: true,3: true,4: true,5: true,6:true,7:true,8:true,9:true};
 
@@ -299,7 +299,7 @@ const TransactionDetailModal = connect(
     }
 
     priceSliderSettled(value) {
-      LogUtilities.dumpObject('priceSliderSettled() value', Math.floor(value));
+      LogUtilities.dumpObject("priceSliderSettled() value", Math.floor(value));
       this.setState({
         newGasPrice: Math.floor(value)
       });
@@ -308,7 +308,7 @@ const TransactionDetailModal = connect(
     zoomIn() {
       this.view.zoomIn(1500).then((endState) => {
         this.props.saveTxDetailModalVisibility(false);
-        console.log(endState.finished ? 'zoomIn finished' : 'zoomIn cancelled');
+        console.log(endState.finished ? "zoomIn finished" : "zoomIn cancelled");
         this.setState({ txResent: false });
       });
     }
@@ -332,8 +332,8 @@ const TransactionDetailModal = connect(
               marginLeft: 4,
               marginRight: 4,
               marginBottom: 0,
-              flexDirection: 'row',
-              alignItems: 'flex-end'
+              flexDirection: "row",
+              alignItems: "flex-end"
             }}
           >
             <ModalContainer style={{ height: this.state.modalHeight }}>
@@ -398,7 +398,7 @@ const TransactionDetailModal = connect(
                     />
                     <AnimationContainer>
                       <CopyAnimation
-                        animation={this.state.txResent ? 'zoomIn' : null}
+                        animation={this.state.txResent ? "zoomIn" : null}
                         ref={this.handleViewRef}
                       >
                         {this.state.txResent ? (
@@ -453,16 +453,16 @@ export default connect(mapChecksumAddressStateToProps)(
     constructor(props) {
       super(props);
       this.state = {
-        filter: 'All',
+        filter: "All",
         editedTx: null,
-        editedTxIndex: '',
-        editedTxFilter: ''
+        editedTxIndex: "",
+        editedTxFilter: ""
       };
       this.txTapped = this.txTapped.bind(this);
     }
 
     toggleFilterChoiceText() {
-      const choices = ['All', 'Dai'].map((filter) => {
+      const choices = ["All", "Dai"].map((filter) => {
         if (filter === this.state.filter)
           return (
             <View>
@@ -488,7 +488,7 @@ export default connect(mapChecksumAddressStateToProps)(
     }
 
     async txTapped(tx, index, filter) {
-      LogUtilities.dumpObject('tx', tx);
+      LogUtilities.dumpObject("tx", tx);
       await this.setState({
         editedTx: tx,
         editedTxIndex: index,
@@ -497,7 +497,7 @@ export default connect(mapChecksumAddressStateToProps)(
     }
 
     txClear() {
-      this.setState({ editedTx: null, editedTxIndex: '', editedTxFilter: '' });
+      this.setState({ editedTx: null, editedTxIndex: "", editedTxFilter: "" });
     }
 
     render() {
@@ -510,7 +510,7 @@ export default connect(mapChecksumAddressStateToProps)(
             onClose={this.txClear.bind(this)}
           />
           <OfflineNotice />
-          <HeaderOne marginTop="64">{I18n.t('history')}</HeaderOne>
+          <HeaderOne marginTop="64">{I18n.t("history")}</HeaderOne>
           {this.toggleFilterChoiceText()}
           <TransactionList
             checksumAddress={this.props.checksumAddress}

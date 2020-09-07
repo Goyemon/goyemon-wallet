@@ -1,9 +1,9 @@
-'use strict';
-import messaging from '@react-native-firebase/messaging';
-import LogUtilities from '../utilities/LogUtilities.js';
-import zlib from 'react-zlib-js';
-import { storage } from '../lib/tx';
-import GlobalConfig from '../config.json';
+"use strict";
+import messaging from "@react-native-firebase/messaging";
+import LogUtilities from "../utilities/LogUtilities.js";
+import zlib from "react-zlib-js";
+import { storage } from "../lib/tx";
+import GlobalConfig from "../config.json";
 
 const msgtype_compressed = {
   txhistory: true,
@@ -40,11 +40,11 @@ class Msg {
 
   getMessage(call) {
     if (!this.isComplete())
-      throw new Error('.getMessage() for an incomplete message');
+      throw new Error(".getMessage() for an incomplete message");
 
-    if (!this.compressed) call(this.data.join(''));
+    if (!this.compressed) call(this.data.join(""));
     else
-      zlib.inflateRaw(Buffer.from(this.data.join(''), 'base64'), (err, ret) => {
+      zlib.inflateRaw(Buffer.from(this.data.join(""), "base64"), (err, ret) => {
         if (err) throw new Error(err);
 
         call(ret);
@@ -111,14 +111,14 @@ class FCMMsgs {
     messaging()
       .sendMessage(upstreamMessage)
       .then((response) => {
-        console.log('Successfully sent message:', {
+        console.log("Successfully sent message:", {
           type: upstreamMessage.data.type,
           upstreamMessage: upstreamMessage,
           response: response
         });
       })
       .catch((error) => {
-        console.log('Error sending message:', error);
+        console.log("Error sending message:", error);
       });
   }
 
@@ -166,7 +166,7 @@ class FCMMsgs {
 
     if (d && d.type && d.count && d.no && d.uid && d.data)
       this.__on_msg(d.uid, d.type, d.no, d.count, d.data);
-    else if (d && d.type == 'transactionError' && d.error)
+    else if (d && d.type == "transactionError" && d.error)
       this.on_msg_callback(d.type, d);
     // TODO: we're bypassing __on_msg() here due to different msg format, but that means we can't (in the future) use msgtype_waits for transactionError. change the format to the same (use sendSplitMsg() in FCM) in the future and stop treating them differently here.
     else
@@ -177,29 +177,29 @@ class FCMMsgs {
   }
 
   registerEthereumAddress(checksumAddress) {
-    this.__sendMessage('address_register', { address: checksumAddress });
+    this.__sendMessage("address_register", { address: checksumAddress });
   }
 
   resyncWallet(checksumAddress) {
-    this.__sendMessage('resync_wallet', { address: checksumAddress });
+    this.__sendMessage("resync_wallet", { address: checksumAddress });
   }
 
   requestCompoundDaiInfo(checksumAddress) {
-    this.__sendMessage('cDai_lending_info', { address: checksumAddress });
+    this.__sendMessage("cDai_lending_info", { address: checksumAddress });
   }
 
   requestPoolTogetherDaiInfo(checksumAddress) {
-    this.__sendMessage('pool_together_DAI_info', { address: checksumAddress });
+    this.__sendMessage("pool_together_DAI_info", { address: checksumAddress });
   }
 
   requestUniswapV2WETHxDAIReserves() {
-    this.__sendMessage('uniswapV2_WETHxDAI_reserve');
+    this.__sendMessage("uniswapV2_WETHxDAI_reserve");
   }
 
   checkForUpdates(checksumAddress, checksums, count, offset = 0) {
-    this.__sendMessage('request_updates', {
+    this.__sendMessage("request_updates", {
       address: checksumAddress,
-      sums: checksums.join(','),
+      sums: checksums.join(","),
       items: count.toString(),
       offset: offset.toString(),
       v: storage.temporary_since_you_wont_add_build_number_i_will.toString()
@@ -213,7 +213,7 @@ const instance = new FCMMsgs();
 const handler = (x, frombg) => instance.__fcm_msg(x, frombg);
 
 function registerHandler() {
-  LogUtilities.toDebugScreen('FCM registerHandler called');
+  LogUtilities.toDebugScreen("FCM registerHandler called");
   messaging().onMessage(handler);
 }
 

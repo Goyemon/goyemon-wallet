@@ -1,26 +1,26 @@
-'use strict';
-import React, { Component } from 'react';
-import { withNavigation } from 'react-navigation';
-import { connect } from 'react-redux';
-import { View, Clipboard } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import styled from 'styled-components/native';
-import Web3 from 'web3';
-import { saveOutgoingTransactionDataSend } from '../../actions/ActionOutgoingTransactionData';
-import { clearQRCodeData } from '../../actions/ActionQRCodeData';
-import { updateToAddressValidation } from '../../actions/ActionTxFormValidation';
-import { Form, FormHeader } from '../common';
-import I18n from '../../i18n/I18n';
-import SendStack from '../../navigators/SendStack';
-import LogUtilities from '../../utilities/LogUtilities.js';
-import StyleUtilities from '../../utilities/StyleUtilities.js';
-import EtherUtilities from '../../utilities/EtherUtilities';
+"use strict";
+import React, { Component } from "react";
+import { withNavigation } from "react-navigation";
+import { connect } from "react-redux";
+import { View, Clipboard } from "react-native";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import styled from "styled-components/native";
+import Web3 from "web3";
+import { saveOutgoingTransactionDataSend } from "../../actions/ActionOutgoingTransactionData";
+import { clearQRCodeData } from "../../actions/ActionQRCodeData";
+import { updateToAddressValidation } from "../../actions/ActionTxFormValidation";
+import { Form, FormHeader } from "../common";
+import I18n from "../../i18n/I18n";
+import SendStack from "../../navigators/SendStack";
+import LogUtilities from "../../utilities/LogUtilities.js";
+import StyleUtilities from "../../utilities/StyleUtilities.js";
+import EtherUtilities from "../../utilities/EtherUtilities";
 
 class ToAddressForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      copiedText: ''
+      copiedText: ""
     };
   }
 
@@ -41,17 +41,17 @@ class ToAddressForm extends Component {
     if (
       Web3.utils.isAddress(toAddress) &&
       checksumAddress != toAddress &&
-      toAddress != '0000000000000000000000000000000000000000'
+      toAddress != "0000000000000000000000000000000000000000"
     ) {
-      LogUtilities.logInfo('address validated!');
+      LogUtilities.logInfo("address validated!");
       this.props.updateToAddressValidation(true);
       return true;
     } else if (
       !Web3.utils.isAddress(toAddress) ||
       checksumAddress === toAddress ||
-      toAddress === '0000000000000000000000000000000000000000'
+      toAddress === "0000000000000000000000000000000000000000"
     ) {
-      LogUtilities.logInfo('invalid address');
+      LogUtilities.logInfo("invalid address");
       this.props.updateToAddressValidation(false);
       return false;
     }
@@ -70,7 +70,7 @@ class ToAddressForm extends Component {
       <View>
         <FormHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
-            {I18n.t('to')}
+            {I18n.t("to")}
           </FormHeader>
         </FormHeaderContainer>
         <Form
@@ -82,7 +82,7 @@ class ToAddressForm extends Component {
         >
           <SendTextInputContainer>
             <SendTextInput
-              placeholder={I18n.t('send-address')}
+              placeholder={I18n.t("send-address")}
               clearButtonMode="while-editing"
               onChangeText={(toAddress) => {
                 this.validateToAddress(toAddress);
@@ -105,7 +105,7 @@ class ToAddressForm extends Component {
                       tabBarVisible
                     };
                   };
-                  this.props.navigation.navigate('QRCodeScan');
+                  this.props.navigation.navigate("QRCodeScan");
                 }}
               >
                 <Icon name="qrcode-scan" size={20} color="#5f5f5f" />
@@ -153,7 +153,7 @@ const PasteContainer = styled.TouchableOpacity`
 
 const PasteText = styled.Text`
   color: #00a3e2;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 14;
 `;
 

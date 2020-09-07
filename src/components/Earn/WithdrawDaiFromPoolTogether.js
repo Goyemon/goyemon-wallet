@@ -1,12 +1,12 @@
-'use strict';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import styled from 'styled-components/native';
-import { saveOutgoingTransactionDataPoolTogether } from '../../actions/ActionOutgoingTransactionData';
+"use strict";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import styled from "styled-components/native";
+import { saveOutgoingTransactionDataPoolTogether } from "../../actions/ActionOutgoingTransactionData";
 import {
   saveTxConfirmationModalVisibility,
   updateTxConfirmationModalVisibleType
-} from '../../actions/ActionModal';
+} from "../../actions/ActionModal";
 import {
   RootContainer,
   UntouchableCardContainer,
@@ -18,21 +18,21 @@ import {
   WeiBalanceValidateMessage,
   TxNextButton,
   UseMaxButton
-} from '../common';
-import TxConfirmationModal from '../TxConfirmationModal';
-import { AdvancedContainer } from '../AdvancedContainer';
-import I18n from '../../i18n/I18n';
+} from "../common";
+import TxConfirmationModal from "../TxConfirmationModal";
+import { AdvancedContainer } from "../AdvancedContainer";
+import I18n from "../../i18n/I18n";
 import {
   RoundDownBigNumberPlacesFour,
   RoundDownBigNumberPlacesEighteen
-} from '../../utilities/BigNumberUtilities';
-import LogUtilities from '../../utilities/LogUtilities.js';
-import StyleUtilities from '../../utilities/StyleUtilities.js';
-import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
-import ABIEncoder from '../../utilities/AbiUtilities';
-import { storage } from '../../lib/tx';
-import { TxTokenOpTypeToName } from '../../lib/tx/TokenOpType';
-import GlobalConfig from '../../config.json';
+} from "../../utilities/BigNumberUtilities";
+import LogUtilities from "../../utilities/LogUtilities.js";
+import StyleUtilities from "../../utilities/StyleUtilities.js";
+import TransactionUtilities from "../../utilities/TransactionUtilities.ts";
+import ABIEncoder from "../../utilities/AbiUtilities";
+import { storage } from "../../lib/tx";
+import { TxTokenOpTypeToName } from "../../lib/tx/TokenOpType";
+import GlobalConfig from "../../config.json";
 
 class WithdrawDaiFromPoolTogether extends Component {
   constructor(props) {
@@ -45,7 +45,7 @@ class WithdrawDaiFromPoolTogether extends Component {
         .plus(props.balance.pooltogetherDai.sponsored)
         .div(new RoundDownBigNumberPlacesFour(10).pow(18))
         .toFixed(0),
-      DAIWithdrawAmount: '',
+      DAIWithdrawAmount: "",
       DAIWithdrawAmountValidation: undefined,
       WEIAmountValidation: undefined,
       loading: false
@@ -86,7 +86,7 @@ class WithdrawDaiFromPoolTogether extends Component {
   }
 
   async constructTransactionObject() {
-    const DAIWithdrawAmount = this.state.DAIWithdrawAmount.split('.').join('');
+    const DAIWithdrawAmount = this.state.DAIWithdrawAmount.split(".").join("");
     const decimalPlaces = TransactionUtilities.decimalPlaces(
       this.state.DAIWithdrawAmount
     );
@@ -112,7 +112,7 @@ class WithdrawDaiFromPoolTogether extends Component {
       )
       .setGas(GlobalConfig.PoolTogetherWithdrawGasLimit.toString(16))
       .tempSetData(withdrawEncodedABI)
-      .addTokenOperation('pooltogether', TxTokenOpTypeToName.PTwithdrawn, [
+      .addTokenOperation("pooltogether", TxTokenOpTypeToName.PTwithdrawn, [
         storage.getOwnAddress(),
         DAIWithdrawAmountWithDecimals
       ]);
@@ -156,7 +156,7 @@ class WithdrawDaiFromPoolTogether extends Component {
 
     if (DAIWithdrawAmountValidation && WEIAmountValidation && isOnline) {
       this.setState({ loading: true });
-      LogUtilities.logInfo('validation successful');
+      LogUtilities.logInfo("validation successful");
       const transactionObject = await this.constructTransactionObject();
       this.props.saveOutgoingTransactionDataPoolTogether({
         amount: DAIWithdrawAmount,
@@ -164,9 +164,9 @@ class WithdrawDaiFromPoolTogether extends Component {
         transactionObject: transactionObject
       });
       this.props.saveTxConfirmationModalVisibility(true);
-      this.props.updateTxConfirmationModalVisibleType('pool-together-withdraw');
+      this.props.updateTxConfirmationModalVisibleType("pool-together-withdraw");
     } else {
-      LogUtilities.logInfo('form validation failed!');
+      LogUtilities.logInfo("form validation failed!");
     }
   };
 
@@ -181,7 +181,7 @@ class WithdrawDaiFromPoolTogether extends Component {
     return (
       <RootContainer>
         <TxConfirmationModal />
-        <HeaderOne marginTop="96">{I18n.t('withdraw')}</HeaderOne>
+        <HeaderOne marginTop="96">{I18n.t("withdraw")}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8px"
@@ -192,16 +192,16 @@ class WithdrawDaiFromPoolTogether extends Component {
           textAlign="center"
           width="90%"
         >
-          <CoinImage source={require('../../../assets/dai_icon.png')} />
+          <CoinImage source={require("../../../assets/dai_icon.png")} />
           <Title>dai pooltogether balance</Title>
           <Value>{this.state.poolTogetherDAIBalance} DAI</Value>
         </UntouchableCardContainer>
         <WithDrawAmountHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
-            {I18n.t('withdraw-amount')}
+            {I18n.t("withdraw-amount")}
           </FormHeader>
           <UseMaxButton
-            text={I18n.t('use-max')}
+            text={I18n.t("use-max")}
             textColor="#00A3E2"
             onPress={() => {
               this.setState({
@@ -295,19 +295,19 @@ const CoinImage = styled.Image`
 
 const Title = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 16;
   margin-top: 16;
   text-transform: uppercase;
 `;
 
 const Value = styled.Text`
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 16;
 `;
 
 const CurrencySymbolText = styled.Text`
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
 `;
 
 const ButtonWrapper = styled.View`

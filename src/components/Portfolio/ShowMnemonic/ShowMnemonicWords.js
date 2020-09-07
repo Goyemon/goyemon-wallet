@@ -1,12 +1,12 @@
-'use strict';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import styled from 'styled-components/native';
-import ShowMnemonicWord from './ShowMnemonicWord';
+"use strict";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import styled from "styled-components/native";
+import ShowMnemonicWord from "./ShowMnemonicWord";
 
 class ShowMnemonicWords extends Component {
   render() {
-    const mnemonicWords = this.props.mnemonicWords.split(' ');
+    const mnemonicWords = this.props.mnemonicWords.split(" ");
 
     return (
       <MnemonicWordsContainer style={styles.table}>
@@ -20,8 +20,8 @@ class ShowMnemonicWords extends Component {
 
 const styles = {
   table: {
-    flexWrap: 'wrap',
-    flexDirection: 'row'
+    flexWrap: "wrap",
+    flexDirection: "row"
   }
 };
 

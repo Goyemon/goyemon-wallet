@@ -1,7 +1,7 @@
-'use strict';
-import React from 'react';
-import styled from 'styled-components';
-import I18n from '../../i18n/I18n';
+"use strict";
+import React from "react";
+import styled from "styled-components";
+import I18n from "../../i18n/I18n";
 
 const Button = (props) => (
   <ButtonContainer
@@ -41,7 +41,7 @@ let ButtonText;
 
 ButtonText = styled.Text`
   color: ${(props) => props.textColor};
-  font-family: 'HKGrotesk-Bold';
+  font-family: "HKGrotesk-Bold";
   font-size: 20;
   padding: 12px 24px;
   text-align: center;
@@ -70,7 +70,7 @@ const MnemonicWordButtonContainer = styled.TouchableOpacity`
 
 const MnemonicWordButtonText = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Bold';
+  font-family: "HKGrotesk-Bold";
   font-size: 16;
   padding: 8px 12px;
   text-align: center;
@@ -96,9 +96,9 @@ const TxConfirmationButtonContainer = styled.TouchableOpacity`
 
 const TxConfirmationButtonText = styled.Text`
   color: #fff;
-  font-family: 'HKGrotesk-Bold';
-  font-size: ${I18n.locale == 'ja-US' ? 18 : 20};
-  padding: ${I18n.locale == 'ja-US' ? '14px 24px 8px 24px' : '12px 24px'};
+  font-family: "HKGrotesk-Bold";
+  font-size: ${I18n.locale == "ja-US" ? 18 : 20};
+  padding: ${I18n.locale == "ja-US" ? "14px 24px 8px 24px" : "12px 24px"};
   text-align: center;
 `;
 
@@ -108,7 +108,7 @@ const TxNextButton = (props) => (
     opacity={props.opacity}
     onPress={props.onPress}
   >
-    <TxNextButtonText>{I18n.t('button-next')}</TxNextButtonText>
+    <TxNextButtonText>{I18n.t("button-next")}</TxNextButtonText>
   </TxNextButtonContainer>
 );
 
@@ -135,7 +135,7 @@ let TxNextButtonText;
 // } else {
 TxNextButtonText = styled.Text`
   color: #00a3e2;
-  font-family: 'HKGrotesk-Bold';
+  font-family: "HKGrotesk-Bold";
   font-size: 20;
   padding: 12px 24px;
   text-align: center;
@@ -156,7 +156,7 @@ const UseMaxButtonContainer = styled.TouchableOpacity`
 
 const UseMaxButtonText = styled.Text`
   color: ${(props) => props.textColor};
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 14;
 `;
 
