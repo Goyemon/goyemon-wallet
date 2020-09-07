@@ -5,7 +5,7 @@ import { ErrorMessage } from './ErrorMessage';
 
 const AmountValidateMessage = (props) => {
   if (props.amountValidation || props.amountValidation === undefined)
-    return <View />;
+    return <ErrorMessage textAlign="center">&nbsp;&nbsp; 　</ErrorMessage>;
   else
     return (
       <ErrorMessage textAlign="center">
