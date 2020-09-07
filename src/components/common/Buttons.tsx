@@ -30,19 +30,31 @@ export const Button = (props: ButtonProps) => (
   </ButtonContainer>
 );
 
+interface ButtonContainerProps {
+  backgroundColor: string;
+  borderColor: string;
+  margin: number | string;
+  marginBottom: number | string;
+  opacity: number | string;
+}
+
 const ButtonContainer = styled.TouchableOpacity`
-  background-color: ${(props) => props.backgroundColor};
-  border-color: ${(props) => props.borderColor};
+  background-color: ${(props: ButtonContainerProps) => props.backgroundColor};
+  border-color: ${(props: ButtonContainerProps) => props.borderColor};
   border-radius: 16px;
   border-width: 1;
-  margin: ${(props) => props.margin};
-  margin-bottom: ${(props) => props.marginBottom};
+  margin: ${(props: ButtonContainerProps) => props.margin};
+  margin-bottom: ${(props: ButtonContainerProps) => props.marginBottom};
   min-width: 120px;
-  opacity: ${(props) => props.opacity};
+  opacity: ${(props: ButtonContainerProps) => props.opacity};
 `;
 
+interface ButtonTextProps {
+  textColor: string;
+}
+
 const ButtonText: any = styled.Text`
-  color: ${(props) => props.textColor};
+  color: ${(props: ButtonTextProps) => props.textColor};
   font-family: "HKGrotesk-Bold";
   font-size: 20;
   padding: 12px 24px;
@@ -66,6 +78,10 @@ export const MnemonicWordButton = (props: MnemonicWordButtonProps) => (
   </MnemonicWordButtonContainer>
 );
 
+interface MnemonicWordButtonContainer {
+  opacity: number | string;
+}
+
 const MnemonicWordButtonContainer = styled.TouchableOpacity`
   background-color: #fff;
   border-color: #fff;
@@ -73,7 +89,7 @@ const MnemonicWordButtonContainer = styled.TouchableOpacity`
   border-width: 1;
   margin: 0 auto;
   min-width: 80px;
-  opacity: ${(props) => props.opacity};
+  opacity: ${(props: MnemonicWordButtonContainer) => props.opacity};
 `;
 
 const MnemonicWordButtonText = styled.Text`
@@ -132,6 +148,10 @@ export const TxNextButton = (props: TxNextButtonProps) => (
   </TxNextButtonContainer>
 );
 
+interface TxNextButtonContainerProps {
+  opacity: number | string;
+}
+
 const TxNextButtonContainer = styled.TouchableOpacity`
   background-color: #fff;
   border-color: #00a3e2;
@@ -140,7 +160,7 @@ const TxNextButtonContainer = styled.TouchableOpacity`
   margin: 40px auto;
   margin-bottom: 12px;
   min-width: 120px;
-  opacity: ${(props) => props.opacity};
+  opacity: ${(props: TxNextButtonContainerProps) => props.opacity};
 `;
 
 const TxNextButtonText: any = styled.Text`
@@ -165,12 +185,16 @@ export const UseMaxButton = (props: UseMaxButtonProps) => (
   </UseMaxButtonContainer>
 );
 
+interface UseMaxButtonContainerProps {
+  textColor: string;
+}
+
 const UseMaxButtonContainer = styled.TouchableOpacity`
   align-items: flex-end;
 `;
 
 const UseMaxButtonText = styled.Text`
-  color: ${(props) => props.textColor};
+  color: ${(props: UseMaxButtonContainerProps) => props.textColor};
   font-family: "HKGrotesk-Regular";
   font-size: 14;
 `;

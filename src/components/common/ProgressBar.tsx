@@ -44,13 +44,18 @@ const Outer = styled.View`
   width: 80%;
 `;
 
+interface InnerContainer {
+  marginRight: number | string;
+  width: number | string;
+}
+
 const InnerContainer = styled.View`
   background-color: #fdc800;
   border-radius: 16px;
   height: 8px;
   margin-top: -8;
-  margin-right: ${(props) => props.marginRight};
-  width: ${(props) => props.width};
+  margin-right: ${(props: InnerContainer) => props.marginRight};
+  width: ${(props: InnerContainer) => props.width};
 `;
 
 const Inner = styled.View`
@@ -66,9 +71,13 @@ const NumberContainer = styled.View`
   width: 115%;
 `;
 
+interface OneContainer {
+  oneColor: number | string;
+}
+
 const OneContainer = styled.View`
   align-items: center;
-  background-color: ${(props) => props.oneColor};
+  background-color: ${(props: OneContainer) => props.oneColor};
   border-radius: 10px;
   height: 20px;
   justify-content: center;
@@ -80,9 +89,13 @@ const One = styled.Text`
   font-family: "HKGrotesk-Bold";
 `;
 
+interface TwoContainer {
+  twoColor: number | string;
+}
+
 const TwoContainer = styled.View`
   align-items: center;
-  background-color: ${(props) => props.twoColor};
+  background-color: ${(props: TwoContainer) => props.twoColor};
   border-radius: 10px;
   height: 20px;
   justify-content: center;
@@ -94,9 +107,13 @@ const Two = styled.Text`
   font-family: "HKGrotesk-Bold";
 `;
 
+interface ThreeContainer {
+  threeColor: number | string;
+}
+
 const ThreeContainer = styled.View`
   align-items: center;
-  background-color: ${(props) => props.threeColor};
+  background-color: ${(props: ThreeContainer) => props.threeColor};
   border-radius: 10px;
   height: 20px;
   justify-content: center;

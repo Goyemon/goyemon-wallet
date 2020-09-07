@@ -42,8 +42,13 @@ export const TransactionStatus = (props: TransactionStatusProps) => (
   </TransactionStatusContainer>
 );
 
+interface TransactionStatusContainerProps {
+  width: number | string;
+  txState: number;
+}
+
 const TransactionStatusContainer = styled.View`
-  width: ${(props) => props.width};
+  width: ${(props: TransactionStatusContainerProps) => props.width};
 `;
 
 const FailedStatusText = styled.Text`

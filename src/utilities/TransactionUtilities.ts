@@ -104,7 +104,7 @@ class TransactionUtilities {
   }
 
   returnTransactionSpeed(chosenSpeed: any) {
-    const stateTree = store.getState();
+    const stateTree: any = store.getState();
     const gasPrice = stateTree.ReducerGasPrice.gasPrice;
     if (chosenSpeed === 0) {
       return parseInt(String(gasPrice[0]!.value));
@@ -138,7 +138,7 @@ class TransactionUtilities {
     LogUtilities.logInfo("hasSufficientWeiForAmount -> ", WEIAmount, gasLimit);
 
     if (this.isNumber(WEIAmount)) {
-      const stateTree = store.getState();
+      const stateTree: any = store.getState();
       const balance = stateTree.ReducerBalance.balance;
       const gasChosen = stateTree.ReducerGasPrice.gasChosen;
       const WEIBalance = new RoundDownBigNumberPlacesEighteen(balance.wei);
@@ -824,7 +824,7 @@ class TransactionUtilities {
 
   isInteger = (number: any) => /^[1-9]\d*$/.test(number);
 
-  isLessThan18Digits = (amount: any) =>
+  isLessThan18Digits = (amount: any): boolean =>
     String(amount).slice(0, 2) === "0."
       ? amount.length < 21
       : amount.length < 19;

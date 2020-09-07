@@ -20,13 +20,19 @@ export const Description = (props: DescriptionProps) => (
   </DescriptionText>
 );
 
+interface DescriptionTextProps {
+  marginBottom: number | string;
+  marginLeft: number | string;
+  marginTop: number | string;
+}
+
 const DescriptionText = styled.Text`
   color: #5f5f5f;
   font-family: "HKGrotesk-Regular";
   font-size: 20;
-  margin-bottom: ${(props) => `${props.marginBottom}`};
-  margin-left: ${(props) => `${props.marginLeft}`};
-  margin-top: ${(props) => `${props.marginTop}`};
+  margin-bottom: ${(props: DescriptionTextProps) => `${props.marginBottom}`};
+  margin-left: ${(props: DescriptionTextProps) => `${props.marginLeft}`};
+  margin-top: ${(props: DescriptionTextProps) => `${props.marginTop}`};
   text-align: center;
 `;
 
