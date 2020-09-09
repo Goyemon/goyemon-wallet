@@ -238,9 +238,3 @@ export const registerHandler = () => {
   LogUtilities.toDebugScreen("FCM registerHandler called");
   firebase.messaging().onMessage(handler);
 };
-
-module.exports = {
-  registerHandler: registerHandler,
-  downstreamMessageHandler: handler,
-  FCMMsgs: instance
-};
