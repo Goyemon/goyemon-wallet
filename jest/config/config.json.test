@@ -1,5 +1,5 @@
 {
-  "FCM_server_address": "687286274439@gcm.googleapis.com",
+  "FCM_server_address": "380374684986@gcm.googleapis.com",
   "network_name": "ropsten",
   "network_id": 3,
   "EtherscanLink": "https://ropsten.etherscan.io/tx/",

@@ -19,7 +19,7 @@
     "@react-native-firebase/analytics": "^7.5.1",
     "@react-native-firebase/app": "^8.4.1",
     "@react-native-firebase/crashlytics": "^8.4.1",
-    "@react-native-firebase/messaging": "^7.8.4",
+    "@react-native-firebase/messaging": "^7.4.0",
     "@tradle/react-native-http": "^2.0.1",
     "assert": "^1.4.1",
     "base-64": "^0.1.0",
