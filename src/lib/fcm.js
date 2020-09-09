@@ -1,5 +1,5 @@
 "use strict";
-import messaging from "@react-native-firebase/messaging";
+import firebase from "@react-native-firebase/app";
 import LogUtilities from "../utilities/LogUtilities.js";
 import zlib from "react-zlib-js";
 import { storage } from "../lib/tx";
@@ -84,7 +84,7 @@ class FCMMsgs {
   }
 
   async getFcmToken() {
-    return await messaging().getToken();
+    return await firebase.messaging().getToken();
   }
 
   __gen_msg_id() {
@@ -108,7 +108,7 @@ class FCMMsgs {
       }
     };
 
-    messaging()
+    firebase.messaging()
       .sendMessage(upstreamMessage)
       .then((response) => {
         console.log("Successfully sent message:", {
@@ -214,7 +214,7 @@ const handler = (x, frombg) => instance.__fcm_msg(x, frombg);
 
 function registerHandler() {
   LogUtilities.toDebugScreen("FCM registerHandler called");
-  messaging().onMessage(handler);
+  firebase.messaging().onMessage(handler);
 }
 
 module.exports = {
