@@ -1,6 +1,7 @@
 "use strict";
 const ethTx = require("ethereumjs-tx");
 import firebase from "@react-native-firebase/app";
+import messaging from "@react-native-firebase/messaging";
 const uuidv4 = require("uuid/v4");
 import Web3 from "web3";
 import { store } from "../store/store";
@@ -340,14 +341,14 @@ class TransactionUtilities {
     firebase
       .messaging()
       .sendMessage(upstreamMessage)
-      .then((response) => {
+      .then((response: any) => {
         console.log("Successfully sent message:", {
           type: upstreamMessage.data.type,
           upstreamMessage: upstreamMessage,
           response: response
         });
       })
-      .catch((error) => {
+      .catch((error: any) => {
         console.log("Error sending message:", error);
       });
   }
@@ -831,4 +832,5 @@ class TransactionUtilities {
       : amount.length < 19;
 }
 
+export { messaging };
 export default new TransactionUtilities();
