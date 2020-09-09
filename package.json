@@ -9,7 +9,7 @@
     "android": "react-native run-android",
     "start": "react-native start",
     "prettier": "prettier --write src",
-    "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "lint": "eslint src --fix --ext .js,.jsx,.ts,.tsx",
     "test": "NODE_ENV=test jest",
     "tsc": "tsc"
   },
@@ -80,8 +80,12 @@
     "@babel/preset-env": "^7.11.0",
     "@babel/preset-react": "^7.10.4",
     "@types/jest": "^26.0.9",
-    "@types/react": "^16.9.46",
+    "@types/react": "^16.9.49",
+    "@types/react-dom": "^16.9.8",
     "@types/react-native": "^0.63.7",
+    "@types/react-redux": "^7.1.9",
+    "@types/styled-components": "^5.1.2",
+    "@types/react-native-vector-icons": "^6.4.5",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
     "babel-eslint": "^10.1.0",
@@ -117,8 +121,7 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "prettier --write src",
-      "eslint src --ext .js,.jsx,.ts,.tsx",
-      "git add"
+      "eslint src --ext .js,.jsx,.ts,.tsx"
     ]
   },
   "jest": {

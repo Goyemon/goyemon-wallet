@@ -27,8 +27,8 @@ import {
   RoundDownBigNumberPlacesFour,
   RoundDownBigNumberPlacesEighteen
 } from "../../utilities/BigNumberUtilities";
-import LogUtilities from "../../utilities/LogUtilities.js";
-import StyleUtilities from "../../utilities/StyleUtilities.js";
+import LogUtilities from "../../utilities/LogUtilities";
+import StyleUtilities from "../../utilities/StyleUtilities";
 import TransactionUtilities from "../../utilities/TransactionUtilities.ts";
 import ABIEncoder from "../../utilities/AbiUtilities";
 import { storage } from "../../lib/tx";

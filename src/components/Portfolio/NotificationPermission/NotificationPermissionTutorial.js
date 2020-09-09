@@ -10,9 +10,9 @@ import {
   Description,
   Loader
 } from "../../common";
-import FcmPermissions from "../../../firebase/FcmPermissions.js";
+import FcmPermissions from "../../../firebase/FcmPermissions";
 import I18n from "../../../i18n/I18n";
-import LogUtilities from "../../../utilities/LogUtilities.js";
+import LogUtilities from "../../../utilities/LogUtilities";
 
 class NotificationPermissionTutorial extends Component {
   constructor() {

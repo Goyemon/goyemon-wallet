@@ -22,7 +22,7 @@ import PopUpModal from "../../PopUpModal";
 import I18n from "../../../i18n/I18n";
 import PortfolioPoolTogetherOpen from "./PortfolioPoolTogetherOpen";
 import PortfolioPoolTogetherCommitted from "./PortfolioPoolTogetherCommitted";
-import LogUtilities from "../../../utilities/LogUtilities.js";
+import LogUtilities from "../../../utilities/LogUtilities";
 import { RoundDownBigNumberPlacesFour } from "../../../utilities/BigNumberUtilities";
 
 class PortfolioPoolTogether extends Component {

@@ -12,8 +12,8 @@ import { updateToAddressValidation } from "../../actions/ActionTxFormValidation"
 import { Form, FormHeader } from "../common";
 import I18n from "../../i18n/I18n";
 import SendStack from "../../navigators/SendStack";
-import LogUtilities from "../../utilities/LogUtilities.js";
-import StyleUtilities from "../../utilities/StyleUtilities.js";
+import LogUtilities from "../../utilities/LogUtilities";
+import StyleUtilities from "../../utilities/StyleUtilities";
 import EtherUtilities from "../../utilities/EtherUtilities";
 
 class ToAddressForm extends Component {

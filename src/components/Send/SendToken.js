@@ -27,9 +27,9 @@ import { AdvancedContainer } from "../AdvancedContainer";
 import ToAddressForm from "./ToAddressForm";
 import TransactionUtilities from "../../utilities/TransactionUtilities.ts";
 import GlobalConfig from "../../config.json";
-import LogUtilities from "../../utilities/LogUtilities.js";
-import PriceUtilities from "../../utilities/PriceUtilities.js";
-import StyleUtilities from "../../utilities/StyleUtilities.js";
+import LogUtilities from "../../utilities/LogUtilities";
+import PriceUtilities from "../../utilities/PriceUtilities";
+import StyleUtilities from "../../utilities/StyleUtilities";
 import I18n from "../../i18n/I18n";
 import Web3 from "web3";
 

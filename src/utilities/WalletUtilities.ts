@@ -2,11 +2,11 @@
 const Buffer = require("buffer").Buffer;
 const hdkey = require("ethereumjs-wallet/hdkey");
 const bip39 = require("react-native-bip39");
-import * as Keychain from "react-native-keychain";
-import EtherUtilities from "./EtherUtilities.js";
+import Keychain, { Options } from "react-native-keychain";
+import EtherUtilities from "./EtherUtilities";
 
-const KEY_WALLET_MNEMONIC = "KEY_WALLET_MNEMONIC";
-const KEY_WALLET_PRIVATE_KEY = "KEY_WALLET_PRIVATEKEY";
+const KEY_WALLET_MNEMONIC: Options = {};
+const KEY_WALLET_PRIVATE_KEY: Options = {};
 
 class WalletUtilities {
   private root: any;
@@ -22,15 +22,6 @@ class WalletUtilities {
     await this.setMnemonic(this.mnemonic);
     return this.mnemonic;
   }
-
-  // public async init() {
-  //   this.mnemonic = await this.getMnemonic();
-  //   if (!this.mnemonic || !this.mnemonic.length || !this.validateMnemonic(this.mnemonic)) {
-  //     this.mnemonic = await this.generateMnemonic();
-  //     await this.setMnemonic(this.mnemonic);
-  //   }
-  //   return this.mnemonic;
-  // }
 
   public async generateWallet(mnemonic: any) {
     const seedhex = bip39.mnemonicToSeedHex(mnemonic);

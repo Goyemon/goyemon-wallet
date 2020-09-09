@@ -1,24 +1,23 @@
 {
-  // welcome
   "welcome-create": "create",
   "welcome-new-wallet": "new wallet",
   "welcome-import": "import",
   "welcome-existing-wallet": "existing wallet",
-  // import options
+
   "import-options-title": "Backup Words Option",
   "import-options-description": "how many backup words do you have?",
-  // import
+
   "import-title": "Import Your Wallet",
   "import-description": "enter your backup words",
-  // notification tutorial
+
   "notification-tutorial-description": "we use a notification system to update transactions in real time",
-  // wallet creation
+
   "wallet-creation-key": "generating your keys",
   "wallet-creation-address": "generating your address",
   "wallet-creation-blockchain-data": "fetching blockchain data",
   "wallet-creation-price-data": "getting price data",
   "wallet-creation-caution": "this shouldn't take too long",
-  // balance
+
   "portfolio-home-totalbalance": "total balance",
   "portfolio-home-applications": "applications",
   "portfolio-home-wallet": "Wallet",
@@ -32,18 +31,18 @@
   "portfolio-compound-dai-savings": "dai savings",
   "portfolio-compound-yearly-rate": "yearly rate",
   "portfolio-compound-interest-earned": "interest-earned",
-  // send
+
   "send-address": "address",
-  // earn
+
   "earn-home-compound-deposit": "Deposit DAI to Compound",
   "earn-home-compound-withdraw": "Withdraw DAI from Compound",
   "earn-home-pooltogether-deposit": "Deposit DAI to PoolTogether",
   "earn-home-pooltogether-withdraw": "Withdraw DAI from PoolTogether",
-  // swap
+
   "swap-sell-title": "you pay",
   "swap-buy-title": "you get at least",
   "swap-slippage": "Slippage",
-  // history
+
   "history-incoming": "Incoming",
   "history-outgoing": "Outgoing",
   "history-swap": "Swap",
@@ -53,7 +52,7 @@
   "history-approve": "Authorize",
   "history-empty-tx-msg1": "holy tabula rasa!",
   "history-empty-tx-msg2": "you don’t have any transactions yet!",
-  // settings
+
   "settings-header": "Settings",
   "settings-community": "Join the community",
   "settings-backup-words": "Backup Words",
@@ -66,7 +65,7 @@
   "settings-advanced-network": "Network",
   "settings-advanced-sync": "Sync Your Wallet",
   "settings-advanced-credit": "Credit",
-  // common
+
   "portfolio": "Portfolio",
   "send": "Send",
   "earn": "Earn",
