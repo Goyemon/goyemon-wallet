@@ -1,10 +1,10 @@
 {
   // Ropsten
   "project_info": {
-    "project_number": "687286274439",
-    "firebase_url": "https://goyemon-ropsten.firebaseio.com",
-    "project_id": "goyemon-ropsten",
-    "storage_bucket": "goyemon-ropsten.appspot.com"
+    "project_number": "380374684986",
+    "firebase_url": "https://goyemon-testnet.firebaseio.com",
+    "project_id": "goyemon-testnet",
+    "storage_bucket": "goyemon-testnet.appspot.com"
   },
   // Mainnet
   // "project_info": {
@@ -17,7 +17,7 @@
     {
       "client_info": {
         // Ropsten
-        "mobilesdk_app_id": "1:687286274439:android:01c289269881beb1622b22",
+        "mobilesdk_app_id": "1:380374684986:android:77f0f03ebcd94ac3f96c03",
         // Mainnet
         // "mobilesdk_app_id": "1:1050179785740:android:a682d6ccd1c12565ca8a29",
         "android_client_info": {
@@ -27,7 +27,7 @@
       "oauth_client": [
         {
           // Ropsten
-          "client_id": "687286274439-rhetddapo4dl2g19onk9fopkc8oshgsb.apps.googleusercontent.com",
+          "client_id": "380374684986-4ce1boss5qjt4a9sm091np8bc1445g19.apps.googleusercontent.com",
           // Mainnet
           // "client_id": "1050179785740-pmsakfj2f5qe9p5cj8t4r7qurma3cuvc.apps.googleusercontent.com",
           "client_type": 3
@@ -36,7 +36,7 @@
       "api_key": [
         {
           // Ropsten
-          "current_key": "AIzaSyBV4wRwza81h8mbajwWctIDWy7RybFE07I"
+          "current_key": "AIzaSyC70RFxF-8Ban6iW2cdOFyRQmBBMcAE-iE"
           // Mainnet
           // "current_key": "AIzaSyB5DXKjMNsaQ-17IQEsaL8k8r_KFXCsxK4"
         }
@@ -46,14 +46,14 @@
           "other_platform_oauth_client": [
             {
               // Ropsten
-              "client_id": "687286274439-rhetddapo4dl2g19onk9fopkc8oshgsb.apps.googleusercontent.com",
+              "client_id": "380374684986-4ce1boss5qjt4a9sm091np8bc1445g19.apps.googleusercontent.com",
               // Mainnnet
               // "client_id": "1050179785740-pmsakfj2f5qe9p5cj8t4r7qurma3cuvc.apps.googleusercontent.com",
               "client_type": 3
             },
             {
               // Ropsten
-              "client_id": "687286274439-3epagfiamneumqo7ke0c2c2pdhlvsr0o.apps.googleusercontent.com",
+              "client_id": "380374684986-14q5du4e7mj4pd76aeq067gs0odrhm2l.apps.googleusercontent.com",
               // Mainnet
               // "client_id": "1050179785740-gcm1vsfvk9dioocdjk7am1ev3hnoneis.apps.googleusercontent.com",
               "client_type": 2,
