@@ -2,11 +2,11 @@
 const Buffer = require("buffer").Buffer;
 const hdkey = require("ethereumjs-wallet/hdkey");
 const bip39 = require("react-native-bip39");
-import Keychain, { Options } from "react-native-keychain";
+import * as Keychain from "react-native-keychain";
 import EtherUtilities from "./EtherUtilities";
 
-const KEY_WALLET_MNEMONIC: Options = {};
-const KEY_WALLET_PRIVATE_KEY: Options = {};
+const KEY_WALLET_MNEMONIC: string = "KEY_WALLET_MNEMONIC";
+const KEY_WALLET_PRIVATE_KEY: string = "KEY_WALLET_PRIVATEKEY";
 
 class WalletUtilities {
   private root: any;
@@ -80,18 +80,20 @@ class WalletUtilities {
   }
 
   private async generateMnemonic() {
-    let finish;
-    while (finish) {
-      const mnemonic = await bip39.generateMnemonic(256);
+    let mnemonic = await bip39.generateMnemonic(256);
+    while (true) {
       const words = mnemonic.split(" ");
       const uniqueWords = words.filter(
         (word: any, index: any) => words.indexOf(word) == index
       );
-      finish = words.length === uniqueWords.length;
-      if (finish) {
-        return mnemonic;
+      if (words.length == uniqueWords.length) {
+        break;
+      } else {
+        mnemonic = await bip39.generateMnemonic(256);
+        break;
       }
     }
+    return mnemonic;
   }
 
   private validateMnemonic(mnemonic: any) {
