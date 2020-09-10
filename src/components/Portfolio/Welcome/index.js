@@ -25,8 +25,8 @@ export default class Welcome extends Component {
   }
 
   async componentDidMount() {
-    const privateKeySaved = await WalletUtilities.privateKeySaved();
-    if (privateKeySaved) {
+    const isPrivateKeySaved = await WalletUtilities.isPrivateKeySaved();
+    if (isPrivateKeySaved) {
       await WalletUtilities.resetKeychainData();
     }
   }

@@ -304,7 +304,7 @@ class TransactionUtilities {
     outgoingTransactionObject = new ethTx(
       outgoingTransactionObject.toTransactionDict()
     );
-    const privateKey = await WalletUtilities.retrievePrivateKey();
+    const privateKey = await WalletUtilities.getPrivateKey();
     const privateKeyData = Buffer.from(privateKey, "hex");
     outgoingTransactionObject.sign(privateKeyData);
     let signedTransaction = outgoingTransactionObject.serialize();

@@ -132,7 +132,7 @@ class WalletCreation extends Component {
   }
 
   async hasPrivateKey() {
-    return await WalletUtilities.privateKeySaved();
+    return await WalletUtilities.isPrivateKeySaved();
   }
 
   hasTransactions() {

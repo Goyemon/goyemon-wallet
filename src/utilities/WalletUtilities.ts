@@ -23,62 +23,6 @@ class WalletUtilities {
     return this.mnemonic;
   }
 
-  public async generateWallet(mnemonic: any) {
-    const seedhex = bip39.mnemonicToSeedHex(mnemonic);
-    const seed = Buffer.from(seedhex, "hex");
-    this.root = hdkey.fromMasterSeed(seed);
-    this.wallet = this.root.derivePath("m/44'/60'/0'/0/0").getWallet();
-
-    return true;
-  }
-
-  public async createPrivateKey() {
-    let privateKey = await this.retrievePrivateKey();
-    if (!privateKey) {
-      privateKey = await this.wallet.getPrivateKey();
-      privateKey = EtherUtilities.hexArrayToString(privateKey);
-    }
-    return privateKey;
-  }
-
-  public async createChecksumAddress() {
-    const checksumAddress = await this.wallet.getChecksumAddressString();
-    return checksumAddress;
-  }
-
-  public async retrievePrivateKey() {
-    try {
-      const result = await Keychain.getGenericPassword(KEY_WALLET_PRIVATE_KEY);
-      if (typeof result === "boolean") {
-        return "";
-      } else {
-        return result.password;
-      }
-    } catch (err) {
-      return "";
-    }
-  }
-
-  private async setPrivateKey(privateKey: any) {
-    const res = await this.retrievePrivateKey();
-    return res
-      ? res
-      : await Keychain.setGenericPassword(
-          "PRIVATEKEY",
-          privateKey,
-          KEY_WALLET_PRIVATE_KEY
-        );
-  }
-
-  async privateKeySaved() {
-    const privateKey = await this.retrievePrivateKey();
-    if (privateKey === "") {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
   private async generateMnemonic() {
     let mnemonic = await bip39.generateMnemonic(256);
     while (true) {
@@ -96,15 +40,13 @@ class WalletUtilities {
     return mnemonic;
   }
 
-  private validateMnemonic(mnemonic: any) {
-    if (!bip39.validateMnemonic(mnemonic)) {
-      return false;
-    }
-    const words = mnemonic.split(" ");
-    const uniqueWords = words.filter(
-      (word: any, index: any) => words.indexOf(word) == index
+  private async setMnemonic(mnemonic: any) {
+    const isGenericPasswordSet = await Keychain.setGenericPassword(
+      "MNEMONIC",
+      mnemonic,
+      KEY_WALLET_MNEMONIC
     );
-    return words.length === uniqueWords.length;
+    return isGenericPasswordSet;
   }
 
   public async getMnemonic() {
@@ -120,18 +62,76 @@ class WalletUtilities {
     }
   }
 
-  private async setMnemonic(mnemonic: any) {
-    const result = await Keychain.setGenericPassword(
-      "MNEMONIC",
-      mnemonic,
-      KEY_WALLET_MNEMONIC
+  private validateMnemonic(mnemonic: any) {
+    if (!bip39.validateMnemonic(mnemonic)) {
+      return false;
+    }
+    const words = mnemonic.split(" ");
+    const uniqueWords = words.filter(
+      (word: any, index: any) => words.indexOf(word) == index
     );
-    return result;
+    return words.length === uniqueWords.length;
+  }
+
+  public async generateWallet(mnemonic: any) {
+    const seedhex = bip39.mnemonicToSeedHex(mnemonic);
+    const seed = Buffer.from(seedhex, "hex");
+    this.root = hdkey.fromMasterSeed(seed);
+    this.wallet = this.root.derivePath("m/44'/60'/0'/0/0").getWallet();
+
+    return true;
+  }
+
+  public async createPrivateKey() {
+    let privateKey = await this.getPrivateKey();
+    if (!privateKey) {
+      privateKey = await this.wallet.getPrivateKey();
+      privateKey = EtherUtilities.hexArrayToString(privateKey);
+    }
+    return privateKey;
+  }
+
+  private async setPrivateKey(privateKey: any) {
+    const res = await this.getPrivateKey();
+    return res
+      ? res
+      : await Keychain.setGenericPassword(
+          "PRIVATEKEY",
+          privateKey,
+          KEY_WALLET_PRIVATE_KEY
+        );
+  }
+
+  public async getPrivateKey() {
+    try {
+      const result = await Keychain.getGenericPassword(KEY_WALLET_PRIVATE_KEY);
+      if (typeof result === "boolean") {
+        return "";
+      } else {
+        return result.password;
+      }
+    } catch (err) {
+      return "";
+    }
+  }
+
+  async isPrivateKeySaved() {
+    const privateKey = await this.getPrivateKey();
+    if (privateKey === "") {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  public async createChecksumAddress() {
+    const checksumAddress = await this.wallet.getChecksumAddressString();
+    return checksumAddress;
   }
 
   async resetKeychainData() {
-    await Keychain.resetGenericPassword(KEY_WALLET_PRIVATE_KEY);
     await Keychain.resetGenericPassword(KEY_WALLET_MNEMONIC);
+    await Keychain.resetGenericPassword(KEY_WALLET_PRIVATE_KEY);
   }
 }
 

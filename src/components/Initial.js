@@ -55,7 +55,7 @@ class Initial extends Component {
 
       const hasPersistedState = this.hasPersistedState();
 
-      const hasPrivateKeyInKeychain = await WalletUtilities.privateKeySaved();
+      const hasPrivateKeyInKeychain = await WalletUtilities.isPrivateKeySaved();
 
       let mainPage = "Welcome";
 
