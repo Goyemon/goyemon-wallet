@@ -1,6 +1,11 @@
 #!/bin/sh
 
-rm -rf node_modules ios/Pods
-(cd android && ./gradlew clean)
-(npm i && cd ios && pod install)
-npm run android
+if [ $# == "android" ]; then
+    rm -rf node_modules ios/Pods
+    (cd android && ./gradlew clean)
+    npm run $#
+else
+    rm -rf node_modules ios/Pods
+    (npm i && cd ios && pod install)
+    npm run ios
+fi
