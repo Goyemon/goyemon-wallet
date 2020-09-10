@@ -18,7 +18,7 @@ import {
 } from "../../common";
 import PopUpModal from "../../PopUpModal";
 import I18n from "../../../i18n/I18n";
-import storage from "../../../lib/tx";
+import { storage } from "../../../lib/tx";
 import PortfolioStack from "../../../navigators/PortfolioStack";
 import { persistor, store } from "../../../store/store";
 import LogUtilities from "../../../utilities/LogUtilities";
