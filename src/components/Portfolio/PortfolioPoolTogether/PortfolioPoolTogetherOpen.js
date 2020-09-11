@@ -1,6 +1,7 @@
 "use strict";
 import React, { Component } from "react";
 import { View } from "react-native";
+import { withNavigation } from "react-navigation";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { Container, HeaderFive, GoyemonText, Button } from "../../common";
@@ -90,4 +91,6 @@ const mapStateToProps = (state) => ({
   balance: state.ReducerBalance.balance
 });
 
-export default connect(mapStateToProps)(PortfolioPoolTogetherOpen);
+export default withNavigation(
+  connect(mapStateToProps)(PortfolioPoolTogetherOpen)
+);
