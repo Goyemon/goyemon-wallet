@@ -23,42 +23,36 @@ const PortfolioStack = createStackNavigator(
     Initial: {
       screen: Initial,
       navigationOptions: () => ({
-        tabBarVisible: false,
         header: null
       })
     },
     Welcome: {
       screen: Welcome,
       navigationOptions: () => ({
-        tabBarVisible: false,
         header: null
       })
     },
     NotificationPermissionTutorial: {
       screen: NotificationPermissionTutorial,
       navigationOptions: () => ({
-        tabBarVisible: false,
         header: null
       })
     },
     NotificationPermissionNotGranted: {
       screen: NotificationPermissionNotGranted,
       navigationOptions: () => ({
-        tabBarVisible: false,
         header: null
       })
     },
     WalletCreation: {
       screen: WalletCreation,
       navigationOptions: () => ({
-        tabBarVisible: false,
         header: null
       })
     },
     ImportMnemonicWords: {
       screen: ImportMnemonicWords,
       navigationOptions: () => ({
-        tabBarVisible: false,
         headerTransparent: true,
         headerBackTitle: "Import"
       })
@@ -66,28 +60,24 @@ const PortfolioStack = createStackNavigator(
     CreateWalletTutorial: {
       screen: CreateWalletTutorial,
       navigationOptions: () => ({
-        tabBarVisible: false,
         headerTransparent: true
       })
     },
     ShowMnemonic: {
       screen: ShowMnemonic,
       navigationOptions: () => ({
-        tabBarVisible: false,
         headerTransparent: true
       })
     },
     VerifyMnemonic: {
       screen: VerifyMnemonic,
       navigationOptions: () => ({
-        tabBarVisible: false,
         headerTransparent: true
       })
     },
     PortfolioHome: {
       screen: PortfolioHome,
       navigationOptions: () => ({
-        tabBarVisible: false,
         headerTransparent: true,
         headerBackTitle: "Portfolio",
         headerStyle: {
@@ -99,7 +89,6 @@ const PortfolioStack = createStackNavigator(
     Receive: {
       screen: Receive,
       navigationOptions: () => ({
-        tabBarVisible: false,
         headerTransparent: true,
         headerStyle: {
           marginTop: 16,
@@ -110,7 +99,6 @@ const PortfolioStack = createStackNavigator(
     PortfolioWallet: {
       screen: PortfolioWallet,
       navigationOptions: () => ({
-        tabBarVisible: false,
         headerTransparent: true,
         headerStyle: {
           marginTop: 16,
@@ -121,7 +109,6 @@ const PortfolioStack = createStackNavigator(
     PortfolioCompound: {
       screen: PortfolioCompound,
       navigationOptions: () => ({
-        tabBarVisible: false,
         headerTransparent: true,
         headerStyle: {
           marginTop: 16,
@@ -132,7 +119,6 @@ const PortfolioStack = createStackNavigator(
     PortfolioPoolTogether: {
       screen: PortfolioPoolTogether,
       navigationOptions: () => ({
-        tabBarVisible: false,
         headerTransparent: true,
         headerStyle: {
           marginTop: 16,
@@ -143,7 +129,6 @@ const PortfolioStack = createStackNavigator(
     Settings: {
       screen: Settings,
       navigationOptions: () => ({
-        tabBarVisible: false,
         headerTransparent: true,
         gesturesEnabled: false,
         headerStyle: {
@@ -155,16 +140,19 @@ const PortfolioStack = createStackNavigator(
     BackupWords: {
       screen: BackupWords,
       navigationOptions: () => ({
-        tabBarVisible: false,
         headerTransparent: true
       })
     },
     Advanced: {
       screen: Advanced,
       navigationOptions: () => ({
-        tabBarVisible: false,
         headerTransparent: true
       })
+    }
+  },
+  {
+    navigationOptions: {
+      tabBarVisible: false
     }
   },
   {
