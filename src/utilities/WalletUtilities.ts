@@ -5,8 +5,8 @@ const bip39 = require("react-native-bip39");
 import * as Keychain from "react-native-keychain";
 import EtherUtilities from "./EtherUtilities";
 
-const KEY_WALLET_MNEMONIC: string = "KEY_WALLET_MNEMONIC";
-const KEY_WALLET_PRIVATE_KEY: string = "KEY_WALLET_PRIVATEKEY";
+const KEY_WALLET_MNEMONIC = "KEY_WALLET_MNEMONIC";
+const KEY_WALLET_PRIVATE_KEY = "KEY_WALLET_PRIVATEKEY";
 
 class WalletUtilities {
   private root: any;
