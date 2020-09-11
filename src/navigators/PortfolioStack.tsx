@@ -14,8 +14,6 @@ import Receive from "../components/Portfolio/Receive";
 import PortfolioWallet from "../components/Portfolio/PortfolioWallet";
 import PortfolioCompound from "../components/Portfolio/PortfolioCompound";
 import PortfolioPoolTogether from "../components/Portfolio/PortfolioPoolTogether";
-import PortfolioPoolTogetherOpen from "../components/Portfolio/PortfolioPoolTogether/PortfolioPoolTogetherOpen";
-import PortfolioPoolTogetherCommitted from "../components/Portfolio/PortfolioPoolTogether/PortfolioPoolTogetherCommitted";
 import Settings from "../components/Portfolio/Settings";
 import BackupWords from "../components/Portfolio/Settings/BackupWords";
 import Advanced from "../components/Portfolio/Settings/Advanced";
@@ -133,28 +131,6 @@ const PortfolioStack = createStackNavigator(
     },
     PortfolioPoolTogether: {
       screen: PortfolioPoolTogether,
-      navigationOptions: () => ({
-        tabBarVisible: false,
-        headerTransparent: true,
-        headerStyle: {
-          marginTop: 16,
-          marginRight: 16
-        }
-      })
-    },
-    PortfolioPoolTogetherOpen: {
-      screen: PortfolioPoolTogetherOpen,
-      navigationOptions: () => ({
-        tabBarVisible: false,
-        headerTransparent: true,
-        headerStyle: {
-          marginTop: 16,
-          marginRight: 16
-        }
-      })
-    },
-    PortfolioPoolTogetherCommitted: {
-      screen: PortfolioPoolTogetherCommitted,
       navigationOptions: () => ({
         tabBarVisible: false,
         headerTransparent: true,
