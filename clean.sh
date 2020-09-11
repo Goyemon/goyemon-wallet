@@ -2,7 +2,7 @@
 
 if [ $# == "android" ]; then
     rm -rf node_modules ios/Pods
-    (cd android && ./gradlew clean)
+    (npm i && cd android && ./gradlew clean)
     npm run $#
 else
     rm -rf node_modules ios/Pods
