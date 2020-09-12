@@ -75,7 +75,8 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
 
     async componentDidUpdate(prevProps) {
       if (this.props.updateCounter !== prevProps.updateCounter) {
-        storage.getTx(this.props.index, this.props.filter)
+        storage
+          .getTx(this.props.index, this.props.filter)
           .then(async (x) => {
             await this.setState({
               data: TransactionUtilities.txDetailObject(
