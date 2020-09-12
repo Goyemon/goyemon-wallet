@@ -18,6 +18,7 @@ import {
 import { FcmMsgs, registerHandler } from "./src/lib/fcm";
 import { store } from "./src/store/store";
 import { storage } from "./src/lib/tx";
+// import { logCurrentStorage } from "./src/utilities/AsyncStorageDebug";
 import LogUtilities from "./src/utilities/LogUtilities";
 
 // Register background fcm handler
@@ -72,3 +73,6 @@ YellowBox.ignoreWarnings(["Remote debugger", "Require cycle"]);
 
 // Ignore all log notifications:
 // console.disableYellowBox = true;
+
+// Show the current AsyncStorage content:
+// logCurrentStorage();
