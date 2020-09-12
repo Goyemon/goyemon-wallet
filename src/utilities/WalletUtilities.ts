@@ -30,11 +30,10 @@ class WalletUtilities {
       const uniqueWords = words.filter(
         (word: any, index: any) => words.indexOf(word) == index
       );
-      if (words.length == uniqueWords.length) {
+      if (words.length === uniqueWords.length) {
         break;
       } else {
         mnemonic = await bip39.generateMnemonic(256);
-        break;
       }
     }
     return mnemonic;
