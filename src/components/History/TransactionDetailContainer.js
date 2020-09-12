@@ -42,8 +42,7 @@ export default class TransactionDetailContainer extends Component {
           status={status}
           method={method}
         />
-        {name === "" ? null : service === "PoolTogether" &&
-          method === "Withdraw" ? (
+        {service === "PoolTogether" && method === "Withdraw" ? (
           <PTWithdrawBox
             name={name}
             size={size}
@@ -51,9 +50,9 @@ export default class TransactionDetailContainer extends Component {
             option={option}
             token={token}
           />
-        ) : method === "Swap" ? (
+        ) : service === "Uniswap" ? (
           <SwapBox option={option} />
-        ) : (
+        ) : name === "" ? null : (
           <NormalBox
             amount={amount}
             name={name}
