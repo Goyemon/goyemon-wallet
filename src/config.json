@@ -47,5 +47,3 @@
 //   "PoolTogetherDepositPoolGasLimit": 743061,
 //   "PoolTogetherWithdrawGasLimit": 955509
 // }
-
-// MoonPay API tokens are in the source of the WebView in the MoonPayWebView component.
