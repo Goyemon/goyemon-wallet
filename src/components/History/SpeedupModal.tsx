@@ -4,6 +4,7 @@ import { HeaderTwo, GoyemonText, WeiBalanceValidateMessage } from "../common";
 import { connect } from "react-redux";
 import styled from "styled-components/native";
 import TransactionUtilities from "../../utilities/TransactionUtilities";
+// import LogUtilities from "../../utilities/LogUtilities";
 
 interface AppProps {
   currentGasPrice: any;
@@ -28,15 +29,19 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
   class MagicalGasPriceSlider extends Component<AppProps, AppState> {
     constructor(props: AppProps) {
       super(props);
-      this.state = {
-        WEIAmountValidation: undefined,
-        maxPrice: ""
-      };
-      this.state = this.getPriceState(
+      const { usdValue, ethValue } = this.getPriceState(
         Math.ceil(this.props.currentGasPrice * 1.2)
       );
-      props.gasPrice.forEach((x: any) => {
-        if (x.speed == "super fast")
+      this.state = {
+        WEIAmountValidation: undefined,
+        usdValue: usdValue,
+        ethValue: ethValue
+      };
+    }
+
+    componentDidMount() {
+      this.props.gasPrice.forEach((x: any) => {
+        if (x.speed === "super fast")
           this.setState({ maxPrice: Math.ceil(x.value * 1.2) });
       });
     }
@@ -118,6 +123,8 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
             <GoyemonText fontSize={20}>{this.state.ethValue} ETH</GoyemonText>
             <GoyemonText fontSize={20}>{this.state.usdValue} USD</GoyemonText>
           </NetworkFeeContainer>
+          <GoyemonText fontSize={20}>{this.state.maxPrice} Max</GoyemonText>
+          <GoyemonText fontSize={20}>{minimumGasPrice} Gas</GoyemonText>
         </>
       );
     }
