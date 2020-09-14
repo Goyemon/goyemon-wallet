@@ -112,13 +112,13 @@ export default class PersistTxStorageAbstraction {
       );
     };
 
-    const load_index_data = (name: any) => {
+    const load_index_data = async (name: any) => {
       load_count++;
 
       this.__init_lock();
       this.toplocked_per_filter[name] = 0;
 
-      AsyncStorage.getItem(`${this.prefix}i${name}c`).then((x: any) => {
+      await AsyncStorage.getItem(`${this.prefix}i${name}c`).then((x: any) => {
         this.counts[name] = x ? parseInt(x) : 0;
         if (this.counts[name] > 0) {
           const lastBucketNum = Math.floor(
