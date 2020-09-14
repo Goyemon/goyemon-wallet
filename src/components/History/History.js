@@ -2,7 +2,6 @@
 import React, { Component } from "react";
 import { TouchableOpacity, ScrollView, View, Dimensions } from "react-native";
 import * as Animatable from "react-native-animatable";
-import Slider from "@react-native-community/slider";
 import Modal from "react-native-modal";
 import { connect } from "react-redux";
 import styled from "styled-components";
@@ -13,10 +12,8 @@ import { saveTxDetailModalVisibility } from "../../actions/ActionModal";
 import {
   Container,
   HeaderOne,
-  HeaderTwo,
   Button,
   GoyemonText,
-  WeiBalanceValidateMessage,
   IsOnlineMessage,
   ModalHandler,
   HorizontalLine,
@@ -32,14 +29,12 @@ import I18n from "../../i18n/I18n";
 import { storage } from "../../lib/tx";
 import LogUtilities from "../../utilities/LogUtilities";
 import TransactionUtilities from "../../utilities/TransactionUtilities";
+import MagicalGasPriceSlider from "./SpeedupModal";
 
 const window = Dimensions.get("window");
 
 const mapChecksumAddressStateToProps = (state) => ({
   checksumAddress: state.ReducerChecksumAddress.checksumAddress
-});
-const mapGasPriceStateToProps = (state) => ({
-  gasPrice: state.ReducerGasPrice.gasPrice
 });
 
 const mapAddressAndIsOnlineAndModalStateToProps = (state) => ({
@@ -110,115 +105,6 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
     }
   }
 );
-
-const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
-  class MagicalGasPriceSlider extends Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        WEIAmountValidation: undefined,
-        maxPrice: ""
-      };
-      this.state = this.getPriceState(
-        Math.ceil(this.props.currentGasPrice * 1.2)
-      );
-      props.gasPrice.forEach((x) => {
-        if (x.speed == "super fast")
-          this.setState({ maxPrice: Math.ceil(x.value * 1.2) });
-      });
-    }
-
-    getPriceState(gasPriceWeiDecimal) {
-      return {
-        usdValue: TransactionUtilities.getMaxNetworkFeeInUSD(
-          gasPriceWeiDecimal,
-          this.props.gasLimit
-        ),
-        ethValue: parseFloat(
-          TransactionUtilities.getMaxNetworkFeeInETH(
-            gasPriceWeiDecimal,
-            this.props.gasLimit
-          )
-        ).toFixed(5)
-      };
-    }
-
-    sliderValueChange(gasPriceWeiDecimal) {
-      gasPriceWeiDecimal = Math.floor(gasPriceWeiDecimal);
-      this.setState(this.getPriceState(gasPriceWeiDecimal));
-    }
-
-    updateWeiAmountValidation(WEIAmountValidation) {
-      this.props.updateWeiAmountValidationInModal(WEIAmountValidation);
-      if (WEIAmountValidation) {
-        this.setState({
-          WEIAmountValidation: true
-        });
-      } else if (!WEIAmountValidation) {
-        this.setState({
-          WEIAmountValidation: false
-        });
-      }
-    }
-
-    render() {
-      //<GoyemonText fontSize={12}>{JSON.stringify(this.props.gasPrice)} -- {JSON.stringify(this.props.currentGas)}</GoyemonText>;
-      const minimumGasPrice = Math.ceil(this.props.currentGasPrice * 1.2);
-
-      return (
-        <>
-          <HeaderTwo marginBottom="0" marginLeft="0" marginTop="24">
-            Choose a new max network fee
-          </HeaderTwo>
-          <Explanation>
-            <GoyemonText fontSize={12}>
-              *you can speed up your transaction by changing the limit
-            </GoyemonText>
-          </Explanation>
-          <Slider
-            value={minimumGasPrice}
-            minimumValue={minimumGasPrice}
-            maximumValue={this.state.maxPrice}
-            onValueChange={(gasPriceWeiDecimal) => {
-              this.updateWeiAmountValidation(
-                TransactionUtilities.hasSufficientWEIForNetworkFee(
-                  gasPriceWeiDecimal,
-                  this.props.gasLimit
-                )
-              );
-              this.sliderValueChange(gasPriceWeiDecimal);
-            }}
-            onSlidingComplete={this.props.onSettle}
-            minimumTrackTintColor="#00A3E2"
-            style={{
-              width: "90%",
-              marginLeft: "auto",
-              marginRight: "auto",
-              marginTop: 32,
-              marginBottom: 16
-            }}
-          />
-          <WeiBalanceValidateMessage
-            weiAmountValidation={this.state.WEIAmountValidation}
-          />
-          <NetworkFeeContainer>
-            <GoyemonText fontSize={20}>{this.state.ethValue} ETH</GoyemonText>
-            <GoyemonText fontSize={20}>{this.state.usdValue} USD</GoyemonText>
-          </NetworkFeeContainer>
-        </>
-      );
-    }
-  }
-);
-
-const NetworkFeeContainer = styled.View`
-  align-items: center;
-  margin-bottom: 16;
-`;
-
-const Explanation = styled.View`
-  align-items: center;
-`;
 
 const TransactionDetailModal = connect(
   mapAddressAndIsOnlineAndModalStateToProps,
