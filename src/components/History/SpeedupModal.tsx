@@ -4,7 +4,6 @@ import { HeaderTwo, GoyemonText, WeiBalanceValidateMessage } from "../common";
 import { connect } from "react-redux";
 import styled from "styled-components/native";
 import TransactionUtilities from "../../utilities/TransactionUtilities";
-// import LogUtilities from "../../utilities/LogUtilities";
 
 interface AppProps {
   currentGasPrice: any;
@@ -123,8 +122,6 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
             <GoyemonText fontSize={20}>{this.state.ethValue} ETH</GoyemonText>
             <GoyemonText fontSize={20}>{this.state.usdValue} USD</GoyemonText>
           </NetworkFeeContainer>
-          <GoyemonText fontSize={20}>{this.state.maxPrice} Max</GoyemonText>
-          <GoyemonText fontSize={20}>{minimumGasPrice} Gas</GoyemonText>
         </>
       );
     }
