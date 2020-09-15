@@ -66,7 +66,7 @@ const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
     }
 
     updateWeiAmountValidation(WEIAmountValidation: any) {
-      this.props.updateWeiAmountValidationInModal();
+      this.props.updateWeiAmountValidationInModal(WEIAmountValidation);
       if (WEIAmountValidation) {
         this.setState({
           WEIAmountValidation: true
