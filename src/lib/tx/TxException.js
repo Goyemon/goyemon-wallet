@@ -1,5 +1,5 @@
 export class TxException extends Error {
-  constructor(msg: string) {
+  constructor(msg) {
     super(msg);
     this.name = this.constructor.name;
   }

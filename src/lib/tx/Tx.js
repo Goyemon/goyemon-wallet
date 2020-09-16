@@ -1,73 +1,62 @@
-import { TxTokenOpNameToClass } from "./TokenOpType";
-import { hexToBuf, dropHexPrefix } from "./common";
-const GlobalConfig = require("../../config.json");
+import { TxTokenOpNameToClass } from './TokenOpType';
+import GlobalConfig from '../../config.json';
+import { hexToBuf, dropHexPrefix } from './common';
 
 export default class Tx {
-  from_addr: any;
-  to_addr: any;
-  value: any;
-  gas: any;
-  gasPrice: any;
-  timestamp: any;
-  nonce: any;
-  hash: any;
-  state: any;
-  tokenData: any;
-  data: any;
-  constructor(state?: any) {
+  constructor(state) {
     this.from_addr = this.to_addr = this.value = this.gas = this.gasPrice = this.timestamp = this.nonce = this.hash = null;
     this.state = state !== undefined ? state : null;
     this.tokenData = {};
     this.data = {}; // for additional items, such as transaction input field
   }
 
-  setFrom(addr: any) {
+  setFrom(addr) {
     this.from_addr = hexToBuf(addr);
     return this;
   }
 
-  setTo(addr: any) {
+  setTo(addr) {
     this.to_addr = hexToBuf(addr);
     return this;
   }
 
-  setHash(hash: any) {
+  setHash(hash) {
     //this.hash = hexToBuf(hash);
     this.hash = hash;
     return this;
   }
 
-  setNonce(nonce: any) {
+  setNonce(nonce) {
     this.nonce = nonce;
     return this;
   }
 
-  setValue(value: any) {
+  setValue(value) {
     this.value = value;
     return this;
   }
 
-  setGas(value: any) {
+  setGas(value) {
     this.gas = value;
     return this;
   }
 
-  setGasPrice(value: any) {
+  setGasPrice(value) {
     this.gasPrice = value;
     return this;
   }
 
-  setTimestamp(tstamp: any) {
+  setTimestamp(tstamp) {
     this.timestamp = tstamp;
     return this;
   }
 
-  setState(state: any) {
+  setState(state) {
     this.state = state;
     return this;
   }
 
-  tempSetData(data: any) {
+  tempSetData(data) {
     // misleading now; means transaction input field
     this.data.data = data;
     return this;
@@ -78,7 +67,7 @@ export default class Tx {
     return this;
   }
 
-  upgradeState(new_state: any, new_timestamp: any) {
+  upgradeState(new_state, new_timestamp) {
     // updates state and timestamp ONLY if the new state is a later state (so, we cant go back from confirmed to included, for example)
     if (new_state >= this.state) {
       this.state = new_state;
@@ -89,31 +78,31 @@ export default class Tx {
     return this;
   }
 
-  fromDataArray(data: any, fromFCM = true) {
+  fromDataArray(data, fromFCM = true) {
     this.tokenData = {};
 
     if (data.length > 8) {
       // we have token data.
       if (fromFCM)
-        Object.entries(data[8]).forEach(([token, ops]: any) =>
-          Object.entries(ops).forEach(([op, opdata]: any) =>
-            opdata.forEach((opdata: any) =>
+        Object.entries(data[8]).forEach(([token, ops]) =>
+          Object.entries(ops).forEach(([op, opdata]) =>
+            opdata.forEach((opdata) =>
               this.addTokenOperation(
                 token,
                 op,
-                opdata.map((x: any) => dropHexPrefix(x))
+                opdata.map((x) => dropHexPrefix(x))
               )
             )
           )
         );
       else {
-        Object.entries(data[8]).forEach(([token, ops]: any) =>
-          ops.forEach((opdescr: any) =>
-            Object.entries(opdescr).forEach(([op, opdata]: any) =>
+        Object.entries(data[8]).forEach(([token, ops]) =>
+          ops.forEach((opdescr) =>
+            Object.entries(opdescr).forEach(([op, opdata]) =>
               this.addTokenOperation(
                 token,
                 op,
-                opdata.map((x: any) => dropHexPrefix(x))
+                opdata.map((x) => dropHexPrefix(x))
               )
             )
           )
@@ -128,11 +117,11 @@ export default class Tx {
       .setGas(dropHexPrefix(data[2]))
       .setGasPrice(dropHexPrefix(data[3]))
       .setValue(dropHexPrefix(data[4]))
-      .setNonce(typeof data[5] === "string" ? parseInt(data[5]) : data[5])
+      .setNonce(typeof data[5] === 'string' ? parseInt(data[5]) : data[5])
       .upgradeState(data[7], data[6]);
   }
 
-  addTokenOperation(token: any, operation: any, data: any) {
+  addTokenOperation(token, operation, data) {
     if (this.tokenData.hasOwnProperty(token))
       this.tokenData[token].push(new TxTokenOpNameToClass[operation](data));
     else this.tokenData[token] = [new TxTokenOpNameToClass[operation](data)];
@@ -140,24 +129,24 @@ export default class Tx {
     return this;
   }
 
-  hasTokenOperations(token: any) {
+  hasTokenOperations(token) {
     return this.tokenData.hasOwnProperty(token);
   }
 
-  hasTokenOperation(token: any, operation: any) {
+  hasTokenOperation(token, operation) {
     // TODO: retink. we shouldnt iterate, even though those aren't huge arrays.
     if (!this.tokenData.hasOwnProperty(token)) return false;
 
     const cls = TxTokenOpNameToClass[operation];
-    return this.tokenData[token].some((x: any) => x instanceof cls);
+    return this.tokenData[token].some((x) => x instanceof cls);
   }
 
-  getTokenOperations(token: any, operation: any) {
+  getTokenOperations(token, operation) {
     // TODO: retink. we shouldnt iterate, even though those aren't huge arrays.
     if (!this.tokenData.hasOwnProperty(token)) return [];
+    const cls = operation ? TxTokenOpNameToClass[operation] : null;
     return this.tokenData[token].filter(
-      (x: any) =>
-        operation == null || x instanceof TxTokenOpNameToClass[operation]
+      (x) => operation == null || x instanceof cls
     );
   }
 
@@ -166,16 +155,37 @@ export default class Tx {
   }
 
   getFrom() {
-    return this.from_addr ? `0x${this.from_addr.toString("hex")}` : null;
+    return this.from_addr ? `0x${this.from_addr.toString('hex')}` : null;
   }
 
   getTo() {
-    return this.to_addr ? `0x${this.to_addr.toString("hex")}` : null;
+    return this.to_addr ? `0x${this.to_addr.toString('hex')}` : null;
   }
 
   getHash() {
     //return this.hash ? this.hash.toString('hex') : null;
     return this.hash;
+  }
+
+  getApplication(to) {
+    const UniswapV1 = '0x2a1530c4c41db0b0b2bb646cb5eb1a67b7158667';
+    const UniswapV2 = '0xf164fc0ec4e93095b804a4795bbe1e041497b92a';
+    if (to) {
+      switch (to.toLowerCase()) {
+        case GlobalConfig.cDAIcontract.toLowerCase():
+          return 'Compound';
+        case UniswapV1:
+        case UniswapV2:
+        case GlobalConfig.RouterUniswapV2.toLowerCase():
+          return 'Uniswap';
+        case GlobalConfig.DAIPoolTogetherContractV2.toLowerCase():
+          return 'PoolTogether';
+        default:
+          return '';
+      }
+    } else {
+      return '';
+    }
   }
 
   getState() {
@@ -230,23 +240,26 @@ export default class Tx {
   }
 
   shallowClone() {
+    /*let newtx = new Tx(this.state);
+          Object.entries(this).forEach(([k, v]) => if (typeof v !== 'function') newtx[k] = v; );
+          return newtx;*/
     return Object.assign(new Tx(), this);
   }
 
   deepClone() {
-    const ntx = Object.assign(new Tx(), this);
+    let ntx = Object.assign(new Tx(), this);
     ntx.tokenData = Object.assign({}, ntx.tokenData);
     ntx.data = Object.assign({}, ntx.data); // expected to be a simple key => value map, so a shallow clone of this should be sufficient for now.
 
-    for (const n of Object.getOwnPropertyNames(ntx.tokenData))
-      ntx.tokenData[n] = ntx.tokenData[n].map((x: any) => x.deepClone());
+    for (let n of Object.getOwnPropertyNames(ntx.tokenData))
+      ntx.tokenData[n] = ntx.tokenData[n].map((x) => x.deepClone());
 
     return ntx;
   }
 
   freeze() {
-    for (const n of Object.getOwnPropertyNames(this.tokenData)) {
-      this.tokenData[n].forEach((x: any) => x.freeze());
+    for (let n of Object.getOwnPropertyNames(this.tokenData)) {
+      this.tokenData[n].forEach((x) => x.freeze());
       Object.freeze(this.tokenData[n]);
     }
     Object.freeze(this.data);

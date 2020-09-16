@@ -50,5 +50,5 @@
     // "experimentalDecorators": true,        /* Enables experimental support for ES7 decorators. */
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/lib/tx/PersistTxStorageAbstraction.js", "src/lib/tx/AsyncLocks.js", "src/lib/tx/TokenOpType.js", "src/lib/tx/Tx.js", "src/lib/tx/TxStates.js", "src/lib/tx/TxException.js", "src/lib/tx/TxStorage.js", "src/lib/tx/common.js", "src/lib/tx/index.js"]
 }
