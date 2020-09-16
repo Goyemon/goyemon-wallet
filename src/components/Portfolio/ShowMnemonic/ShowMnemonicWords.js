@@ -1,6 +1,5 @@
 "use strict";
 import React from "react";
-import { GoyemonText } from "../../common/Texts";
 import styled from "styled-components/native";
 import WalletUtilities from "../../../utilities/WalletUtilities.ts";
 import ShowMnemonicWord from "./ShowMnemonicWord";
