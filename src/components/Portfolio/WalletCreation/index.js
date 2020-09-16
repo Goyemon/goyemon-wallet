@@ -28,8 +28,14 @@ class WalletCreation extends Component {
     this.state = {
       refreshing: false,
       modalVisible: false,
-      isWalletReady: false
+      isWalletReady: false,
+      mnemonicWords: []
     };
+  }
+
+  async componentWillMount() {
+    const mnemonicWords = await WalletUtilities.getMnemonic()
+    this.setState({ mnemonicWords: mnemonicWords })
   }
 
   FadeInMessages() {
@@ -103,7 +109,7 @@ class WalletCreation extends Component {
   }
 
   async createWallet() {
-    await WalletUtilities.generateWallet(this.props.mnemonicWords);
+    await WalletUtilities.generateWallet(this.state.mnemonicWords);
     await WalletUtilities.setPrivateKey(
       await WalletUtilities.createPrivateKey()
     );
@@ -128,7 +134,7 @@ class WalletCreation extends Component {
   }
 
   hasMnemonicWords() {
-    return this.props.mnemonicWords != null;
+    return this.state.mnemonicWords != null;
   }
 
   async hasPrivateKey() {
@@ -297,12 +303,12 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = {
+const mapDispatchToProps = () => ({
   createChecksumAddress,
   getCDAIPrice,
   getETHPrice,
   getDAIPrice,
   getGasPrice
-};
+});
 
 export default connect(mapDispatchToProps)(WalletCreation);

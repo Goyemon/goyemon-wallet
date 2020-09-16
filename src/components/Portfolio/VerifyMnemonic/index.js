@@ -1,7 +1,6 @@
 "use strict";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { GoyemonText } from "../../common/Texts";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -31,12 +30,13 @@ class VerifyMnemonic extends Component {
     this.state = {
       tapNumber: 2,
       mnemonicWordsValidation: true,
-      mnemonicWords: [],
+      mnemonicWords: ['', '', '', '', '', '', '', '', '', '', '', ''],
       fullMnemonicWords: ['', '', '', '', '', '', '', '', '', '', '', '']
     };
   }
 
   async componentDidMount() {
+    LogUtilities.toDebugScreen("verify mnemonic componentDidMount called")
     await this.resetValidation()
   }
 
@@ -114,13 +114,13 @@ class VerifyMnemonic extends Component {
 
   async validateForm() {
     const mnemonicWords = this.state.mnemonicWords.join(" ");
-    const storageMnemonicWords = await WalletUtilities.getMnemonic().split(" ");
+    const storageMnemonicWords = await WalletUtilities.getMnemonic();
     if (
       WalletUtilities.validateMnemonic(mnemonicWords) &&
       mnemonicWords === storageMnemonicWords
     ) {
       this.setState({ mnemonicWordsValidation: true });
-      this.props.updateMnemonicWordsValidation(true);
+      // this.props.updateMnemonicWordsValidation(true);
       if (Platform.OS === "ios") {
         this.props.navigation.navigate("NotificationPermissionTutorial");
       } else if (Platform.OS === "android") {
@@ -449,8 +449,8 @@ const ButtonContainer = styled.View`
   margin-top: 24;
 `;
 
-const mapDispatchToProps = {
+const mapDispatchToProps = () => ({
   updateMnemonicWordsValidation
-};
+});
 
-export default VerifyMnemonic;
+export default connect(mapDispatchToProps)(VerifyMnemonic);
