@@ -291,7 +291,7 @@ const ModalText = styled.Text`
 function mapStateToProps(state) {
   return {
     balance: state.ReducerBalance.balance,
-    mnemonicWords: state.ReducerMnemonic.mnemonicWords,
+    mnemonicWords: WalletUtilities.getMnemonic(),
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
     transactionsLoaded: state.ReducerTransactionsLoaded.transactionsLoaded
   };
@@ -305,4 +305,4 @@ const mapDispatchToProps = {
   getGasPrice
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(WalletCreation);
+export default connect(mapDispatchToProps)(WalletCreation);

@@ -1,20 +1,37 @@
 "use strict";
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React from "react";
+import { GoyemonText } from "../../common/Texts";
 import styled from "styled-components/native";
+import WalletUtilities from "../../../utilities/WalletUtilities.ts";
 import ShowMnemonicWord from "./ShowMnemonicWord";
+import LogUtilities from "../../../utilities/LogUtilities"
 
-class ShowMnemonicWords extends Component {
+class ShowMnemonicWords extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      mnemonicWords: []
+    }
+  }
+
+  async componentDidMount() {
+    await WalletUtilities.init();
+    const mnemonicWord = await WalletUtilities.getMnemonic()
+    LogUtilities.toDebugScreen("this is mne", mnemonicWord)
+    const mnemonicWords = mnemonicWord.split(" ")
+    if (mnemonicWords.length > 0)
+      this.setState({ mnemonicWords: mnemonicWords })
+  }
+
   render() {
-    const mnemonicWords = this.props.mnemonicWords.split(" ");
-
-    return (
-      <MnemonicWordsContainer style={styles.table}>
-        {mnemonicWords.map((mnemonicWord, id) => (
-          <ShowMnemonicWord key={id} mnemonicWord={mnemonicWord} />
-        ))}
-      </MnemonicWordsContainer>
-    );
+      const { mnemonicWords } = this.state
+      return (
+        <MnemonicWordsContainer style={styles.table}>
+          {mnemonicWords.map((mnemonicWord, id) => (
+           <ShowMnemonicWord key={id} mnemonicWord={mnemonicWord} />
+           ))}
+        </MnemonicWordsContainer>
+      )
   }
 }
 
@@ -31,10 +48,4 @@ const MnemonicWordsContainer = styled.View`
   width: 95%;
 `;
 
-function mapStateToProps(state) {
-  return {
-    mnemonicWords: state.ReducerMnemonic.mnemonicWords
-  };
-}
-
-export default connect(mapStateToProps)(ShowMnemonicWords);
+export default ShowMnemonicWords;

@@ -28,32 +28,6 @@ class VerifyMnemonic extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mnemonicWords: [
-        props.mnemonicWords.split(" ")[0],
-        props.mnemonicWords.split(" ")[1],
-        "",
-        "",
-        props.mnemonicWords.split(" ")[4],
-        "",
-        props.mnemonicWords.split(" ")[6],
-        "",
-        props.mnemonicWords.split(" ")[8],
-        props.mnemonicWords.split(" ")[9],
-        props.mnemonicWords.split(" ")[10],
-        "",
-        props.mnemonicWords.split(" ")[12],
-        "",
-        props.mnemonicWords.split(" ")[14],
-        props.mnemonicWords.split(" ")[15],
-        props.mnemonicWords.split(" ")[16],
-        "",
-        props.mnemonicWords.split(" ")[18],
-        "",
-        props.mnemonicWords.split(" ")[20],
-        props.mnemonicWords.split(" ")[21],
-        props.mnemonicWords.split(" ")[22],
-        ""
-      ],
       tapNumber: 2,
       button2: false,
       button19: false,
@@ -68,11 +42,11 @@ class VerifyMnemonic extends Component {
     };
   }
 
-  resetValidation() {
-    const mnemonicWordsArray = this.props.mnemonicWords.split(" ");
-    this.setState({
-      mnemonicWords: [
-        mnemonicWordsArray[0],
+  async componentDidMount() {
+    const mnemonicWords = await WalletUtilities.getMnemonic()
+    const mnemonicWordsArray = mnemonicWords.split(" ")
+    const mnemonicValidation = [
+      mnemonicWordsArray[0],
         mnemonicWordsArray[1],
         "",
         "",
@@ -96,7 +70,41 @@ class VerifyMnemonic extends Component {
         mnemonicWordsArray[21],
         mnemonicWordsArray[22],
         ""
-      ],
+    ]
+    this.setState({ mnemonicWords: mnemonicValidation })
+  }
+
+  async resetValidation() {
+    const mnemonicWords = await WalletUtilities.getMnemonic()
+    const mnemonicWordsArray = mnemonicWords.split(" ")
+    const mnemonicValidation = [
+      mnemonicWordsArray[0],
+        mnemonicWordsArray[1],
+        "",
+        "",
+        mnemonicWordsArray[4],
+        "",
+        mnemonicWordsArray[6],
+        "",
+        mnemonicWordsArray[8],
+        mnemonicWordsArray[9],
+        mnemonicWordsArray[10],
+        "",
+        mnemonicWordsArray[12],
+        "",
+        mnemonicWordsArray[14],
+        mnemonicWordsArray[15],
+        mnemonicWordsArray[16],
+        "",
+        mnemonicWordsArray[18],
+        "",
+        mnemonicWordsArray[20],
+        mnemonicWordsArray[21],
+        mnemonicWordsArray[22],
+        ""
+    ]
+    this.setState({
+      mnemonicWords: mnemonicValidation,
       tapNumber: 2,
       button2: false,
       button19: false,
@@ -136,12 +144,12 @@ class VerifyMnemonic extends Component {
     return count;
   }
 
-  validateForm() {
+  async validateForm() {
     const mnemonicWords = this.state.mnemonicWords.join(" ");
-
+    const storageMnemonicWords = await WalletUtilities.getMnemonic().split(" ");
     if (
       WalletUtilities.validateMnemonic(mnemonicWords) &&
-      mnemonicWords === this.props.mnemonicWords
+      mnemonicWords === storageMnemonicWords
     ) {
       this.setState({ mnemonicWordsValidation: true });
       this.props.updateMnemonicWordsValidation(true);
@@ -472,14 +480,8 @@ const ButtonContainer = styled.View`
   margin-top: 24;
 `;
 
-function mapStateToProps(state) {
-  return {
-    mnemonicWords: state.ReducerMnemonic.mnemonicWords
-  };
-}
-
 const mapDispatchToProps = {
   updateMnemonicWordsValidation
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(VerifyMnemonic);
+export default connect(mapDispatchToProps)(VerifyMnemonic);

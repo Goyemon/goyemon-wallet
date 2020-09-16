@@ -1,7 +1,5 @@
 "use strict";
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { saveMnemonicWords } from "../../../actions/ActionMnemonic";
 import {
   RootContainer,
   Container,
@@ -21,10 +19,10 @@ class CreateWalletTutorial extends Component {
     };
   }
 
-  componentDidUpdate(prevProps) {
+  async componentDidUpdate(prevProps) {
+    const mnemonicWords = await WalletUtilities.getMnemonic()
     if (
-      this.props.mnemonicWords != null &&
-      this.props.mnemonicWords != prevProps.mnemonicWords
+      mnemonicWords != null
     ) {
       this.setState({ loading: false, buttonDisabled: false });
       this.props.navigation.navigate("ShowMnemonic");
@@ -65,8 +63,6 @@ class CreateWalletTutorial extends Component {
                 loading: true,
                 buttonDisabled: true
               });
-              await WalletUtilities.init();
-              await this.props.saveMnemonicWords();
             }}
           />
           <Loader animating={this.state.loading} size="small" />
@@ -76,17 +72,4 @@ class CreateWalletTutorial extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    mnemonicWords: state.ReducerMnemonic.mnemonicWords
-  };
-}
-
-const mapDispatchToProps = {
-  saveMnemonicWords
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CreateWalletTutorial);
+export default CreateWalletTutorial;
