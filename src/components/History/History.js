@@ -349,7 +349,7 @@ export default connect(mapChecksumAddressStateToProps)(
     }
 
     toggleFilterChoiceText() {
-      const choices = ["All", "Dai"].map((filter) => {
+      const choices = ["All"].map((filter) => {
         if (filter === this.state.filter)
           return (
             <View>
