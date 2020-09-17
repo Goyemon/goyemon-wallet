@@ -5,8 +5,14 @@ import styled from "styled-components/native";
 import ShowMnemonicWord from "./ShowMnemonicWord";
 
 class ShowMnemonicWords extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      mnemonicWords: props.mnemonicWords.split(" ")
+    };
+  }
   render() {
-    const mnemonicWords = this.props.mnemonicWords.split(" ");
+    const { mnemonicWords } = this.state;
 
     return (
       <MnemonicWordsContainer style={styles.table}>
