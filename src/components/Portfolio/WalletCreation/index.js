@@ -35,31 +35,22 @@ class WalletCreation extends Component {
   FadeInMessages() {
     return (
       <FadeInMessageContainer>
-        <FadeInMessageOne animation="fadeInDown" delay={2500}>
-          <FadeInMessageOneText>
-            {I18n.t("wallet-creation-key")}...
-          </FadeInMessageOneText>
-        </FadeInMessageOne>
-        <FadeInMessageTwo animation="fadeInDown" delay={4000}>
-          <FadeInMessageTwoText>
-            {I18n.t("wallet-creation-address")}...
-          </FadeInMessageTwoText>
-        </FadeInMessageTwo>
-        <FadeInMessageThree animation="fadeInDown" delay={5500}>
-          <FadeInMessageThreeText>
-            {I18n.t("wallet-creation-blockchain-data")}...
-          </FadeInMessageThreeText>
-        </FadeInMessageThree>
-        <FadeInMessageFour animation="fadeInDown" delay={7000}>
-          <FadeInMessageFourText>
-            {I18n.t("wallet-creation-price-data")}...
-          </FadeInMessageFourText>
-        </FadeInMessageFour>
-        <FadeInMessageFive animation="fadeInDown" delay={9500}>
-          <FadeInMessageFiveText>
-            {I18n.t("wallet-creation-caution")}...
-          </FadeInMessageFiveText>
-        </FadeInMessageFive>
+        {[
+          I18n.t("wallet-creation-key"),
+          I18n.t("wallet-creation-address"),
+          I18n.t("wallet-creation-blockchain-data"),
+          I18n.t("wallet-creation-price-data"),
+          I18n.t("wallet-creation-caution")
+        ].map((x, i) => (
+          <FadeInMessageOne
+            animation="fadeInDown"
+            delay={2500 + (i - 1) * 1500}
+            key={i}
+            top={12 + i}
+          >
+            <FadeInMessageOneText>{x}...</FadeInMessageOneText>
+          </FadeInMessageOne>
+        ))}
       </FadeInMessageContainer>
     );
   }
@@ -215,50 +206,10 @@ const FadeInMessageContainer = styled.View`
 `;
 
 const FadeInMessageOne = Animatable.createAnimatableComponent(styled.View`
-  top: ${hp("12%")};
+  top: ${(props) => hp(`${props.top}%`)};
 `);
 
 const FadeInMessageOneText = styled.Text`
-  color: #5f5f5f;
-  font-family: "HKGrotesk-Regular";
-  font-size: 24;
-`;
-
-const FadeInMessageTwo = Animatable.createAnimatableComponent(styled.View`
-  top: ${hp("13%")};
-`);
-
-const FadeInMessageTwoText = styled.Text`
-  color: #5f5f5f;
-  font-family: "HKGrotesk-Regular";
-  font-size: 24;
-`;
-
-const FadeInMessageThree = Animatable.createAnimatableComponent(styled.View`
-  top: ${hp("14%")};
-`);
-
-const FadeInMessageThreeText = styled.Text`
-  color: #5f5f5f;
-  font-family: "HKGrotesk-Regular";
-  font-size: 24;
-`;
-
-const FadeInMessageFour = Animatable.createAnimatableComponent(styled.View`
-  top: ${hp("15%")};
-`);
-
-const FadeInMessageFourText = styled.Text`
-  color: #5f5f5f;
-  font-family: "HKGrotesk-Regular";
-  font-size: 24;
-`;
-
-const FadeInMessageFive = Animatable.createAnimatableComponent(styled.View`
-  top: ${hp("16%")};
-`);
-
-const FadeInMessageFiveText = styled.Text`
   color: #5f5f5f;
   font-family: "HKGrotesk-Regular";
   font-size: 24;
