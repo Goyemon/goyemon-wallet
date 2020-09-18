@@ -34,16 +34,16 @@ firebase.messaging().setBackgroundMessageHandler(async (downstreamMessage) => {
 
 AppRegistry.registerComponent(appName, () => App);
 
-async function FCMcheckForUpdates() {
-  const data = await storage.getVerificationData();
-  // LogUtilities.toDebugScreen('verification data:', JSON.stringify(data));
-  FcmMsgs.checkForUpdates(
-    storage.getOwnAddress(),
-    data.hashes,
-    data.count,
-    data.offset
-  );
-}
+// async function FCMcheckForUpdates() {
+//   const data = await storage.getVerificationData();
+//   // LogUtilities.toDebugScreen('verification data:', JSON.stringify(data));
+//   FcmMsgs.checkForUpdates(
+//     storage.getOwnAddress(),
+//     data.hashes,
+//     data.count,
+//     data.offset
+//   );
+// }
 
 storage.isStorageReady().then(() => {
   LogUtilities.toDebugScreen("TxStorage ready.");
@@ -61,7 +61,14 @@ setStoreReadyPromise(
           store.getState().ReducerChecksumAddress.checksumAddress
         );
         resolve();
-        setTimeout(() => FCMcheckForUpdates(), 0);
+        // setTimeout(() => FCMcheckForUpdates(), 0);
+        setTimeout(
+          () =>
+            FcmMsgs.resyncWallet(
+              store.getState().ReducerChecksumAddress.checksumAddress
+            ),
+          0
+        );
       });
     });
   })
