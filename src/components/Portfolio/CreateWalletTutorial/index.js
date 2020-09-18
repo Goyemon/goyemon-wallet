@@ -9,7 +9,7 @@ import {
   Loader
 } from "../../common";
 import WalletUtilities from "../../../utilities/WalletUtilities.ts";
-import LogUtilities from "../../../utilities/LogUtilities";
+// import LogUtilities from "../../../utilities/LogUtilities";
 
 class CreateWalletTutorial extends Component {
   constructor() {
@@ -21,12 +21,11 @@ class CreateWalletTutorial extends Component {
   }
 
   async setupMnemonic() {
-    const mnemonicWordList = await WalletUtilities.getMnemonic()
-    const mnemonicWords = mnemonicWordList.split(" ")
+    const mnemonicWordList = await WalletUtilities.getMnemonic();
+    const mnemonicWords = mnemonicWordList.split(" ");
     // LogUtilities.toDebugScreen(mnemonicWords)
     if (
-      mnemonicWords !== null &&
-      mnemonicWords.length === 12 ||
+      (mnemonicWords !== null && mnemonicWords.length === 12) ||
       mnemonicWords.length === 24
     ) {
       this.setState({ loading: false, buttonDisabled: false });
@@ -69,7 +68,7 @@ class CreateWalletTutorial extends Component {
                 buttonDisabled: true
               });
               await WalletUtilities.init();
-              this.setupMnemonic()
+              this.setupMnemonic();
             }}
           />
           <Loader animating={this.state.loading} size="small" />

@@ -94,7 +94,7 @@ class WalletCreation extends Component {
   }
 
   async createWallet() {
-    const mnemonicWords = await WalletUtilities.getMnemonic()
+    const mnemonicWords = await WalletUtilities.getMnemonic();
     await WalletUtilities.generateWallet(mnemonicWords);
     await WalletUtilities.setPrivateKey(
       await WalletUtilities.createPrivateKey()
@@ -120,7 +120,7 @@ class WalletCreation extends Component {
   }
 
   async hasMnemonicWords() {
-    const mnemonicWords = await WalletUtilities.getMnemonic()
+    const mnemonicWords = await WalletUtilities.getMnemonic();
     return mnemonicWords != null;
   }
 

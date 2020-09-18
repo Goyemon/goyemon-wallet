@@ -26,22 +26,25 @@ import WalletUtilities from "../../../utilities/WalletUtilities.ts";
 
 class VerifyMnemonic extends Component {
   constructor() {
-    super()
+    super();
     this.state = {
       tapNumber: 2,
       fullMnemonicWords: [],
       mnemonicWords: []
-    }
+    };
   }
 
   componentDidMount() {
-    this.resetValidation()
+    this.resetValidation();
   }
 
   async resetValidation() {
-    const mnemonicWordsList = await WalletUtilities.getMnemonic()
-    const { mnemonicWords } = this.getDefault(mnemonicWordsList.split(" "))
-    this.setState({ mnemonicWords, fullMnemonicWords: mnemonicWordsList.split(" ") });
+    const mnemonicWordsList = await WalletUtilities.getMnemonic();
+    const { mnemonicWords } = this.getDefault(mnemonicWordsList.split(" "));
+    this.setState({
+      mnemonicWords,
+      fullMnemonicWords: mnemonicWordsList.split(" ")
+    });
   }
 
   getDefault(mnemonicWords) {
@@ -87,7 +90,7 @@ class VerifyMnemonic extends Component {
   }
 
   updateMnemonicArray(index, word) {
-    LogUtilities.toDebugScreen(index, word)
+    LogUtilities.toDebugScreen(index, word);
     const mnemonicWordsCopy = this.state.mnemonicWords;
     mnemonicWordsCopy[index] = word;
     this.setState({ mnemonicWords: mnemonicWordsCopy });
@@ -115,7 +118,7 @@ class VerifyMnemonic extends Component {
 
   async validateForm() {
     const mnemonicWords = this.state.mnemonicWords.join(" ");
-    const mnemonicWord = await WalletUtilities.getMnemonic()
+    const mnemonicWord = await WalletUtilities.getMnemonic();
 
     if (
       WalletUtilities.validateMnemonic(mnemonicWords) &&

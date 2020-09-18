@@ -14,7 +14,7 @@ class ShowMnemonicWords extends Component {
   }
 
   async componentDidMount() {
-    const mnemonicWords = await WalletUtilities.getMnemonic()
+    const mnemonicWords = await WalletUtilities.getMnemonic();
     this.setState({ mnemonicWords: mnemonicWords.split(" ") });
   }
 

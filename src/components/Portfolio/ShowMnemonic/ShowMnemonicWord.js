@@ -2,14 +2,14 @@
 import React, { Component } from "react";
 import { Text } from "react-native";
 import styled from "styled-components/native";
-import WalletUtilities from "../../../utilities/WalletUtilities.ts";
+// import WalletUtilities from "../../../utilities/WalletUtilities.ts";
 
 export default class ShowMnemonicWord extends Component {
   constructor(prop) {
     super(prop);
     this.state = {
       mnemonicWord: prop.mnemonicWord
-    }
+    };
   }
 
   render() {

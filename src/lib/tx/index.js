@@ -1,2 +1,2 @@
-import TxStorage from './TxStorage';
+import TxStorage from "./TxStorage";
 export const storage = new TxStorage();
