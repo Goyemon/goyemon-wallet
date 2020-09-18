@@ -25,13 +25,23 @@ import LogUtilities from "../../../utilities/LogUtilities";
 import WalletUtilities from "../../../utilities/WalletUtilities.ts";
 
 class VerifyMnemonic extends Component {
-  constructor(props) {
-    super(props);
-    this.state = this.getDefault(props.mnemonicWords.split(" "));
+  constructor() {
+    super()
+    this.state = {
+      tapNumber: 2,
+      fullMnemonicWords: [],
+      mnemonicWords: []
+    }
   }
 
-  resetValidation() {
-    this.setState(this.getDefault(this.props.mnemonicWords.split(" ")));
+  componentDidMount() {
+    this.resetValidation()
+  }
+
+  async resetValidation() {
+    const mnemonicWordsList = await WalletUtilities.getMnemonic()
+    const { mnemonicWords } = this.getDefault(mnemonicWordsList.split(" "))
+    this.setState({ mnemonicWords, fullMnemonicWords: mnemonicWordsList.split(" ") });
   }
 
   getDefault(mnemonicWords) {
@@ -77,6 +87,7 @@ class VerifyMnemonic extends Component {
   }
 
   updateMnemonicArray(index, word) {
+    LogUtilities.toDebugScreen(index, word)
     const mnemonicWordsCopy = this.state.mnemonicWords;
     mnemonicWordsCopy[index] = word;
     this.setState({ mnemonicWords: mnemonicWordsCopy });
@@ -102,12 +113,13 @@ class VerifyMnemonic extends Component {
     return count;
   }
 
-  validateForm() {
+  async validateForm() {
     const mnemonicWords = this.state.mnemonicWords.join(" ");
+    const mnemonicWord = await WalletUtilities.getMnemonic()
 
     if (
       WalletUtilities.validateMnemonic(mnemonicWords) &&
-      mnemonicWords === this.props.mnemonicWords
+      mnemonicWords === mnemonicWord
     ) {
       this.setState({ mnemonicWordsValidation: true });
       this.props.updateMnemonicWordsValidation(true);
@@ -140,8 +152,7 @@ class VerifyMnemonic extends Component {
   }
 
   render() {
-    const { mnemonicWords } = this.state;
-    const fullMnemonicWords = this.props.mnemonicWords.split(" ");
+    const { mnemonicWords, fullMnemonicWords } = this.state;
 
     return (
       <KeyboardAvoidingView
