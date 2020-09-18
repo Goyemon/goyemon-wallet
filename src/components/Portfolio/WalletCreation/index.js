@@ -94,7 +94,8 @@ class WalletCreation extends Component {
   }
 
   async createWallet() {
-    await WalletUtilities.generateWallet(this.props.mnemonicWords);
+    const mnemonicWords = await WalletUtilities.getMnemonic()
+    await WalletUtilities.generateWallet(mnemonicWords);
     await WalletUtilities.setPrivateKey(
       await WalletUtilities.createPrivateKey()
     );
@@ -118,8 +119,9 @@ class WalletCreation extends Component {
     );
   }
 
-  hasMnemonicWords() {
-    return this.props.mnemonicWords != null;
+  async hasMnemonicWords() {
+    const mnemonicWords = await WalletUtilities.getMnemonic()
+    return mnemonicWords != null;
   }
 
   async hasPrivateKey() {
@@ -242,7 +244,6 @@ const ModalText = styled.Text`
 function mapStateToProps(state) {
   return {
     balance: state.ReducerBalance.balance,
-    mnemonicWords: state.ReducerMnemonic.mnemonicWords,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
     transactionsLoaded: state.ReducerTransactionsLoaded.transactionsLoaded
   };
