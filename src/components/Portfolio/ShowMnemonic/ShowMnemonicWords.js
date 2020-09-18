@@ -3,14 +3,21 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components/native";
 import ShowMnemonicWord from "./ShowMnemonicWord";
+import WalletUtilities from "../../../utilities/WalletUtilities.ts";
 
 class ShowMnemonicWords extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mnemonicWords: props.mnemonicWords.split(" ")
+      mnemonicWords: []
     };
   }
+
+  async componentDidMount() {
+    const mnemonicWords = await WalletUtilities.getMnemonic()
+    this.setState({ mnemonicWords: mnemonicWords.split(" ") });
+  }
+
   render() {
     const { mnemonicWords } = this.state;
 
