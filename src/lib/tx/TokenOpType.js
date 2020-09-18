@@ -1,21 +1,21 @@
 export const TxTokenOpTypeToName = {
   // names inside txhistory object
-  transfer: 'tr',
-  approval: 'appr',
-  failure: 'failure',
-  mint: 'mint',
-  redeem: 'redeem',
-  eth2tok: 'eth2tok',
-  tok2eth: 'tok2eth',
-  U2swap: 'U2swap',
-  PTdeposited: 'PTdep',
-  PTdepositedAndCommitted: 'PTdepc',
-  PTsponsorshipDeposited: 'PTspdep',
-  PTwithdrawn: 'PTwdrw',
-  PTopenDepositWithdrawn: 'PTopdepwi',
-  PTsponsorshipAndFeesWithdrawn: 'PTspafwi',
-  PTcommittedDepositWithdrawn: 'PTcodewi',
-  PTrewarded: 'PTrew'
+  transfer: "tr",
+  approval: "appr",
+  failure: "failure",
+  mint: "mint",
+  redeem: "redeem",
+  eth2tok: "eth2tok",
+  tok2eth: "tok2eth",
+  U2swap: "U2swap",
+  PTdeposited: "PTdep",
+  PTdepositedAndCommitted: "PTdepc",
+  PTsponsorshipDeposited: "PTspdep",
+  PTwithdrawn: "PTwdrw",
+  PTopenDepositWithdrawn: "PTopdepwi",
+  PTsponsorshipAndFeesWithdrawn: "PTspafwi",
+  PTcommittedDepositWithdrawn: "PTcodewi",
+  PTrewarded: "PTrew"
 };
 
 class TxTokenOp {

@@ -1,6 +1,6 @@
-import { TxTokenOpNameToClass } from './TokenOpType';
-import GlobalConfig from '../../config.json';
-import { hexToBuf, dropHexPrefix } from './common';
+import { TxTokenOpNameToClass } from "./TokenOpType";
+import GlobalConfig from "../../config.json";
+import { hexToBuf, dropHexPrefix } from "./common";
 
 export default class Tx {
   constructor(state) {
@@ -117,7 +117,7 @@ export default class Tx {
       .setGas(dropHexPrefix(data[2]))
       .setGasPrice(dropHexPrefix(data[3]))
       .setValue(dropHexPrefix(data[4]))
-      .setNonce(typeof data[5] === 'string' ? parseInt(data[5]) : data[5])
+      .setNonce(typeof data[5] === "string" ? parseInt(data[5]) : data[5])
       .upgradeState(data[7], data[6]);
   }
 
@@ -155,11 +155,11 @@ export default class Tx {
   }
 
   getFrom() {
-    return this.from_addr ? `0x${this.from_addr.toString('hex')}` : null;
+    return this.from_addr ? `0x${this.from_addr.toString("hex")}` : null;
   }
 
   getTo() {
-    return this.to_addr ? `0x${this.to_addr.toString('hex')}` : null;
+    return this.to_addr ? `0x${this.to_addr.toString("hex")}` : null;
   }
 
   getHash() {
@@ -168,23 +168,23 @@ export default class Tx {
   }
 
   getApplication(to) {
-    const UniswapV1 = '0x2a1530c4c41db0b0b2bb646cb5eb1a67b7158667';
-    const UniswapV2 = '0xf164fc0ec4e93095b804a4795bbe1e041497b92a';
+    const UniswapV1 = "0x2a1530c4c41db0b0b2bb646cb5eb1a67b7158667";
+    const UniswapV2 = "0xf164fc0ec4e93095b804a4795bbe1e041497b92a";
     if (to) {
       switch (to.toLowerCase()) {
         case GlobalConfig.cDAIcontract.toLowerCase():
-          return 'Compound';
+          return "Compound";
         case UniswapV1:
         case UniswapV2:
         case GlobalConfig.RouterUniswapV2.toLowerCase():
-          return 'Uniswap';
+          return "Uniswap";
         case GlobalConfig.DAIPoolTogetherContractV2.toLowerCase():
-          return 'PoolTogether';
+          return "PoolTogether";
         default:
-          return '';
+          return "";
       }
     } else {
-      return '';
+      return "";
     }
   }
 
