@@ -39,11 +39,10 @@ class VerifyMnemonic extends Component {
   }
 
   async resetValidation() {
-    const mnemonicWordsList = await WalletUtilities.getMnemonic();
-    const { mnemonicWords } = this.getDefault(mnemonicWordsList.split(" "));
+    const fullMnemonicWords = await WalletUtilities.getMnemonic();
+    this.setState(this.getDefault(fullMnemonicWords.split(" ")));
     this.setState({
-      mnemonicWords,
-      fullMnemonicWords: mnemonicWordsList.split(" ")
+      fullMnemonicWords: fullMnemonicWords.split(" ")
     });
   }
 
