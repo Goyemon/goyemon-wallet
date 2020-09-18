@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { KeyboardAvoidingView, Platform, View, Clipboard } from "react-native";
 import styled from "styled-components/native";
-import { saveMnemonicWords } from "../../../actions/ActionMnemonic";
 import { updateMnemonicWordsValidation } from "../../../actions/ActionMnemonicWordsValidation";
 import {
   RootContainer,
@@ -37,7 +36,6 @@ class ImportMnemonicWords extends Component {
       this.setState({ mnemonicWordsValidation: true });
       this.props.updateMnemonicWordsValidation(true);
       await WalletUtilities.setMnemonic(this.state.mnemonicWords);
-      await this.props.saveMnemonicWords();
       if (Platform.OS === "ios") {
         this.props.navigation.navigate("NotificationPermissionTutorial");
       } else if (Platform.OS === "android") {
@@ -167,7 +165,6 @@ const PasteText = styled.Text`
 `;
 
 const mapDispatchToProps = {
-  saveMnemonicWords,
   updateMnemonicWordsValidation
 };
 
