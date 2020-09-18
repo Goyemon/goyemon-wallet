@@ -39,4 +39,5 @@ target 'Goyemon' do
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
 
   use_native_modules!
+
 end

@@ -1,24 +1,23 @@
-'use strict';
-import React, { Component } from 'react';
-import { TouchableWithoutFeedback } from 'react-native';
-import * as Animatable from 'react-native-animatable';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { connect } from 'react-redux';
-import styled from 'styled-components/native';
-import { saveFcmToken } from '../../../actions/ActionDebugInfo';
+"use strict";
+import React, { Component } from "react";
+import { TouchableWithoutFeedback } from "react-native";
+import * as Animatable from "react-native-animatable";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { connect } from "react-redux";
+import styled from "styled-components/native";
+import { saveFcmToken } from "../../../actions/ActionDebugInfo";
 import {
   RootContainer,
   Container,
   HeaderOne,
   HeaderThree,
   GoyemonText
-} from '../../common';
-import Copy from '../../Copy';
-import GlobalConfig from '../../../config.json';
-import I18n from '../../../i18n/I18n';
-import { FCMMsgs } from '../../../lib/fcm.js';
-import LogUtilities from '../../../utilities/LogUtilities.js';
-import TxStorage from '../../../lib/tx.js';
+} from "../../common";
+import Copy from "../../Copy";
+import GlobalConfig from "../../../config.json";
+import I18n from "../../../i18n/I18n";
+import { FcmMsgs } from "../../../lib/fcm";
+import LogUtilities from "../../../utilities/LogUtilities";
 
 class Advanced extends Component {
   constructor(props) {
@@ -34,12 +33,12 @@ class Advanced extends Component {
   }
 
   getFcmToken() {
-    FCMMsgs.getFcmToken().then((fcmToken) => {
+    FcmMsgs.getFcmToken().then((fcmToken) => {
       if (fcmToken) {
-        LogUtilities.logInfo('the current fcmToken ===>', fcmToken);
+        LogUtilities.logInfo("the current fcmToken ===>", fcmToken);
         this.props.saveFcmToken(fcmToken);
       } else {
-        LogUtilities.logInfo('no fcmToken ');
+        LogUtilities.logInfo("no fcmToken ");
       }
     });
   }
@@ -49,13 +48,13 @@ class Advanced extends Component {
 
     const log =
       this.props.debugInfo.others instanceof Array
-        ? this.props.debugInfo.others.join('\n')
+        ? this.props.debugInfo.others.join("\n")
         : JSON.stringify(this.props.debugInfo.others);
     const fcmtoken = this.props.debugInfo.fcmToken;
     try {
-      await fetch('http://51.89.42.181:31330/logData', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      await fetch("http://51.89.42.181:31330/logData", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           fcmToken: fcmtoken,
           logData: log,
@@ -103,12 +102,12 @@ class Advanced extends Component {
 
     const otherDebugInfo =
       debugInfo.others instanceof Array
-        ? debugInfo.others.join('\n')
+        ? debugInfo.others.join("\n")
         : JSON.stringify(debugInfo.others);
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="96">{I18n.t('advanced')}</HeaderOne>
+        <HeaderOne marginTop="96">{I18n.t("advanced")}</HeaderOne>
         <Container
           alignItems="flex-start"
           flexDirection="column"
@@ -122,7 +121,7 @@ class Advanced extends Component {
             marginLeft="0"
             marginTop="24"
           >
-            {I18n.t('settings-advanced-network')}
+            {I18n.t("settings-advanced-network")}
           </HeaderThree>
           <GoyemonText fontSize="14">{GlobalConfig.network_name}</GoyemonText>
           <HeaderThree
@@ -131,13 +130,13 @@ class Advanced extends Component {
             marginLeft="0"
             marginTop="24"
           >
-            {I18n.t('settings-advanced-sync')}
+            {I18n.t("settings-advanced-sync")}
           </HeaderThree>
           <Animatable.View ref={(ref) => (this.AnimationRef = ref)}>
             <Icon
               onPress={async () => {
                 this.AnimationRef.rotate();
-                FCMMsgs.resyncWallet(this.props.checksumAddress);
+                FcmMsgs.resyncWallet(this.props.checksumAddress);
               }}
               name="sync"
               color="#5f5f5f"
@@ -150,25 +149,24 @@ class Advanced extends Component {
             marginLeft="0"
             marginTop="24"
           >
-            {I18n.t('settings-advanced-device-info')}
-          </HeaderThree>
-          <GoyemonText fontSize="14">{debugInfo.fcmToken}</GoyemonText>
-          <Copy text={debugInfo.fcmToken} icon={false} />
-          <HeaderThree
-            color="#000"
-            marginBottom="0"
-            marginLeft="0"
-            marginTop="24"
-          >
-            {I18n.t('settings-advanced-other-device-info')}
+            Copy Logs
           </HeaderThree>
           {/* {this.renderPostLog()} */}
-          <GoyemonText fontSize="14">{otherDebugInfo}</GoyemonText>
-          <Copy text={otherDebugInfo} icon={false} />
+          <Copy
+            text={
+              "address: " +
+              this.props.checksumAddress +
+              " fcm token: " +
+              debugInfo.fcmToken +
+              " logs: " +
+              otherDebugInfo
+            }
+            icon={false}
+          />
           {/* <TouchableWithoutFeedback
             onPress={async () => {
               setTimeout(() => {
-                TxStorage.storage.debugDumpAllTxes();
+                storage.debugDumpAllTxes();
               }, 5000);
             }}
           >
@@ -180,13 +178,14 @@ class Advanced extends Component {
             marginLeft="0"
             marginTop="24"
           >
-            {I18n.t('settings-advanced-credit')}
+            {I18n.t("settings-advanced-credit")}
           </HeaderThree>
           <GoyemonText fontSize="14">
-            "Dino Loading" by aan hamdani is licensed under CC BY 2.0
+            &quot;Dino Loading&quot; by aan hamdani is licensed under CC BY 2.0
           </GoyemonText>
           <GoyemonText fontSize="14">
-            "Trophy Success" by Brett Bertola is licensed under CC BY 2.0
+            &quot;Trophy Success&quot; by Brett Bertola is licensed under CC BY
+            2.0
           </GoyemonText>
         </Container>
       </RootContainer>
@@ -196,13 +195,13 @@ class Advanced extends Component {
 
 const CopyAddressText = styled.Text`
   color: #00a3e2;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 16;
 `;
 
 const PostWaitText = styled.Text`
   color: #111111;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 16;
 `;
 

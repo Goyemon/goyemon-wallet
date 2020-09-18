@@ -1,45 +1,40 @@
-'use strict';
-import React, { Component } from 'react';
-import { TouchableOpacity, ScrollView, View, Dimensions } from 'react-native';
-import * as Animatable from 'react-native-animatable';
-import Slider from '@react-native-community/slider';
-import Modal from 'react-native-modal';
-import { connect } from 'react-redux';
-import styled from 'styled-components';
-import Web3 from 'web3';
-import EtherUtilities from '../../utilities/EtherUtilities';
-import TransactionDetailContainer from './TransactionDetailContainer';
-import { saveTxDetailModalVisibility } from '../../actions/ActionModal';
+"use strict";
+import React, { Component } from "react";
+import { TouchableOpacity, ScrollView, View, Dimensions } from "react-native";
+import * as Animatable from "react-native-animatable";
+import Modal from "react-native-modal";
+import { connect } from "react-redux";
+import styled from "styled-components";
+import Web3 from "web3";
+import EtherUtilities from "../../utilities/EtherUtilities";
+import TransactionDetailContainer from "./TransactionDetailContainer";
+import { saveTxDetailModalVisibility } from "../../actions/ActionModal";
 import {
   Container,
   HeaderOne,
-  HeaderTwo,
   Button,
   GoyemonText,
-  WeiBalanceValidateMessage,
   IsOnlineMessage,
   ModalHandler,
-  HorizontalLine,
+  // HorizontalLine,
   Loader
-} from '../common';
+} from "../common";
 
 // TODO: git rm those two:
 //import Transactions from '../containers/Transactions';
 //import TransactionsDai from '../containers/TransactionsDai';
-import OfflineNotice from '../../components/OfflineNotice';
-import TransactionList from './TransactionList';
-import I18n from '../../i18n/I18n';
-import TxStorage from '../../lib/tx.js';
-import LogUtilities from '../../utilities/LogUtilities';
-import TransactionUtilities from '../../utilities/TransactionUtilities';
+import OfflineNotice from "../../components/OfflineNotice";
+import TransactionList from "./TransactionList";
+import I18n from "../../i18n/I18n";
+import { storage } from "../../lib/tx";
+import LogUtilities from "../../utilities/LogUtilities";
+import TransactionUtilities from "../../utilities/TransactionUtilities";
+import MagicalGasPriceSlider from "./SpeedupModal";
 
-const window = Dimensions.get('window');
+const window = Dimensions.get("window");
 
 const mapChecksumAddressStateToProps = (state) => ({
   checksumAddress: state.ReducerChecksumAddress.checksumAddress
-});
-const mapGasPriceStateToProps = (state) => ({
-  gasPrice: state.ReducerGasPrice.gasPrice
 });
 
 const mapAddressAndIsOnlineAndModalStateToProps = (state) => ({
@@ -67,27 +62,27 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
 
     componentDidMount() {
       LogUtilities.toDebugScreen(
-        'TransactionDetail Tx',
+        "TransactionDetail Tx",
         this.state.tx.tokenData
       );
-      LogUtilities.toDebugScreen('TransactionDetail Tx', this.state.txData);
+      LogUtilities.toDebugScreen("TransactionDetail Tx", this.state.txData);
     }
 
     async componentDidUpdate(prevProps) {
       if (this.props.updateCounter !== prevProps.updateCounter) {
-        TxStorage.storage
+        storage
           .getTx(this.props.index, this.props.filter)
           .then(async (x) => {
             await this.setState({
               data: TransactionUtilities.txDetailObject(
                 x,
-                EtherUtilities.getAddressWithout0x(props.checksumAddress)
+                EtherUtilities.getAddressWithout0x(this.props.checksumAddress)
               ),
               tx: x
             });
           })
           .catch((e) =>
-            LogUtilities.toDebugScreen('TransactionDetail Tx Error With', e)
+            LogUtilities.toDebugScreen("TransactionDetail Tx Error With", e)
           );
       }
       await this.props.updateTx(this.state.tx);
@@ -97,129 +92,19 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
       return !this.state.tx ? (
         <GoyemonText fontSize={12}>nothink!</GoyemonText>
       ) : (
-        <>
-          <Container
-            alignItems="flex-start"
-            flexDirection="column"
-            justifyContent="flex-start"
-            marginTop={0}
-            width="100%"
-          >
-            <TransactionDetailContainer data={this.state.data} />
-          </Container>
-        </>
+        <Container
+          alignItems="flex-start"
+          flexDirection="column"
+          justifyContent="flex-start"
+          marginTop={0}
+          width="100%"
+        >
+          <TransactionDetailContainer data={this.state.data} />
+        </Container>
       );
     }
   }
 );
-
-const MagicalGasPriceSlider = connect(mapGasPriceStateToProps)(
-  class MagicalGasPriceSlider extends Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        WEIAmountValidation: undefined
-      };
-      this.state = this.getPriceState(
-        Math.ceil(this.props.currentGasPrice * 1.2)
-      );
-      props.gasPrice.forEach((x) => {
-        if (x.speed == 'super fast')
-          this.state.maxPrice = Math.ceil(x.value * 1.2);
-      });
-    }
-
-    getPriceState(gasPriceWeiDecimal) {
-      return {
-        usdValue: TransactionUtilities.getMaxNetworkFeeInUSD(
-          gasPriceWeiDecimal,
-          this.props.gasLimit
-        ),
-        ethValue: parseFloat(
-          TransactionUtilities.getMaxNetworkFeeInETH(
-            gasPriceWeiDecimal,
-            this.props.gasLimit
-          )
-        ).toFixed(5)
-      };
-    }
-
-    sliderValueChange(gasPriceWeiDecimal) {
-      gasPriceWeiDecimal = Math.floor(gasPriceWeiDecimal);
-      this.setState(this.getPriceState(gasPriceWeiDecimal));
-    }
-
-    updateWeiAmountValidation(WEIAmountValidation) {
-      this.props.updateWeiAmountValidationInModal(WEIAmountValidation);
-      if (WEIAmountValidation) {
-        this.setState({
-          WEIAmountValidation: true
-        });
-      } else if (!WEIAmountValidation) {
-        this.setState({
-          WEIAmountValidation: false
-        });
-      }
-    }
-
-    render() {
-      //<GoyemonText fontSize={12}>{JSON.stringify(this.props.gasPrice)} -- {JSON.stringify(this.props.currentGas)}</GoyemonText>;
-      const minimumGasPrice = Math.ceil(this.props.currentGasPrice * 1.2);
-
-      return (
-        <>
-          <HeaderTwo marginBottom="0" marginLeft="0" marginTop="24">
-            Choose a new max network fee
-          </HeaderTwo>
-          <Explanation>
-            <GoyemonText fontSize={12}>
-              *you can speed up your transaction by changing the limit
-            </GoyemonText>
-          </Explanation>
-          <Slider
-            value={minimumGasPrice}
-            minimumValue={minimumGasPrice}
-            maximumValue={this.state.maxPrice}
-            onValueChange={(gasPriceWeiDecimal) => {
-              this.updateWeiAmountValidation(
-                TransactionUtilities.hasSufficientWEIForNetworkFee(
-                  gasPriceWeiDecimal,
-                  this.props.gasLimit
-                )
-              );
-              this.sliderValueChange(gasPriceWeiDecimal);
-            }}
-            onSlidingComplete={this.props.onSettle}
-            minimumTrackTintColor="#00A3E2"
-            style={{
-              width: '90%',
-              marginLeft: 'auto',
-              marginRight: 'auto',
-              marginTop: 32,
-              marginBottom: 16
-            }}
-          />
-          <WeiBalanceValidateMessage
-            weiAmountValidation={this.state.WEIAmountValidation}
-          />
-          <NetworkFeeContainer>
-            <GoyemonText fontSize={20}>{this.state.ethValue} ETH</GoyemonText>
-            <GoyemonText fontSize={20}>{this.state.usdValue} USD</GoyemonText>
-          </NetworkFeeContainer>
-        </>
-      );
-    }
-  }
-);
-
-const NetworkFeeContainer = styled.View`
-  align-items: center;
-  margin-bottom: 16;
-`;
-
-const Explanation = styled.View`
-  align-items: center;
-`;
 
 const TransactionDetailModal = connect(
   mapAddressAndIsOnlineAndModalStateToProps,
@@ -233,7 +118,7 @@ const TransactionDetailModal = connect(
         newGasPrice: null,
         txResent: false,
         loading: false,
-        modalHeigh: '60%',
+        modalHeight: "50%",
         WEIAmountValidation: undefined
       };
       this.uniqcounter = 0;
@@ -247,20 +132,18 @@ const TransactionDetailModal = connect(
     handleViewRef = (ref) => (this.view = ref);
 
     componentDidMount() {
-      this.unsub = TxStorage.storage.subscribe(
-        this.updateTxListState.bind(this)
-      );
+      this.unsub = storage.subscribe(this.updateTxListState.bind(this));
       (async () => {
         this.updateTxListState();
       })();
       if (window.height < 896) {
-        this.setState({ modalHeigh: '80%' });
+        this.setState({ modalHeight: "80%" });
       }
     }
 
     updateTxListState() {
       LogUtilities.toDebugScreen(
-        'TransactionDetailModal updateTxListState() called'
+        "TransactionDetailModal updateTxListState() called"
       );
       // this.refreshIndices = {0: true,1: true,2: true,3: true,4: true,5: true,6:true,7:true,8:true,9:true};
 
@@ -295,7 +178,7 @@ const TransactionDetailModal = connect(
       const newTx = this.state.txToUpdate.deepClone();
       newTx.setGasPrice(this.state.newGasPrice.toString(16));
 
-      if (await TxStorage.storage.updateTx(newTx)) {
+      if (await storage.updateTx(newTx)) {
         await TransactionUtilities.sendTransactionToServer(newTx);
 
         this.setState({ txResent: true });
@@ -303,7 +186,7 @@ const TransactionDetailModal = connect(
     }
 
     priceSliderSettled(value) {
-      LogUtilities.dumpObject('priceSliderSettled() value', Math.floor(value));
+      LogUtilities.dumpObject("priceSliderSettled() value", Math.floor(value));
       this.setState({
         newGasPrice: Math.floor(value)
       });
@@ -312,7 +195,7 @@ const TransactionDetailModal = connect(
     zoomIn() {
       this.view.zoomIn(1500).then((endState) => {
         this.props.saveTxDetailModalVisibility(false);
-        console.log(endState.finished ? 'zoomIn finished' : 'zoomIn cancelled');
+        console.log(endState.finished ? "zoomIn finished" : "zoomIn cancelled");
         this.setState({ txResent: false });
       });
     }
@@ -336,11 +219,11 @@ const TransactionDetailModal = connect(
               marginLeft: 4,
               marginRight: 4,
               marginBottom: 0,
-              flexDirection: 'row',
-              alignItems: 'flex-end'
+              flexDirection: "row",
+              alignItems: "flex-end"
             }}
           >
-            <ModalContainer style={{ height: this.state.modalHeigh }}>
+            <ModalContainer style={{ height: this.state.modalHeight }}>
               <ModalHandlerContainer>
                 <ModalHandler />
               </ModalHandlerContainer>
@@ -402,7 +285,7 @@ const TransactionDetailModal = connect(
                     />
                     <AnimationContainer>
                       <CopyAnimation
-                        animation={this.state.txResent ? 'zoomIn' : null}
+                        animation={this.state.txResent ? "zoomIn" : null}
                         ref={this.handleViewRef}
                       >
                         {this.state.txResent ? (
@@ -457,23 +340,23 @@ export default connect(mapChecksumAddressStateToProps)(
     constructor(props) {
       super(props);
       this.state = {
-        filter: 'All',
+        filter: "All",
         editedTx: null,
-        editedTxIndex: '',
-        editedTxFilter: ''
+        editedTxIndex: "",
+        editedTxFilter: ""
       };
       this.txTapped = this.txTapped.bind(this);
     }
 
     toggleFilterChoiceText() {
-      const choices = ['All', 'Dai'].map((filter) => {
+      const choices = ["All"].map((filter) => {
         if (filter === this.state.filter)
           return (
             <View>
-              <FilterChoiceTextSelected key={filter}>
+              {/* <FilterChoiceTextSelected key={filter}>
                 {filter}
-              </FilterChoiceTextSelected>
-              <HorizontalLine borderColor="#000" />
+              </FilterChoiceTextSelected> */}
+              {/* <HorizontalLine borderColor="#000" /> */}
             </View>
           );
 
@@ -482,8 +365,8 @@ export default connect(mapChecksumAddressStateToProps)(
             key={filter}
             onPress={() => this.setState({ filter })}
           >
-            <FilterChoiceTextUnselected>{filter}</FilterChoiceTextUnselected>
-            <HorizontalLine borderColor="rgba(95, 95, 95, .2)" />
+            {/* <FilterChoiceTextUnselected>{filter}</FilterChoiceTextUnselected> */}
+            {/* <HorizontalLine borderColor="rgba(95, 95, 95, .2)" /> */}
           </TouchableOpacity>
         );
       });
@@ -492,7 +375,7 @@ export default connect(mapChecksumAddressStateToProps)(
     }
 
     async txTapped(tx, index, filter) {
-      LogUtilities.dumpObject('tx', tx);
+      LogUtilities.dumpObject("tx", tx);
       await this.setState({
         editedTx: tx,
         editedTxIndex: index,
@@ -501,7 +384,7 @@ export default connect(mapChecksumAddressStateToProps)(
     }
 
     txClear() {
-      this.setState({ editedTx: null, editedTxIndex: '', editedTxFilter: '' });
+      this.setState({ editedTx: null, editedTxIndex: "", editedTxFilter: "" });
     }
 
     render() {
@@ -514,7 +397,7 @@ export default connect(mapChecksumAddressStateToProps)(
             onClose={this.txClear.bind(this)}
           />
           <OfflineNotice />
-          <HeaderOne marginTop="64">{I18n.t('history')}</HeaderOne>
+          <HeaderOne marginTop="64">{I18n.t("history")}</HeaderOne>
           {this.toggleFilterChoiceText()}
           <TransactionList
             checksumAddress={this.props.checksumAddress}
@@ -543,16 +426,16 @@ const FilterChoiceContainer = styled.View`
   margin-right: 16;
 `;
 
-const FilterChoiceTextSelected = styled.Text`
-  color: #000;
-  font-size: 24;
-  font-weight: bold;
-  margin: 0 8px;
-`;
+// const FilterChoiceTextSelected = styled.Text`
+//   color: #000;
+//   font-size: 24;
+//   font-weight: bold;
+//   margin: 0 8px;
+// `;
 
-const FilterChoiceTextUnselected = styled.Text`
-  font-size: 24;
-  font-weight: bold;
-  margin: 0 8px;
-  opacity: 0.4;
-`;
+// const FilterChoiceTextUnselected = styled.Text`
+//   font-size: 24;
+//   font-weight: bold;
+//   margin: 0 8px;
+//   opacity: 0.4;
+// `;

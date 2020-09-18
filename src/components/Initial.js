@@ -1,20 +1,19 @@
-'use strict';
-import BigNumber from 'bignumber.js';
-import Animation from 'lottie-react-native';
-import React, { Component } from 'react';
-import * as Animatable from 'react-native-animatable';
-import { StackActions, NavigationActions } from 'react-navigation';
-import { connect } from 'react-redux';
-import styled from 'styled-components/native';
-import { getGasPrice } from '../actions/ActionGasPrice';
-import { getETHPrice, getDAIPrice, getCDAIPrice } from '../actions/ActionPrice';
-import Loader from '../../assets/loader_animation.json';
-import { Container } from './common';
-import FcmPermissions from '../firebase/FcmPermissions.js';
-import { FCMMsgs } from '../lib/fcm.js';
-import PortfolioStack from '../navigators/PortfolioStack';
-import LogUtilities from '../utilities/LogUtilities.js';
-import WalletUtilities from '../utilities/WalletUtilities.ts';
+"use strict";
+import BigNumber from "bignumber.js";
+import LottieView from "lottie-react-native";
+import React, { Component } from "react";
+import * as Animatable from "react-native-animatable";
+import { StackActions, NavigationActions } from "react-navigation";
+import { connect } from "react-redux";
+import styled from "styled-components/native";
+import { getGasPrice } from "../actions/ActionGasPrice";
+import { getETHPrice, getDAIPrice, getCDAIPrice } from "../actions/ActionPrice";
+import { Container } from "./common";
+import FcmPermissions from "../firebase/FcmPermissions";
+import { FcmMsgs } from "../lib/fcm";
+import PortfolioStack from "../navigators/PortfolioStack";
+import LogUtilities from "../utilities/LogUtilities";
+import WalletUtilities from "../utilities/WalletUtilities.ts";
 
 class Initial extends Component {
   async componentDidUpdate(prevProps) {
@@ -28,9 +27,9 @@ class Initial extends Component {
     await this.props.getDAIPrice();
     await this.props.getCDAIPrice();
     this.props.getGasPrice();
-    FCMMsgs.requestCompoundDaiInfo(this.props.checksumAddress);
-    FCMMsgs.requestPoolTogetherDaiInfo(this.props.checksumAddress);
-    FCMMsgs.requestUniswapV2WETHxDAIReserves(this.props.checksumAddress);
+    FcmMsgs.requestCompoundDaiInfo(this.props.checksumAddress);
+    FcmMsgs.requestPoolTogetherDaiInfo(this.props.checksumAddress);
+    FcmMsgs.requestUniswapV2WETHxDAIReserves(this.props.checksumAddress);
 
     if (this.props.permissions.notification === false) {
       await FcmPermissions.checkFcmPermissions();
@@ -56,9 +55,9 @@ class Initial extends Component {
 
       const hasPersistedState = this.hasPersistedState();
 
-      const hasPrivateKeyInKeychain = await WalletUtilities.privateKeySaved();
+      const hasPrivateKeyInKeychain = await WalletUtilities.isPrivateKeySaved();
 
-      let mainPage = 'Welcome';
+      let mainPage = "Welcome";
 
       if (
         !mnemonicWordsStatePersisted ||
@@ -66,20 +65,20 @@ class Initial extends Component {
           permissions.notification === null &&
           hasPrivateKeyInKeychain)
       ) {
-        mainPage = 'Welcome';
+        mainPage = "Welcome";
       } else if (
         mnemonicWordsStatePersisted &&
         !mnemonicWordsValidation &&
         !hasPersistedState &&
         !hasPrivateKeyInKeychain
       ) {
-        mainPage = 'ShowMnemonic';
+        mainPage = "ShowMnemonic";
       } else if (
         mnemonicWordsStatePersisted &&
         !permissions.notification &&
         hasPrivateKeyInKeychain
       ) {
-        mainPage = 'NotificationPermissionNotGranted';
+        mainPage = "NotificationPermissionNotGranted";
       } else if (
         (mnemonicWordsStatePersisted &&
           mnemonicWordsValidation &&
@@ -91,24 +90,25 @@ class Initial extends Component {
           !hasPersistedState &&
           hasPrivateKeyInKeychain)
       ) {
-        mainPage = 'WalletCreation';
+        mainPage = "WalletCreation";
       } else if (
         mnemonicWordsStatePersisted &&
         permissions.notification &&
         hasPersistedState &&
         hasPrivateKeyInKeychain
       ) {
-        mainPage = 'PortfolioHome';
+        mainPage = "PortfolioHome";
       }
 
       PortfolioStack.navigationOptions = ({ navigation }) => {
         let tabBarVisible;
-        if (navigation.state.index >= 0 && mainPage === 'PortfolioHome') {
+        if (navigation.state.index >= 0 && mainPage === "PortfolioHome") {
           tabBarVisible = true;
         } else if (
-          (navigation.state.index >= 0 && mainPage === 'Welcome') ||
-          'NotificationPermissionNotGranted' ||
-          'WalletCreation'
+          (navigation.state.index >= 0 && mainPage === "Welcome") ||
+          (navigation.state.index >= 0 &&
+            mainPage === "NotificationPermissionNotGranted") ||
+          (navigation.state.index >= 0 && mainPage === "WalletCreation")
         ) {
           tabBarVisible = false;
         }
@@ -119,31 +119,31 @@ class Initial extends Component {
       };
 
       if (
-        mainPage === 'Welcome' ||
-        mainPage === 'NotificationPermissionNotGranted' ||
-        mainPage === 'WalletCreation' ||
-        mainPage === 'PortfolioHome'
+        mainPage === "Welcome" ||
+        mainPage === "NotificationPermissionNotGranted" ||
+        mainPage === "WalletCreation" ||
+        mainPage === "PortfolioHome"
       ) {
         const resetAction = StackActions.reset({
           index: 0,
           actions: [NavigationActions.navigate({ routeName: mainPage })]
         });
         this.props.navigation.dispatch(resetAction);
-      } else if (mainPage === 'ShowMnemonic') {
+      } else if (mainPage === "ShowMnemonic") {
         const resetAction = StackActions.reset({
           index: 2,
           actions: [
-            NavigationActions.navigate({ routeName: 'Welcome' }),
-            NavigationActions.navigate({ routeName: 'CreateWalletTutorial' }),
-            NavigationActions.navigate({ routeName: 'ShowMnemonic' })
+            NavigationActions.navigate({ routeName: "Welcome" }),
+            NavigationActions.navigate({ routeName: "CreateWalletTutorial" }),
+            NavigationActions.navigate({ routeName: "ShowMnemonic" })
           ]
         });
         this.props.navigation.dispatch(resetAction);
       } else {
-        console.log('no matches');
+        console.log("no matches");
       }
     } else if (!rehydration) {
-      LogUtilities.logInfo('rehydration is not done yet');
+      LogUtilities.logInfo("rehydration is not done yet");
     }
   }
 
@@ -191,18 +191,15 @@ class Initial extends Component {
         width="90%"
       >
         <LoaderContainer animation="fadeIn" delay={1000}>
-          <Logo>Goyemon</Logo>
-          <Animation
-            ref={(animation) => {
-              this.animation = animation;
-            }}
+          <Logo>goyemon</Logo>
+          <LottieView
+            autoPlay
+            loop
+            source={require("../../assets/loader_animation.json")}
             style={{
               width: 120,
               height: 120
             }}
-            autoPlay
-            loop={true}
-            source={Loader}
           />
         </LoaderContainer>
       </Container>
@@ -216,10 +213,9 @@ const LoaderContainer = Animatable.createAnimatableComponent(styled.View`
 
 const Logo = Animatable.createAnimatableComponent(styled.Text`
   color: #e41b13;
-  font-family: 'HKGrotesk-Bold';
+  font-family: "HKGrotesk-Bold";
   font-size: 40;
   text-align: center;
-  text-transform: uppercase;
 `);
 
 function mapStateToProps(state) {

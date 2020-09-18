@@ -65,8 +65,6 @@
   "settings-backup-words-description": "以下の文字を順番に書き出して、安全な場所に保管してください",
   "settings-advanced-network": "ネットワーク",
   "settings-advanced-sync": "ウォレットの同期",
-  "settings-advanced-device-info": "デバイス情報",
-  "settings-advanced-other-device-info": "その他の情報",
   "settings-advanced-credit": "クレジット",
   // common
   "portfolio": "Portfolio",

@@ -15,6 +15,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.levelasquez.androidopensettings.AndroidOpenSettingsPackage;
+import com.reactnativecommunity.webview.RNCWebViewPackage;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -44,6 +45,7 @@ public class MainApplication extends Application implements ReactApplication {
         new RandomBytesPackage();
         new KeychainPackage();
         new AndroidOpenSettingsPackage();
+        new RNCWebViewPackage();
         return packages;
       }
 

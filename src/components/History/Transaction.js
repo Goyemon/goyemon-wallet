@@ -1,17 +1,18 @@
-'use strict';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import styled from 'styled-components';
-import { saveTxDetailModalVisibility } from '../../actions/ActionModal';
+"use strict";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import styled from "styled-components";
+import { saveTxDetailModalVisibility } from "../../actions/ActionModal";
 import {
   GoyemonText,
   TouchableCardContainer,
   TransactionStatus
-} from '../common';
-import TxStorage from '../../lib/tx.js';
-import EtherUtilities from '../../utilities/EtherUtilities';
-import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
+} from "../common";
+import { storage } from "../../lib/tx";
+import EtherUtilities from "../../utilities/EtherUtilities";
+import TransactionUtilities from "../../utilities/TransactionUtilities.ts";
+import LogUtilities from "../../utilities/LogUtilities";
 
 class Transaction extends Component {
   constructor(props) {
@@ -23,22 +24,29 @@ class Transaction extends Component {
   }
 
   componentDidMount() {
-    TxStorage.storage
+    storage
       .getTx(
         this.props.transaction.index,
-        this.props.transaction.filter || 'all'
+        this.props.transaction.filter || "all"
       )
       .then((x) => {
+        if (!x) {
+          LogUtilities.toDebugScreen("This is tx has problem", x);
+          LogUtilities.toDebugScreen(
+            "This is tx has problem",
+            this.props.transaction.index
+          );
+        }
         this.setState({ children: this.computeChildren(x) });
       });
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.updateCounter !== prevProps.updateCounter)
-      TxStorage.storage
+      storage
         .getTx(
           this.props.transaction.index,
-          this.props.transaction.filter || 'all'
+          this.props.transaction.filter || "all"
         )
         .then((x) => {
           this.setState({ children: this.computeChildren(x) });
@@ -61,9 +69,9 @@ class Transaction extends Component {
       EtherUtilities.getAddressWithout0x(this.props.checksumAddress)
     );
     const { index, filter } = this.props.transaction;
-    if (service === 'PoolTogether' || service === 'Uniswap')
-      if ((!option && method === 'Withdraw') || (!option && method === 'Swap'))
-        method = 'Outgoing';
+    if (service === "PoolTogether" || service === "Uniswap")
+      if ((!option && method === "Withdraw") || (!option && method === "Swap"))
+        method = "Outgoing";
 
     return (
       <TouchableCardContainer
@@ -87,7 +95,7 @@ class Transaction extends Component {
         <TransactionList>
           <InOrOutTransactionContainer>
             <GoyemonText fontSize={16}>
-              {icon.name !== '' && (
+              {icon.name !== "" && (
                 <Icon name={icon.name} size={icon.size} color={icon.color} />
               )}
             </GoyemonText>
@@ -96,7 +104,7 @@ class Transaction extends Component {
           <TypeTimeContainer>
             <Type>
               <GoyemonText
-                fontSize={method === 'Contract Interaction' ? 14 : 18}
+                fontSize={method === "Contract Interaction" ? 14 : 18}
               >
                 {method}
               </GoyemonText>
@@ -106,17 +114,18 @@ class Transaction extends Component {
 
           <TransactionStatus
             width="26%"
-            txState={method === 'Failed' ? null : status}
+            txState={method === "Failed" ? null : status}
           />
 
           <ValueContainer>
-            {inOrOut.name !== '' && method !== 'Swap' && (
-              <Icon
-                name={inOrOut.name}
-                size={inOrOut.size}
-                color={inOrOut.color}
-              />
-            )}
+            {(inOrOut.name !== "" || inOrOut.color !== "") &&
+              method !== "Swap" && (
+                <Icon
+                  name={inOrOut.name}
+                  size={inOrOut.size}
+                  color={inOrOut.color}
+                />
+              )}
             <TransactionAmount
               amount={amount}
               token={token}
@@ -134,10 +143,10 @@ class Transaction extends Component {
 
 const styles = {
   valueStyleRed: {
-    color: '#F1860E'
+    color: "#F1860E"
   },
   valueStyleGreen: {
-    color: '#1BA548'
+    color: "#1BA548"
   }
 };
 
@@ -158,13 +167,13 @@ const TypeTimeContainer = styled.View`
 `;
 
 const Type = styled.Text`
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   margin-bottom: 4;
 `;
 
 const Time = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
 `;
 
 const ValueContainer = styled.View`
@@ -187,28 +196,33 @@ const SwapValueTextContainer = styled.View`
 const TransactionAmount = (props) => {
   const { amount, token, option, method } = props;
   switch (method) {
-    case 'Deposit':
-    case 'Outgoing':
+    case "Deposit":
+    // falls through
+    case "Outgoing":
       return (
         <GoyemonText fontSize={16} style={styles.valueStyleRed}>
           {amount} {token}
         </GoyemonText>
       );
-    case 'Reward':
-    case 'Withdraw':
+    // falls through
+    case "Reward":
+    // falls through
+    case "Withdraw":
       if (option)
         return (
           <GoyemonText fontSize={16} style={styles.valueStyleGreen}>
             {option.sum} {token}
           </GoyemonText>
         );
-    case 'Incoming':
+    // falls through
+    case "Incoming":
       return (
         <GoyemonText fontSize={16} style={styles.valueStyleGreen}>
           {amount} {token}
         </GoyemonText>
       );
-    case 'Swap':
+    // falls through
+    case "Swap":
       return (
         <SwapValueContainer>
           <SwapValueTextContainer>
@@ -226,16 +240,20 @@ const TransactionAmount = (props) => {
           </SwapValueTextContainer>
         </SwapValueContainer>
       );
-    case 'Self':
+    // falls through
+    case "Self":
       return (
         <GoyemonText fontSize={16}>
           {amount} {token}
         </GoyemonText>
       );
-    case 'Failed':
+    // falls through
+    case "Failed":
       return <GoyemonText fontSize={16}></GoyemonText>;
+    // falls through
     default:
       return null;
+    // falls through
   }
 };
 

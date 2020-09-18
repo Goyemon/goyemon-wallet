@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { GoyemonText, TransactionStatus } from '../common';
+import React, { Component } from "react";
+import styled from "styled-components";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { GoyemonText, TransactionStatus } from "../common";
 
 export default class TransactionDetailHeader extends Component {
   constructor(props) {
@@ -29,7 +29,7 @@ export default class TransactionDetailHeader extends Component {
         <HeaderStatus>
           <TransactionStatus
             width="100%"
-            txState={method === 'Failed' ? null : status}
+            txState={method === "Failed" ? null : status}
           />
         </HeaderStatus>
       </TxDetailHeader>
@@ -42,7 +42,7 @@ const TxDetailHeader = styled.View`
   background-color: #f8f8f8;
   flex-direction: row;
   justify-content: center;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   padding-top: 24px;
   padding-bottom: 24px;
   width: 100%;
@@ -55,13 +55,13 @@ const TxIcon = styled.View`
 
 const TypeAndTime = styled.View`
   align-items: flex-start;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   flex-direction: column;
   width: 40%;
 `;
 
 const HeaderStatus = styled.View`
   align-items: center;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   width: 40%;
 `;

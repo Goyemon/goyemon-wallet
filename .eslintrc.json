@@ -1,0 +1,51 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "settings": {
+    "version": "detect"
+  },
+  "env": {
+      "browser": true,
+      "node": true,
+      "es6": true,
+      "jest": true
+  },
+  "plugins": [
+    "react",
+    "prettier",
+    "@typescript-eslint"
+  ],
+  "parserOptions": {
+    "version": 2018,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended",
+    "prettier/react",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "rules": {
+      "no-unused-vars": ["error", { "vars": "local" }],
+      "no-undef": "error",
+      "no-constant-condition": "warn",
+      "react/prop-types": 0,
+      "no-prototype-builtins": 0,
+      "react/display-name": 0,
+      "react/no-string-refs": 0,
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "@typescript-eslint/no-var-requires": 0
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "@typescript-eslint/explicit-module-boundary-types": 0,
+        "@typescript-eslint/no-explicit-any": 0
+      }
+    }
+  ]
+}

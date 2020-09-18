@@ -1,15 +1,15 @@
-'use strict';
-import React, { Component } from 'react';
-import { Platform, Linking } from 'react-native';
-import AndroidOpenSettings from 'react-native-android-open-settings';
-import styled from 'styled-components/native';
+"use strict";
+import React, { Component } from "react";
+import { Platform, Linking } from "react-native";
+import AndroidOpenSettings from "react-native-android-open-settings";
+import styled from "styled-components/native";
 import {
   RootContainer,
   Button,
   HeaderTwo,
   Description,
   GoyemonText
-} from '../../common';
+} from "../../common";
 
 export default class NotificationPermissionNotGranted extends Component {
   render() {
@@ -23,7 +23,7 @@ export default class NotificationPermissionNotGranted extends Component {
             please enable notifications
           </Description>
           <NotificationPermissionDeniedImage
-            source={require('../../../../assets/notification_not_granted.png')}
+            source={require("../../../../assets/notification_not_granted.png")}
           />
           <Description marginBottom="0" marginLeft="0" marginTop="16">
             we use them for transaction updates
@@ -40,9 +40,9 @@ export default class NotificationPermissionNotGranted extends Component {
             marginBottom="12px"
             opacity="1"
             onPress={() => {
-              if (Platform.OS === 'ios') {
-                Linking.openURL('app-settings://notification/Goyemon');
-              } else if (Platform.OS === 'android') {
+              if (Platform.OS === "ios") {
+                Linking.openURL("app-settings://notification/Goyemon");
+              } else if (Platform.OS === "android") {
                 AndroidOpenSettings.appNotificationSettings();
               }
             }}

@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { View } from 'react-native';
-import { connect } from 'react-redux';
-import styled from 'styled-components/native';
+import React, { Component } from "react";
+import { View } from "react-native";
+import { connect } from "react-redux";
+import styled from "styled-components/native";
 import {
   saveTxConfirmationModalVisibility,
   updateTxConfirmationModalVisibleType
-} from '../../actions/ActionModal';
-import { saveOutgoingTransactionDataSend } from '../../actions/ActionOutgoingTransactionData';
-import TxConfirmationModal from '../TxConfirmationModal';
+} from "../../actions/ActionModal";
+import { saveOutgoingTransactionDataSend } from "../../actions/ActionOutgoingTransactionData";
+import TxConfirmationModal from "../TxConfirmationModal";
 import {
   UntouchableCardContainer,
   Form,
@@ -18,19 +18,20 @@ import {
   TxNextButton,
   AmountValidateMessage,
   UseMaxButton
-} from '../common';
+} from "../common";
 import {
   RoundDownBigNumberPlacesEighteen,
   roundDownFour
-} from '../../utilities/BigNumberUtilities';
-import { AdvancedContainer } from '../AdvancedContainer';
-import ToAddressForm from './ToAddressForm';
-import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
-import GlobalConfig from '../../config.json';
-import LogUtilities from '../../utilities/LogUtilities.js';
-import StyleUtilities from '../../utilities/StyleUtilities.js';
-import I18n from '../../i18n/I18n';
-import Web3 from 'web3';
+} from "../../utilities/BigNumberUtilities";
+import { AdvancedContainer } from "../AdvancedContainer";
+import ToAddressForm from "./ToAddressForm";
+import TransactionUtilities from "../../utilities/TransactionUtilities.ts";
+import GlobalConfig from "../../config.json";
+import LogUtilities from "../../utilities/LogUtilities";
+import PriceUtilities from "../../utilities/PriceUtilities";
+import StyleUtilities from "../../utilities/StyleUtilities";
+import I18n from "../../i18n/I18n";
+import Web3 from "web3";
 
 class SendToken extends Component {
   constructor(props) {
@@ -42,7 +43,7 @@ class SendToken extends Component {
       amount: 0,
       displayAmount: 0,
       loading: false,
-      isEth: props.info.token === 'ETH',
+      isEth: props.info.token === "ETH",
       gasLimit: this.gasLimit(props.info.token)
     };
   }
@@ -81,15 +82,15 @@ class SendToken extends Component {
         amountValidation: undefined,
         amount: 0,
         displayAmount: 0,
-        isEth: this.props.info.token === 'ETH',
+        isEth: this.props.info.token === "ETH",
         gasLimit: this.gasLimit(this.props.info.token)
       });
     }
   }
 
   isNumber = (amount) =>
-    String(amount).slice(0, 1) === '0'
-      ? String(amount).slice(1, 2) === '.' && /^[0-9]\d*(\.\d+)?$/.test(amount)
+    String(amount).slice(0, 1) === "0"
+      ? String(amount).slice(1, 2) === "." && /^[0-9]\d*(\.\d+)?$/.test(amount)
       : /^[0-9]\d*(\.\d+)?$/.test(amount);
 
   isDisabled = () =>
@@ -124,7 +125,7 @@ class SendToken extends Component {
       ).times(this.state.gasLimit);
 
     return this.state.isEth && tokenBalance.isLessThanOrEqualTo(maxNetworkFee)
-      ? '0'
+      ? "0"
       : this.state.isEth
       ? tokenBalance.minus(maxNetworkFee).toString()
       : tokenBalance.toString();
@@ -162,14 +163,14 @@ class SendToken extends Component {
       this.props.updateTxConfirmationModalVisibleType(
         `send-${this.props.info.token.toLowerCase()}`
       );
-      LogUtilities.logInfo('validation successful');
-    } else LogUtilities.logInfo('form validation failed!');
+      LogUtilities.logInfo("validation successful");
+    } else LogUtilities.logInfo("form validation failed!");
     this.setState({ loading: false });
   };
 
   constructTransactionObject = async () => {
     switch (this.props.info.token) {
-      case 'ETH':
+      case "ETH":
         return await TransactionUtilities.constructETHTransfer(
           this.props.outgoingTransactionData.send.toaddress,
           this.state.amount,
@@ -177,7 +178,7 @@ class SendToken extends Component {
           this.state.gasLimit
         );
 
-      case 'DAI':
+      case "DAI":
         return await TransactionUtilities.constructDAITransfer(
           this.props.outgoingTransactionData.send.toaddress,
           this.state.amount,
@@ -185,7 +186,7 @@ class SendToken extends Component {
           this.state.gasLimit
         );
 
-      case 'cDAI':
+      case "cDAI":
         return await TransactionUtilities.constructCDAITransfer(
           this.props.outgoingTransactionData.send.toaddress,
           this.state.amount,
@@ -193,7 +194,7 @@ class SendToken extends Component {
           this.state.gasLimit
         );
 
-      case 'plDAI':
+      case "plDAI":
         return await TransactionUtilities.constructPLDAITransfer(
           this.props.outgoingTransactionData.send.toaddress,
           this.state.amount,
@@ -205,6 +206,52 @@ class SendToken extends Component {
         return null;
     }
   };
+
+  renderUSDValue(token) {
+    switch (token) {
+      case "ETH":
+        return (
+          <CurrencySymbolText>
+            {PriceUtilities.convertETHToUSD(this.state.displayAmount).toFixed(
+              2
+            )}{" "}
+            USD
+          </CurrencySymbolText>
+        );
+      case "DAI":
+        return (
+          <CurrencySymbolText>
+            {PriceUtilities.convertDAIToUSD(this.state.displayAmount).toFixed(
+              2
+            )}{" "}
+            USD
+          </CurrencySymbolText>
+        );
+
+      case "cDAI":
+        return (
+          <CurrencySymbolText>
+            {PriceUtilities.convertCDAIToUSD(this.state.displayAmount).toFixed(
+              2
+            )}{" "}
+            USD
+          </CurrencySymbolText>
+        );
+
+      case "plDAI":
+        return (
+          <CurrencySymbolText>
+            {PriceUtilities.convertDAIToUSD(this.state.displayAmount).toFixed(
+              2
+            )}{" "}
+            USD
+          </CurrencySymbolText>
+        );
+
+      default:
+        break;
+    }
+  }
 
   render() {
     const {
@@ -226,10 +273,10 @@ class SendToken extends Component {
         <ToAddressForm />
         <FormHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
-            {I18n.t('amount')}
+            {I18n.t("amount")}
           </FormHeader>
           <UseMaxButton
-            text={I18n.t('use-max')}
+            text={I18n.t("use-max")}
             textColor="#00A3E2"
             onPress={() => {
               this.setState({
@@ -292,8 +339,9 @@ class SendToken extends Component {
             <CurrencySymbolText>{token}</CurrencySymbolText>
           </SendTextInputContainer>
         </Form>
+        <USDValueContainer>{this.renderUSDValue(token)}</USDValueContainer>
         <AmountValidateMessage
-          amountValidation={amountValidation}
+          // amountValidation={amountValidation}
           isEth={isEth}
         />
         <AdvancedContainer gasLimit={gasLimit} />
@@ -320,7 +368,7 @@ class SendToken extends Component {
 }
 
 const FormHeaderContainer = styled.View`
-  align-items: center;
+  justify-content: space-between;
   flex-direction: row;
   margin: 0 auto;
   margin-top: 16px;
@@ -343,7 +391,14 @@ const SendTextInput = styled.TextInput`
 `;
 
 const CurrencySymbolText = styled.Text`
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
+`;
+
+const USDValueContainer = styled.View`
+  align-items: center;
+  flex-direction: row;
+  justify-content: flex-end;
+  width: 89%;
 `;
 
 const ButtonWrapper = styled.View`
@@ -380,7 +435,7 @@ const CoinImage = styled.Image`
 
 const Title = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 16;
   margin-top: 16px;
   text-transform: uppercase;
@@ -393,12 +448,12 @@ const BalanceContainer = styled.View`
 `;
 
 const Value = styled.Text`
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 16;
   margin-left: 4;
 `;
 
-mapStateToProps = (state) => {
+const mapStateToProps = (state) => {
   return {
     isOnline: state.ReducerNetInfo.isOnline,
     gasChosen: state.ReducerGasPrice.gasChosen,

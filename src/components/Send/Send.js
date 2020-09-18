@@ -1,19 +1,19 @@
-'use strict';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { TouchableOpacity, ScrollView } from 'react-native';
-import styled from 'styled-components';
-import Web3 from 'web3';
-import { RootContainer, Container, HeaderOne } from '../common';
-import SendToken from './SendToken';
-import I18n from '../../i18n/I18n';
-import { RoundDownBigNumberPlacesFour } from '../../utilities/BigNumberUtilities';
+"use strict";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { TouchableOpacity, ScrollView } from "react-native";
+import styled from "styled-components";
+import Web3 from "web3";
+import { RootContainer, Container, HeaderOne } from "../common";
+import SendToken from "./SendToken";
+import I18n from "../../i18n/I18n";
+import { RoundDownBigNumberPlacesFour } from "../../utilities/BigNumberUtilities";
 
 class Send extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currency: 'eth'
+      currency: "eth"
     };
   }
 
@@ -33,27 +33,27 @@ class Send extends Component {
 
     const propsValue = {
       eth: {
-        icon: require('../../../assets/ether_icon.png'),
-        token: 'ETH',
-        title: I18n.t('eth-wallet-balance'),
+        icon: require("../../../assets/ether_icon.png"),
+        token: "ETH",
+        title: I18n.t("eth-wallet-balance"),
         balance: ETHBalance
       },
       dai: {
-        icon: require('../../../assets/dai_icon.png'),
-        token: 'DAI',
-        title: I18n.t('dai-wallet-balance'),
+        icon: require("../../../assets/dai_icon.png"),
+        token: "DAI",
+        title: I18n.t("dai-wallet-balance"),
         balance: DAIBalance
       },
       cdai: {
-        icon: require('../../../assets/cdai_icon.png'),
-        token: 'cDAI',
-        title: I18n.t('cdai-wallet-balance'),
+        icon: require("../../../assets/cdai_icon.png"),
+        token: "cDAI",
+        title: I18n.t("cdai-wallet-balance"),
         balance: CDAIBalance
       },
       pldai: {
-        icon: require('../../../assets/pldai_icon.png'),
-        token: 'plDAI',
-        title: I18n.t('pldai-wallet-balance'),
+        icon: require("../../../assets/pldai_icon.png"),
+        token: "plDAI",
+        title: I18n.t("pldai-wallet-balance"),
         balance: PLDAIBalance
       }
     };
@@ -66,30 +66,30 @@ class Send extends Component {
   render() {
     const tabs = [
       {
-        event: () => this.setState({ currency: 'eth' }),
-        opacity: this.state.currency === 'eth' ? 1 : 0.4,
-        path: require('../../../assets/ether_icon.png')
+        event: () => this.setState({ currency: "eth" }),
+        opacity: this.state.currency === "eth" ? 1 : 0.4,
+        path: require("../../../assets/ether_icon.png")
       },
       {
-        event: () => this.setState({ currency: 'dai' }),
-        opacity: this.state.currency === 'dai' ? 1 : 0.4,
-        path: require('../../../assets/dai_icon.png')
+        event: () => this.setState({ currency: "dai" }),
+        opacity: this.state.currency === "dai" ? 1 : 0.4,
+        path: require("../../../assets/dai_icon.png")
       },
       {
-        event: () => this.setState({ currency: 'cdai' }),
-        opacity: this.state.currency === 'cdai' ? 1 : 0.4,
-        path: require('../../../assets/cdai_icon.png')
+        event: () => this.setState({ currency: "cdai" }),
+        opacity: this.state.currency === "cdai" ? 1 : 0.4,
+        path: require("../../../assets/cdai_icon.png")
       },
       {
-        event: () => this.setState({ currency: 'pldai' }),
-        opacity: this.state.currency === 'pldai' ? 1 : 0.4,
-        path: require('../../../assets/pldai_icon.png')
+        event: () => this.setState({ currency: "pldai" }),
+        opacity: this.state.currency === "pldai" ? 1 : 0.4,
+        path: require("../../../assets/pldai_icon.png")
       }
     ];
 
     return (
       <RootContainer>
-        <HeaderOne marginTop="64">{I18n.t('send')}</HeaderOne>
+        <HeaderOne marginTop="64">{I18n.t("send")}</HeaderOne>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
           <Container
             alignItems="flex-end"

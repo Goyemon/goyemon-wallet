@@ -1,12 +1,12 @@
-'use strict';
-import React, { Component } from 'react';
-import { View } from 'react-native';
-import { connect } from 'react-redux';
-import styled from 'styled-components';
-import { withNavigation } from 'react-navigation';
-import { Container, HeaderFive, GoyemonText, Button } from '../../common';
-import I18n from '../../../i18n/I18n';
-import { RoundDownBigNumberPlacesFour } from '../../../utilities/BigNumberUtilities';
+"use strict";
+import React, { Component } from "react";
+import { View } from "react-native";
+import { withNavigation } from "react-navigation";
+import { connect } from "react-redux";
+import styled from "styled-components";
+import { Container, HeaderFive, GoyemonText, Button } from "../../common";
+import I18n from "../../../i18n/I18n";
+import { RoundDownBigNumberPlacesFour } from "../../../utilities/BigNumberUtilities";
 
 class PortfolioPoolTogetherOpen extends Component {
   render() {
@@ -27,7 +27,7 @@ class PortfolioPoolTogetherOpen extends Component {
         <PoolTogetherContainer>
           <RoundInfoContainer>
             <IconContainer>
-              <CoinImage source={require('../../../../assets/dai_icon.png')} />
+              <CoinImage source={require("../../../../assets/dai_icon.png")} />
             </IconContainer>
             <View>
               <HeaderFive width="100%">your balance</HeaderFive>
@@ -39,7 +39,7 @@ class PortfolioPoolTogetherOpen extends Component {
         </PoolTogetherContainer>
         <ButtonContainer>
           <Button
-            text={I18n.t('deposit')}
+            text={I18n.t("deposit")}
             textColor="#00A3E2"
             backgroundColor="#FFF"
             borderColor="#00A3E2"
@@ -47,7 +47,7 @@ class PortfolioPoolTogetherOpen extends Component {
             marginBottom="12px"
             opacity="1"
             onPress={async () => {
-              this.props.navigation.navigate('DepositDaiToPoolTogether');
+              this.props.navigation.navigate("DepositDaiToPoolTogether");
             }}
           />
         </ButtonContainer>

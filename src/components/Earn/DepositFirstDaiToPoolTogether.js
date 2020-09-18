@@ -1,12 +1,12 @@
-'use strict';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import styled from 'styled-components/native';
-import { saveOutgoingTransactionDataPoolTogether } from '../../actions/ActionOutgoingTransactionData';
+"use strict";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import styled from "styled-components/native";
+import { saveOutgoingTransactionDataPoolTogether } from "../../actions/ActionOutgoingTransactionData";
 import {
   saveTxConfirmationModalVisibility,
   updateTxConfirmationModalVisibleType
-} from '../../actions/ActionModal';
+} from "../../actions/ActionModal";
 import {
   RootContainer,
   UseMaxButton,
@@ -18,21 +18,22 @@ import {
   IsOnlineMessage,
   WeiBalanceValidateMessage,
   TxNextButton
-} from '../common';
-import Countdown from '../Countdown';
-import TxConfirmationModal from '../TxConfirmationModal';
-import { AdvancedContainer } from '../AdvancedContainer';
-import I18n from '../../i18n/I18n';
+} from "../common";
+import Countdown from "../Countdown";
+import TxConfirmationModal from "../TxConfirmationModal";
+import { AdvancedContainer } from "../AdvancedContainer";
+import I18n from "../../i18n/I18n";
 import {
   RoundDownBigNumberPlacesFour,
   RoundDownBigNumberPlacesEighteen
-} from '../../utilities/BigNumberUtilities';
-import LogUtilities from '../../utilities/LogUtilities.js';
-import StyleUtilities from '../../utilities/StyleUtilities.js';
-import TransactionUtilities from '../../utilities/TransactionUtilities.ts';
-import ABIEncoder from '../../utilities/AbiUtilities';
-import TxStorage from '../../lib/tx.js';
-import GlobalConfig from '../../config.json';
+} from "../../utilities/BigNumberUtilities";
+import LogUtilities from "../../utilities/LogUtilities";
+import StyleUtilities from "../../utilities/StyleUtilities";
+import TransactionUtilities from "../../utilities/TransactionUtilities.ts";
+import ABIEncoder from "../../utilities/AbiUtilities";
+import { storage } from "../../lib/tx";
+import { TxTokenOpTypeToName } from "../../lib/tx/TokenOpType";
+import GlobalConfig from "../../config.json";
 
 class DepositFirstDaiToPoolTogether extends Component {
   constructor(props) {
@@ -41,7 +42,7 @@ class DepositFirstDaiToPoolTogether extends Component {
       DAIBalance: RoundDownBigNumberPlacesFour(props.balance.dai)
         .div(new RoundDownBigNumberPlacesFour(10).pow(18))
         .toFixed(2),
-      daiAmount: '',
+      daiAmount: "",
       DAIAmountValidation: undefined,
       WEIAmountValidation: undefined,
       loading: false
@@ -78,7 +79,7 @@ class DepositFirstDaiToPoolTogether extends Component {
   }
 
   async constructDepositPoolTransactionObject() {
-    const daiAmount = this.state.daiAmount.split('.').join('');
+    const daiAmount = this.state.daiAmount.split(".").join("");
     const decimalPlaces = TransactionUtilities.decimalPlaces(
       this.state.daiAmount
     );
@@ -95,7 +96,7 @@ class DepositFirstDaiToPoolTogether extends Component {
       .times(new RoundDownBigNumberPlacesEighteen(10).pow(18))
       .toString(16);
 
-    const transactionObject = (await TxStorage.storage.newTx())
+    const transactionObject = (await storage.newTx())
       .setTo(GlobalConfig.DAIPoolTogetherContractV2)
       .setGasPrice(
         TransactionUtilities.returnTransactionSpeed(
@@ -104,11 +105,10 @@ class DepositFirstDaiToPoolTogether extends Component {
       )
       .setGas(GlobalConfig.PoolTogetherDepositPoolGasLimit.toString(16))
       .tempSetData(depositPoolEncodedABI)
-      .addTokenOperation(
-        'pooltogether',
-        TxStorage.TxTokenOpTypeToName.PTdeposited,
-        [TxStorage.storage.getOwnAddress(), DAIAmountWithDecimals]
-      );
+      .addTokenOperation("pooltogether", TxTokenOpTypeToName.PTdeposited, [
+        storage.getOwnAddress(),
+        DAIAmountWithDecimals
+      ]);
 
     return transactionObject.setNonce(transactionObject.getNonce() + 1);
   }
@@ -152,7 +152,7 @@ class DepositFirstDaiToPoolTogether extends Component {
 
     if (DAIAmountValidation && WEIAmountValidation && isOnline) {
       this.setState({ loading: true });
-      LogUtilities.logInfo('validation successful');
+      LogUtilities.logInfo("validation successful");
       const approveTransactionObject = await TransactionUtilities.constructApproveTransactionObject(
         GlobalConfig.DAIPoolTogetherContractV2,
         this.props.gasChosen
@@ -165,9 +165,9 @@ class DepositFirstDaiToPoolTogether extends Component {
         transactionObject: depositPoolTransactionObject
       });
       this.props.saveTxConfirmationModalVisibility(true);
-      this.props.updateTxConfirmationModalVisibleType('pool-together-approve');
+      this.props.updateTxConfirmationModalVisibleType("pool-together-approve");
     } else {
-      LogUtilities.logInfo('form validation failed!');
+      LogUtilities.logInfo("form validation failed!");
     }
   };
 
@@ -182,7 +182,7 @@ class DepositFirstDaiToPoolTogether extends Component {
     return (
       <RootContainer>
         <TxConfirmationModal />
-        <HeaderOne marginTop="96">{I18n.t('deposit')}</HeaderOne>
+        <HeaderOne marginTop="96">{I18n.t("deposit")}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
           borderRadius="8px"
@@ -193,18 +193,18 @@ class DepositFirstDaiToPoolTogether extends Component {
           textAlign="center"
           width="90%"
         >
-          <CoinImage source={require('../../../assets/dai_icon.png')} />
-          <Title>{I18n.t('dai-wallet-balance')}</Title>
+          <CoinImage source={require("../../../assets/dai_icon.png")} />
+          <Title>{I18n.t("dai-wallet-balance")}</Title>
           <Value>{this.state.DAIBalance} DAI</Value>
           <Title>until the open round ends</Title>
           <Countdown />
         </UntouchableCardContainer>
         <DepositAmountHeaderContainer>
           <FormHeader marginBottom="0" marginTop="0">
-            {I18n.t('deposit-amount')}
+            {I18n.t("deposit-amount")}
           </FormHeader>
           <UseMaxButton
-            text={I18n.t('use-max')}
+            text={I18n.t("use-max")}
             textColor="#00A3E2"
             onPress={() => {
               this.setState({ daiAmount: DAIFullBalance });
@@ -292,23 +292,23 @@ const CoinImage = styled.Image`
 
 const Title = styled.Text`
   color: #5f5f5f;
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 16;
   margin-top: 16;
   text-transform: uppercase;
 `;
 
 const Value = styled.Text`
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
   font-size: 16;
 `;
 
 const CurrencySymbolText = styled.Text`
-  font-family: 'HKGrotesk-Regular';
+  font-family: "HKGrotesk-Regular";
 `;
 
 const DepositAmountHeaderContainer = styled.View`
-  align-items: center;
+  justify-content: space-between;
   flex-direction: row;
   margin: 0 auto;
   margin-top: 16px;
