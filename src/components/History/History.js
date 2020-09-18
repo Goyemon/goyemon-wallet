@@ -16,7 +16,7 @@ import {
   GoyemonText,
   IsOnlineMessage,
   ModalHandler,
-  HorizontalLine,
+  // HorizontalLine,
   Loader
 } from "../common";
 
@@ -353,10 +353,10 @@ export default connect(mapChecksumAddressStateToProps)(
         if (filter === this.state.filter)
           return (
             <View>
-              <FilterChoiceTextSelected key={filter}>
+              {/* <FilterChoiceTextSelected key={filter}>
                 {filter}
-              </FilterChoiceTextSelected>
-              <HorizontalLine borderColor="#000" />
+              </FilterChoiceTextSelected> */}
+              {/* <HorizontalLine borderColor="#000" /> */}
             </View>
           );
 
@@ -365,8 +365,8 @@ export default connect(mapChecksumAddressStateToProps)(
             key={filter}
             onPress={() => this.setState({ filter })}
           >
-            <FilterChoiceTextUnselected>{filter}</FilterChoiceTextUnselected>
-            <HorizontalLine borderColor="rgba(95, 95, 95, .2)" />
+            {/* <FilterChoiceTextUnselected>{filter}</FilterChoiceTextUnselected> */}
+            {/* <HorizontalLine borderColor="rgba(95, 95, 95, .2)" /> */}
           </TouchableOpacity>
         );
       });
@@ -426,16 +426,16 @@ const FilterChoiceContainer = styled.View`
   margin-right: 16;
 `;
 
-const FilterChoiceTextSelected = styled.Text`
-  color: #000;
-  font-size: 24;
-  font-weight: bold;
-  margin: 0 8px;
-`;
+// const FilterChoiceTextSelected = styled.Text`
+//   color: #000;
+//   font-size: 24;
+//   font-weight: bold;
+//   margin: 0 8px;
+// `;
 
-const FilterChoiceTextUnselected = styled.Text`
-  font-size: 24;
-  font-weight: bold;
-  margin: 0 8px;
-  opacity: 0.4;
-`;
+// const FilterChoiceTextUnselected = styled.Text`
+//   font-size: 24;
+//   font-weight: bold;
+//   margin: 0 8px;
+//   opacity: 0.4;
+// `;
