@@ -38,12 +38,12 @@ class Initial extends Component {
   }
 
   async conditionalNavigation() {
-    const {
-      rehydration,
-      mnemonicWords,
-      mnemonicWordsValidation,
-      permissions
-    } = this.props;
+    const mnemonicWordsList = await WalletUtilities.getMnemonic();
+    const mnemonicWords =
+      typeof mnemonicWordsList === "string"
+        ? mnemonicWordsList.split(" ")
+        : null;
+    const { rehydration, mnemonicWordsValidation, permissions } = this.props;
 
     if (rehydration) {
       let mnemonicWordsStatePersisted;
@@ -222,7 +222,6 @@ function mapStateToProps(state) {
   return {
     balance: state.ReducerBalance.balance,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
-    mnemonicWords: state.ReducerMnemonic.mnemonicWords,
     mnemonicWordsValidation:
       state.ReducerMnemonicWordsValidation.mnemonicWordsValidation,
     permissions: state.ReducerPermissions.permissions,
