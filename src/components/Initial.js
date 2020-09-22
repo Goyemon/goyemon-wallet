@@ -191,7 +191,6 @@ class Initial extends Component {
         width="90%"
       >
         <LoaderContainer animation="fadeIn" delay={1000}>
-          <Logo>goyemon</Logo>
           <LottieView
             autoPlay
             loop
@@ -209,13 +208,6 @@ class Initial extends Component {
 
 const LoaderContainer = Animatable.createAnimatableComponent(styled.View`
   align-items: center;
-`);
-
-const Logo = Animatable.createAnimatableComponent(styled.Text`
-  color: #e41b13;
-  font-family: "HKGrotesk-Bold";
-  font-size: 40;
-  text-align: center;
 `);
 
 function mapStateToProps(state) {
