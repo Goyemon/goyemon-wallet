@@ -41,15 +41,15 @@ class WalletCreation extends Component {
           I18n.t("wallet-creation-blockchain-data"),
           I18n.t("wallet-creation-price-data"),
           I18n.t("wallet-creation-caution")
-        ].map((x, i) => (
-          <FadeInMessageOne
+        ].map((text, i) => (
+          <FadeInMessage
             animation="fadeInDown"
             delay={2500 + (i - 1) * 1500}
             key={i}
             top={12 + i}
           >
-            <FadeInMessageOneText>{x}...</FadeInMessageOneText>
-          </FadeInMessageOne>
+            <FadeInMessageText>{text}...</FadeInMessageText>
+          </FadeInMessage>
         ))}
       </FadeInMessageContainer>
     );
@@ -205,11 +205,11 @@ const FadeInMessageContainer = styled.View`
   min-height: ${hp("50%")};
 `;
 
-const FadeInMessageOne = Animatable.createAnimatableComponent(styled.View`
+const FadeInMessage = Animatable.createAnimatableComponent(styled.View`
   top: ${(props) => hp(`${props.top}%`)};
 `);
 
-const FadeInMessageOneText = styled.Text`
+const FadeInMessageText = styled.Text`
   color: #5f5f5f;
   font-family: "HKGrotesk-Regular";
   font-size: 24;
