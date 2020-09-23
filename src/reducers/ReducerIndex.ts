@@ -8,7 +8,6 @@ import ReducerCompound from "./ReducerCompound";
 import ReducerChecksumAddress from "./ReducerChecksumAddress";
 import ReducerDebugInfo from "./ReducerDebugInfo";
 import ReducerGasPrice from "./ReducerGasPrice";
-import ReducerMnemonic from "./ReducerMnemonic";
 import ReducerMnemonicWordsValidation from "./ReducerMnemonicWordsValidation";
 import ReducerNetInfo from "./ReducerNetInfo";
 import ReducerPermissions from "./ReducerPermissions";
@@ -29,7 +28,6 @@ const appReducers = combineReducers({
   ReducerChecksumAddress,
   ReducerDebugInfo,
   ReducerGasPrice,
-  ReducerMnemonic,
   ReducerMnemonicWordsValidation,
   ReducerModal,
   ReducerNetInfo,

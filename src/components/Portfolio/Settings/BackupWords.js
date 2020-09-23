@@ -1,6 +1,5 @@
 "use strict";
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import styled from "styled-components/native";
 import { RootContainer, Container, HeaderOne, Description } from "../../common";
 import I18n from "../../../i18n/I18n";
@@ -83,10 +82,4 @@ const MnemonicWordsText = styled.Text`
   text-align: center;
 `;
 
-function mapStateToProps(state) {
-  return {
-    mnemonicWords: state.ReducerMnemonic.mnemonicWords
-  };
-}
-
-export default connect(mapStateToProps)(BackupWords);
+export default BackupWords;

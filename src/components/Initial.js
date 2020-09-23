@@ -39,10 +39,9 @@ class Initial extends Component {
 
   async conditionalNavigation() {
     const mnemonicWordsList = await WalletUtilities.getMnemonic();
-    const mnemonicWords =
-      typeof mnemonicWordsList === "string"
-        ? mnemonicWordsList.split(" ")
-        : null;
+    const mnemonicWords = mnemonicWordsList
+      ? mnemonicWordsList.split(" ")
+      : null;
     const { rehydration, mnemonicWordsValidation, permissions } = this.props;
 
     if (rehydration) {

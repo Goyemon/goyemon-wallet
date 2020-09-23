@@ -1,9 +1,9 @@
-'use strict';
-import { applyMiddleware, createStore } from 'redux';
-import { createMigrate, persistReducer, persistStore } from 'redux-persist';
-import thunk from 'redux-thunk';
-import rootReducers from '../reducers/ReducerIndex';
-const AsyncStorage = require('@react-native-community/async-storage');
+"use strict";
+import { applyMiddleware, createStore } from "redux";
+import { createMigrate, persistReducer, persistStore } from "redux-persist";
+import thunk from "redux-thunk";
+import rootReducers from "../reducers/ReducerIndex";
+const AsyncStorage = require("@react-native-community/async-storage");
 
 const migrations = {
   0: (state: any) => {
@@ -12,7 +12,7 @@ const migrations = {
       ReducerPrice: {
         price: {
           ...state.price,
-          cdai: ''
+          cdai: ""
         }
       }
     };
@@ -20,21 +20,20 @@ const migrations = {
 };
 
 const persistConfig = {
-  key: 'root',
+  key: "root",
   storage: AsyncStorage,
   whitelist: [
-    'ReducerApproval',
-    'ReducerBalance',
-    'ReducerCompound',
-    'ReducerChecksumAddress',
-    'ReducerGasPrice',
-    'ReducerMnemonic',
-    'ReducerMnemonicWordsValidation',
-    'ReducerPermissions',
-    'ReducerPoolTogether',
-    'ReducerPrice',
-    'ReducerTransactionsLoaded',
-    'ReducerUniswap'
+    "ReducerApproval",
+    "ReducerBalance",
+    "ReducerCompound",
+    "ReducerChecksumAddress",
+    "ReducerGasPrice",
+    "ReducerMnemonicWordsValidation",
+    "ReducerPermissions",
+    "ReducerPoolTogether",
+    "ReducerPrice",
+    "ReducerTransactionsLoaded",
+    "ReducerUniswap"
   ],
   version: 0, // default version is -1
   migrate: createMigrate(migrations, { debug: true })

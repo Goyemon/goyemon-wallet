@@ -28,7 +28,6 @@ const persistConfig = {
     "ReducerCompound",
     "ReducerChecksumAddress",
     "ReducerGasPrice",
-    "ReducerMnemonic",
     "ReducerMnemonicWordsValidation",
     "ReducerPermissions",
     "ReducerPoolTogether",

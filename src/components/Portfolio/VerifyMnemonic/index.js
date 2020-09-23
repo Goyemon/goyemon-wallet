@@ -317,14 +317,10 @@ const ButtonContainer = styled.View`
   margin-top: 24;
 `;
 
-function mapStateToProps(state) {
+const mapDispatchToProps = () => {
   return {
-    mnemonicWords: state.ReducerMnemonic.mnemonicWords
+    updateMnemonicWordsValidation
   };
-}
-
-const mapDispatchToProps = {
-  updateMnemonicWordsValidation
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(VerifyMnemonic);
+export default connect(mapDispatchToProps)(VerifyMnemonic);
