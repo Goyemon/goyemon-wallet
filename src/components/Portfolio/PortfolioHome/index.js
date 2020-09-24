@@ -23,16 +23,9 @@ import I18n from "../../../i18n/I18n";
 import PortfolioStack from "../../../navigators/PortfolioStack";
 import { RoundDownBigNumberPlacesFour } from "../../../utilities/BigNumberUtilities";
 import PriceUtilities from "../../../utilities/PriceUtilities";
-import { View, Text, Modal } from "react-native";
+import { View, Text } from "react-native";
 
 class PortfolioHome extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isModal: true
-    };
-  }
-
   static navigationOptions = ({ navigation }) => {
     return {
       headerRight: (
@@ -71,7 +64,6 @@ class PortfolioHome extends Component {
 
   render() {
     const { balance, navigation, checksumAddress } = this.props;
-    const { isModal } = this.state;
 
     const ETHBalance = RoundDownBigNumberPlacesFour(
         Web3.utils.fromWei(balance.wei)
@@ -133,93 +125,6 @@ class PortfolioHome extends Component {
 
     return (
       <RootContainer>
-        <Modal transparent={true} visible={isModal}>
-          <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
-            <View
-              style={{
-                backgroundColor: "#ffffff",
-                marginLeft: 40,
-                marginRight: 40,
-                marginTop: 250,
-                borderRadius: 10,
-                flex: 0,
-                witdh: 300,
-                height: 300,
-                opacity: 0.8
-              }}
-            >
-              <TextContainer
-                style={{ borderBottomColor: "#f4f4f4", borderBottomWidth: 1 }}
-              >
-                <Text
-                  style={{
-                    fontSize: 20,
-                    textAlign: "center",
-                    paddingBottom: 5,
-                    paddingLeft: 40,
-                    paddingRight: 40,
-                    paddingTop: 20
-                  }}
-                >
-                  Backup your wallet, keep your assets safe
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    paddingBottom: 15,
-                    paddingLeft: 20,
-                    paddingRight: 20
-                  }}
-                >
-                  With no backup, losing your device will result in the loss of
-                  access forever. \nIn some extremely rare cases, hardware
-                  issues with iOS devices have resulted in corrupted keys, which
-                  lead to permanent loss of access too.
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    paddingLeft: 20,
-                    paddingRight: 20,
-                    paddingBottom: 25
-                  }}
-                >
-                  The only way to guard against losses is to back up your wallet
-                </Text>
-              </TextContainer>
-              <ButtonContainer style={{ fontSize: 25 }}>
-                <ChoiceContainer
-                  style={{ borderRightColor: "#f4f4f4", borderRightWidth: 1 }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 24,
-                      textAlign: "center",
-                      borderRightColor: "#f4f4f4",
-                      borderBottomWidth: 1,
-                      color: "#ff4500"
-                    }}
-                    onPress={() => this.setState({ isModal: false })}
-                  >
-                    I will risk it
-                  </Text>
-                </ChoiceContainer>
-                <ChoiceContainer>
-                  <Text
-                    style={{
-                      fontSize: 24,
-                      textAlign: "center",
-                      color: "#4682b4"
-                    }}
-                  >
-                    Backup now
-                  </Text>
-                </ChoiceContainer>
-              </ButtonContainer>
-            </View>
-          </View>
-        </Modal>
-
         <HeaderOne marginTop="64">{I18n.t("portfolio")}</HeaderOne>
         <BuyCryptoModal />
         <UntouchableCardContainer
@@ -257,6 +162,69 @@ class PortfolioHome extends Component {
             </BuyIconContainer>
           </IconContainer>
         </UntouchableCardContainer>
+        <View
+          style={{
+            backgroundColor: "#dcdcdc",
+            marginLeft: 20,
+            marginRight: 20,
+            marginTop: 20,
+            marginBottom: 20,
+            borderRadius: 20,
+            flex: 0,
+            witdh: 300,
+            height: 180,
+            opacity: 0.8
+          }}
+        >
+          <TextContainer>
+            <Text
+              style={{
+                fontSize: 18,
+                paddingBottom: 5,
+                paddingLeft: 40,
+                paddingRight: 40,
+                paddingTop: 20
+              }}
+            >
+              Action require: not backed up
+            </Text>
+            <Text
+              style={{
+                fontSize: 14,
+                paddingBottom: 20,
+                paddingLeft: 40,
+                paddingRight: 40
+              }}
+            >
+              If your device gets lost or stolen, or if there&apos;s an
+              unexpected hardware error, you will lose your funds forever.
+            </Text>
+          </TextContainer>
+          <ButtonContainer
+            style={{
+              fontSize: 25,
+              marginLeft: 40,
+              marginRight: 140,
+              textAlign: "center",
+              borderRadius: 12
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 20,
+                color: "#ffffff",
+                marginRight: "auto",
+                marginLeft: "auto",
+                padding: 8,
+                paddingTop: 12,
+                paddingBottom: 12
+              }}
+            >
+              Back up now
+            </Text>
+          </ButtonContainer>
+        </View>
+
         <NewHeaderThree
           color="#000"
           marginBottom="0"
@@ -286,14 +254,11 @@ const IconContainer = styled.View`
 
 const ButtonContainer = styled.View`
   flex-direction: row;
+  background-color: #008080;
 `;
 
 const TextContainer = styled.View`
   width: 100%;
-`;
-
-const ChoiceContainer = styled.View`
-  width: 50%;
 `;
 
 const ReceiveIconContainer = styled.View`
