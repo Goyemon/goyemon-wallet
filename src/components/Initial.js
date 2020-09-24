@@ -42,7 +42,7 @@ class Initial extends Component {
     const mnemonicWords = mnemonicWordsList
       ? mnemonicWordsList.split(" ")
       : null;
-    const { rehydration, mnemonicWordsValidation, permissions } = this.props;
+    const { rehydration, permissions } = this.props;
 
     if (rehydration) {
       let mnemonicWordsStatePersisted;
@@ -67,20 +67,12 @@ class Initial extends Component {
         mainPage = "Welcome";
       } else if (
         mnemonicWordsStatePersisted &&
-        !mnemonicWordsValidation &&
-        !hasPersistedState &&
-        !hasPrivateKeyInKeychain
-      ) {
-        mainPage = "ShowMnemonic";
-      } else if (
-        mnemonicWordsStatePersisted &&
         !permissions.notification &&
         hasPrivateKeyInKeychain
       ) {
         mainPage = "NotificationPermissionNotGranted";
       } else if (
         (mnemonicWordsStatePersisted &&
-          mnemonicWordsValidation &&
           permissions.notification &&
           !hasPersistedState &&
           !hasPrivateKeyInKeychain) ||
@@ -221,8 +213,6 @@ function mapStateToProps(state) {
   return {
     balance: state.ReducerBalance.balance,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
-    mnemonicWordsValidation:
-      state.ReducerMnemonicWordsValidation.mnemonicWordsValidation,
     permissions: state.ReducerPermissions.permissions,
     price: state.ReducerPrice.price,
     rehydration: state.ReducerRehydration.rehydration,

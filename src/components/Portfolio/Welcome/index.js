@@ -102,8 +102,9 @@ export default class Welcome extends Component {
             justifyContent="space-between"
             textAlign="left"
             width="80%"
-            onPress={() => {
-              navigation.navigate("CreateWalletTutorial");
+            onPress={async () => {
+              await WalletUtilities.init();
+              navigation.navigate("NotificationPermissionTutorial");
             }}
           >
             <View>
