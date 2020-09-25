@@ -35,7 +35,7 @@ const PortfolioStack = createStackNavigator(
     NotificationPermissionTutorial: {
       screen: NotificationPermissionTutorial,
       navigationOptions: () => ({
-        header: null
+        headerTransparent: true
       })
     },
     NotificationPermissionNotGranted: {
