@@ -100,6 +100,7 @@ class Initial extends Component {
           tabBarVisible = true;
         } else if (
           (navigation.state.index >= 0 && mainPage === "Welcome") ||
+          (navigation.state.index >= 0 && mainPage === "ShowMnemonic") ||
           (navigation.state.index >= 0 &&
             mainPage === "NotificationPermissionNotGranted") ||
           (navigation.state.index >= 0 && mainPage === "WalletCreation")
