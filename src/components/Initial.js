@@ -38,60 +38,55 @@ class Initial extends Component {
   }
 
   async conditionalNavigation() {
-    const mnemonicWordsList = await WalletUtilities.getMnemonic();
-    const mnemonicWords = mnemonicWordsList
-      ? mnemonicWordsList.split(" ")
-      : null;
+    const mnemonicWords = await WalletUtilities.getMnemonic();
     const { rehydration, mnemonicWordsValidation, permissions } = this.props;
 
     if (rehydration) {
-      let mnemonicWordsStatePersisted;
-      if (mnemonicWords === null) {
-        mnemonicWordsStatePersisted = false;
-      } else if (mnemonicWords != null) {
-        mnemonicWordsStatePersisted = true;
+      let hasMnemonicWordsInKeychain;
+      if (!mnemonicWords) {
+        hasMnemonicWordsInKeychain = false;
+      } else if (mnemonicWords) {
+        hasMnemonicWordsInKeychain = true;
       }
-
       const hasPersistedState = this.hasPersistedState();
-
       const hasPrivateKeyInKeychain = await WalletUtilities.isPrivateKeySaved();
 
       let mainPage = "Welcome";
 
       if (
-        !mnemonicWordsStatePersisted ||
-        (mnemonicWordsStatePersisted &&
+        !hasMnemonicWordsInKeychain ||
+        (hasMnemonicWordsInKeychain &&
           permissions.notification === null &&
           hasPrivateKeyInKeychain)
       ) {
         mainPage = "Welcome";
       } else if (
-        mnemonicWordsStatePersisted &&
+        hasMnemonicWordsInKeychain &&
         !mnemonicWordsValidation &&
         !hasPersistedState &&
         !hasPrivateKeyInKeychain
       ) {
         mainPage = "ShowMnemonic";
       } else if (
-        mnemonicWordsStatePersisted &&
+        hasMnemonicWordsInKeychain &&
         !permissions.notification &&
         hasPrivateKeyInKeychain
       ) {
         mainPage = "NotificationPermissionNotGranted";
       } else if (
-        (mnemonicWordsStatePersisted &&
+        (hasMnemonicWordsInKeychain &&
           mnemonicWordsValidation &&
           permissions.notification &&
           !hasPersistedState &&
           !hasPrivateKeyInKeychain) ||
-        (mnemonicWordsStatePersisted &&
+        (hasMnemonicWordsInKeychain &&
           permissions.notification &&
           !hasPersistedState &&
           hasPrivateKeyInKeychain)
       ) {
         mainPage = "WalletCreation";
       } else if (
-        mnemonicWordsStatePersisted &&
+        hasMnemonicWordsInKeychain &&
         permissions.notification &&
         hasPersistedState &&
         hasPrivateKeyInKeychain
