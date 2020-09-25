@@ -661,7 +661,9 @@ class TransactionUtilities {
         return "DAI";
       case data[0].token === "cdai" && data[0].type === "transfer":
         return "cDAI";
-      case data[0].token === "pooltogether" && data[0].type === "withdraw":
+      case data[0].token === "pooltogether" &&
+        (data[0].type === "withdraw" ||
+          data[0].type === "sponsorship withdraw"):
         return "DAI";
       case data[0].token === "pldai" && data[0].type === "transfer":
         return "plDAI";
