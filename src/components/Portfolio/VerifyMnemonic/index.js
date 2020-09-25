@@ -28,7 +28,6 @@ class VerifyMnemonic extends Component {
   constructor() {
     super();
     this.state = {
-      tapNumber: 2,
       fullMnemonicWords: [],
       mnemonicWords: []
     };
@@ -117,11 +116,11 @@ class VerifyMnemonic extends Component {
 
   async validateForm() {
     const mnemonicWords = this.state.mnemonicWords.join(" ");
-    const mnemonicWord = await WalletUtilities.getMnemonic();
+    const mnemonicWordsInKeychain = await WalletUtilities.getMnemonic();
 
     if (
       WalletUtilities.validateMnemonic(mnemonicWords) &&
-      mnemonicWords === mnemonicWord
+      mnemonicWords === mnemonicWordsInKeychain
     ) {
       this.setState({ mnemonicWordsValidation: true });
       this.props.updateMnemonicWordsValidation(true);
@@ -233,12 +232,12 @@ class VerifyMnemonic extends Component {
                         this.state.tapNumber,
                         fullMnemonicWords[x]
                       );
-                      let changing = {};
-                      changing.tapNumber = this.getNextPrime(
+                      let tapNumberAndButton = {};
+                      tapNumberAndButton.tapNumber = this.getNextPrime(
                         this.state.tapNumber
                       );
-                      changing[`button${x}`] = true;
-                      this.setState(changing);
+                      tapNumberAndButton[`button${x}`] = true;
+                      this.setState(tapNumberAndButton);
                     }}
                     key={x}
                   >

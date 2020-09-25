@@ -2,18 +2,10 @@
 import React, { Component } from "react";
 import { Text } from "react-native";
 import styled from "styled-components/native";
-// import WalletUtilities from "../../../utilities/WalletUtilities.ts";
 
 export default class ShowMnemonicWord extends Component {
-  constructor(prop) {
-    super(prop);
-    this.state = {
-      mnemonicWord: prop.mnemonicWord
-    };
-  }
-
   render() {
-    const { mnemonicWord } = this.state;
+    const { mnemonicWord } = this.props;
     return (
       <MnemonicWordsWrapper style={styles.cell}>
         <Text style={styles.text}>{mnemonicWord}</Text>

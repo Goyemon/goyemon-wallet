@@ -20,7 +20,9 @@ const migrations = {
   1: (state: any) => {
     return {
       ...state,
-      ReducerMnemonic: undefined
+      ReducerMnemonic: {
+        mnemonicWords: null
+      }
     };
   }
 };
@@ -34,6 +36,7 @@ const persistConfig = {
     "ReducerCompound",
     "ReducerChecksumAddress",
     "ReducerGasPrice",
+    "ReducerMnemonic",
     "ReducerMnemonicWordsValidation",
     "ReducerPermissions",
     "ReducerPoolTogether",

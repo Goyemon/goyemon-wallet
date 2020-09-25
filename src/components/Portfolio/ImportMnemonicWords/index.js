@@ -32,8 +32,7 @@ class ImportMnemonicWords extends Component {
 
   async validateForm() {
     if (WalletUtilities.validateMnemonic(this.state.mnemonicWords)) {
-      this.setState({ loading: true });
-      this.setState({ mnemonicWordsValidation: true });
+      this.setState({ mnemonicWordsValidation: true, loading: true });
       this.props.updateMnemonicWordsValidation(true);
       await WalletUtilities.setMnemonic(this.state.mnemonicWords);
       if (Platform.OS === "ios") {
