@@ -83,7 +83,11 @@ class Settings extends Component {
   }
 
   render() {
-    const { navigation } = this.props;
+    const { navigation, mnemonicWordsValidation } = this.props;
+    LogUtilities.toDebugScreen(
+      "validation",
+      mnemonicWordsValidation.toString()
+    );
     return (
       <RootContainer>
         <HeaderOne marginTop="112">{I18n.t("settings-header")}</HeaderOne>
@@ -197,12 +201,21 @@ class Settings extends Component {
           {I18n.t("settings-community")}
         </Description>
         <SettingsListContainer>
-          <SettingsListCard
-            iconName="key-outline"
-            onPress={() => navigation.navigate("BackupWords")}
-          >
-            {I18n.t("settings-backup-words")}
-          </SettingsListCard>
+          {mnemonicWordsValidation ? (
+            <SettingsListCard
+              iconName="key-outline"
+              onPress={() => navigation.navigate("BackupWords")}
+            >
+              {I18n.t("settings-backup-words")}
+            </SettingsListCard>
+          ) : (
+            <SettingsListCard
+              iconName="key-outline"
+              onPress={() => navigation.navigate("ShowMnemonic")}
+            >
+              Verify Words
+            </SettingsListCard>
+          )}
           <SettingsListCard
             iconName="discord"
             onPress={() => {
@@ -337,9 +350,14 @@ const LoveText = styled.Text`
   margin-bottom: 48;
 `;
 
+const mapStateToProps = (state) => ({
+  mnemonicWordsValidation:
+    state.ReducerMnemonicWordsValidation.mnemonicWordsValidation
+});
+
 const mapDispatchToProps = {
   clearState,
   savePopUpModalVisibility
 };
 
-export default connect(null, mapDispatchToProps)(Settings);
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);

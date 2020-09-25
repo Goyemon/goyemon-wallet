@@ -1,6 +1,7 @@
 "use strict";
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -124,11 +125,13 @@ class VerifyMnemonic extends Component {
       mnemonicWords === mnemonicWord
     ) {
       this.setState({ mnemonicWordsValidation: true });
+      LogUtilities.toDebugScreen("mne val will be updated");
       this.props.updateMnemonicWordsValidation(true);
+      LogUtilities.toDebugScreen("mne val was updated");
       if (Platform.OS === "ios") {
-        this.props.navigation.navigate("NotificationPermissionTutorial");
+        this.props.navigation.navigate("PortfolioHome");
       } else if (Platform.OS === "android") {
-        this.props.navigation.navigate("WalletCreation");
+        this.props.navigation.navigate("PortfolioHome");
       }
     } else {
       this.setState({ mnemonicWordsValidation: false });
@@ -317,10 +320,13 @@ const ButtonContainer = styled.View`
   margin-top: 24;
 `;
 
-const mapDispatchToProps = () => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    updateMnemonicWordsValidation
+    updateMnemonicWordsValidation: bindActionCreators(
+      updateMnemonicWordsValidation,
+      dispatch
+    )
   };
 };
 
-export default connect(mapDispatchToProps)(VerifyMnemonic);
+export default connect(null, mapDispatchToProps)(VerifyMnemonic);
