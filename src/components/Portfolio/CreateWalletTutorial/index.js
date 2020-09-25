@@ -20,14 +20,10 @@ class CreateWalletTutorial extends Component {
     };
   }
 
-  async setupMnemonic() {
-    const mnemonicWordList = await WalletUtilities.getMnemonic();
-    const mnemonicWords = mnemonicWordList.split(" ");
+  async validateMnemonic() {
+    const mnemonicWords = await WalletUtilities.getMnemonic();
     // LogUtilities.toDebugScreen(mnemonicWords)
-    if (
-      (mnemonicWords !== null && mnemonicWords.length === 12) ||
-      mnemonicWords.length === 24
-    ) {
+    if (mnemonicWords) {
       this.setState({ loading: false, buttonDisabled: false });
       this.props.navigation.navigate("ShowMnemonic");
     }
@@ -68,7 +64,7 @@ class CreateWalletTutorial extends Component {
                 buttonDisabled: true
               });
               await WalletUtilities.init();
-              this.setupMnemonic();
+              this.validateMnemonic();
             }}
           />
           <Loader animating={this.state.loading} size="small" />
