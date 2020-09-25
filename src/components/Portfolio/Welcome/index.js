@@ -1,6 +1,6 @@
 "use strict";
 import React, { Component } from "react";
-import { View } from "react-native";
+import { View, Platform } from "react-native";
 import * as Animatable from "react-native-animatable";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -104,7 +104,11 @@ export default class Welcome extends Component {
             width="80%"
             onPress={async () => {
               await WalletUtilities.init();
-              navigation.navigate("NotificationPermissionTutorial");
+              if (Platform.OS === "ios") {
+                navigation.navigate("NotificationPermissionTutorial");
+              } else if (Platform.OS === "android") {
+                navigation.navigate("WalletCreation");
+              }
             }}
           >
             <View>
