@@ -92,7 +92,6 @@ class Initial extends Component {
           tabBarVisible = true;
         } else if (
           (navigation.state.index >= 0 && mainPage === "Welcome") ||
-          (navigation.state.index >= 0 && mainPage === "ShowMnemonic") ||
           (navigation.state.index >= 0 &&
             mainPage === "NotificationPermissionNotGranted") ||
           (navigation.state.index >= 0 && mainPage === "WalletCreation")
@@ -114,16 +113,6 @@ class Initial extends Component {
         const resetAction = StackActions.reset({
           index: 0,
           actions: [NavigationActions.navigate({ routeName: mainPage })]
-        });
-        this.props.navigation.dispatch(resetAction);
-      } else if (mainPage === "ShowMnemonic") {
-        const resetAction = StackActions.reset({
-          index: 2,
-          actions: [
-            NavigationActions.navigate({ routeName: "Welcome" }),
-            NavigationActions.navigate({ routeName: "CreateWalletTutorial" }),
-            NavigationActions.navigate({ routeName: "ShowMnemonic" })
-          ]
         });
         this.props.navigation.dispatch(resetAction);
       } else {
