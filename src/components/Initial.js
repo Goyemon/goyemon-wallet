@@ -39,7 +39,7 @@ class Initial extends Component {
 
   async conditionalNavigation() {
     const mnemonicWords = await WalletUtilities.getMnemonic();
-    const { rehydration, mnemonicWordsValidation, permissions } = this.props;
+    const { rehydration, permissions } = this.props;
 
     if (rehydration) {
       let hasMnemonicWordsInKeychain;
@@ -62,20 +62,12 @@ class Initial extends Component {
         mainPage = "Welcome";
       } else if (
         hasMnemonicWordsInKeychain &&
-        !mnemonicWordsValidation &&
-        !hasPersistedState &&
-        !hasPrivateKeyInKeychain
-      ) {
-        mainPage = "ShowMnemonic";
-      } else if (
-        hasMnemonicWordsInKeychain &&
         !permissions.notification &&
         hasPrivateKeyInKeychain
       ) {
         mainPage = "NotificationPermissionNotGranted";
       } else if (
         (hasMnemonicWordsInKeychain &&
-          mnemonicWordsValidation &&
           permissions.notification &&
           !hasPersistedState &&
           !hasPrivateKeyInKeychain) ||
@@ -209,8 +201,6 @@ function mapStateToProps(state) {
   return {
     balance: state.ReducerBalance.balance,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
-    mnemonicWordsValidation:
-      state.ReducerMnemonicWordsValidation.mnemonicWordsValidation,
     permissions: state.ReducerPermissions.permissions,
     price: state.ReducerPrice.price,
     rehydration: state.ReducerRehydration.rehydration,

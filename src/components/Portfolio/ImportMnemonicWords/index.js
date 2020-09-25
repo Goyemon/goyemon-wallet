@@ -70,10 +70,10 @@ class ImportMnemonicWords extends Component {
         <RootContainer>
           <ProgressBar
             oneColor="#FDC800"
-            twoColor="#FDC800"
+            twoColor="#eeeeee"
             threeColor="#eeeeee"
             marginRight="40%"
-            width="40%"
+            width="0%"
           />
           <Container
             alignItems="center"
