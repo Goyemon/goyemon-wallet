@@ -20,7 +20,9 @@ const migrations = {
   1: (state: any) => {
     return {
       ...state,
-      ReducerMnemonic: undefined
+      ReducerMnemonic: {
+        mnemonicWords: null
+      }
     };
   }
 };
