@@ -16,6 +16,12 @@ const migrations = {
         }
       }
     };
+  },
+  1: (state: any) => {
+    return {
+      ...state,
+      ReducerMnemonic: undefined
+    };
   }
 };
 
@@ -36,7 +42,7 @@ const persistConfig = {
     "ReducerTransactionsLoaded",
     "ReducerUniswap"
   ],
-  version: 0, // default version is -1
+  version: 1, // default version is -1
   migrate: createMigrate(migrations, { debug: true })
 };
 
