@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import {
   RootContainer,
   Container,
+  ProgressBar,
   Button,
   HeaderTwo,
   Description,
@@ -36,6 +37,13 @@ class NotificationPermissionTutorial extends Component {
   render() {
     return (
       <RootContainer>
+        <ProgressBar
+          oneColor="#FDC800"
+          twoColor="#FDC800"
+          threeColor="#eeeeee"
+          marginRight="40%"
+          width="40%"
+        />
         <Container
           alignItems="center"
           flexDirection="column"
@@ -43,8 +51,8 @@ class NotificationPermissionTutorial extends Component {
           marginTop={40}
           width="90%"
         >
-          <HeaderTwo marginBottom="10" marginLeft="0" marginTop="100">
-            Almost Done!
+          <HeaderTwo marginBottom="0" marginLeft="0" marginTop="0">
+            Enable Notifications
           </HeaderTwo>
           <Description marginBottom="8" marginLeft="0" marginTop="16">
             {I18n.t("notification-tutorial-description")}
