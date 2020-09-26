@@ -192,7 +192,7 @@ class PortfolioHome extends Component {
                   paddingTop: 20
                 }}
               >
-                Action require: not backed up
+                Action required: not backed up
               </Text>
               <Text
                 style={{
@@ -224,6 +224,15 @@ class PortfolioHome extends Component {
                   padding: 8,
                   paddingTop: 12,
                   paddingBottom: 12
+                }}
+                onPress={() => {
+                  PortfolioStack.navigationOptions = () => {
+                    const tabBarVisible = false;
+                    return {
+                      tabBarVisible
+                    };
+                  };
+                  this.props.navigation.navigate("ShowMnemonic");
                 }}
               >
                 Back up now
