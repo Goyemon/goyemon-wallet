@@ -20,6 +20,7 @@ import {
   MnemonicWordButton,
   UntouchableCardContainer
 } from "../../common";
+import PortfolioStack from "../../../navigators/PortfolioStack";
 import LogUtilities from "../../../utilities/LogUtilities";
 import WalletUtilities from "../../../utilities/WalletUtilities.ts";
 
@@ -131,6 +132,12 @@ class VerifyMnemonic extends Component {
       } else if (Platform.OS === "android") {
         this.props.navigation.navigate("PortfolioHome");
       }
+      PortfolioStack.navigationOptions = () => {
+        const tabBarVisible = true;
+        return {
+          tabBarVisible
+        };
+      };
     } else {
       this.setState({ mnemonicWordsValidation: false });
       LogUtilities.logInfo("form validation failed!");
