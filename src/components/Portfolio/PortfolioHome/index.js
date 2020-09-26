@@ -226,13 +226,13 @@ class PortfolioHome extends Component {
                   paddingBottom: 12
                 }}
                 onPress={() => {
+                  this.props.navigation.navigate("ShowMnemonic");
                   PortfolioStack.navigationOptions = () => {
                     const tabBarVisible = false;
                     return {
                       tabBarVisible
                     };
                   };
-                  this.props.navigation.navigate("ShowMnemonic");
                 }}
               >
                 Back up now
