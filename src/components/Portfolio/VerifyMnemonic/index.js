@@ -127,11 +127,7 @@ class VerifyMnemonic extends Component {
       LogUtilities.toDebugScreen("mne val will be updated");
       this.props.updateMnemonicWordsValidation(true);
       LogUtilities.toDebugScreen("mne val was updated");
-      if (Platform.OS === "ios") {
-        this.props.navigation.navigate("PortfolioHome");
-      } else if (Platform.OS === "android") {
-        this.props.navigation.navigate("PortfolioHome");
-      }
+      this.props.navigation.navigate("PortfolioHome");
       PortfolioStack.navigationOptions = () => {
         const tabBarVisible = true;
         return {

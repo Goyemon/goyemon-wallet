@@ -4,13 +4,6 @@ import { RootContainer, Container, Button, Description } from "../../common";
 import ShowMnemonicWords from "./ShowMnemonicWords";
 
 class ShowMnemonic extends Component {
-  constructor() {
-    super();
-    this.state = {
-      twoColor: "#eeeeee",
-      progressBarWidth: "0%"
-    };
-  }
 
   render() {
     return (
