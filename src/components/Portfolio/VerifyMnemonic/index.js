@@ -13,8 +13,6 @@ import styled from "styled-components/native";
 import { updateMnemonicWordsValidation } from "../../../actions/ActionMnemonicWordsValidation";
 import {
   RootContainer,
-  ProgressBar,
-  HeaderTwo,
   Button,
   Description,
   ErrorMessage,
@@ -166,17 +164,7 @@ class VerifyMnemonic extends Component {
         enabled
       >
         <RootContainer>
-          <ProgressBar
-            oneColor="#FDC800"
-            twoColor="#FDC800"
-            threeColor="#eeeeee"
-            marginRight="40%"
-            width="40%"
-          />
-          <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
-            Verify Backup Words
-          </HeaderTwo>
-          <Description marginBottom="8" marginLeft="8" marginTop="16">
+          <Description marginBottom="8" marginLeft="8" marginTop="112">
             tap the missing words in order
           </Description>
           <MnemonicWordsContainer style={styles.table}>

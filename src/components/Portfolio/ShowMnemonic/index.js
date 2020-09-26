@@ -1,13 +1,6 @@
 "use strict";
 import React, { Component } from "react";
-import {
-  RootContainer,
-  Container,
-  ProgressBar,
-  Button,
-  HeaderTwo,
-  Description
-} from "../../common";
+import { RootContainer, Container, Button, Description } from "../../common";
 import ShowMnemonicWords from "./ShowMnemonicWords";
 
 class ShowMnemonic extends Component {
@@ -26,19 +19,9 @@ class ShowMnemonic extends Component {
           alignItems="center"
           flexDirection="column"
           justifyContent="center"
-          marginTop={0}
+          marginTop={96}
           width="90%"
         >
-          <ProgressBar
-            oneColor="#FDC800"
-            twoColor={this.state.twoColor}
-            threeColor="#eeeeee"
-            marginRight="40%"
-            width={this.state.progressBarWidth}
-          />
-          <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
-            Save Backup Words
-          </HeaderTwo>
           <Description marginBottom="8" marginLeft="8" marginTop="16">
             carefully save your backup words in order
           </Description>
