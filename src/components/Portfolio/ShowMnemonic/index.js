@@ -1,23 +1,29 @@
 "use strict";
 import React, { Component } from "react";
-import {
-  RootContainer,
-  Container,
-  ProgressBar,
-  Button,
-  HeaderTwo,
-  Description
-} from "../../common";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import styled from "styled-components/native";
+import { RootContainer, Container, Button, Description } from "../../common";
+import PortfolioStack from "../../../navigators/PortfolioStack";
 import ShowMnemonicWords from "./ShowMnemonicWords";
 
 class ShowMnemonic extends Component {
-  constructor() {
-    super();
-    this.state = {
-      twoColor: "#eeeeee",
-      progressBarWidth: "0%"
-    };
-  }
+  static navigationOptions = ({ navigation }) => ({
+    headerLeft: (
+      <BackButtonContainer
+        onPress={() => {
+          navigation.navigate("PortfolioHome");
+          PortfolioStack.navigationOptions = () => {
+            const tabBarVisible = true;
+            return {
+              tabBarVisible
+            };
+          };
+        }}
+      >
+        <Icon color="#00A3E2" name="chevron-left" size={40} />
+      </BackButtonContainer>
+    )
+  });
 
   render() {
     return (
@@ -26,19 +32,9 @@ class ShowMnemonic extends Component {
           alignItems="center"
           flexDirection="column"
           justifyContent="center"
-          marginTop={0}
+          marginTop={96}
           width="90%"
         >
-          <ProgressBar
-            oneColor="#FDC800"
-            twoColor={this.state.twoColor}
-            threeColor="#eeeeee"
-            marginRight="40%"
-            width={this.state.progressBarWidth}
-          />
-          <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
-            Save Backup Words
-          </HeaderTwo>
           <Description marginBottom="8" marginLeft="8" marginTop="16">
             carefully save your backup words in order
           </Description>
@@ -58,5 +54,10 @@ class ShowMnemonic extends Component {
     );
   }
 }
+
+const BackButtonContainer = styled.TouchableWithoutFeedback`
+  align-items: center;
+  flex-direction: row;
+`;
 
 export default ShowMnemonic;

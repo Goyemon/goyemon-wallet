@@ -50,6 +50,7 @@ class PortfolioCompound extends Component {
         </ApplicationDescription>
         <UntouchableCardContainer
           alignItems="center"
+          background="#fff"
           borderRadius="8"
           flexDirection="column"
           height="176px"
@@ -87,6 +88,7 @@ class PortfolioCompound extends Component {
         </HeaderThree>
         <UntouchableCardContainer
           alignItems="center"
+          background="#fff"
           borderRadius="8"
           flexDirection="row"
           height="200px"

@@ -1,6 +1,7 @@
 "use strict";
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -12,8 +13,6 @@ import styled from "styled-components/native";
 import { updateMnemonicWordsValidation } from "../../../actions/ActionMnemonicWordsValidation";
 import {
   RootContainer,
-  ProgressBar,
-  HeaderTwo,
   Button,
   Description,
   ErrorMessage,
@@ -21,6 +20,7 @@ import {
   MnemonicWordButton,
   UntouchableCardContainer
 } from "../../common";
+import PortfolioStack from "../../../navigators/PortfolioStack";
 import LogUtilities from "../../../utilities/LogUtilities";
 import WalletUtilities from "../../../utilities/WalletUtilities.ts";
 
@@ -123,12 +123,16 @@ class VerifyMnemonic extends Component {
       mnemonicWords === mnemonicWordsInKeychain
     ) {
       this.setState({ mnemonicWordsValidation: true });
+      LogUtilities.toDebugScreen("mne val will be updated");
       this.props.updateMnemonicWordsValidation(true);
-      if (Platform.OS === "ios") {
-        this.props.navigation.navigate("NotificationPermissionTutorial");
-      } else if (Platform.OS === "android") {
-        this.props.navigation.navigate("WalletCreation");
-      }
+      LogUtilities.toDebugScreen("mne val was updated");
+      this.props.navigation.navigate("PortfolioHome");
+      PortfolioStack.navigationOptions = () => {
+        const tabBarVisible = true;
+        return {
+          tabBarVisible
+        };
+      };
     } else {
       this.setState({ mnemonicWordsValidation: false });
       LogUtilities.logInfo("form validation failed!");
@@ -162,17 +166,7 @@ class VerifyMnemonic extends Component {
         enabled
       >
         <RootContainer>
-          <ProgressBar
-            oneColor="#FDC800"
-            twoColor="#FDC800"
-            threeColor="#eeeeee"
-            marginRight="40%"
-            width="40%"
-          />
-          <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
-            Verify Backup Words
-          </HeaderTwo>
-          <Description marginBottom="8" marginLeft="8" marginTop="16">
+          <Description marginBottom="8" marginLeft="8" marginTop="112">
             tap the missing words in order
           </Description>
           <MnemonicWordsContainer style={styles.table}>
@@ -202,6 +196,7 @@ class VerifyMnemonic extends Component {
           </MnemonicWordsContainer>
           <UntouchableCardContainer
             alignItems="center"
+            background="#FFF"
             borderRadius="8px"
             flexDirection="column"
             height="200px"
@@ -316,10 +311,13 @@ const ButtonContainer = styled.View`
   margin-top: 24;
 `;
 
-const mapDispatchToProps = () => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    updateMnemonicWordsValidation
+    updateMnemonicWordsValidation: bindActionCreators(
+      updateMnemonicWordsValidation,
+      dispatch
+    )
   };
 };
 
-export default connect(mapDispatchToProps)(VerifyMnemonic);
+export default connect(null, mapDispatchToProps)(VerifyMnemonic);
