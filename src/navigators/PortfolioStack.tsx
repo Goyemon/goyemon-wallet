@@ -72,7 +72,8 @@ const PortfolioStack = createStackNavigator(
     VerifyMnemonic: {
       screen: VerifyMnemonic,
       navigationOptions: () => ({
-        headerTransparent: true
+        headerTransparent: true,
+        gesturesEnabled: false
       })
     },
     PortfolioHome: {
