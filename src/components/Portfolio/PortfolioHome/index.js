@@ -17,13 +17,13 @@ import {
 } from "../../../components/common";
 import BuyCryptoModal from "../../../components/BuyCryptoModal";
 import ApplicationBoxes from "./ApplicationBoxes";
+import WarningBox from "./WarningBox";
 import Copy from "../../Copy";
 import FcmPermissions from "../../../firebase/FcmPermissions";
 import I18n from "../../../i18n/I18n";
 import PortfolioStack from "../../../navigators/PortfolioStack";
 import { RoundDownBigNumberPlacesFour } from "../../../utilities/BigNumberUtilities";
 import PriceUtilities from "../../../utilities/PriceUtilities";
-import { View, Text } from "react-native";
 
 class PortfolioHome extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -134,6 +134,7 @@ class PortfolioHome extends Component {
         <BuyCryptoModal />
         <UntouchableCardContainer
           alignItems="center"
+          background="#fff"
           borderRadius="8"
           flexDirection="column"
           height="240px"
@@ -168,79 +169,18 @@ class PortfolioHome extends Component {
           </IconContainer>
         </UntouchableCardContainer>
         {!mnemonicWordsValidation && (
-          <View
-            style={{
-              backgroundColor: "#dcdcdc",
-              marginLeft: 20,
-              marginRight: 20,
-              marginTop: 20,
-              marginBottom: 20,
-              borderRadius: 20,
-              flex: 0,
-              witdh: 300,
-              height: 180,
-              opacity: 0.8
+          <WarningBox
+            onPress={() => {
+              this.props.navigation.navigate("ShowMnemonic");
+              PortfolioStack.navigationOptions = () => {
+                const tabBarVisible = false;
+                return {
+                  tabBarVisible
+                };
+              };
             }}
-          >
-            <TextContainer>
-              <Text
-                style={{
-                  fontSize: 18,
-                  paddingBottom: 5,
-                  paddingLeft: 40,
-                  paddingRight: 40,
-                  paddingTop: 20
-                }}
-              >
-                Action required: not backed up
-              </Text>
-              <Text
-                style={{
-                  fontSize: 14,
-                  paddingBottom: 20,
-                  paddingLeft: 40,
-                  paddingRight: 40
-                }}
-              >
-                If your device gets lost or stolen, or if there&apos;s an
-                unexpected hardware error, you will lose your funds forever.
-              </Text>
-            </TextContainer>
-            <ButtonContainer
-              style={{
-                fontSize: 25,
-                marginLeft: 40,
-                marginRight: 140,
-                textAlign: "center",
-                borderRadius: 12
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 20,
-                  color: "#ffffff",
-                  marginRight: "auto",
-                  marginLeft: "auto",
-                  padding: 8,
-                  paddingTop: 12,
-                  paddingBottom: 12
-                }}
-                onPress={() => {
-                  this.props.navigation.navigate("ShowMnemonic");
-                  PortfolioStack.navigationOptions = () => {
-                    const tabBarVisible = false;
-                    return {
-                      tabBarVisible
-                    };
-                  };
-                }}
-              >
-                Back up now
-              </Text>
-            </ButtonContainer>
-          </View>
+          />
         )}
-
         <NewHeaderThree
           color="#000"
           marginBottom="0"
@@ -266,15 +206,6 @@ const IconContainer = styled.View`
   flex-direction: row;
   justify-content: space-around;
   width: 60%;
-`;
-
-const ButtonContainer = styled.View`
-  flex-direction: row;
-  background-color: #008080;
-`;
-
-const TextContainer = styled.View`
-  width: 100%;
 `;
 
 const ReceiveIconContainer = styled.View`
