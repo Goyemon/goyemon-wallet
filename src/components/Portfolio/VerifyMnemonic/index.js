@@ -197,6 +197,7 @@ class VerifyMnemonic extends Component {
           </MnemonicWordsContainer>
           <UntouchableCardContainer
             alignItems="center"
+            background="#FFF"
             borderRadius="8px"
             flexDirection="column"
             height="200px"

@@ -21,6 +21,7 @@ const TokenBalanceCards = (props) => (
 const TokenBalanceCard = (props) => (
   <UntouchableCardContainer
     alignItems="center"
+    background="#fff"
     borderRadius="8"
     flexDirection="row"
     height="120px"

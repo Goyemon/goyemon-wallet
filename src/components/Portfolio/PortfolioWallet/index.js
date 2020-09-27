@@ -75,6 +75,7 @@ class PortfolioWallet extends Component {
         />
         <UntouchableCardContainer
           alignItems="center"
+          background="#fff"
           borderRadius="8"
           flexDirection="column"
           height="144px"

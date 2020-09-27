@@ -222,6 +222,7 @@ class Settings extends Component {
         </SettingsListContainer>
         <UntouchableCardContainer
           alignItems="center"
+          background="#FFF"
           borderRadius="0"
           flexDirection="column"
           height="80px"

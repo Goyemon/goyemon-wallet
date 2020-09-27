@@ -269,7 +269,8 @@ class Swap extends Component {
         <HeaderOne marginTop="64">{I18n.t("swap")}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
-          borderRadius="8px"
+          background="#fff"
+          borderRadius="8"
           flexDirection="row"
           height="160px"
           justifyContent="center"
@@ -356,7 +357,8 @@ class Swap extends Component {
         </Container>
         <UntouchableCardContainer
           alignItems="center"
-          borderRadius="8px"
+          background="#fff"
+          borderRadius="8"
           flexDirection="row"
           height="160px"
           justifyContent="center"
