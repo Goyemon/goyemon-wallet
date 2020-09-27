@@ -35,7 +35,7 @@ const PortfolioStack = createStackNavigator(
     NotificationPermissionTutorial: {
       screen: NotificationPermissionTutorial,
       navigationOptions: () => ({
-        header: null
+        headerTransparent: true
       })
     },
     NotificationPermissionNotGranted: {
@@ -72,7 +72,8 @@ const PortfolioStack = createStackNavigator(
     VerifyMnemonic: {
       screen: VerifyMnemonic,
       navigationOptions: () => ({
-        headerTransparent: true
+        headerTransparent: true,
+        gesturesEnabled: false
       })
     },
     PortfolioHome: {

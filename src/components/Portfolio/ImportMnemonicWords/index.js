@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { KeyboardAvoidingView, Platform, View, Clipboard } from "react-native";
 import styled from "styled-components/native";
-import { saveMnemonicWords } from "../../../actions/ActionMnemonic";
 import { updateMnemonicWordsValidation } from "../../../actions/ActionMnemonicWordsValidation";
 import {
   RootContainer,
@@ -33,11 +32,9 @@ class ImportMnemonicWords extends Component {
 
   async validateForm() {
     if (WalletUtilities.validateMnemonic(this.state.mnemonicWords)) {
-      this.setState({ loading: true });
-      this.setState({ mnemonicWordsValidation: true });
+      this.setState({ mnemonicWordsValidation: true, loading: true });
       this.props.updateMnemonicWordsValidation(true);
       await WalletUtilities.setMnemonic(this.state.mnemonicWords);
-      await this.props.saveMnemonicWords();
       if (Platform.OS === "ios") {
         this.props.navigation.navigate("NotificationPermissionTutorial");
       } else if (Platform.OS === "android") {
@@ -73,10 +70,10 @@ class ImportMnemonicWords extends Component {
         <RootContainer>
           <ProgressBar
             oneColor="#FDC800"
-            twoColor="#FDC800"
+            twoColor="#eeeeee"
             threeColor="#eeeeee"
             marginRight="40%"
-            width="40%"
+            width="0%"
           />
           <Container
             alignItems="center"
@@ -167,7 +164,6 @@ const PasteText = styled.Text`
 `;
 
 const mapDispatchToProps = {
-  saveMnemonicWords,
   updateMnemonicWordsValidation
 };
 

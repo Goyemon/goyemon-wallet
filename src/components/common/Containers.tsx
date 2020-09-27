@@ -110,6 +110,7 @@ const TouchableCardContainerInner = styled.TouchableOpacity`
 
 interface UntouchableCardContainerProps {
   alignItems: string;
+  bakcground: string;
   borderRadius: string;
   flexDirection: string;
   height: number | string;
@@ -125,6 +126,7 @@ export const UntouchableCardContainer = (
 ) => (
   <UntouchableCardContainerInner
     alignItems={props.alignItems}
+    background={props.background}
     borderRadius={props.borderRadius}
     flexDirection={props.flexDirection}
     height={props.height}
@@ -139,7 +141,7 @@ export const UntouchableCardContainer = (
 
 const UntouchableCardContainerInner = styled.View`
   align-items: ${(props) => props.alignItems};
-  background: #fff;
+  background: ${(props) => props.background};
   border-radius: ${(props) => props.borderRadius};
   flex-direction: ${(props) => props.flexDirection};
   height: ${(props) => props.height};

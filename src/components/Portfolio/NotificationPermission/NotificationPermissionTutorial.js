@@ -40,9 +40,9 @@ class NotificationPermissionTutorial extends Component {
         <ProgressBar
           oneColor="#FDC800"
           twoColor="#FDC800"
-          threeColor="#FDC800"
-          marginRight="0%"
-          width="80%"
+          threeColor="#eeeeee"
+          marginRight="40%"
+          width="40%"
         />
         <Container
           alignItems="center"
@@ -52,7 +52,7 @@ class NotificationPermissionTutorial extends Component {
           width="90%"
         >
           <HeaderTwo marginBottom="0" marginLeft="0" marginTop="0">
-            Almost Done!
+            Enable Notifications
           </HeaderTwo>
           <Description marginBottom="8" marginLeft="0" marginTop="16">
             {I18n.t("notification-tutorial-description")}

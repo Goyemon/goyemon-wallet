@@ -18,6 +18,7 @@ class Receive extends Component {
       <RootContainer>
         <UntouchableCardContainer
           alignItems="center"
+          background="#FFF"
           borderRadius="0"
           flexDirection="column"
           height="360px"

@@ -17,6 +17,7 @@ import {
 } from "../../../components/common";
 import BuyCryptoModal from "../../../components/BuyCryptoModal";
 import ApplicationBoxes from "./ApplicationBoxes";
+import WarningBox from "./WarningBox";
 import Copy from "../../Copy";
 import FcmPermissions from "../../../firebase/FcmPermissions";
 import I18n from "../../../i18n/I18n";
@@ -62,7 +63,12 @@ class PortfolioHome extends Component {
       .toFixed(fix);
 
   render() {
-    const { balance, navigation, checksumAddress } = this.props;
+    const {
+      balance,
+      navigation,
+      checksumAddress,
+      mnemonicWordsValidation
+    } = this.props;
 
     const ETHBalance = RoundDownBigNumberPlacesFour(
         Web3.utils.fromWei(balance.wei)
@@ -128,6 +134,7 @@ class PortfolioHome extends Component {
         <BuyCryptoModal />
         <UntouchableCardContainer
           alignItems="center"
+          background="#fff"
           borderRadius="8"
           flexDirection="column"
           height="240px"
@@ -161,6 +168,19 @@ class PortfolioHome extends Component {
             </BuyIconContainer>
           </IconContainer>
         </UntouchableCardContainer>
+        {!mnemonicWordsValidation && (
+          <WarningBox
+            onPress={() => {
+              this.props.navigation.navigate("ShowMnemonic");
+              PortfolioStack.navigationOptions = () => {
+                const tabBarVisible = false;
+                return {
+                  tabBarVisible
+                };
+              };
+            }}
+          />
+        )}
         <NewHeaderThree
           color="#000"
           marginBottom="0"
@@ -203,6 +223,8 @@ const BuyIconContainer = styled.View`
 `;
 
 const mapStateToProps = (state) => ({
+  mnemonicWordsValidation:
+    state.ReducerMnemonicWordsValidation.mnemonicWordsValidation,
   balance: state.ReducerBalance.balance,
   checksumAddress: state.ReducerChecksumAddress.checksumAddress,
   price: state.ReducerPrice.price

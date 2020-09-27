@@ -408,6 +408,7 @@ const ButtonWrapper = styled.View`
 const SendTokenHeader = (props) => (
   <UntouchableCardContainer
     alignItems="center"
+    background="#FFF"
     borderRadius="8px"
     flexDirection="column"
     height="160px"

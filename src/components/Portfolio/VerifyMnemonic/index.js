@@ -1,6 +1,7 @@
 "use strict";
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -12,8 +13,6 @@ import styled from "styled-components/native";
 import { updateMnemonicWordsValidation } from "../../../actions/ActionMnemonicWordsValidation";
 import {
   RootContainer,
-  ProgressBar,
-  HeaderTwo,
   Button,
   Description,
   ErrorMessage,
@@ -21,96 +20,75 @@ import {
   MnemonicWordButton,
   UntouchableCardContainer
 } from "../../common";
+import PortfolioStack from "../../../navigators/PortfolioStack";
 import LogUtilities from "../../../utilities/LogUtilities";
 import WalletUtilities from "../../../utilities/WalletUtilities.ts";
 
 class VerifyMnemonic extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
+      fullMnemonicWords: [],
+      mnemonicWords: []
+    };
+  }
+
+  componentDidMount() {
+    this.resetValidation();
+  }
+
+  async resetValidation() {
+    const fullMnemonicWords = await WalletUtilities.getMnemonic();
+    this.setState(this.getDefault(fullMnemonicWords.split(" ")));
+    this.setState({
+      fullMnemonicWords: fullMnemonicWords.split(" ")
+    });
+  }
+
+  getDefault(mnemonicWords) {
+    return {
       mnemonicWords: [
-        props.mnemonicWords.split(" ")[0],
-        props.mnemonicWords.split(" ")[1],
+        mnemonicWords[0],
+        mnemonicWords[1],
         "",
         "",
-        props.mnemonicWords.split(" ")[4],
+        mnemonicWords[4],
         "",
-        props.mnemonicWords.split(" ")[6],
+        mnemonicWords[6],
         "",
-        props.mnemonicWords.split(" ")[8],
-        props.mnemonicWords.split(" ")[9],
-        props.mnemonicWords.split(" ")[10],
+        mnemonicWords[8],
+        mnemonicWords[9],
+        mnemonicWords[10],
         "",
-        props.mnemonicWords.split(" ")[12],
+        mnemonicWords[12],
         "",
-        props.mnemonicWords.split(" ")[14],
-        props.mnemonicWords.split(" ")[15],
-        props.mnemonicWords.split(" ")[16],
+        mnemonicWords[14],
+        mnemonicWords[15],
+        mnemonicWords[16],
         "",
-        props.mnemonicWords.split(" ")[18],
+        mnemonicWords[18],
         "",
-        props.mnemonicWords.split(" ")[20],
-        props.mnemonicWords.split(" ")[21],
-        props.mnemonicWords.split(" ")[22],
+        mnemonicWords[20],
+        mnemonicWords[21],
+        mnemonicWords[22],
         ""
       ],
       tapNumber: 2,
       button2: false,
-      button19: false,
       button3: false,
-      button17: false,
-      button13: false,
-      button23: false,
       button7: false,
       button5: false,
       button11: false,
+      button13: false,
+      button17: false,
+      button19: false,
+      button23: false,
       mnemonicWordsValidation: true
     };
   }
 
-  resetValidation() {
-    const mnemonicWordsArray = this.props.mnemonicWords.split(" ");
-    this.setState({
-      mnemonicWords: [
-        mnemonicWordsArray[0],
-        mnemonicWordsArray[1],
-        "",
-        "",
-        mnemonicWordsArray[4],
-        "",
-        mnemonicWordsArray[6],
-        "",
-        mnemonicWordsArray[8],
-        mnemonicWordsArray[9],
-        mnemonicWordsArray[10],
-        "",
-        mnemonicWordsArray[12],
-        "",
-        mnemonicWordsArray[14],
-        mnemonicWordsArray[15],
-        mnemonicWordsArray[16],
-        "",
-        mnemonicWordsArray[18],
-        "",
-        mnemonicWordsArray[20],
-        mnemonicWordsArray[21],
-        mnemonicWordsArray[22],
-        ""
-      ],
-      tapNumber: 2,
-      button2: false,
-      button19: false,
-      button3: false,
-      button17: false,
-      button13: false,
-      button23: false,
-      button7: false,
-      button5: false,
-      button11: false
-    });
-  }
-
   updateMnemonicArray(index, word) {
+    LogUtilities.toDebugScreen(index, word);
     const mnemonicWordsCopy = this.state.mnemonicWords;
     mnemonicWordsCopy[index] = word;
     this.setState({ mnemonicWords: mnemonicWordsCopy });
@@ -136,20 +114,25 @@ class VerifyMnemonic extends Component {
     return count;
   }
 
-  validateForm() {
+  async validateForm() {
     const mnemonicWords = this.state.mnemonicWords.join(" ");
+    const mnemonicWordsInKeychain = await WalletUtilities.getMnemonic();
 
     if (
       WalletUtilities.validateMnemonic(mnemonicWords) &&
-      mnemonicWords === this.props.mnemonicWords
+      mnemonicWords === mnemonicWordsInKeychain
     ) {
       this.setState({ mnemonicWordsValidation: true });
+      LogUtilities.toDebugScreen("mne val will be updated");
       this.props.updateMnemonicWordsValidation(true);
-      if (Platform.OS === "ios") {
-        this.props.navigation.navigate("NotificationPermissionTutorial");
-      } else if (Platform.OS === "android") {
-        this.props.navigation.navigate("WalletCreation");
-      }
+      LogUtilities.toDebugScreen("mne val was updated");
+      this.props.navigation.navigate("PortfolioHome");
+      PortfolioStack.navigationOptions = () => {
+        const tabBarVisible = true;
+        return {
+          tabBarVisible
+        };
+      };
     } else {
       this.setState({ mnemonicWordsValidation: false });
       LogUtilities.logInfo("form validation failed!");
@@ -157,10 +140,7 @@ class VerifyMnemonic extends Component {
   }
 
   renderInvalidMnemonicWordsMessage() {
-    if (this.state.mnemonicWordsValidation) {
-      return;
-    }
-    return (
+    return this.state.mnemonicWordsValidation ? null : (
       <ErrorMessage textAlign="center">invalid mnemonic words!</ErrorMessage>
     );
   }
@@ -177,7 +157,7 @@ class VerifyMnemonic extends Component {
   }
 
   render() {
-    const { mnemonicWords } = this.state;
+    const { mnemonicWords, fullMnemonicWords } = this.state;
 
     return (
       <KeyboardAvoidingView
@@ -186,17 +166,7 @@ class VerifyMnemonic extends Component {
         enabled
       >
         <RootContainer>
-          <ProgressBar
-            oneColor="#FDC800"
-            twoColor="#FDC800"
-            threeColor="#eeeeee"
-            marginRight="40%"
-            width="40%"
-          />
-          <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
-            Verify Backup Words
-          </HeaderTwo>
-          <Description marginBottom="8" marginLeft="8" marginTop="16">
+          <Description marginBottom="8" marginLeft="8" marginTop="112">
             tap the missing words in order
           </Description>
           <MnemonicWordsContainer style={styles.table}>
@@ -226,6 +196,7 @@ class VerifyMnemonic extends Component {
           </MnemonicWordsContainer>
           <UntouchableCardContainer
             alignItems="center"
+            background="#FFF"
             borderRadius="8px"
             flexDirection="column"
             height="200px"
@@ -234,174 +205,42 @@ class VerifyMnemonic extends Component {
             textAlign="center"
             width="90%"
           >
-            <Container
-              alignItems="center"
-              flexDirection="row"
-              justifyContent="center"
-              marginTop={0}
-              width="100%"
-            >
-              <MnemonicWordButton
-                disabled={this.state.button2}
-                opacity={this.state.button2 ? 0.1 : 1}
-                onPress={() => {
-                  this.updateMnemonicArray(
-                    this.state.tapNumber,
-                    this.props.mnemonicWords.split(" ")[2]
-                  );
-                  this.setState({
-                    tapNumber: this.getNextPrime(this.state.tapNumber),
-                    button2: true
-                  });
-                }}
+            {[
+              [2, 19, 3],
+              [17, 13, 23],
+              [7, 5, 11]
+            ].map((x) => (
+              <Container
+                alignItems="center"
+                flexDirection="row"
+                justifyContent="center"
+                marginTop={16}
+                width="100%"
+                key={x}
               >
-                {this.props.mnemonicWords.split(" ")[2]}
-              </MnemonicWordButton>
-              <MnemonicWordButton
-                disabled={this.state.button19}
-                opacity={this.state.button19 ? 0.1 : 1}
-                onPress={() => {
-                  this.updateMnemonicArray(
-                    this.state.tapNumber,
-                    this.props.mnemonicWords.split(" ")[19]
-                  );
-                  this.setState({
-                    tapNumber: this.getNextPrime(this.state.tapNumber),
-                    button19: true
-                  });
-                }}
-              >
-                {this.props.mnemonicWords.split(" ")[19]}
-              </MnemonicWordButton>
-              <MnemonicWordButton
-                disabled={this.state.button3}
-                opacity={this.state.button3 ? 0.1 : 1}
-                onPress={() => {
-                  this.updateMnemonicArray(
-                    this.state.tapNumber,
-                    this.props.mnemonicWords.split(" ")[3]
-                  );
-                  this.setState({
-                    tapNumber: this.getNextPrime(this.state.tapNumber),
-                    button3: true
-                  });
-                }}
-              >
-                {this.props.mnemonicWords.split(" ")[3]}
-              </MnemonicWordButton>
-            </Container>
-            <Container
-              alignItems="center"
-              flexDirection="row"
-              justifyContent="center"
-              marginTop={16}
-              width="100%"
-            >
-              <MnemonicWordButton
-                disabled={this.state.button17}
-                opacity={this.state.button17 ? 0.1 : 1}
-                onPress={() => {
-                  this.updateMnemonicArray(
-                    this.state.tapNumber,
-                    this.props.mnemonicWords.split(" ")[17]
-                  );
-                  this.setState({
-                    tapNumber: this.getNextPrime(this.state.tapNumber),
-                    button17: true
-                  });
-                }}
-              >
-                {this.props.mnemonicWords.split(" ")[17]}
-              </MnemonicWordButton>
-              <MnemonicWordButton
-                disabled={this.state.button13}
-                opacity={this.state.button13 ? 0.1 : 1}
-                onPress={() => {
-                  this.updateMnemonicArray(
-                    this.state.tapNumber,
-                    this.props.mnemonicWords.split(" ")[13]
-                  );
-                  this.setState({
-                    tapNumber: this.getNextPrime(this.state.tapNumber),
-                    button13: true
-                  });
-                }}
-              >
-                {this.props.mnemonicWords.split(" ")[13]}
-              </MnemonicWordButton>
-              <MnemonicWordButton
-                disabled={this.state.button23}
-                opacity={this.state.button23 ? 0.1 : 1}
-                onPress={() => {
-                  this.updateMnemonicArray(
-                    this.state.tapNumber,
-                    this.props.mnemonicWords.split(" ")[23]
-                  );
-                  this.setState({
-                    tapNumber: this.getNextPrime(this.state.tapNumber),
-                    button23: true
-                  });
-                }}
-              >
-                {this.props.mnemonicWords.split(" ")[23]}
-              </MnemonicWordButton>
-            </Container>
-            <Container
-              alignItems="center"
-              flexDirection="row"
-              justifyContent="center"
-              marginTop={16}
-              width="100%"
-            >
-              <MnemonicWordButton
-                disabled={this.state.button7}
-                opacity={this.state.button7 ? 0.1 : 1}
-                onPress={() => {
-                  this.updateMnemonicArray(
-                    this.state.tapNumber,
-                    this.props.mnemonicWords.split(" ")[7]
-                  );
-                  this.setState({
-                    tapNumber: this.getNextPrime(this.state.tapNumber),
-                    button7: true
-                  });
-                }}
-              >
-                {this.props.mnemonicWords.split(" ")[7]}
-              </MnemonicWordButton>
-              <MnemonicWordButton
-                disabled={this.state.button5}
-                opacity={this.state.button5 ? 0.1 : 1}
-                onPress={() => {
-                  this.updateMnemonicArray(
-                    this.state.tapNumber,
-                    this.props.mnemonicWords.split(" ")[5]
-                  );
-                  this.setState({
-                    tapNumber: this.getNextPrime(this.state.tapNumber),
-                    button5: true
-                  });
-                }}
-              >
-                {this.props.mnemonicWords.split(" ")[5]}
-              </MnemonicWordButton>
-              <MnemonicWordButton
-                disabled={this.state.button11}
-                opacity={this.state.button11 ? 0.1 : 1}
-                onPress={() => {
-                  this.updateMnemonicArray(
-                    this.state.tapNumber,
-                    this.props.mnemonicWords.split(" ")[11]
-                  );
-                  this.setState({
-                    tapNumber: this.getNextPrime(this.state.tapNumber),
-                    button11: true
-                  });
-                }}
-              >
-                {this.props.mnemonicWords.split(" ")[11]}
-              </MnemonicWordButton>
-            </Container>
+                {x.map((x) => (
+                  <MnemonicWordButton
+                    disabled={this.state[`button${x}`]}
+                    opacity={this.state[`button${x}`] ? 0.1 : 1}
+                    onPress={() => {
+                      this.updateMnemonicArray(
+                        this.state.tapNumber,
+                        fullMnemonicWords[x]
+                      );
+                      let tapNumberAndButton = {};
+                      tapNumberAndButton.tapNumber = this.getNextPrime(
+                        this.state.tapNumber
+                      );
+                      tapNumberAndButton[`button${x}`] = true;
+                      this.setState(tapNumberAndButton);
+                    }}
+                    key={x}
+                  >
+                    {fullMnemonicWords[x]}
+                  </MnemonicWordButton>
+                ))}
+              </Container>
+            ))}
           </UntouchableCardContainer>
           <ButtonContainer>
             <Button
@@ -472,14 +311,13 @@ const ButtonContainer = styled.View`
   margin-top: 24;
 `;
 
-function mapStateToProps(state) {
+const mapDispatchToProps = (dispatch) => {
   return {
-    mnemonicWords: state.ReducerMnemonic.mnemonicWords
+    updateMnemonicWordsValidation: bindActionCreators(
+      updateMnemonicWordsValidation,
+      dispatch
+    )
   };
-}
-
-const mapDispatchToProps = {
-  updateMnemonicWordsValidation
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(VerifyMnemonic);
+export default connect(null, mapDispatchToProps)(VerifyMnemonic);

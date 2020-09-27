@@ -183,7 +183,8 @@ class DepositDaiToCompound extends Component {
         <HeaderOne marginTop="96">{I18n.t("deposit")}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
-          borderRadius="8px"
+          background="#fff"
+          borderRadius="8"
           flexDirection="column"
           height="200px"
           justifyContent="center"

@@ -184,7 +184,8 @@ class WithdrawDaiFromPoolTogether extends Component {
         <HeaderOne marginTop="96">{I18n.t("withdraw")}</HeaderOne>
         <UntouchableCardContainer
           alignItems="center"
-          borderRadius="8px"
+          background="#fff"
+          borderRadius="8"
           flexDirection="column"
           height="160px"
           justifyContent="center"

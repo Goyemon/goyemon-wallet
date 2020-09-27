@@ -1,13 +1,25 @@
 "use strict";
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import styled from "styled-components/native";
-import { RootContainer, Container, HeaderOne, Description } from "../../common";
+import { RootContainer, Container, HeaderOne } from "../../common";
 import I18n from "../../../i18n/I18n";
+import WalletUtilities from "../../../utilities/WalletUtilities";
 
 class BackupWords extends Component {
+  constructor() {
+    super();
+    this.state = {
+      mnemonicWords: []
+    };
+  }
+
+  async componentDidMount() {
+    const mnemonicWords = await WalletUtilities.getMnemonic();
+    this.setState({ mnemonicWords: mnemonicWords.split(" ") });
+  }
+
   render() {
-    const mnemonicWords = this.props.mnemonicWords.split(" ");
+    const { mnemonicWords } = this.state;
 
     return (
       <RootContainer>
@@ -21,9 +33,6 @@ class BackupWords extends Component {
           marginTop={16}
           width="90%"
         >
-          <Description marginBottom="16" marginLeft="8" marginTop="16">
-            {I18n.t("settings-backup-words-description")}
-          </Description>
           <MnemonicWordsContainer style={styles.table}>
             {mnemonicWords.map((mnemonicWord, id) => (
               <MnemonicWordsWrapper key={id} style={styles.cell}>
@@ -70,10 +79,4 @@ const MnemonicWordsText = styled.Text`
   text-align: center;
 `;
 
-function mapStateToProps(state) {
-  return {
-    mnemonicWords: state.ReducerMnemonic.mnemonicWords
-  };
-}
-
-export default connect(mapStateToProps)(BackupWords);
+export default BackupWords;

@@ -38,61 +38,47 @@ class Initial extends Component {
   }
 
   async conditionalNavigation() {
-    const {
-      rehydration,
-      mnemonicWords,
-      mnemonicWordsValidation,
-      permissions
-    } = this.props;
+    const mnemonicWords = await WalletUtilities.getMnemonic();
+    const { rehydration, permissions } = this.props;
 
     if (rehydration) {
-      let mnemonicWordsStatePersisted;
-      if (mnemonicWords === null) {
-        mnemonicWordsStatePersisted = false;
-      } else if (mnemonicWords != null) {
-        mnemonicWordsStatePersisted = true;
+      let hasMnemonicWordsInKeychain;
+      if (!mnemonicWords) {
+        hasMnemonicWordsInKeychain = false;
+      } else if (mnemonicWords) {
+        hasMnemonicWordsInKeychain = true;
       }
-
       const hasPersistedState = this.hasPersistedState();
-
       const hasPrivateKeyInKeychain = await WalletUtilities.isPrivateKeySaved();
 
       let mainPage = "Welcome";
 
       if (
-        !mnemonicWordsStatePersisted ||
-        (mnemonicWordsStatePersisted &&
+        !hasMnemonicWordsInKeychain ||
+        (hasMnemonicWordsInKeychain &&
           permissions.notification === null &&
           hasPrivateKeyInKeychain)
       ) {
         mainPage = "Welcome";
       } else if (
-        mnemonicWordsStatePersisted &&
-        !mnemonicWordsValidation &&
-        !hasPersistedState &&
-        !hasPrivateKeyInKeychain
-      ) {
-        mainPage = "ShowMnemonic";
-      } else if (
-        mnemonicWordsStatePersisted &&
+        hasMnemonicWordsInKeychain &&
         !permissions.notification &&
         hasPrivateKeyInKeychain
       ) {
         mainPage = "NotificationPermissionNotGranted";
       } else if (
-        (mnemonicWordsStatePersisted &&
-          mnemonicWordsValidation &&
+        (hasMnemonicWordsInKeychain &&
           permissions.notification &&
           !hasPersistedState &&
           !hasPrivateKeyInKeychain) ||
-        (mnemonicWordsStatePersisted &&
+        (hasMnemonicWordsInKeychain &&
           permissions.notification &&
           !hasPersistedState &&
           hasPrivateKeyInKeychain)
       ) {
         mainPage = "WalletCreation";
       } else if (
-        mnemonicWordsStatePersisted &&
+        hasMnemonicWordsInKeychain &&
         permissions.notification &&
         hasPersistedState &&
         hasPrivateKeyInKeychain
@@ -127,16 +113,6 @@ class Initial extends Component {
         const resetAction = StackActions.reset({
           index: 0,
           actions: [NavigationActions.navigate({ routeName: mainPage })]
-        });
-        this.props.navigation.dispatch(resetAction);
-      } else if (mainPage === "ShowMnemonic") {
-        const resetAction = StackActions.reset({
-          index: 2,
-          actions: [
-            NavigationActions.navigate({ routeName: "Welcome" }),
-            NavigationActions.navigate({ routeName: "CreateWalletTutorial" }),
-            NavigationActions.navigate({ routeName: "ShowMnemonic" })
-          ]
         });
         this.props.navigation.dispatch(resetAction);
       } else {
@@ -191,7 +167,6 @@ class Initial extends Component {
         width="90%"
       >
         <LoaderContainer animation="fadeIn" delay={1000}>
-          <Logo>goyemon</Logo>
           <LottieView
             autoPlay
             loop
@@ -211,20 +186,10 @@ const LoaderContainer = Animatable.createAnimatableComponent(styled.View`
   align-items: center;
 `);
 
-const Logo = Animatable.createAnimatableComponent(styled.Text`
-  color: #e41b13;
-  font-family: "HKGrotesk-Bold";
-  font-size: 40;
-  text-align: center;
-`);
-
 function mapStateToProps(state) {
   return {
     balance: state.ReducerBalance.balance,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
-    mnemonicWords: state.ReducerMnemonic.mnemonicWords,
-    mnemonicWordsValidation:
-      state.ReducerMnemonicWordsValidation.mnemonicWordsValidation,
     permissions: state.ReducerPermissions.permissions,
     price: state.ReducerPrice.price,
     rehydration: state.ReducerRehydration.rehydration,
