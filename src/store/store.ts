@@ -29,10 +29,12 @@ const migrations = {
     return {
       ...state,
       ReducerGasPrice: {
-        gasPrice: {
-          ...state.gasPrice,
-          wait: ""
-        }
+        gasPrice: [
+          {
+            ...state.gasPrice,
+            wait: ""
+          }
+        ]
       }
     };
   }
