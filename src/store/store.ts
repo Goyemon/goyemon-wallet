@@ -57,7 +57,7 @@ const persistConfig = {
     "ReducerTransactionsLoaded",
     "ReducerUniswap"
   ],
-  version: 1, // default version is -1
+  version: 2, // default version is -1
   migrate: createMigrate(migrations, { debug: true })
 };
 
