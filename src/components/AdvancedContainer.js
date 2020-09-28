@@ -98,7 +98,9 @@ class __MaxNetworkFeeSelectionContainer extends Component {
                   <SelectedButton>
                     {this.toggleCurrency(gasPrice.value, gasLimit)}
                   </SelectedButton>
-                  <GoyemonText fontSize={14}>{gasPrice.wait}min</GoyemonText>
+                  <GoyemonText fontSize={14}>
+                    {gasPrice.wait * 60}sec
+                  </GoyemonText>
                 </SpeedContainer>
               ) : (
                 <SpeedContainer
@@ -112,7 +114,9 @@ class __MaxNetworkFeeSelectionContainer extends Component {
                   <UnselectedButton>
                     {this.toggleCurrency(gasPrice.value, gasLimit)}
                   </UnselectedButton>
-                  <GoyemonText fontSize={14}>{gasPrice.wait}min</GoyemonText>
+                  <GoyemonText fontSize={14}>
+                    {gasPrice.wait * 60}sec
+                  </GoyemonText>
                 </SpeedContainer>
               )}
             </NetworkFee>
