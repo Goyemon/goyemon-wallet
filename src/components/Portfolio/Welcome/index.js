@@ -70,7 +70,9 @@ export default class Welcome extends Component {
         <WelcomeFirstContainer animation="fadeIn" delay={4000}>
           <Logo>goyemon</Logo>
           <OneLinerContainer>
-            <OneLiner>earn passive income without losing any money</OneLiner>
+            <OneLiner>
+              earn passive income with cryptocurrencies without losing any money
+            </OneLiner>
           </OneLinerContainer>
           <IconContainer>
             <IconImage>

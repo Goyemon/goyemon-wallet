@@ -1,5 +1,5 @@
 <h1 align="center">goyemon</h1>
-<h2 align="center">earn passive income without losing any money<h2>
+<h2 align="center">earn passive income with cryptocurrencies without losing any money<h2>
 
 ## How to Build and Run the Application
 
