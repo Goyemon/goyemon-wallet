@@ -159,7 +159,7 @@ class AdvancedContainer extends Component {
             this.setState({ showAdvanced: true });
           }}
         >
-          <GoyemonText fontSize={24}>{I18n.t("advanced")}</GoyemonText>
+          <GoyemonText fontSize={14}>{I18n.t("advanced")}</GoyemonText>
           <Icon name="menu-down" color="#000" size={32} />
         </MenuContainer>
       );

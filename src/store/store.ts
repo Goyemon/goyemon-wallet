@@ -24,6 +24,17 @@ const migrations = {
         mnemonicWords: null
       }
     };
+  },
+  2: (state: any) => {
+    return {
+      ...state,
+      ReducerGasPrice: {
+        gasPrice: {
+          ...state.gasPrice,
+          wait: ""
+        }
+      }
+    };
   }
 };
 

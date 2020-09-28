@@ -11,7 +11,6 @@ export function getGasPrice() {
       let gasPrice = await fetch(
         "https://ethgasstation.info/json/ethgasAPI.json"
       );
-      LogUtilities.toDebugScreen("gas price api", gasPrice);
       if (gasPrice.status === 200) {
         gasPrice = await gasPrice.json();
         dispatch(getGasPriceSuccess(gasPrice));
