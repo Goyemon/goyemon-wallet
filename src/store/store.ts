@@ -42,7 +42,8 @@ const migrations = {
             ...state.gasPrice[2],
             wait: 0
           }
-        ]
+        ],
+        gasChosen: 1
       }
     };
   }
