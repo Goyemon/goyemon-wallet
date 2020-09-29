@@ -18,24 +18,48 @@ export default class TransactionDetailHeader extends Component {
     const { timestamp, status, method } = this.props;
     const { name, size, color } = this.props.icon;
     return (
-      <TxDetailHeader>
-        <TxIcon>
-          <Icon name={name} size={size + 8} color={color} />
-        </TxIcon>
-        <TypeAndTime>
-          <GoyemonText fontSize={18}>{method}</GoyemonText>
-          <GoyemonText fontSize={15}>{timestamp}</GoyemonText>
-        </TypeAndTime>
-        <HeaderStatus>
-          <TransactionStatus
-            width="100%"
-            txState={method === "Failed" ? null : status}
-          />
-        </HeaderStatus>
-      </TxDetailHeader>
+      <>
+        <CloseButton>
+          <ButtonOutline>
+            <GoyemonText fontSize={18}>X</GoyemonText>
+          </ButtonOutline>
+        </CloseButton>
+        <TxDetailHeader>
+          <TxIcon>
+            <Icon name={name} size={size + 8} color={color} />
+          </TxIcon>
+          <TypeAndTime>
+            <GoyemonText fontSize={18}>{method}</GoyemonText>
+            <GoyemonText fontSize={15}>{timestamp}</GoyemonText>
+          </TypeAndTime>
+          <HeaderStatus>
+            <TransactionStatus
+              width="100%"
+              txState={method === "Failed" ? null : status}
+            />
+          </HeaderStatus>
+        </TxDetailHeader>
+      </>
     );
   }
 }
+
+const CloseButton = styled.View`
+  align-items: center;
+  background-color: #f8f8f8;
+  flex-direction: row;
+  width: 100%;
+  padding-left: 15px;
+`;
+
+const ButtonOutline = styled.View`
+  border-color: #000000;
+  border-width: 1;
+  border-radius: 10;
+  width: 25;
+  height: 25;
+  align-items: center;
+`;
 
 const TxDetailHeader = styled.View`
   align-items: center;
