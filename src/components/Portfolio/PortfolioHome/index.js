@@ -162,6 +162,7 @@ class PortfolioHome extends Component {
             <BuyIconContainer>
               <BuyIcon
                 onPress={() => {
+                  // this.props.saveBuyCryptoModalVisibility(true);
                   Linking.openURL(
                     "https://buy-staging.moonpay.io?apiKey=pk_test_5rrKC6JCcKWROpZmcPtuoYaFoUnw2fLs&colorCode=%2300A3E2"
                   );
