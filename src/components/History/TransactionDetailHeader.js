@@ -1,9 +1,17 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { GoyemonText, TransactionStatus } from "../common";
+import { saveTxDetailModalVisibility } from "../../actions/ActionModal";
 
-export default class TransactionDetailHeader extends Component {
+const mapDispatchToProps = () => {
+  return {
+    saveTxDetailModalVisibility
+  };
+};
+
+class TransactionDetailHeader extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,7 +29,15 @@ export default class TransactionDetailHeader extends Component {
       <>
         <CloseButton>
           <ButtonOutline>
-            <GoyemonText fontSize={18}>X</GoyemonText>
+            <GoyemonText
+              fontSize={18}
+              onPress={() => {
+                this.props.saveTxDetailModalVisibility(false);
+                this.props.handleClose();
+              }}
+            >
+              X
+            </GoyemonText>
           </ButtonOutline>
         </CloseButton>
         <TxDetailHeader>
@@ -49,7 +65,7 @@ const CloseButton = styled.View`
   background-color: #f8f8f8;
   flex-direction: row;
   width: 100%;
-  padding-left: 15px;
+  padding-left: 90%;
 `;
 
 const ButtonOutline = styled.View`
@@ -89,3 +105,5 @@ const HeaderStatus = styled.View`
   font-family: "HKGrotesk-Regular";
   width: 40%;
 `;
+
+export default connect(mapDispatchToProps)(TransactionDetailHeader);

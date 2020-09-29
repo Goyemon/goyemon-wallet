@@ -41,6 +41,7 @@ export default class TransactionDetailContainer extends Component {
           timestamp={timestamp}
           status={status}
           method={method}
+          handleClose={this.props.handleClose}
         />
         {service === "PoolTogether" && method === "Withdraw" ? (
           <PTWithdrawBox
