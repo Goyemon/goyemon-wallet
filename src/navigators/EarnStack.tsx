@@ -13,49 +13,49 @@ const EarnStack = createStackNavigator(
     EarnHome: {
       screen: EarnHome,
       navigationOptions: () => ({
-        headerTransparent: true,
+        headerTransparent: false,
         headerBackTitle: "Earn"
       })
     },
     DepositDaiToCompound: {
       screen: DepositDaiToCompound,
       navigationOptions: () => ({
-        headerTransparent: true,
+        headerTransparent: false,
         headerBackTitle: "Deposit"
       })
     },
     DepositFirstDaiToCompound: {
       screen: DepositFirstDaiToCompound,
       navigationOptions: () => ({
-        headerTransparent: true,
+        headerTransparent: false,
         headerBackTitle: "Deposit"
       })
     },
     WithdrawDaiFromCompound: {
       screen: WithdrawDaiFromCompound,
       navigationOptions: () => ({
-        headerTransparent: true,
+        headerTransparent: false,
         headerBackTitle: "Withdraw"
       })
     },
     DepositDaiToPoolTogether: {
       screen: DepositDaiToPoolTogether,
       navigationOptions: () => ({
-        headerTransparent: true,
+        headerTransparent: false,
         headerBackTitle: "Deposit"
       })
     },
     DepositFirstDaiToPoolTogether: {
       screen: DepositFirstDaiToPoolTogether,
       navigationOptions: () => ({
-        headerTransparent: true,
+        headerTransparent: false,
         headerBackTitle: "Deposit"
       })
     },
     WithdrawDaiFromPoolTogether: {
       screen: WithdrawDaiFromPoolTogether,
       navigationOptions: () => ({
-        headerTransparent: true,
+        headerTransparent: false,
         headerBackTitle: "Deposit"
       })
     }
