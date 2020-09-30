@@ -11,7 +11,7 @@ const migrations = {
       ...state,
       ReducerPrice: {
         price: {
-          ...state.price,
+          ...state.ReducerPrice.price,
           cdai: ""
         }
       }
