@@ -47,7 +47,7 @@ const gasPrice = (state = INITIAL_STATE, action: any) => {
         ? Web3.utils.toWei(gasPriceNormalGwei, "Gwei")
         : "";
 
-      const { avgWait, fastWait, fastestWait } = action.payload;
+      const { fastWait, avgWait, safeLowWait } = action.payload;
 
       return {
         gasPrice: state.gasPrice.map((gasPrice) => {
@@ -55,12 +55,16 @@ const gasPrice = (state = INITIAL_STATE, action: any) => {
             return {
               speed: "super fast",
               value: gasPriceSuperFastWei,
-              wait: fastestWait
+              wait: fastWait
             };
           } else if (gasPrice.speed === "fast") {
-            return { speed: "fast", value: gasPriceFastWei, wait: fastWait };
+            return { speed: "fast", value: gasPriceFastWei, wait: avgWait };
           } else if (gasPrice.speed === "normal") {
-            return { speed: "normal", value: gasPriceNormalWei, wait: avgWait };
+            return {
+              speed: "normal",
+              value: gasPriceNormalWei,
+              wait: safeLowWait
+            };
           } else {
             LogUtilities.logInfo("no gas speed matches");
           }
