@@ -94,11 +94,11 @@ class __MaxNetworkFeeSelectionContainer extends Component {
               {gasChosen === key ? (
                 <SpeedContainer>
                   <SelectedSpeedTextContainer>
-                    <SelectedSpeedText>{gasPrice.speed}</SelectedSpeedText>
+                    <SelectedSpeedText>
+                      {this.toggleCurrency(gasPrice.value, gasLimit)}
+                    </SelectedSpeedText>
                   </SelectedSpeedTextContainer>
-                  <SelectedButton>
-                    {this.toggleCurrency(gasPrice.value, gasLimit)}
-                  </SelectedButton>
+                  <SelectedButton>{gasPrice.speed}</SelectedButton>
                   <SelectedButton>
                     ~ {secondsToTime(gasPrice.wait * 60)}
                   </SelectedButton>
@@ -110,11 +110,11 @@ class __MaxNetworkFeeSelectionContainer extends Component {
                   }}
                 >
                   <UnselectedSpeedTextContainer>
-                    <UnselectedSpeedText>{gasPrice.speed}</UnselectedSpeedText>
+                    <UnselectedSpeedText>
+                      {this.toggleCurrency(gasPrice.value, gasLimit)}
+                    </UnselectedSpeedText>
                   </UnselectedSpeedTextContainer>
-                  <UnselectedButton>
-                    {this.toggleCurrency(gasPrice.value, gasLimit)}
-                  </UnselectedButton>
+                  <UnselectedButton>{gasPrice.speed}</UnselectedButton>
                   <UnselectedButton>
                     ~ {secondsToTime(gasPrice.wait * 60)}
                   </UnselectedButton>
@@ -186,7 +186,7 @@ const NetworkFee = styled.View`
 `;
 
 const NetworkFeeText = styled.Text`
-  font-size: 12;
+  font-size: 14;
 `;
 
 const SpeedContainer = styled.TouchableOpacity`
