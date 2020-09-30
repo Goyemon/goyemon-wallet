@@ -247,7 +247,6 @@ const TransactionDetailModal = connect(
                     updateCounter={this.state.transactions_update_counter}
                     index={this.props.txIndex}
                     filter={this.props.txFilter}
-                    handleClose={this.props.onClose}
                   />
                 </TouchableOpacity>
                 {this.props.checksumAddress ===
