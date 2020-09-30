@@ -11,7 +11,7 @@ const migrations = {
       ...state,
       ReducerPrice: {
         price: {
-          ...state.price,
+          ...state.ReducerPrice.price,
           cdai: ""
         }
       }
@@ -22,6 +22,28 @@ const migrations = {
       ...state,
       ReducerMnemonic: {
         mnemonicWords: null
+      }
+    };
+  },
+  2: (state: any) => {
+    return {
+      ...state,
+      ReducerGasPrice: {
+        gasPrice: [
+          {
+            ...state.ReducerGasPrice.gasPrice[0],
+            wait: 0
+          },
+          {
+            ...state.ReducerGasPrice.gasPrice[1],
+            wait: 0
+          },
+          {
+            ...state.ReducerGasPrice.gasPrice[2],
+            wait: 0
+          }
+        ],
+        gasChosen: 1
       }
     };
   }
@@ -44,7 +66,7 @@ const persistConfig = {
     "ReducerTransactionsLoaded",
     "ReducerUniswap"
   ],
-  version: 1, // default version is -1
+  version: 2, // default version is -1
   migrate: createMigrate(migrations, { debug: true })
 };
 

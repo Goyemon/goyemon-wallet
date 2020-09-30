@@ -15,6 +15,7 @@ import {
 import SlippageContainer from "./SlippageContainer";
 import I18n from "../i18n/I18n";
 import LogUtilities from "../utilities/LogUtilities";
+import { secondsToTime } from "../utilities/TimeUtilities.ts";
 import TransactionUtilities from "../utilities/TransactionUtilities.ts";
 
 class __MaxNetworkFeeSelectionContainer extends Component {
@@ -82,7 +83,7 @@ class __MaxNetworkFeeSelectionContainer extends Component {
           </TouchableOpacity>
         </NetworkFeeHeaderContainer>
         <Container
-          alignItems="center"
+          alignItems="flex-start"
           flexDirection="row"
           justifyContent="center"
           marginTop={24}
@@ -93,10 +94,13 @@ class __MaxNetworkFeeSelectionContainer extends Component {
               {gasChosen === key ? (
                 <SpeedContainer>
                   <SelectedSpeedTextContainer>
-                    <SelectedSpeedText>{gasPrice.speed}</SelectedSpeedText>
+                    <SelectedSpeedText>
+                      {this.toggleCurrency(gasPrice.value, gasLimit)}
+                    </SelectedSpeedText>
                   </SelectedSpeedTextContainer>
+                  <SelectedButton>{gasPrice.speed}</SelectedButton>
                   <SelectedButton>
-                    {this.toggleCurrency(gasPrice.value, gasLimit)}
+                    ~ {secondsToTime(gasPrice.wait * 60)}
                   </SelectedButton>
                 </SpeedContainer>
               ) : (
@@ -106,10 +110,13 @@ class __MaxNetworkFeeSelectionContainer extends Component {
                   }}
                 >
                   <UnselectedSpeedTextContainer>
-                    <UnselectedSpeedText>{gasPrice.speed}</UnselectedSpeedText>
+                    <UnselectedSpeedText>
+                      {this.toggleCurrency(gasPrice.value, gasLimit)}
+                    </UnselectedSpeedText>
                   </UnselectedSpeedTextContainer>
+                  <UnselectedButton>{gasPrice.speed}</UnselectedButton>
                   <UnselectedButton>
-                    {this.toggleCurrency(gasPrice.value, gasLimit)}
+                    ~ {secondsToTime(gasPrice.wait * 60)}
                   </UnselectedButton>
                 </SpeedContainer>
               )}
@@ -179,8 +186,7 @@ const NetworkFee = styled.View`
 `;
 
 const NetworkFeeText = styled.Text`
-  font-family: "HKGrotesk-Regular";
-  font-size: 12;
+  font-size: 14;
 `;
 
 const SpeedContainer = styled.TouchableOpacity`
