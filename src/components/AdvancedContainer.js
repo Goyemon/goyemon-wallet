@@ -15,6 +15,7 @@ import {
 import SlippageContainer from "./SlippageContainer";
 import I18n from "../i18n/I18n";
 import LogUtilities from "../utilities/LogUtilities";
+import { secondsToTime } from "../utilities/TimeUtilities.ts";
 import TransactionUtilities from "../utilities/TransactionUtilities.ts";
 
 class __MaxNetworkFeeSelectionContainer extends Component {
@@ -82,7 +83,7 @@ class __MaxNetworkFeeSelectionContainer extends Component {
           </TouchableOpacity>
         </NetworkFeeHeaderContainer>
         <Container
-          alignItems="center"
+          alignItems="flex-start"
           flexDirection="row"
           justifyContent="center"
           marginTop={24}
@@ -98,9 +99,9 @@ class __MaxNetworkFeeSelectionContainer extends Component {
                   <SelectedButton>
                     {this.toggleCurrency(gasPrice.value, gasLimit)}
                   </SelectedButton>
-                  <GoyemonText fontSize={14}>
-                    {gasPrice.wait * 60}sec
-                  </GoyemonText>
+                  <SelectedButton>
+                    ~ {secondsToTime(gasPrice.wait * 60)}
+                  </SelectedButton>
                 </SpeedContainer>
               ) : (
                 <SpeedContainer
@@ -114,9 +115,9 @@ class __MaxNetworkFeeSelectionContainer extends Component {
                   <UnselectedButton>
                     {this.toggleCurrency(gasPrice.value, gasLimit)}
                   </UnselectedButton>
-                  <GoyemonText fontSize={14}>
-                    {gasPrice.wait * 60}sec
-                  </GoyemonText>
+                  <UnselectedButton>
+                    ~ {secondsToTime(gasPrice.wait * 60)}
+                  </UnselectedButton>
                 </SpeedContainer>
               )}
             </NetworkFee>
@@ -185,7 +186,6 @@ const NetworkFee = styled.View`
 `;
 
 const NetworkFeeText = styled.Text`
-  font-family: "HKGrotesk-Regular";
   font-size: 12;
 `;
 
