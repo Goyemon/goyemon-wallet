@@ -10,18 +10,17 @@ export function secondsToTime(sec) {
     time =
       hours +
       " " +
-      "hours" +
+      "h" +
       padZero(minutes) +
       " " +
-      "minutes" +
+      "min" +
       padZero(seconds) +
       " " +
-      "seconds";
+      "sec";
   } else if (minutes != 0) {
-    time =
-      minutes + " " + "minutes" + "\n" + padZero(seconds) + " " + "seconds";
+    time = minutes + " " + "min" + "\n" + padZero(seconds) + " " + "sec";
   } else {
-    time = seconds + " " + "seconds";
+    time = seconds + " " + "sec";
   }
 
   return time;
