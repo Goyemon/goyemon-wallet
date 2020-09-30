@@ -9,7 +9,6 @@ export * from "./Icons";
 export * from "./IsOnlineMessage";
 export * from "./Lines";
 export * from "./Loader";
-export * from "./ProgressBar";
 export * from "./SettingsListCard";
 export * from "./Texts";
 export * from "./ToggleCurrencySymbol";

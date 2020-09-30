@@ -7,7 +7,6 @@ import { updateMnemonicWordsValidation } from "../../../actions/ActionMnemonicWo
 import {
   RootContainer,
   Container,
-  ProgressBar,
   HeaderTwo,
   Description,
   Button,
@@ -68,18 +67,11 @@ class ImportMnemonicWords extends Component {
         enabled
       >
         <RootContainer>
-          <ProgressBar
-            oneColor="#FDC800"
-            twoColor="#eeeeee"
-            threeColor="#eeeeee"
-            marginRight="40%"
-            width="0%"
-          />
           <Container
             alignItems="center"
             flexDirection="column"
             justifyContent="center"
-            marginTop={16}
+            marginTop={96}
             width="95%"
           >
             <HeaderTwo marginBottom="16" marginLeft="0" marginTop="24">
