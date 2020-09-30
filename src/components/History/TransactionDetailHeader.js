@@ -1,17 +1,9 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { GoyemonText, TransactionStatus } from "../common";
-import { saveTxDetailModalVisibility } from "../../actions/ActionModal";
 
-const mapDispatchToProps = () => {
-  return {
-    saveTxDetailModalVisibility
-  };
-};
-
-class TransactionDetailHeader extends Component {
+export default class TransactionDetailHeader extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,19 +19,6 @@ class TransactionDetailHeader extends Component {
     const { name, size, color } = this.props.icon;
     return (
       <>
-        <CloseButton>
-          <ButtonOutline>
-            <GoyemonText
-              fontSize={18}
-              onPress={() => {
-                this.props.saveTxDetailModalVisibility(false);
-                this.props.handleClose();
-              }}
-            >
-              X
-            </GoyemonText>
-          </ButtonOutline>
-        </CloseButton>
         <TxDetailHeader>
           <TxIcon>
             <Icon name={name} size={size + 8} color={color} />
@@ -60,30 +39,12 @@ class TransactionDetailHeader extends Component {
   }
 }
 
-const CloseButton = styled.View`
-  align-items: center;
-  background-color: #f8f8f8;
-  flex-direction: row;
-  width: 100%;
-  padding-left: 90%;
-`;
-
-const ButtonOutline = styled.View`
-  border-color: #000000;
-  border-width: 1;
-  border-radius: 10;
-  width: 25;
-  height: 25;
-  align-items: center;
-`;
-
 const TxDetailHeader = styled.View`
   align-items: center;
   background-color: #f8f8f8;
   flex-direction: row;
   justify-content: center;
   font-family: "HKGrotesk-Regular";
-  padding-top: 24px;
   padding-bottom: 24px;
   width: 100%;
 `;
@@ -105,5 +66,3 @@ const HeaderStatus = styled.View`
   font-family: "HKGrotesk-Regular";
   width: 40%;
 `;
-
-export default connect(mapDispatchToProps)(TransactionDetailHeader);

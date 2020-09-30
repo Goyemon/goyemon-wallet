@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { TouchableOpacity, ScrollView, View, Dimensions } from "react-native";
 import * as Animatable from "react-native-animatable";
 import Modal from "react-native-modal";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import Web3 from "web3";
@@ -99,10 +100,7 @@ const TransactionDetail = connect(mapChecksumAddressStateToProps)(
           marginTop={0}
           width="100%"
         >
-          <TransactionDetailContainer
-            data={this.state.data}
-            handleClose={this.props.handleClose}
-          />
+          <TransactionDetailContainer data={this.state.data} />
         </Container>
       );
     }
@@ -230,6 +228,17 @@ const TransactionDetailModal = connect(
               <ModalHandlerContainer>
                 <ModalHandler />
               </ModalHandlerContainer>
+              <CloseButton>
+                <Icon
+                  onPress={() => {
+                    this.props.saveTxDetailModalVisibility(false);
+                    this.props.onClose();
+                  }}
+                  name="close"
+                  size={28}
+                  color="#5F5F5F"
+                />
+              </CloseButton>
               <ScrollView>
                 <TouchableOpacity activeOpacity={1}>
                   <TransactionDetail
@@ -329,6 +338,14 @@ const ModalHandlerContainer = styled.View`
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
   width: 100%;
+`;
+
+const CloseButton = styled.View`
+  align-items: center;
+  background-color: #f8f8f8;
+  flex-direction: row;
+  width: 100%;
+  padding-left: 90%;
 `;
 
 const AnimationContainer = styled.View`
