@@ -420,7 +420,7 @@ const FilterChoiceContainer = styled.View`
   align-items: center;
   flex-direction: row;
   justify-content: flex-start;
-  margin-top: 24;
+  margin-top: 0;
   margin-bottom: 12;
   margin-left: 16;
   margin-right: 16;
