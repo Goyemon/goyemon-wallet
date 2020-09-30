@@ -31,15 +31,15 @@ const migrations = {
       ReducerGasPrice: {
         gasPrice: [
           {
-            ...state.gasPrice[0],
+            ...state.ReducerGasPrice.gasPrice[0],
             wait: 0
           },
           {
-            ...state.gasPrice[1],
+            ...state.ReducerGasPrice.gasPrice[1],
             wait: 0
           },
           {
-            ...state.gasPrice[2],
+            ...state.ReducerGasPrice.gasPrice[2],
             wait: 0
           }
         ],
