@@ -18,21 +18,23 @@ export default class TransactionDetailHeader extends Component {
     const { timestamp, status, method } = this.props;
     const { name, size, color } = this.props.icon;
     return (
-      <TxDetailHeader>
-        <TxIcon>
-          <Icon name={name} size={size + 8} color={color} />
-        </TxIcon>
-        <TypeAndTime>
-          <GoyemonText fontSize={18}>{method}</GoyemonText>
-          <GoyemonText fontSize={15}>{timestamp}</GoyemonText>
-        </TypeAndTime>
-        <HeaderStatus>
-          <TransactionStatus
-            width="100%"
-            txState={method === "Failed" ? null : status}
-          />
-        </HeaderStatus>
-      </TxDetailHeader>
+      <>
+        <TxDetailHeader>
+          <TxIcon>
+            <Icon name={name} size={size + 8} color={color} />
+          </TxIcon>
+          <TypeAndTime>
+            <GoyemonText fontSize={18}>{method}</GoyemonText>
+            <GoyemonText fontSize={15}>{timestamp}</GoyemonText>
+          </TypeAndTime>
+          <HeaderStatus>
+            <TransactionStatus
+              width="100%"
+              txState={method === "Failed" ? null : status}
+            />
+          </HeaderStatus>
+        </TxDetailHeader>
+      </>
     );
   }
 }
@@ -43,7 +45,6 @@ const TxDetailHeader = styled.View`
   flex-direction: row;
   justify-content: center;
   font-family: "HKGrotesk-Regular";
-  padding-top: 24px;
   padding-bottom: 24px;
   width: 100%;
 `;
