@@ -193,12 +193,24 @@ class PortfolioPoolTogether extends Component {
   }
 
   render() {
+    const estimatedPrize = RoundDownBigNumberPlacesFour(
+      this.props.poolTogether.dai.estimatedInterestRate
+    )
+      .times(
+        RoundDownBigNumberPlacesFour(
+          this.props.poolTogether.dai.totalBalance
+        ).minus(this.props.poolTogether.dai.openSupply)
+      )
+      .div(new RoundDownBigNumberPlacesFour(10).pow(36))
+      .toFixed(2);
+
     return (
       <RootContainer>
         {this.renderModalContent()}
         <HeaderOne marginTop="112">PoolTogether</HeaderOne>
         <ApplicationDescription>
-          You can win a lottery without losing any money. You can withdraw at
+          You could win {estimatedPrize} DAI every week just by saving your
+          money. You won&apos;t lose your deposited funds. You can withdraw at
           any time. Your deposit always goes to the open round. You are eligible
           to win once your deposit moves to the commited round.
         </ApplicationDescription>
