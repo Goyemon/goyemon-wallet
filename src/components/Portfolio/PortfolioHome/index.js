@@ -9,7 +9,6 @@ import {
   RootContainer,
   UntouchableCardContainer,
   HeaderOne,
-  NewHeaderThree,
   HeaderFour,
   GoyemonText,
   ReceiveIcon,
@@ -27,6 +26,12 @@ import PriceUtilities from "../../../utilities/PriceUtilities";
 import { Linking } from "react-native";
 
 class PortfolioHome extends Component {
+  constructor() {
+    super();
+    this.state = {
+      toggle: true
+    };
+  }
   static navigationOptions = ({ navigation }) => {
     return {
       headerRight: (
@@ -70,6 +75,7 @@ class PortfolioHome extends Component {
       checksumAddress,
       mnemonicWordsValidation
     } = this.props;
+    const { toggle } = this.state;
 
     const ETHBalance = RoundDownBigNumberPlacesFour(
         Web3.utils.fromWei(balance.wei)
@@ -101,16 +107,6 @@ class PortfolioHome extends Component {
     );
 
     const applicationBoxes = [
-      {
-        balance: PriceUtilities.getTotalWalletBalance(
-          ETHBalance,
-          DAIBalance,
-          CDAIBalance,
-          PLDAIBalance
-        ),
-        name: I18n.t("portfolio-home-wallet"),
-        event: () => navigation.navigate("PortfolioWallet")
-      },
       {
         balance: PriceUtilities.convertCDAIToUSD(CDAIBalance).toFixed(2),
         name: "Compound",
@@ -185,18 +181,42 @@ class PortfolioHome extends Component {
             }}
           />
         )}
-        <NewHeaderThree
-          color="#000"
-          marginBottom="0"
-          marginLeft="24"
-          marginTop="0"
-          text={I18n.t("portfolio-home-applications")}
-        />
+        <TabChangeBox>
+          <TabChangeButton>
+            <GoyemonText
+              fontSize={18}
+              onPress={() => this.setState({ toggle: !toggle })}
+            >
+              SAVINGS
+            </GoyemonText>
+          </TabChangeButton>
+          <TabChangeButton>
+            <GoyemonText
+              fontSize={18}
+              onPress={() => this.setState({ toggle: !toggle })}
+            >
+              CURRENCY
+            </GoyemonText>
+          </TabChangeButton>
+        </TabChangeBox>
         <ApplicationBoxes boxes={applicationBoxes} />
       </RootContainer>
     );
   }
 }
+
+const TabChangeBox = styled.View`
+  flex-direction: row;
+  width: 60%;
+  margin-right: auto;
+  margin-left: auto;
+  margin-left: 25%;
+  padding-bottom: 10px;
+`;
+
+const TabChangeButton = styled.View`
+  width: 50%;
+`;
 
 const UsdBalance = styled.Text`
   color: #000;
