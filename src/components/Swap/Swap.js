@@ -19,7 +19,6 @@ import {
   SwapForm,
   Loader,
   IsOnlineMessage,
-  ErrorMessage,
   TxNextButton,
   UseMaxButton
 } from "../common";
@@ -232,14 +231,19 @@ class Swap extends Component {
   }
 
   renderInsufficientBalanceMessage() {
-    if (
-      !this.state.ETHSoldValidation &&
-      !this.state.ETHSoldValidation === undefined
-    ) {
+    if (this.state.ETHSoldValidation !== undefined) {
+      let errorMsg = "";
+      if (this.state.ETHBalance === 0) {
+        errorMsg = "you don't have any ether";
+      } else if (this.state.ETHBalance !== 0 && !this.state.ETHSoldValidation) {
+        errorMsg = "you don't have enough ether for a network fee";
+      } else {
+        errorMsg = "invalid amount!";
+      }
       return (
         <View>
-          <ErrorMessage textAlign="left">invalid amount!</ErrorMessage>
-          <GoyemonText fontSize="12px">
+          <SwapErrorMessage textAlign="left">{errorMsg}</SwapErrorMessage>
+          <GoyemonText fontSize="8px">
             *beware that network fee is paid with ether
           </GoyemonText>
         </View>
@@ -481,5 +485,19 @@ const mapDispatchToProps = {
   updateTxConfirmationModalVisibleType,
   saveOutgoingTransactionDataSwap
 };
+
+const SwapErrorMessage = (props) => (
+  <ErrorMessageText textAlign={props.textAlign}>
+    {props.children}
+  </ErrorMessageText>
+);
+
+const ErrorMessageText = styled.Text`
+  color: #e41b13;
+  font-family: "HKGrotesk-Regular";
+  text-align: ${(props) => props.textAlign};
+  width: 50%;
+  font-size: 12px;
+`;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Swap);
