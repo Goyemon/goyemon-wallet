@@ -11,6 +11,7 @@ import {
   HeaderOne,
   HeaderFour,
   GoyemonText,
+  ToggleText,
   ReceiveIcon,
   BuyIcon
 } from "../../../components/common";
@@ -24,6 +25,7 @@ import PortfolioStack from "../../../navigators/PortfolioStack";
 import { RoundDownBigNumberPlacesFour } from "../../../utilities/BigNumberUtilities";
 import PriceUtilities from "../../../utilities/PriceUtilities";
 import { Linking } from "react-native";
+import TokenBalanceCards from "../PortfolioWallet/TokenBalanceCards";
 
 class PortfolioHome extends Component {
   constructor() {
@@ -73,7 +75,8 @@ class PortfolioHome extends Component {
       balance,
       navigation,
       checksumAddress,
-      mnemonicWordsValidation
+      mnemonicWordsValidation,
+      price
     } = this.props;
     const { toggle } = this.state;
 
@@ -118,6 +121,37 @@ class PortfolioHome extends Component {
         ),
         name: "PoolTogether",
         event: () => navigation.navigate("PortfolioPoolTogether")
+      }
+    ];
+
+    const tokenBalanceCards = [
+      {
+        price: price.eth,
+        balance: ETHBalance,
+        usd: PriceUtilities.convertETHToUSD(ETHBalance).toFixed(2),
+        icon: require("../../../../assets/ether_icon.png"),
+        token: "ETH"
+      },
+      {
+        price: price.dai,
+        balance: DAIBalance,
+        usd: PriceUtilities.convertDAIToUSD(DAIBalance).toFixed(2),
+        icon: require("../../../../assets/dai_icon.png"),
+        token: "DAI"
+      },
+      {
+        price: parseFloat(price.cdai).toFixed(2),
+        balance: CDAIBalance,
+        usd: PriceUtilities.convertCDAIToUSD(CDAIBalance).toFixed(2),
+        icon: require("../../../../assets/cdai_icon.png"),
+        token: "cDAI"
+      },
+      {
+        price: price.dai,
+        balance: PLDAIBalance,
+        usd: PriceUtilities.convertDAIToUSD(PLDAIBalance).toFixed(2),
+        icon: require("../../../../assets/pldai_icon.png"),
+        token: "plDAI"
       }
     ];
 
@@ -183,23 +217,27 @@ class PortfolioHome extends Component {
         )}
         <TabChangeBox>
           <TabChangeButton>
-            <GoyemonText
+            <ToggleText
               fontSize={18}
-              onPress={() => this.setState({ toggle: !toggle })}
-            >
-              SAVINGS
-            </GoyemonText>
+              onPress={() => this.setState({ toggle: true })}
+              isSelected={toggle}
+              text="SAVINGS"
+            />
           </TabChangeButton>
           <TabChangeButton>
-            <GoyemonText
+            <ToggleText
               fontSize={18}
-              onPress={() => this.setState({ toggle: !toggle })}
-            >
-              CURRENCY
-            </GoyemonText>
+              onPress={() => this.setState({ toggle: false })}
+              isSelected={!toggle}
+              text="CURRENCY"
+            />
           </TabChangeButton>
         </TabChangeBox>
-        <ApplicationBoxes boxes={applicationBoxes} />
+        {toggle ? (
+          <ApplicationBoxes boxes={applicationBoxes} />
+        ) : (
+          <TokenBalanceCards cards={tokenBalanceCards} />
+        )}
       </RootContainer>
     );
   }
@@ -210,7 +248,6 @@ const TabChangeBox = styled.View`
   width: 60%;
   margin-right: auto;
   margin-left: auto;
-  margin-left: 25%;
   padding-bottom: 10px;
 `;
 
