@@ -198,9 +198,9 @@ class PortfolioPoolTogether extends Component {
         {this.renderModalContent()}
         <HeaderOne marginTop="112">PoolTogether</HeaderOne>
         <ApplicationDescription>
-          You can win a lottery without losing any money with PoolTogether. Your
-          deposit always goes to the open round. You are eligible to win once
-          your deposit moves to the commited round.
+          You can win a lottery without losing any money. You can withdraw at
+          any time. Your deposit always goes to the open round. You are eligible
+          to win once your deposit moves to the commited round.
         </ApplicationDescription>
         <FilterContainer>{this.toggleFilterChoiceText()}</FilterContainer>
         {this.renderCountdownHeader()}
