@@ -159,7 +159,7 @@ class WalletCreation extends Component {
   }
 
   render() {
-    if (this.state.isWalletReady === true) {
+    // if (this.state.isWalletReady === true) {
       if (!this.state.modalVisible) {
         this.setState({ modalVisible: true }, () => {
           setTimeout(() => {
@@ -167,7 +167,7 @@ class WalletCreation extends Component {
           }, 2000);
         });
       }
-    }
+    // }
 
     return (
       <ScrollView

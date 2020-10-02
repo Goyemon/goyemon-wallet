@@ -22,7 +22,8 @@ class __MaxNetworkFeeSelectionContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currency: "USD"
+      currency: "USD",
+      gasList: props.gasPrice.reverse()
     };
   }
 
@@ -57,8 +58,8 @@ class __MaxNetworkFeeSelectionContainer extends Component {
   }
 
   render() {
-    const { gasPrice, gasChosen, gasLimit } = this.props;
-    const { currency } = this.state;
+    const { gasChosen, gasLimit } = this.props;
+    const { currency, gasList } = this.state;
 
     return (
       <View>
@@ -89,7 +90,7 @@ class __MaxNetworkFeeSelectionContainer extends Component {
           marginTop={24}
           width="90%"
         >
-          {gasPrice.map((gasPrice, key) => (
+          {gasList.map((gasPrice, key) => (
             <NetworkFee key={key}>
               {gasChosen === key ? (
                 <SpeedContainer>
