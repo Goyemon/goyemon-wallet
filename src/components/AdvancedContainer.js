@@ -23,8 +23,22 @@ class __MaxNetworkFeeSelectionContainer extends Component {
     super(props);
     this.state = {
       currency: "USD",
-      gasList: props.gasPrice.reverse()
+      gasList: this.returnGasList(props.gasPrice)
     };
+  }
+
+  returnGasList(array) {
+    let returnArray = [];
+    const priceObject = {
+      "super fast": 2,
+      fast: 1,
+      normal: 0
+    };
+
+    for (const element of array) {
+      returnArray[priceObject[element.speed]] = element;
+    }
+    return returnArray;
   }
 
   componentDidMount() {
@@ -101,7 +115,7 @@ class __MaxNetworkFeeSelectionContainer extends Component {
                   </SelectedSpeedTextContainer>
                   <SelectedButton>{gasPrice.speed}</SelectedButton>
                   <SelectedButton>
-                    ~ {secondsToTime(gasPrice.wait * 60)}
+                    ~ {secondsToTime(parseInt(gasPrice.wait * 60, 10))}
                   </SelectedButton>
                 </SpeedContainer>
               ) : (
@@ -117,7 +131,7 @@ class __MaxNetworkFeeSelectionContainer extends Component {
                   </UnselectedSpeedTextContainer>
                   <UnselectedButton>{gasPrice.speed}</UnselectedButton>
                   <UnselectedButton>
-                    ~ {secondsToTime(gasPrice.wait * 60)}
+                    ~ {secondsToTime(parseInt(gasPrice.wait * 60, 10))}
                   </UnselectedButton>
                 </SpeedContainer>
               )}
