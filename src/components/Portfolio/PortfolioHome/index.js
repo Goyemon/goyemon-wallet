@@ -24,7 +24,7 @@ import I18n from "../../../i18n/I18n";
 import PortfolioStack from "../../../navigators/PortfolioStack";
 import { RoundDownBigNumberPlacesFour } from "../../../utilities/BigNumberUtilities";
 import PriceUtilities from "../../../utilities/PriceUtilities";
-import { Linking } from "react-native";
+import { Linking, ScrollView, StyleSheet } from "react-native";
 import TokenBalanceCards from "../PortfolioWallet/TokenBalanceCards";
 
 class PortfolioHome extends Component {
@@ -233,11 +233,11 @@ class PortfolioHome extends Component {
             />
           </TabChangeButton>
         </TabChangeBox>
-        {toggle ? (
-          <ApplicationBoxes boxes={applicationBoxes} />
-        ) : (
-          <TokenBalanceCards cards={tokenBalanceCards} />
-        )}
+          {toggle ? (
+            <ApplicationBoxes boxes={applicationBoxes} />
+          ) : (
+            <TokenBalanceCards cards={tokenBalanceCards} />
+          )}
       </RootContainer>
     );
   }

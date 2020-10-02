@@ -14,6 +14,7 @@ import I18n from "../../../i18n/I18n";
 import { RoundDownBigNumberPlacesFour } from "../../../utilities/BigNumberUtilities";
 import TokenBalanceCards from "./TokenBalanceCards";
 import PriceUtilities from "../../../utilities/PriceUtilities";
+import { StyleSheet, ScrollView } from 'react-native'
 
 class PortfolioWallet extends Component {
   returnBalance = (amount, round, pow, fix) =>
@@ -69,6 +70,7 @@ class PortfolioWallet extends Component {
 
     return (
       <RootContainer>
+      <View>
         <NewHeaderOne
           marginTop="112"
           text={I18n.t("portfolio-wallet-header")}
@@ -105,11 +107,21 @@ class PortfolioWallet extends Component {
           marginTop="0"
           text={I18n.t("portfolio-wallet-coins")}
         />
-        <TokenBalanceCards cards={tokenBalanceCards} />
+        </View>
+        <ScrollView contentContainerStyle={styles.container} scrollEnabled={true}>
+          <TokenBalanceCards cards={tokenBalanceCards} />
+        </ScrollView>
       </RootContainer>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    alignItems: 'center',
+  }
+})
 
 const UsdBalance = styled.Text`
   color: #000;

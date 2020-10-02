@@ -2,20 +2,23 @@
 import React from "react";
 import styled from "styled-components";
 import { UntouchableCardContainer, GoyemonText } from "../../common";
+import { View, ScrollView } from 'react-native'
 
 const TokenBalanceCards = (props) => (
-  <>
+  <ScrollView scrollEnabled={true}>
     {props.cards.map((card) => (
-      <TokenBalanceCard
-        price={card.price}
-        balance={card.balance}
-        usd={card.usd}
-        iconPath={card.icon}
-        token={card.token}
-        key={card.token}
-      />
+      <View>
+        <TokenBalanceCard
+          price={card.price}
+          balance={card.balance}
+          usd={card.usd}
+          iconPath={card.icon}
+          token={card.token}
+          key={card.token}
+        />
+      </View>
     ))}
-  </>
+  </ScrollView>
 );
 
 const TokenBalanceCard = (props) => (
