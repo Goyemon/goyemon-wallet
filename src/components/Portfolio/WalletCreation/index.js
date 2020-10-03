@@ -159,14 +159,14 @@ class WalletCreation extends Component {
   }
 
   render() {
-    // if (this.state.isWalletReady === true) {
+    if (this.state.isWalletReady === true) {
       if (!this.state.modalVisible) {
         this.setState({ modalVisible: true }, () => {
           setTimeout(() => {
             this.navigateToPortfolioHome();
           }, 2000);
         });
-      // }
+      }
     }
 
     return (
