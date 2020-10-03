@@ -9,13 +9,13 @@ import {
   RootContainer,
   UntouchableCardContainer,
   HeaderOne,
-  NewHeaderThree,
   HeaderFour,
   GoyemonText,
+  ToggleText,
   ReceiveIcon,
   BuyIcon
-} from "../../../components/common";
-import BuyCryptoModal from "../../../components/BuyCryptoModal";
+} from "../../common";
+import BuyCryptoModal from "../../BuyCryptoModal";
 import ApplicationBoxes from "./ApplicationBoxes";
 import WarningBox from "./WarningBox";
 import Copy from "../../Copy";
@@ -24,8 +24,16 @@ import I18n from "../../../i18n/I18n";
 import PortfolioStack from "../../../navigators/PortfolioStack";
 import { RoundDownBigNumberPlacesFour } from "../../../utilities/BigNumberUtilities";
 import PriceUtilities from "../../../utilities/PriceUtilities";
+import { Linking } from "react-native";
+import TokenBalanceCards from "../PortfolioWallet/TokenBalanceCards";
 
 class PortfolioHome extends Component {
+  constructor() {
+    super();
+    this.state = {
+      toggle: true
+    };
+  }
   static navigationOptions = ({ navigation }) => {
     return {
       headerRight: (
@@ -67,8 +75,10 @@ class PortfolioHome extends Component {
       balance,
       navigation,
       checksumAddress,
-      mnemonicWordsValidation
+      mnemonicWordsValidation,
+      price
     } = this.props;
+    const { toggle } = this.state;
 
     const ETHBalance = RoundDownBigNumberPlacesFour(
         Web3.utils.fromWei(balance.wei)
@@ -101,16 +111,6 @@ class PortfolioHome extends Component {
 
     const applicationBoxes = [
       {
-        balance: PriceUtilities.getTotalWalletBalance(
-          ETHBalance,
-          DAIBalance,
-          CDAIBalance,
-          PLDAIBalance
-        ),
-        name: I18n.t("portfolio-home-wallet"),
-        event: () => navigation.navigate("PortfolioWallet")
-      },
-      {
         balance: PriceUtilities.convertCDAIToUSD(CDAIBalance).toFixed(2),
         name: "Compound",
         event: () => navigation.navigate("PortfolioCompound")
@@ -121,6 +121,37 @@ class PortfolioHome extends Component {
         ),
         name: "PoolTogether",
         event: () => navigation.navigate("PortfolioPoolTogether")
+      }
+    ];
+
+    const tokenBalanceCards = [
+      {
+        price: price.eth,
+        balance: ETHBalance,
+        usd: PriceUtilities.convertETHToUSD(ETHBalance).toFixed(2),
+        icon: require("../../../../assets/ether_icon.png"),
+        token: "ETH"
+      },
+      {
+        price: price.dai,
+        balance: DAIBalance,
+        usd: PriceUtilities.convertDAIToUSD(DAIBalance).toFixed(2),
+        icon: require("../../../../assets/dai_icon.png"),
+        token: "DAI"
+      },
+      {
+        price: parseFloat(price.cdai).toFixed(2),
+        balance: CDAIBalance,
+        usd: PriceUtilities.convertCDAIToUSD(CDAIBalance).toFixed(2),
+        icon: require("../../../../assets/cdai_icon.png"),
+        token: "cDAI"
+      },
+      {
+        price: price.dai,
+        balance: PLDAIBalance,
+        usd: PriceUtilities.convertDAIToUSD(PLDAIBalance).toFixed(2),
+        icon: require("../../../../assets/pldai_icon.png"),
+        token: "plDAI"
       }
     ];
 
@@ -161,7 +192,10 @@ class PortfolioHome extends Component {
             <BuyIconContainer>
               <BuyIcon
                 onPress={() => {
-                  this.props.saveBuyCryptoModalVisibility(true);
+                  // this.props.saveBuyCryptoModalVisibility(true);
+                  Linking.openURL(
+                    "https://buy-staging.moonpay.io?apiKey=pk_test_5rrKC6JCcKWROpZmcPtuoYaFoUnw2fLs&colorCode=%2300A3E2"
+                  );
                 }}
               />
               <GoyemonText fontSize={14}>Buy</GoyemonText>
@@ -181,18 +215,45 @@ class PortfolioHome extends Component {
             }}
           />
         )}
-        <NewHeaderThree
-          color="#000"
-          marginBottom="0"
-          marginLeft="24"
-          marginTop="0"
-          text={I18n.t("portfolio-home-applications")}
-        />
-        <ApplicationBoxes boxes={applicationBoxes} />
+        <TabChangeBox>
+          <TabChangeButton>
+            <ToggleText
+              fontSize={18}
+              onPress={() => this.setState({ toggle: true })}
+              isSelected={toggle}
+              text="SAVINGS"
+            />
+          </TabChangeButton>
+          <TabChangeButton>
+            <ToggleText
+              fontSize={18}
+              onPress={() => this.setState({ toggle: false })}
+              isSelected={!toggle}
+              text="CURRENCY"
+            />
+          </TabChangeButton>
+        </TabChangeBox>
+        {toggle ? (
+          <ApplicationBoxes boxes={applicationBoxes} />
+        ) : (
+          <TokenBalanceCards cards={tokenBalanceCards} />
+        )}
       </RootContainer>
     );
   }
 }
+
+const TabChangeBox = styled.View`
+  flex-direction: row;
+  width: 60%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-bottom: 10px;
+`;
+
+const TabChangeButton = styled.View`
+  width: 50%;
+`;
 
 const UsdBalance = styled.Text`
   color: #000;

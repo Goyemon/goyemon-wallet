@@ -53,7 +53,10 @@ class Swap extends Component {
         ETHBalance: Web3.utils.fromWei(this.props.balance.wei)
       });
     }
-    if (this.props.gasChosen != prevProps.gasChosen) {
+    if (
+      this.props.gasChosen != prevProps.gasChosen &&
+      TransactionUtilities.isNumber(this.state.ETHSold)
+    ) {
       this.updateEthSoldValidation(this.validateAmount(this.state.ETHSold));
     }
   }

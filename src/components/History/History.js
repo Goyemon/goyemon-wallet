@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { TouchableOpacity, ScrollView, View, Dimensions } from "react-native";
 import * as Animatable from "react-native-animatable";
 import Modal from "react-native-modal";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import Web3 from "web3";
@@ -227,6 +228,17 @@ const TransactionDetailModal = connect(
               <ModalHandlerContainer>
                 <ModalHandler />
               </ModalHandlerContainer>
+              <CloseButton>
+                <Icon
+                  onPress={() => {
+                    this.props.saveTxDetailModalVisibility(false);
+                    this.props.onClose();
+                  }}
+                  name="close"
+                  size={28}
+                  color="#5F5F5F"
+                />
+              </CloseButton>
               <ScrollView>
                 <TouchableOpacity activeOpacity={1}>
                   <TransactionDetail
@@ -327,6 +339,14 @@ const ModalHandlerContainer = styled.View`
   width: 100%;
 `;
 
+const CloseButton = styled.View`
+  align-items: center;
+  background-color: #f8f8f8;
+  flex-direction: row;
+  width: 100%;
+  padding-left: 90%;
+`;
+
 const AnimationContainer = styled.View`
   align-items: center;
   margin-bottom: 32;
@@ -420,7 +440,7 @@ const FilterChoiceContainer = styled.View`
   align-items: center;
   flex-direction: row;
   justify-content: flex-start;
-  margin-top: 24;
+  margin-top: 0;
   margin-bottom: 12;
   margin-left: 16;
   margin-right: 16;

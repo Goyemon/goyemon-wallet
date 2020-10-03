@@ -15,14 +15,30 @@ import {
 import SlippageContainer from "./SlippageContainer";
 import I18n from "../i18n/I18n";
 import LogUtilities from "../utilities/LogUtilities";
+import { secondsToTime } from "../utilities/TimeUtilities.ts";
 import TransactionUtilities from "../utilities/TransactionUtilities.ts";
 
 class __MaxNetworkFeeSelectionContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currency: "USD"
+      currency: "USD",
+      gasList: this.returnGasList(props.gasPrice)
     };
+  }
+
+  returnGasList(array) {
+    let returnArray = [];
+    const priceObject = {
+      "super fast": 2,
+      "fast": 1,
+      "normal": 0
+    };
+
+    for (const element of array) {
+      returnArray[priceObject[element.speed]] = element;
+    }
+    return returnArray;
   }
 
   componentDidMount() {
@@ -56,8 +72,8 @@ class __MaxNetworkFeeSelectionContainer extends Component {
   }
 
   render() {
-    const { gasPrice, gasChosen, gasLimit } = this.props;
-    const { currency } = this.state;
+    const { gasChosen, gasLimit } = this.props;
+    const { currency, gasList } = this.state;
 
     return (
       <View>
@@ -82,21 +98,24 @@ class __MaxNetworkFeeSelectionContainer extends Component {
           </TouchableOpacity>
         </NetworkFeeHeaderContainer>
         <Container
-          alignItems="center"
+          alignItems="flex-start"
           flexDirection="row"
           justifyContent="center"
           marginTop={24}
           width="90%"
         >
-          {gasPrice.map((gasPrice, key) => (
+          {gasList.map((gasPrice, key) => (
             <NetworkFee key={key}>
               {gasChosen === key ? (
                 <SpeedContainer>
                   <SelectedSpeedTextContainer>
-                    <SelectedSpeedText>{gasPrice.speed}</SelectedSpeedText>
+                    <SelectedSpeedText>
+                      {this.toggleCurrency(gasPrice.value, gasLimit)}
+                    </SelectedSpeedText>
                   </SelectedSpeedTextContainer>
+                  <SelectedButton>{gasPrice.speed}</SelectedButton>
                   <SelectedButton>
-                    {this.toggleCurrency(gasPrice.value, gasLimit)}
+                    ~ {secondsToTime(parseInt(gasPrice.wait * 60, 10))}
                   </SelectedButton>
                 </SpeedContainer>
               ) : (
@@ -106,10 +125,13 @@ class __MaxNetworkFeeSelectionContainer extends Component {
                   }}
                 >
                   <UnselectedSpeedTextContainer>
-                    <UnselectedSpeedText>{gasPrice.speed}</UnselectedSpeedText>
+                    <UnselectedSpeedText>
+                      {this.toggleCurrency(gasPrice.value, gasLimit)}
+                    </UnselectedSpeedText>
                   </UnselectedSpeedTextContainer>
+                  <UnselectedButton>{gasPrice.speed}</UnselectedButton>
                   <UnselectedButton>
-                    {this.toggleCurrency(gasPrice.value, gasLimit)}
+                    ~ {secondsToTime(parseInt(gasPrice.wait * 60, 10))}
                   </UnselectedButton>
                 </SpeedContainer>
               )}
@@ -179,8 +201,7 @@ const NetworkFee = styled.View`
 `;
 
 const NetworkFeeText = styled.Text`
-  font-family: "HKGrotesk-Regular";
-  font-size: 12;
+  font-size: 14;
 `;
 
 const SpeedContainer = styled.TouchableOpacity`

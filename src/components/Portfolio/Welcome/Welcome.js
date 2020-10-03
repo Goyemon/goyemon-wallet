@@ -71,7 +71,7 @@ export default class Welcome extends Component {
           <Logo>goyemon</Logo>
           <OneLinerContainer>
             <OneLiner>
-              earn passive income with capital-safe crypto investing
+              earn passive income with cryptocurrencies without losing any money
             </OneLiner>
           </OneLinerContainer>
           <IconContainer>
