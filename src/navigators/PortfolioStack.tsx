@@ -9,7 +9,7 @@ import ImportMnemonicWords from "../components/Portfolio/ImportMnemonicWords";
 import CreateWalletTutorial from "../components/Portfolio/CreateWalletTutorial";
 import ShowMnemonic from "../components/Portfolio/ShowMnemonic";
 import VerifyMnemonic from "../components/Portfolio/VerifyMnemonic";
-import PortfolioHome from "../components/Portfolio/PortfolioHome";
+import PortfolioHome from "../components/Portfolio/PortfolioHome/PortfolioHome";
 import Receive from "../components/Portfolio/Receive";
 import PortfolioWallet from "../components/Portfolio/PortfolioWallet";
 import PortfolioCompound from "../components/Portfolio/PortfolioCompound";
