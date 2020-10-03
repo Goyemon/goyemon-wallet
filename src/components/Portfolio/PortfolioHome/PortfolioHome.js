@@ -14,8 +14,8 @@ import {
   ToggleText,
   ReceiveIcon,
   BuyIcon
-} from "../../../components/common";
-import BuyCryptoModal from "../../../components/BuyCryptoModal";
+} from "../../common";
+import BuyCryptoModal from "../../BuyCryptoModal";
 import ApplicationBoxes from "./ApplicationBoxes";
 import WarningBox from "./WarningBox";
 import Copy from "../../Copy";
