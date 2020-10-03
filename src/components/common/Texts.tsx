@@ -43,7 +43,6 @@ export const ToggleText = (props: ToggleTextProps) => (
 const HKGroteskText = styled.Text`
   color: #5f5f5f;
   font-family: "HKGrotesk-Regular";
-  text-align: center;
   font-size: ${(props) => props.fontSize};
 `;
 
