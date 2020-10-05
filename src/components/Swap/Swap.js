@@ -231,7 +231,7 @@ class Swap extends Component {
   }
 
   renderInsufficientBalanceMessage() {
-    if (this.state.ETHSoldValidation !== undefined) {
+    if (this.state.ETHSoldValidation !== undefined && this.state.ETHSold) {
       let errorMsg = "";
       if (this.state.ETHBalance == 0) errorMsg = "you don't have any ether";
       else if (this.state.ETHBalance !== 0 && !this.state.ETHSoldValidation)
