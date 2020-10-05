@@ -18,9 +18,9 @@ const compound = (state = INITIAL_STATE, action: any) => {
         compound: {
           dai: {
             ...state.compound.dai,
-            currentExchangeRate: action.payload.current_exchange_rate,
-            currentInterestRate: action.payload.yearly_interest_rate,
-            lifetimeEarned: action.payload.lifetime_earned
+            currentExchangeRate: action.payload.exchangeRate,
+            currentInterestRate: action.payload.supplyRate,
+            lifetimeEarned: action.payload.lifetimeSupply
           }
         }
       };

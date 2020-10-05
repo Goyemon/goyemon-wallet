@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import styled from "styled-components/native";
 import { getGasPrice } from "../actions/ActionGasPrice";
 import { getETHPrice, getDAIPrice, getCDAIPrice } from "../actions/ActionPrice";
+import { getCompound } from "../actions/ActionCompound";
 import { Container } from "./common";
 import FcmPermissions from "../firebase/FcmPermissions";
 import { FcmMsgs } from "../lib/fcm";
@@ -26,6 +27,7 @@ class Initial extends Component {
     await this.props.getETHPrice();
     await this.props.getDAIPrice();
     await this.props.getCDAIPrice();
+    await this.props.getCompound(this.props.checksumAddress);
     this.props.getGasPrice();
     FcmMsgs.requestCompoundDaiInfo(this.props.checksumAddress);
     FcmMsgs.requestPoolTogetherDaiInfo(this.props.checksumAddress);
@@ -201,7 +203,8 @@ const mapDispatchToProps = {
   getCDAIPrice,
   getETHPrice,
   getDAIPrice,
-  getGasPrice
+  getGasPrice,
+  getCompound
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Initial);
