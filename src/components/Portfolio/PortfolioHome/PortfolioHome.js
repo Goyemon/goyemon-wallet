@@ -27,7 +27,6 @@ import { RoundDownBigNumberPlacesFour } from "../../../utilities/BigNumberUtilit
 import PriceUtilities from "../../../utilities/PriceUtilities";
 import { Linking } from "react-native";
 import TokenBalanceCards from "../PortfolioWallet/TokenBalanceCards";
-import LogUtilities from "../../../utilities/LogUtilities";
 import { Platform } from "react-native";
 import AndroidOpenSettings from "react-native-android-open-settings";
 
@@ -84,7 +83,6 @@ class PortfolioHome extends Component {
       permissions
     } = this.props;
     const { toggle } = this.state;
-    LogUtilities.toDebugScreen("permissions", permissions);
 
     const ETHBalance = RoundDownBigNumberPlacesFour(
         Web3.utils.fromWei(balance.wei)
