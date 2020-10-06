@@ -76,7 +76,8 @@ class PortfolioHome extends Component {
       navigation,
       checksumAddress,
       mnemonicWordsValidation,
-      price
+      price,
+      permissions
     } = this.props;
     const { toggle } = this.state;
 
@@ -215,6 +216,26 @@ class PortfolioHome extends Component {
             }}
           />
         )}
+        {!permissions &&
+          <NotificationBox>
+            <UntouchableCardContainer
+              alignItems="flex-start"
+              background="#f4efe9"
+              borderRadius="8px"
+              flexDirection="column"
+              height="200px"
+              justifyContent="center"
+              marginTop="0"
+              textAlign="left"
+              width="90%"
+            >
+            <WarningMessage>
+              <Icon name="alert-circle-outline" color="#e41b13" size={24} />
+              <GoyemonText fontSize={20}>Action required: we cannot update your transactions without enabling notification settings</GoyemonText>
+            </WarningMessage>
+            </UntouchableCardContainer>
+        </NotificationBox>
+        }
         <TabChangeBox>
           <TabChangeButton>
             <ToggleText
@@ -249,6 +270,11 @@ const TabChangeBox = styled.View`
   margin-right: auto;
   margin-left: auto;
   padding-bottom: 10px;
+`;
+
+const WarningMessage = styled.View`
+  flex-direction: row;
+  margin-bottom: 6px;
 `;
 
 const TabChangeButton = styled.View`
@@ -288,7 +314,8 @@ const mapStateToProps = (state) => ({
     state.ReducerMnemonicWordsValidation.mnemonicWordsValidation,
   balance: state.ReducerBalance.balance,
   checksumAddress: state.ReducerChecksumAddress.checksumAddress,
-  price: state.ReducerPrice.price
+  price: state.ReducerPrice.price,
+  permissions: state.ReducerPermissions.permissions
 });
 
 const mapDispatchToProps = {

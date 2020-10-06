@@ -29,7 +29,7 @@ class NotificationPermissionTutorial extends Component {
     } else if (permissions.notification === true) {
       navigation.navigate("WalletCreation");
     } else if (permissions.notification === false) {
-      navigation.navigate("NotificationPermissionNotGranted");
+      navigation.navigate("WalletCreation");
     }
   }
 
