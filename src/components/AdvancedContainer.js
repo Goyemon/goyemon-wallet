@@ -31,8 +31,8 @@ class __MaxNetworkFeeSelectionContainer extends Component {
     let returnArray = [];
     const priceObject = {
       "super fast": 2,
-      "fast": 1,
-      "normal": 0
+      fast: 1,
+      normal: 0
     };
 
     for (const element of array) {
