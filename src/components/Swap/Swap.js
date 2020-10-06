@@ -233,9 +233,9 @@ class Swap extends Component {
   renderInsufficientBalanceMessage() {
     if (this.state.ETHSoldValidation !== undefined && this.state.ETHSold) {
       let errorMsg = "";
-      if (this.state.ETHBalance == 0) errorMsg = "you don't have any ether";
+      if (this.state.ETHBalance == 0) errorMsg = "you don't have any ether\n";
       else if (!TransactionUtilities.isNumber(this.state.ETHSold))
-        errorMsg = "invalid amount!";
+        errorMsg = "invalid amount!\n";
       else if (this.state.ETHBalance !== 0 && !this.state.ETHSoldValidation)
         errorMsg = "you don't have enough ether for a network fee";
       else
@@ -507,7 +507,7 @@ const ErrorMessageText = styled.Text`
   color: #e41b13;
   font-family: "HKGrotesk-Regular";
   text-align: ${(props) => props.textAlign};
-  width: 50%;
+  width: 70%;
   font-size: 12px;
 `;
 
