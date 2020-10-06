@@ -13,7 +13,8 @@ import {
   GoyemonText,
   ToggleText,
   ReceiveIcon,
-  BuyIcon
+  BuyIcon,
+  Button
 } from "../../common";
 import BuyCryptoModal from "../../BuyCryptoModal";
 import ApplicationBoxes from "./ApplicationBoxes";
@@ -26,6 +27,9 @@ import { RoundDownBigNumberPlacesFour } from "../../../utilities/BigNumberUtilit
 import PriceUtilities from "../../../utilities/PriceUtilities";
 import { Linking } from "react-native";
 import TokenBalanceCards from "../PortfolioWallet/TokenBalanceCards";
+import LogUtilities from "../../../utilities/LogUtilities";
+import { Platform } from "react-native";
+import AndroidOpenSettings from "react-native-android-open-settings";
 
 class PortfolioHome extends Component {
   constructor() {
@@ -80,6 +84,7 @@ class PortfolioHome extends Component {
       permissions
     } = this.props;
     const { toggle } = this.state;
+    LogUtilities.toDebugScreen("permissions", permissions);
 
     const ETHBalance = RoundDownBigNumberPlacesFour(
         Web3.utils.fromWei(balance.wei)
@@ -216,26 +221,43 @@ class PortfolioHome extends Component {
             }}
           />
         )}
-        {!permissions &&
-          <NotificationBox>
-            <UntouchableCardContainer
-              alignItems="flex-start"
-              background="#f4efe9"
-              borderRadius="8px"
-              flexDirection="column"
-              height="200px"
-              justifyContent="center"
-              marginTop="0"
-              textAlign="left"
-              width="90%"
-            >
+        {!permissions.notification && (
+          <UntouchableCardContainer
+            alignItems="flex-start"
+            background="#f4efe9"
+            borderRadius="8px"
+            flexDirection="column"
+            height="200px"
+            justifyContent="center"
+            marginTop="0"
+            textAlign="left"
+            width="90%"
+          >
             <WarningMessage>
               <Icon name="alert-circle-outline" color="#e41b13" size={24} />
-              <GoyemonText fontSize={20}>Action required: we cannot update your transactions without enabling notification settings</GoyemonText>
+              <GoyemonText fontSize={20}>
+                Action required: we cannot update your transactions without
+                enabling notification settings
+              </GoyemonText>
             </WarningMessage>
-            </UntouchableCardContainer>
-        </NotificationBox>
-        }
+            <Button
+              text="Go To Device Settings"
+              textColor="#5F5F5F"
+              backgroundColor="#FFF"
+              borderColor="#FFF"
+              margin="12px 0"
+              marginBottom="0"
+              opacity="1"
+              onPress={() => {
+                if (Platform.OS === "ios") {
+                  Linking.openURL("app-settings://notification/Goyemon");
+                } else if (Platform.OS === "android") {
+                  AndroidOpenSettings.appNotificationSettings();
+                }
+              }}
+            />
+          </UntouchableCardContainer>
+        )}
         <TabChangeBox>
           <TabChangeButton>
             <ToggleText

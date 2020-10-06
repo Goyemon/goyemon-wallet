@@ -61,12 +61,6 @@ class Initial extends Component {
       ) {
         mainPage = "Welcome";
       } else if (
-        hasMnemonicWordsInKeychain &&
-        !permissions.notification &&
-        hasPrivateKeyInKeychain
-      ) {
-        mainPage = "NotificationPermissionNotGranted";
-      } else if (
         (hasMnemonicWordsInKeychain &&
           permissions.notification &&
           !hasPersistedState &&
