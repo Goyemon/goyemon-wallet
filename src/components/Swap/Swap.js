@@ -234,9 +234,17 @@ class Swap extends Component {
     if (this.state.ETHSoldValidation !== undefined && this.state.ETHSold) {
       let errorMsg = "";
       if (this.state.ETHBalance == 0) errorMsg = "you don't have any ether";
+      else if (!TransactionUtilities.isNumber(this.state.ETHSold))
+        errorMsg = "invalid amount!";
       else if (this.state.ETHBalance !== 0 && !this.state.ETHSoldValidation)
         errorMsg = "you don't have enough ether for a network fee";
-      else return null;
+      else
+        return (
+          <View>
+            <SwapErrorMessage textAlign="left">{`\n\n`}</SwapErrorMessage>
+            <GoyemonText fontSize="8px"></GoyemonText>
+          </View>
+        );
       return (
         <View>
           <SwapErrorMessage textAlign="left">{errorMsg}</SwapErrorMessage>
@@ -245,7 +253,13 @@ class Swap extends Component {
           </GoyemonText>
         </View>
       );
-    } else return null;
+    } else
+      return (
+        <View>
+          <SwapErrorMessage textAlign="left">{`\n\n`}</SwapErrorMessage>
+          <GoyemonText fontSize="8px"></GoyemonText>
+        </View>
+      );
   }
 
   render() {
