@@ -8,7 +8,6 @@ import {
   saveWeiBalance,
   movePoolTogetherDaiBalance
 } from "../actions/ActionBalance";
-import { getCompound } from "../actions/ActionCompound";
 import {
   savePoolTogetherDaiInfo,
   togglePoolTogetherWinnerRevealed
@@ -85,17 +84,6 @@ export const downstreamMessageHandler = async (type: any, data: any) => {
         store.dispatch(savePoolTogetherDaiBalance(pooltogetherDaiBalanceArray));
       }
 
-      break;
-
-    case "cDai_lending_info":
-      // const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
-      store.dispatch(getCompound(data));
-      store.dispatch(
-        saveCompoundDaiBalance(
-          stateTree.ReducerBalance.balance.cDai,
-          data.current_exchange_rate
-        )
-      );
       break;
 
     case "transactionError":
