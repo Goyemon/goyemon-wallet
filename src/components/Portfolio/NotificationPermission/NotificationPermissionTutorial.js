@@ -26,9 +26,7 @@ class NotificationPermissionTutorial extends Component {
     const { permissions, navigation } = this.props;
     if (permissions.notification === null) {
       LogUtilities.logInfo("notification permission is not set");
-    } else if (permissions.notification === true) {
-      navigation.navigate("WalletCreation");
-    } else if (permissions.notification === false) {
+    } else {
       navigation.navigate("WalletCreation");
     }
   }
