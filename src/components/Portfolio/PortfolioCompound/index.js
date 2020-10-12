@@ -23,12 +23,12 @@ class PortfolioCompound extends Component {
   render() {
     const { balance, compound } = this.props;
     const currentInterestRate = new BigNumber(compound.dai.currentInterestRate)
-      .div(new BigNumber(10).pow(24))
+      .times(new BigNumber(10).pow(2))
       .toFixed(2);
 
-    const compoundDAIBalance = RoundDownBigNumberPlacesFour(balance.compoundDai)
-      .div(new RoundDownBigNumberPlacesFour(10).pow(36))
-      .toFixed(2);
+    const compoundDAIBalance = RoundDownBigNumberPlacesFour(
+      balance.compoundDai
+    ).toFixed(2);
 
     const CDAIBalance = RoundDownBigNumberPlacesFour(balance.cDai)
       .div(new RoundDownBigNumberPlacesFour(10).pow(8))
@@ -36,9 +36,7 @@ class PortfolioCompound extends Component {
 
     const lifetimeEarnedInDAI = RoundDownBigNumberPlacesFour(
       compound.dai.lifetimeEarned
-    )
-      .div(new RoundDownBigNumberPlacesFour(10).pow(36))
-      .toString();
+    ).toFixed(2);
 
     return (
       <RootContainer>
