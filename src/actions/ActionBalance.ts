@@ -8,6 +8,7 @@ import {
   SAVE_POOL_TOGETHER_DAI_BALANCE,
   MOVE_POOL_TOGETHER_DAI_BALANCE
 } from "../constants/ActionTypes";
+import { RoundDownBigNumberPlacesFour } from "../utilities/BigNumberUtilities";
 import LogUtilities from "../utilities/LogUtilities";
 
 export function saveWeiBalance(weiBalance: any) {
@@ -62,10 +63,10 @@ export function saveCompoundDaiBalance(
 ) {
   return async function (dispatch: any) {
     try {
-      let compoundDaiBalance: BigNumber | string = new BigNumber(
-        cDaiBalance
-      ).times(currentExchangeRate);
-      compoundDaiBalance = compoundDaiBalance.toString();
+      const compoundDaiBalance: BigNumber | string = new BigNumber(cDaiBalance)
+        .div(new RoundDownBigNumberPlacesFour(10).pow(8))
+        .times(currentExchangeRate)
+        .toString();
       dispatch(saveCompoundDaiBalanceSuccess(compoundDaiBalance));
     } catch (err) {
       LogUtilities.logError(err);
