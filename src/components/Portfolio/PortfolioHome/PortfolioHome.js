@@ -233,11 +233,11 @@ class PortfolioHome extends Component {
           >
             <WarningMessage>
               <Icon name="alert-circle-outline" color="#e41b13" size={24} />
-              <GoyemonText fontSize={20}>
-                Action required: we cannot update your transactions without
-                enabling notification settings
-              </GoyemonText>
+              <GoyemonText fontSize={20}>Notifications not enabled</GoyemonText>
             </WarningMessage>
+            <GoyemonText fontSize={16}>
+              Please enable notifications to update your transactions.
+            </GoyemonText>
             <Button
               text="Go To Device Settings"
               textColor="#5F5F5F"
