@@ -3,18 +3,17 @@ import BigNumber from "bignumber.js";
 import {
   saveCDaiBalance,
   saveDaiBalance,
-  saveCompoundDaiBalance,
   savePoolTogetherDaiBalance,
   saveWeiBalance,
   movePoolTogetherDaiBalance
 } from "../actions/ActionBalance";
+import { saveCompoundDaiInfo } from "../actions/ActionCompound";
 import {
   savePoolTogetherDaiInfo,
   togglePoolTogetherWinnerRevealed
 } from "../actions/ActionPoolTogether";
 import { saveUniswapV2WETHxDAIReserve } from "../actions/ActionUniswap";
 import { saveTransactionsLoaded } from "../actions/ActionTransactionsLoaded";
-import { FcmMsgs } from "../lib/fcm";
 import LogUtilities from "../utilities/LogUtilities";
 import { store } from "../store/store";
 import { storage } from "../lib/tx";
@@ -70,9 +69,12 @@ export const downstreamMessageHandler = async (type: any, data: any) => {
         );
 
       if (data.hasOwnProperty("cdai")) {
-        FcmMsgs.requestCompoundDaiInfo(
-          stateTree.ReducerChecksumAddress.checksumAddress
+        store.dispatch(
+          await saveCompoundDaiInfo(
+            stateTree.ReducerChecksumAddress.checksumAddress
+          )
         );
+
         store.dispatch(
           saveCDaiBalance(new BigNumber(`0x${data.cdai}`).toString(10))
         );
@@ -132,6 +134,6 @@ export const downstreamMessageHandler = async (type: any, data: any) => {
       break;
 
     default:
-      LogUtilities.logError(`unknown message type: ${type}`);
+      LogUtilities.logInfo(`unknown message type: ${type}`);
   }
 };

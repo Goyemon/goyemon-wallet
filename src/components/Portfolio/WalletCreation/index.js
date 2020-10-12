@@ -88,7 +88,7 @@ class WalletCreation extends Component {
     await this.props.getDAIPrice();
     await this.props.getCDAIPrice();
     this.props.getGasPrice();
-    FcmMsgs.requestCompoundDaiInfo(this.props.checksumAddress);
+    await this.props.saveCompoundDaiInfo(this.props.checksumAddress);
     FcmMsgs.requestPoolTogetherDaiInfo(this.props.checksumAddress);
     FcmMsgs.requestUniswapV2WETHxDAIReserves(this.props.checksumAddress);
   }
