@@ -12,11 +12,11 @@ export const saveCompoundDaiInfo = (address: string) => async (
     let accountsInfo: any = await fetch(
       `https://api.compound.finance/api/v2/account?addresses[]=${address}`
     );
-      if (element.underlying_symbol == "USDT") {
     cTokenInfo = await cTokenInfo.json();
     accountsInfo = await accountsInfo.json();
     let exchangeRate, supplyRate, lifetimeInterestEarned;
     cTokenInfo.cToken.forEach((element: any) => {
+      if (element.underlying_symbol == "DAI") {
         exchangeRate = element.exchange_rate.value;
         supplyRate = element.supply_rate.value;
       }
