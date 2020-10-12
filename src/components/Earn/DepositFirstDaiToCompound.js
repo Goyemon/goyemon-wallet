@@ -171,7 +171,7 @@ class DepositFirstDaiToCompound extends Component {
     const isOnline = this.props.isOnline;
 
     const currentInterestRate = new BigNumber(compound.dai.currentInterestRate)
-      .div(new BigNumber(10).pow(24))
+      .times(new BigNumber(10).pow(2))
       .toFixed(2);
 
     const DAIFullBalance = RoundDownBigNumberPlacesFour(balance.dai)

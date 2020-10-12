@@ -244,10 +244,10 @@ class TransactionUtilities {
     ) {
       const stateTree = store.getState();
       const balance = stateTree.ReducerBalance.balance;
-      const compoundDAIBalance = new RoundDownBigNumberPlacesEighteen(
-        balance.compoundDai
-      );
 
+      const compoundDAIBalance = new RoundDownBigNumberPlacesEighteen(10)
+        .pow(36)
+        .times(balance.compoundDai);
       DAIWithdrawAmount = new RoundDownBigNumberPlacesEighteen(10)
         .pow(36)
         .times(DAIWithdrawAmount);

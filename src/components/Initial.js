@@ -6,6 +6,8 @@ import * as Animatable from "react-native-animatable";
 import { StackActions, NavigationActions } from "react-navigation";
 import { connect } from "react-redux";
 import styled from "styled-components/native";
+import { saveCompoundDaiBalance } from "../actions/ActionBalance";
+import { saveCompoundDaiInfo } from "../actions/ActionCompound";
 import { getGasPrice } from "../actions/ActionGasPrice";
 import { getETHPrice, getDAIPrice, getCDAIPrice } from "../actions/ActionPrice";
 import { Container } from "./common";
@@ -26,8 +28,12 @@ class Initial extends Component {
     await this.props.getETHPrice();
     await this.props.getDAIPrice();
     await this.props.getCDAIPrice();
+    await this.props.saveCompoundDaiInfo(this.props.checksumAddress);
+    this.props.saveCompoundDaiBalance(
+      this.props.balance.cDai,
+      this.props.compound.dai.currentExchangeRate
+    );
     this.props.getGasPrice();
-    FcmMsgs.requestCompoundDaiInfo(this.props.checksumAddress);
     FcmMsgs.requestPoolTogetherDaiInfo(this.props.checksumAddress);
     FcmMsgs.requestUniswapV2WETHxDAIReserves(this.props.checksumAddress);
 
@@ -181,6 +187,7 @@ function mapStateToProps(state) {
   return {
     balance: state.ReducerBalance.balance,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
+    compound: state.ReducerCompound.compound,
     permissions: state.ReducerPermissions.permissions,
     price: state.ReducerPrice.price,
     rehydration: state.ReducerRehydration.rehydration,
@@ -192,7 +199,9 @@ const mapDispatchToProps = {
   getCDAIPrice,
   getETHPrice,
   getDAIPrice,
-  getGasPrice
+  getGasPrice,
+  saveCompoundDaiInfo,
+  saveCompoundDaiBalance
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Initial);

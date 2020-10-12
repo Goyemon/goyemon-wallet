@@ -39,9 +39,7 @@ class WithdrawDaiFromCompound extends Component {
     this.state = {
       compoundDAIBalance: RoundDownBigNumberPlacesFour(
         props.balance.compoundDai
-      )
-        .div(new RoundDownBigNumberPlacesFour(10).pow(36))
-        .toFixed(2),
+      ).toFixed(2),
       DAIWithdrawAmount: "",
       DAISavingsAmountValidation: undefined,
       WEIAmountValidation: undefined,
@@ -71,9 +69,7 @@ class WithdrawDaiFromCompound extends Component {
       this.setState({
         compoundDAIBalance: RoundDownBigNumberPlacesFour(
           this.props.balance.compoundDai
-        )
-          .div(new RoundDownBigNumberPlacesFour(10).pow(18))
-          .toFixed(2)
+        ).toFixed(2)
       });
     }
   }

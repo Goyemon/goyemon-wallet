@@ -2,15 +2,47 @@
 import { SAVE_COMPOUND_DAI_INFO } from "../constants/ActionTypes";
 import LogUtilities from "../utilities/LogUtilities";
 
-export function saveCompoundDaiInfo(compoundDaiInfo: any) {
-  return async function (dispatch: any) {
-    try {
-      dispatch(saveCompoundDaiInfoSuccess(compoundDaiInfo));
-    } catch (err) {
-      LogUtilities.logError(err);
-    }
-  };
-}
+export const saveCompoundDaiInfo = (address: string) => async (
+  dispatch: any
+) => {
+  try {
+    let cTokenInfo: any = await fetch(
+      "https://api.compound.finance/api/v2/ctoken"
+    );
+    let accountsInfo: any = await fetch(
+      `https://api.compound.finance/api/v2/account?addresses[]=${address}`
+    );
+    cTokenInfo = await cTokenInfo.json();
+    accountsInfo = await accountsInfo.json();
+    let exchangeRate, supplyRate, lifetimeInterestEarned;
+    cTokenInfo.cToken.forEach((element: any) => {
+      if (element.underlying_symbol == "DAI") {
+        exchangeRate = element.exchange_rate.value;
+        supplyRate = element.supply_rate.value;
+      }
+    });
+    accountsInfo.accounts.forEach((element: any) => {
+      if (element.address.toLowerCase() == address.toLowerCase()) {
+        element.tokens.forEach((child: any) => {
+          if (child.symbol === "cDAI") {
+            lifetimeInterestEarned =
+              child.lifetime_supply_interest_accrued.value;
+          }
+        });
+      }
+    });
+
+    dispatch(
+      saveCompoundDaiInfoSuccess({
+        exchangeRate,
+        supplyRate,
+        lifetimeInterestEarned
+      })
+    );
+  } catch (err) {
+    LogUtilities.toDebugScreen(err);
+  }
+};
 
 const saveCompoundDaiInfoSuccess = (compoundDaiInfo: any) => ({
   type: SAVE_COMPOUND_DAI_INFO,

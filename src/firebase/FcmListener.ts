@@ -3,7 +3,6 @@ import BigNumber from "bignumber.js";
 import {
   saveCDaiBalance,
   saveDaiBalance,
-  saveCompoundDaiBalance,
   savePoolTogetherDaiBalance,
   saveWeiBalance,
   movePoolTogetherDaiBalance
@@ -15,7 +14,6 @@ import {
 } from "../actions/ActionPoolTogether";
 import { saveUniswapV2WETHxDAIReserve } from "../actions/ActionUniswap";
 import { saveTransactionsLoaded } from "../actions/ActionTransactionsLoaded";
-import { FcmMsgs } from "../lib/fcm";
 import LogUtilities from "../utilities/LogUtilities";
 import { store } from "../store/store";
 import { storage } from "../lib/tx";
@@ -71,9 +69,12 @@ export const downstreamMessageHandler = async (type: any, data: any) => {
         );
 
       if (data.hasOwnProperty("cdai")) {
-        FcmMsgs.requestCompoundDaiInfo(
-          stateTree.ReducerChecksumAddress.checksumAddress
+        store.dispatch(
+          await saveCompoundDaiInfo(
+            stateTree.ReducerChecksumAddress.checksumAddress
+          )
         );
+
         store.dispatch(
           saveCDaiBalance(new BigNumber(`0x${data.cdai}`).toString(10))
         );
@@ -85,17 +86,6 @@ export const downstreamMessageHandler = async (type: any, data: any) => {
         store.dispatch(savePoolTogetherDaiBalance(pooltogetherDaiBalanceArray));
       }
 
-      break;
-
-    case "cDai_lending_info":
-      // const checksumAddress = stateTree.ReducerChecksumAddress.checksumAddress;
-      store.dispatch(saveCompoundDaiInfo(data));
-      store.dispatch(
-        saveCompoundDaiBalance(
-          stateTree.ReducerBalance.balance.cDai,
-          data.current_exchange_rate
-        )
-      );
       break;
 
     case "transactionError":
@@ -144,6 +134,6 @@ export const downstreamMessageHandler = async (type: any, data: any) => {
       break;
 
     default:
-      LogUtilities.logError(`unknown message type: ${type}`);
+      LogUtilities.logInfo(`unknown message type: ${type}`);
   }
 };
