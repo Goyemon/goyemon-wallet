@@ -20,7 +20,7 @@ const compound = (state = INITIAL_STATE, action: any) => {
             ...state.compound.dai,
             currentExchangeRate: action.payload.exchangeRate,
             currentInterestRate: action.payload.supplyRate,
-            lifetimeEarned: action.payload.lifetimeSupply
+            lifetimeEarned: action.payload.lifetimeInterestEarned
           }
         }
       };
