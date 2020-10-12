@@ -9,13 +9,14 @@ import {
   RootContainer,
   UntouchableCardContainer,
   HeaderOne,
-  NewHeaderThree,
   HeaderFour,
   GoyemonText,
+  ToggleText,
   ReceiveIcon,
-  BuyIcon
-} from "../../../components/common";
-import BuyCryptoModal from "../../../components/BuyCryptoModal";
+  BuyIcon,
+  Button
+} from "../../common";
+import BuyCryptoModal from "../../BuyCryptoModal";
 import ApplicationBoxes from "./ApplicationBoxes";
 import WarningBox from "./WarningBox";
 import Copy from "../../Copy";
@@ -25,8 +26,17 @@ import PortfolioStack from "../../../navigators/PortfolioStack";
 import { RoundDownBigNumberPlacesFour } from "../../../utilities/BigNumberUtilities";
 import PriceUtilities from "../../../utilities/PriceUtilities";
 import { Linking } from "react-native";
+import TokenBalanceCards from "../PortfolioWallet/TokenBalanceCards";
+import { Platform } from "react-native";
+import AndroidOpenSettings from "react-native-android-open-settings";
 
 class PortfolioHome extends Component {
+  constructor() {
+    super();
+    this.state = {
+      toggle: true
+    };
+  }
   static navigationOptions = ({ navigation }) => {
     return {
       headerRight: (
@@ -68,8 +78,11 @@ class PortfolioHome extends Component {
       balance,
       navigation,
       checksumAddress,
-      mnemonicWordsValidation
+      mnemonicWordsValidation,
+      price,
+      permissions
     } = this.props;
+    const { toggle } = this.state;
 
     const ETHBalance = RoundDownBigNumberPlacesFour(
         Web3.utils.fromWei(balance.wei)
@@ -102,16 +115,6 @@ class PortfolioHome extends Component {
 
     const applicationBoxes = [
       {
-        balance: PriceUtilities.getTotalWalletBalance(
-          ETHBalance,
-          DAIBalance,
-          CDAIBalance,
-          PLDAIBalance
-        ),
-        name: I18n.t("portfolio-home-wallet"),
-        event: () => navigation.navigate("PortfolioWallet")
-      },
-      {
         balance: PriceUtilities.convertCDAIToUSD(CDAIBalance).toFixed(2),
         name: "Compound",
         event: () => navigation.navigate("PortfolioCompound")
@@ -122,6 +125,37 @@ class PortfolioHome extends Component {
         ),
         name: "PoolTogether",
         event: () => navigation.navigate("PortfolioPoolTogether")
+      }
+    ];
+
+    const tokenBalanceCards = [
+      {
+        price: price.eth,
+        balance: ETHBalance,
+        usd: PriceUtilities.convertETHToUSD(ETHBalance).toFixed(2),
+        icon: require("../../../../assets/ether_icon.png"),
+        token: "ETH"
+      },
+      {
+        price: price.dai,
+        balance: DAIBalance,
+        usd: PriceUtilities.convertDAIToUSD(DAIBalance).toFixed(2),
+        icon: require("../../../../assets/dai_icon.png"),
+        token: "DAI"
+      },
+      {
+        price: parseFloat(price.cdai).toFixed(2),
+        balance: CDAIBalance,
+        usd: PriceUtilities.convertCDAIToUSD(CDAIBalance).toFixed(2),
+        icon: require("../../../../assets/cdai_icon.png"),
+        token: "cDAI"
+      },
+      {
+        price: price.dai,
+        balance: PLDAIBalance,
+        usd: PriceUtilities.convertDAIToUSD(PLDAIBalance).toFixed(2),
+        icon: require("../../../../assets/pldai_icon.png"),
+        token: "plDAI"
       }
     ];
 
@@ -185,18 +219,87 @@ class PortfolioHome extends Component {
             }}
           />
         )}
-        <NewHeaderThree
-          color="#000"
-          marginBottom="0"
-          marginLeft="24"
-          marginTop="0"
-          text={I18n.t("portfolio-home-applications")}
-        />
-        <ApplicationBoxes boxes={applicationBoxes} />
+        {!permissions.notification && (
+          <UntouchableCardContainer
+            alignItems="flex-start"
+            background="#f4efe9"
+            borderRadius="8px"
+            flexDirection="column"
+            height="200px"
+            justifyContent="center"
+            marginTop="0"
+            textAlign="left"
+            width="90%"
+          >
+            <WarningMessage>
+              <Icon name="alert-circle-outline" color="#e41b13" size={24} />
+              <GoyemonText fontSize={20}>Notifications not enabled</GoyemonText>
+            </WarningMessage>
+            <GoyemonText fontSize={16}>
+              Please enable notifications to update your transactions.
+            </GoyemonText>
+            <Button
+              text="Go To Device Settings"
+              textColor="#5F5F5F"
+              backgroundColor="#FFF"
+              borderColor="#FFF"
+              margin="12px 0"
+              marginBottom="0"
+              opacity="1"
+              onPress={() => {
+                if (Platform.OS === "ios") {
+                  Linking.openURL("app-settings://notification/Goyemon");
+                } else if (Platform.OS === "android") {
+                  AndroidOpenSettings.appNotificationSettings();
+                }
+              }}
+            />
+          </UntouchableCardContainer>
+        )}
+        <TabChangeBox>
+          <TabChangeButton>
+            <ToggleText
+              fontSize={18}
+              onPress={() => this.setState({ toggle: true })}
+              isSelected={toggle}
+              text="SAVINGS"
+            />
+          </TabChangeButton>
+          <TabChangeButton>
+            <ToggleText
+              fontSize={18}
+              onPress={() => this.setState({ toggle: false })}
+              isSelected={!toggle}
+              text="CURRENCY"
+            />
+          </TabChangeButton>
+        </TabChangeBox>
+        {toggle ? (
+          <ApplicationBoxes boxes={applicationBoxes} />
+        ) : (
+          <TokenBalanceCards cards={tokenBalanceCards} />
+        )}
       </RootContainer>
     );
   }
 }
+
+const TabChangeBox = styled.View`
+  flex-direction: row;
+  width: 60%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-bottom: 10px;
+`;
+
+const WarningMessage = styled.View`
+  flex-direction: row;
+  margin-bottom: 6px;
+`;
+
+const TabChangeButton = styled.View`
+  width: 50%;
+`;
 
 const UsdBalance = styled.Text`
   color: #000;
@@ -231,7 +334,8 @@ const mapStateToProps = (state) => ({
     state.ReducerMnemonicWordsValidation.mnemonicWordsValidation,
   balance: state.ReducerBalance.balance,
   checksumAddress: state.ReducerChecksumAddress.checksumAddress,
-  price: state.ReducerPrice.price
+  price: state.ReducerPrice.price,
+  permissions: state.ReducerPermissions.permissions
 });
 
 const mapDispatchToProps = {
