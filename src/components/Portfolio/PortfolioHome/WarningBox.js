@@ -18,7 +18,7 @@ const WarningBox = (props) => (
   >
     <WarningMessage>
       <Icon name="alert-circle-outline" color="#e41b13" size={24} />
-      <GoyemonText fontSize={20}>Action required: not backed up</GoyemonText>
+      <GoyemonText fontSize={20}>Not backed up</GoyemonText>
     </WarningMessage>
     <GoyemonText fontSize={16}>
       If your device gets lost or if there&apos;s an unexpected hardware error,

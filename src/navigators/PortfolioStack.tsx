@@ -3,7 +3,6 @@ import { createStackNavigator } from "react-navigation-stack";
 import Initial from "../components/Initial";
 import Welcome from "../components/Portfolio/Welcome/Welcome";
 import NotificationPermissionTutorial from "../components/Portfolio/NotificationPermission/NotificationPermissionTutorial";
-import NotificationPermissionNotGranted from "../components/Portfolio/NotificationPermission/NotificationPermissionNotGranted";
 import WalletCreation from "../components/Portfolio/WalletCreation/WalletCreation";
 import ImportMnemonicWords from "../components/Portfolio/ImportMnemonicWords/ImportMnemonicWords";
 import CreateWalletTutorial from "../components/Portfolio/CreateWalletTutorial/CreateWalletTutorial";
@@ -36,12 +35,6 @@ const PortfolioStack = createStackNavigator(
       screen: NotificationPermissionTutorial,
       navigationOptions: () => ({
         headerTransparent: true
-      })
-    },
-    NotificationPermissionNotGranted: {
-      screen: NotificationPermissionNotGranted,
-      navigationOptions: () => ({
-        header: null
       })
     },
     WalletCreation: {

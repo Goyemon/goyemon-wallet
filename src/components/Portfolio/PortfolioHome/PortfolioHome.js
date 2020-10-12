@@ -13,7 +13,8 @@ import {
   GoyemonText,
   ToggleText,
   ReceiveIcon,
-  BuyIcon
+  BuyIcon,
+  Button
 } from "../../common";
 import BuyCryptoModal from "../../BuyCryptoModal";
 import ApplicationBoxes from "./ApplicationBoxes";
@@ -26,6 +27,8 @@ import { RoundDownBigNumberPlacesFour } from "../../../utilities/BigNumberUtilit
 import PriceUtilities from "../../../utilities/PriceUtilities";
 import { Linking } from "react-native";
 import TokenBalanceCards from "../PortfolioWallet/TokenBalanceCards";
+import { Platform } from "react-native";
+import AndroidOpenSettings from "react-native-android-open-settings";
 
 class PortfolioHome extends Component {
   constructor() {
@@ -76,7 +79,8 @@ class PortfolioHome extends Component {
       navigation,
       checksumAddress,
       mnemonicWordsValidation,
-      price
+      price,
+      permissions
     } = this.props;
     const { toggle } = this.state;
 
@@ -215,6 +219,43 @@ class PortfolioHome extends Component {
             }}
           />
         )}
+        {!permissions.notification && (
+          <UntouchableCardContainer
+            alignItems="flex-start"
+            background="#f4efe9"
+            borderRadius="8px"
+            flexDirection="column"
+            height="200px"
+            justifyContent="center"
+            marginTop="0"
+            textAlign="left"
+            width="90%"
+          >
+            <WarningMessage>
+              <Icon name="alert-circle-outline" color="#e41b13" size={24} />
+              <GoyemonText fontSize={20}>Notifications not enabled</GoyemonText>
+            </WarningMessage>
+            <GoyemonText fontSize={16}>
+              Please enable notifications to update your transactions.
+            </GoyemonText>
+            <Button
+              text="Go To Device Settings"
+              textColor="#5F5F5F"
+              backgroundColor="#FFF"
+              borderColor="#FFF"
+              margin="12px 0"
+              marginBottom="0"
+              opacity="1"
+              onPress={() => {
+                if (Platform.OS === "ios") {
+                  Linking.openURL("app-settings://notification/Goyemon");
+                } else if (Platform.OS === "android") {
+                  AndroidOpenSettings.appNotificationSettings();
+                }
+              }}
+            />
+          </UntouchableCardContainer>
+        )}
         <TabChangeBox>
           <TabChangeButton>
             <ToggleText
@@ -249,6 +290,11 @@ const TabChangeBox = styled.View`
   margin-right: auto;
   margin-left: auto;
   padding-bottom: 10px;
+`;
+
+const WarningMessage = styled.View`
+  flex-direction: row;
+  margin-bottom: 6px;
 `;
 
 const TabChangeButton = styled.View`
@@ -288,7 +334,8 @@ const mapStateToProps = (state) => ({
     state.ReducerMnemonicWordsValidation.mnemonicWordsValidation,
   balance: state.ReducerBalance.balance,
   checksumAddress: state.ReducerChecksumAddress.checksumAddress,
-  price: state.ReducerPrice.price
+  price: state.ReducerPrice.price,
+  permissions: state.ReducerPermissions.permissions
 });
 
 const mapDispatchToProps = {
