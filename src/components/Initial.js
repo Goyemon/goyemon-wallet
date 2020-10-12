@@ -16,7 +16,6 @@ import { FcmMsgs } from "../lib/fcm";
 import PortfolioStack from "../navigators/PortfolioStack";
 import LogUtilities from "../utilities/LogUtilities";
 import WalletUtilities from "../utilities/WalletUtilities.ts";
-import { store } from "../store/store";
 
 class Initial extends Component {
   async componentDidUpdate(prevProps) {
@@ -30,11 +29,9 @@ class Initial extends Component {
     await this.props.getDAIPrice();
     await this.props.getCDAIPrice();
     await this.props.saveCompoundDaiInfo(this.props.checksumAddress);
-    store.dispatch(
-      saveCompoundDaiBalance(
-        this.props.balance.cDai,
-        this.props.compound.dai.currentExchangeRate
-      )
+    this.props.saveCompoundDaiBalance(
+      this.props.balance.cDai,
+      this.props.compound.dai.currentExchangeRate
     );
     this.props.getGasPrice();
     FcmMsgs.requestPoolTogetherDaiInfo(this.props.checksumAddress);
@@ -212,7 +209,8 @@ const mapDispatchToProps = {
   getETHPrice,
   getDAIPrice,
   getGasPrice,
-  saveCompoundDaiInfo
+  saveCompoundDaiInfo,
+  saveCompoundDaiBalance
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Initial);
