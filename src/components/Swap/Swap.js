@@ -2,7 +2,6 @@
 import React, { Component } from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { connect } from "react-redux";
-import { View } from "react-native";
 import styled from "styled-components/native";
 import Web3 from "web3";
 import { saveOutgoingTransactionDataSwap } from "../../actions/ActionOutgoingTransactionData";
@@ -15,7 +14,6 @@ import {
   Container,
   UntouchableCardContainer,
   HeaderOne,
-  GoyemonText,
   SwapForm,
   Loader,
   IsOnlineMessage,
@@ -231,35 +229,29 @@ class Swap extends Component {
   }
 
   renderInsufficientBalanceMessage() {
-    if (this.state.ETHSoldValidation !== undefined && this.state.ETHSold) {
-      let errorMsg = "";
-      if (this.state.ETHBalance == 0) errorMsg = "you don't have any ether\n";
-      else if (!TransactionUtilities.isNumber(this.state.ETHSold))
-        errorMsg = "invalid amount!\n";
-      else if (this.state.ETHBalance !== 0 && !this.state.ETHSoldValidation)
-        errorMsg = "you don't have enough ether for a network fee";
-      else
-        return (
-          <View>
-            <SwapErrorMessage textAlign="left">{`\n\n`}</SwapErrorMessage>
-            <GoyemonText fontSize="8px"></GoyemonText>
-          </View>
-        );
-      return (
-        <View>
-          <SwapErrorMessage textAlign="left">{errorMsg}</SwapErrorMessage>
-          <GoyemonText fontSize="8px">
-            *beware that network fee is paid with ether
-          </GoyemonText>
-        </View>
+    if (!this.state.ETHSoldValidation) {
+      let errorMessage;
+      const ETHBalance = new RoundDownBigNumberPlacesEighteen(
+        this.state.ETHBalance
       );
-    } else
-      return (
-        <View>
-          <SwapErrorMessage textAlign="left">{`\n\n`}</SwapErrorMessage>
-          <GoyemonText fontSize="8px"></GoyemonText>
-        </View>
-      );
+      const ETHSold = new RoundDownBigNumberPlacesEighteen(this.state.ETHSold);
+
+      if (
+        this.state.ETHSoldValidation === undefined ||
+        this.state.ETHSold === ""
+      ) {
+        errorMessage = "";
+      } else if (this.state.ETHBalance === "0") {
+        errorMessage = "you don't have any ETH";
+      } else if (ETHBalance.isGreaterThanOrEqualTo(ETHSold)) {
+        errorMessage = "you don't have enough ETH for a network fee";
+      } else {
+        errorMessage = "you don't have enough ETH";
+      }
+      return <SwapErrorMessage>{errorMessage}</SwapErrorMessage>;
+    } else {
+      console.log("sufficient balance");
+    }
   }
 
   render() {
@@ -330,7 +322,7 @@ class Swap extends Component {
                 value={this.state.ETHSold}
               />
             </SwapForm>
-            <View>{this.renderInsufficientBalanceMessage()}</View>
+            {this.renderInsufficientBalanceMessage()}
             <UseMaxButton
               text={I18n.t("use-max")}
               textColor="#00A3E2"
@@ -478,16 +470,23 @@ const ButtonWrapper = styled.View`
   align-items: center;
 `;
 
+const SwapErrorMessage = styled.Text`
+  color: #e41b13;
+  font-family: "HKGrotesk-Regular";
+  font-size: 14px;
+  text-align: left;
+`;
+
 function mapStateToProps(state) {
   return {
     balance: state.ReducerBalance.balance,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
-    uniswap: state.ReducerUniswap.uniswap,
     gasPrice: state.ReducerGasPrice.gasPrice,
     gasChosen: state.ReducerGasPrice.gasChosen,
     isOnline: state.ReducerNetInfo.isOnline,
     outgoingTransactionData:
-      state.ReducerOutgoingTransactionData.outgoingTransactionData
+      state.ReducerOutgoingTransactionData.outgoingTransactionData,
+    uniswap: state.ReducerUniswap.uniswap
   };
 }
 
@@ -496,19 +495,5 @@ const mapDispatchToProps = {
   updateTxConfirmationModalVisibleType,
   saveOutgoingTransactionDataSwap
 };
-
-const SwapErrorMessage = (props) => (
-  <ErrorMessageText textAlign={props.textAlign}>
-    {props.children}
-  </ErrorMessageText>
-);
-
-const ErrorMessageText = styled.Text`
-  color: #e41b13;
-  font-family: "HKGrotesk-Regular";
-  text-align: ${(props) => props.textAlign};
-  width: 70%;
-  font-size: 12px;
-`;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Swap);
