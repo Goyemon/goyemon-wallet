@@ -21,16 +21,21 @@ export const saveCompoundDaiInfo = (address: string) => async (
         supplyRate = element.supply_rate.value;
       }
     });
-    accountsInfo.accounts.forEach((element: any) => {
-      if (element.address.toLowerCase() == address.toLowerCase()) {
-        element.tokens.forEach((child: any) => {
-          if (child.symbol === "cDAI") {
-            lifetimeInterestEarned =
-              child.lifetime_supply_interest_accrued.value;
-          }
-        });
-      }
-    });
+
+    if (accountsInfo.accounts.length === 0) {
+      lifetimeInterestEarned = 0;
+    } else if (accountsInfo.accounts.length > 0) {
+      accountsInfo.accounts.forEach((element: any) => {
+        if (element.address.toLowerCase() == address.toLowerCase()) {
+          element.tokens.forEach((child: any) => {
+            if (child.symbol === "cDAI") {
+              lifetimeInterestEarned =
+                child.lifetime_supply_interest_accrued.value;
+            }
+          });
+        }
+      });
+    }
 
     dispatch(
       saveCompoundDaiInfoSuccess({
