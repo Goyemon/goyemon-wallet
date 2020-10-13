@@ -25,9 +25,8 @@ import I18n from "../../../i18n/I18n";
 import PortfolioStack from "../../../navigators/PortfolioStack";
 import { RoundDownBigNumberPlacesFour } from "../../../utilities/BigNumberUtilities";
 import PriceUtilities from "../../../utilities/PriceUtilities";
-import { Linking } from "react-native";
 import TokenBalanceCards from "../PortfolioWallet/TokenBalanceCards";
-import { Platform } from "react-native";
+import { Platform, Linking } from "react-native";
 import AndroidOpenSettings from "react-native-android-open-settings";
 
 class PortfolioHome extends Component {

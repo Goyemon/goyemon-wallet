@@ -1,8 +1,7 @@
 "use strict";
 import React, { Component } from "react";
-import { BackHandler } from "react-native";
 import { connect } from "react-redux";
-import { Linking, TouchableHighlight } from "react-native";
+import { Linking, TouchableHighlight, BackHandler } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import styled from "styled-components/native";
 import { clearState } from "../../../actions/ActionClearState";
