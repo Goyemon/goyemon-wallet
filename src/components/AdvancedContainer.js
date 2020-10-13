@@ -241,7 +241,7 @@ const UnselectedSpeedText = styled.Text`
 
 const SelectedButton = styled.Text`
   color: #000;
-  font-family: "HKGrotesk-Bold";
+  font-family: "HKGrotesk-Regular";
   margin-top: 8;
 `;
 
