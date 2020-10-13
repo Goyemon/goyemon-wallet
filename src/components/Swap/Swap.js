@@ -2,7 +2,6 @@
 import React, { Component } from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { connect } from "react-redux";
-import { View } from "react-native";
 import styled from "styled-components/native";
 import Web3 from "web3";
 import { saveOutgoingTransactionDataSwap } from "../../actions/ActionOutgoingTransactionData";
@@ -15,11 +14,9 @@ import {
   Container,
   UntouchableCardContainer,
   HeaderOne,
-  GoyemonText,
   SwapForm,
   Loader,
   IsOnlineMessage,
-  ErrorMessage,
   TxNextButton,
   UseMaxButton
 } from "../common";
@@ -232,18 +229,28 @@ class Swap extends Component {
   }
 
   renderInsufficientBalanceMessage() {
-    if (
-      !this.state.ETHSoldValidation &&
-      !this.state.ETHSoldValidation === undefined
-    ) {
-      return (
-        <View>
-          <ErrorMessage textAlign="left">invalid amount!</ErrorMessage>
-          <GoyemonText fontSize="12px">
-            *beware that network fee is paid with ether
-          </GoyemonText>
-        </View>
+    if (!this.state.ETHSoldValidation) {
+      let errorMessage;
+      const ETHBalance = new RoundDownBigNumberPlacesEighteen(
+        this.state.ETHBalance
       );
+      const ETHSold = new RoundDownBigNumberPlacesEighteen(this.state.ETHSold);
+
+      if (
+        this.state.ETHSoldValidation === undefined ||
+        this.state.ETHSold === ""
+      ) {
+        errorMessage = "";
+      } else if (this.state.ETHBalance === "0") {
+        errorMessage = "you don't have any ETH";
+      } else if (ETHBalance.isGreaterThanOrEqualTo(ETHSold)) {
+        errorMessage = "you don't have enough ETH for a network fee";
+      } else {
+        errorMessage = "you don't have enough ETH";
+      }
+      return <SwapErrorMessage>{errorMessage}</SwapErrorMessage>;
+    } else {
+      console.log("sufficient balance");
     }
   }
 
@@ -315,7 +322,7 @@ class Swap extends Component {
                 value={this.state.ETHSold}
               />
             </SwapForm>
-            <View>{this.renderInsufficientBalanceMessage()}</View>
+            {this.renderInsufficientBalanceMessage()}
             <UseMaxButton
               text={I18n.t("use-max")}
               textColor="#00A3E2"
@@ -463,16 +470,23 @@ const ButtonWrapper = styled.View`
   align-items: center;
 `;
 
+const SwapErrorMessage = styled.Text`
+  color: #e41b13;
+  font-family: "HKGrotesk-Regular";
+  font-size: 14px;
+  text-align: left;
+`;
+
 function mapStateToProps(state) {
   return {
     balance: state.ReducerBalance.balance,
     checksumAddress: state.ReducerChecksumAddress.checksumAddress,
-    uniswap: state.ReducerUniswap.uniswap,
     gasPrice: state.ReducerGasPrice.gasPrice,
     gasChosen: state.ReducerGasPrice.gasChosen,
     isOnline: state.ReducerNetInfo.isOnline,
     outgoingTransactionData:
-      state.ReducerOutgoingTransactionData.outgoingTransactionData
+      state.ReducerOutgoingTransactionData.outgoingTransactionData,
+    uniswap: state.ReducerUniswap.uniswap
   };
 }
 
