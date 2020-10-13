@@ -1,8 +1,47 @@
 "use strict";
 import React, { Component } from "react";
+import { BackHandler } from "react-native";
 import { WebView } from "react-native-webview";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import styled from "styled-components/native";
+import PortfolioStack from "../../../navigators/PortfolioStack";
 
 export default class SimplexWebView extends Component {
+  static navigationOptions = ({ navigation }) => ({
+    headerLeft: (
+      <BackButtonContainer
+        onPress={() => {
+          navigation.navigate("BuyCrypto");
+          PortfolioStack.navigationOptions = () => {
+            const tabBarVisible = true;
+            return {
+              tabBarVisible
+            };
+          };
+        }}
+      >
+        <Icon color="#00A3E2" name="chevron-left" size={40} />
+      </BackButtonContainer>
+    )
+  });
+
+  componentDidMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
+  }
+
+  handleBackButton() {
+    PortfolioStack.navigationOptions = () => {
+      const tabBarVisible = true;
+      return {
+        tabBarVisible
+      };
+    };
+  }
+
   render() {
     return (
       <WebView
@@ -18,3 +57,8 @@ export default class SimplexWebView extends Component {
     );
   }
 }
+
+const BackButtonContainer = styled.TouchableWithoutFeedback`
+  align-items: center;
+  flex-direction: row;
+`;
