@@ -1,6 +1,8 @@
 "use strict";
 import { SAVE_COMPOUND_DAI_INFO } from "../constants/ActionTypes";
+import { saveCompoundDaiBalance } from "./ActionBalance";
 import LogUtilities from "../utilities/LogUtilities";
+import { store } from "../store/store";
 
 export const saveCompoundDaiInfo = (address: string) => async (
   dispatch: any
@@ -36,6 +38,14 @@ export const saveCompoundDaiInfo = (address: string) => async (
         }
       });
     }
+
+    const stateTree = store.getState();
+    store.dispatch(
+      saveCompoundDaiBalance(
+        stateTree.ReducerBalance.balance.cDai,
+        stateTree.ReducerCompound.compound.dai.currentExchangeRate
+      )
+    );
 
     dispatch(
       saveCompoundDaiInfoSuccess({

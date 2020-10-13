@@ -3,6 +3,7 @@ import BigNumber from "bignumber.js";
 import {
   saveCDaiBalance,
   saveDaiBalance,
+  saveCompoundDaiBalance,
   savePoolTogetherDaiBalance,
   saveWeiBalance,
   movePoolTogetherDaiBalance
@@ -72,6 +73,13 @@ export const downstreamMessageHandler = async (type: any, data: any) => {
         store.dispatch(
           await saveCompoundDaiInfo(
             stateTree.ReducerChecksumAddress.checksumAddress
+          )
+        );
+
+        store.dispatch(
+          saveCompoundDaiBalance(
+            stateTree.ReducerBalance.balance.cDai,
+            stateTree.ReducerCompound.compound.dai.currentExchangeRate
           )
         );
 
