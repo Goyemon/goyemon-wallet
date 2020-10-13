@@ -9,6 +9,7 @@ import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { StackActions, NavigationActions } from "react-navigation";
 import styled from "styled-components/native";
 import { createChecksumAddress } from "../../../actions/ActionChecksumAddress";
+import { saveCompoundDaiInfo } from "../../../actions/ActionCompound";
 import { getGasPrice } from "../../../actions/ActionGasPrice";
 import {
   getETHPrice,
@@ -254,7 +255,8 @@ const mapDispatchToProps = {
   getCDAIPrice,
   getETHPrice,
   getDAIPrice,
-  getGasPrice
+  getGasPrice,
+  saveCompoundDaiInfo
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletCreation);
