@@ -94,6 +94,7 @@ const PortfolioStack = createStackNavigator(
     },
     BuyCrypto: {
       screen: BuyCrypto,
+      path: "buy-crypto",
       navigationOptions: () => ({
         headerTransparent: true,
         headerStyle: {

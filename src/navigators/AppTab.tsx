@@ -20,6 +20,7 @@ const AppTab = createBottomTabNavigator(
   {
     Portfolio: {
       screen: PortfolioStack,
+      path: "portfolio",
       navigationOptions: {
         tabBarLabel: I18n.t("portfolio"),
         tabBarIcon: ({ tintColor }: any) => (
