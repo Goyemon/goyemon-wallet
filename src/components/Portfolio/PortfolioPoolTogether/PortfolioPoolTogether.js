@@ -209,10 +209,10 @@ class PortfolioPoolTogether extends Component {
         {this.renderModalContent()}
         <HeaderOne marginTop="112">PoolTogether</HeaderOne>
         <ApplicationDescription>
-          You could win {estimatedPrize} DAI every week just by saving your
-          money. You won&apos;t lose your deposited funds. You can withdraw at
-          any time. Your deposit always goes to the open round. You are eligible
-          to win once your deposit moves to the commited round.
+          You could win {estimatedPrize} DAI every week by saving your money.
+          You won&apos;t lose your deposited funds. Your deposit always goes to
+          the open round. You are eligible to win once your deposit moves to the
+          commited round.
         </ApplicationDescription>
         <FilterContainer>{this.toggleFilterChoiceText()}</FilterContainer>
         {this.renderCountdownHeader()}

@@ -42,7 +42,7 @@ class PortfolioCompound extends Component {
       <RootContainer>
         <HeaderOne marginTop="112">Compound</HeaderOne>
         <ApplicationDescription>
-          Compound lets you earn interest. Think of it as a term deposit account
+          Earn up to 10% interest a year. Think of it as a term deposit account
           in a bank but with the better rate. You can deposit and withdraw
           anytime you want.
         </ApplicationDescription>
