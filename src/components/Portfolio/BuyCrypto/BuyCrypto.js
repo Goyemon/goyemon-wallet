@@ -9,6 +9,7 @@ import {
   Description
 } from "../../common";
 import PortfolioStack from "../../../navigators/PortfolioStack";
+import GlobalConfig from "../../../config.json";
 
 export default class BuyCrypto extends Component {
   render() {
@@ -45,9 +46,13 @@ export default class BuyCrypto extends Component {
           textAlign="left"
           width="90%"
           onPress={() => {
-            Linking.openURL(
-              "https://buy-staging.moonpay.io?apiKey=pk_test_5rrKC6JCcKWROpZmcPtuoYaFoUnw2fLs&colorCode=%2300A3E2"
-            );
+            if (GlobalConfig.network_name === "ropsten") {
+              Linking.openURL(GlobalConfig.moonpay_ropsten_link);
+            } else if (GlobalConfig.network_name === "mainnet") {
+              Linking.openURL(GlobalConfig.moonpay_mainnet_link);
+            } else {
+              console.log("no network matches");
+            }
           }}
         >
           <LogoContainer>
