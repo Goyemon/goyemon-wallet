@@ -1,28 +1,28 @@
-<h1 align="center">goyemon</h1>
-<h2 align="center">earn passive income in your crypto deposit funds with no loss<h2>
+## How to Build and Run
 
-## How to Build and Run the Application
+Requirements:
 
-You'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)), [XCode](https://developer.apple.com/xcode/) and [CocoaPods](https://cocoapods.org/) installed on your computer.
-
-From your command line:
+- [Git](https://git-scm.com)
+- [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com))
+- [XCode](https://developer.apple.com/xcode/)
+- [CocoaPods](https://cocoapods.org/)
 
 ```bash
 # clone this repository
-$ git clone https://github.com/Goyemon/Goyemon.git
+$ git clone https://github.com/Goyemon/goyemon-wallet.git
 
 # checkout to the develop branch
-$ cd Goyemon && git checkout develop
+$ cd goyemon-wallet && git checkout develop
 
-# in the repository, install dependencies
+# install dependencies
 $ npm install
 
 # install node core modules
+// NodeJS core modules usually cannot be used in React Native. We use some hacks with the [rn-nodeify](https://github.com/tradle/rn-nodeify).
 $ npm run postinstall
-// you should see the shim.js in a home directory.
-nodeJS core modules cannot be used in React Native, and thus we have to use some hacks. We use the [rn-nodeify](https://github.com/tradle/rn-nodeify) module.
+// you should see the shim.js in the home directory.
 
-# pod install
+# install pods
 $ cd ios && pod install
 
 # run the app in iOS
@@ -35,23 +35,21 @@ $ npm run start
 
 ```
 
-Contact somebody in our team if the build fails.
-
 ## Networks
 
-We use the Mainnet in the master and the Ropsten in the develop(and other feature branches). You can switch between networks in your local but they should not be changed in remote branches.
+We use the Mainnet in the master and the Ropsten in the develop(and other feature branches). You can switch between networks in your local. But they should NOT be changed in remote branches.
 
 ## Addresses for Testing
 
-We have several addresses for testing both in the Ropsten and Mainnet. Make sure that you are not using the same address with other developers when you test outgoing transactions. Otherwise, you will mess up an account nonce and get the "nonce too low" error from geth.
+We have several addresses for testing both in the Ropsten and Mainnet. It is not encouraged to use the same address simultaneously with other developers when you test outgoing transactions. Otherwise, you will mess up an account nonce and get the "nonce too low" error from geth. 
 
 ## Config Files
 
 We have three config files:
 
-- `Goyemon/src/config.json`
-- `Goyemon/ios/GoogleService-Info.plist`
-- `Goyemon/android/app/google-services.json`
+- `goyemon-wallet/src/config.json`
+- `goyemon-wallet/ios/GoogleService-Info.plist`
+- `goyemon-wallet/android/app/google-services.json`
 
 In the master, these config files have values for the Mainnet. In the develop(and other feature branches), these config files have values for the Ropsten.
 
@@ -59,7 +57,7 @@ These config files usually should NOT be changed. If you do, you need to be EXTR
 
 ## Debuggers
 
-You can see all the communication logs between the wallet and a server.
+You can see all the communication logs between the wallet and an fcm server.
 
 - [Ropsten](http://[240d:1a:2a:1000:8e70:5aff:febd:4328]:31337/devs/)
 - [Mainnet](http://51.89.42.181:31337/devs/)
