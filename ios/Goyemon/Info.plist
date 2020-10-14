@@ -23,6 +23,8 @@
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.swarm.goyemon</string>
@@ -34,6 +36,16 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.googleusercontent.apps.400937673843-nk2167ks4qujds7vrecf2a0shlh201no</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>goyemon</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>goyemon</string>
 			</array>
 		</dict>
 	</array>
