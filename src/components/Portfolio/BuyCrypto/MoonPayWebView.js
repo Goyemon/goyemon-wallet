@@ -6,7 +6,6 @@ import GlobalConfig from "../../../config.json";
 export default class MoonPayWebView extends Component {
   renderWebView() {
     if (GlobalConfig.network_name === "ropsten") {
-      console.log("ropsten");
       return (
         <WebView
           originWhitelist={["*"]}
