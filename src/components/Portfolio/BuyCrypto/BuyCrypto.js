@@ -17,9 +17,9 @@ export default class BuyCrypto extends Component {
         <HeaderOne marginTop="112">Buy Crypto</HeaderOne>
         <TouchableCardContainer
           alignItems="center"
-          flexDirection="column"
+          flexDirection="row"
           height="120px"
-          justifyContent="space-between"
+          justifyContent="center"
           textAlign="left"
           width="90%"
           onPress={() => {
@@ -32,16 +32,16 @@ export default class BuyCrypto extends Component {
             this.props.navigation.navigate("SimplexWebView");
           }}
         >
-          <IconImageContainer></IconImageContainer>
-          <NameContainer>
-            <Description>Simplex</Description>
-          </NameContainer>
+          <LogoContainer>
+            <Logo source={require("../../../../assets/simplex_logo.jpeg")} />
+          </LogoContainer>
+          <Description>Simplex</Description>
         </TouchableCardContainer>
         <TouchableCardContainer
           alignItems="center"
-          flexDirection="column"
+          flexDirection="row"
           height="120px"
-          justifyContent="space-between"
+          justifyContent="center "
           textAlign="left"
           width="90%"
           onPress={() => {
@@ -50,20 +50,22 @@ export default class BuyCrypto extends Component {
             );
           }}
         >
-          <IconImageContainer></IconImageContainer>
-          <NameContainer>
-            <Description>MoonPay</Description>
-          </NameContainer>
+          <LogoContainer>
+            <Logo source={require("../../../../assets/moonpay_logo.png")} />
+          </LogoContainer>
+          <Description>MoonPay</Description>
         </TouchableCardContainer>
       </RootContainer>
     );
   }
 }
 
-const IconImageContainer = styled.View`
-  align-items: center;
+const LogoContainer = styled.View`
+  margin-right: 4;
 `;
 
-const NameContainer = styled.View`
-  margin-left: 16;
+const Logo = styled.Image`
+  border-radius: 20px;
+  height: 40px;
+  width: 40px;
 `;
