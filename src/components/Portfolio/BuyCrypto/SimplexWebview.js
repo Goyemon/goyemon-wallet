@@ -49,7 +49,7 @@ export default class SimplexWebView extends Component {
         <WebView
           originWhitelist={["*"]}
           source={{
-            html: GlobalConfig.simplex_ropsten
+            html: GlobalConfig.simplex_ropsten_html
           }}
           containerStyle={{
             marginTop: 120
@@ -61,7 +61,7 @@ export default class SimplexWebView extends Component {
         <WebView
           originWhitelist={["*"]}
           source={{
-            html: GlobalConfig.simplex_mainnet
+            html: GlobalConfig.simplex_mainnet_html
           }}
           containerStyle={{
             marginTop: 120
