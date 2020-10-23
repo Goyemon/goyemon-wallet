@@ -86,7 +86,8 @@ fastlane 2.164.0
 ```
 
 macOS Catalina 10.15.6
-Xcode 12.0.1
+Xcode 12.0.0
+_Xcode 12.0.1 caused a problem in fastlane._ 
 
 ## License
 
