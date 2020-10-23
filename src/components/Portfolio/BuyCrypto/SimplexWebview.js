@@ -7,7 +7,7 @@ import styled from "styled-components/native";
 import GlobalConfig from "../../../config.json";
 import PortfolioStack from "../../../navigators/PortfolioStack";
 
-export default class SimplexWebView extends Component {
+export default class SimplexWebview extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerLeft: (
       <BackButtonContainer
