@@ -285,8 +285,6 @@ PODS:
     - React
   - react-native-camera/RN (3.39.0):
     - React
-  - react-native-cookies (5.0.1):
-    - React-Core
   - react-native-netinfo (5.9.6):
     - React
   - react-native-randombytes (3.5.3):
@@ -413,7 +411,6 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-camera (from `../node_modules/react-native-camera`)
-  - "react-native-cookies (from `../node_modules/@react-native-community/cookies`)"
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-randombytes (from `../node_modules/react-native-randombytes`)
   - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
@@ -500,8 +497,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-camera:
     :path: "../node_modules/react-native-camera"
-  react-native-cookies:
-    :path: "../node_modules/@react-native-community/cookies"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-randombytes:
@@ -595,7 +590,6 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 8bf0b2707f05865113415088c398a7f98c0cf546
   React-jsinspector: 8e5913c4c6c54f0d3f9c9fc630c465a89cded65d
   react-native-camera: e39c8ef9f21163c8873ad0a95960a4f58eea2320
-  react-native-cookies: ce50e42ace7cf0dd47769260ca5bbe8eee607e4e
   react-native-netinfo: d2c312fa4b151214e1d5c8456ddb5f28ff24a576
   react-native-randombytes: 991545e6eaaf700b4ee384c291ef3d572e0b2ca8
   react-native-slider: e36b7de75b35323ee802dae723be8ebbab4c4a3d
@@ -626,6 +620,6 @@ SPEC CHECKSUMS:
   RNVectorIcons: da6fe858f5a65d7bbc3379540a889b0b12aa5976
   Yoga: 9db9ff2025ad21d1ac0a8b3c85d5ac4e7c29d525
 
-PODFILE CHECKSUM: ce79897a2c3379d76528f107ebc21d2e10b094d0
+PODFILE CHECKSUM: 313b8d33eb375bdf40c2eae1e0f51485dd19dac3
 
 COCOAPODS: 1.9.3
