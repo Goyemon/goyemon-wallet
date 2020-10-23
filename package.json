@@ -5,7 +5,7 @@
     "postinstall": "rn-nodeify --install stream,crypto,http,https,url,os,process,buffer,events,assert,vm --hack",
     "jetifier": "jetifier -r",
     "npmreinstall": "rm -rf node_modules/ package-lock.json && npm install",
-    "ios": "react-native run-ios",
+    "ios": "react-native run-ios --simulator \"iPhone 11\"",
     "android": "react-native run-android",
     "start": "react-native start",
     "prettier": "prettier --write src",
