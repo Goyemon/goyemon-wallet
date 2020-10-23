@@ -35,6 +35,7 @@
 		33ABA5EB2348632200B36305 /* libreact-native-randombytes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33ABA5EA2348632200B36305 /* libreact-native-randombytes.a */; };
 		33ABA60223486E7100B36305 /* RCTEventDispatcher.h in Sources */ = {isa = PBXBuildFile; fileRef = 33ABA5682347A4F900B36305 /* RCTEventDispatcher.h */; };
 		33DCF64F23517B3F00342D08 /* FixLibswiftCoreErrorFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DCF64E23517B3F00342D08 /* FixLibswiftCoreErrorFile.swift */; };
+		33E0D8A82542A22700D26116 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 33E0D8A72542A22700D26116 /* main.jsbundle */; };
 		C34312E3679F60C27FE6EA22 /* libPods-Goyemon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AA336C67818EF1D26476FEC /* libPods-Goyemon.a */; };
 /* End PBXBuildFile section */
 
@@ -101,6 +102,7 @@
 		33C2AF3A23600EB400325664 /* libReact-Core.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libReact-Core.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		33DCF64D23517B3E00342D08 /* Goyemon-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Goyemon-Bridging-Header.h"; sourceTree = "<group>"; };
 		33DCF64E23517B3F00342D08 /* FixLibswiftCoreErrorFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixLibswiftCoreErrorFile.swift; sourceTree = "<group>"; };
+		33E0D8A72542A22700D26116 /* main.jsbundle */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		33F896E122C1C8E800679DD3 /* Protobuf.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Protobuf.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		33F896E322C1C8ED00679DD3 /* GoogleUtilities.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = GoogleUtilities.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AF916AC322542DCAE3CC350 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				33E0D8A72542A22700D26116 /* main.jsbundle */,
 				338A9CA4239A7A27002F77F9 /* Fonts */,
 				33DCF64E23517B3F00342D08 /* FixLibswiftCoreErrorFile.swift */,
 				33ABA60023486E6300B36305 /* RCTBridgeModule.h */,
@@ -414,6 +417,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33E0D8A82542A22700D26116 /* main.jsbundle in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3305BCA422B2696B0010C8BD /* Arimo-Bold.ttf in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
