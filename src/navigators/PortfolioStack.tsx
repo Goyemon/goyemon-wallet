@@ -11,7 +11,7 @@ import VerifyMnemonic from "../components/Portfolio/VerifyMnemonic/VerifyMnemoni
 import PortfolioHome from "../components/Portfolio/PortfolioHome/PortfolioHome";
 import Receive from "../components/Portfolio/Receive/Receive";
 import BuyCrypto from "../components/Portfolio/BuyCrypto/BuyCrypto";
-import SimplexWebview from "../components/Portfolio/BuyCrypto/SimplexWebview";
+import SimplexWebView from "../components/Portfolio/BuyCrypto/SimplexWebView";
 import PortfolioWallet from "../components/Portfolio/PortfolioWallet/PortfolioWallet";
 import PortfolioCompound from "../components/Portfolio/PortfolioCompound/PortfolioCompound";
 import PortfolioPoolTogether from "../components/Portfolio/PortfolioPoolTogether/PortfolioPoolTogether";
@@ -103,8 +103,8 @@ const PortfolioStack = createStackNavigator(
         }
       })
     },
-    SimplexWebview: {
-      screen: SimplexWebview,
+    SimplexWebView: {
+      screen: SimplexWebView,
       navigationOptions: () => ({
         headerTransparent: true,
         gesturesEnabled: false,

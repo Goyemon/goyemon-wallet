@@ -38,7 +38,7 @@ export default class BuyCrypto extends Component {
                   tabBarVisible
                 };
               };
-              this.props.navigation.navigate("SimplexWebview");
+              this.props.navigation.navigate("SimplexWebView");
             }}
           >
             <LogoContainer>
