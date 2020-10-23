@@ -49,7 +49,12 @@ export default class SimplexWebView extends Component {
         <WebView
           originWhitelist={["*"]}
           source={{
-            html: GlobalConfig.simplex_ropsten_html
+            uri: GlobalConfig.simplex_ropsten_link
+          }}
+          javaScriptEnabled
+          injectedJavaScript={"window.simplex.createForm();"}
+          onMessage={(event) => {
+            console.log("event: ", event);
           }}
           containerStyle={{
             marginTop: 120
@@ -61,7 +66,12 @@ export default class SimplexWebView extends Component {
         <WebView
           originWhitelist={["*"]}
           source={{
-            html: GlobalConfig.simplex_mainnet_html
+            uri: GlobalConfig.simplex_mainnet_link
+          }}
+          javaScriptEnabled
+          injectedJavaScript={"window.simplex.createForm();"}
+          onMessage={(event) => {
+            console.log("event: ", event);
           }}
           containerStyle={{
             marginTop: 120
