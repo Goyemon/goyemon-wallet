@@ -82,7 +82,7 @@ ruby 2.6.0p0 (2018-12-25 revision 66547) [x86_64-darwin17]
 $ pod --version
 1.9.3
 $ fastlane --version
-fastlane 2.149.1
+fastlane 2.164.0
 ```
 
 macOS Catalina 10.15.6
