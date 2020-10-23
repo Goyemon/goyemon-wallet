@@ -89,6 +89,31 @@ macOS Catalina 10.15.6
 Xcode 12.0.0
 _Xcode 12.0.1 caused a problem in fastlane._ 
 
+
+## Some Local Fixes in Node Modules
+In the `react-native/Libraries/Image/RCTUIImageViewAnimated.m`, replace this code:
+```
+ - (void)displayLayer:(CALayer *)layer 
+ { 
+    if (_currentFrame) { 
+        layer.contentsScale = self.animatedImageScale; 
+        layer.contents = (__bridge id)_currentFrame.CGImage; 
+    } 
+ } 
+```
+with this:
+```
+ - (void)displayLayer:(CALayer *)layer 
+ { 
+    if (_currentFrame) {
+        layer.contentsScale = self.animatedImageScale;
+        layer.contents = (__bridge id)_currentFrame.CGImage;
+    } else {
+        [super displayLayer:layer];
+    }
+ } 
+```
+
 ## License
 
 MIT
