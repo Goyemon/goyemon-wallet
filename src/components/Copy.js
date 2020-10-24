@@ -31,7 +31,13 @@ class Copy extends Component {
   render() {
     const handleViewRef = (ref) => (this.view = ref);
     return (
-      <CopyAddressContainer>
+      <CopyAddressContainer
+        style={
+          this.props.icon
+            ? { flexDirection: "column" }
+            : { flexDirection: "row" }
+        }
+      >
         {this.props.animation &&
         this.state.clipboardContent === this.props.text ? (
           <CopyAnimation ref={handleViewRef}>❤️</CopyAnimation>
@@ -58,7 +64,6 @@ class Copy extends Component {
 
 const CopyAddressContainer = styled.View`
   align-items: center;
-  flex-direction: column;
   justify-content: center;
 `;
 

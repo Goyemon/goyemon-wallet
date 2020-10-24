@@ -117,7 +117,7 @@ class Advanced extends Component {
         >
           <HeaderThree
             color="#000"
-            marginBottom="0"
+            marginBottom="4"
             marginLeft="0"
             marginTop="24"
           >
@@ -126,7 +126,7 @@ class Advanced extends Component {
           <GoyemonText fontSize="14">{GlobalConfig.network_name}</GoyemonText>
           <HeaderThree
             color="#000"
-            marginBottom="0"
+            marginBottom="4"
             marginLeft="0"
             marginTop="24"
           >
@@ -140,12 +140,12 @@ class Advanced extends Component {
               }}
               name="sync"
               color="#5f5f5f"
-              size={28}
+              size={24}
             />
           </Animatable.View>
           <HeaderThree
             color="#000"
-            marginBottom="0"
+            marginBottom="4"
             marginLeft="0"
             marginTop="24"
           >
@@ -174,7 +174,7 @@ class Advanced extends Component {
           </TouchableWithoutFeedback> */}
           <HeaderThree
             color="#000"
-            marginBottom="0"
+            marginBottom="4"
             marginLeft="0"
             marginTop="24"
           >
