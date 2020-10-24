@@ -198,3 +198,26 @@ const UseMaxButtonText = styled.Text`
   font-family: "HKGrotesk-Regular";
   font-size: 14;
 `;
+
+interface BuyCryptoButtonProps {
+  onPress: () => void;
+  textColor: string;
+  text: string;
+}
+
+export const BuyCryptoButton = (props: BuyCryptoButtonProps) => (
+  <BuyCryptoButtonContainer onPress={props.onPress}>
+    <BuyCryptoButtonText>Buy Crypto Now!</BuyCryptoButtonText>
+  </BuyCryptoButtonContainer>
+);
+
+const BuyCryptoButtonContainer = styled.TouchableOpacity`
+  align-items: flex-end;
+`;
+
+const BuyCryptoButtonText = styled.Text`
+  color: #00a3e2;
+  font-family: "HKGrotesk-Regular";
+  font-size: 20;
+  margin-top: 40;
+`;
