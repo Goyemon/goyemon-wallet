@@ -20,6 +20,7 @@ const AppTab = createBottomTabNavigator(
   {
     Portfolio: {
       screen: PortfolioStack,
+      path: "portfolio",
       navigationOptions: {
         tabBarLabel: I18n.t("portfolio"),
         tabBarIcon: ({ tintColor }: any) => (
@@ -86,6 +87,7 @@ const AppTab = createBottomTabNavigator(
 );
 
 const App = createAppContainer(AppTab);
+const uriPrefix = "goyemon://";
 
 export default () => (
   <Provider store={store}>
@@ -93,7 +95,7 @@ export default () => (
       loading={<Loader animating={true} size="large" />}
       persistor={persistor}
     >
-      <App />
+      <App uriPrefix={uriPrefix} />
     </PersistGate>
   </Provider>
 );

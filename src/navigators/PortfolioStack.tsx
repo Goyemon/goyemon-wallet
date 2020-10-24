@@ -10,6 +10,8 @@ import ShowMnemonic from "../components/Portfolio/ShowMnemonic/ShowMnemonic";
 import VerifyMnemonic from "../components/Portfolio/VerifyMnemonic/VerifyMnemonic";
 import PortfolioHome from "../components/Portfolio/PortfolioHome/PortfolioHome";
 import Receive from "../components/Portfolio/Receive/Receive";
+import BuyCrypto from "../components/Portfolio/BuyCrypto/BuyCrypto";
+import SimplexWebView from "../components/Portfolio/BuyCrypto/SimplexWebView";
 import PortfolioWallet from "../components/Portfolio/PortfolioWallet/PortfolioWallet";
 import PortfolioCompound from "../components/Portfolio/PortfolioCompound/PortfolioCompound";
 import PortfolioPoolTogether from "../components/Portfolio/PortfolioPoolTogether/PortfolioPoolTogether";
@@ -84,6 +86,28 @@ const PortfolioStack = createStackNavigator(
       screen: Receive,
       navigationOptions: () => ({
         headerTransparent: true,
+        headerStyle: {
+          marginTop: 16,
+          marginRight: 16
+        }
+      })
+    },
+    BuyCrypto: {
+      screen: BuyCrypto,
+      path: "buy-crypto",
+      navigationOptions: () => ({
+        headerTransparent: true,
+        headerStyle: {
+          marginTop: 16,
+          marginRight: 16
+        }
+      })
+    },
+    SimplexWebView: {
+      screen: SimplexWebView,
+      navigationOptions: () => ({
+        headerTransparent: true,
+        gesturesEnabled: false,
         headerStyle: {
           marginTop: 16,
           marginRight: 16

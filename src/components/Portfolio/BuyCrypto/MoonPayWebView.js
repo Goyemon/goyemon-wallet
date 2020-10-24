@@ -6,12 +6,11 @@ import GlobalConfig from "../../../config.json";
 export default class MoonPayWebView extends Component {
   renderWebView() {
     if (GlobalConfig.network_name === "ropsten") {
-      console.log("ropsten");
       return (
         <WebView
           originWhitelist={["*"]}
           source={{
-            html: GlobalConfig.moonpay_ropsten
+            html: GlobalConfig.moonpay_ropsten_html
           }}
         />
       );
@@ -20,7 +19,7 @@ export default class MoonPayWebView extends Component {
         <WebView
           originWhitelist={["*"]}
           source={{
-            html: GlobalConfig.moonpay_mainnet
+            html: GlobalConfig.moonpay_mainnet_html
           }}
         />
       );

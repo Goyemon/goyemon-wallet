@@ -25,9 +25,8 @@ import I18n from "../../../i18n/I18n";
 import PortfolioStack from "../../../navigators/PortfolioStack";
 import { RoundDownBigNumberPlacesFour } from "../../../utilities/BigNumberUtilities";
 import PriceUtilities from "../../../utilities/PriceUtilities";
-import { Linking } from "react-native";
 import TokenBalanceCards from "../PortfolioWallet/TokenBalanceCards";
-import { Platform } from "react-native";
+import { Platform, Linking } from "react-native";
 import AndroidOpenSettings from "react-native-android-open-settings";
 
 class PortfolioHome extends Component {
@@ -197,9 +196,7 @@ class PortfolioHome extends Component {
               <BuyIcon
                 onPress={() => {
                   // this.props.saveBuyCryptoModalVisibility(true);
-                  Linking.openURL(
-                    "https://buy-staging.moonpay.io?apiKey=pk_test_5rrKC6JCcKWROpZmcPtuoYaFoUnw2fLs&colorCode=%2300A3E2"
-                  );
+                  navigation.navigate("BuyCrypto");
                 }}
               />
               <GoyemonText fontSize={14}>Buy</GoyemonText>

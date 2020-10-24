@@ -1,7 +1,9 @@
 "use strict";
 import React, { Component } from "react";
 import { VirtualizedList } from "react-native";
+import { withNavigation } from "react-navigation";
 import styled from "styled-components/native";
+import { BuyCryptoButton } from "../common";
 import Transaction from "./Transaction";
 import I18n from "../../i18n/I18n";
 import LogUtilities from "../../utilities/LogUtilities";
@@ -81,6 +83,11 @@ class TransactionList extends Component {
             <EmptyTransactionText>
               {I18n.t("history-empty-tx-msg2")}
             </EmptyTransactionText>
+            <BuyCryptoButton
+              onPress={() => {
+                this.props.navigation.navigate("BuyCrypto");
+              }}
+            />
           </EmptyTransactionContainer>
         );
 
@@ -145,4 +152,4 @@ const EmptyTransactionText = styled.Text`
   font-size: 16;
 `;
 
-export default TransactionList;
+export default withNavigation(TransactionList);
