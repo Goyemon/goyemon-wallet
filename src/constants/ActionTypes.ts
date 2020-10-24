@@ -1,4 +1,5 @@
 "use strict";
+export const REGISTER = "REGISTER";
 export const SAVE_NET_INFO = "SAVE_NET_INFO";
 export const SAVE_C_DAI_BALANCE = "SAVE_C_DAI_BALANCE";
 export const SAVE_DAI_BALANCE = "SAVE_DAI_BALANCE";
